@@ -21,7 +21,7 @@ module.exports = {
         title: 'Scenario Spark',
         publicPath: devMode
           ? undefined
-          : 'https://erikvullings.github.io/scenario-generator',
+          : 'https://tno.github.io/scenario-spark',
         scriptLoading: 'defer',
         minify: !devMode,
         favicon: './src/favicon.ico',
@@ -30,7 +30,7 @@ module.exports = {
           'og:title': 'Scenario Spark',
           'og:description':
             'Generate consistent threat scenarios for your organisation.',
-          'og:url': 'https://erikvullings.github.io/scenario-generator/',
+          'og:url': 'https://tno.github.io/scenario-spark/',
           'og:site_name': 'Scenario Spark',
           'og:image:alt': 'Scenario Spark',
           'og:image': './src/assets/logo.svg',
