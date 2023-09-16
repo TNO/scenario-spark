@@ -223,7 +223,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             iconName: 'clear',
             style: 'margin-left: 10px;',
             onclick: () => {
-              version = 0;
+              version = version === 0 ? 1 : 0;
               editor.setContents([] as any);
               attrs.update({
                 lockedComps: () => ({}),
