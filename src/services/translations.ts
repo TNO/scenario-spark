@@ -214,7 +214,7 @@ export const messagesNL: typeof messages = {
   NARRATIVE: 'verhaallijn',
   NAME_NARRATIVE: 'Titel van huidige verhaallijn',
   SAVE_NARRATIVE: 'Bewaar',
-  SAVED_NARRATIVES: 'Bewaarde scenarios',
+  SAVED_NARRATIVES: "Bewaarde scenario's",
   INCLUDE_NARRATIVE: 'Selecteer scenario',
   NARRATIVE_INCLUDED: 'Scenario is geselecteerd',
   SELECT_NARRATIVE: 'Selecteer verhaallijn',
