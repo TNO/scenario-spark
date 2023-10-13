@@ -173,6 +173,18 @@ export const messages = {
     'First specify some categories, where each category contains some key factors.',
   EXPORT2WORD: 'Export to Word',
   HIDE_INCONSISTENT: 'Hide inconsistent combinations',
+  GOAL: {
+    TITLE: 'Goal',
+    DESC: 'ScenarioSpark is een webapplicatie waarmee systematisch een set scenario’s ten behoeve van risicomanagement- activiteiten kan worden gemaakt en beheerd.',
+  },
+  USAGE: {
+    TITLE: 'Usage',
+    DESC: 'ScenarioSpark ondersteunt de gebruiker bij het op- en samenstellen van een representatieve set scenario’s die gebruikt kan worden in de diverse stappen van het risicomanagement proces. ',
+  },
+  SECURITY: {
+    TITLE: 'Security',
+    DESC: 'Alle gebruikte en ingevoerde informatie wordt uitsluitend lokaal verwerkt en opgeslagen.',
+  },
 };
 
 export const messagesNL: typeof messages = {
@@ -344,6 +356,18 @@ export const messagesNL: typeof messages = {
     'Definieer eerst 1 of 2 categorieën, met in iedere categorie enkele hoofdfactoren.',
   EXPORT2WORD: 'Exporteer naar Word',
   HIDE_INCONSISTENT: 'Toon geen inconsistente combinaties',
+  GOAL: {
+    TITLE: 'Doel',
+    DESC: 'ScenarioSpark is a web application that can be used to systematically create and manage a set of scenarios for risk management activities.',
+  },
+  USAGE: {
+    TITLE: 'Gebruik',
+    DESC: 'ScenarioSpark supports the user in creating and compiling a representative set of scenarios that can be used in the various steps of the risk management process.',
+  },
+  SECURITY: {
+    TITLE: 'Security',
+    DESC: 'All information used and entered is processed and stored exclusively locally.',
+  },
 };
 
 const setGuiLanguage = (language: Languages) => {

@@ -335,25 +335,25 @@ export const HomePage: MeiosisComponent = () => {
                 m(
                   '.col.s12.m4',
                   m('.icon-block', [
-                    m('.center', m(Icon, { iconName: 'visibility' })),
-                    m('h5.center', 'Beeldvorming'),
-                    m('p', 'TODO'),
+                    m('.center', m(Icon, { iconName: 'ads_click' })),
+                    m('h5.center', t('GOAL', 'TITLE')),
+                    m('p', t('GOAL', 'DESC')),
                   ])
                 ),
                 m(
                   '.col.s12.m4',
                   m('.icon-block', [
-                    m('.center', m(Icon, { iconName: 'balance' })),
-                    m('h5.center', 'Beoordeel'),
-                    m('p', `TODO`),
+                    m('.center', m(Icon, { iconName: 'settings' })),
+                    m('h5.center', t('USAGE', 'TITLE')),
+                    m('p', t('USAGE', 'DESC')),
                   ])
                 ),
                 m(
                   '.col.s12.m4',
                   m('.icon-block', [
-                    m('.center', m(Icon, { iconName: 'edit_note' })),
-                    m('h5.center', 'Beslis'),
-                    m('p', 'TODO'),
+                    m('.center', m(Icon, { iconName: 'lock' })),
+                    m('h5.center', t('SECURITY', 'TITLE')),
+                    m('p', t('SECURITY', 'DESC')),
                   ])
                 ),
               ]),
