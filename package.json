@@ -33,23 +33,23 @@
   "app": "src/index.html",
   "target": "web",
   "dependencies": {
-    "material-icons": "^1.13.11",
+    "material-icons": "^1.13.12",
     "materialize-css": "^1.0.0",
     "meiosis-setup": "^6.2.3",
     "mithril": "^2.2.2",
-    "mithril-materialized": "^1.1.0",
+    "mithril-materialized": "^1.1.1",
     "mithril-ui-form": "^1.9.2",
     "quill": "1.3.7",
     "quill-to-word": "^1.3.0",
     "translate.js": "1.3.2"
   },
   "devDependencies": {
-    "@rspack/cli": "^0.3.4",
-    "@types/materialize-css": "^1.0.11",
-    "@types/mithril": "^2.0.14",
-    "@types/quill": "^2.0.11",
+    "@rspack/cli": "^0.3.6",
+    "@types/materialize-css": "^1.0.12",
+    "@types/mithril": "^2.2.2",
+    "@types/quill": "^2.0.12",
     "dotenv-webpack": "^8.0.1",
-    "rimraf": "^5.0.1",
+    "rimraf": "^5.0.5",
     "typescript": "^5.2.2"
   }
 }
