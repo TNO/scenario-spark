@@ -27,6 +27,10 @@ module.exports = {
         favicon: './src/favicon.ico',
         meta: {
           viewport: 'width=device-width, initial-scale=1',
+          'Content-Security-Policy': {
+            'http-equiv': 'Permissions-Policy',
+            content: 'interest-cohort=(), user-id=()',
+          },
           'og:title': 'Scenario Spark',
           'og:description':
             'Generate consistent threat scenarios for your organisation.',
