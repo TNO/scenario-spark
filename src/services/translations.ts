@@ -175,16 +175,18 @@ export const messages = {
   HIDE_INCONSISTENT: 'Hide inconsistent combinations',
   GOAL: {
     TITLE: 'Goal',
-    DESC: 'ScenarioSpark is een webapplicatie waarmee systematisch een set scenario’s ten behoeve van risicomanagement- activiteiten kan worden gemaakt en beheerd.',
+    DESC: 'ScenarioSpark is a web application that can be used to systematically create and manage a set of scenarios for risk management activities.',
   },
   USAGE: {
     TITLE: 'Usage',
-    DESC: 'ScenarioSpark ondersteunt de gebruiker bij het op- en samenstellen van een representatieve set scenario’s die gebruikt kan worden in de diverse stappen van het risicomanagement proces. ',
+    DESC: 'ScenarioSpark supports the user in creating and compiling a representative set of scenarios that can be used in the various steps of the risk management process.',
   },
   SECURITY: {
     TITLE: 'Security',
-    DESC: 'Alle gebruikte en ingevoerde informatie wordt uitsluitend lokaal verwerkt en opgeslagen.',
+    DESC: 'All information used and entered is processed and stored exclusively locally.',
   },
+  SUMMARY:
+    'A free tool to support you in creating new scenarios using a morphological box. First, you define the aspects that are of interest in your domain. Next, you specify variations for each aspect. And finally, you either manually create new scenarios, or become inspired by generating possible scenarios automatically.',
 };
 
 export const messagesNL: typeof messages = {
@@ -358,16 +360,18 @@ export const messagesNL: typeof messages = {
   HIDE_INCONSISTENT: 'Toon geen inconsistente combinaties',
   GOAL: {
     TITLE: 'Doel',
-    DESC: 'ScenarioSpark is a web application that can be used to systematically create and manage a set of scenarios for risk management activities.',
+    DESC: 'ScenarioSpark is een webapplicatie waarmee systematisch een set scenario’s ten behoeve van risicomanagement- activiteiten kan worden gemaakt en beheerd.',
   },
   USAGE: {
     TITLE: 'Gebruik',
-    DESC: 'ScenarioSpark supports the user in creating and compiling a representative set of scenarios that can be used in the various steps of the risk management process.',
+    DESC: 'ScenarioSpark ondersteunt de gebruiker bij het op- en samenstellen van een representatieve set scenario’s die gebruikt kan worden in de diverse stappen van het risicomanagement proces. ',
   },
   SECURITY: {
     TITLE: 'Security',
-    DESC: 'All information used and entered is processed and stored exclusively locally.',
+    DESC: 'Alle gebruikte en ingevoerde informatie wordt uitsluitend lokaal verwerkt en opgeslagen.',
   },
+  SUMMARY:
+    "Een gratis hulpmiddel om u te ondersteunen bij het creëren van nieuwe scenario's met behulp van een morfologische doos. Eerst definieert u de aspecten die van belang zijn voor uw domein. Vervolgens specificeert u variaties voor elk aspect. En ten slotte creëer je handmatig nieuwe scenario's, of laat u zich inspireren door mogelijke scenario's te genereren.",
 };
 
 const setGuiLanguage = (language: Languages) => {

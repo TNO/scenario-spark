@@ -330,7 +330,13 @@ export const HomePage: MeiosisComponent = () => {
           m(
             '.section.white',
             m('.row.container.center', [
-              m('.row', m('.col.s12.align-center', 'TODO')),
+              m(
+                '.row',
+                m('.col.s12.align-center', [
+                  m('h5', 'SCENARIO SPARK'),
+                  m('p', t('SUMMARY')),
+                ])
+              ),
               m('.row', [
                 m(
                   '.col.s12.m4',
