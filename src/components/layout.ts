@@ -3,7 +3,15 @@ import { Icon } from 'mithril-materialized';
 import logo from '../assets/tno.svg';
 import { IDashboard } from '../models';
 import { routingSvc } from '../services/routing-service';
-import { MeiosisComponent, changePage } from '../services';
+import { MeiosisComponent, changePage, i18n, t } from '../services';
+import { LANGUAGE } from '../utils';
+import DutchFlag from '../assets/flag-nl.png';
+import EnglishFlag from '../assets/flag-en.png';
+
+export const setLanguage = async (locale = i18n.currentLocale) => {
+  localStorage.setItem(LANGUAGE, locale);
+  await i18n.loadAndSetLocale(locale);
+};
 
 export const Layout: MeiosisComponent = () => ({
   view: ({ children, attrs }) => {
@@ -18,6 +26,8 @@ export const Layout: MeiosisComponent = () => ({
           (typeof d.visible === 'boolean' ? d.visible : d.visible()) ||
           isActive(d)
       );
+
+    const language = i18n.currentLocale;
 
     return m('.main', { style: 'overflow-x: hidden' }, [
       m(
@@ -54,6 +64,34 @@ export const Layout: MeiosisComponent = () => ({
                 style: 'margin-left: 5px;',
               })
             ),
+            m('ul#dropdown_languages.dropdown-content', [
+              m(
+                'li',
+                m('a', { href: '#!', onclick: () => setLanguage('nl') }, [
+                  m('img', {
+                    src: DutchFlag,
+                    alt: 'Nederlands',
+                    title: 'Nederlands',
+                    disabled: language === 'nl',
+                    class: language === 'nl' ? 'disabled-image' : 'clickable',
+                  }),
+                  'Nederlands',
+                ])
+              ),
+              m(
+                'li',
+                m('a', { href: '#!', onclick: () => setLanguage('en') }, [
+                  m('img', {
+                    src: EnglishFlag,
+                    alt: 'English',
+                    title: 'English',
+                    disabled: language === 'en',
+                    class: language === 'en' ? 'disabled-image' : 'clickable',
+                  }),
+                  'English',
+                ])
+              ),
+            ]),
             m(
               'ul#slide-out.sidenav.hide-on-large-and-up',
               {
@@ -77,7 +115,25 @@ export const Layout: MeiosisComponent = () => ({
                     ).toUpperCase()
                   ),
                 ])
-              )
+              ),
+              m('li.tooltip.language-settings.unselectable', [
+                m(
+                  'a.dropdown-trigger',
+                  {
+                    href: '#!',
+                    'data-target': 'dropdown_languages',
+                    oncreate: ({ dom }) => {
+                      M.Dropdown.init(dom);
+                    },
+                  },
+                  m(Icon, {
+                    iconName: 'language',
+                    className: 'hoverable',
+                    style: 'font-size: 2.2rem; width: 4rem;',
+                  }),
+                  m('span.tooltiptext', t('SET_LANGUAGE').toUpperCase())
+                ),
+              ])
             ),
             m(
               'ul.right.hide-on-med-and-down',
@@ -98,7 +154,25 @@ export const Layout: MeiosisComponent = () => ({
                     ).toUpperCase()
                   ),
                 ])
-              )
+              ),
+              m('li.tooltip.language-settings.unselectable', [
+                m(
+                  'a.dropdown-trigger',
+                  {
+                    href: '#!',
+                    'data-target': 'dropdown_languages',
+                    oncreate: ({ dom }) => {
+                      M.Dropdown.init(dom);
+                    },
+                  },
+                  m(Icon, {
+                    iconName: 'language',
+                    className: 'hoverable',
+                    style: 'font-size: 2.2rem; width: 4rem;',
+                  }),
+                  m('span.tooltiptext', t('SET_LANGUAGE').toUpperCase())
+                ),
+              ])
             ),
           ])
         )
