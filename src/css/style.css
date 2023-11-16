@@ -753,3 +753,59 @@ ul.kanban > li {
 .popupContainer > .popupContent {
   padding: 20px;
 }
+
+.markdown h1 {
+  margin: 1.5rem 0 1rem 0;
+  font-size: 2.2em;
+}
+
+.markdown h2 {
+  font-size: 2em;
+}
+
+.markdown h3 {
+  font-size: 1.6em;
+}
+
+.markdown h4 {
+  font-size: 1.4em;
+}
+
+.markdown h5 {
+  font-size: 1.2em;
+}
+
+#toc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.markdown h6 {
+  font-size: 1em;
+}
+.markdown aside {
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.markdown main {
+  flex: 1;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.markdown header {
+  text-align: center;
+  padding: 10px 40px;
+  background-color: #f2f2f2;
+  border-radius: 20px;
+}
+
+.markdown nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.markdown nav ul li {
+  margin-bottom: 10px;
+}

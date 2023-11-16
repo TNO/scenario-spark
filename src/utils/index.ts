@@ -448,3 +448,14 @@ export const generateNarrative = (
   } while (tries < 100);
   return false;
 };
+
+export const scrollToSection = (e: MouseEvent, id: string): void => {
+  e.preventDefault();
+  const element = document.getElementById(id);
+
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  } else {
+    console.log(`Element with id ${id} not found.`);
+  }
+};

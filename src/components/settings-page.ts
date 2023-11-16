@@ -95,7 +95,7 @@ export const SettingsPage: MeiosisComponent = () => {
           id: 'componentIds',
           type: 'select',
           multiple: true,
-          label: t('DIMENSIONS'),
+          label: t('DIMENSION_SELECTED'),
           options: 'components',
         },
       ],
