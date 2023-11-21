@@ -12,7 +12,6 @@ import DutchFlag from '../assets/flag-nl.png';
 import EnglishFlag from '../assets/flag-en.png';
 import {
   MeiosisComponent,
-  changePage,
   routingSvc,
   saveModel,
   setLanguage,
@@ -34,7 +33,7 @@ const TableView: MeiosisComponent<{
   components: ScenarioComponent[];
 }> = () => {
   return {
-    view: ({ attrs: { components, narratives, ...attrs } }) => {
+    view: ({ attrs: { components, narratives = [], ...attrs } }) => {
       const lookup = components.reduce((acc, cur) => {
         cur.values &&
           cur.values.forEach((v) => {
@@ -58,7 +57,7 @@ const TableView: MeiosisComponent<{
             m(
               'tr',
               m(
-                'th',
+                'td.bold',
                 m(
                   'a',
                   {
@@ -75,9 +74,17 @@ const TableView: MeiosisComponent<{
               components.map((c) =>
                 m(
                   'td',
-                  m.trust(
-                    n.components[c.id].map((id) => lookup[id]).join(',<br/>')
-                  )
+                  n.components[c.id] && n.components[c.id].length > 0
+                    ? m.trust(
+                        n.components[c.id]
+                          .map(
+                            (id) =>
+                              lookup[id] ||
+                              `<span class="red-text">Missing component ID: ${id}</span>`
+                          )
+                          .join(',<br/>')
+                      )
+                    : m(Icon, { iconName: 'clear', className: 'red-text' })
                 )
               )
             )
@@ -129,7 +136,7 @@ export const HomePage: MeiosisComponent = () => {
           m(
             '.row',
             m(
-              '.col.s12',
+              '.col.s12.center-align',
               m('img.responsive-img.center[alt=fountain pen]', {
                 src: background,
               })
@@ -240,7 +247,8 @@ export const HomePage: MeiosisComponent = () => {
                             ? (json as DataModel)
                             : convertFromOld(json as OldDataModel);
                           saveModel(attrs, dataModel, true);
-                          changePage(attrs, Dashboards.DEFINE_BOX);
+                          M.toast({ html: t('SCENARIO_LOADED_MSG') });
+                          // changePage(attrs, Dashboards.DEFINE_BOX);
                         }
                         // json &&
                         //   json.version &&
@@ -294,39 +302,35 @@ export const HomePage: MeiosisComponent = () => {
             // }),
           ]),
           selectedNarratives.length > 0 &&
-            categories.length > 0 &&
-            m(
-              '.row',
-              m('.col.s12', [
-                m('h4', t('SAVED_NARRATIVES')),
-                categories.length > 1
-                  ? m(Tabs, {
-                      tabs: categories.map((c) => ({
-                        title: c.label,
-                        vnode: m(TableView, {
-                          ...attrs,
-                          narratives: selectedNarratives,
-                          components: components.filter(
-                            (comp) =>
-                              c.componentIds && c.componentIds.includes(comp.id)
-                          ),
-                        }),
-                      })),
-                    })
-                  : m(
-                      '.row.narratives',
-                      m(TableView, {
+            categories.length > 0 && [
+              m('.row', m('.col.s12', [m('h4', t('SAVED_NARRATIVES')), ,])),
+              categories.length > 1
+                ? m(Tabs, {
+                    tabs: categories.map((c) => ({
+                      title: c.label,
+                      vnode: m(TableView, {
                         ...attrs,
                         narratives: selectedNarratives,
                         components: components.filter(
                           (comp) =>
-                            categories[0].componentIds &&
-                            categories[0].componentIds.includes(comp.id)
+                            c.componentIds && c.componentIds.includes(comp.id)
                         ),
-                      })
-                    ),
-              ])
-            ),
+                      }),
+                    })),
+                  })
+                : m(
+                    '.narratives',
+                    m(TableView, {
+                      ...attrs,
+                      narratives: selectedNarratives,
+                      components: components.filter(
+                        (comp) =>
+                          categories[0].componentIds &&
+                          categories[0].componentIds.includes(comp.id)
+                      ),
+                    })
+                  ),
+            ],
           m(
             '.section.white',
             m('.row.container.center', [
