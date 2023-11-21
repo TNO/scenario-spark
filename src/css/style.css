@@ -737,6 +737,7 @@ ul.kanban > li {
   border: solid #dbe2e0;
   border-radius: 10px;
   margin: 10px;
+  padding: 10px;
 }
 
 .popupContainer {
