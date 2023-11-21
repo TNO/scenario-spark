@@ -18,7 +18,7 @@ import {
   Update,
   MeiosisComponent as MComp,
 } from 'meiosis-setup/types';
-import { LANGUAGE, SAVED } from '../utils';
+import { LANGUAGE, SAVED, scrollToTop, validateNarrative } from '../utils';
 import { uniqueId } from 'mithril-materialized';
 
 const MODEL_KEY = 'SG_MODEL';
@@ -45,9 +45,10 @@ const setTitle = (title: string) => {
 
 /* Actions */
 
-export const setPage = (cell: MeiosisCell<State>, page: Dashboards): void =>
+export const setPage = (cell: MeiosisCell<State>, page: Dashboards): void => {
+  scrollToTop();
   cell.update({ page });
-
+};
 export const changePage = (
   cell: MeiosisCell<State>,
   page: Dashboards,
@@ -65,6 +66,9 @@ const validateScenario = (scenario?: Scenario) => {
   if (!scenario.categories) scenario.categories = [];
   if (!scenario.components) scenario.components = [];
   if (!scenario.narratives) scenario.narratives = [];
+  scenario.narratives = scenario.narratives.map((n) =>
+    validateNarrative(n, scenario.components)
+  );
   if (typeof scenario.hideInconsistentValues === 'undefined') {
     scenario.hideInconsistentValues = true;
   }
@@ -94,13 +98,13 @@ export const saveModel = async (
 ) => {
   localStorage.setItem(SAVED, 'false');
   model.lastUpdate = Date.now();
-  await ldb.set(MODEL_KEY, JSON.stringify(model));
   // console.log(JSON.stringify(model, null, 2));
   if (reset) {
     if (!validateScenario(model.scenario)) {
       alert(t('JSON_NOT_VALID'));
       return;
     }
+    await ldb.set(MODEL_KEY, JSON.stringify(model));
     cell.update({
       model: () => model,
       activeTooltip: '',
@@ -110,8 +114,10 @@ export const saveModel = async (
       lockedComps: () => ({}),
     });
   } else {
+    await ldb.set(MODEL_KEY, JSON.stringify(model));
     cell.update({ model: () => model });
   }
+  localStorage.setItem(SAVED, 'false');
 };
 
 export const mutateScenarioComponent = (
@@ -136,6 +142,11 @@ export const mutateScenarioComponent = (
       : mutation === 'delete'
       ? values.filter((c) => c.id !== item.id)
       : [...values, item];
+  if (mutation === 'delete') {
+    model.scenario.narratives = model.scenario.narratives.map((n) =>
+      validateNarrative(n, model.scenario.components)
+    );
+  }
   saveModel(cell, model);
 };
 
