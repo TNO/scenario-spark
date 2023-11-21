@@ -10,6 +10,7 @@ import {
   OldDataModel,
   OsmTypeList,
   Scenario,
+  ScenarioComponent,
   thresholdColors,
 } from '../models';
 import { t } from '../services';
@@ -458,4 +459,27 @@ export const scrollToSection = (e: MouseEvent, id: string): void => {
   } else {
     console.log(`Element with id ${id} not found.`);
   }
+};
+
+export const scrollToTop = (): void => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+};
+
+export const validateNarrative = (
+  n: Narrative,
+  components: ScenarioComponent[]
+) => {
+  const { components: narrativeComps, ...attrs } = n;
+  const newNarrative = { components: {}, ...attrs } as Narrative;
+  components
+    .filter((c) => narrativeComps.hasOwnProperty(c.id))
+    .forEach((c) => {
+      newNarrative.components[c.id] = narrativeComps[c.id].filter((id) =>
+        c.values?.find((v) => v.id === id)
+      );
+    });
+  return newNarrative;
 };
