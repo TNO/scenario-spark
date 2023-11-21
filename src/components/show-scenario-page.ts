@@ -34,7 +34,7 @@ const CategoryTable: FactoryComponent<{
         comps.reduce((acc, cur) => {
           cur.values &&
             cur.values.forEach((v) => {
-              acc[v.id] = v.label;
+              acc[cur.id + v.id] = v.label;
             });
           return acc;
         }, {} as Record<string, string>);
@@ -52,7 +52,10 @@ const CategoryTable: FactoryComponent<{
               comps.map((c) => {
                 return m('tr', [
                   m('th', c.label),
-                  m('td', components[c.id].map((id) => lookup[id]).join(', ')),
+                  m(
+                    'td',
+                    components[c.id].map((id) => lookup[c.id + id]).join(', ')
+                  ),
                 ]);
               })
           ),
