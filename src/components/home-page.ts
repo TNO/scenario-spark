@@ -72,10 +72,10 @@ const TableView: MeiosisComponent<{
                 )
               ),
               components.map((c) =>
-                m(
-                  'td',
-                  n.components[c.id] && n.components[c.id].length > 0
-                    ? m.trust(
+                n.components[c.id] && n.components[c.id].length > 0
+                  ? m(
+                      'td',
+                      m.trust(
                         n.components[c.id]
                           .map(
                             (id) =>
@@ -84,8 +84,11 @@ const TableView: MeiosisComponent<{
                           )
                           .join(',<br/>')
                       )
-                    : m(Icon, { iconName: 'clear', className: 'red-text' })
-                )
+                    )
+                  : m(
+                      'td.center-align',
+                      m(Icon, { iconName: 'clear', className: 'red-text' })
+                    )
               )
             )
           )
