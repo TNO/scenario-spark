@@ -40,7 +40,7 @@ export type State = {
 export type MeiosisComponent<T = {}> = FactoryComponent<MeiosisCell<State> & T>;
 
 const setTitle = (title: string) => {
-  document.title = `Scenario Spark: ${title}`;
+  document.title = `ScenarioSpark: ${title}`;
 };
 
 /* Actions */
