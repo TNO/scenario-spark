@@ -46,7 +46,7 @@
   "devDependencies": {
     "@rspack/cli": "^0.3.14",
     "@types/materialize-css": "^1.0.14",
-    "@types/mithril": "^2.2.5",
+    "@types/mithril": "^2.2.6",
     "@types/quill": "^2.0.14",
     "dotenv-webpack": "^8.0.1",
     "rimraf": "^5.0.5",
