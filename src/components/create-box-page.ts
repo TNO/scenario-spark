@@ -164,7 +164,26 @@ const BoxHeader: MeiosisComponent<{
       const { id } = sc;
 
       return m('li.kanban-header.widget', { key: 'header' }, [
-        m('.span.title.truncate.left.ml10', sc.label),
+        m(
+          '.span.title.truncate.left.ml10',
+          {
+            onmouseenter: sc.desc
+              ? () => {
+                  attrs.update({
+                    activeTooltip: sc.desc,
+                  });
+                }
+              : undefined,
+            onmouseleave: sc.desc
+              ? () => {
+                  attrs.update({
+                    activeTooltip: undefined,
+                  });
+                }
+              : undefined,
+          },
+          sc.label
+        ),
         m(FlatButton, {
           className: 'widget-link',
           iconName: 'add',
