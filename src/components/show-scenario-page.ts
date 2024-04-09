@@ -49,15 +49,17 @@ const CategoryTable: FactoryComponent<{
             components &&
               comps &&
               lookup &&
-              comps.map((c) => {
-                return m('tr', [
-                  m('th', c.label),
-                  m(
-                    'td',
-                    components[c.id].map((id) => lookup[c.id + id]).join(', ')
-                  ),
-                ]);
-              })
+              comps
+                .filter((c) => components[c.id])
+                .map((c) => {
+                  return m('tr', [
+                    m('th', c.label),
+                    m(
+                      'td',
+                      components[c.id].map((id) => lookup[c.id + id]).join(', ')
+                    ),
+                  ]);
+                })
           ),
         ]),
 
