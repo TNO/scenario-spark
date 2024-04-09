@@ -21,9 +21,9 @@ export const messages = {
   NAME: 'Name',
   DESCRIPTION: 'Description',
   CATEGORIES: 'Categories',
-  DIMENSION: 'Key factor',
-  DIMENSION_SELECTED: 'Selected factors',
-  DIMENSIONS: 'Factors',
+  DIMENSION: 'Key driver',
+  DIMENSION_SELECTED: 'Selected drivers',
+  DIMENSIONS: 'Drivers',
   KEY_VALUE: 'Key value',
   CONTEXT: 'Context',
   NONE: 'None',
@@ -171,7 +171,7 @@ export const messages = {
   JSON_NOT_VALID: 'JSON model file not valid! Aborting.',
   NO_NARRATIVE: 'Narrative not generated in 100 tries!',
   SPEC_CATS:
-    'First specify some categories, where each category contains some key factors.',
+    'First specify some categories, where each category contains some key drivers.',
   EXPORT2WORD: 'Export to Word',
   HIDE_INCONSISTENT: 'Hide inconsistent combinations',
   GOAL: {
@@ -363,7 +363,7 @@ export const messagesNL: typeof messages = {
   SPEC_CATS:
     'Definieer eerst 1 of 2 categorieën, met in iedere categorie enkele hoofdfactoren.',
   EXPORT2WORD: 'Exporteer naar Word',
-  HIDE_INCONSISTENT: 'Toon geen inconsistente combinaties',
+  HIDE_INCONSISTENT: 'Verberg inconsistente combinaties',
   GOAL: {
     TITLE: 'Doel',
     DESC: 'ScenarioSpark is een webapplicatie waarmee systematisch een set scenario’s ten behoeve van risicomanagement- activiteiten kan worden gemaakt en beheerd.',
