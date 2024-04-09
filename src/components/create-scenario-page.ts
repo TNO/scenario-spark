@@ -177,16 +177,18 @@ export const CreateScenarioPage: MeiosisComponent = () => {
       const narratives = model.scenario && model.scenario.narratives;
       const excluded =
         curNarrative.components && hideInconsistentValues
-          ? Object.keys(curNarrative.components).reduce((acc, cur) => {
-              curNarrative.components[cur].forEach(
-                (v) =>
-                  inconsistencies[v] &&
-                  Object.keys(inconsistencies[v]).forEach(
-                    (id) => inconsistencies[v][id] && acc.add(id)
-                  )
-              );
-              return acc;
-            }, new Set<string>())
+          ? Object.keys(curNarrative.components)
+              .filter((cur) => curNarrative.components[cur])
+              .reduce((acc, cur) => {
+                curNarrative.components[cur].forEach(
+                  (v) =>
+                    inconsistencies[v] &&
+                    Object.keys(inconsistencies[v]).forEach(
+                      (id) => inconsistencies[v][id] && acc.add(id)
+                    )
+                );
+                return acc;
+              }, new Set<string>())
           : new Set<string>();
       const selectOptions = narrativesToOptions(model.scenario.narratives);
 
