@@ -483,3 +483,17 @@ export const validateNarrative = (
     });
   return newNarrative;
 };
+
+export const narrativesToOptions = (narratives: Narrative[]) =>
+  narratives
+    .map((n) => ({
+      ...n,
+      group: n.included ? t('GROUP', 'SELECTED') : t('GROUP', 'UNSELECTED'),
+    }))
+    .sort((a, b) =>
+      a.included && b.included
+        ? (a.label || '').localeCompare(b.label)
+        : a.included
+        ? -1
+        : 1
+    );

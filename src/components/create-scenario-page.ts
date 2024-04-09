@@ -12,7 +12,7 @@ import {
 } from 'mithril-materialized';
 import { Dashboards, ID, Narrative } from '../models';
 import { MeiosisComponent, saveModel, setPage, t } from '../services';
-import { deepCopy, generateNarrative } from '../utils';
+import { deepCopy, generateNarrative, narrativesToOptions } from '../utils';
 
 const ToggleIcon: FactoryComponent<{
   on: string;
@@ -188,6 +188,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               return acc;
             }, new Set<string>())
           : new Set<string>();
+      const selectOptions = narrativesToOptions(model.scenario.narratives);
 
       return m('.create-scenario.row', [
         m('.col.s12', [
@@ -297,7 +298,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               label: t('SELECT_NARRATIVE'),
               checkedId: curNarrative.saved ? curNarrative.id : undefined,
               placeholder: t('i18n', 'pickOne'),
-              options: narratives,
+              options: selectOptions,
               onchange: (v) => {
                 if (v && v.length > 0) {
                   version++;

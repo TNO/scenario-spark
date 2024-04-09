@@ -82,11 +82,11 @@ const TableView: MeiosisComponent<{
                               lookup[id] ||
                               `<span class="red-text">Missing component ID: ${id}</span>`
                           )
-                          .join(',<br/>')
+                          .join(', ')
                       )
                     )
                   : m(
-                      'td.center-align',
+                      'td.center-align.missing',
                       m(Icon, { iconName: 'clear', className: 'red-text' })
                     )
               )
@@ -136,15 +136,46 @@ export const HomePage: MeiosisComponent = () => {
 
       return [
         m('div', { style: 'padding-top: 1rem;position: relative;' }, [
-          m(
-            '.row',
+          selectedNarratives.length > 0 &&
+            categories.length > 0 && [
+              m('.row', m('.col.s12', [m('h4', t('SAVED_NARRATIVES')), ,])),
+              categories.length > 1
+                ? m(Tabs, {
+                    tabs: categories.map((c) => ({
+                      title: c.label,
+                      vnode: m(TableView, {
+                        ...attrs,
+                        narratives: selectedNarratives,
+                        components: components.filter(
+                          (comp) =>
+                            c.componentIds && c.componentIds.includes(comp.id)
+                        ),
+                      }),
+                    })),
+                  })
+                : m(
+                    '.narratives',
+                    m(TableView, {
+                      ...attrs,
+                      narratives: selectedNarratives,
+                      components: components.filter(
+                        (comp) =>
+                          categories[0].componentIds &&
+                          categories[0].componentIds.includes(comp.id)
+                      ),
+                    })
+                  ),
+            ],
+          selectedNarratives.length === 0 &&
             m(
-              '.col.s12.center-align',
-              m('img.responsive-img.center[alt=fountain pen]', {
-                src: background,
-              })
-            )
-          ),
+              '.row',
+              m(
+                '.col.s12.center-align',
+                m('img.responsive-img.center[alt=fountain pen]', {
+                  src: background,
+                })
+              )
+            ),
           m('.buttons.center', { style: 'margin: 10px auto;' }, [
             [
               m(
@@ -268,72 +299,7 @@ export const HomePage: MeiosisComponent = () => {
                   fileInput.click();
                 },
               }),
-            // m(Button, {
-            //   iconName: 'link',
-            //   className: 'btn-large',
-            //   label: 'Permalink',
-            //   onclick: () => {
-            //     const permLink = document.createElement('input') as HTMLInputElement;
-            //     document.body.appendChild(permLink);
-            //     if (!permLink) {
-            //       return;
-            //     }
-            //     const compressed = lz.compressToEncodedURIComponent(JSON.stringify(model));
-            //     const url = `${window.location.href}${
-            //       /\?/.test(window.location.href) ? '&' : '?'
-            //     }model=${compressed}`;
-            //     permLink.value = url;
-            //     permLink.select();
-            //     permLink.setSelectionRange(0, 999999); // For mobile devices
-            //     try {
-            //       const successful = document.execCommand('copy');
-            //       if (successful) {
-            //         M.toast({
-            //           html: 'Copied permanent link to clipboard.',
-            //           classes: 'yellow black-text',
-            //         });
-            //       }
-            //     } catch (err) {
-            //       M.toast({
-            //         html: 'Failed copying link to clipboard: ' + err,
-            //         classes: 'red',
-            //       });
-            //     } finally {
-            //       document.body.removeChild(permLink);
-            //     }
-            //   },
-            // }),
           ]),
-          selectedNarratives.length > 0 &&
-            categories.length > 0 && [
-              m('.row', m('.col.s12', [m('h4', t('SAVED_NARRATIVES')), ,])),
-              categories.length > 1
-                ? m(Tabs, {
-                    tabs: categories.map((c) => ({
-                      title: c.label,
-                      vnode: m(TableView, {
-                        ...attrs,
-                        narratives: selectedNarratives,
-                        components: components.filter(
-                          (comp) =>
-                            c.componentIds && c.componentIds.includes(comp.id)
-                        ),
-                      }),
-                    })),
-                  })
-                : m(
-                    '.narratives',
-                    m(TableView, {
-                      ...attrs,
-                      narratives: selectedNarratives,
-                      components: components.filter(
-                        (comp) =>
-                          categories[0].componentIds &&
-                          categories[0].componentIds.includes(comp.id)
-                      ),
-                    })
-                  ),
-            ],
           m(
             '.section.white',
             m('.row.container.center', [

@@ -190,6 +190,8 @@ export const messages = {
     'A free tool to support you in creating new scenarios using a morphological box. First, you define the aspects that are of interest in your domain. Next, you specify variations for each aspect. And finally, you either manually create new scenarios, or become inspired by generating possible scenarios automatically.',
   SET_LANGUAGE: 'Set language',
   SCENARIO_LOADED_MSG: 'Scenario successfully loaded',
+  COPY_TO_CLIPBOARD: 'Copy table to clipboard',
+  GROUP: { SELECTED: 'Selected scenarios', UNSELECTED: 'Unselected scenarios' },
 };
 
 export const messagesNL: typeof messages = {
@@ -378,6 +380,8 @@ export const messagesNL: typeof messages = {
     "Een gratis hulpmiddel om u te ondersteunen bij het creëren van nieuwe scenario's met behulp van een morfologische doos. Eerst definieert u de aspecten die van belang zijn voor uw domein. Vervolgens specificeert u variaties voor elk aspect. En ten slotte creëer je handmatig nieuwe scenario's, of laat u zich inspireren door mogelijke scenario's te genereren.",
   SET_LANGUAGE: 'Kies de taal',
   SCENARIO_LOADED_MSG: "De scenario's zijn ingeladen",
+  COPY_TO_CLIPBOARD: 'Kopieer tabel naar het plakbord',
+  GROUP: { SELECTED: 'Geselecteerd', UNSELECTED: 'Niet geselecteerd' },
 };
 
 const setGuiLanguage = (language: Languages) => {

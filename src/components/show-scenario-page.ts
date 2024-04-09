@@ -17,7 +17,7 @@ import {
 import { deepCopy } from 'mithril-ui-form';
 import Quill from 'quill';
 import { generateWord } from 'quill-to-word';
-import { modelToSaveName } from '../utils';
+import { modelToSaveName, narrativesToOptions } from '../utils';
 import { htmlTemplate } from '../assets/html-styles';
 
 const CategoryTable: FactoryComponent<{
@@ -39,7 +39,7 @@ const CategoryTable: FactoryComponent<{
           return acc;
         }, {} as Record<string, string>);
       return [
-        m('table.responsive-table.highlight', { id }, [
+        m('table.highlight', { id }, [
           m(
             'thead',
             m('tr', [m('th', t('DIMENSION')), m('th', t('KEY_VALUE'))])
@@ -64,7 +64,7 @@ const CategoryTable: FactoryComponent<{
         ]),
 
         m(FlatButton, {
-          label: 'Copy table to clipboard',
+          label: t('COPY_TO_CLIPBOARD'),
           className: 'right',
           iconName: 'content_copy',
           onclick: () => {
@@ -151,6 +151,8 @@ export const ShowScenarioPage: MeiosisComponent = () => {
         return;
       }
 
+      const selectOptions = narrativesToOptions(model.scenario.narratives);
+
       return m('.show-scenario.row', [
         m('a#downloadAnchorElem', { style: 'display:none' }),
         m('.col.s12', [
@@ -165,7 +167,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                   ? curNarrative.id
                   : undefined,
               placeholder: t('i18n', 'pickOne'),
-              options: model.scenario.narratives,
+              options: selectOptions,
               onchange: (v) => {
                 if (v && v.length > 0) {
                   const newNarrative = model.scenario.narratives
