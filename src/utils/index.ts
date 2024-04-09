@@ -450,8 +450,8 @@ export const generateNarrative = (
   return false;
 };
 
-export const scrollToSection = (e: MouseEvent, id: string): void => {
-  e.preventDefault();
+export const scrollToSection = (id: string, e?: MouseEvent): void => {
+  e && e.preventDefault();
   const element = document.getElementById(id);
 
   if (element) {

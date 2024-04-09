@@ -309,7 +309,16 @@ export const HomePage: MeiosisComponent = () => {
                   '.col.s12.m4',
                   m('.icon-block', [
                     m('.center', m(Icon, { iconName: 'ads_click' })),
-                    m('h5.center', t('GOAL', 'TITLE')),
+                    m(
+                      'h5.center',
+                      m(
+                        'a',
+                        {
+                          href: `/#!${t('ABOUT', 'ROUTE')}#goal`,
+                        },
+                        t('GOAL', 'TITLE')
+                      )
+                    ),
                     m('p', t('GOAL', 'DESC')),
                   ])
                 ),
@@ -317,7 +326,16 @@ export const HomePage: MeiosisComponent = () => {
                   '.col.s12.m4',
                   m('.icon-block', [
                     m('.center', m(Icon, { iconName: 'settings' })),
-                    m('h5.center', t('USAGE', 'TITLE')),
+                    m(
+                      'h5.center',
+                      m(
+                        'a',
+                        {
+                          href: `/#!${t('ABOUT', 'ROUTE')}#usage`,
+                        },
+                        t('USAGE', 'TITLE')
+                      )
+                    ),
                     m('p', t('USAGE', 'DESC')),
                   ])
                 ),
@@ -325,7 +343,16 @@ export const HomePage: MeiosisComponent = () => {
                   '.col.s12.m4',
                   m('.icon-block', [
                     m('.center', m(Icon, { iconName: 'lock' })),
-                    m('h5.center', t('SECURITY', 'TITLE')),
+                    m(
+                      'h5.center',
+                      m(
+                        'a',
+                        {
+                          href: `/#!${t('ABOUT', 'ROUTE')}#security`,
+                        },
+                        t('SECURITY', 'TITLE')
+                      )
+                    ),
                     m('p', t('SECURITY', 'DESC')),
                   ])
                 ),
