@@ -235,6 +235,30 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               });
             },
           }),
+          curNarrative.saved &&
+            m(FlatButton, {
+              label: t('CLONE_NARRATIVE'),
+              iconName: 'content_copy',
+              style: 'margin-left: 10px;',
+              onclick: () => {
+                const newNarrative: Narrative = deepCopy(curNarrative);
+                newNarrative.id = uniqueId();
+                let counter = 0;
+                do {
+                  counter++;
+                  newNarrative.label = `${curNarrative.label} ${counter}`;
+                } while (
+                  model.scenario.narratives.find(
+                    (n) => n.label === newNarrative.label
+                  )
+                );
+                model.scenario.narratives.push(newNarrative);
+                attrs.update({
+                  curNarrative: () => newNarrative,
+                });
+                saveModel(attrs, model);
+              },
+            }),
           m(FlatButton, {
             label: t('SAVE_NARRATIVE'),
             iconName: 'save',

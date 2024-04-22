@@ -192,6 +192,7 @@ export const messages = {
   SCENARIO_LOADED_MSG: 'Scenario successfully loaded',
   COPY_TO_CLIPBOARD: 'Copy table to clipboard',
   GROUP: { SELECTED: 'Selected scenarios', UNSELECTED: 'Unselected scenarios' },
+  CLONE_NARRATIVE: 'Clone',
 };
 
 export const messagesNL: typeof messages = {
@@ -382,6 +383,7 @@ export const messagesNL: typeof messages = {
   SCENARIO_LOADED_MSG: "De scenario's zijn ingeladen",
   COPY_TO_CLIPBOARD: 'Kopieer tabel naar het plakbord',
   GROUP: { SELECTED: 'Geselecteerd', UNSELECTED: 'Niet geselecteerd' },
+  CLONE_NARRATIVE: 'Kopieer',
 };
 
 const setGuiLanguage = (language: Languages) => {
