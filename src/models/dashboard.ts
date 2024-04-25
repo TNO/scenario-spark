@@ -1,4 +1,5 @@
 import { ComponentTypes } from 'mithril';
+import { Scenario } from './data-model';
 
 export type IconType = () => string | string;
 
@@ -12,7 +13,7 @@ export interface IDashboard {
   icon: string | IconResolver;
   iconClass?: string;
   route: string;
-  visible: boolean | (() => boolean);
+  visible: boolean | ((scenario?: Scenario) => boolean);
   component: ComponentTypes<any, any>;
 }
 
@@ -22,6 +23,7 @@ export enum Dashboards {
   DEFINE_BOX = 'DEFINE_BOX',
   CREATE_SCENARIO = 'CREATE_SCENARIO',
   SHOW_SCENARIO = 'SHOW_SCENARIO',
+  DECISION_SUPPORT = 'DECISION_SUPPORT',
   SETTINGS = 'SETTINGS',
   HELP = 'HELP',
 }

@@ -13,6 +13,7 @@ import {
 import { Dashboards, ID, Narrative } from '../models';
 import { MeiosisComponent, saveModel, setPage, t } from '../services';
 import { deepCopy, generateNarrative, narrativesToOptions } from '../utils';
+import { range } from 'mithril-ui-form';
 
 const ToggleIcon: FactoryComponent<{
   on: string;
@@ -32,6 +33,24 @@ const ToggleIcon: FactoryComponent<{
       });
     },
   };
+};
+
+const calculateRisk = (narrative: Narrative) => {
+  const { probability, impact } = narrative;
+  if (typeof probability !== 'string' || typeof impact !== 'string') return;
+  const p = +probability.replace(/[a-zA-Z_]/g, '');
+  const i = +impact.replace(/[a-zA-Z_]/g, '');
+  const riskMatrix: number[][] = [
+    [0, 0, 1, 2, 3],
+    [0, 1, 2, 3, 4],
+    [1, 2, 3, 4, 4],
+    [2, 3, 4, 4, 4],
+    [3, 4, 4, 4, 4],
+  ];
+  narrative.risk = 'risk_' + riskMatrix[p][i];
+  console.log(
+    `Risk = probability x impact: ${probability} x ${impact} = ${narrative.risk}`
+  );
 };
 
 export const CategoryTable: MeiosisComponent<{
@@ -318,8 +337,9 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               ],
             }),
           ],
-          narratives &&
+          narratives && [
             m(Select, {
+              key: Date.now(),
               className: 'right mb0 w30',
               label: t('SELECT_NARRATIVE'),
               checkedId: curNarrative.saved ? curNarrative.id : undefined,
@@ -348,6 +368,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 }
               },
             } as ISelectOptions<string>),
+          ],
         ]),
         [
           categories.map((c, i) =>
@@ -385,6 +406,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                     ], // dropdown with defaults from theme
                     // [{ font: [] }],
                     [{ align: [] }],
+                    // [{ size: ['small', false, 'large', 'huge'] }],
                     ['image', 'code-block'],
                   ],
                 },
@@ -406,7 +428,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           [
             m('.row', [
               m(TextInput, {
-                className: 'col s4',
+                className: 'col s6 m3',
                 initialValue: curNarrative.label,
                 label: t('NAME_NARRATIVE'),
                 required: true,
@@ -416,7 +438,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 },
               }),
               m(InputCheckbox, {
-                className: 'col s4 mt25',
+                className: 'col s6 m3 mt25',
                 checked: curNarrative.included,
                 label: t('INCLUDE_NARRATIVE'),
                 onchange: (n) => {
@@ -424,7 +446,58 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   attrs.update({ curNarrative });
                 },
               }),
-              m('.col.s4', []),
+              model.scenario.includeDecisionSupport && [
+                m(Select, {
+                  key: `prob${curNarrative.id}`,
+                  placeholder: t('i18n', 'pick'),
+                  className: 'col s6 m2',
+                  label: t('PROBABILITY'),
+                  initialValue: curNarrative.probability,
+                  options: range(0, 4).map((id) => ({
+                    id: `probability_${id}`,
+                    label: t('PROB5', id),
+                  })),
+                  onchange: (n) => {
+                    curNarrative.probability = n[0];
+                    calculateRisk(curNarrative);
+                    attrs.update({ curNarrative });
+                  },
+                } as ISelectOptions<string>),
+                m(Select, {
+                  key: `imp${curNarrative.id}`,
+                  placeholder: t('i18n', 'pick'),
+                  className: 'col s6 m2',
+                  label: t('IMPACT'),
+                  initialValue: curNarrative.impact,
+                  options: range(0, 4).map((id) => ({
+                    id: `impact_${id}`,
+                    label: t('IMP5', id),
+                  })),
+                  onchange: (n) => {
+                    curNarrative.impact = n[0];
+                    calculateRisk(curNarrative);
+                    attrs.update({ curNarrative });
+                  },
+                } as ISelectOptions<string>),
+                m(Select, {
+                  key: `${curNarrative.id}-${curNarrative.probability}-${curNarrative.impact}`,
+                  placeholder: t('RISK_PLACEHOLDER'),
+                  className: 'col s6 m2',
+                  label: t('RISK'),
+                  initialValue: curNarrative.risk,
+                  options: range(0, 4).map((id) => ({
+                    id: `risk_${id}`,
+                    label: t('RISK5', id),
+                    // img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMi4zNzggNTAuMDEzQTQ3Ljc0NSA0Ny42NjMgMCAwMTUwLjE0NCAyLjM3OGE0Ny43NDUgNDcuNjYzIDAgMDE0Ny43MjMgNDcuNjc3IDQ3Ljc0NSA0Ny42NjMgMCAwMS00Ny43NTEgNDcuNjQ5QTQ3Ljc0NSA0Ny42NjMgMCAwMTIuMzc4IDUwLjA0IiBmaWxsPSIjZDcxOTFjIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSI0LjA3MiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+',
+                    // img: svgToDataURI(createCircleSVG(trafficLight[id], 30)),
+                  })),
+                  disabled: true,
+                  onchange: () => {
+                    // curNarrative.included = n;
+                    // attrs.update({ curNarrative });
+                  },
+                } as ISelectOptions<string>),
+              ],
             ]),
             // m('#toolbar'),
             m('#editor', {}),

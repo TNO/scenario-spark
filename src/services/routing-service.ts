@@ -5,6 +5,7 @@ import {
   AboutPage,
   CreateBoxPage,
   CreateScenarioPage,
+  DecisionSupportPage,
   HomePage,
   SettingsPage,
   ShowScenarioPage,
@@ -18,7 +19,7 @@ class RoutingService {
   constructor() {}
 
   public init() {
-    const routes = [
+    const routes: IDashboard[] = [
       {
         id: Dashboards.HOME,
         icon: 'home',
@@ -43,6 +44,15 @@ class RoutingService {
         route: t('CREATE_SCENARIO', 'ROUTE'),
         visible: true,
         component: CreateScenarioPage,
+      },
+      {
+        id: Dashboards.DECISION_SUPPORT,
+        icon: 'assistant_direction',
+        title: t('DECISION_SUPPORT', 'TITLE'),
+        route: t('DECISION_SUPPORT', 'ROUTE'),
+        visible: (scenario) =>
+          scenario ? scenario.includeDecisionSupport : false,
+        component: DecisionSupportPage,
       },
       {
         id: Dashboards.SHOW_SCENARIO,

@@ -681,6 +681,9 @@ a.waves-effect.waves-teal.btn-flat.selected {
 .ml10 {
   margin-left: 10px;
 }
+.mt5 {
+  margin-top: 5px;
+}
 .mt10 {
   margin-top: 10px;
 }
@@ -867,10 +870,72 @@ ul.kanban > li {
   }
   table.responsive-table tr {
     border-bottom: none;
-    padding: 0 10px;
+    /* padding: 0 10px; */
+  }
+  table.responsive-table td,
+  table.responsive-table th {
+    padding: 15px 10px;
   }
   table.responsive-table thead {
     border: 0;
     border-right: 1px solid rgba(0, 0, 0, 0.12);
   }
+}
+.table-container {
+  width: 100%; /* or a fixed width */
+  margin: 0 auto; /* center the container */
+  text-align: center; /* center the table inside the container */
+}
+.table {
+  display: inline-block; /* make the table an inline-block element */
+  text-align: left; /* reset the text alignment */
+}
+
+.missing {
+  height: 57px;
+}
+
+.decision-support table.responsive-table > tbody > tr:last-child {
+  background: #e8f4f7;
+}
+
+.decision-support td:nth-child(2),
+.decision-support th:nth-child(2),
+.decision-support td:nth-child(3),
+.decision-support th:nth-child(3),
+.decision-support td:nth-child(4),
+.decision-support th:nth-child(4) {
+  background: #e8f4f7;
+}
+
+#editor {
+  font-size: 18px;
+}
+.ql-editor strong {
+  font-weight: bold;
+}
+.ql-editor em {
+  font-style: italic;
+}
+.ql-editor u {
+  text-decoration: underline;
+}
+.show-scenario .ql-container.ql-snow {
+  border: none;
+}
+
+.show-scenario .ql-editor {
+  padding: 30px 0;
+}
+
+.show-scenario #editor {
+  font-size: 24px;
+}
+
+.show-scenario div.input-field.select-space.left.mb0.w30 input {
+  font-size: 42px;
+}
+
+.show-scenario .select-wrapper input.select-dropdown {
+  border: none;
 }

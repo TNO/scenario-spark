@@ -497,3 +497,28 @@ export const narrativesToOptions = (narratives: Narrative[]) =>
         ? -1
         : 1
     );
+
+export const trafficLight = [
+  '#2c7bb6',
+  '#abd9e9',
+  '#ffffbf',
+  '#fdae61',
+  '#d7191c',
+];
+
+export const svgToDataURI = (svg: string): string => {
+  const svgBase64 = btoa(svg); // Convert SVG string to base64
+
+  return `data:image/svg+xml;base64,${svgBase64}`; // Construct data URI
+};
+
+export const createCircleSVG = (color: string, diameter: number): string => {
+  const strokeWidth = diameter * 0.1; // Width of the border as 5% of the diameter
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${diameter}" height="${diameter}">
+    <circle cx="${diameter / 2}" cy="${diameter / 2}" r="${
+    (diameter - strokeWidth) / 2
+  }" fill="${color}" stroke="black" stroke-width="${strokeWidth}" /></svg>`;
+
+  return svg;
+};

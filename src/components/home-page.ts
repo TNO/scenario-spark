@@ -28,7 +28,7 @@ import {
 } from '../models';
 import { SAVED, capitalize, convertFromOld, modelToSaveName } from '../utils';
 
-const TableView: MeiosisComponent<{
+export const TableView: MeiosisComponent<{
   narratives: Narrative[];
   components: ScenarioComponent[];
 }> = () => {
@@ -42,58 +42,70 @@ const TableView: MeiosisComponent<{
         return acc;
       }, {} as Record<string, string>);
 
-      return m('table.responsive-table.highlight', [
+      return m(
+        '.table-container',
         m(
-          'thead',
-          m(
-            'tr',
-            m('th', t('NAME')),
-            components.map((c) => m('th', c.label))
-          )
-        ),
-        m(
-          'tbody',
-          narratives.map((n) =>
+          '.table',
+          m('table.responsive-table.highlight', [
             m(
-              'tr',
+              'thead',
               m(
-                'td.bold',
-                m(
-                  'a',
-                  {
-                    href: routingSvc.href(Dashboards.SHOW_SCENARIO),
-                    onclick: () => {
-                      attrs.update({
-                        curNarrative: () => n,
-                      });
-                    },
-                  },
-                  capitalize(n.label)
-                )
-              ),
-              components.map((c) =>
-                n.components[c.id] && n.components[c.id].length > 0
-                  ? m(
-                      'td',
-                      m.trust(
-                        n.components[c.id]
-                          .map(
-                            (id) =>
-                              lookup[id] ||
-                              `<span class="red-text">Missing component ID: ${id}</span>`
-                          )
-                          .join(', ')
-                      )
-                    )
-                  : m(
-                      'td.center-align.missing',
-                      m(Icon, { iconName: 'clear', className: 'red-text' })
-                    )
+                'tr',
+                m('th', { style: 'text-align: right' }, t('NAME')),
+                components.map((c) => m('th', c.label))
               )
-            )
-          )
-        ),
-      ]);
+            ),
+            m(
+              'tbody',
+              narratives.map((n) =>
+                m(
+                  'tr',
+                  m(
+                    'th.bold',
+                    { style: 'text-align: left' },
+                    m(
+                      'a',
+                      {
+                        href: routingSvc.href(Dashboards.SHOW_SCENARIO),
+                        onclick: () => {
+                          attrs.update({
+                            curNarrative: () => n,
+                          });
+                        },
+                      },
+                      capitalize(n.label)
+                    )
+                  ),
+                  components.map((c) =>
+                    n.components[c.id] && n.components[c.id].length > 0
+                      ? m(
+                          'td',
+                          m.trust(
+                            n.components[c.id]
+                              .map(
+                                (id) =>
+                                  lookup[id] ||
+                                  `<span class="red-text">Missing component ID: ${id}</span>`
+                              )
+                              .join(', ')
+                          )
+                        )
+                      : n[c.id as 'risk' | 'probability' | 'impact']
+                      ? m(
+                          'td',
+                          lookup[n[c.id as 'risk' | 'probability' | 'impact']!]
+                        )
+                      : m(
+                          'td.center-align.missing',
+                          m(Icon, { iconName: 'clear', className: 'red-text' })
+                        )
+                  )
+                )
+              )
+            ),
+          ])
+        )
+      );
     },
   };
 };
@@ -138,7 +150,7 @@ export const HomePage: MeiosisComponent = () => {
         m('div', { style: 'padding-top: 1rem;position: relative;' }, [
           selectedNarratives.length > 0 &&
             categories.length > 0 && [
-              m('.row', m('.col.s12', [m('h4', t('SAVED_NARRATIVES')), ,])),
+              m('.row', m('.col.s12', [m('h4', t('SAVED_NARRATIVES'))])),
               categories.length > 1
                 ? m(Tabs, {
                     tabs: categories.map((c) => ({

@@ -23,8 +23,9 @@ export const Layout: MeiosisComponent = () => ({
       // .filter((d) => curUser === 'admin' || d.id !== Dashboards.SETTINGS)
       .filter(
         (d) =>
-          (typeof d.visible === 'boolean' ? d.visible : d.visible()) ||
-          isActive(d)
+          (typeof d.visible === 'boolean'
+            ? d.visible
+            : d.visible(attrs.state?.model?.scenario)) || isActive(d)
       );
 
     const language = i18n.currentLocale;

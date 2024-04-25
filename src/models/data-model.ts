@@ -111,6 +111,12 @@ export type Narrative = Item & {
   included: boolean;
   /** Is the narrative saved in the set of narratives (so we should be able to delete or replace it) */
   saved: boolean;
+  /** Risk that the narrative occurs = chance x impact */
+  risk?: ID;
+  /** Probability that the narrative occurs */
+  probability?: ID;
+  /** Impact of the narrative */
+  impact?: ID;
 };
 
 /** HEX color code */
@@ -122,6 +128,8 @@ export type ThresholdColor = { threshold: number; color: Color };
 export type Scenario = Item & {
   /** If true, do not show inconsistent combinations between components */
   hideInconsistentValues: boolean;
+  /** If true, activate the decision support module */
+  includeDecisionSupport: boolean;
   /** Combinations of scenario components that should not be used together */
   inconsistencies: Inconsistencies;
   /** Categories of components */
@@ -137,6 +145,8 @@ export type Scenario = Item & {
 
 /** Category of components, e.g. to separate context from narrative */
 export type Category = Item & {
+  /** If true, the category is used for decision support */
+  decisionSupport?: boolean;
   componentIds?: ID[];
 };
 
@@ -172,6 +182,7 @@ export const defaultModel = {
     id: 'demo1',
     label: 'Demo',
     desc: 'Demo scenario',
+    includeDecisionSupport: false,
     hideInconsistentValues: true,
     inconsistencies: {} as Inconsistencies,
     categories: [
@@ -334,7 +345,8 @@ export const emptyModel = {
     id: uniqueId(),
     label: 'NEW SCENARIO',
     desc: '',
-    hideInconsistentValues: true,
+    includeDecisionSupport: false,
+    hideInconsistentValues: false,
     inconsistencies: {} as Inconsistencies,
     categories: [],
     components: [],

@@ -17,7 +17,13 @@ import {
 import { deepCopy } from 'mithril-ui-form';
 import Quill from 'quill';
 import { generateWord } from 'quill-to-word';
-import { modelToSaveName, narrativesToOptions } from '../utils';
+import {
+  createCircleSVG,
+  modelToSaveName,
+  narrativesToOptions,
+  svgToDataURI,
+  trafficLight,
+} from '../utils';
 import { htmlTemplate } from '../assets/html-styles';
 
 const CategoryTable: FactoryComponent<{
@@ -155,61 +161,67 @@ export const ShowScenarioPage: MeiosisComponent = () => {
 
       return m('.show-scenario.row', [
         m('a#downloadAnchorElem', { style: 'display:none' }),
-        m('.col.s12', [
+        m('.col.s12', { style: 'font-size: 24px' }, [
           model.scenario &&
             model.scenario.narratives &&
-            model.scenario.narratives.length > 0 &&
-            m(Select, {
-              className: 'right mb0 w30',
-              label: t('SELECT_NARRATIVE'),
-              checkedId:
-                curNarrative && curNarrative.saved
-                  ? curNarrative.id
-                  : undefined,
-              placeholder: t('i18n', 'pickOne'),
-              options: selectOptions,
-              onchange: (v) => {
-                if (v && v.length > 0) {
-                  const newNarrative = model.scenario.narratives
-                    .filter((n) => n.id === v[0])
-                    .shift();
-                  if (newNarrative) {
-                    editor.setContents(
-                      newNarrative.desc ? JSON.parse(newNarrative.desc) : []
-                    );
+            model.scenario.narratives.length > 0 && [
+              m(Select, {
+                className: 'left mb0 w30',
+                label: t('SELECT_NARRATIVE'),
+                checkedId:
+                  curNarrative && curNarrative.saved
+                    ? curNarrative.id
+                    : undefined,
+                placeholder: t('i18n', 'pickOne'),
+                options: selectOptions,
+                onchange: (v) => {
+                  if (v && v.length > 0) {
+                    const newNarrative = model.scenario.narratives
+                      .filter((n) => n.id === v[0])
+                      .shift();
+                    if (newNarrative) {
+                      editor.setContents(
+                        newNarrative.desc ? JSON.parse(newNarrative.desc) : []
+                      );
+                    }
+                    attrs.update({
+                      curNarrative: () => deepCopy(newNarrative),
+                      lockedComps: () =>
+                        model.scenario.components.reduce((acc, cur) => {
+                          acc[cur.id] = true;
+                          return acc;
+                        }, {} as Record<ID, boolean>),
+                    });
                   }
-                  attrs.update({
-                    curNarrative: () => deepCopy(newNarrative),
-                    lockedComps: () =>
-                      model.scenario.components.reduce((acc, cur) => {
-                        acc[cur.id] = true;
-                        return acc;
-                      }, {} as Record<ID, boolean>),
-                  });
-                }
-              },
-            } as ISelectOptions<string>),
+                },
+              } as ISelectOptions<string>),
+              curNarrative && [
+                curNarrative.risk &&
+                  m('img[title=risk-status].right', {
+                    src: svgToDataURI(
+                      createCircleSVG(
+                        trafficLight[+curNarrative.risk.replace('risk_', '')],
+                        48
+                      )
+                    ),
+                  }),
+                m(FlatButton, {
+                  label: t('EXPORT2WORD'),
+                  iconName: 'download',
+                  className: 'right mt5',
+                  disabled: !curNarrative.desc,
+                  onclick: () => exportToWord(model, curNarrative.label),
+                }),
+                m(InputCheckbox, {
+                  checked: curNarrative.included,
+                  label: t('NARRATIVE_INCLUDED'),
+                  disabled: true,
+                  className: 'right',
+                }),
+              ],
+            ],
         ]),
         curNarrative && [
-          m(
-            '.col.s12',
-            m('.row', [
-              categories.map((category) => {
-                const componentIds = category && category.componentIds;
-                const comps =
-                  componentIds &&
-                  modelComps.filter((c) => componentIds.indexOf(c.id) >= 0);
-                return m(
-                  '.col',
-                  {
-                    className: `s${12 / categories.length}`,
-                  },
-                  multipleCategories && m('h5', category.label),
-                  m(CategoryTable, { curNarrative, comps })
-                );
-              }),
-            ])
-          ),
           m(
             '.col.s12',
             {
@@ -228,49 +240,26 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                 );
               },
             },
-            [
-              m('.row', [
-                // m(TextInput, {
-                //   disabled: true,
-                //   className: 'col s4',
-                //   initialValue: curNarrative.label,
-                //   label: t('NAME_NARRATIVE'),
-                //   required: true,
-                //   onchange: (n) => {
-                //     curNarrative.label = n;
-                //     attrs.update({ curNarrative });
-                //   },
-                // }),
-                // m(InputCheckbox, {
-                //   disabled: true,
-                //   className: 'col s4 mt25',
-                //   initialValue: curNarrative.included,
-                //   label: t('INCLUDE_NARRATIVE'),
-                //   onchange: (n) => {
-                //     curNarrative.included = n;
-                //     attrs.update({ curNarrative });
-                //   },
-                // }),
-                // m('.col.s4', []),
-              ]),
-              // m('#toolbar'),
-              m('.col.s12', [
-                m(InputCheckbox, {
-                  checked: curNarrative.included,
-                  label: t('NARRATIVE_INCLUDED'),
-                  disabled: true,
-                  className: 'left',
-                }),
-                m(FlatButton, {
-                  label: t('EXPORT2WORD'),
-                  iconName: 'download',
-                  className: 'right',
-                  disabled: !curNarrative.desc,
-                  onclick: () => exportToWord(model, curNarrative.label),
-                }),
-              ]),
-              m('.col.s12', [m('#editor.row', {})]),
-            ]
+            [m('.col.s12', [m('#editor.row', {})])]
+          ),
+          m(
+            '.col.s12',
+            m('.row', [
+              categories.map((category) => {
+                const componentIds = category && category.componentIds;
+                const comps =
+                  componentIds &&
+                  modelComps.filter((c) => componentIds.indexOf(c.id) >= 0);
+                return m(
+                  '.col',
+                  {
+                    className: `s${12 / categories.length}`,
+                  },
+                  multipleCategories && m('h5', category.label),
+                  m(CategoryTable, { curNarrative, comps })
+                );
+              }),
+            ])
           ),
         ],
       ]);

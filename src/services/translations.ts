@@ -11,6 +11,7 @@ export const messages = {
   SETTINGS: { TITLE: 'Settings', ROUTE: '/settings' },
   CREATE_SCENARIO: { TITLE: 'Create scenario', ROUTE: '/create' },
   SHOW_SCENARIO: { TITLE: 'Show scenarios', ROUTE: '/show' },
+  DECISION_SUPPORT: { TITLE: 'Decision support', ROUTE: '/decide' },
   DOWNLOAD: 'Save scenario file',
   UPLOAD: 'Load scenario file',
   CANCEL: 'Cancel',
@@ -193,6 +194,19 @@ export const messages = {
   COPY_TO_CLIPBOARD: 'Copy table to clipboard',
   GROUP: { SELECTED: 'Selected scenarios', UNSELECTED: 'Unselected scenarios' },
   CLONE_NARRATIVE: 'Clone',
+  INCLUDE_DECISION_SUPPORT: 'Activate decision support',
+  IS_DECISION_CATEGORY: 'For decision support',
+  PROBABILITY: 'Probability of occurence',
+  IMPACT: 'Impact',
+  RISK: 'Risk',
+  RISK_PLACEHOLDER: 'Select probability and impact',
+  PROB5: { 0: 'Very low', 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Very high' },
+  IMP5: { 0: 'Very low', 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Very high' },
+  RISK5: { 0: 'Very low', 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Very high' },
+  SUGGESTED_APPROACH: {
+    TITLE: 'Suggested approach',
+    DESC: 'The suggested approach is a (risk-)weighted combination of the selected counter-measures.',
+  },
 };
 
 export const messagesNL: typeof messages = {
@@ -202,6 +216,7 @@ export const messagesNL: typeof messages = {
   SETTINGS: { TITLE: 'Instellingen', ROUTE: '/instellingen' },
   CREATE_SCENARIO: { TITLE: 'Maak scenario', ROUTE: '/maak' },
   SHOW_SCENARIO: { TITLE: "Toon scenario's", ROUTE: '/toon' },
+  DECISION_SUPPORT: { TITLE: 'Beslisondersteuning', ROUTE: '/beslis' },
   DOWNLOAD: 'Bewaar scenario bestand',
   UPLOAD: 'Inlezen scenario bestand',
   CANCEL: 'Afbreken',
@@ -384,6 +399,37 @@ export const messagesNL: typeof messages = {
   COPY_TO_CLIPBOARD: 'Kopieer tabel naar het plakbord',
   GROUP: { SELECTED: 'Geselecteerd', UNSELECTED: 'Niet geselecteerd' },
   CLONE_NARRATIVE: 'Kopieer',
+  INCLUDE_DECISION_SUPPORT: 'Activeer beslisondersteuning',
+  IS_DECISION_CATEGORY: 'Voor beslisondersteuning',
+  PROBABILITY: 'Kans van optreden',
+  IMPACT: 'Impact',
+  RISK: 'Risico',
+  RISK_PLACEHOLDER: 'Specificeer kans en impact',
+  PROB5: {
+    0: 'Zeer laag',
+    1: 'Laag',
+    2: 'Gemiddeld',
+    3: 'Hoog',
+    4: 'Zeer hoog',
+  },
+  IMP5: {
+    0: 'Zeer laag',
+    1: 'Laag',
+    2: 'Gemiddeld',
+    3: 'Hoog',
+    4: 'Zeer hoog',
+  },
+  RISK5: {
+    0: 'Zeer laag',
+    1: 'Laag',
+    2: 'Gemiddeld',
+    3: 'Hoog',
+    4: 'Zeer hoog',
+  },
+  SUGGESTED_APPROACH: {
+    TITLE: 'Aanbevolen aanpak',
+    DESC: 'De aanbevolen aanpak is gebaseerd op een risicogewogen combinatie van de gekozen maatregelen.',
+  },
 };
 
 const setGuiLanguage = (language: Languages) => {

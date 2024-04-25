@@ -66,12 +66,18 @@ export const InconsistencyCheckbox: FactoryComponent<{
 export const SettingsPage: MeiosisComponent = () => {
   const form = [
     { id: 'id', autogenerate: 'id' },
-    { id: 'label', type: 'text', className: 'col s6', label: t('NAME') },
+    { id: 'label', type: 'text', className: 'col s12 m6', label: t('NAME') },
     {
       id: 'hideInconsistentValues',
       type: 'checkbox',
-      className: 'col s6 mt25',
+      className: 'col s6 m3 mt25',
       label: t('HIDE_INCONSISTENT'),
+    },
+    {
+      id: 'includeDecisionSupport',
+      type: 'checkbox',
+      className: 'col s6 m3 mt25',
+      label: t('INCLUDE_DECISION_SUPPORT'),
     },
     { id: 'desc', type: 'textarea', label: t('DESCRIPTION') },
     {
@@ -81,15 +87,21 @@ export const SettingsPage: MeiosisComponent = () => {
         { id: 'id', autogenerate: 'id' },
         {
           id: 'label',
-          className: 'col s6 m4 l3',
+          className: 'col s4 m3 l2',
           type: 'text',
           label: t('NAME'),
         },
         {
           id: 'desc',
-          className: 'col s6 m8 l9',
+          className: 'col s4 m6 l7',
           type: 'text',
           label: t('DESCRIPTION'),
+        },
+        {
+          id: 'decisionSupport',
+          type: 'checkbox',
+          className: 'col s6 m3 l3 mt25',
+          label: t('IS_DECISION_CATEGORY'),
         },
         {
           id: 'componentIds',

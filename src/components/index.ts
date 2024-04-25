@@ -4,4 +4,5 @@ export * from './settings-page';
 export * from './create-box-page';
 export * from './create-scenario-page';
 export * from './show-scenario-page';
+export * from './decision-support-page';
 export * from './layout';
