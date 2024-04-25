@@ -2,6 +2,13 @@
 
 Generate a threat scenario from a self-defined morphological box.
 
+> Chat-GPT prompt:
+>
+> Je bent een informatiemanager, werkzaam in het veiligheidsdomein. Op basis van scenario > elementen, zoals de locatie of de aard van een incident, schrijf je scenario's waarin deze elementen prominent en op een logische wijze naar voren komen.
+>
+> Schrijf een scenario in het Nederlands bestaande uit onderstaande elementen. Schrijf het niet als een verhaal, maar beschrijf het op een professionele wijze, zonder opsmuk.Highlight de gebruikte scenario elementen in je verhaal.
+> Include a copy of the table (copy to Word)
+
 ## TODO
 
 - [DONE] Landing page
