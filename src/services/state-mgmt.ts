@@ -49,6 +49,7 @@ export const setPage = (cell: MeiosisCell<State>, page: Dashboards): void => {
   scrollToTop();
   cell.update({ page });
 };
+
 export const changePage = (
   cell: MeiosisCell<State>,
   page: Dashboards,
@@ -118,6 +119,39 @@ export const saveModel = async (
     cell.update({ model: () => model });
   }
   localStorage.setItem(SAVED, 'false');
+};
+
+export const saveNarrative = async (
+  cell: MeiosisCell<State>,
+  curNarrative: Narrative
+) => {
+  const { model } = cell.getState();
+  if (!curNarrative.id) curNarrative.id = uniqueId();
+  if (!model.scenario.narratives) {
+    curNarrative.saved = true;
+    model.scenario.narratives = [curNarrative];
+  } else {
+    if (curNarrative.saved) {
+      model.scenario.narratives = model.scenario.narratives.map((n) =>
+        n.id !== curNarrative.id ? n : curNarrative
+      );
+    } else {
+      curNarrative.saved = true;
+      model.scenario.narratives.push(curNarrative);
+    }
+  }
+  cell.update({ curNarrative: () => curNarrative });
+  saveModel(cell, model);
+};
+
+export const updateNarrative = async (
+  cell: MeiosisCell<State>,
+  curNarrative: Narrative
+) => {
+  if (curNarrative.saved) {
+    await saveNarrative(cell, curNarrative);
+  }
+  cell.update({ curNarrative });
 };
 
 export const mutateScenarioComponent = (

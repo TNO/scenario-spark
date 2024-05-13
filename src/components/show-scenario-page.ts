@@ -166,7 +166,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
             model.scenario.narratives &&
             model.scenario.narratives.length > 0 && [
               m(Select, {
-                className: 'left mb0 w30',
+                className: 'left mb0 mw30',
                 label: t('SELECT_NARRATIVE'),
                 checkedId:
                   curNarrative && curNarrative.saved
@@ -227,11 +227,9 @@ export const ShowScenarioPage: MeiosisComponent = () => {
             {
               oncreate: () => {
                 editor = new Quill('#editor', {
-                  // debug: 'info',
                   modules: {
                     toolbar: false,
                   },
-                  placeholder: t('EDITOR_PLACEHOLDER'),
                   readOnly: true,
                   theme: 'snow',
                 });

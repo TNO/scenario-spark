@@ -679,6 +679,9 @@ a.waves-effect.waves-teal.btn-flat.selected {
 .w30 {
   width: 30%;
 }
+.mw30 {
+  min-width: 30%;
+}
 .ml10 {
   margin-left: 10px;
 }
@@ -933,7 +936,7 @@ ul.kanban > li {
   font-size: 24px;
 }
 
-.show-scenario div.input-field.select-space.left.mb0.w30 input {
+.show-scenario div.input-field.select-space.left.mb0.mw30 input {
   font-size: 42px;
 }
 

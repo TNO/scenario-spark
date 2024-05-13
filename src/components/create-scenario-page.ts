@@ -11,7 +11,14 @@ import {
   uniqueId,
 } from 'mithril-materialized';
 import { Dashboards, ID, Narrative } from '../models';
-import { MeiosisComponent, saveModel, setPage, t } from '../services';
+import {
+  MeiosisComponent,
+  saveModel,
+  saveNarrative,
+  setPage,
+  t,
+  updateNarrative,
+} from '../services';
 import {
   deepCopy,
   generateNarrative,
@@ -142,7 +149,7 @@ export const CategoryTable: MeiosisComponent<{
                     curNarrative.components = {};
                   }
                   curNarrative.components[c.id] = ids;
-                  attrs.update({ curNarrative });
+                  updateNarrative(attrs, curNarrative);
                 },
               } as ISelectOptions<string>),
             ],
@@ -185,6 +192,7 @@ export const CategoryTable: MeiosisComponent<{
 
 export const CreateScenarioPage: MeiosisComponent = () => {
   let editor: Quill;
+  let lockState = false;
   let version = 0;
 
   return {
@@ -267,42 +275,26 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               onclick: () => {
                 const newNarrative: Narrative = deepCopy(curNarrative);
                 newNarrative.id = uniqueId();
+                newNarrative.saved = false;
                 newNarrative.label = generateUniqueTitle(
                   curNarrative.label,
                   model.scenario.narratives?.map((n) => n.label)
                 );
-                model.scenario.narratives.push(newNarrative);
-                attrs.update({
-                  curNarrative: () => newNarrative,
-                });
-                saveModel(attrs, model);
+                saveNarrative(attrs, newNarrative);
               },
             }),
-          m(FlatButton, {
-            label: t('SAVE_NARRATIVE'),
-            iconName: 'save',
-            disabled:
-              !curNarrative.label ||
-              !curNarrative.components ||
-              Object.keys(curNarrative.components).length === 0,
-            onclick: () => {
-              if (!curNarrative.id) curNarrative.id = uniqueId();
-              if (!model.scenario.narratives) {
-                curNarrative.saved = true;
-                model.scenario.narratives = [curNarrative];
-              } else {
-                if (curNarrative.saved) {
-                  model.scenario.narratives = model.scenario.narratives.map(
-                    (n) => (n.id !== curNarrative.id ? n : curNarrative)
-                  );
-                } else {
-                  curNarrative.saved = true;
-                  model.scenario.narratives.push(curNarrative);
-                }
-              }
-              saveModel(attrs, model);
-            },
-          }),
+          !curNarrative.saved &&
+            m(FlatButton, {
+              label: t('SAVE_NARRATIVE'),
+              iconName: 'save',
+              disabled:
+                !curNarrative.label ||
+                !curNarrative.components ||
+                Object.keys(curNarrative.components).length === 0,
+              onclick: () => {
+                saveNarrative(attrs, curNarrative);
+              },
+            }),
           curNarrative.saved && [
             m(FlatButton, {
               label: t('DELETE'),
@@ -327,9 +319,13 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                       model.scenario.narratives.filter(
                         (n) => n.id !== curNarrative.id
                       );
+                    lockState = true;
+                    editor.setContents([]);
+                    lockState = false;
                     attrs.update({
                       curNarrative: () =>
                         ({ included: false, components: {} } as Narrative),
+                      lockedComps: () => undefined,
                     });
                     saveModel(attrs, model);
                   },
@@ -351,14 +347,16 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   const newNarrative = narratives
                     .filter((n) => n.id === v[0])
                     .shift();
-                  if (newNarrative) {
-                    editor.setContents(
-                      newNarrative.desc ? JSON.parse(newNarrative.desc) : []
-                    );
-                  }
+                  lockState = true;
+                  editor.setContents(
+                    newNarrative && newNarrative.desc
+                      ? JSON.parse(newNarrative.desc)
+                      : []
+                  );
+                  lockState = false;
                   // if (newNarrative) newNarrative.included = true;
                   attrs.update({
-                    curNarrative: () => deepCopy(newNarrative),
+                    curNarrative: () => newNarrative,
                     lockedComps: () =>
                       model.scenario.components.reduce((acc, cur) => {
                         acc[cur.id] = true;
@@ -386,123 +384,120 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             )
           ),
         ],
-        m(
-          '.col.s12',
-          {
-            oncreate: () => {
-              editor = new Quill('#editor', {
-                // debug: 'info',
-                modules: {
-                  // table: true,
-                  toolbar: [
-                    [{ header: [1, 2, false] }],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{ list: 'ordered' }, { list: 'bullet' }],
-                    [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
-                    [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-                    [
-                      { color: [] },
-                      // , { background: [] }
-                    ], // dropdown with defaults from theme
-                    // [{ font: [] }],
-                    [{ align: [] }],
-                    // [{ size: ['small', false, 'large', 'huge'] }],
-                    ['image', 'code-block'],
-                  ],
+        m('.col.s12', [
+          m('.row', [
+            m(TextInput, {
+              className: 'col s6 m3',
+              initialValue: curNarrative.label,
+              label: t('NAME_NARRATIVE'),
+              required: true,
+              onchange: (n) => {
+                curNarrative.label = n;
+                updateNarrative(attrs, curNarrative);
+              },
+            }),
+            m(InputCheckbox, {
+              className: 'col s6 m3 mt25',
+              checked: curNarrative.included,
+              label: t('INCLUDE_NARRATIVE'),
+              onchange: (n) => {
+                curNarrative.included = n;
+                updateNarrative(attrs, curNarrative);
+              },
+            }),
+            model.scenario.includeDecisionSupport && [
+              m(Select, {
+                key: `prob${curNarrative.id}`,
+                placeholder: t('i18n', 'pick'),
+                className: 'col s6 m2',
+                label: t('PROBABILITY'),
+                initialValue: curNarrative.probability,
+                options: range(0, 4).map((id) => ({
+                  id: `probability_${id}`,
+                  label: t('PROB5', id),
+                })),
+                onchange: (n) => {
+                  curNarrative.probability = n[0];
+                  calculateRisk(curNarrative);
+                  updateNarrative(attrs, curNarrative);
                 },
-                placeholder: t('EDITOR_PLACEHOLDER'),
-                readOnly: false,
-                theme: 'snow',
-              });
-              editor.on('text-change', () => {
-                curNarrative.desc = JSON.stringify(editor.getContents());
-                attrs.update({ curNarrative });
-              });
-              if (curNarrative) {
-                editor.setContents(
-                  curNarrative.desc ? JSON.parse(curNarrative.desc) : []
-                );
-              }
-            },
-          },
+              } as ISelectOptions<string>),
+              m(Select, {
+                key: `imp${curNarrative.id}`,
+                placeholder: t('i18n', 'pick'),
+                className: 'col s6 m2',
+                label: t('IMPACT'),
+                initialValue: curNarrative.impact,
+                options: range(0, 4).map((id) => ({
+                  id: `impact_${id}`,
+                  label: t('IMP5', id),
+                })),
+                onchange: (n) => {
+                  curNarrative.impact = n[0];
+                  calculateRisk(curNarrative);
+                  updateNarrative(attrs, curNarrative);
+                },
+              } as ISelectOptions<string>),
+              m(Select, {
+                key: `${curNarrative.id}-${curNarrative.probability}-${curNarrative.impact}`,
+                placeholder: t('RISK_PLACEHOLDER'),
+                className: 'col s6 m2',
+                label: t('RISK'),
+                initialValue: curNarrative.risk,
+                options: range(0, 4).map((id) => ({
+                  id: `risk_${id}`,
+                  label: t('RISK5', id),
+                  // img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMi4zNzggNTAuMDEzQTQ3Ljc0NSA0Ny42NjMgMCAwMTUwLjE0NCAyLjM3OGE0Ny43NDUgNDcuNjYzIDAgMDE0Ny43MjMgNDcuNjc3IDQ3Ljc0NSA0Ny42NjMgMCAwMS00Ny43NTEgNDcuNjQ5QTQ3Ljc0NSA0Ny42NjMgMCAwMTIuMzc4IDUwLjA0IiBmaWxsPSIjZDcxOTFjIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSI0LjA3MiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+',
+                  // img: svgToDataURI(createCircleSVG(trafficLight[id], 30)),
+                })),
+                disabled: true,
+              } as ISelectOptions<string>),
+            ],
+          ]),
+          // m('#toolbar'),
           [
-            m('.row', [
-              m(TextInput, {
-                className: 'col s6 m3',
-                initialValue: curNarrative.label,
-                label: t('NAME_NARRATIVE'),
-                required: true,
-                onchange: (n) => {
-                  curNarrative.label = n;
-                  attrs.update({ curNarrative });
-                },
-              }),
-              m(InputCheckbox, {
-                className: 'col s6 m3 mt25',
-                checked: curNarrative.included,
-                label: t('INCLUDE_NARRATIVE'),
-                onchange: (n) => {
-                  curNarrative.included = n;
-                  attrs.update({ curNarrative });
-                },
-              }),
-              model.scenario.includeDecisionSupport && [
-                m(Select, {
-                  key: `prob${curNarrative.id}`,
-                  placeholder: t('i18n', 'pick'),
-                  className: 'col s6 m2',
-                  label: t('PROBABILITY'),
-                  initialValue: curNarrative.probability,
-                  options: range(0, 4).map((id) => ({
-                    id: `probability_${id}`,
-                    label: t('PROB5', id),
-                  })),
-                  onchange: (n) => {
-                    curNarrative.probability = n[0];
-                    calculateRisk(curNarrative);
-                    attrs.update({ curNarrative });
+            m('#editor', {
+              oncreate: () => {
+                editor = new Quill('#editor', {
+                  // debug: 'info',
+                  modules: {
+                    // table: true,
+                    toolbar: [
+                      [{ header: [1, 2, false] }],
+                      ['bold', 'italic', 'underline', 'strike'],
+                      [{ list: 'ordered' }, { list: 'bullet' }],
+                      [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+                      [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+                      [
+                        { color: [] },
+                        // , { background: [] }
+                      ], // dropdown with defaults from theme
+                      // [{ font: [] }],
+                      [{ align: [] }],
+                      // [{ size: ['small', false, 'large', 'huge'] }],
+                      ['image', 'code-block'],
+                    ],
                   },
-                } as ISelectOptions<string>),
-                m(Select, {
-                  key: `imp${curNarrative.id}`,
-                  placeholder: t('i18n', 'pick'),
-                  className: 'col s6 m2',
-                  label: t('IMPACT'),
-                  initialValue: curNarrative.impact,
-                  options: range(0, 4).map((id) => ({
-                    id: `impact_${id}`,
-                    label: t('IMP5', id),
-                  })),
-                  onchange: (n) => {
-                    curNarrative.impact = n[0];
-                    calculateRisk(curNarrative);
-                    attrs.update({ curNarrative });
-                  },
-                } as ISelectOptions<string>),
-                m(Select, {
-                  key: `${curNarrative.id}-${curNarrative.probability}-${curNarrative.impact}`,
-                  placeholder: t('RISK_PLACEHOLDER'),
-                  className: 'col s6 m2',
-                  label: t('RISK'),
-                  initialValue: curNarrative.risk,
-                  options: range(0, 4).map((id) => ({
-                    id: `risk_${id}`,
-                    label: t('RISK5', id),
-                    // img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMi4zNzggNTAuMDEzQTQ3Ljc0NSA0Ny42NjMgMCAwMTUwLjE0NCAyLjM3OGE0Ny43NDUgNDcuNjYzIDAgMDE0Ny43MjMgNDcuNjc3IDQ3Ljc0NSA0Ny42NjMgMCAwMS00Ny43NTEgNDcuNjQ5QTQ3Ljc0NSA0Ny42NjMgMCAwMTIuMzc4IDUwLjA0IiBmaWxsPSIjZDcxOTFjIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSI0LjA3MiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+',
-                    // img: svgToDataURI(createCircleSVG(trafficLight[id], 30)),
-                  })),
-                  disabled: true,
-                  onchange: () => {
-                    // curNarrative.included = n;
-                    // attrs.update({ curNarrative });
-                  },
-                } as ISelectOptions<string>),
-              ],
-            ]),
-            // m('#toolbar'),
-            m('#editor', {}),
-          ]
-        ),
+                  placeholder: t('EDITOR_PLACEHOLDER'),
+                  readOnly: false,
+                  theme: 'snow',
+                });
+                editor.on('text-change', () => {
+                  if (lockState) return;
+                  const { curNarrative } = attrs.getState();
+                  if (!curNarrative) return;
+                  curNarrative.desc = JSON.stringify(editor.getContents());
+                  updateNarrative(attrs, curNarrative);
+                });
+                if (curNarrative) {
+                  editor.setContents(
+                    curNarrative.desc ? JSON.parse(curNarrative.desc) : []
+                  );
+                }
+              },
+            }),
+          ],
+        ]),
       ]);
     },
   };
