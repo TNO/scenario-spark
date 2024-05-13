@@ -12,7 +12,12 @@ import {
 } from 'mithril-materialized';
 import { Dashboards, ID, Narrative } from '../models';
 import { MeiosisComponent, saveModel, setPage, t } from '../services';
-import { deepCopy, generateNarrative, narrativesToOptions } from '../utils';
+import {
+  deepCopy,
+  generateNarrative,
+  generateUniqueTitle,
+  narrativesToOptions,
+} from '../utils';
 import { range } from 'mithril-ui-form';
 
 const ToggleIcon: FactoryComponent<{
@@ -262,14 +267,9 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               onclick: () => {
                 const newNarrative: Narrative = deepCopy(curNarrative);
                 newNarrative.id = uniqueId();
-                let counter = 0;
-                do {
-                  counter++;
-                  newNarrative.label = `${curNarrative.label} ${counter}`;
-                } while (
-                  model.scenario.narratives.find(
-                    (n) => n.label === newNarrative.label
-                  )
+                newNarrative.label = generateUniqueTitle(
+                  curNarrative.label,
+                  model.scenario.narratives?.map((n) => n.label)
                 );
                 model.scenario.narratives.push(newNarrative);
                 attrs.update({

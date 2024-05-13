@@ -522,3 +522,29 @@ export const createCircleSVG = (color: string, diameter: number): string => {
 
   return svg;
 };
+
+export const generateUniqueTitle = (
+  title: string,
+  otherTitles: string[] = []
+): string => {
+  let count = 1;
+
+  // Check if the original title ends with a number
+  const match = title.match(/^(.*?)(\d+)$/);
+  if (match) {
+    // Extract the base title and the number
+    title = match[1].trim();
+    // Increment the number
+    count = parseInt(match[2]) + 1;
+  }
+  // Construct the new title
+  let newTitle = `${title} ${count}`;
+
+  // Ensure the new title is unique
+  while (otherTitles.includes(newTitle)) {
+    count++;
+    newTitle = `${title} ${count}`;
+  }
+
+  return newTitle;
+};
