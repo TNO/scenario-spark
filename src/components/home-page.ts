@@ -324,9 +324,9 @@ export const HomePage: MeiosisComponent = () => {
                     m(
                       'h5.center',
                       m(
-                        'a',
+                        m.route.Link,
                         {
-                          href: `/#!${t('ABOUT', 'ROUTE')}#goal`,
+                          href: t('ABOUT', 'ROUTE') + `#goal`,
                         },
                         t('GOAL', 'TITLE')
                       )
@@ -341,9 +341,9 @@ export const HomePage: MeiosisComponent = () => {
                     m(
                       'h5.center',
                       m(
-                        'a',
+                        m.route.Link,
                         {
-                          href: `/#!${t('ABOUT', 'ROUTE')}#usage`,
+                          href: t('ABOUT', 'ROUTE') + `#usage`,
                         },
                         t('USAGE', 'TITLE')
                       )
@@ -358,9 +358,9 @@ export const HomePage: MeiosisComponent = () => {
                     m(
                       'h5.center',
                       m(
-                        'a',
+                        m.route.Link,
                         {
-                          href: `/#!${t('ABOUT', 'ROUTE')}#security`,
+                          href: t('ABOUT', 'ROUTE') + `#security`,
                         },
                         t('SECURITY', 'TITLE')
                       )
