@@ -267,72 +267,73 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               });
             },
           }),
-          curNarrative.saved &&
-            m(FlatButton, {
-              label: t('CLONE_NARRATIVE'),
-              iconName: 'content_copy',
-              style: 'margin-left: 10px;',
-              onclick: () => {
-                const newNarrative: Narrative = deepCopy(curNarrative);
-                newNarrative.id = uniqueId();
-                newNarrative.saved = false;
-                newNarrative.label = generateUniqueTitle(
-                  curNarrative.label,
-                  model.scenario.narratives?.map((n) => n.label)
-                );
-                saveNarrative(attrs, newNarrative);
-              },
-            }),
-          !curNarrative.saved &&
-            m(FlatButton, {
-              label: t('SAVE_NARRATIVE'),
-              iconName: 'save',
-              disabled:
-                !curNarrative.label ||
-                !curNarrative.components ||
-                Object.keys(curNarrative.components).length === 0,
-              onclick: () => {
-                saveNarrative(attrs, curNarrative);
-              },
-            }),
-          curNarrative.saved && [
-            m(FlatButton, {
-              label: t('DELETE'),
-              iconName: 'delete',
-              modalId: 'deleteSavedNarrative',
-            }),
-            m(ModalPanel, {
-              id: 'deleteSavedNarrative',
-              title: t('DELETE_ITEM', 'title', { item: t('NARRATIVE') }),
-              description: t('DELETE_ITEM', 'description', {
-                item: t('NARRATIVE'),
-              }),
-              buttons: [
-                {
-                  label: t('CANCEL'),
-                },
-                {
-                  label: t('OK'),
+          curNarrative.saved
+            ? [
+                m(FlatButton, {
+                  label: t('CLONE_NARRATIVE'),
+                  iconName: 'content_copy',
+                  style: 'margin-left: 10px;',
                   onclick: () => {
-                    version = 0;
-                    model.scenario.narratives =
-                      model.scenario.narratives.filter(
-                        (n) => n.id !== curNarrative.id
-                      );
-                    lockState = true;
-                    editor.setContents([]);
-                    lockState = false;
-                    attrs.update({
-                      curNarrative: () =>
-                        ({ included: false, components: {} } as Narrative),
-                      lockedComps: () => undefined,
-                    });
-                    saveModel(attrs, model);
+                    const newNarrative: Narrative = deepCopy(curNarrative);
+                    newNarrative.id = uniqueId();
+                    newNarrative.saved = false;
+                    newNarrative.label = generateUniqueTitle(
+                      curNarrative.label,
+                      model.scenario.narratives?.map((n) => n.label)
+                    );
+                    saveNarrative(attrs, newNarrative);
                   },
-                },
+                }),
+                m(FlatButton, {
+                  label: t('DELETE'),
+                  iconName: 'delete',
+                  modalId: 'deleteSavedNarrative',
+                }),
+                m(ModalPanel, {
+                  id: 'deleteSavedNarrative',
+                  title: t('DELETE_ITEM', 'title', { item: t('NARRATIVE') }),
+                  description: t('DELETE_ITEM', 'description', {
+                    item: t('NARRATIVE'),
+                  }),
+                  buttons: [
+                    {
+                      label: t('CANCEL'),
+                    },
+                    {
+                      label: t('OK'),
+                      onclick: () => {
+                        version = 0;
+                        model.scenario.narratives =
+                          model.scenario.narratives.filter(
+                            (n) => n.id !== curNarrative.id
+                          );
+                        lockState = true;
+                        editor.setContents([]);
+                        lockState = false;
+                        attrs.update({
+                          curNarrative: () =>
+                            ({ included: false, components: {} } as Narrative),
+                          lockedComps: () => undefined,
+                        });
+                        saveModel(attrs, model);
+                      },
+                    },
+                  ],
+                }),
+              ]
+            : [
+                m(FlatButton, {
+                  label: t('SAVE_NARRATIVE'),
+                  iconName: 'save',
+                  disabled:
+                    !curNarrative.label ||
+                    !curNarrative.components ||
+                    Object.keys(curNarrative.components).length === 0,
+                  onclick: () => {
+                    saveNarrative(attrs, curNarrative);
+                  },
+                }),
               ],
-            }),
-          ],
           narratives && [
             m(Select, {
               key: Date.now(),
