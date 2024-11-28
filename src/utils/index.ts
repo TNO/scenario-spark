@@ -106,7 +106,8 @@ export const getOptionsLabel = <T>(
 export const joinListWithAnd = (
   arr: string[] = [],
   and = 'and',
-  prefix = ''
+  prefix = '',
+  lowercase = true
 ) => {
   const terms = arr.filter((term) => term);
   return terms.length === 0
@@ -117,9 +118,15 @@ export const joinListWithAnd = (
           : `${terms
               .slice(0, terms.length - 1)
               .map((t, i) =>
-                i === 0 || typeof t === 'undefined' ? t : t.toLowerCase()
+                i === 0 || typeof t === 'undefined' || !lowercase
+                  ? t
+                  : t.toLowerCase()
               )
-              .join(', ')} ${and} ${terms[terms.length - 1].toLowerCase()}`);
+              .join(', ')} ${and} ${
+              lowercase
+                ? terms[terms.length - 1].toLowerCase()
+                : terms[terms.length - 1]
+            }`);
 };
 
 /** Convert markdown text to HTML */

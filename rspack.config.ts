@@ -42,7 +42,7 @@ const configuration: Configuration = {
   devtool: 'source-map',
   plugins: [
     new DefinePlugin({
-      'process.env.NODE_ENV': "'development'",
+      // 'process.env.NODE_ENV': "'development'",
       // 'process.env.SERVER': isProduction
       //   ? `'${publicPath}'`
       //   : "'http://localhost:4545'",

@@ -25,6 +25,7 @@ import {
   trafficLight,
 } from '../utils';
 import { htmlTemplate } from '../assets/html-styles';
+import { ScenarioParagraph } from './ui/scenario-paragraph';
 
 const CategoryTable: FactoryComponent<{
   curNarrative?: Narrative;
@@ -142,7 +143,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
       const { model, curNarrative } = state;
 
       const {
-        scenario: { categories = [], components: modelComps = [] },
+        scenario: { template, categories = [], components: modelComps = [] },
       } = model;
       const multipleCategories = categories.length > 1;
       if (
@@ -240,6 +241,15 @@ export const ShowScenarioPage: MeiosisComponent = () => {
             },
             [m('.col.s12', [m('#editor.row', {})])]
           ),
+          template
+            ? m(
+                '.col.s12',
+                m(ScenarioParagraph, {
+                  ...attrs,
+                  template,
+                })
+              )
+            : '',
           m(
             '.col.s12',
             m('.row', [

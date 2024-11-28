@@ -26,6 +26,7 @@ import {
   narrativesToOptions,
 } from '../utils';
 import { range } from 'mithril-ui-form';
+import { ScenarioParagraph } from './ui/scenario-paragraph';
 
 const ToggleIcon: FactoryComponent<{
   on: string;
@@ -88,7 +89,7 @@ export const CategoryTable: MeiosisComponent<{
       } = model;
       const multipleCategories = categories.length > 1;
       const category = categories.filter((c) => c.id === catId).shift();
-      const componentIds = category && category.componentIds;
+      const componentIds = category?.componentIds;
       const comps =
         componentIds &&
         modelComps.filter((c) => componentIds.indexOf(c.id) >= 0);
@@ -202,6 +203,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
         state: { model, curNarrative = {} as Narrative, lockedComps = {} },
       } = attrs;
       const {
+        template,
         categories = [],
         inconsistencies = {},
         hideInconsistentValues = false,
@@ -369,22 +371,26 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             } as ISelectOptions<string>),
           ],
         ]),
-        [
-          categories.map((c, i) =>
-            m(
-              '.col.s12',
-              {
-                className: `m${Math.round(12 / categories.length)}`,
-                key: 10000 * version + i,
-              },
-              m(CategoryTable, {
-                ...attrs,
-                catId: c.id,
-                excluded,
-              })
-            )
-          ),
-        ],
+        template
+          ? m(ScenarioParagraph, {
+              ...attrs,
+              template,
+            })
+          : '',
+        categories.map((c, i) =>
+          m(
+            '.col.s12',
+            {
+              className: `m${Math.round(12 / categories.length)}`,
+              key: 10000 * version + i,
+            },
+            m(CategoryTable, {
+              ...attrs,
+              catId: c.id,
+              excluded,
+            })
+          )
+        ),
         m('.col.s12', [
           m('.row', [
             m(TextInput, {

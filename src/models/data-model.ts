@@ -126,6 +126,8 @@ export type Color = string;
 export type ThresholdColor = { threshold: number; color: Color };
 
 export type Scenario = Item & {
+  /** Template string to convert the scenario items to a fluid text. */
+  template?: string;
   /** If true, do not show inconsistent combinations between components */
   hideInconsistentValues: boolean;
   /** If true, activate the decision support module */

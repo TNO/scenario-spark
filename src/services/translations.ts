@@ -16,6 +16,7 @@ export const messages = {
   UPLOAD: 'Load scenario file',
   CANCEL: 'Cancel',
   DELETE: 'Delete',
+  AND: 'and',
   YES: 'Yes',
   NO: 'No',
   OK: 'Ok',
@@ -207,6 +208,10 @@ export const messages = {
     TITLE: 'Suggested approach',
     DESC: 'The suggested approach is a (risk-)weighted combination of the selected counter-measures.',
   },
+  TEMPLATE: {
+    TITLE: 'Template string for fluid text',
+    DESC: 'Write a paragraph where {1} is replaced by the value for key factor 1, etc. Empty lines are converted to paragraphs.',
+  },
 };
 
 export const messagesNL: typeof messages = {
@@ -221,6 +226,7 @@ export const messagesNL: typeof messages = {
   UPLOAD: 'Inlezen scenario bestand',
   CANCEL: 'Afbreken',
   DELETE: 'Verwijderen',
+  AND: 'en',
   YES: 'Ja',
   NO: 'Nee',
   OK: 'Ok',
@@ -429,6 +435,10 @@ export const messagesNL: typeof messages = {
   SUGGESTED_APPROACH: {
     TITLE: 'Aanbevolen aanpak',
     DESC: 'De aanbevolen aanpak is gebaseerd op een risicogewogen combinatie van de gekozen maatregelen.',
+  },
+  TEMPLATE: {
+    TITLE: 'Template om de factoren te vertalen naar een lopende tekst.',
+    DESC: 'Schrijf een paragraaf waarbij {1} zal vervangen worden door de waarde van factor 1, etc. Lege regels worden omgezet naar paragrafen.',
   },
 };
 

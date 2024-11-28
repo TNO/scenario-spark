@@ -943,3 +943,26 @@ ul.kanban > li {
 .show-scenario .select-wrapper input.select-dropdown {
   border: none;
 }
+.select-inline {
+  display: inline-block;
+  margin: 0 0em;
+  /* margin: 0 0.3em; */
+  padding-left: 6px;
+  /* background-color: #f0f0f0; */
+  /* border: 1px solid #ccc; */
+  /* border-radius: 3px; */
+  font-size: inherit;
+}
+.select-inline > label {
+  display: none;
+}
+.select-inline input.select-dropdown {
+  /* border-bottom: none; */
+  margin: 0px;
+  padding: 0;
+  height: 2rem;
+}
+.scenario-paragraph {
+  font-size: 24px;
+  margin-bottom: 1rem;
+}

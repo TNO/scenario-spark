@@ -81,6 +81,12 @@ export const SettingsPage: MeiosisComponent = () => {
     },
     { id: 'desc', type: 'textarea', label: t('DESCRIPTION') },
     {
+      id: 'template',
+      type: 'textarea',
+      label: t('TEMPLATE', 'TITLE'),
+      placeholder: t('TEMPLATE', 'DESC'),
+    },
+    {
       id: 'categories',
       label: t('CATEGORIES'),
       type: [
