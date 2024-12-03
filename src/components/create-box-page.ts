@@ -22,7 +22,12 @@ import {
   SlimdownView,
   UIForm,
 } from 'mithril-ui-form';
-import { contrastingColor, generateNumbers, modelToSaveName } from '../utils';
+import {
+  capitalize,
+  contrastingColor,
+  generateNumbers,
+  modelToSaveName,
+} from '../utils';
 import { LegendComponent } from './ui';
 
 const BoxItem: MeiosisComponent<{
@@ -65,7 +70,10 @@ const BoxItem: MeiosisComponent<{
         {
           key: id,
           id: `ki_${item.id}`,
-          style: `background-color: ${color[0]}; color: ${color[1]}`,
+          style: {
+            backgroundColor: color[0],
+            color: color[1],
+          },
           ondragstart: (ev: DragEvent) => {
             ev.dataTransfer?.setData(id, JSON.stringify([id, item.id]));
           },
@@ -95,7 +103,7 @@ const BoxItem: MeiosisComponent<{
                 onmouseenter: item.desc
                   ? () => {
                       attrs.update({
-                        activeTooltip: item.desc,
+                        activeTooltip: `${item.label || ''}: ${item.desc}`,
                       });
                     }
                   : undefined,
@@ -107,7 +115,7 @@ const BoxItem: MeiosisComponent<{
                     }
                   : undefined,
               },
-              item.label
+              capitalize(item.label)
             ),
             // item.desc && m('span.card-desc', item.desc),
             m(FlatButton, {
@@ -171,7 +179,7 @@ const BoxHeader: MeiosisComponent<{
             onmouseenter: sc.desc
               ? () => {
                   attrs.update({
-                    activeTooltip: sc.desc,
+                    activeTooltip: `${sc.label || ''}: ${sc.desc}`,
                   });
                 }
               : undefined,

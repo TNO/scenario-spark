@@ -28,7 +28,7 @@ export const subSup = (s: string) =>
     : s;
 
 export const capitalize = (s?: string) =>
-  s && s.charAt(0).toUpperCase() + s.slice(1);
+  s && s.length > 0 ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 
 /**
  * Debounce function wrapper, i.e. between consecutive calls of the wrapped function,
