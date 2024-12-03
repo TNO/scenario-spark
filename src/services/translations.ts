@@ -12,8 +12,14 @@ export const messages = {
   CREATE_SCENARIO: { TITLE: 'Create scenario', ROUTE: '/create' },
   SHOW_SCENARIO: { TITLE: 'Show scenarios', ROUTE: '/show' },
   DECISION_SUPPORT: { TITLE: 'Decision support', ROUTE: '/decide' },
-  DOWNLOAD: 'Save scenario file',
-  UPLOAD: 'Load scenario file',
+  DOWNLOAD: {
+    COLLECTION: 'Save collection',
+    MODEL: 'Save scenario file',
+  },
+  UPLOAD: {
+    COLLECTION: 'Load collection',
+    MODEL: 'Load scenario file',
+  },
   CANCEL: 'Cancel',
   DELETE: 'Delete',
   AND: 'and',
@@ -50,6 +56,7 @@ export const messages = {
   INCLUDE_NARRATIVE: 'Include scenario',
   NARRATIVE_INCLUDED: 'Scenario is included',
   SELECT_NARRATIVE: 'Select narrative',
+  SELECT_SCENARIO: 'Select scenario',
   KEY: 'Key',
   VALUE: 'Value',
   MODEL: 'Model',
@@ -69,13 +76,20 @@ export const messages = {
     description:
       'Are you certain you want to delete this {item}. There is no turning back?',
   },
+  NEW_SCENARIO: 'New scenario',
   NEW_MODEL: {
-    btn: 'New model',
-    title: 'Choose a new model and erase everything',
+    btn: 'New collection',
+    title: 'Choose a new scenario model and erase everything',
     description:
-      'Are you sure that you want to delete your existing model and start one of the available new ones? There is no way back.',
-    choose: 'Choose your new model',
+      'Are you sure that you want to delete your existing collection and start one of the available new ones? There is no way back.',
+    choose: 'Choose your new collection',
     remove: 'Remove all key values',
+  },
+  DELETE_MODEL: {
+    btn: 'Delete scenario',
+    title: 'Delete the selected scenario',
+    description:
+      'Are you sure that you want to delete your scenario? There is no way back.',
   },
   INCONSISTENCIES: {
     title: 'Edit inconsistencies',
@@ -192,6 +206,9 @@ export const messages = {
     'A free tool to support you in creating new scenarios using a morphological box. First, you define the aspects that are of interest in your domain. Next, you specify variations for each aspect. And finally, you either manually create new scenarios, or become inspired by generating possible scenarios automatically.',
   SET_LANGUAGE: 'Set language',
   SCENARIO_LOADED_MSG: 'Scenario successfully loaded',
+  COLLECTION_LOADED_MSG: 'The scenario collection is loaded',
+  SCENARIO_NOT_LOADED_MSG: 'The scenario is not loaded',
+  SCENARIO_CREATED_MSG: 'A new scenario is created',
   COPY_TO_CLIPBOARD: 'Copy table to clipboard',
   GROUP: { SELECTED: 'Selected scenarios', UNSELECTED: 'Unselected scenarios' },
   CLONE_NARRATIVE: 'Clone',
@@ -222,8 +239,14 @@ export const messagesNL: typeof messages = {
   CREATE_SCENARIO: { TITLE: 'Maak scenario', ROUTE: '/maak' },
   SHOW_SCENARIO: { TITLE: "Toon scenario's", ROUTE: '/toon' },
   DECISION_SUPPORT: { TITLE: 'Beslisondersteuning', ROUTE: '/beslis' },
-  DOWNLOAD: 'Bewaar scenario bestand',
-  UPLOAD: 'Inlezen scenario bestand',
+  DOWNLOAD: {
+    COLLECTION: 'Bewaar collectie',
+    MODEL: 'Bewaar scenario bestand',
+  },
+  UPLOAD: {
+    COLLECTION: 'Lees collectie',
+    MODEL: 'Lees scenario bestand',
+  },
   CANCEL: 'Afbreken',
   DELETE: 'Verwijderen',
   AND: 'en',
@@ -260,6 +283,7 @@ export const messagesNL: typeof messages = {
   INCLUDE_NARRATIVE: 'Selecteer scenario',
   NARRATIVE_INCLUDED: 'Scenario is geselecteerd',
   SELECT_NARRATIVE: 'Selecteer verhaallijn',
+  SELECT_SCENARIO: 'Selecteer scenario',
   KEY: 'Sleutel',
   VALUE: 'Waarde',
   MODEL: 'Model',
@@ -279,13 +303,20 @@ export const messagesNL: typeof messages = {
     description:
       'Weet u zeker dat u de {item} wilt verwijderen? Dit kan niet ongedaan gemaakt worden.',
   },
+  NEW_SCENARIO: 'Nieuw scenario',
   NEW_MODEL: {
-    btn: 'Nieuw model',
-    title: 'Kies een nieuw model en wis alles',
+    btn: 'Nieuwe collectie',
+    title: 'Kies een nieuw scenario en wis alles',
     description:
-      'Weet u zeker dat u het huidige model wilt wissen, en met één van onderstaande modellen wilt verdergaan? Er is geen weg terug.',
-    choose: 'Kies uw nieuwe model',
+      'Weet u zeker dat u de huidige collectie wilt wissen, en met één van onderstaande modellen wilt verdergaan? Er is geen weg terug.',
+    choose: 'Kies uw nieuwe scenario',
     remove: 'Verwijder alle reeds ingevulde waarden',
+  },
+  DELETE_MODEL: {
+    btn: 'Verwijder scenario',
+    title: 'Verwijder het geselecteerde scenario',
+    description:
+      'Weet u zeker dat u uw scenario wilt verwijderen? Er is geen weg terug.',
   },
   INCONSISTENCIES: {
     title: 'Bewerk inconsistencies',
@@ -401,7 +432,10 @@ export const messagesNL: typeof messages = {
   SUMMARY:
     "Een gratis hulpmiddel om u te ondersteunen bij het creëren van nieuwe scenario's met behulp van een morfologische doos. Eerst definieert u de aspecten die van belang zijn voor uw domein. Vervolgens specificeert u variaties voor elk aspect. En ten slotte creëer je handmatig nieuwe scenario's, of laat u zich inspireren door mogelijke scenario's te genereren.",
   SET_LANGUAGE: 'Kies de taal',
-  SCENARIO_LOADED_MSG: "De scenario's zijn ingeladen",
+  SCENARIO_LOADED_MSG: 'Het scenario is ingeladen',
+  COLLECTION_LOADED_MSG: "De scenario's zijn ingeladen",
+  SCENARIO_NOT_LOADED_MSG: 'Het scenario is niet ingeladen',
+  SCENARIO_CREATED_MSG: 'Een nieuw scenario is aangemaakt',
   COPY_TO_CLIPBOARD: 'Kopieer tabel naar het plakbord',
   GROUP: { SELECTED: 'Geselecteerd', UNSELECTED: 'Niet geselecteerd' },
   CLONE_NARRATIVE: 'Kopieer',

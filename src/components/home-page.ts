@@ -1,19 +1,23 @@
 import m from 'mithril';
 import {
   Button,
+  FlatButton,
   Icon,
   InputCheckbox,
   ModalPanel,
   RadioButtons,
+  Select,
   Tabs,
 } from 'mithril-materialized';
 import background from '../assets/background.webp';
 import DutchFlag from '../assets/flag-nl.png';
 import EnglishFlag from '../assets/flag-en.png';
 import {
+  changePage,
   MeiosisComponent,
   routingSvc,
   saveModel,
+  selectScenarioFromCollection,
   setLanguage,
   setPage,
   t,
@@ -23,8 +27,10 @@ import {
   DataModel,
   Narrative,
   OldDataModel,
+  Scenario,
   ScenarioComponent,
   defaultModels,
+  newScenario,
 } from '../models';
 import { SAVED, capitalize, convertFromOld, modelToSaveName } from '../utils';
 
@@ -139,7 +145,8 @@ export const HomePage: MeiosisComponent = () => {
       const isCleared = false;
       const { model, language } = attrs.state;
       const {
-        scenario: { narratives = [], components, categories },
+        scenarios = [],
+        scenario: { id, label, narratives = [], components, categories },
       } = model;
 
       const selectedNarratives = narratives
@@ -188,6 +195,140 @@ export const HomePage: MeiosisComponent = () => {
                 })
               )
             ),
+          m(
+            '.row',
+            m(
+              '.col.s12.m8.l6.offset-m2.offset-l3',
+              m(
+                '.flex-row',
+                m(Select, {
+                  key: id,
+                  iconName: 'cases',
+                  className: 'flex-grow',
+                  label: t('SELECT_SCENARIO'),
+                  checkedId: id,
+                  options: [{ id, label }, ...scenarios],
+                  onchange: async (id) => {
+                    await selectScenarioFromCollection(attrs, id[0] as string);
+                  },
+                }),
+                m(
+                  '.icon-buttons',
+                  {
+                    key: 'icons',
+                  },
+                  m(FlatButton, {
+                    className: 'icon-button',
+                    iconName: 'add',
+                    title: t('NEW_SCENARIO'),
+                    onclick: async () => {
+                      if (!model.scenarios) model.scenarios = [];
+                      model.scenarios = [model.scenario, ...model.scenarios];
+                      model.scenario = newScenario();
+                      await saveModel(attrs, model, true);
+                      M.toast({ html: t('SCENARIO_CREATED_MSG') });
+                      changePage(attrs, Dashboards.SETTINGS);
+                    },
+                  }),
+                  m(FlatButton, {
+                    className: 'icon-button',
+                    iconName: 'download',
+                    title: t('DOWNLOAD', 'MODEL'),
+                    onclick: () => {
+                      const dlAnchorElem =
+                        document.getElementById('downloadAnchorElem');
+                      if (!dlAnchorElem) {
+                        return;
+                      }
+                      const version =
+                        typeof model.version === 'undefined'
+                          ? 1
+                          : ++model.version;
+                      const dataStr =
+                        'data:text/json;charset=utf-8,' +
+                        encodeURIComponent(
+                          JSON.stringify({ ...model.scenario, version })
+                        );
+                      dlAnchorElem.setAttribute('href', dataStr);
+                      dlAnchorElem.setAttribute(
+                        'download',
+                        `${modelToSaveName(model, undefined, false)}.json`
+                      );
+                      dlAnchorElem.click();
+                      localStorage.setItem(SAVED, 'true');
+                    },
+                  }),
+                  readerAvailable &&
+                    m(FlatButton, {
+                      className: 'icon-button',
+                      iconName: 'upload',
+                      title: t('UPLOAD', 'MODEL'),
+                      onclick: () => {
+                        const fileInput = document.getElementById(
+                          'selectFiles'
+                        ) as HTMLInputElement;
+                        fileInput.onchange = () => {
+                          if (!fileInput) {
+                            return;
+                          }
+                          const files = fileInput.files;
+                          if (!files || (files && files.length <= 0)) {
+                            return;
+                          }
+                          const data = files && files.item(0);
+                          const isJson = data && /json$/i.test(data.name);
+                          const reader = new FileReader();
+                          reader.onload = async (
+                            e: ProgressEvent<FileReader>
+                          ) => {
+                            if (isJson) {
+                              const result = (e &&
+                                e.target &&
+                                e.target.result) as string;
+                              const scenario = JSON.parse(
+                                result.toString()
+                              ) as Scenario;
+                              if (
+                                scenario &&
+                                scenario.id &&
+                                scenario.label &&
+                                model.scenario.id !== scenario.id &&
+                                !model.scenarios?.some(
+                                  (s) => s.id === scenario.id
+                                )
+                              ) {
+                                if (!model.scenarios) model.scenarios = [];
+                                model.scenarios = [
+                                  model.scenario,
+                                  ...model.scenarios,
+                                ];
+                                model.scenario = scenario;
+                                saveModel(attrs, model, true);
+                                M.toast({ html: t('SCENARIO_LOADED_MSG') });
+                              } else {
+                                M.toast({ html: t('SCENARIO_NOT_LOADED_MSG') });
+                              }
+                            }
+                          };
+                          if (data) {
+                            isJson
+                              ? reader.readAsText(data)
+                              : reader.readAsArrayBuffer(data);
+                          }
+                        };
+                        fileInput.click();
+                      },
+                    }),
+                  m(FlatButton, {
+                    className: 'icon-button',
+                    iconName: 'delete',
+                    title: t('DELETE'),
+                    modalId: 'delete_model',
+                  })
+                )
+              )
+            )
+          ),
           m('.buttons.center', { style: 'margin: 10px auto;' }, [
             [
               m(
@@ -235,7 +376,7 @@ export const HomePage: MeiosisComponent = () => {
               iconName: 'download',
               disabled: isCleared,
               className: 'btn-large',
-              label: t('DOWNLOAD'),
+              label: t('DOWNLOAD', 'COLLECTION'),
               onclick: () => {
                 const dlAnchorElem =
                   document.getElementById('downloadAnchorElem');
@@ -264,7 +405,7 @@ export const HomePage: MeiosisComponent = () => {
               m(Button, {
                 iconName: 'upload',
                 className: 'btn-large',
-                label: t('UPLOAD'),
+                label: t('UPLOAD', 'COLLECTION'),
                 onclick: () => {
                   const fileInput = document.getElementById(
                     'selectFiles'
@@ -293,13 +434,8 @@ export const HomePage: MeiosisComponent = () => {
                             ? (json as DataModel)
                             : convertFromOld(json as OldDataModel);
                           saveModel(attrs, dataModel, true);
-                          M.toast({ html: t('SCENARIO_LOADED_MSG') });
-                          // changePage(attrs, Dashboards.DEFINE_BOX);
+                          M.toast({ html: t('COLLECTION_LOADED_MSG') });
                         }
-                        // json &&
-                        //   json.version &&
-                        //   saveModel(attrs, json as DataModel);
-                        // changePage(attrs, Dashboards.HOME);
                       }
                     };
                     if (data) {
@@ -371,6 +507,35 @@ export const HomePage: MeiosisComponent = () => {
               ]),
             ])
           ),
+          m(ModalPanel, {
+            id: 'delete_model',
+            title: t('DELETE_MODEL', 'title'),
+            description: m('.row', [
+              m('.col.s12', [t('DELETE_MODEL', 'description')]),
+            ]),
+            buttons: [
+              { label: t('CANCEL'), iconName: 'cancel' },
+              {
+                label: t('OK'),
+                iconName: 'delete',
+                onclick: async () => {
+                  model.scenario =
+                    model.scenarios && model.scenarios.length > 0
+                      ? model.scenarios[0]
+                      : newScenario();
+                  model.scenarios = model.scenarios.filter(
+                    (s) => s.id !== model.scenario.id
+                  );
+                  await saveModel(attrs, model, true);
+                  // routingSvc.switchTo(
+                  //   selectedId === 0
+                  //     ? Dashboards.SETTINGS
+                  //     : Dashboards.DEFINE_BOX
+                  // );
+                },
+              },
+            ],
+          }),
           m(ModalPanel, {
             id: 'clearAll',
             title: t('NEW_MODEL', 'title'),

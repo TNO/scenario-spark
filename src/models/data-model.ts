@@ -5,7 +5,10 @@ import { uniqueId } from 'mithril-materialized';
 export type DataModel = {
   version?: number;
   lastUpdate?: number;
+  /** Current scenario */
   scenario: Scenario;
+  /** List of other possible scenarios, excluding the current scenario */
+  scenarios: Scenario[];
 };
 
 export type OldDataModel = {
@@ -180,6 +183,7 @@ export const thresholdColors = [
 export const defaultModel = {
   version: 1,
   lastUpdate: new Date().valueOf(),
+  scenarios: [],
   scenario: {
     id: 'demo1',
     label: 'Demo',
@@ -340,22 +344,26 @@ export const defaultModel = {
   },
 } as DataModel;
 
-export const emptyModel = {
-  version: 1,
-  lastUpdate: new Date().valueOf(),
-  scenario: {
-    id: uniqueId(),
-    label: 'NEW SCENARIO',
-    desc: '',
-    includeDecisionSupport: false,
-    hideInconsistentValues: false,
-    inconsistencies: {} as Inconsistencies,
-    categories: [],
-    components: [],
-    narratives: [],
-    thresholdColors,
-  },
-} as DataModel;
+export const newScenario = () => ({
+  id: uniqueId(),
+  label: 'NEW SCENARIO',
+  desc: '',
+  includeDecisionSupport: false,
+  hideInconsistentValues: false,
+  inconsistencies: {} as Inconsistencies,
+  categories: [],
+  components: [],
+  narratives: [],
+  thresholdColors,
+});
+
+export const emptyModel = () =>
+  ({
+    version: 1,
+    lastUpdate: new Date().valueOf(),
+    scenarios: [],
+    scenario: newScenario(),
+  } as DataModel);
 
 /**
  * Set of default models that can be used to create a new scenario
@@ -364,7 +372,7 @@ export const emptyModel = {
  *    MODEL_NAME, MODEL_DESC
  * where the index of the model should match.
  */
-export const defaultModels: DataModel[] = [emptyModel, defaultModel];
+export const defaultModels: DataModel[] = [emptyModel(), defaultModel];
 
 export type ID = string;
 

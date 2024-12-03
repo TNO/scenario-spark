@@ -99,6 +99,9 @@ export const saveModel = async (
 ) => {
   localStorage.setItem(SAVED, 'false');
   model.lastUpdate = Date.now();
+  if (!model.scenarios) {
+    model.scenarios = [];
+  }
   // console.log(JSON.stringify(model, null, 2));
   if (reset) {
     if (!validateScenario(model.scenario)) {
@@ -119,6 +122,31 @@ export const saveModel = async (
     cell.update({ model: () => model });
   }
   localStorage.setItem(SAVED, 'false');
+};
+
+export const selectScenarioFromCollection = async (
+  cell: MeiosisCell<State>,
+  selectedScenarioId: ID
+) => {
+  const { model } = cell.getState();
+  const { scenario: oldScenario, scenarios = [] } = model;
+  const newScenario = scenarios.find((s) => s.id === selectedScenarioId);
+  if (oldScenario && newScenario) {
+    model.scenarios = [
+      oldScenario,
+      ...scenarios.filter((s) => s.id !== selectedScenarioId),
+    ];
+    model.scenario = newScenario;
+    cell.update({
+      model: () => model,
+      activeTooltip: '',
+      title: newScenario.label,
+      curNarrative: () => undefined,
+      excludedComps: () => ({}),
+      lockedComps: () => ({}),
+    });
+    await ldb.set(MODEL_KEY, JSON.stringify(model));
+  }
 };
 
 export const saveNarrative = async (

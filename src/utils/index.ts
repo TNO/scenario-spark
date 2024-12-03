@@ -362,19 +362,26 @@ export const convertFromOld = (old: OldDataModel): DataModel => {
       scenario: {} as Scenario,
       version: 1,
       lastUpdata: Date.now(),
+      scenarios: [],
     } as DataModel
   );
 };
 
-export const modelToSaveName = (model: DataModel, narrativeName?: string) => {
-  let name = model.scenario?.label || 'scenario_spark';
+export const modelToSaveName = (
+  model: DataModel,
+  narrativeName?: string,
+  isCollection = true
+) => {
+  let name = isCollection
+    ? 'spark_collection'
+    : (model.scenario?.label || 'spark') + '_model';
   if (narrativeName) {
     name += `_${narrativeName}`;
   }
   return `${name.replace(/\s/g, '_')}_v${padLeft(
     model.version || 1,
     3
-  )}_${formatDate()}`;
+  )}_${formatDate()}`.toLowerCase();
 };
 
 export const generateNarrative = (

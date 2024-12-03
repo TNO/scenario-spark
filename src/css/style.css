@@ -966,3 +966,21 @@ ul.kanban > li {
   font-size: 24px;
   margin-bottom: 1rem;
 }
+
+.icon-buttons {
+  display: flex;
+  gap: 0px; /* Adjust spacing between buttons */
+  align-items: center;
+}
+.icon-button {
+  margin: 0;
+  padding: 0;
+}
+.flex-row {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Adjust spacing between select and buttons */
+}
+.flex-grow {
+  flex-grow: 1;
+}
