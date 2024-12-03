@@ -22,7 +22,8 @@ import {
   SlimdownView,
   UIForm,
 } from 'mithril-ui-form';
-import { contrastingColor, generateNumbers } from '../utils';
+import { contrastingColor, generateNumbers, modelToSaveName } from '../utils';
+import { LegendComponent } from './ui';
 
 const BoxItem: MeiosisComponent<{
   id: ID;
@@ -420,6 +421,9 @@ export const CreateBoxPage: MeiosisComponent = () => {
 
       return [
         m('.create-box-page', [
+          scenario &&
+            scenario.thresholdColors &&
+            m(LegendComponent, { items: scenario.thresholdColors }),
           categories.length > 1 &&
           categories[0].componentIds &&
           categories[1].componentIds

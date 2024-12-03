@@ -349,7 +349,7 @@ export const SettingsPage: MeiosisComponent = () => {
               {
                 label: t('OK'),
                 onclick: () => {
-                  saveModel(attrs, emptyModel);
+                  saveModel(attrs, emptyModel());
                 },
               },
             ],

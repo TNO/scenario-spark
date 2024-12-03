@@ -984,3 +984,15 @@ ul.kanban > li {
 .flex-grow {
   flex-grow: 1;
 }
+
+.legend {
+  position: fixed;
+  display: inline-block;
+  right: 0;
+  z-index: 1000;
+  margin: 10px;
+  border-radius: 6px;
+  padding: 6px;
+  background-color: lightblue;
+  bottom: 0;
+}
