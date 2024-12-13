@@ -229,6 +229,11 @@ export const messages = {
     TITLE: 'Template string for fluid text',
     DESC: 'Write a paragraph where {1} is replaced by the value for key factor 1, etc. Empty lines are converted to paragraphs.',
   },
+  PERSONA: {
+    1: 'Persona',
+    n: 'Personas',
+  },
+  IMAGE: 'Image',
 };
 
 export const messagesNL: typeof messages = {
@@ -474,6 +479,11 @@ export const messagesNL: typeof messages = {
     TITLE: 'Template om de factoren te vertalen naar een lopende tekst.',
     DESC: 'Schrijf een paragraaf waarbij {1} zal vervangen worden door de waarde van factor 1, etc. Lege regels worden omgezet naar paragrafen.',
   },
+  PERSONA: {
+    1: 'Persona',
+    n: 'Personas',
+  },
+  IMAGE: 'Image',
 };
 
 const setGuiLanguage = (language: Languages) => {

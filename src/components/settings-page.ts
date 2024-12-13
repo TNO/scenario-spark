@@ -1,8 +1,10 @@
 import m, { FactoryComponent } from 'mithril';
 import {
   Dashboards,
+  DataModel,
   ID,
   Inconsistencies,
+  PersonaImages,
   Scenario,
   emptyModel,
 } from '../models';
@@ -333,6 +335,54 @@ export const SettingsPage: MeiosisComponent = () => {
                         ])
                       ),
                   ]
+                ),
+              },
+              {
+                title: t('PERSONA', 2),
+                vnode: m(
+                  '.row',
+                  m(LayoutForm, {
+                    obj: model,
+                    i18n: i18n.i18n,
+                    form: [
+                      {
+                        id: 'personas',
+                        label: t('PERSONA', 2),
+                        repeat: true,
+                        pageSize: 100,
+                        type: [
+                          { id: 'id', autogenerate: 'id' },
+                          {
+                            id: 'label',
+                            type: 'text',
+                            className: 'col s12 m6',
+                            label: t('NAME'),
+                          },
+                          {
+                            id: 'url',
+                            type: 'select',
+                            className: 'col s12 m6',
+                            options: PersonaImages,
+                            label: t('IMAGE'),
+                          },
+                          {
+                            id: 'desc',
+                            type: 'textarea',
+                            className: 'col s12',
+                            label: t('DESCRIPTION'),
+                          },
+                          // {
+                          //   type: 'md',
+                          //   readonly: true,
+                          //   value: `<img src="{{url}}"/>`,
+                          // },
+                        ],
+                      },
+                    ] as UIForm<any>,
+                    onchange: async () => {
+                      await saveModel(attrs, model);
+                    },
+                  } as FormAttributes<DataModel>)
                 ),
               },
             ],

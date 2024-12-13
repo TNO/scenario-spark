@@ -9,7 +9,10 @@ export type DataModel = {
   scenario: Scenario;
   /** List of other possible scenarios, excluding the current scenario */
   scenarios: Scenario[];
+  personas?: Persona[];
 };
+
+export type Persona = Item;
 
 export type OldDataModel = {
   scenarios: {
@@ -363,6 +366,7 @@ export const emptyModel = () =>
     lastUpdate: new Date().valueOf(),
     scenarios: [],
     scenario: newScenario(),
+    personas: [],
   } as DataModel);
 
 /**
