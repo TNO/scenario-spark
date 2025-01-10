@@ -303,17 +303,22 @@ export const SettingsPage: MeiosisComponent = () => {
                                   m('tr', [
                                     m(
                                       'th',
-                                      `${rowComp.label} \\ ${colComp.label}`
+                                      {
+                                        style: { fontSize: '1.7rem' },
+                                      },
+                                      m('sub', rowComp.label),
+                                      '\\',
+                                      m('sup', colComp.label)
                                     ),
-                                    ...cValues.map((v) => m('th', v.label)),
+                                    ...rValues.map((v) => m('th', v.label)),
                                   ])
                                 ),
                                 m(
                                   'tbody',
-                                  rValues.map((r) =>
+                                  cValues.map((r) =>
                                     m('tr', [
                                       m('th', r.label),
-                                      ...cValues.map((c) =>
+                                      ...rValues.map((c) =>
                                         m(
                                           'td',
                                           m(InconsistencyCheckbox, {

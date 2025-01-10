@@ -13,7 +13,7 @@ Generate a threat scenario from a self-defined morphological box.
 
 # Factoren en drijfveren voor een morfologische analyse van cyberincidenten
 
-## Factoren/Drijveren om een cyberincidentscenario te modelleren
+## Factoren/Drijfveren om een cyberincidentscenario te modelleren
 1. **Aanvalsvector**
    De methode waarmee een cyberaanval wordt uitgevoerd, zoals phishing, malware, ransomware, of DDoS-aanvallen.
 
@@ -43,7 +43,7 @@ Generate a threat scenario from a self-defined morphological box.
 
 ---
 
-## Factoren/Drijveren om de respons op een cyberincident te modelleren
+## Factoren/Drijfveren om de respons op een cyberincident te modelleren
 1. **Detectietijd**
    De tijd die nodig is om het incident te identificeren vanaf het moment dat het begint.
 
