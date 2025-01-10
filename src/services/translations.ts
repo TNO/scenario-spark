@@ -234,6 +234,8 @@ export const messages = {
     n: 'Personas',
   },
   IMAGE: 'Image',
+  SAVE: 'Save',
+  EDIT: 'Edit',
 };
 
 export const messagesNL: typeof messages = {
@@ -484,6 +486,8 @@ export const messagesNL: typeof messages = {
     n: 'Personas',
   },
   IMAGE: 'Image',
+  EDIT: 'Bewerken',
+  SAVE: 'Opslaan',
 };
 
 const setGuiLanguage = (language: Languages) => {

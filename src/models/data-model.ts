@@ -12,7 +12,9 @@ export type DataModel = {
   personas?: Persona[];
 };
 
-export type Persona = Item;
+export type Persona = Item & {
+  url?: string;
+};
 
 export type OldDataModel = {
   scenarios: {

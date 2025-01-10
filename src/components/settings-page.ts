@@ -190,10 +190,13 @@ export const SettingsPage: MeiosisComponent = () => {
   ] as UIForm<Scenario>;
   let rowId: ID;
   let colId: ID;
+  let edit = false;
+
   return {
     oninit: ({ attrs }) => setPage(attrs, Dashboards.SETTINGS),
     view: ({ attrs }) => {
       const { model } = attrs.state;
+      const { personas = [] } = model;
       const { inconsistencies } = model.scenario;
       const comps = model.scenario.components.filter((c) => c.id && c.label);
       const rowComp = rowId && comps.filter((c) => c.id === rowId).shift();
@@ -344,51 +347,89 @@ export const SettingsPage: MeiosisComponent = () => {
               },
               {
                 title: t('PERSONA', 2),
-                vnode: m(
-                  '.row',
-                  m(LayoutForm, {
-                    obj: model,
-                    i18n: i18n.i18n,
-                    form: [
-                      {
-                        id: 'personas',
-                        label: t('PERSONA', 2),
-                        repeat: true,
-                        pageSize: 100,
-                        type: [
-                          { id: 'id', autogenerate: 'id' },
-                          {
-                            id: 'label',
-                            type: 'text',
-                            className: 'col s12 m6',
-                            label: t('NAME'),
+                vnode: m('.persona-settings', [
+                  m(
+                    '.row',
+                    m(FlatButton, {
+                      label: edit ? t('SAVE') : t('EDIT'),
+                      iconName: edit ? 'save' : 'edit',
+                      className: 'right',
+                      onclick: () => (edit = !edit),
+                    })
+                  ),
+                  edit
+                    ? m(
+                        '.row',
+                        m(LayoutForm, {
+                          obj: model,
+                          i18n: i18n.i18n,
+                          context: [
+                            {
+                              images: PersonaImages.reduce((acc, cur) => {
+                                acc[cur.id] = cur.img;
+                                return acc;
+                              }, {} as { [key: string]: string }),
+                            },
+                          ],
+                          form: [
+                            {
+                              id: 'personas',
+                              label: t('PERSONA', 2),
+                              repeat: true,
+                              pageSize: 100,
+                              type: [
+                                { id: 'id', autogenerate: 'id' },
+                                {
+                                  id: 'label',
+                                  type: 'text',
+                                  className: 'col s12 m6',
+                                  label: t('NAME'),
+                                },
+                                {
+                                  id: 'url',
+                                  type: 'select',
+                                  className: 'col s12 m6',
+                                  options: PersonaImages,
+                                  label: t('IMAGE'),
+                                },
+                                {
+                                  id: 'desc',
+                                  type: 'textarea',
+                                  className: 'col s12',
+                                  label: t('DESCRIPTION'),
+                                },
+                                // {
+                                //   type: 'md',
+                                //   value: `![Image]({{imageUrl]}})`,
+                                // },
+                              ],
+                            },
+                          ] as UIForm<any>,
+                          onchange: async () => {
+                            await saveModel(attrs, model);
                           },
-                          {
-                            id: 'url',
-                            type: 'select',
-                            className: 'col s12 m6',
-                            options: PersonaImages,
-                            label: t('IMAGE'),
-                          },
-                          {
-                            id: 'desc',
-                            type: 'textarea',
-                            className: 'col s12',
-                            label: t('DESCRIPTION'),
-                          },
-                          // {
-                          //   type: 'md',
-                          //   readonly: true,
-                          //   value: `<img src="{{url}}"/>`,
-                          // },
-                        ],
-                      },
-                    ] as UIForm<any>,
-                    onchange: async () => {
-                      await saveModel(attrs, model);
-                    },
-                  } as FormAttributes<DataModel>)
-                ),
+                        } as FormAttributes<DataModel>)
+                      )
+                    : m(
+                        '.row',
+                        personas.map((p) =>
+                          m(
+                            '.col.s12.m6.l4',
+                            m('.card large', [
+                              m('.card-image', [
+                                m('img', {
+                                  src: PersonaImages.find((i) => i.id === p.url)
+                                    ?.img,
+                                  style: 'width: 100%',
+                                }),
+                                m('.span.card-title', p.label),
+                              ]),
+                              m('.card-content', m('p', p.desc)),
+                            ])
+                          )
+                        )
+                      ),
+                ]),
               },
             ],
           }),
