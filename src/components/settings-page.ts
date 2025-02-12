@@ -121,7 +121,7 @@ export const SettingsPage: MeiosisComponent = () => {
       ],
       repeat: true,
       pageSize: 1,
-      max: 2,
+      max: 4,
     },
     {
       id: 'components',
