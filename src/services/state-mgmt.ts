@@ -61,7 +61,6 @@ export const changePage = (
 };
 
 const validateScenario = (scenario?: Scenario) => {
-  console.log('Validating scenario');
   if (!scenario) return false;
   if (!scenario.inconsistencies) scenario.inconsistencies = {};
   if (!scenario.categories) scenario.categories = [];

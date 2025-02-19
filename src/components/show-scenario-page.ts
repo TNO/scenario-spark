@@ -79,7 +79,7 @@ const CategoryTable: FactoryComponent<{
               if (!e.clipboardData) return;
               const table = document.getElementById(id);
               if (!table) return;
-              console.log(table.outerHTML);
+              // console.log(table.outerHTML);
               e.clipboardData.setData(
                 'text/html',
                 htmlTemplate({

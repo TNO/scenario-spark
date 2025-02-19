@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
 import { resolve } from 'path';
-import { Configuration } from '@rspack/cli';
+import type { Configuration } from '@rspack/cli';
 import {
   DefinePlugin,
   HtmlRspackPlugin,
@@ -13,7 +13,7 @@ config();
 
 const devMode = (process.env as any).NODE_ENV === 'development';
 const isProduction = !devMode;
-const outputPath = resolve(__dirname, devMode ? 'dist' : './docs');
+const outputPath = resolve(process.cwd(), devMode ? 'dist' : './docs');
 
 const SERVER = process.env.SERVER;
 // const publicPath = isProduction
@@ -39,7 +39,7 @@ const configuration: Configuration = {
   devServer: {
     port: APP_PORT,
   },
-  devtool: 'source-map',
+  devtool: devMode ? 'inline-source-map' : 'source-map',
   plugins: [
     new DefinePlugin({
       // 'process.env.NODE_ENV': "'development'",

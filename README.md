@@ -9,11 +9,34 @@ Generate a threat scenario from a self-defined morphological box.
 > Schrijf een scenario in het Nederlands bestaande uit onderstaande elementen. Schrijf het niet als een verhaal, maar beschrijf het op een professionele wijze, zonder opsmuk.Highlight de gebruikte scenario elementen in je verhaal.
 > Include a copy of the table (copy to Word)
 
+## Example prompt for LLM story creation
+
+```json
+curl -X POST http://localhost:11434/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "llama3.3",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Je bent een ervaren scenario schrijver."
+      },
+      {
+        "role": "user",
+        "content": "Het scenario bestaat uit onderstaande factoren. Verwerk deze in een verhaal.\n\nBronlocatie (Locatie van de nucleaire installatie of andere stralingsbron): KC Borssele (Kerncentrale Borssele)\nWaarschuwingstijd (Bij een bronlocatie in Nederland: de verwachte tijdsduur tot het moment van lozing waarop voor het eerst straling vrijkomt; bij een bronlocatie buiten Nederland: de verwachte tijdsduur totdat straling Nederland bereikt.): 48 uur\nBronterm (Hoeveelheid nucleair materiaal die naar verwachting vrij zal komen.): 10 TBq\nAcute gevarenzone  (Omvang van het (verwachte) acute, cirkelvormige gevarengebied, waarvan de straal gelijk is aan de afstand tot de bronlocatie.): n.v.t. (Er is nergens buiten de nucleaire site sprake van acuut gevaar)\nEffectgebied (Aanduiding van de globale omvang van het gebied in Nederland waar naar verwachting schadelijke effecten van straling kunnen optreden.): 10% van NL\nAanwezigen - Acuut (Verwacht aantal aanwezige personen in het acuut gevarengebied): 0\nAanwezigen - Effect (Verwacht aantal aanwezige personen in het effectgebied): 0\nAanwezige Vitale Infra (Objecten in het acute gevarengebied en/of het effectgebied die behoren tot de vitale infrastructuren): \nWeertype (Soort weer (normaal of extreem)): Extreme hitte\nNeerslag in NL (Algemene neerslagsituatie in Nederland): geen (Het is droog weer)\nDagdeel (Deel van de dag waarop naar verwachting nucleaire straling voor het eerst zal vrijkomen (installatie in Nederland), dan wel Nederland zal bereiken (installatie buiten Nederland).): overdag\nOogsttijd (Indicatie of het momenteel de periode betreft waarin een belangrijk deel van de oogst wordt binnengehaald.): wel\nEvacuatie  (Besluiten m.b.t. evacueren van mensen en/of dieren): Niet (Geen evacuatie of ontruiming buiten de locatie van het nucleaire incident zelf.), Acuut: vee (Evacuatie van vee uit de acute zone), Acuut: mensen (Evacuatie van personen uit de acute zone)\nSchuilen (Besluiten tot oproep tot binnenblijven van mensen en/of dieren): Acute zone\nJodiumprophylaxe (Besluiten t.a.v. verspreiden/innemen van jodiumtabletten): Niet\nVoedselveiligheid (Besluiten m.b.t. vernietiging oogst en dierlijke producten): Geen maatregln\nAfgelasten (Besluiten t.a.v. afgelasten, verbieden en/of afbreken van evenementen en werkzaamheden): Niet (Met uitzondering van de bronlocatie kunnen alle reguliere activiteiten normaal doorgang vinden.)\nVerkeersmaatregelen (Treffen van afzettingen en andere verkeersmaatregelen): Beperkt (Met uitzondering van afzettingen in de directe omgeving van de bronlocatie hoeven geen extra verkeersmaatregelen getroffen te worden. )"
+      }
+    ],
+    "stream": false,
+    "temperature": 0.7
+  }'
+```
+
 ## Cyber incident example
 
-# Factoren en drijfveren voor een morfologische analyse van cyberincidenten
+### Factoren en drijfveren voor een morfologische analyse van cyberincidenten
 
-## Factoren/Drijfveren om een cyberincidentscenario te modelleren
+### Factoren/Drijfveren om een cyberincidentscenario te modelleren
+
 1. **Aanvalsvector**
    De methode waarmee een cyberaanval wordt uitgevoerd, zoals phishing, malware, ransomware, of DDoS-aanvallen.
 

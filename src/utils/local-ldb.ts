@@ -51,7 +51,7 @@ const dbFact = () => {
     };
     request.onerror = (event: Event) => {
       console.error('indexedDB request error');
-      console.log(event);
+      console.error(event);
     };
 
     request.onupgradeneeded = function (event: IDBVersionChangeEvent) {
@@ -75,9 +75,13 @@ const dbFact = () => {
             setTimeout(async () => resolve(await localDb.get(key)), 50);
             return;
           }
-          db.transaction('s').objectStore('s').get(key).onsuccess = function (event) {
+          db.transaction('s').objectStore('s').get(key).onsuccess = function (
+            event
+          ) {
             const result =
-              ((event.target as any).result && (event.target as any).result['v']) || null;
+              ((event.target as any).result &&
+                (event.target as any).result['v']) ||
+              null;
             resolve(result);
           };
         }),
@@ -101,7 +105,10 @@ const dbFact = () => {
             setTimeout(async () => resolve(await localDb.delete(key)), 50);
             return;
           }
-          db.transaction('s', 'readwrite').objectStore('s').delete(key).onsuccess = function () {
+          db
+            .transaction('s', 'readwrite')
+            .objectStore('s')
+            .delete(key).onsuccess = function () {
             resolve();
           };
         }),
@@ -111,7 +118,9 @@ const dbFact = () => {
             setTimeout(async () => resolve(await localDb.list()), 50);
             return;
           }
-          db.transaction('s').objectStore('s').getAllKeys().onsuccess = (event) => {
+          db.transaction('s').objectStore('s').getAllKeys().onsuccess = (
+            event
+          ) => {
             const result = (event.target as any).result || null;
             resolve(result);
           };
@@ -133,9 +142,10 @@ const dbFact = () => {
             setTimeout(async () => resolve(await localDb.clear()), 50);
             return;
           }
-          db.transaction('s', 'readwrite').objectStore('s').clear().onsuccess = () => {
-            resolve();
-          };
+          db.transaction('s', 'readwrite').objectStore('s').clear().onsuccess =
+            () => {
+              resolve();
+            };
         }),
     };
     return localDb;

@@ -27,6 +27,8 @@ import {
 } from '../utils';
 import { range } from 'mithril-ui-form';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
+import { generateStory } from './ui';
+import { DecisionSupportPage } from './decision-support-page';
 
 const ToggleIcon: FactoryComponent<{
   on: string;
@@ -61,9 +63,9 @@ const calculateRisk = (narrative: Narrative) => {
     [3, 4, 4, 4, 4],
   ];
   narrative.risk = 'risk_' + riskMatrix[p][i];
-  console.log(
-    `Risk = probability x impact: ${probability} x ${impact} = ${narrative.risk}`
-  );
+  // console.log(
+  //   `Risk = probability x impact: ${probability} x ${impact} = ${narrative.risk}`
+  // );
 };
 
 export const CategoryTable: MeiosisComponent<{
@@ -267,6 +269,20 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 curNarrative: () =>
                   ({ included: false, components: {} } as Narrative),
               });
+            },
+          }),
+          m(FlatButton, {
+            label: 'Query LLM',
+            iconName: 'create',
+            style: 'margin-left: 10px;',
+            disabled: !model.llm,
+            onclick: async () => {
+              const story = await generateStory(
+                model.llm!,
+                curNarrative,
+                model.scenario.components
+              );
+              console.log(story);
             },
           }),
           curNarrative.saved

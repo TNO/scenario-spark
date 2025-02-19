@@ -34,10 +34,8 @@ const replacePlaceholders = (
   };
 
   const parts = parseTextWithPlaceholders(text).map((s) => {
-    console.log(s);
     if (s.startsWith('{') && s.endsWith('}')) {
       const id = s.substring(1, s.length - 1);
-      console.log(id);
       const c = keyDrivers[lookup[id]];
       if (!c) return id;
       const resolvedLabel =

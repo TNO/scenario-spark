@@ -17,6 +17,7 @@ import {
   Tabs,
 } from 'mithril-materialized';
 import { FormAttributes, LayoutForm, UIForm } from 'mithril-ui-form';
+import { LLMSelector } from './ui';
 
 export const InconsistencyCheckbox: FactoryComponent<{
   inconsistencies: Inconsistencies;
@@ -204,7 +205,7 @@ export const SettingsPage: MeiosisComponent = () => {
       const rValues = rowComp && rowComp.values;
       const cValues = colComp && colComp.values;
       return [
-        m('.settings-page.row', [
+        m('.settings-page.row', { key: model.version }, [
           m(Tabs, {
             tabs: [
               {
@@ -344,6 +345,10 @@ export const SettingsPage: MeiosisComponent = () => {
                       ),
                   ]
                 ),
+              },
+              {
+                title: 'LLM',
+                vnode: m('.llm-settings', [m(LLMSelector, { ...attrs })]),
               },
               {
                 title: t('PERSONA', 2),

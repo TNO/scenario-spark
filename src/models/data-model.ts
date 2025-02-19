@@ -1,6 +1,7 @@
 import { Translate, Options } from 'translate.js';
 import { messages } from '../services';
 import { uniqueId } from 'mithril-materialized';
+import { LLMConfig } from '../components/ui/llm';
 
 export type DataModel = {
   version?: number;
@@ -10,6 +11,7 @@ export type DataModel = {
   /** List of other possible scenarios, excluding the current scenario */
   scenarios: Scenario[];
   personas?: Persona[];
+  llm?: LLMConfig;
 };
 
 export type Persona = Item & {
