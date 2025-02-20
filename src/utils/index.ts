@@ -14,6 +14,7 @@ import {
   thresholdColors,
 } from '../models';
 import { t } from '../services';
+import { Delta, Op } from 'quill';
 
 export const LANGUAGE = 'SG_LANGUAGE';
 export const SAVED = 'SG_MODEL_SAVED';
@@ -561,4 +562,191 @@ export const generateUniqueTitle = (
   }
 
   return newTitle;
+};
+
+/**
+ * Converts simple markdown to Quill Delta format
+ * Supports headers, bold, italics, ordered and unordered lists
+ */
+export const markdownToQuill = (markdown: string): Delta => {
+  const ops: any[] = [];
+  const lines = markdown.split('\n');
+
+  let inOrderedList = false;
+  let orderedListCounter = 1;
+  let inUnorderedList = false;
+
+  lines.forEach((line, lineIndex) => {
+    // Check for headers
+    const headerMatch = line.match(/^(#{1,6})\s+(.+)$/);
+    if (headerMatch) {
+      const headerLevel = headerMatch[1].length;
+      const headerText = headerMatch[2];
+
+      ops.push({ insert: headerText });
+      ops.push({ insert: '\n', attributes: { header: headerLevel } });
+      return;
+    }
+
+    // Check for ordered list items
+    const orderedListMatch = line.match(/^(\d+)\.\s+(.+)$/);
+    if (orderedListMatch) {
+      const listText = orderedListMatch[2];
+
+      // If we're starting a new ordered list, reset the counter
+      if (!inOrderedList) {
+        orderedListCounter = parseInt(orderedListMatch[1]);
+      } else {
+        // Increment counter for continuing lists
+        orderedListCounter++;
+      }
+
+      // Process inline formatting in list item
+      processInlineFormatting(listText, ops);
+      ops.push({ insert: '\n', attributes: { list: 'ordered' } });
+
+      inOrderedList = true;
+      inUnorderedList = false;
+      return;
+    }
+
+    // Check for unordered list items
+    const unorderedListMatch = line.match(/^[*-]\s+(.+)$/);
+    if (unorderedListMatch) {
+      const listText = unorderedListMatch[1];
+
+      // Process inline formatting in list item
+      processInlineFormatting(listText, ops);
+      ops.push({ insert: '\n', attributes: { list: 'bullet' } });
+
+      inUnorderedList = true;
+      inOrderedList = false;
+      return;
+    }
+
+    // Handle empty lines or line breaks
+    if (line.trim() === '') {
+      ops.push({ insert: '\n' });
+      inOrderedList = false;
+      inUnorderedList = false;
+      orderedListCounter = 1;
+      return;
+    }
+
+    // For regular text lines
+    processInlineFormatting(line, ops);
+    ops.push({ insert: '\n' });
+
+    // Reset list state if not in a list anymore
+    if (inOrderedList || inUnorderedList) {
+      const nextLine = lines[lineIndex + 1] || '';
+      const isNextLineOrderedList = nextLine.match(/^\d+\.\s+.+$/);
+      const isNextLineUnorderedList = nextLine.match(/^[*-]\s+.+$/);
+
+      if (!(isNextLineOrderedList || isNextLineUnorderedList)) {
+        inOrderedList = false;
+        inUnorderedList = false;
+        orderedListCounter = 1;
+      }
+    }
+  });
+
+  return { ops } as Delta;
+};
+
+/**
+ * Helper function to process inline formatting (bold, italic)
+ * Processes bold formatting first, then italic
+ */
+const processInlineFormatting = (text: string, ops: any[]): void => {
+  // First pass: Handle bold formatting
+  let processedForBold = processBoldText(text);
+
+  // Add each segment to ops
+  processedForBold.forEach((segment) => {
+    if (segment.isBold) {
+      ops.push({
+        insert: segment.text,
+        attributes: { bold: true },
+      });
+    } else {
+      // Process italics in non-bold segments
+      processItalicText(segment.text, ops);
+    }
+  });
+};
+
+/**
+ * Process bold text and return segments
+ */
+const processBoldText = (
+  text: string
+): Array<{ text: string; isBold: boolean }> => {
+  const segments: Array<{ text: string; isBold: boolean }> = [];
+  let remainingText = text;
+
+  while (remainingText.length > 0) {
+    const boldMatch = remainingText.match(/\*\*(.+?)\*\*/);
+
+    if (!boldMatch) {
+      // No more bold, add remaining text
+      segments.push({ text: remainingText, isBold: false });
+      break;
+    }
+
+    const boldIndex = remainingText.indexOf(boldMatch[0]);
+
+    // Add text before the bold
+    if (boldIndex > 0) {
+      segments.push({
+        text: remainingText.substring(0, boldIndex),
+        isBold: false,
+      });
+    }
+
+    // Add the bold text
+    segments.push({ text: boldMatch[1], isBold: true });
+
+    // Update remaining text
+    remainingText = remainingText.substring(boldIndex + boldMatch[0].length);
+  }
+
+  return segments;
+};
+
+/**
+ * Process italic text directly to ops
+ */
+const processItalicText = (text: string, ops: any[]): void => {
+  let remainingText = text;
+
+  while (remainingText.length > 0) {
+    const italicMatch = remainingText.match(/\*(.+?)\*/);
+
+    if (!italicMatch) {
+      // No more italic, add remaining text
+      if (remainingText.length > 0) {
+        ops.push({ insert: remainingText });
+      }
+      break;
+    }
+
+    const italicIndex = remainingText.indexOf(italicMatch[0]);
+
+    // Add text before the italic
+    if (italicIndex > 0) {
+      ops.push({ insert: remainingText.substring(0, italicIndex) });
+    }
+
+    // Add the italic text
+    ops.push({
+      insert: italicMatch[1],
+      attributes: { italic: true },
+    });
+
+    // Update remaining text
+    remainingText = remainingText.substring(
+      italicIndex + italicMatch[0].length
+    );
+  }
 };

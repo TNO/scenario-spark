@@ -159,6 +159,8 @@ export type Scenario = Item & {
 export type Category = Item & {
   /** If true, the category is used for decision support */
   decisionSupport?: boolean;
+  /** If true, the category is send to an LLM */
+  includeLLM?: boolean;
   componentIds?: ID[];
 };
 

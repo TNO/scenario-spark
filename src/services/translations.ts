@@ -236,6 +236,16 @@ export const messages = {
   IMAGE: 'Image',
   SAVE: 'Save',
   EDIT: 'Edit',
+  LLM: 'LLM',
+  SERVICE: 'Service',
+  PROVIDER: 'Provider',
+  SYSTEM_PROMPT: 'System prompt',
+  USER_PROMPT: 'User prompt',
+  TEMPERATURE: 'Temperature',
+  API_KEY: 'API key',
+  URL: 'URL',
+  ASK_LLM: 'Ask LLM',
+  INCLUDE_LLM: 'Include in LLM',
 };
 
 export const messagesNL: typeof messages = {
@@ -485,9 +495,19 @@ export const messagesNL: typeof messages = {
     1: 'Persona',
     n: 'Personas',
   },
-  IMAGE: 'Image',
+  IMAGE: 'Afbeelding',
   EDIT: 'Bewerken',
   SAVE: 'Opslaan',
+  LLM: 'LLM',
+  SERVICE: 'Service',
+  PROVIDER: 'Provider',
+  SYSTEM_PROMPT: 'Systeem prompt',
+  USER_PROMPT: 'Gebruiker prompt',
+  TEMPERATURE: 'Temperatuur',
+  API_KEY: 'API sleutel',
+  URL: 'URL',
+  ASK_LLM: 'Vraag LLM',
+  INCLUDE_LLM: 'Stuur naar LLM',
 };
 
 const setGuiLanguage = (language: Languages) => {

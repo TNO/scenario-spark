@@ -96,13 +96,13 @@ export const SettingsPage: MeiosisComponent = () => {
         { id: 'id', autogenerate: 'id' },
         {
           id: 'label',
-          className: 'col s4 m3 l2',
+          className: 'col s4 m3 l3',
           type: 'text',
           label: t('NAME'),
         },
         {
           id: 'desc',
-          className: 'col s4 m6 l7',
+          className: 'col s4 m6 l3',
           type: 'text',
           label: t('DESCRIPTION'),
         },
@@ -111,6 +111,12 @@ export const SettingsPage: MeiosisComponent = () => {
           type: 'checkbox',
           className: 'col s6 m3 l3 mt25',
           label: t('IS_DECISION_CATEGORY'),
+        },
+        {
+          id: 'includeLLM',
+          type: 'checkbox',
+          className: 'col s6 m3 l3 mt25',
+          label: t('INCLUDE_LLM'),
         },
         {
           id: 'componentIds',

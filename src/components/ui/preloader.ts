@@ -4,7 +4,7 @@ export const CircularSpinner: FactoryComponent<Attributes> = () => {
   return {
     view: ({ attrs }) => {
       return m(
-        'div',
+        '.col.s12.center-align',
         attrs,
         m(
           '.preloader-wrapper.big.active',

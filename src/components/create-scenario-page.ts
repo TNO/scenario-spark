@@ -23,12 +23,12 @@ import {
   deepCopy,
   generateNarrative,
   generateUniqueTitle,
+  markdownToQuill,
   narrativesToOptions,
 } from '../utils';
 import { range } from 'mithril-ui-form';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
-import { generateStory } from './ui';
-import { DecisionSupportPage } from './decision-support-page';
+import { CircularSpinner, generateStory } from './ui';
 
 const ToggleIcon: FactoryComponent<{
   on: string;
@@ -197,6 +197,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
   let editor: Quill;
   let lockState = false;
   let version = 0;
+  let askLlm = true;
 
   return {
     oninit: ({ attrs }) => setPage(attrs, Dashboards.CREATE_SCENARIO),
@@ -266,25 +267,34 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               editor.setContents([] as any);
               attrs.update({
                 lockedComps: () => ({}),
-                curNarrative: () =>
-                  ({ included: false, components: {} } as Narrative),
+                curNarrative: () => ({ included: false } as Narrative),
               });
             },
           }),
-          m(FlatButton, {
-            label: 'Query LLM',
-            iconName: 'create',
-            style: 'margin-left: 10px;',
-            disabled: !model.llm,
-            onclick: async () => {
-              const story = await generateStory(
-                model.llm!,
-                curNarrative,
-                model.scenario.components
-              );
-              console.log(story);
-            },
-          }),
+          model.llm &&
+            m(FlatButton, {
+              label: t('ASK_LLM'),
+              iconName: 'create',
+              style: 'margin-left: 10px;',
+              disabled: !curNarrative.components || !askLlm,
+              onclick: async () => {
+                askLlm = false;
+                const story = await generateStory(
+                  model.llm!,
+                  curNarrative,
+                  model.scenario.categories,
+                  model.scenario.components
+                );
+                console.log(story);
+                askLlm = true;
+                if (story) {
+                  const quill = markdownToQuill(story);
+                  console.log(quill);
+                  editor.setContents(quill);
+                }
+                m.redraw();
+              },
+            }),
           curNarrative.saved
             ? [
                 m(FlatButton, {
@@ -393,6 +403,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               template,
             })
           : '',
+        askLlm === false && m(CircularSpinner),
         categories.map((c, i) =>
           m(
             '.col.s12',
@@ -486,7 +497,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   modules: {
                     // table: true,
                     toolbar: [
-                      [{ header: [1, 2, false] }],
+                      [{ header: [1, 2, 3, false] }],
                       ['bold', 'italic', 'underline', 'strike'],
                       [{ list: 'ordered' }, { list: 'bullet' }],
                       [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
@@ -510,6 +521,9 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   const { curNarrative } = attrs.getState();
                   if (!curNarrative) return;
                   curNarrative.desc = JSON.stringify(editor.getContents());
+
+                  console.log(curNarrative.desc);
+
                   updateNarrative(attrs, curNarrative);
                 });
                 if (curNarrative) {
