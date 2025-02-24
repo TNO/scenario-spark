@@ -93,8 +93,9 @@ export const messages = {
   },
   INCONSISTENCIES: {
     title: 'Edit inconsistencies',
-    SELECT_ROW: 'Select row',
-    SELECT_COL: 'Select column',
+    SELECT_ROW_CATEGORY: 'Select row category',
+    SELECT_COLUMN_CATEGORY: 'Select column category',
+    SELECT_CATEGORIES_TO_START: 'Select categories to start',
   },
   saveButton: {
     label: 'Save',
@@ -337,8 +338,9 @@ export const messagesNL: typeof messages = {
   },
   INCONSISTENCIES: {
     title: 'Bewerk inconsistencies',
-    SELECT_ROW: 'Selecteer rij',
-    SELECT_COL: 'Selecteer kolom',
+    SELECT_ROW_CATEGORY: 'Selecteer rij categorie',
+    SELECT_COLUMN_CATEGORY: 'Selecteer kolom categorie',
+    SELECT_CATEGORIES_TO_START: 'Selecteer categorieën om te beginnen',
   },
   saveButton: {
     label: 'Opslaan',

@@ -1000,3 +1000,59 @@ ul.kanban > li {
 .llm-settings {
   min-height: 300px;
 }
+.component-name {
+  width: 120px;
+}
+.corner-cell {
+  position: sticky;
+  left: 0;
+  z-index: 20;
+  background: white;
+}
+th.component-header {
+  text-align: center;
+  border-left: 2px solid #333;
+  border-bottom: 2px solid #333;
+  position: relative;
+}
+th.component-name {
+  padding: 10px;
+  border-right: 1px solid #ddd;
+  font-weight: bold;
+  text-align: right;
+  position: sticky;
+  left: 0;
+  z-index: 15;
+}
+th.value-name {
+  padding: 10px;
+  font-weight: normal;
+  text-align: right;
+  border-right: 2px solid #333;
+  position: sticky;
+  z-index: 15;
+}
+th.value-header {
+  min-width: 60px;
+  text-align: center;
+  font-weight: normal;
+  vertical-align: bottom;
+  padding: 10px 5px;
+  position: relative;
+}
+th.value-header > div {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+td.matrix-cell {
+  text-align: center;
+  padding: 8px;
+  position: relative;
+}
+.inconsistency-matrix {
+  overflow: auto;
+  padding: 0;
+  max-height: 80vh;
+  position: relative;
+}

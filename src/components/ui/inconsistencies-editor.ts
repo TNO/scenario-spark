@@ -1,10 +1,6 @@
 import m, { FactoryComponent } from 'mithril';
 import { Icon, Select } from 'mithril-materialized';
-import {
-  ID,
-  Inconsistencies,
-  ScenarioComponent,
-} from '../../models/data-model';
+import { ID, Inconsistencies } from '../../models/data-model';
 import { MeiosisComponent, saveModel, t } from '../../services';
 
 // Interface for component categories based on your provided type
@@ -20,36 +16,73 @@ type Category = Item & {
   componentIds?: ID[];
 };
 
-// Component data structure
-interface ComponentWithValues {
-  id: ID;
-  label: string;
-  values: Array<{
+type ScenarioComponent = Item & {
+  /** Optional sort order */
+  order?: number;
+  /** Manual mode - if so, do not automatically generate a value for it */
+  manual?: boolean;
+  values?: Array<{
     id: ID;
     label: string;
   }>;
   category?: string;
-}
+};
 
 // Enhanced category for UI display with components
 interface CategoryWithComponents extends Category {
   components: ScenarioComponent[];
 }
 
-// Component to manage cell state toggling
+// Tooltip component for cell info
+const CellTooltip: FactoryComponent<{
+  rowComponent: string;
+  rowValue: string;
+  colComponent: string;
+  colValue: string;
+}> = () => {
+  return {
+    view: ({ attrs: { rowComponent, rowValue, colComponent, colValue } }) => {
+      return m('.tooltip-content', [
+        m('strong', 'Combination:'),
+        m('div', `${rowComponent}: ${rowValue}`),
+        m('div', `${colComponent}: ${colValue}`),
+      ]);
+    },
+  };
+};
+
+// Simplified cell component with tooltip
 const InconsistencyCell: FactoryComponent<{
   inconsistencies: Inconsistencies;
   rowId: ID;
   colId: ID;
   callback: () => Promise<void>;
   disabled?: boolean;
+  rowComponent: string;
+  rowValue: string;
+  colComponent: string;
+  colValue: string;
 }> = () => {
+  let tooltipVisible = false;
+
   return {
     view: ({
-      attrs: { rowId, colId, inconsistencies, callback, disabled },
+      attrs: {
+        rowId,
+        colId,
+        inconsistencies,
+        callback,
+        disabled,
+        rowComponent,
+        rowValue,
+        colComponent,
+        colValue,
+      },
     }) => {
       const row = inconsistencies[rowId];
       const v = typeof row !== 'undefined' ? row[colId] : undefined;
+
+      // Simplified icon selection
       const iconName =
         typeof v === 'undefined'
           ? 'check_circle_outline'
@@ -57,36 +90,134 @@ const InconsistencyCell: FactoryComponent<{
           ? 'radio_button_unchecked'
           : 'blur_circular';
 
-      return m(Icon, {
-        className: disabled ? 'disabled-cell' : 'clickable',
-        style: disabled ? 'opacity: 0.3; cursor: not-allowed;' : '',
-        iconName,
-        onclick: async () => {
-          if (disabled) return;
+      const cellColor =
+        typeof v === 'undefined'
+          ? '#4CAF50' // green for possible
+          : v
+          ? '#F44336' // red for impossible
+          : '#FF9800'; // orange for improbable
 
-          switch (v) {
-            case true:
-              inconsistencies[rowId][colId] = inconsistencies[colId][rowId] =
-                false;
-              break;
-            case false:
-              delete inconsistencies[rowId][colId];
-              delete inconsistencies[colId][rowId];
-              break;
-            default:
-              if (!inconsistencies[rowId]) {
-                inconsistencies[rowId] = {};
-              }
-              if (!inconsistencies[colId]) {
-                inconsistencies[colId] = {};
-              }
-              inconsistencies[rowId][colId] = inconsistencies[colId][rowId] =
-                true;
-              break;
-          }
-          await callback();
+      return m(
+        '.cell-with-tooltip',
+        {
+          style: 'position: relative;',
+          onmouseover: () => {
+            tooltipVisible = true;
+          },
+          onmouseout: () => {
+            tooltipVisible = false;
+          },
         },
-      });
+        [
+          m(Icon, {
+            className: disabled ? 'disabled-cell' : 'clickable',
+            style: disabled
+              ? 'opacity: 0.3; cursor: not-allowed;'
+              : `color: ${cellColor}; font-size: 1.2rem;`,
+            iconName,
+            onclick: async (e: MouseEvent) => {
+              e.stopPropagation();
+              if (disabled) return;
+
+              switch (v) {
+                case true:
+                  inconsistencies[rowId][colId] = inconsistencies[colId][
+                    rowId
+                  ] = false;
+                  break;
+                case false:
+                  delete inconsistencies[rowId][colId];
+                  delete inconsistencies[colId][rowId];
+                  break;
+                default:
+                  if (!inconsistencies[rowId]) {
+                    inconsistencies[rowId] = {};
+                  }
+                  if (!inconsistencies[colId]) {
+                    inconsistencies[colId] = {};
+                  }
+                  inconsistencies[rowId][colId] = inconsistencies[colId][
+                    rowId
+                  ] = true;
+                  break;
+              }
+              await callback();
+            },
+          }),
+          tooltipVisible &&
+            m(
+              '.tooltip',
+              {
+                style: `
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            z-index: 1000;
+            width: max-content;
+            max-width: 250px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+          `,
+              },
+              m(CellTooltip, {
+                rowComponent,
+                rowValue,
+                colComponent,
+                colValue,
+              })
+            ),
+        ]
+      );
+    },
+  };
+};
+
+// Legend component to explain cell states
+const InconsistencyLegend: FactoryComponent = () => {
+  return {
+    view: () => {
+      return m(
+        '.card.legend-card',
+        {
+          style: 'padding: 4px; margin: 0;',
+        },
+        [
+          // m('h6', t('INCONSISTENCIES', 'LEGEND')),
+          m(
+            'ul.legend-list',
+            {
+              style: 'list-style-type: none; padding-left: 0; margin: 0;',
+            },
+            [
+              m('li', [
+                m(Icon, {
+                  style: 'vertical-align: middle; color: #4CAF50;',
+                  iconName: 'check_circle_outline',
+                }),
+                ' ' + t('COMBINATIONS', 'POSSIBLE'),
+              ]),
+              m('li', [
+                m(Icon, {
+                  style: 'vertical-align: middle; color: #F44336;',
+                  iconName: 'radio_button_unchecked',
+                }),
+                ' ' + t('COMBINATIONS', 'IMPOSSIBLE'),
+              ]),
+              m('li', [
+                m(Icon, {
+                  style: 'vertical-align: middle; color: #FF9800;',
+                  iconName: 'blur_circular',
+                }),
+                ' ' + t('COMBINATIONS', 'IMPROBABLE'),
+              ]),
+            ]
+          ),
+        ]
+      );
     },
   };
 };
@@ -106,8 +237,11 @@ const groupComponentsByCategory = (
     };
   });
 
-  // Assign components to categories
+  // Assign components to categories - only include components with values
   components.forEach((comp) => {
+    // Skip components without values
+    if (!comp.values || comp.values.length === 0) return;
+
     const categoryIds = categories
       .filter((cat) => cat.componentIds?.includes(comp.id))
       .map((cat) => cat.id);
@@ -135,58 +269,22 @@ const groupComponentsByCategory = (
   return Object.values(categoryMap).filter((cat) => cat.components.length > 0);
 };
 
-// Legend component to explain cell states
-const InconsistencyLegend: FactoryComponent = () => {
-  return {
-    view: () => {
-      return m(
-        '.card.legend-card',
-        {
-          style: 'padding: 10px;',
-        },
-        [
-          m('h6', t('INCONSISTENCIES', 'LEGEND')),
-          m(
-            'ul.legend-list',
-            {
-              style: 'list-style-type: none; padding-left: 0;',
-            },
-            [
-              m('li', [
-                m(Icon, {
-                  style: 'vertical-align: middle',
-                  iconName: 'check_circle_outline',
-                }),
-                ' ' + t('COMBINATIONS', 'POSSIBLE'),
-              ]),
-              m('li', [
-                m(Icon, {
-                  style: 'vertical-align: middle',
-                  iconName: 'radio_button_unchecked',
-                }),
-                ' ' + t('COMBINATIONS', 'IMPOSSIBLE'),
-              ]),
-              m('li', [
-                m(Icon, {
-                  style: 'vertical-align: middle',
-                  iconName: 'blur_circular',
-                }),
-                ' ' + t('COMBINATIONS', 'IMPROBABLE'),
-              ]),
-            ]
-          ),
-        ]
-      );
-    },
-  };
-};
-
 // Main inconsistencies editor component
 export const InconsistenciesEditor: MeiosisComponent = () => {
   let rowCategoryId: ID = '';
   let colCategoryId: ID = '';
 
   return {
+    oninit: ({ attrs }) => {
+      const {
+        model: { scenario: { categories } = { categories: [] } } = {
+          scenario: {},
+        },
+      } = attrs.state;
+      if (categories && categories.length) {
+        rowCategoryId = colCategoryId = categories[0].id;
+      }
+    },
     view: ({ attrs }) => {
       const { model } = attrs.state;
       const { inconsistencies } = model.scenario;
@@ -218,8 +316,10 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
         let currentIndex = 0;
 
         for (const comp of category.components) {
+          if (!comp.values || comp.values.length === 0) continue;
+
           const startIndex = currentIndex;
-          currentIndex += comp.values?.length ?? 0;
+          currentIndex += comp.values.length;
           result.push({
             component: comp,
             startIndex,
@@ -236,7 +336,7 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
       const rowData = rowCategory ? calculateValueIndexes(rowCategory) : null;
       const colData = colCategory ? calculateValueIndexes(colCategory) : null;
 
-      // Only display components not already shown in rows when using same category
+      // Get column components - when using the same category but different arrangement
       const getColumnComponents = () => {
         if (!usingSameCategory || !colCategory)
           return colCategory?.components || [];
@@ -252,7 +352,7 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
           m(Select, {
             checkedId: rowCategoryId,
             iconName: 'view_stream',
-            className: 'col s12 m5',
+            className: 'col s12 m4',
             placeholder: t('i18n', 'pickOne'),
             label: t('INCONSISTENCIES', 'SELECT_ROW_CATEGORY'),
             options: categoriesWithComponents.map((c) => ({
@@ -266,7 +366,7 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
           m(Select, {
             checkedId: colCategoryId,
             iconName: 'view_column',
-            className: 'col s12 m5',
+            className: 'col s12 m4',
             placeholder: t('i18n', 'pickOne'),
             label: t('INCONSISTENCIES', 'SELECT_COLUMN_CATEGORY'),
             options: categoriesWithComponents.map((c) => ({
@@ -277,7 +377,7 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
           }),
 
           // Legend
-          m('.col.s12.m2', m(InconsistencyLegend)),
+          m('.col.s12.m4', m(InconsistencyLegend)),
         ]),
 
         // Only show the matrix when both categories are selected
@@ -287,228 +387,202 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
           colData &&
           m('.matrix-container.row', [
             m('.col.s12', [
-              m(
-                '.inconsistency-matrix.card',
-                {
-                  style: 'overflow-x: auto; padding: 1rem;',
-                },
-                [
-                  m(
-                    'table.matrix-table.highlight',
-                    {
-                      style: 'border-collapse: collapse;',
-                    },
-                    [
-                      // Header row with column category components and values
-                      m('thead', [
+              m('.inconsistency-matrix.card', [
+                m(
+                  'table.matrix-table.highlight',
+                  {
+                    style: 'border-collapse: collapse; position: relative;',
+                  },
+                  [
+                    // Header row with column category components and values - fixed position
+                    m(
+                      'thead',
+                      {
+                        style:
+                          'position: sticky; top: 0; z-index: 20; background: white;',
+                      },
+                      [
                         // First row: Empty corner
                         m('tr', [
-                          // Empty corner cells for the row headers
+                          // Empty corner cells for the row headers - fixed position
                           m('th.corner-cell', {
-                            style: 'border-bottom: 2px solid #333;',
+                            rowspan: 2,
                             colspan: 2,
                           }),
-                          // Column components headers (vertical)
-                          ...columnComponents.map((colComp, colIdx) =>
-                            m(
-                              'th.component-header',
-                              {
-                                colspan: colComp.values?.length,
-                                style: `
-                          text-align: center;
-                          border-left: ${
-                            colIdx === 0 ? '1px' : '2px'
-                          } solid #333;
-                          border-bottom: 2px solid #333;
-                          background-color: ${
-                            colIdx % 2 === 0 ? '#f5f9ff' : '#ffffff'
-                          };
-                        `,
-                              },
-                              colComp.label
-                            )
-                          ),
+                          // Column components headers
+                          ...columnComponents
+                            .map((colComp, colIdx) => {
+                              return m(
+                                'th.component-header',
+                                {
+                                  colspan: colComp.values!.length,
+                                  style: `background-color: ${
+                                    colIdx % 2 === 0 ? '#f5f9ff' : '#ffffff'
+                                  };`,
+                                },
+                                colComp.label
+                              );
+                            })
+                            .filter(Boolean),
                         ]),
-                        // Second row: Value headers (vertical)
+                        // Second row: Value headers
                         m('tr.value-header-row', [
-                          // Empty cells for row labels
-                          m('th', { colspan: 2 }),
-                          // Value headers
-                          ...columnComponents.flatMap((comp, compIdx) =>
-                            comp.values?.map((val) =>
+                          // Value headers with dividers between components
+                          ...columnComponents.flatMap((comp, compIdx) => {
+                            if (!comp.values || comp.values.length === 0)
+                              return [];
+
+                            return comp.values.map((val, valIdx) =>
                               m(
                                 'th.value-header',
                                 {
-                                  style: `
-                            min-width: 60px;
-                            text-align: center;
-                            font-weight: normal;
-                            vertical-align: bottom;
-                            padding: 10px 5px;
-                            background-color: ${
-                              compIdx % 2 === 0 ? '#f5f9ff' : '#ffffff'
-                            };
-                          `,
+                                  style: `background-color: ${
+                                    compIdx % 2 === 0 ? '#f5f9ff' : '#ffffff'
+                                  };${
+                                    valIdx === 0
+                                      ? 'border-left: 2px solid #333;'
+                                      : ''
+                                  }`,
                                 },
-                                [
-                                  // Rotate the text to display vertically
-                                  m(
-                                    'div',
-                                    {
-                                      style: `
-                              writing-mode: vertical-rl;
-                              transform: rotate(180deg);
-                              white-space: nowrap;
-                            `,
-                                    },
-                                    val.label
-                                  ),
-                                ]
+                                m('div', val.label)
                               )
-                            )
-                          ),
+                            );
+                          }),
                         ]),
-                      ]),
+                      ]
+                    ),
 
-                      // Table body with row components and matrix cells
-                      m('tbody', [
-                        // For each component in the row category
-                        ...rowCategory.components.flatMap(
-                          (rowComp, rowCompIdx) => [
-                            // For each value in the component
-                            ...rowComp.values.map((rowVal, rowValIdx) => {
-                              const rowIndexObj = rowData.indexes.find(
-                                (i) => i.component.id === rowComp.id
-                              );
-                              const rowIndex = rowIndexObj
-                                ? rowIndexObj.startIndex + rowValIdx
-                                : 0;
+                    // Table body with row components and matrix cells
+                    m('tbody', [
+                      // For each component in the row category
+                      ...rowCategory.components
+                        // .filter((rowComp, i) => i > 0)
+                        .flatMap((rowComp, rowCompIdx) => {
+                          if (!rowComp.values || rowComp.values.length === 0)
+                            return [];
 
-                              return m(
-                                'tr',
-                                {
-                                  style: `
-                          background-color: ${
-                            rowCompIdx % 2 === 0 ? '#f5f9ff' : '#ffffff'
-                          };
-                          ${
-                            rowValIdx === 0 ? 'border-top: 2px solid #333;' : ''
-                          }
-                        `,
-                                },
-                                [
-                                  // Display component name for first value only (merged cells)
-                                  rowValIdx === 0
-                                    ? m(
-                                        'th.component-name',
-                                        {
-                                          rowspan: rowComp.values?.length,
-                                          style: `
-                                padding: 10px;
-                                border-right: 1px solid #ddd;
-                                font-weight: bold;
-                                text-align: right;
-                              `,
-                                        },
-                                        rowComp.label
-                                      )
-                                    : null,
+                          // For each value in the component
+                          return rowComp.values.map((rowVal, rowValIdx) => {
+                            // Calculate left position for sticky columns
+                            // First column (component name) width
+                            const firstColWidth = 120;
 
-                                  // Value name
-                                  m(
-                                    'th.value-name',
-                                    {
-                                      style: `
-                            padding: 10px;
-                            font-weight: normal;
-                            text-align: right;
-                            border-right: 1px solid #333;
-                          `,
-                                    },
-                                    rowVal.label
-                                  ),
-
-                                  // Matrix cells - one for each column value
-                                  ...columnComponents.flatMap(
-                                    (colComp, colCompIdx) =>
-                                      colComp.values?.map(
-                                        (colVal, colValIdx) => {
-                                          const colIndexObj =
-                                            colData.indexes.find(
-                                              (i) =>
-                                                i.component.id === colComp.id
-                                            );
-                                          const colIndex = colIndexObj
-                                            ? colIndexObj.startIndex + colValIdx
-                                            : 0;
-
-                                          // Check if this is a component comparing against itself
-                                          const isSameComponent =
-                                            rowComp.id === colComp.id;
-                                          // Check if this is in the upper triangle when not using same component
-                                          const isUpperTriangle =
-                                            usingSameCategory &&
-                                            rowCompIdx > colCompIdx;
-
-                                          // Cells are disabled if:
-                                          // 1. Same component (comparing component with itself is not valid)
-                                          // 2. In the upper triangle when displaying same category on both axes
-                                          const isDisabled =
-                                            isSameComponent || isUpperTriangle;
-
-                                          return m(
-                                            'td.matrix-cell',
-                                            {
-                                              style: `
-                                text-align: center;
-                                padding: 8px;
-                                background-color: ${
-                                  isDisabled
-                                    ? '#f0f0f0'
-                                    : (colCompIdx % 2 === 0 &&
-                                        rowCompIdx % 2 === 0) ||
-                                      (colCompIdx % 2 === 1 &&
-                                        rowCompIdx % 2 === 1)
-                                    ? '#f5f9ff'
-                                    : '#ffffff'
+                            return m(
+                              'tr',
+                              {
+                                style: `background-color: ${
+                                  rowCompIdx % 2 === 0 ? '#f5f9ff' : '#ffffff'
                                 };
-                                ${
-                                  colValIdx === 0
-                                    ? 'border-left: 2px solid #333;'
-                                    : ''
-                                }
-                              `,
-                                            },
-                                            isDisabled
-                                              ? m(
-                                                  '.disabled-cell',
-                                                  { style: 'color: #ccc;' },
-                                                  '—'
-                                                )
-                                              : m(InconsistencyCell, {
-                                                  rowId: rowVal.id,
-                                                  colId: colVal.id,
-                                                  inconsistencies,
-                                                  callback: async () =>
-                                                    await saveModel(
-                                                      attrs,
-                                                      model
-                                                    ),
-                                                })
-                                          );
-                                        }
-                                      )
-                                  ),
-                                ]
-                              );
-                            }),
-                          ]
-                        ),
-                      ]),
-                    ]
-                  ),
-                ]
-              ),
+                                  ${
+                                    rowValIdx === 0
+                                      ? 'border-top: 2px solid #333;'
+                                      : ''
+                                  }`,
+                              },
+                              [
+                                // Display component name for first value only (merged cells) - fixed position
+                                rowValIdx === 0
+                                  ? m(
+                                      'th.component-name',
+                                      {
+                                        rowspan: rowComp.values?.length,
+                                        style: `background-color: ${
+                                          rowCompIdx % 2 === 0
+                                            ? '#f5f9ff'
+                                            : '#ffffff'
+                                        };`,
+                                      },
+                                      rowComp.label
+                                    )
+                                  : null,
+
+                                // Value name - fixed position
+                                m(
+                                  'th.value-name',
+                                  {
+                                    style: `left: ${firstColWidth}px;
+                                      background-color: ${
+                                        rowCompIdx % 2 === 0
+                                          ? '#f5f9ff'
+                                          : '#ffffff'
+                                      };`,
+                                  },
+                                  rowVal.label
+                                ),
+
+                                // Matrix cells - one for each column value
+                                ...columnComponents.flatMap(
+                                  (colComp, colCompIdx) => {
+                                    if (
+                                      !colComp.values ||
+                                      colComp.values.length === 0
+                                    )
+                                      return [];
+
+                                    return colComp.values.map(
+                                      (colVal, colValIdx) => {
+                                        // Cells should be disabled if:
+                                        // 1. Same component (comparing component with itself is not valid)
+                                        // 2. In the upper triangle when the same category is used on both axes
+                                        const isSameComponent =
+                                          rowComp.id === colComp.id;
+
+                                        // When using same category, display only half of the matrix
+                                        // We'll use the lower triangle: only show cells where rowCompIdx >= colCompIdx
+                                        const isInHiddenTriangle =
+                                          usingSameCategory &&
+                                          (rowCompIdx < colCompIdx ||
+                                            (rowCompIdx === colCompIdx &&
+                                              rowValIdx < colValIdx));
+
+                                        const isDisabled =
+                                          isSameComponent || isInHiddenTriangle;
+
+                                        return m(
+                                          'td.matrix-cell',
+                                          {
+                                            style: `background-color: ${
+                                              isDisabled
+                                                ? '#f0f0f0'
+                                                : (colCompIdx % 2 === 0 &&
+                                                    rowCompIdx % 2 === 0) ||
+                                                  (colCompIdx % 2 === 1 &&
+                                                    rowCompIdx % 2 === 1)
+                                                ? '#f5f9ff'
+                                                : '#ffffff'
+                                            };
+                                              ${
+                                                colValIdx === 0
+                                                  ? 'border-left: 2px solid #333;'
+                                                  : ''
+                                              }`,
+                                          },
+                                          !isDisabled &&
+                                            m(InconsistencyCell, {
+                                              rowId: rowVal.id,
+                                              colId: colVal.id,
+                                              inconsistencies,
+                                              callback: async () =>
+                                                await saveModel(attrs, model),
+                                              rowComponent: rowComp.label,
+                                              rowValue: rowVal.label,
+                                              colComponent: colComp.label,
+                                              colValue: colVal.label,
+                                              disabled: isDisabled,
+                                            })
+                                        );
+                                      }
+                                    );
+                                  }
+                                ),
+                              ]
+                            );
+                          });
+                        }),
+                    ]),
+                  ]
+                ),
+              ]),
             ]),
           ]),
 
