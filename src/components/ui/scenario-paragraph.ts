@@ -78,7 +78,7 @@ export const ScenarioParagraph: MeiosisComponent<
         .split(extractIds)
         .map((t) =>
           t.replace(/\d+/, (i) =>
-            +i < modelComps.length
+            +i <= modelComps.length
               ? `{${modelComps[+i - 1].id}}`
               : `??? ${i} ???`
           )
