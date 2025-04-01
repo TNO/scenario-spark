@@ -28,6 +28,7 @@ export const messages = {
   OK: 'Ok',
   NAME: 'Name',
   DESCRIPTION: 'Description',
+  NEW_BOX: 'New morphological box',
   CATEGORIES: 'Categories',
   DIMENSION: 'Key driver',
   DIMENSION_SELECTED: 'Selected drivers',
@@ -248,6 +249,7 @@ export const messages = {
   ASK_LLM: 'Ask LLM',
   INCLUDE_LLM: 'Include in LLM',
   OLLAMA_URL: 'Hostname (and port)',
+  ADV_EDIT: 'Code editor',
 };
 
 export const messagesNL: typeof messages = {
@@ -274,10 +276,11 @@ export const messagesNL: typeof messages = {
   OK: 'Ok',
   NAME: 'Naam',
   DESCRIPTION: 'Omschrijving',
+  NEW_BOX: 'Nieuwe morfologische box',
   CATEGORIES: 'Categorieën',
   DIMENSION: 'Hoofdfactor',
-  DIMENSION_SELECTED: 'Geselecteerde factoren',
-  DIMENSIONS: 'Factoren',
+  DIMENSION_SELECTED: 'Geselecteerde stuurfactoren',
+  DIMENSIONS: 'Stuurfactoren',
   KEY_VALUE: 'Waarde',
   CONTEXT: 'Context',
   NONE: 'Geen',
@@ -491,7 +494,7 @@ export const messagesNL: typeof messages = {
     DESC: 'De aanbevolen aanpak is gebaseerd op een risicogewogen combinatie van de gekozen maatregelen.',
   },
   TEMPLATE: {
-    TITLE: 'Template om de factoren te vertalen naar een lopende tekst.',
+    TITLE: 'Template om de stuurfactoren te vertalen naar een lopende tekst.',
     DESC: 'Schrijf een paragraaf waarbij {1} zal vervangen worden door de waarde van factor 1, etc. Lege regels worden omgezet naar paragrafen.',
   },
   PERSONA: {
@@ -512,6 +515,7 @@ export const messagesNL: typeof messages = {
   ASK_LLM: 'Vraag LLM',
   INCLUDE_LLM: 'Stuur naar LLM',
   OLLAMA_URL: 'Domeinnaam (en poort)',
+  ADV_EDIT: 'Code editor',
 };
 
 const setGuiLanguage = (language: Languages) => {

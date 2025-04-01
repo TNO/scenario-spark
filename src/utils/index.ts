@@ -14,7 +14,7 @@ import {
   thresholdColors,
 } from '../models';
 import { t } from '../services';
-import { Delta, Op } from 'quill';
+import { Delta } from 'quill';
 
 export const LANGUAGE = 'SG_LANGUAGE';
 export const SAVED = 'SG_MODEL_SAVED';

@@ -1,5 +1,6 @@
 import m from 'mithril';
 import {
+  Category,
   Dashboards,
   DataModel,
   PersonaImages,
@@ -10,10 +11,19 @@ import { MeiosisComponent, i18n, saveModel, setPage, t } from '../services';
 import {
   FlatButton,
   ModalPanel,
+  Select,
   Tabs,
+  TextArea,
+  TextInput,
+  uniqueId,
 } from 'mithril-materialized';
 import { FormAttributes, LayoutForm, UIForm } from 'mithril-ui-form';
 import { InconsistenciesEditor, LLMSelector } from './ui';
+import {
+  markdownToMorphBox,
+  morphBoxToMarkdown,
+  KeyDriver,
+} from '../utils/morp-box-to-markdown';
 
 export const SettingsPage: MeiosisComponent = () => {
   const form = [
@@ -165,6 +175,12 @@ export const SettingsPage: MeiosisComponent = () => {
                       iconName: 'delete',
                       label: t('DELETE'),
                       modalId: 'deleteModel',
+                    }),
+                    m(FlatButton, {
+                      iconName: 'auto_fix_high',
+                      className: 'right',
+                      label: t('ADV_EDIT'),
+                      modalId: 'mdEditor',
                     })
                   ),
                   m(
@@ -293,8 +309,142 @@ export const SettingsPage: MeiosisComponent = () => {
               },
             ],
           }),
+          m(ModalPanel, {
+            id: 'mdEditor',
+            title: t('ADV_EDIT'),
+            description: m(MorpBoxEditor, attrs),
+            bottomSheet: true,
+            fixedFooter: true,
+            buttons: [
+              {
+                label: t('CANCEL'),
+              },
+            ],
+          }),
         ]),
       ];
+    },
+  };
+};
+
+export const MorpBoxEditor: MeiosisComponent = () => {
+  let curCategory: Category | undefined;
+  let initialMd: string | undefined;
+  let md: string | undefined;
+
+  return {
+    oninit: () => {
+      initialMd = undefined;
+      md = undefined;
+    },
+    view: ({ attrs }) => {
+      const {
+        state: { model },
+      } = attrs;
+      if (!model.scenario) return;
+      const { categories = [], components = [] } = model.scenario;
+      if (categories.length === 1) {
+        curCategory = categories[0];
+      }
+      if (!initialMd && curCategory) {
+        initialMd = md = morphBoxToMarkdown(
+          curCategory,
+          model.scenario.components
+        );
+      }
+      return m('.md-editor.row', [
+        categories.length === 1
+          ? m(TextInput, {
+              label: t('CATEGORIES'),
+              className: 'col s6',
+              initialValue: curCategory?.label,
+              readOnly: true,
+            })
+          : m(Select<string>, {
+              label: t('CATEGORIES'),
+              className: 'col s6',
+              placeholder: t('i18n', 'pickOne'),
+              initialValue: curCategory?.id,
+              options: categories,
+              onchange: (v) => {
+                initialMd = undefined;
+                curCategory = categories.find((c) => c.id === v[0]);
+              },
+            }),
+        m(FlatButton, {
+          iconName: 'add',
+          className: 'col s1',
+          onclick: () => {
+            const category: Category = {
+              id: uniqueId(),
+              label: t('NEW_BOX'),
+              componentIds: [],
+            };
+            curCategory = category;
+            if (model.scenario.categories) {
+              model.scenario.categories.push(category);
+            } else {
+              model.scenario.categories = [category];
+            }
+            initialMd = undefined;
+            saveModel(attrs, model);
+          },
+        }),
+        m(FlatButton, {
+          label: t('SAVE'),
+          className: 'col offset-s2 s3',
+          iconName: 'save',
+          disabled: md === initialMd,
+          onclick: () => {
+            if (md) {
+              const { label, desc, keyDrivers = [] } = markdownToMorphBox(md);
+              if (curCategory) {
+                if (label) curCategory.label = label;
+                if (desc) curCategory.desc = desc;
+                const removableComponentIds = new Set<string>(
+                  curCategory.componentIds
+                );
+                curCategory.componentIds = keyDrivers.map((d) => d.id);
+                curCategory.componentIds.forEach((id) =>
+                  removableComponentIds.delete(id)
+                );
+                model.scenario.categories = categories.map((c) =>
+                  c.id === curCategory?.id ? curCategory : c
+                );
+                const lookup = keyDrivers.reduce((acc, cur) => {
+                  acc.set(cur.id, cur);
+                  return acc;
+                }, new Map<string, KeyDriver>());
+                model.scenario.components = components
+                  .filter((c) => !removableComponentIds.has(c.id))
+                  .map((c) => {
+                    const found = lookup.get(c.id);
+                    if (!found) {
+                      return c;
+                    }
+                    c.label = found.label;
+                    c.desc = found.desc;
+                    c.values = found.values;
+                    lookup.delete(c.id);
+                    return found;
+                  });
+                keyDrivers
+                  .filter((d) => lookup.has(d.id))
+                  .forEach((d) => model.scenario.components.push(d));
+              }
+              saveModel(attrs, model);
+            }
+          },
+        }),
+        m(TextArea, {
+          initialValue: md,
+          disabled: !curCategory,
+          onchange: (v) => {
+            md = v;
+            console.log(v);
+          },
+        }),
+      ]);
     },
   };
 };
