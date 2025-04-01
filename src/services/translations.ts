@@ -247,6 +247,7 @@ export const messages = {
   URL: 'URL',
   ASK_LLM: 'Ask LLM',
   INCLUDE_LLM: 'Include in LLM',
+  OLLAMA_URL: 'Hostname (and port)',
 };
 
 export const messagesNL: typeof messages = {
@@ -510,6 +511,7 @@ export const messagesNL: typeof messages = {
   URL: 'URL',
   ASK_LLM: 'Vraag LLM',
   INCLUDE_LLM: 'Stuur naar LLM',
+  OLLAMA_URL: 'Domeinnaam (en poort)',
 };
 
 const setGuiLanguage = (language: Languages) => {

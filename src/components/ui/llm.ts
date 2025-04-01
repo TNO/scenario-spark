@@ -27,8 +27,15 @@ interface BaseRequest {
 }
 
 // API-specific request interfaces
-interface OllamaRequest extends BaseRequest {
+interface OllamaRequest {
+  prompt: string;
+  /** JSON schema */
+  format?: Record<string, any>;
   model: string;
+  stream?: boolean;
+  options?: {
+    temperature?: number;
+  };
 }
 
 interface ClaudeRequest {
@@ -67,7 +74,7 @@ async function chatWithLLM(
   userPrompt: string,
   temperature: number = 0.7,
   apiKey?: string
-): Promise<string | undefined> {
+): Promise<string | undefined | { title: string; content: string }> {
   try {
     let requestBody: any;
     const headers: Record<string, string> = {
@@ -76,14 +83,27 @@ async function chatWithLLM(
 
     switch (provider) {
       case 'ollama':
+        url = `${url}${url.endsWith('/') ? '' : '/'}api/generate`;
         requestBody = {
           model,
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: userPrompt },
-          ],
+          prompt: userPrompt + '\n\nRespond using JSON.',
+          format: {
+            type: 'object',
+            properties: {
+              title: {
+                type: 'string',
+                description: 'The title of the story',
+              },
+              content: {
+                type: 'string',
+                description: 'The main content of the story',
+              },
+            },
+            required: ['title', 'content'],
+            additionalProperties: false,
+          },
           stream: false,
-          temperature,
+          options: { temperature },
         } as OllamaRequest;
         break;
 
@@ -158,11 +178,19 @@ async function chatWithLLM(
     }
 
     const data = await response.json();
+    // console.log(JSON.stringify(data, null, 2));
 
     // Extract the response content based on the provider's response format
     switch (provider) {
       case 'ollama':
-        return data.message?.content;
+        try {
+          return data.response
+            ? (JSON.parse(data.response) as { title: string; content: string })
+            : undefined;
+        } catch (e: any) {
+          console.error(e);
+          return '';
+        }
 
       case 'claude':
         return data.content?.[0]?.text;
@@ -232,6 +260,7 @@ export const LLMSelector: MeiosisComponent = () => {
               },
               {
                 id: 'systemPrompt',
+                show: 'id!=ollama',
                 label: t('SYSTEM_PROMPT'),
                 type: 'textarea',
               },
@@ -239,6 +268,7 @@ export const LLMSelector: MeiosisComponent = () => {
               {
                 id: 'url',
                 label: t('URL'),
+                description: t('OLLAMA_URL'),
                 type: 'url',
                 className: 'col s12 m6',
                 show: 'id=ollama',
@@ -271,7 +301,7 @@ export const generateStory = async (
   switch (id) {
     case 'ollama':
       url = ollama;
-      if (!model) model = 'llama3.3';
+      if (!model) model = 'gemma3';
       break;
     case 'gemini':
       url =
@@ -316,7 +346,7 @@ export const generateStory = async (
       const values = narrative.components[c.id]
         .map((id) => lookup.get(c.id + id))
         .join(', ');
-      return `${c.label}${c.desc ? ` (${c.desc})` : ''}: ${values}`;
+      return `- ${c.label}${c.desc ? ` (${c.desc})` : ''}: ${values}`;
     })
     .join('\n');
 
@@ -327,8 +357,8 @@ export const generateStory = async (
     url,
     model,
     systemPrompt ?? 'You are a helpfull AI storywriter.',
-    (userPrompt ?? 'Create a scenario with the following elements:') +
-      '\n\n' +
+    (userPrompt ?? '') +
+      '\n\nCreate a story with the following elements:\n\n' +
       translatedNarrative,
     0.7,
     apiKey

@@ -279,6 +279,9 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               disabled: !curNarrative.components || !askLlm,
               onclick: async () => {
                 askLlm = false;
+                curNarrative.label = '';
+                curNarrative.desc = '';
+                editor.setContents(markdownToQuill(''));
                 const story = await generateStory(
                   model.llm!,
                   curNarrative,
@@ -288,9 +291,13 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 console.log(story);
                 askLlm = true;
                 if (story) {
-                  const quill = markdownToQuill(story);
-                  console.log(quill);
+                  const quill = markdownToQuill(
+                    typeof story === 'string' ? story : story.content
+                  );
                   editor.setContents(quill);
+                  if (typeof story !== 'string') {
+                    curNarrative.label = story.title;
+                  }
                 }
                 m.redraw();
               },
@@ -421,7 +428,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
         m('.col.s12', [
           m('.row', [
             m(TextInput, {
-              className: 'col s6 m3',
+              className: 'col s6 m4',
               initialValue: curNarrative.label,
               label: t('NAME_NARRATIVE'),
               required: true,
@@ -431,7 +438,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               },
             }),
             m(InputCheckbox, {
-              className: 'col s6 m3 mt25',
+              className: 'col s6 m3 l4 mt25',
               checked: curNarrative.included,
               label: t('INCLUDE_NARRATIVE'),
               onchange: (n) => {
@@ -443,7 +450,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               m(Select, {
                 key: `prob${curNarrative.id}`,
                 placeholder: t('i18n', 'pick'),
-                className: 'col s6 m2',
+                className: 'col s6 m3 l2',
                 label: t('PROBABILITY'),
                 initialValue: curNarrative.probability,
                 options: range(0, 4).map((id) => ({
