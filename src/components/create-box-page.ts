@@ -22,12 +22,7 @@ import {
   SlimdownView,
   UIForm,
 } from 'mithril-ui-form';
-import {
-  capitalize,
-  contrastingColor,
-  generateNumbers,
-  modelToSaveName,
-} from '../utils';
+import { capitalize, contrastingColor, generateNumbers } from '../utils';
 import { LegendComponent } from './ui';
 
 const BoxItem: MeiosisComponent<{
@@ -96,35 +91,37 @@ const BoxItem: MeiosisComponent<{
           },
         },
         [
-          m('.card-content', [
-            m(
-              'span.card-title',
-              {
-                onmouseenter: item.desc
-                  ? () => {
-                      attrs.update({
-                        activeTooltip: `${item.label || ''}: ${item.desc}`,
-                      });
-                    }
-                  : undefined,
-                onmouseleave: item.desc
-                  ? () => {
-                      attrs.update({
-                        activeTooltip: undefined,
-                      });
-                    }
-                  : undefined,
+          m(
+            '.card-content',
+            {
+              onmouseenter: () => {
+                attrs.update({
+                  activeTooltip: `${item.label || ''}${
+                    item.desc ? `: ${item.desc}` : ''
+                  }`,
+                });
               },
-              capitalize(item.label)
-            ),
-            // item.desc && m('span.card-desc', item.desc),
-            m(FlatButton, {
-              className: 'top-right widget-link',
-              iconName: 'edit',
-              iconClass: 'no-gutter',
-              modalId: `modal_${item.id}`,
-            }),
-          ]),
+              onmouseleave: () => {
+                attrs.update({
+                  activeTooltip: undefined,
+                });
+              },
+            },
+            [
+              m(
+                'span.card-title',
+
+                capitalize(item.label)
+              ),
+              // item.desc && m('span.card-desc', item.desc),
+              m(FlatButton, {
+                className: 'top-right widget-link',
+                iconName: 'edit',
+                iconClass: 'no-gutter',
+                modalId: `modal_${item.id}`,
+              }),
+            ]
+          ),
           m(ModalPanel, {
             id: `modal_${item.id}`,
             title: t('EDIT_COMPONENT'),
