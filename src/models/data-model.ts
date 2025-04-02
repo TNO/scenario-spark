@@ -11,7 +11,6 @@ export type DataModel = {
   /** List of other possible scenarios, excluding the current scenario */
   scenarios: Scenario[];
   personas?: Persona[];
-  llm?: LLMConfig;
 };
 
 export type Persona = Item & {
@@ -138,6 +137,8 @@ export type ThresholdColor = { threshold: number; color: Color };
 export type Scenario = Item & {
   /** Template string to convert the scenario items to a fluid text. */
   template?: string;
+  /** Optional LLM configuration */
+  llm?: LLMConfig;
   /** If true, do not show inconsistent combinations between components */
   hideInconsistentValues: boolean;
   /** If true, activate the decision support module */

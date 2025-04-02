@@ -271,7 +271,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               });
             },
           }),
-          model.llm &&
+          model.scenario.llm &&
             m(FlatButton, {
               label: t('ASK_LLM'),
               iconName: 'create',
@@ -283,7 +283,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 curNarrative.desc = '';
                 editor.setContents(markdownToQuill(''));
                 const story = await generateStory(
-                  model.llm!,
+                  model.scenario.llm!,
                   curNarrative,
                   model.scenario.categories,
                   model.scenario.components

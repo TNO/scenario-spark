@@ -1,8 +1,8 @@
 import m from 'mithril';
 import { FormAttributes, LayoutForm, UIForm } from 'mithril-ui-form';
 import { i18n, MeiosisComponent, saveModel, t } from '../../services';
-import { DataModel, Narrative } from '../../models';
-import { Category, ScenarioComponent } from '../../models/data-model';
+import { Narrative } from '../../models';
+import { Category, Scenario, ScenarioComponent } from '../../models/data-model';
 
 export interface LLMConfig {
   id: string;
@@ -276,12 +276,12 @@ export const LLMSelector: MeiosisComponent = () => {
             ] as UIForm<LLMConfig>,
           },
         ],
-        obj: model,
+        obj: model.scenario,
         onchange: () => {
-          console.log('LLMSelector model:', model.llm);
+          console.log('LLMSelector model:', model.scenario.llm);
           saveModel(attrs, model);
         },
-      } as FormAttributes<Partial<DataModel>>);
+      } as FormAttributes<Partial<Scenario>>);
     },
   };
 };
