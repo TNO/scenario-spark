@@ -685,6 +685,9 @@ a.waves-effect.waves-teal.btn-flat.selected {
 .ml10 {
   margin-left: 10px;
 }
+.mt3 {
+  margin-top: 3px;
+}
 .mt5 {
   margin-top: 5px;
 }
@@ -709,6 +712,13 @@ a.waves-effect.waves-teal.btn-flat.selected {
   position: absolute;
   top: 4px;
   right: 35px;
+}
+input[type='checkbox'] ~ span {
+  font-size: 14pt;
+}
+input[type='checkbox']:disabled ~ span {
+  cursor: default;
+  color: black;
 }
 ul.kanban > li {
   margin-bottom: 10px;
@@ -937,8 +947,8 @@ ul.kanban > li {
   font-size: 24px;
 }
 
-.show-scenario div.input-field.select-space.left.mb0.mw30 input {
-  font-size: 42px;
+.show-scenario div.input-field.select-space.mb0.mw30 input {
+  font-size: 36px;
 }
 
 .show-scenario .select-wrapper input.select-dropdown {

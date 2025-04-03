@@ -160,117 +160,122 @@ export const ShowScenarioPage: MeiosisComponent = () => {
 
       const selectOptions = narrativesToOptions(model.scenario.narratives);
 
-      return m('.show-scenario.row', [
-        m('a#downloadAnchorElem', { style: 'display:none' }),
-        m('.col.s12', { style: 'font-size: 24px' }, [
-          model.scenario &&
-            model.scenario.narratives &&
-            model.scenario.narratives.length > 0 && [
-              m(Select, {
-                className: 'left mb0 mw30',
-                label: t('SELECT_NARRATIVE'),
-                checkedId:
-                  curNarrative && curNarrative.saved
-                    ? curNarrative.id
-                    : undefined,
-                placeholder: t('i18n', 'pickOne'),
-                options: selectOptions,
-                onchange: (v) => {
-                  if (v && v.length > 0) {
-                    const newNarrative = model.scenario.narratives
-                      .filter((n) => n.id === v[0])
-                      .shift();
-                    if (newNarrative) {
-                      editor.setContents(
-                        newNarrative.desc ? JSON.parse(newNarrative.desc) : []
-                      );
-                    }
-                    attrs.update({
-                      curNarrative: () => deepCopy(newNarrative),
-                      lockedComps: () =>
-                        model.scenario.components.reduce((acc, cur) => {
-                          acc[cur.id] = true;
-                          return acc;
-                        }, {} as Record<ID, boolean>),
-                    });
-                  }
-                },
-              } as ISelectOptions<string>),
-              curNarrative && [
-                curNarrative.risk &&
-                  m('img[title=risk-status].right', {
-                    src: svgToDataURI(
-                      createCircleSVG(
-                        trafficLight[+curNarrative.risk.replace('risk_', '')],
-                        48
-                      )
-                    ),
-                  }),
-                m(FlatButton, {
-                  label: t('EXPORT2WORD'),
-                  iconName: 'download',
-                  className: 'right mt5',
-                  disabled: !curNarrative.desc,
-                  onclick: () => exportToWord(model, curNarrative.label),
+      return m(
+        '.show-scenario.row',
+        [
+          m('a#downloadAnchorElem', { style: 'display:none' }),
+          // m('.col.s12', { style: 'font-size: 24px' }, [
+          curNarrative &&
+            m('.col.s12', [
+              curNarrative.risk &&
+                m('img[title=risk-status].right', {
+                  src: svgToDataURI(
+                    createCircleSVG(
+                      trafficLight[+curNarrative.risk.replace('risk_', '')],
+                      48
+                    )
+                  ),
                 }),
-                m(InputCheckbox, {
-                  checked: curNarrative.included,
-                  label: t('NARRATIVE_INCLUDED'),
-                  disabled: true,
-                  className: 'right',
-                }),
-              ],
-            ],
-        ]),
-        curNarrative && [
-          m(
-            '.col.s12',
-            {
-              oncreate: () => {
-                editor = new Quill('#editor', {
-                  modules: {
-                    toolbar: false,
-                  },
-                  readOnly: true,
-                  theme: 'snow',
-                });
-                editor.setContents(
-                  curNarrative.desc ? JSON.parse(curNarrative.desc) : []
-                );
-              },
-            },
-            [m('.col.s12', [m('#editor.row', {})])]
-          ),
-          template
-            ? m(
-                '.col.s12',
-                m(ScenarioParagraph, {
-                  ...attrs,
-                  template,
-                })
-              )
-            : '',
-          m(
-            '.col.s12',
-            m('.row', [
-              categories.map((category) => {
-                const componentIds = category && category.componentIds;
-                const comps =
-                  componentIds &&
-                  modelComps.filter((c) => componentIds.indexOf(c.id) >= 0);
-                return m(
-                  '.col',
-                  {
-                    className: `s${12 / categories.length}`,
-                  },
-                  multipleCategories && m('h5', category.label),
-                  m(CategoryTable, { curNarrative, comps })
-                );
+              m(FlatButton, {
+                label: t('EXPORT2WORD'),
+                iconName: 'download',
+                className: 'right',
+                disabled: !curNarrative.desc,
+                onclick: () => exportToWord(model, curNarrative.label),
               }),
-            ])
-          ),
+              m(InputCheckbox, {
+                checked: curNarrative.included,
+                label: t('NARRATIVE_INCLUDED'),
+                disabled: true,
+                className: 'right mt3',
+              }),
+            ]),
         ],
-      ]);
+        model.scenario &&
+          model.scenario.narratives &&
+          model.scenario.narratives.length > 0 && [
+            m(Select, {
+              className: 'col s12 mb0 mw30',
+              label: t('SELECT_NARRATIVE'),
+              checkedId:
+                curNarrative && curNarrative.saved
+                  ? curNarrative.id
+                  : undefined,
+              placeholder: t('i18n', 'pickOne'),
+              options: selectOptions,
+              onchange: (v) => {
+                if (v && v.length > 0) {
+                  const newNarrative = model.scenario.narratives
+                    .filter((n) => n.id === v[0])
+                    .shift();
+                  if (newNarrative) {
+                    editor.setContents(
+                      newNarrative.desc ? JSON.parse(newNarrative.desc) : []
+                    );
+                  }
+                  attrs.update({
+                    curNarrative: () => deepCopy(newNarrative),
+                    lockedComps: () =>
+                      model.scenario.components.reduce((acc, cur) => {
+                        acc[cur.id] = true;
+                        return acc;
+                      }, {} as Record<ID, boolean>),
+                  });
+                }
+              },
+            } as ISelectOptions<string>),
+
+            // ]),
+            curNarrative && [
+              m(
+                '.col.s12',
+                {
+                  oncreate: () => {
+                    editor = new Quill('#editor', {
+                      modules: {
+                        toolbar: false,
+                      },
+                      readOnly: true,
+                      theme: 'snow',
+                    });
+                    editor.setContents(
+                      curNarrative.desc ? JSON.parse(curNarrative.desc) : []
+                    );
+                  },
+                },
+                [m('.col.s12', [m('#editor.row', {})])]
+              ),
+              template
+                ? m(
+                    '.col.s12',
+                    m(ScenarioParagraph, {
+                      ...attrs,
+                      template,
+                    })
+                  )
+                : '',
+              m(
+                '.col.s12',
+                m('.row', [
+                  categories.map((category) => {
+                    const componentIds = category && category.componentIds;
+                    const comps =
+                      componentIds &&
+                      modelComps.filter((c) => componentIds.indexOf(c.id) >= 0);
+                    return m(
+                      '.col',
+                      {
+                        className: `s${12 / categories.length}`,
+                      },
+                      multipleCategories && m('h5', category.label),
+                      m(CategoryTable, { curNarrative, comps })
+                    );
+                  }),
+                ])
+              ),
+            ],
+          ]
+      );
     },
   };
 };

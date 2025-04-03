@@ -303,7 +303,7 @@ export const messagesNL: typeof messages = {
   SAVE_NARRATIVE: 'Bewaar',
   SAVED_NARRATIVES: "Bewaarde scenario's",
   INCLUDE_NARRATIVE: 'Selecteer scenario',
-  NARRATIVE_INCLUDED: 'Scenario is geselecteerd',
+  NARRATIVE_INCLUDED: 'GESELECTEERD',
   SELECT_NARRATIVE: 'Selecteer verhaallijn',
   SELECT_SCENARIO: 'Selecteer scenario',
   KEY: 'Sleutel',
