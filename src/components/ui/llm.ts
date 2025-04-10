@@ -75,139 +75,153 @@ async function chatWithLLM(
   temperature: number = 0.7,
   apiKey?: string
 ): Promise<string | undefined | { title: string; content: string }> {
-  try {
-    let requestBody: any;
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-    };
+  let requestBody: any;
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
 
-    switch (provider) {
-      case 'ollama':
-        url = `${url}${url.endsWith('/') ? '' : '/'}api/generate`;
-        requestBody = {
-          model,
-          prompt: userPrompt + '\n\nRespond using JSON.',
-          format: {
-            type: 'object',
-            properties: {
-              title: {
-                type: 'string',
-                description: 'The title of the story',
-              },
-              content: {
-                type: 'string',
-                description: 'The main content of the story',
-              },
+  switch (provider) {
+    case 'ollama':
+      url = `${url}${url.endsWith('/') ? '' : '/'}api/generate`;
+      requestBody = {
+        model,
+        prompt: userPrompt + '\n\nRespond using JSON.',
+        format: {
+          type: 'object',
+          properties: {
+            title: {
+              type: 'string',
+              description: 'The title of the story',
             },
-            required: ['title', 'content'],
-            additionalProperties: false,
-          },
-          stream: false,
-          options: { temperature },
-        } as OllamaRequest;
-        break;
-
-      case 'claude':
-        if (!apiKey) throw new Error('API key required for Claude');
-        headers['x-api-key'] = apiKey;
-        // Claude doesn't support system messages in the messages array
-        requestBody = {
-          model,
-          system: systemPrompt,
-          messages: [{ role: 'user', content: userPrompt }],
-          temperature,
-        } as ClaudeRequest;
-        break;
-
-      case 'openai':
-        if (!apiKey) throw new Error('API key required for OpenAI');
-        headers['Authorization'] = `Bearer ${apiKey}`;
-        requestBody = {
-          model,
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: userPrompt },
-          ],
-          temperature,
-          stream: false,
-        } as OpenAIRequest;
-        break;
-
-      case 'gemini':
-        if (!apiKey) throw new Error('API key required for Gemini');
-        // For Gemini, we append the API key to the URL instead of using a header
-        url = `${url}?key=${apiKey}`;
-        // Convert system prompt + user prompt into Gemini format
-        requestBody = {
-          contents: [
-            {
-              role: 'user',
-              parts: [
-                {
-                  text: `${systemPrompt}\n\n${userPrompt}`,
-                },
-              ],
+            content: {
+              type: 'string',
+              description: 'The main content of the story',
             },
-          ],
-          generationConfig: {
-            temperature,
           },
-        } as GeminiRequest;
-        break;
+          required: ['title', 'content'],
+          additionalProperties: false,
+        },
+        stream: false,
+        options: { temperature },
+      } as OllamaRequest;
+      break;
 
-      default:
-        throw new Error(`Unsupported provider: ${provider}`);
-    }
+    case 'claude':
+      if (!apiKey) throw new Error('API key required for Claude');
+      headers['x-api-key'] = apiKey;
+      // Claude doesn't support system messages in the messages array
+      requestBody = {
+        model,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }],
+        temperature,
+      } as ClaudeRequest;
+      break;
 
-    console.log(
-      `Request to ${provider}:`,
-      JSON.stringify({ url, headers, body: requestBody }, null, 2)
-    );
+    case 'openai':
+      if (!apiKey) throw new Error('API key required for OpenAI');
+      headers['Authorization'] = `Bearer ${apiKey}`;
+      requestBody = {
+        model,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt },
+        ],
+        temperature,
+        stream: false,
+      } as OpenAIRequest;
+      break;
 
-    const response = await fetch(url, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(requestBody),
-    });
+    case 'gemini':
+      if (!apiKey) throw new Error('API key required for Gemini');
+      // For Gemini, we append the API key to the URL instead of using a header
+      url = `${url}?key=${apiKey}`;
+      // Convert system prompt + user prompt into Gemini format
+      requestBody = {
+        contents: [
+          {
+            role: 'user',
+            parts: [
+              {
+                text: `${systemPrompt}\n\n${userPrompt}`,
+              },
+            ],
+          },
+        ],
+        generationConfig: {
+          temperature,
+        },
+      } as GeminiRequest;
+      break;
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(
-        `Error: ${response.status} ${response.statusText} - ${errorText}`
-      );
-    }
-
-    const data = await response.json();
-    // console.log(JSON.stringify(data, null, 2));
-
-    // Extract the response content based on the provider's response format
-    switch (provider) {
-      case 'ollama':
-        try {
-          return data.response
-            ? (JSON.parse(data.response) as { title: string; content: string })
-            : undefined;
-        } catch (e: any) {
-          console.error(e);
-          return '';
-        }
-
-      case 'claude':
-        return data.content?.[0]?.text;
-
-      case 'openai':
-        return data.choices?.[0]?.message?.content;
-
-      case 'gemini':
-        return data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-      default:
-        return undefined;
-    }
-  } catch (error) {
-    console.error(`Failed to chat with ${provider}:`, error);
-    return undefined;
+    default:
+      throw new Error(`Unsupported provider: ${provider}`);
   }
+
+  console.log(
+    `Request to ${provider}:`,
+    JSON.stringify({ url, headers, body: requestBody }, null, 2)
+  );
+
+  const maxRetries = 3;
+  let attempt = 0;
+
+  while (attempt < maxRetries) {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(
+          `Error: ${response.status} ${response.statusText} - ${errorText}`
+        );
+      }
+
+      const data = await response.json();
+
+      // console.log(JSON.stringify(data, null, 2));
+
+      // Extract the response content based on the provider's response format
+      switch (provider) {
+        case 'ollama':
+          try {
+            return data.response
+              ? (JSON.parse(data.response) as {
+                  title: string;
+                  content: string;
+                })
+              : undefined;
+          } catch (e: any) {
+            console.error(e);
+            return '';
+          }
+
+        case 'claude':
+          return data.content?.[0]?.text;
+
+        case 'openai':
+          return data.choices?.[0]?.message?.content;
+
+        case 'gemini':
+          return data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        default:
+          return undefined;
+      }
+    } catch (error) {
+      console.error(`Attempt ${attempt + 1} failed:`, error);
+      attempt++;
+      // if (attempt < maxRetries) {
+      //   const delay = Math.pow(2, attempt) * 1000; // Exponential backoff
+      //   await new Promise((resolve) => setTimeout(resolve, delay));
+      // }
+    }
+  }
+  return undefined;
 }
 
 export const LLMSelector: MeiosisComponent = () => {
