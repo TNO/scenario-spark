@@ -6,7 +6,7 @@ import {
   Narrative,
   ScenarioComponent,
 } from '../models';
-import { MeiosisComponent, i18n, setPage, t } from '../services';
+import { MeiosisComponent, State, i18n, setPage, t } from '../services';
 import {
   Select,
   ISelectOptions,
@@ -26,6 +26,7 @@ import {
 } from '../utils';
 import { htmlTemplate } from '../assets/html-styles';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
+import { MeiosisCell } from 'meiosis-setup/types';
 
 const CategoryTable: FactoryComponent<{
   curNarrative?: Narrative;
@@ -136,6 +137,27 @@ export const ShowScenarioPage: MeiosisComponent = () => {
     dlAnchorElem.click();
   };
 
+  const updateCurNarrative = (
+    newNarrative: Narrative | undefined,
+    editor: Quill,
+    attrs: MeiosisCell<State>,
+    model: DataModel
+  ) => {
+    if (newNarrative) {
+      editor.setContents(
+        newNarrative.desc ? JSON.parse(newNarrative.desc) : []
+      );
+      attrs.update({
+        curNarrative: () => deepCopy(newNarrative),
+        lockedComps: () =>
+          model.scenario.components.reduce((acc, cur) => {
+            acc[cur.id] = true;
+            return acc;
+          }, {} as Record<ID, boolean>),
+      });
+    }
+  };
+
   return {
     oninit: ({ attrs }) => setPage(attrs, Dashboards.SHOW_SCENARIO),
     view: ({ attrs }) => {
@@ -143,15 +165,16 @@ export const ShowScenarioPage: MeiosisComponent = () => {
       const { model, curNarrative } = state;
 
       const {
-        scenario: { template, categories = [], components: modelComps = [] },
+        scenario: {
+          template,
+          categories = [],
+          components: modelComps = [],
+          narratives = [],
+        },
       } = model;
       const multipleCategories = categories.length > 1;
-      if (
-        (!curNarrative || !curNarrative.saved) &&
-        model.scenario.narratives &&
-        model.scenario.narratives.length > 0
-      ) {
-        const newNarrative = model.scenario.narratives[0];
+      if ((!curNarrative || !curNarrative.saved) && narratives.length > 0) {
+        const newNarrative = narratives[0];
         attrs.update({
           curNarrative: () => deepCopy(newNarrative),
         });
@@ -159,6 +182,9 @@ export const ShowScenarioPage: MeiosisComponent = () => {
       }
 
       const selectOptions = narrativesToOptions(model.scenario.narratives);
+      const narrativeIdx = curNarrative
+        ? narratives.findIndex((n) => n.id === curNarrative.id)
+        : -1;
 
       return m(
         '.show-scenario.row',
@@ -194,38 +220,76 @@ export const ShowScenarioPage: MeiosisComponent = () => {
         model.scenario &&
           model.scenario.narratives &&
           model.scenario.narratives.length > 0 && [
-            m(Select, {
-              className: 'col s8 m10 mb0 mw30',
-              label: t('SELECT_NARRATIVE'),
-              checkedId:
-                curNarrative && curNarrative.saved
-                  ? curNarrative.id
-                  : undefined,
-              placeholder: t('i18n', 'pickOne'),
-              options: selectOptions,
-              onchange: (v) => {
-                if (v && v.length > 0) {
-                  const newNarrative = model.scenario.narratives
-                    .filter((n) => n.id === v[0])
-                    .shift();
-                  if (newNarrative) {
-                    editor.setContents(
-                      newNarrative.desc ? JSON.parse(newNarrative.desc) : []
-                    );
-                  }
-                  attrs.update({
-                    curNarrative: () => deepCopy(newNarrative),
-                    lockedComps: () =>
-                      model.scenario.components.reduce((acc, cur) => {
-                        acc[cur.id] = true;
-                        return acc;
-                      }, {} as Record<ID, boolean>),
-                  });
-                }
-              },
-            } as ISelectOptions<string>),
-            m('.col.s2.m1.mb0', m('i.material-icons.medium', 'arrow_left')),
-            m('.col.s2.m1.mb0', m('i.material-icons.medium', 'arrow_right')),
+            m(
+              '.col.s12',
+              m(
+                '.row',
+                m(Select, {
+                  className: 'col s7 m8 l11 mb0 mw30',
+                  label: t('SELECT_NARRATIVE'),
+                  checkedId:
+                    curNarrative && curNarrative.saved
+                      ? curNarrative.id
+                      : undefined,
+                  placeholder: t('i18n', 'pickOne'),
+                  options: selectOptions,
+                  onchange: (v) => {
+                    if (v && v.length > 0) {
+                      const newNarrative = model.scenario.narratives.find(
+                        (n) => n.id === v[0]
+                      );
+                      updateCurNarrative(newNarrative, editor, attrs, model);
+                    }
+                  },
+                } as ISelectOptions<string>),
+                m(
+                  '.right.mb0',
+                  m(
+                    'i.material-icons.medium',
+                    {
+                      className:
+                        narrativeIdx < narratives.length - 1
+                          ? 'blue-text clickable'
+                          : 'grey-text',
+                      onclick: () => {
+                        if (narrativeIdx < narratives.length - 1) {
+                          const newNarrative = narratives[narrativeIdx + 1];
+                          updateCurNarrative(
+                            newNarrative,
+                            editor,
+                            attrs,
+                            model
+                          );
+                        }
+                      },
+                    },
+                    'arrow_right'
+                  )
+                ),
+                m(
+                  '.right.mb0',
+                  m(
+                    'i.material-icons.medium',
+                    {
+                      className:
+                        narrativeIdx > 0 ? 'blue-text clickable' : 'grey-text',
+                      onclick: () => {
+                        if (narrativeIdx > 0) {
+                          const newNarrative = narratives[narrativeIdx - 1];
+                          updateCurNarrative(
+                            newNarrative,
+                            editor,
+                            attrs,
+                            model
+                          );
+                        }
+                      },
+                    },
+                    'arrow_left'
+                  )
+                )
+              )
+            ),
             // ]),
             curNarrative && [
               m(
