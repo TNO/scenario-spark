@@ -155,25 +155,25 @@ export const Layout: MeiosisComponent = () => ({
                     ).toUpperCase()
                   ),
                 ])
-              ),
-              m('li.tooltip.language-settings.unselectable', [
-                m(
-                  'a.dropdown-trigger',
-                  {
-                    href: '#!',
-                    'data-target': 'dropdown_languages',
-                    oncreate: ({ dom }) => {
-                      M.Dropdown.init(dom);
-                    },
-                  },
-                  m(Icon, {
-                    iconName: 'language',
-                    className: 'hoverable',
-                    style: 'font-size: 2.2rem; width: 4rem;',
-                  }),
-                  m('span.tooltiptext', t('SET_LANGUAGE').toUpperCase())
-                ),
-              ])
+              )
+              // m('li.tooltip.language-settings.unselectable', [
+              //   m(
+              //     'a.dropdown-trigger',
+              //     {
+              //       href: '#!',
+              //       'data-target': 'dropdown_languages',
+              //       oncreate: ({ dom }) => {
+              //         M.Dropdown.init(dom);
+              //       },
+              //     },
+              //     m(Icon, {
+              //       iconName: 'language',
+              //       className: 'hoverable',
+              //       style: 'font-size: 2.2rem; width: 4rem;',
+              //     }),
+              //     m('span.tooltiptext', t('SET_LANGUAGE').toUpperCase())
+              //   ),
+              // ])
             ),
           ])
         )
