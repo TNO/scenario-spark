@@ -12,6 +12,7 @@ export type KeyDriver = {
 
 export type ScenarioParagraphAttrs = {
   template: string;
+  className: string;
 };
 
 // Helper function to replace placeholders with select elements
@@ -67,17 +68,18 @@ export const ScenarioParagraph: MeiosisComponent<
       const {
         template,
         state: { model, curNarrative = {} as Narrative },
+        className,
       } = attrs;
       const {
         scenario: { components: modelComps = [] },
       } = model;
 
       const { components = {} } = curNarrative;
-      const extractIds = /{(\d+)}/g;
+      const extractIds = /\{(\d+)\}/g;
       const idBasedTemplate = template
         .split(extractIds)
         .map((t) =>
-          t.replace(/\d+/, (i) =>
+          t.replace(/^\d+$/, (i) =>
             +i <= modelComps.length
               ? `{${modelComps[+i - 1].id}}`
               : `??? ${i} ???`
@@ -89,7 +91,7 @@ export const ScenarioParagraph: MeiosisComponent<
         .map((t) => t.trim())
         .filter(Boolean)
         .map((t) =>
-          m('.scenario-paragraph', [
+          m('.scenario-paragraph', { className }, [
             replacePlaceholders(t, modelComps, components),
           ])
         );

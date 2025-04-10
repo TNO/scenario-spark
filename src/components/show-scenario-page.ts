@@ -190,7 +190,6 @@ export const ShowScenarioPage: MeiosisComponent = () => {
         '.show-scenario.row',
         [
           m('a#downloadAnchorElem', { style: 'display:none' }),
-          // m('.col.s12', { style: 'font-size: 24px' }, [
           curNarrative &&
             m('.col.s12', [
               curNarrative.risk &&
@@ -290,7 +289,6 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                 )
               )
             ),
-            // ]),
             curNarrative && [
               m(
                 '.col.s12',

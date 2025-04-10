@@ -102,7 +102,10 @@ export const CategoryTable: MeiosisComponent<{
         category &&
         comps &&
         m('.scenario-table.row', [
-          m('.col.s10.m11', multipleCategories && m('h5', category.label)),
+          m(
+            '.col.s10.m11',
+            multipleCategories && m('h5.truncate', category.label)
+          ),
           m('.col.s2.m1.icons', [
             // m(ToggleIcon, {
             //   on: 'visibility',
@@ -409,21 +412,11 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           ? m(ScenarioParagraph, {
               ...attrs,
               template,
+              className: 'col s12',
             })
           : '',
         askLlm === false && m(CircularSpinner),
-        m(
-          'i.left.material-icons.small.clickable',
-          {
-            title: t('TOGGLE', showTables ? 'HIDE' : 'SHOW'),
-            className: 'left',
-            style: { marginBottom: '-30px' },
-            onclick: () => {
-              showTables = !showTables;
-            },
-          },
-          showTables ? 'arrow_drop_down' : 'arrow_drop_up'
-        ),
+
         showTables &&
           categories.map((c, i) =>
             m(
@@ -439,6 +432,21 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               })
             )
           ),
+        m(
+          '.col.s12',
+          m(
+            'i.right.material-icons.small.clickable',
+            {
+              title: t('TOGGLE', showTables ? 'HIDE' : 'SHOW'),
+              className: 'right',
+              // style: { marginBottom: '-14px' },
+              onclick: () => {
+                showTables = !showTables;
+              },
+            },
+            showTables ? 'visibility_off' : 'visibility'
+          )
+        ),
         m('.col.s12', [
           m('.row', [
             m(TextInput, {
