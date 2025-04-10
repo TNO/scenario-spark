@@ -939,9 +939,9 @@ ul.kanban > li {
   border: none;
 }
 
-.show-scenario .ql-editor {
+/* .show-scenario .ql-editor {
   padding: 30px 0;
-}
+} */
 
 .show-scenario #editor {
   font-size: 24px;

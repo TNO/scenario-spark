@@ -224,7 +224,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
               m(
                 '.row',
                 m(Select, {
-                  className: 'col s7 m8 l11 mb0 mw30',
+                  className: 'col s7 m8 l10 mb0 mw30',
                   label: t('SELECT_NARRATIVE'),
                   checkedId:
                     curNarrative && curNarrative.saved
@@ -306,7 +306,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                     );
                   },
                 },
-                [m('.col.s12', [m('#editor.row', {})])]
+                m('#editor.row', {})
               ),
               template
                 ? m(
