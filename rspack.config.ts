@@ -1,10 +1,9 @@
 import { config } from 'dotenv';
 import { resolve } from 'path';
-import type { Configuration } from '@rspack/cli';
 import {
+  type Configuration,
   DefinePlugin,
   HtmlRspackPlugin,
-  HotModuleReplacementPlugin,
   SwcJsMinimizerRspackPlugin,
   LightningCssMinimizerRspackPlugin,
 } from '@rspack/core';
@@ -50,7 +49,7 @@ const configuration: Configuration = {
     new HtmlRspackPlugin({
       title: 'Scenario Spark',
       publicPath: devMode ? undefined : 'https://tno.github.io/scenario-spark',
-      scriptLoading: 'defer',
+      // scriptLoading: 'defer',
       minify: !devMode,
       favicon: './src/favicon.ico',
       meta: {
@@ -71,14 +70,17 @@ const configuration: Configuration = {
         'og:image:height': '200',
       },
     }),
-    new HotModuleReplacementPlugin(),
     new LightningCssMinimizerRspackPlugin({
       removeUnusedLocalIdents: true,
       // minimizerOptions: {}
     }),
     new SwcJsMinimizerRspackPlugin({
       minimizerOptions: devMode
-        ? {}
+        ? {
+            compress: false,
+            minify: false,
+            mangle: false,
+          }
         : {
             compress: true,
             minify: true,
