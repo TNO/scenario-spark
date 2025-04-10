@@ -214,6 +214,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
         categories = [],
         inconsistencies = {},
         hideInconsistentValues = false,
+        llm,
       } = model.scenario;
       const narratives = model.scenario && model.scenario.narratives;
       const excluded =
@@ -232,6 +233,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               }, new Set<string>())
           : new Set<string>();
       const selectOptions = narrativesToOptions(model.scenario.narratives);
+      const count = llm?.autoLLMCount || 10;
 
       return m('.create-scenario.row', [
         m('.col.s12', [
@@ -275,10 +277,10 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               });
             },
           }),
-          model.scenario.llm &&
+          model.scenario.llm && [
             m(FlatButton, {
               label: t('ASK_LLM'),
-              iconName: 'create',
+              iconName: 'auto_awesome',
               style: 'margin-left: 10px;',
               disabled: !curNarrative.components || !askLlm,
               onclick: async () => {
@@ -291,7 +293,13 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   curNarrative,
                   model.scenario.categories,
                   model.scenario.components
-                );
+                ).catch((e) => {
+                  console.error(e);
+                  M.toast({ html: e });
+                  askLlm = true;
+                  m.redraw();
+                  return;
+                });
                 console.log(story);
                 askLlm = true;
                 if (story) {
@@ -306,6 +314,66 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 m.redraw();
               },
             }),
+            m(FlatButton, {
+              label: t('AUTO_CREATE', 'BTN'),
+              title: t('AUTO_CREATE_MSG', count),
+              iconName: 'auto_awesome_motion',
+              onclick: async () => {
+                askLlm = false;
+                const { components = {} } = curNarrative;
+                const locked = components
+                  ? Object.keys(lockedComps).reduce((acc, cur) => {
+                      if (lockedComps[cur]) {
+                        acc[cur] = components[cur];
+                      }
+                      return acc;
+                    }, {} as Record<ID, ID[]>)
+                  : ({} as Record<ID, ID[]>);
+                model.scenario.components
+                  .filter((c) => c.manual)
+                  .forEach((c) => {
+                    locked[c.id] = components[c.id];
+                  });
+
+                let attempt = 0;
+                while (attempt < count) {
+                  const narrative = generateNarrative(model.scenario, locked);
+                  if (narrative) {
+                    const story = await generateStory(
+                      model.scenario.llm!,
+                      narrative,
+                      model.scenario.categories,
+                      model.scenario.components
+                    ).catch((e) => {
+                      console.error(e);
+                      M.toast({ html: e });
+                      askLlm = true;
+                      m.redraw();
+                      return;
+                    });
+                    console.log(story);
+                    if (story) {
+                      attempt++;
+                      const quill = markdownToQuill(
+                        typeof story === 'string' ? story : story.content
+                      );
+                      editor.setContents(quill);
+                      narrative.desc = JSON.stringify(editor.getContents());
+                      if (typeof story !== 'string') {
+                        M.toast({ html: `${attempt}. ${story.title}` });
+                        narrative.label = story.title;
+                      } else {
+                        M.toast({ html: `${attempt}. ${story}` });
+                      }
+                      saveNarrative(attrs, narrative);
+                      m.redraw();
+                    }
+                  }
+                }
+                askLlm = true;
+              },
+            }),
+          ],
           curNarrative.saved
             ? [
                 m(FlatButton, {
@@ -388,11 +456,13 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                     .filter((n) => n.id === v[0])
                     .shift();
                   lockState = true;
-                  editor.setContents(
-                    newNarrative && newNarrative.desc
-                      ? JSON.parse(newNarrative.desc)
-                      : []
-                  );
+                  try {
+                    editor.setContents(
+                      newNarrative && newNarrative.desc
+                        ? JSON.parse(newNarrative.desc)
+                        : []
+                    );
+                  } catch {}
                   lockState = false;
                   // if (newNarrative) newNarrative.included = true;
                   attrs.update({

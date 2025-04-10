@@ -12,6 +12,7 @@ export interface LLMConfig {
   systemPrompt?: string;
   userPrompt?: string;
   temperature?: number;
+  autoLLMCount?: number;
 }
 
 interface Message {
@@ -241,7 +242,7 @@ export const LLMSelector: MeiosisComponent = () => {
                 id: 'id',
                 label: 'Service',
                 type: 'select',
-                className: 'col s12 m4',
+                className: 'col s12 m3',
                 options: [
                   { id: 'ollama', label: 'Ollama' },
                   { id: 'gemini', label: 'Gemini' },
@@ -253,18 +254,30 @@ export const LLMSelector: MeiosisComponent = () => {
                 id: 'model',
                 label: t('MODEL'),
                 value: 'llama3.3',
-                className: 'col s12 m4',
+                className: 'col s12 m3',
                 type: 'text',
               },
               {
                 id: 'temperature',
-                label: t('TEMPERATURE'),
-                className: 'col s12 m4',
+                label: t('TEMPERATURE', 'BTN'),
+                description: t('TEMPERATURE', 'DESC'),
+                className: 'col s12 m3',
                 type: 'number',
                 value: '0.7',
                 min: 0,
                 max: 1,
                 step: 0.1,
+              },
+              {
+                id: 'autoLLMCount',
+                label: t('AUTO_CREATE', 'COUNT'),
+                description: t('AUTO_CREATE', 'COUNT_DESC'),
+                className: 'col s12 m3',
+                type: 'number',
+                value: '10',
+                min: 0,
+                max: 100,
+                step: 1,
               },
               {
                 id: 'apiKey',

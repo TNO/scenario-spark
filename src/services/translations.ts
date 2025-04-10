@@ -243,7 +243,10 @@ export const messages = {
   PROVIDER: 'Provider',
   SYSTEM_PROMPT: 'System prompt',
   USER_PROMPT: 'User prompt',
-  TEMPERATURE: 'Temperature',
+  TEMPERATURE: {
+    BTN: 'Temperature',
+    DESC: 'How creative should the LLM be (max = 1)?',
+  },
   API_KEY: 'API key',
   URL: 'URL',
   ASK_LLM: 'Ask LLM',
@@ -251,6 +254,15 @@ export const messages = {
   OLLAMA_URL: 'Hostname (and port)',
   ADV_EDIT: 'Code editor',
   TOGGLE: { SHOW: 'Show table', HIDE: 'Hide table' },
+  AUTO_CREATE: {
+    BTN: 'Auto create',
+    COUNT: 'LLM auto create count',
+    COUNT_DESC: 'How many scenarios do you want to generate at once?',
+  },
+  AUTO_CREATE_MSG: {
+    1: `Auto create 1 scenario`,
+    n: 'Auto create {n} scenarios',
+  },
 };
 
 export const messagesNL: typeof messages = {
@@ -510,7 +522,10 @@ export const messagesNL: typeof messages = {
   PROVIDER: 'Provider',
   SYSTEM_PROMPT: 'Systeem prompt',
   USER_PROMPT: 'Gebruiker prompt',
-  TEMPERATURE: 'Temperatuur',
+  TEMPERATURE: {
+    BTN: 'Temperatuur',
+    DESC: 'Hoe creatief mag de LLM zijn (max = 1)?',
+  },
   API_KEY: 'API sleutel',
   URL: 'URL',
   ASK_LLM: 'Vraag LLM',
@@ -518,6 +533,15 @@ export const messagesNL: typeof messages = {
   OLLAMA_URL: 'Domeinnaam (en poort)',
   ADV_EDIT: 'Code editor',
   TOGGLE: { SHOW: 'Toon tabel', HIDE: 'Verberg tabel' },
+  AUTO_CREATE: {
+    BTN: 'Autom.',
+    COUNT: 'LLM auto gen aantal',
+    COUNT_DESC: 'Hoeveel verhaallijnen moeten automatisch gemaakt worden?',
+  },
+  AUTO_CREATE_MSG: {
+    1: 'Genereer 1 scenario automatisch',
+    n: "Genereer {n} scenario's automatisch",
+  },
 };
 
 const setGuiLanguage = (language: Languages) => {
@@ -594,9 +618,9 @@ function addOnChangeListener(listener: Listener) {
 }
 
 async function loadAndSetLocale(newLocale: Languages) {
-  if (i18n.currentLocale === newLocale) {
-    return;
-  }
+  // if (i18n.currentLocale === newLocale) {
+  //   return;
+  // }
 
   const resolvedLocale = supported(newLocale) ? newLocale : i18n.defaultLocale;
   i18n.currentLocale = resolvedLocale;
