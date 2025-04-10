@@ -12,7 +12,7 @@ window.onbeforeunload = (e) => {
   if (localStorage.getItem(SAVED) === 'true') return;
   localStorage.setItem(SAVED, 'true');
   e.preventDefault(); // This is necessary for older browsers
-  e.returnValue = ''; // For modern browsers
+  // e.returnValue = ''; // For modern browsers
 };
 
 i18n.addOnChangeListener((_locale: string) => {
