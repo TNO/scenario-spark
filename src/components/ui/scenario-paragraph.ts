@@ -12,7 +12,7 @@ export type KeyDriver = {
 
 export type ScenarioParagraphAttrs = {
   template: string;
-  className: string;
+  className?: string;
 };
 
 // Helper function to replace placeholders with select elements
