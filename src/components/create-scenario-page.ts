@@ -452,7 +452,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               },
             }),
             m(InputCheckbox, {
-              className: 'col s6 m3 l4 mt25',
+              className: 'col s6 m2 mt25',
               checked: curNarrative.included,
               label: t('INCLUDE_NARRATIVE'),
               onchange: (n) => {
@@ -464,7 +464,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               m(Select, {
                 key: `prob${curNarrative.id}`,
                 placeholder: t('i18n', 'pick'),
-                className: 'col s6 m3 l2',
+                className: 'col s6 m2',
                 label: t('PROBABILITY'),
                 initialValue: curNarrative.probability,
                 options: range(0, 4).map((id) => ({

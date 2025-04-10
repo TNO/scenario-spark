@@ -219,7 +219,7 @@ export const messages = {
   PROBABILITY: 'Probability of occurence',
   IMPACT: 'Impact',
   RISK: 'Risk',
-  RISK_PLACEHOLDER: 'Select probability and impact',
+  RISK_PLACEHOLDER: 'Probability x Impact',
   PROB5: { 0: 'Very low', 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Very high' },
   IMP5: { 0: 'Very low', 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Very high' },
   RISK5: { 0: 'Very low', 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Very high' },
@@ -468,7 +468,7 @@ export const messagesNL: typeof messages = {
   PROBABILITY: 'Kans van optreden',
   IMPACT: 'Impact',
   RISK: 'Risico',
-  RISK_PLACEHOLDER: 'Specificeer kans en impact',
+  RISK_PLACEHOLDER: 'Kans x Impact',
   PROB5: {
     0: 'Zeer laag',
     1: 'Laag',
