@@ -250,6 +250,7 @@ export const messages = {
   INCLUDE_LLM: 'Include in LLM',
   OLLAMA_URL: 'Hostname (and port)',
   ADV_EDIT: 'Code editor',
+  TOGGLE: { SHOW: 'Show table', HIDE: 'Hide table' },
 };
 
 export const messagesNL: typeof messages = {
@@ -516,6 +517,7 @@ export const messagesNL: typeof messages = {
   INCLUDE_LLM: 'Stuur naar LLM',
   OLLAMA_URL: 'Domeinnaam (en poort)',
   ADV_EDIT: 'Code editor',
+  TOGGLE: { SHOW: 'Toon tabel', HIDE: 'Verberg tabel' },
 };
 
 const setGuiLanguage = (language: Languages) => {

@@ -195,7 +195,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
           model.scenario.narratives &&
           model.scenario.narratives.length > 0 && [
             m(Select, {
-              className: 'col s12 mb0 mw30',
+              className: 'col s8 m10 mb0 mw30',
               label: t('SELECT_NARRATIVE'),
               checkedId:
                 curNarrative && curNarrative.saved
@@ -224,7 +224,8 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                 }
               },
             } as ISelectOptions<string>),
-
+            m('.col.s2.m1.mb0', m('i.material-icons.medium', 'arrow_left')),
+            m('.col.s2.m1.mb0', m('i.material-icons.medium', 'arrow_right')),
             // ]),
             curNarrative && [
               m(

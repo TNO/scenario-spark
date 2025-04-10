@@ -102,8 +102,8 @@ export const CategoryTable: MeiosisComponent<{
         category &&
         comps &&
         m('.scenario-table.row', [
-          m('.col.s11', multipleCategories && m('h5', category.label)),
-          m('.col.s1.icons', [
+          m('.col.s10.m11', multipleCategories && m('h5', category.label)),
+          m('.col.s2.m1.icons', [
             // m(ToggleIcon, {
             //   on: 'visibility',
             //   off: 'visibility_off',
@@ -413,21 +413,16 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           : '',
         askLlm === false && m(CircularSpinner),
         m(
-          '.col.s12',
-          m(
-            'a',
-            {
-              type: 'button',
-              className: 'right',
-              onclick: () => {
-                showTables = !showTables;
-              },
+          'i.left.material-icons.small.clickable',
+          {
+            title: t('TOGGLE', showTables ? 'HIDE' : 'SHOW'),
+            className: 'left',
+            style: { marginBottom: '-30px' },
+            onclick: () => {
+              showTables = !showTables;
             },
-            m(
-              'i.material-icons.medium',
-              showTables ? 'arrow_drop_down' : 'arrow_drop_up'
-            )
-          )
+          },
+          showTables ? 'arrow_drop_down' : 'arrow_drop_up'
         ),
         showTables &&
           categories.map((c, i) =>
