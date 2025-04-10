@@ -198,6 +198,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
   let lockState = false;
   let version = 0;
   let askLlm = true;
+  let showTables = true;
 
   return {
     oninit: ({ attrs }) => setPage(attrs, Dashboards.CREATE_SCENARIO),
@@ -411,20 +412,38 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             })
           : '',
         askLlm === false && m(CircularSpinner),
-        categories.map((c, i) =>
+        m(
+          '.col.s12',
           m(
-            '.col.s12',
+            'a',
             {
-              className: `m${Math.round(12 / categories.length)}`,
-              key: 10000 * version + i,
+              type: 'button',
+              className: 'right',
+              onclick: () => {
+                showTables = !showTables;
+              },
             },
-            m(CategoryTable, {
-              ...attrs,
-              catId: c.id,
-              excluded,
-            })
+            m(
+              'i.material-icons.medium',
+              showTables ? 'arrow_drop_down' : 'arrow_drop_up'
+            )
           )
         ),
+        showTables &&
+          categories.map((c, i) =>
+            m(
+              '.col.s12',
+              {
+                className: `m${Math.round(12 / categories.length)}`,
+                key: 10000 * version + i,
+              },
+              m(CategoryTable, {
+                ...attrs,
+                catId: c.id,
+                excluded,
+              })
+            )
+          ),
         m('.col.s12', [
           m('.row', [
             m(TextInput, {
