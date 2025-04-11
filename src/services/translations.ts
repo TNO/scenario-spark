@@ -190,7 +190,13 @@ export const messages = {
   NO_NARRATIVE: 'Narrative not generated in 100 tries!',
   SPEC_CATS:
     'First specify some categories, where each category contains some key drivers.',
-  EXPORT2WORD: 'Export to Word',
+  EXPORT2WORD: {
+    TITLE: 'Export to Word',
+    DESC: 'Which scenario do you want to export?',
+    CURRENT: 'Current',
+    SELECTED: 'Selected',
+    ALL: 'All',
+  },
   HIDE_INCONSISTENT: 'Hide inconsistent combinations',
   GOAL: {
     TITLE: 'Goal',
@@ -451,7 +457,13 @@ export const messagesNL: typeof messages = {
   NO_NARRATIVE: 'Er kon geen verhaallijn gegenereerd worden na 100 pogingen!',
   SPEC_CATS:
     'Definieer eerst 1 of 2 categorieën, met in iedere categorie enkele hoofdfactoren.',
-  EXPORT2WORD: 'Exporteer naar Word',
+  EXPORT2WORD: {
+    TITLE: 'Exporteer naar Word',
+    DESC: "Welke scenario's wilt u exporteren?",
+    CURRENT: 'Huidige',
+    SELECTED: 'Selectie',
+    ALL: 'Allemaal',
+  },
   HIDE_INCONSISTENT: 'Verberg inconsistente combinaties',
   GOAL: {
     TITLE: 'Doel',

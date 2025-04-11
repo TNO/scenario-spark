@@ -13,6 +13,7 @@ import {
   FlatButton,
   InputCheckbox,
   uniqueId,
+  ModalPanel,
 } from 'mithril-materialized';
 import { deepCopy } from 'mithril-ui-form';
 import Quill from 'quill';
@@ -104,9 +105,38 @@ const CategoryTable: FactoryComponent<{
 export const ShowScenarioPage: MeiosisComponent = () => {
   let editor: Quill;
 
-  const exportToWord = async (model: DataModel, narrativeName?: string) => {
-    const delta = editor.getContents();
-    const blob = await generateWord(delta, {
+  const exportToWord = async (model: DataModel, narratives: Narrative[]) => {
+    type RawQuillType = {
+      ops: any[];
+    };
+    const addTitle = (delta: RawQuillType, title?: string, header = 1) => {
+      if (delta.ops && title) {
+        delta.ops.push(
+          {
+            insert: title,
+          },
+          { attributes: { header }, insert: '\n' }
+        );
+      }
+    };
+    const doc: RawQuillType = { ops: [] };
+    addTitle(doc, model?.scenario?.label);
+
+    narratives.forEach((curNarrative) => {
+      addTitle(doc, curNarrative?.label, 2);
+      if (curNarrative.desc) {
+        try {
+          const delta: RawQuillType = JSON.parse(curNarrative.desc);
+          if (delta.ops && delta.ops.length) {
+            doc.ops.push(...delta.ops);
+          }
+        } catch {}
+      }
+    });
+
+    console.log(doc);
+    // const delta = editor.getContents();
+    const blob = await generateWord(doc, {
       exportAs: 'blob',
       paragraphStyles: {
         normal: {
@@ -132,7 +162,10 @@ export const ShowScenarioPage: MeiosisComponent = () => {
     dlAnchorElem.setAttribute('href', URL.createObjectURL(blob as Blob));
     dlAnchorElem.setAttribute(
       'download',
-      `${modelToSaveName(model, narrativeName)}.docx`
+      `${modelToSaveName(
+        model,
+        narratives.length === 1 ? narratives[0].label : undefined
+      )}.docx`
     );
     dlAnchorElem.click();
   };
@@ -202,17 +235,50 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                   ),
                 }),
               m(FlatButton, {
-                label: t('EXPORT2WORD'),
+                label: t('EXPORT2WORD', 'TITLE'),
                 iconName: 'download',
                 className: 'right',
                 disabled: !curNarrative.desc,
-                onclick: () => exportToWord(model, curNarrative.label),
+                // onclick: () => exportToWord(model, curNarrative.label),
+                modalId: 'exportToWord',
               }),
               m(InputCheckbox, {
                 checked: curNarrative.included,
                 label: t('NARRATIVE_INCLUDED'),
                 disabled: true,
                 className: 'right mt3',
+              }),
+              m(ModalPanel, {
+                id: 'exportToWord',
+                title: t('EXPORT2WORD', 'TITLE'),
+                fixedFooter: true,
+                description: m(
+                  '.export-modal',
+                  m('.row', m('.col.s12', t('EXPORT2WORD', 'DESC')))
+                ),
+                options: { opacity: 0.7 },
+                buttons: [
+                  {
+                    label: t('EXPORT2WORD', 'CURRENT'),
+                    onclick: () => exportToWord(model, [curNarrative]),
+                  },
+                  {
+                    label: t('EXPORT2WORD', 'SELECTED'),
+                    disabled: narratives.filter((n) => n.included).length === 0,
+                    onclick: () =>
+                      exportToWord(
+                        model,
+                        narratives.filter((n) => n.included)
+                      ),
+                  },
+                  {
+                    label: t('EXPORT2WORD', 'ALL'),
+                    onclick: () => exportToWord(model, narratives),
+                  },
+                  {
+                    label: t('CANCEL'),
+                  },
+                ],
               }),
             ]),
         ],
