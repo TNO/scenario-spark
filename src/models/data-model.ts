@@ -154,6 +154,8 @@ export type Scenario = Item & {
   /** Color thresholds to indicate how often a scenario component is used */
   thresholdColors: ThresholdColor[];
   // components: ScenarioComponent[];
+  /** Selected personas, relevant for current scenario */
+  personas?: ID[];
 };
 
 /** Category of components, e.g. to separate context from narrative */

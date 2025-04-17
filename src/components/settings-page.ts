@@ -49,6 +49,14 @@ export const SettingsPage: MeiosisComponent = () => {
       placeholder: t('TEMPLATE', 'DESC'),
     },
     {
+      id: 'personas',
+      type: 'select',
+      show: ['includeDecisionSupport=true'],
+      multiple: true,
+      options: 'personas',
+      label: t('SELECT_PERSONA'),
+    },
+    {
       id: 'categories',
       label: t('CATEGORIES'),
       type: [
@@ -189,6 +197,7 @@ export const SettingsPage: MeiosisComponent = () => {
                       obj: model.scenario,
                       form,
                       i18n: i18n.i18n,
+                      context: [{ personas }],
                       onchange: async () => {
                         await saveModel(attrs, model);
                       },

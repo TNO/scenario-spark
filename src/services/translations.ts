@@ -237,6 +237,7 @@ export const messages = {
     TITLE: 'Template string for fluid text',
     DESC: 'Write a paragraph where {1} is replaced by the value for key factor 1, etc. Empty lines are converted to paragraphs.',
   },
+  SELECT_PERSONA: 'Select relevant persona for scenario',
   PERSONA: {
     1: 'Persona',
     n: 'Personas',
@@ -522,6 +523,7 @@ export const messagesNL: typeof messages = {
     TITLE: 'Template om de stuurfactoren te vertalen naar een lopende tekst.',
     DESC: 'Schrijf een paragraaf waarbij {1} zal vervangen worden door de waarde van factor 1, etc. Lege regels worden omgezet naar paragrafen.',
   },
+  SELECT_PERSONA: "Selecteer relevante persona's",
   PERSONA: {
     1: 'Persona',
     n: 'Personas',
