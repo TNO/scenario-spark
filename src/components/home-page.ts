@@ -9,7 +9,7 @@ import {
   Select,
   Tabs,
 } from 'mithril-materialized';
-import background from '../assets/background.webp';
+import background from '../assets/hero.webp';
 import DutchFlag from '../assets/flag-nl.png';
 import EnglishFlag from '../assets/flag-en.png';
 import {
@@ -125,21 +125,6 @@ export const HomePage: MeiosisComponent = () => {
   return {
     oninit: ({ attrs }) => {
       setPage(attrs, Dashboards.HOME);
-      // const uriModel = m.route.param('model');
-      // if (!uriModel) {
-      //   return;
-      // }
-      // try {
-      //   const decompressed = lz.decompressFromEncodedURIComponent(uriModel);
-      //   if (!decompressed) {
-      //     return;
-      //   }
-      //   const model = JSON.parse(decompressed);
-      //   saveModel(model);
-      //   changePage(Dashboards.OVERVIEW);
-      // } catch (err) {
-      //   console.error(err);
-      // }
     },
     view: ({ attrs }) => {
       const isCleared = false;
@@ -154,7 +139,60 @@ export const HomePage: MeiosisComponent = () => {
         .sort((a, b) => (a.label || '').localeCompare(b.label));
 
       return [
-        m('div', { style: 'padding-top: 1rem;position: relative;' }, [
+        m('div', { style: 'position: relative;' }, [
+          m(
+            '.hero-section',
+            m('.hero-container', [
+              m(
+                '.hero-image-wrapper',
+                m(
+                  'img.hero-image[alt=ScenarioSpark - A scenario generating tool combining morphological analysis with LLM technology]',
+                  {
+                    src: background,
+                  }
+                )
+              ),
+              m(
+                '.hero-actions',
+                m('.language-switcher', [
+                  m(
+                    '.language-option',
+                    {
+                      onclick: () => setLanguage('nl'),
+                    },
+                    [
+                      m('img', {
+                        src: DutchFlag,
+                        alt: 'Nederlands',
+                        title: 'Nederlands',
+                        disabled: language === 'nl',
+                        class:
+                          language === 'nl' ? 'disabled-image' : 'clickable',
+                      }),
+                      m('span', 'Nederlands'),
+                    ]
+                  ),
+                  m(
+                    '.language-option',
+                    {
+                      onclick: () => setLanguage('en'),
+                    },
+                    [
+                      m('img', {
+                        src: EnglishFlag,
+                        alt: 'English',
+                        title: 'English',
+                        disabled: language === 'en',
+                        class:
+                          language === 'en' ? 'disabled-image' : 'clickable',
+                      }),
+                      m('span', 'English'),
+                    ]
+                  ),
+                ])
+              ),
+            ])
+          ),
           selectedNarratives.length > 0 &&
             categories.length > 0 && [
               m('.row', m('.col.s12', [m('h4', t('SAVED_NARRATIVES'))])),
@@ -185,16 +223,8 @@ export const HomePage: MeiosisComponent = () => {
                     })
                   ),
             ],
-          selectedNarratives.length === 0 &&
-            m(
-              '.row',
-              m(
-                '.col.s12.center-align',
-                m('img.responsive-img.center[alt=fountain pen]', {
-                  src: background,
-                })
-              )
-            ),
+          // selectedNarratives.length === 0 &&
+
           m(
             '.row',
             m(
@@ -330,40 +360,6 @@ export const HomePage: MeiosisComponent = () => {
             )
           ),
           m('.buttons.center', { style: 'margin: 10px auto;' }, [
-            [
-              m(
-                '.language-option',
-                {
-                  onclick: () => setLanguage('nl'),
-                },
-                [
-                  m('img', {
-                    src: DutchFlag,
-                    alt: 'Nederlands',
-                    title: 'Nederlands',
-                    disabled: language === 'nl',
-                    class: language === 'nl' ? 'disabled-image' : 'clickable',
-                  }),
-                  m('span', 'Nederlands'),
-                ]
-              ),
-              m(
-                '.language-option',
-                {
-                  onclick: () => setLanguage('en'),
-                },
-                [
-                  m('img', {
-                    src: EnglishFlag,
-                    alt: 'English',
-                    title: 'English',
-                    disabled: language === 'en',
-                    class: language === 'en' ? 'disabled-image' : 'clickable',
-                  }),
-                  m('span', 'English'),
-                ]
-              ),
-            ],
             m(Button, {
               iconName: 'clear',
               disabled: isCleared,
