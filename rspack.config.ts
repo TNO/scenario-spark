@@ -32,13 +32,13 @@ const configuration: Configuration = {
     // asyncWebAssembly: true,
   },
   mode: isProduction ? 'production' : 'development',
+  devtool: isProduction ? 'source-map' : 'eval-cheap-module-source-map',
   entry: {
     main: './src/app.ts',
   },
   devServer: {
     port: APP_PORT,
   },
-  devtool: devMode ? 'inline-source-map' : 'source-map',
   plugins: [
     new DefinePlugin({
       // 'process.env.NODE_ENV': "'development'",
@@ -94,11 +94,15 @@ const configuration: Configuration = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        type: 'css',
+        sideEffects: true,
+      },
+      {
         test: /\.ts$/,
         exclude: [/node_modules/],
         loader: 'builtin:swc-loader',
         options: {
-          sourceMap: true,
           jsc: {
             parser: {
               syntax: 'typescript',
@@ -106,6 +110,10 @@ const configuration: Configuration = {
           },
         },
         type: 'javascript/auto',
+      },
+      {
+        test: /\.css$/,
+        type: 'css',
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,

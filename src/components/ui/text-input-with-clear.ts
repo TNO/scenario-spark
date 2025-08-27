@@ -49,7 +49,8 @@ export const TextInputWithClear: FactoryComponent<{
             }
           },
           oninput: () => {
-            clearButton.style.opacity = typeof input.value !== 'undefined' ? '1' : '0';
+            clearButton.style.opacity =
+              typeof input.value !== 'undefined' ? '1' : '0';
             input.value
               ? labelElement.classList.add('active')
               : labelElement.classList.remove('active');

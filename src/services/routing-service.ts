@@ -73,7 +73,7 @@ class RoutingService {
       {
         id: Dashboards.SETTINGS,
         icon: 'settings',
-        iconClass: 'blue-text',
+        iconClass: 'secondary',
         title: t('SETTINGS', 'TITLE'),
         route: t('SETTINGS', 'ROUTE'),
         visible: true,

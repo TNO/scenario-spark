@@ -1,9 +1,9 @@
 import m from 'mithril';
-import { Icon } from 'mithril-materialized';
-import logo from '../assets/tno.svg';
+import { Icon, ThemeToggle } from 'mithril-materialized';
+import logo_white from '../assets/tno_white.svg';
 import { IDashboard } from '../models';
 import { routingSvc } from '../services/routing-service';
-import { MeiosisComponent, changePage, i18n, t } from '../services';
+import { MeiosisComponent, changePage, i18n } from '../services';
 import { LANGUAGE } from '../utils';
 import DutchFlag from '../assets/flag-nl.png';
 import EnglishFlag from '../assets/flag-en.png';
@@ -33,7 +33,7 @@ export const Layout: MeiosisComponent = () => ({
     return m('.main', { style: 'overflow-x: hidden' }, [
       m(
         '.navbar-fixed',
-        { style: 'z-index: 1001' },
+        // { style: 'z-index: 1001' },
         m(
           'nav',
           m('.nav-wrapper', [
@@ -41,11 +41,11 @@ export const Layout: MeiosisComponent = () => ({
               'a.brand-logo[href=#].show-on-large',
               { style: 'margin-left: 20px' },
               [
-                m(`img[width=140][height=60][src=${logo}][alt=TNO]`, {
+                m(`img[width=140][height=60][src=${logo_white}][alt=TNO]`, {
                   style: 'margin-top: 5px; margin-left: -5px;',
                 }),
                 m(
-                  '.title.show-on-med-and-up.black-text.truncate',
+                  '.title.show-on-med-and-up.truncate',
                   attrs.state.model?.scenario?.label
                 ),
               ]
@@ -96,12 +96,12 @@ export const Layout: MeiosisComponent = () => ({
             m(
               'ul#slide-out.sidenav.hide-on-large-and-up',
               {
-                oncreate: () => {
-                  const elems = document.querySelectorAll('.sidenav');
-                  M.Sidenav.init(elems);
-                },
+                // oncreate: () => {
+                //   const elems = document.querySelectorAll('.sidenav');
+                //   // M.Sidenav.init(elems);
+                // },
               },
-              routes.map((d) =>
+              ...routes.map((d) =>
                 m(`li.tooltip${isActive(d)}.unselectable`, [
                   m(
                     'a',
@@ -117,28 +117,30 @@ export const Layout: MeiosisComponent = () => ({
                   ),
                 ])
               ),
-              m('li.tooltip.language-settings.unselectable', [
-                m(
-                  'a.dropdown-trigger',
-                  {
-                    href: '#!',
-                    'data-target': 'dropdown_languages',
-                    oncreate: ({ dom }) => {
-                      M.Dropdown.init(dom);
-                    },
-                  },
-                  m(Icon, {
-                    iconName: 'language',
-                    className: 'hoverable',
-                    style: 'font-size: 2.2rem; width: 4rem;',
-                  }),
-                  m('span.tooltiptext', t('SET_LANGUAGE').toUpperCase())
-                ),
-              ])
+              m('li', m(ThemeToggle))
+              // m('li.tooltip.language-settings.unselectable', [
+              //   // TODO FIX
+              //   // m(
+              //   //   'a.dropdown-trigger',
+              //   //   {
+              //   //     href: '#!',
+              //   //     'data-target': 'dropdown_languages',
+              //   //     oncreate: ({ dom }) => {
+              //   //       M.Dropdown.init(dom);
+              //   //     },
+              //   //   },
+              //   //   m(Icon, {
+              //   //     iconName: 'language',
+              //   //     className: 'hoverable',
+              //   //     style: 'font-size: 2.2rem; width: 4rem;',
+              //   //   }),
+              //   //   m('span.tooltiptext', t('SET_LANGUAGE').toUpperCase())
+              //   // ),
+              // ])
             ),
             m(
               'ul.right.hide-on-med-and-down',
-              routes.map((d) =>
+              ...routes.map((d) =>
                 m(`li.tooltip${isActive(d)}.unselectable`, [
                   m(Icon, {
                     className:
@@ -155,25 +157,8 @@ export const Layout: MeiosisComponent = () => ({
                     ).toUpperCase()
                   ),
                 ])
-              )
-              // m('li.tooltip.language-settings.unselectable', [
-              //   m(
-              //     'a.dropdown-trigger',
-              //     {
-              //       href: '#!',
-              //       'data-target': 'dropdown_languages',
-              //       oncreate: ({ dom }) => {
-              //         M.Dropdown.init(dom);
-              //       },
-              //     },
-              //     m(Icon, {
-              //       iconName: 'language',
-              //       className: 'hoverable',
-              //       style: 'font-size: 2.2rem; width: 4rem;',
-              //     }),
-              //     m('span.tooltiptext', t('SET_LANGUAGE').toUpperCase())
-              //   ),
-              // ])
+              ),
+              m('li', m(ThemeToggle))
             ),
           ])
         )

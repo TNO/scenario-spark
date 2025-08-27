@@ -39,7 +39,7 @@ export const TableView: MeiosisComponent<{
   components: ScenarioComponent[];
 }> = () => {
   return {
-    view: ({ attrs: { components, narratives = [], ...attrs } }) => {
+    view: ({ attrs: { components, narratives = [], ...restAttrs } }) => {
       const lookup = components.reduce((acc, cur) => {
         cur.values &&
           cur.values.forEach((v) => {
@@ -74,7 +74,7 @@ export const TableView: MeiosisComponent<{
                       {
                         href: routingSvc.href(Dashboards.SHOW_SCENARIO),
                         onclick: () => {
-                          attrs.update({
+                          restAttrs.update({
                             curNarrative: () => n,
                           });
                         },
@@ -323,7 +323,7 @@ export const HomePage: MeiosisComponent = () => {
                     className: 'icon-button',
                     iconName: 'delete',
                     title: t('DELETE'),
-                    modalId: 'delete_model',
+                    variant: 'button',
                   })
                 )
               )
@@ -369,7 +369,7 @@ export const HomePage: MeiosisComponent = () => {
               disabled: isCleared,
               className: 'btn-large',
               label: t('NEW_MODEL', 'btn'),
-              modalId: 'clearAll',
+              variant: 'button',
             }),
             m('a#downloadAnchorElem', { style: 'display:none' }),
             m(Button, {
@@ -449,7 +449,7 @@ export const HomePage: MeiosisComponent = () => {
               }),
           ]),
           m(
-            '.section.white',
+            '.section',
             m('.row.container.center', [
               m('.row', m('.col.s12.align-center', [m('h5', 'ScenarioSpark')])),
               m('.row', [

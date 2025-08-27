@@ -6,6 +6,7 @@ import {
   ID,
   ContextType,
   Color,
+  ThresholdColor,
 } from '../models';
 import {
   MeiosisComponent,
@@ -15,14 +16,24 @@ import {
   t,
   moveScenarioComponent,
 } from '../services';
-import { FlatButton, ModalPanel, Tabs } from 'mithril-materialized';
+import {
+  FlatButton,
+  ModalPanel,
+  Tabs,
+  ThemeManager,
+} from 'mithril-materialized';
 import {
   FormAttributes,
   LayoutForm,
   SlimdownView,
   UIForm,
 } from 'mithril-ui-form';
-import { capitalize, contrastingColor, generateNumbers } from '../utils';
+import {
+  capitalize,
+  contrastingColor,
+  generateNumbers,
+  toDarkThemeColor,
+} from '../utils';
 import { LegendComponent } from './ui';
 
 const BoxItem: MeiosisComponent<{
@@ -34,6 +45,7 @@ const BoxItem: MeiosisComponent<{
 }> = () => {
   let obj: ContextualItem;
   let contextAwareForm: UIForm<ContextualItem>;
+  let editorOpen = false;
 
   return {
     oninit: ({ attrs: { item, form, contexts } }) => {
@@ -65,10 +77,10 @@ const BoxItem: MeiosisComponent<{
         {
           key: id,
           id: `ki_${item.id}`,
-          style: {
-            backgroundColor: color[0],
-            color: color[1],
-          },
+          // style: {
+          //   backgroundColor: color[0],
+          //   color: color[1],
+          // },
           ondragstart: (ev: DragEvent) => {
             ev.dataTransfer?.setData(id, JSON.stringify([id, item.id]));
           },
@@ -94,6 +106,9 @@ const BoxItem: MeiosisComponent<{
           m(
             '.card-content',
             {
+              style: {
+                backgroundColor: color[0],
+              },
               onmouseenter: () => {
                 attrs.update({
                   activeTooltip: `${item.label || ''}${
@@ -110,7 +125,7 @@ const BoxItem: MeiosisComponent<{
             [
               m(
                 'span.card-title',
-
+                { style: { color: color[1] } },
                 capitalize(item.label)
               ),
               // item.desc && m('span.card-desc', item.desc),
@@ -118,14 +133,18 @@ const BoxItem: MeiosisComponent<{
                 className: 'top-right widget-link',
                 iconName: 'edit',
                 iconClass: 'no-gutter',
-                modalId: `modal_${item.id}`,
+                onclick: () => {
+                  editorOpen = true;
+                },
               }),
             ]
           ),
           m(ModalPanel, {
             id: `modal_${item.id}`,
             title: t('EDIT_COMPONENT'),
+            isOpen: editorOpen,
             fixedFooter: true,
+            onClose: () => (editorOpen = false),
             description: m(
               '.row',
               m(LayoutForm, {
@@ -164,6 +183,7 @@ const BoxHeader: MeiosisComponent<{
   form: UIForm<ContextualItem>;
 }> = () => {
   let obj = {} as ContextualItem;
+  let addComponent = false;
   return {
     view: ({ attrs }) => {
       const { sc, form } = attrs;
@@ -193,14 +213,17 @@ const BoxHeader: MeiosisComponent<{
         m(FlatButton, {
           className: 'widget-link',
           iconName: 'add',
-          iconClass: 'no-gutter',
-          modalId: sc.id,
+          iconClass: 'right',
+          // modalId: sc.id,
           i18n: i18n.i18n,
+          onclick: () => (addComponent = true),
         }),
         m(ModalPanel, {
           id: sc.id,
           title: t('ADD_COMPONENT'),
           fixedFooter: true,
+          isOpen: addComponent,
+          onClose: () => (addComponent = false),
           description: m(
             '.row',
             m(LayoutForm, {
@@ -367,6 +390,19 @@ export const CreateBoxPage: MeiosisComponent = () => {
     // },
   ] as UIForm<ContextualItem>;
   let compColor: { [key: ID]: [Color, Color] } = {};
+  let themeThresholdColors: ThresholdColor[] = [];
+
+  const setThresholdColors = (thc: ThresholdColor[]) => {
+    if (!thc) return;
+    if (ThemeManager.getEffectiveTheme() === 'light') {
+      themeThresholdColors = [...thc];
+    } else {
+      themeThresholdColors = thc.map((c) => ({
+        threshold: c.threshold,
+        color: toDarkThemeColor(c.color),
+      }));
+    }
+  };
 
   return {
     oninit: ({ attrs }) => {
@@ -378,13 +414,16 @@ export const CreateBoxPage: MeiosisComponent = () => {
         model: { scenario },
       } = attrs.state;
       const { categories, thresholdColors = [] } = scenario;
-
-      if (compColor || Object.keys(compColor).length < thresholdColors.length) {
+      setThresholdColors(thresholdColors);
+      if (
+        compColor ||
+        Object.keys(compColor).length < themeThresholdColors.length
+      ) {
         const { narratives = [] } = scenario;
         const componentUsage = narratives
           .filter((n) => n.included)
           .reduce((acc, cur) => {
-            const { components: components } = cur;
+            const { components } = cur;
             Object.keys(components).forEach((c) => {
               for (const compValue of components[c]) {
                 if (acc[compValue]) {
@@ -398,10 +437,10 @@ export const CreateBoxPage: MeiosisComponent = () => {
           }, {} as { [key: ID]: number });
         const count2color: Color[] = generateNumbers(
           0,
-          Math.max(...thresholdColors.map((c) => c.threshold))
+          Math.max(...themeThresholdColors.map((c) => c.threshold))
         ).map((_) => '');
         let i = 0;
-        thresholdColors
+        themeThresholdColors
           .sort((a, b) => (a.threshold > b.threshold ? 1 : -1))
           .forEach((tc) => {
             do {
@@ -426,9 +465,7 @@ export const CreateBoxPage: MeiosisComponent = () => {
 
       return [
         m('.create-box-page', [
-          scenario &&
-            scenario.thresholdColors &&
-            m(LegendComponent, { items: scenario.thresholdColors }),
+          m(LegendComponent, { items: themeThresholdColors }),
           categories.length > 1 &&
           categories[0].componentIds &&
           categories[1].componentIds

@@ -199,27 +199,6 @@ export const deepCopy = <T>(target: T): T => {
   return target;
 };
 
-/** Compute a contrasting background color */
-export const contrastingColor = (backgroundColor: string) => {
-  const backgroundRgb = [
-    parseInt(backgroundColor[1] + backgroundColor[2], 16),
-    parseInt(backgroundColor[3] + backgroundColor[4], 16),
-    parseInt(backgroundColor[5] + backgroundColor[6], 16),
-  ];
-  const luminance =
-    0.2126 * backgroundRgb[0] +
-    0.7152 * backgroundRgb[1] +
-    0.0722 * backgroundRgb[2];
-
-  // If the background is dark, use white text.
-  if (luminance < 20) {
-    return '#ffffff';
-  }
-
-  // If the background is light, use black text.
-  return '#000000';
-};
-
 export const convertFromOld = (old: OldDataModel): DataModel => {
   return Object.keys(old).reduce(
     (acc, cur) => {
@@ -256,6 +235,7 @@ export const convertFromOld = (old: OldDataModel): DataModel => {
             desc: narrative,
             included,
             saved: true,
+            personaEffects: {},
           })
         );
         acc.scenario.categories = Object.keys(scenario.categories).map(
@@ -750,3 +730,122 @@ const processItalicText = (text: string, ops: any[]): void => {
     );
   }
 };
+
+/** Compute a contrasting text color (black or white) based on WCAG luminance */
+export const contrastingColor = (() => {
+  const cache = new Map<string, string>();
+
+  return (hex: string): string => {
+    if (cache.has(hex)) {
+      return cache.get(hex)!;
+    }
+
+    // Expand shorthand #abc -> #aabbcc
+    let c = hex.replace(/^#/, '').toLowerCase();
+    if (c.length === 3) {
+      c = c
+        .split('')
+        .map((ch) => ch + ch)
+        .join('');
+    }
+
+    const r = parseInt(c.slice(0, 2), 16) / 255;
+    const g = parseInt(c.slice(2, 4), 16) / 255;
+    const b = parseInt(c.slice(4, 6), 16) / 255;
+
+    // Convert to linear RGB
+    const toLinear = (v: number) =>
+      v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+
+    const R = toLinear(r);
+    const G = toLinear(g);
+    const B = toLinear(b);
+
+    // Relative luminance
+    const L = 0.2126 * R + 0.7152 * G + 0.0722 * B;
+
+    const result = L > 0.179 ? '#000000' : '#ffffff';
+    cache.set(hex, result);
+    return result;
+  };
+})();
+
+// Utility: convert hex -> HSL
+const hexToHsl = (hex: string): [number, number, number] => {
+  hex = hex.replace(/^#/, '');
+  if (hex.length === 3) {
+    hex = hex
+      .split('')
+      .map((c) => c + c)
+      .join('');
+  }
+  const r = parseInt(hex.slice(0, 2), 16) / 255;
+  const g = parseInt(hex.slice(2, 4), 16) / 255;
+  const b = parseInt(hex.slice(4, 6), 16) / 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0,
+    s = 0,
+    l = (max + min) / 2;
+
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
+    }
+    h /= 6;
+  }
+  return [h * 360, s * 100, l * 100];
+};
+
+// Utility: convert HSL -> hex
+const hslToHex = (h: number, s: number, l: number): string => {
+  s /= 100;
+  l /= 100;
+
+  const k = (n: number) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n: number) =>
+    l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+
+  const toHex = (x: number) =>
+    Math.round(255 * x)
+      .toString(16)
+      .padStart(2, '0');
+
+  return `#${toHex(f(0))}${toHex(f(8))}${toHex(f(4))}`;
+};
+
+/**
+ * Transform a light-theme hex color to a dark-theme equivalent
+ * - Keeps Hue and Saturation
+ * - Flips Lightness around midpoint (e.g. 20% -> 80%)
+ * - Memoized for performance
+ */
+export const toDarkThemeColor = (() => {
+  const cache = new Map<string, string>();
+
+  return (hex: string): string => {
+    const key = hex.toLowerCase();
+    if (cache.has(key)) {
+      return cache.get(key)!;
+    }
+
+    const [h, s, l] = hexToHsl(key);
+    const newL = 100 - l; // flip lightness
+    const result = hslToHex(h, s, newL);
+
+    cache.set(key, result);
+    return result;
+  };
+})();

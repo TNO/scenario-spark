@@ -4,6 +4,26 @@
   }
 }
 
+:root {
+  --mm-primary-color: #26a69a;
+  --mm-background-color: #ffffff;
+  --mm-text-primary: rgba(0, 0, 0, 0.87);
+  --mm-border-color: rgba(0, 0, 0, 0.12);
+  --mm-popup-background: #fcffa5;
+}
+
+[data-theme='dark'] {
+  --mm-primary-color: #80cbc4;
+  --mm-background-color: #121212;
+  --mm-text-primary: rgba(255, 255, 255, 0.87);
+  --mm-border-color: rgba(255, 255, 255, 0.12);
+  --mm-popup-background: #7b7f04;
+  /* ... dark theme overrides */
+}
+.secondary {
+  color: var(--mm-secondary-color-dark);
+}
+
 .container {
   max-width: unset;
 }
@@ -13,7 +33,7 @@ body {
 }
 
 /* Set theme color */
-.btn,
+/* .btn,
 .btn-floating {
   background-color: #1565c0;
 }
@@ -22,14 +42,14 @@ body {
 .statusbar,
 .nav-content {
   background-color: white;
-}
+} */
 nav .title {
   position: fixed;
   top: 0;
   left: 200px;
   font-size: 2rem;
 }
-.input-field,
+/* .input-field,
 .switch > label,
 .input-field > label,
 .input-field > .material-icons,
@@ -39,21 +59,13 @@ label > span,
 .secondary-content > .material-icons {
   color: #1a237e;
   /* font-weight: bold; */
-}
-.tabs.tabs-transparent .tab a,
-nav ul a {
-  /* font-weight: bold; */
-  color: #1a237e;
-  padding: 0;
-}
-.primary-text {
-  color: #1a237e;
-}
-a {
-  color: #2b36aa;
-}
 
-.markdown ul {
+/* .tabs.tabs-transparent .tab a,
+nav ul a {
+  padding: 0;
+} */
+
+*/ .markdown ul {
   padding-left: 20px;
 }
 .markdown ul > li {
@@ -180,7 +192,7 @@ ul.questionnaire-nav > li > a {
   width: 25%;
 }
 .markdown p {
-  color: black;
+  /* color: black; */
   font-weight: normal;
 }
 .markdown.squeeze p {
@@ -763,7 +775,8 @@ ul.kanban > li {
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #fcffa5;
+  background-color: var(--mm-popup-background, #fcffa5);
+  /* background-color:  #fcffa5; */
   font-size: 2rem;
   box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.3);
   /* display: none; Hide the popup by default */
@@ -816,7 +829,7 @@ ul.kanban > li {
 .markdown header {
   text-align: center;
   padding: 10px 40px;
-  background-color: #f2f2f2;
+  /* background-color: #f2f2f2; */
   border-radius: 20px;
 }
 

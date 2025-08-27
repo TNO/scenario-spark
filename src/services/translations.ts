@@ -238,6 +238,7 @@ export const messages = {
     DESC: 'Write a paragraph where {1} is replaced by the value for key factor 1, etc. Empty lines are converted to paragraphs.',
   },
   SELECT_PERSONA: 'Select relevant persona for scenario',
+  PERSONA_IMPRESSION: 'Impression',
   PERSONA: {
     1: 'Persona',
     n: 'Personas',
@@ -524,6 +525,7 @@ export const messagesNL: typeof messages = {
     DESC: 'Schrijf een paragraaf waarbij {1} zal vervangen worden door de waarde van factor 1, etc. Lege regels worden omgezet naar paragrafen.',
   },
   SELECT_PERSONA: "Selecteer relevante persona's",
+  PERSONA_IMPRESSION: 'Impressie',
   PERSONA: {
     1: 'Persona',
     n: 'Personas',

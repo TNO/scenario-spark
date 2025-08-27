@@ -126,6 +126,8 @@ export type Narrative = Item & {
   probability?: ID;
   /** Impact of the narrative */
   impact?: ID;
+  /** Effect on personas */
+  personaEffects: { [personaId: ID]: { scale?: number; story?: string } };
 };
 
 /** HEX color code */

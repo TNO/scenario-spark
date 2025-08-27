@@ -2,11 +2,12 @@ import m, { FactoryComponent } from 'mithril';
 import Quill from 'quill';
 import {
   FlatButton,
-  ISelectOptions,
   Icon,
   InputCheckbox,
   ModalPanel,
   Select,
+  SelectAttrs,
+  TextArea,
   TextInput,
   uniqueId,
 } from 'mithril-materialized';
@@ -29,6 +30,7 @@ import {
 import { range } from 'mithril-ui-form';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
 import { CircularSpinner, generateStory } from './ui';
+import { PersonaImages } from '../models/persona-images';
 
 const ToggleIcon: FactoryComponent<{
   on: string;
@@ -157,7 +159,7 @@ export const CategoryTable: MeiosisComponent<{
                   curNarrative.components[c.id] = ids;
                   updateNarrative(attrs, curNarrative);
                 },
-              } as ISelectOptions<string>),
+              } as SelectAttrs<string>),
             ],
             m('.col.s1.icons', [
               // m(ToggleIcon, {
@@ -209,13 +211,21 @@ export const CreateScenarioPage: MeiosisComponent = () => {
       const {
         state: { model, curNarrative = {} as Narrative, lockedComps = {} },
       } = attrs;
+      const { personas: allPersonas = [] } = model;
       const {
         template,
         categories = [],
         inconsistencies = {},
         hideInconsistentValues = false,
         llm,
+        personas = [],
+        includeDecisionSupport,
       } = model.scenario;
+      const curPersonas =
+        includeDecisionSupport && personas.length > 0
+          ? allPersonas.filter((p) => personas.includes(p.id))
+          : [];
+      console.log(curPersonas);
       const narratives = model.scenario && model.scenario.narratives;
       const excluded =
         curNarrative.components && hideInconsistentValues
@@ -316,7 +326,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             }),
             m(FlatButton, {
               label: t('AUTO_CREATE', 'BTN'),
-              title: t('AUTO_CREATE_MSG', count),
+              title: t('AUTO_CREATE_MSG', +count),
               iconName: 'auto_awesome_motion',
               onclick: async () => {
                 askLlm = false;
@@ -475,7 +485,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   });
                 }
               },
-            } as ISelectOptions<string>),
+            } as SelectAttrs<string>),
           ],
         ]),
         template
@@ -538,7 +548,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 updateNarrative(attrs, curNarrative);
               },
             }),
-            model.scenario.includeDecisionSupport && [
+            includeDecisionSupport && [
               m(Select, {
                 key: `prob${curNarrative.id}`,
                 placeholder: t('i18n', 'pick'),
@@ -554,7 +564,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   calculateRisk(curNarrative);
                   updateNarrative(attrs, curNarrative);
                 },
-              } as ISelectOptions<string>),
+              } as SelectAttrs<string>),
               m(Select, {
                 key: `imp${curNarrative.id}`,
                 placeholder: t('i18n', 'pick'),
@@ -570,7 +580,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   calculateRisk(curNarrative);
                   updateNarrative(attrs, curNarrative);
                 },
-              } as ISelectOptions<string>),
+              } as SelectAttrs<string>),
               m(Select, {
                 key: `${curNarrative.id}-${curNarrative.probability}-${curNarrative.impact}`,
                 placeholder: t('RISK_PLACEHOLDER'),
@@ -584,7 +594,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   // img: svgToDataURI(createCircleSVG(trafficLight[id], 30)),
                 })),
                 disabled: true,
-              } as ISelectOptions<string>),
+              } as SelectAttrs<string>),
             ],
           ]),
           // m('#toolbar'),
@@ -632,6 +642,56 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 }
               },
             }),
+          ],
+          [
+            curPersonas.map((p) =>
+              m('.row.persona', [
+                m('.col.s12', m('h5', p.label)),
+                m('.col.s6', [
+                  m('img.reponsive-image', {
+                    style: { height: '200px' },
+                    src: PersonaImages.find((img) => img.id === p.url)?.img,
+                    alt: p.label,
+                  }),
+                  m('p', p.desc),
+                ]),
+                m(
+                  '.col.s6',
+                  m(TextArea, {
+                    label: t('PERSONA_IMPRESSION'),
+                    initialValue: curNarrative.personaEffects
+                      ? curNarrative.personaEffects[p.id]?.story
+                      : undefined,
+                    onchange: (story) => {
+                      const found =
+                        curNarrative.personaEffects &&
+                        curNarrative.personaEffects[p.id];
+                      console.log(found);
+                      if (found) {
+                        found.story = story;
+                      } else if (curNarrative.personaEffects) {
+                        curNarrative.personaEffects[p.id] = { scale: 0, story };
+                      } else {
+                        curNarrative.personaEffects = {
+                          [p.id]: { scale: 0, story },
+                        };
+                      }
+                      updateNarrative(attrs, curNarrative);
+                    },
+                  })
+                ),
+              ])
+            ),
+            // curPersonas.length > 0 && [
+
+            //   m(LayoutForm, {
+            //     obj: curNarrative,
+            //     form: [],
+            //     onchange: () => {
+            //       updateNarrative(attrs, curNarrative);
+            //     }
+            //   })
+            // ]
           ],
         ]),
       ]);
