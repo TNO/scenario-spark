@@ -2,6 +2,7 @@ import m from 'mithril';
 import { padLeft, uniqueId } from 'mithril-materialized';
 import { render } from 'mithril-ui-form';
 import {
+  Color,
   ContextType,
   DataModel,
   ID,
@@ -11,6 +12,7 @@ import {
   OsmTypeList,
   Scenario,
   ScenarioComponent,
+  ThresholdColor,
   thresholdColors,
 } from '../models';
 import { t } from '../services';
@@ -849,3 +851,71 @@ export const toDarkThemeColor = (() => {
     return result;
   };
 })();
+
+export const computeCompColor = (
+  narratives: Scenario['narratives'] = [],
+  thresholdColors: ThresholdColor[]
+): { [key: ID]: [Color, Color] } => {
+  if (!thresholdColors || thresholdColors.length === 0) {
+    // no thresholds defined → everything gets a fallback color
+    const fallback = '#ccc';
+    return { OTHER: [fallback, contrastingColor(fallback)] };
+  }
+
+  // ensure thresholds are sorted without mutating original array
+  const sortedThresholds = [...thresholdColors].sort(
+    (a, b) => a.threshold - b.threshold
+  );
+
+  // build usage counts
+  const componentUsage = narratives
+    .filter((n) => n.included)
+    .reduce((acc, cur) => {
+      Object.keys(cur.components || {}).forEach((c) => {
+        for (const compValue of cur.components[c]) {
+          acc[compValue] = (acc[compValue] || 0) + 1;
+        }
+      });
+      return acc;
+    }, {} as { [key: ID]: number });
+
+  // maximum threshold value
+  const maxThreshold = sortedThresholds[sortedThresholds.length - 1].threshold;
+
+  // map counts to colors
+  const count2color: Color[] = new Array(maxThreshold + 1);
+  let i = 0;
+  for (const tc of sortedThresholds) {
+    while (i <= tc.threshold && i < count2color.length) {
+      count2color[i] = tc.color;
+      i++;
+    }
+  }
+
+  // fill any gaps (e.g. thresholds didn’t cover all indices)
+  for (let j = 0; j < count2color.length; j++) {
+    if (!count2color[j]) {
+      count2color[j] = sortedThresholds[0].color;
+    }
+  }
+
+  // assign colors to components
+  const compColor = Object.entries(componentUsage).reduce(
+    (acc, [id, count]) => {
+      const color =
+        count < count2color.length
+          ? count2color[count]
+          : sortedThresholds[sortedThresholds.length - 1].color;
+
+      acc[id] = [color, contrastingColor(color)];
+      return acc;
+    },
+    {} as { [key: ID]: [Color, Color] }
+  );
+
+  // add OTHER default
+  const baseColor = count2color[0] || sortedThresholds[0].color;
+  compColor.OTHER = [baseColor, contrastingColor(baseColor)];
+
+  return compColor;
+};
