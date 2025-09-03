@@ -140,27 +140,25 @@ export const CategoryTable: MeiosisComponent<{
             }),
           ]),
           comps.map((c) => [
-            [
-              m(Select, {
-                label: c.label,
-                key: `key_${c.id}_${excludedComps[c.id]}`,
-                className: 'col s11',
-                multiple: true,
-                disabled:
-                  typeof excludedComps[c.id] !== 'undefined' &&
-                  excludedComps[c.id],
-                initialValue: components[c.id],
-                options: c.values?.filter((c) => !excluded.has(c.id)),
-                placeholder: t('i18n', 'pick'),
-                onchange: (ids) => {
-                  if (!curNarrative.components) {
-                    curNarrative.components = {};
-                  }
-                  curNarrative.components[c.id] = ids;
-                  updateNarrative(attrs, curNarrative);
-                },
-              } as SelectAttrs<string>),
-            ],
+            m(Select, {
+              label: c.label,
+              className: 'col s11',
+              multiple: true,
+              disabled:
+                typeof excludedComps[c.id] !== 'undefined' &&
+                excludedComps[c.id],
+              checkedId: components[c.id],
+              options: c.values?.filter((c) => !excluded.has(c.id)),
+              placeholder: t('i18n', 'pick'),
+              onchange: (ids) => {
+                if (!curNarrative.components) {
+                  curNarrative.components = {};
+                }
+                curNarrative.components[c.id] = ids;
+                updateNarrative(attrs, curNarrative);
+              },
+            } as SelectAttrs<string>),
+            ,
             m('.col.s1.icons', [
               // m(ToggleIcon, {
               //   on: 'visibility',
@@ -225,7 +223,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
         includeDecisionSupport && personas.length > 0
           ? allPersonas.filter((p) => personas.includes(p.id))
           : [];
-      console.log(curPersonas);
+      // console.log(curPersonas);
       const narratives = model.scenario && model.scenario.narratives;
       const excluded =
         curNarrative.components && hideInconsistentValues
@@ -453,7 +451,6 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               ],
           narratives && [
             m(Select, {
-              key: Date.now(),
               className: 'right mb0 w30',
               label: t('SELECT_NARRATIVE'),
               checkedId: curNarrative.saved ? curNarrative.id : undefined,

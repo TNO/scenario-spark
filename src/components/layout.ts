@@ -42,7 +42,7 @@ export const Layout: MeiosisComponent = () => ({
               { style: 'margin-left: 20px' },
               [
                 m(`img[width=140][height=60][src=${logo_white}][alt=TNO]`, {
-                  style: 'margin-top: 5px; margin-left: -5px;',
+                  style: 'margin-left: -5px;',
                 }),
                 m(
                   '.title.show-on-med-and-up.truncate',

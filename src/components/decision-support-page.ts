@@ -106,6 +106,7 @@ export const DecisionSupportPage: MeiosisComponent = () => {
         saved: false,
         label: t('SUGGESTED_APPROACH', 'TITLE'),
         desc: t('SUGGESTED_APPROACH', 'DESC'),
+        personaEffects: {},
         components: comps
           .filter((c) => !riskComponentIds.includes(c.id))
           .reduce((acc, c) => {
