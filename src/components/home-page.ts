@@ -67,12 +67,13 @@ export const TableView: MeiosisComponent<{
                 m(
                   'tr',
                   m(
-                    'th.bold',
+                    'th.bold.truncate',
                     { style: 'text-align: left' },
                     m(
                       'a',
                       {
                         href: routingSvc.href(Dashboards.SHOW_SCENARIO),
+                        title: n.label,
                         onclick: () => {
                           restAttrs.update({
                             curNarrative: () => n,
@@ -82,19 +83,24 @@ export const TableView: MeiosisComponent<{
                       capitalize(n.label)
                     )
                   ),
-                  components.map((c) =>
-                    n.components[c.id] && n.components[c.id].length > 0
+                  components.map((c) => {
+                    const compVal =
+                      n.components[c.id] &&
+                      n.components[c.id].length > 0 &&
+                      n.components[c.id]
+                        .map(
+                          (id) =>
+                            lookup[id] ||
+                            `<span class="red-text">Missing component ID: ${id}</span>`
+                        )
+                        .join(', ');
+                    return compVal
                       ? m(
-                          'td',
-                          m.trust(
-                            n.components[c.id]
-                              .map(
-                                (id) =>
-                                  lookup[id] ||
-                                  `<span class="red-text">Missing component ID: ${id}</span>`
-                              )
-                              .join(', ')
-                          )
+                          'td.truncate',
+                          {
+                            title: compVal,
+                          },
+                          m.trust(compVal)
                         )
                       : n[c.id as 'risk' | 'probability' | 'impact']
                       ? m(
@@ -104,8 +110,8 @@ export const TableView: MeiosisComponent<{
                       : m(
                           'td.center-align.missing',
                           m(Icon, { iconName: 'clear', className: 'red-text' })
-                        )
-                  )
+                        );
+                  })
                 )
               )
             ),
