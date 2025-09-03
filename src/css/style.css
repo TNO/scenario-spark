@@ -20,6 +20,11 @@
   --mm-popup-background: #7b7f04;
   /* ... dark theme overrides */
 }
+
+input[type='checkbox']:disabled {
+  color: var(--mm-text-disabled);
+}
+
 .secondary {
   color: var(--mm-secondary-color-dark);
 }
@@ -730,7 +735,7 @@ input[type='checkbox'] ~ span {
 }
 input[type='checkbox']:disabled ~ span {
   cursor: default;
-  color: black;
+  /* color: black; */
 }
 ul.kanban > li {
   margin-bottom: 10px;
@@ -776,11 +781,40 @@ ul.kanban > li {
   left: 0;
   width: 100%;
   background-color: var(--mm-popup-background, #fcffa5);
-  /* background-color:  #fcffa5; */
   font-size: 2rem;
   box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.3);
-  /* display: none; Hide the popup by default */
+
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
+
+.popupContainer.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.popupContent {
+  transition: opacity 0.2s ease;
+  opacity: 1;
+}
+
+.popupContent.fade-out {
+  opacity: 0;
+}
+
+/* .popupContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--mm-popup-background, #fcffa5);
+  font-size: 2rem;
+  box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.3);
+} */
 
 .popupContainer > .popupContent {
   padding: 20px;
@@ -886,6 +920,7 @@ ul.kanban > li {
   table.responsive-table tbody tr {
     display: inline-block;
     vertical-align: top;
+    max-width: 250px;
   }
   table.responsive-table th {
     display: block;
@@ -924,7 +959,7 @@ ul.kanban > li {
 }
 
 .decision-support table.responsive-table > tbody > tr:last-child {
-  background: #e8f4f7;
+  background: var(--mm-dropdown-hover, '#e8f4f7');
 }
 
 .decision-support td:nth-child(2),
@@ -933,7 +968,7 @@ ul.kanban > li {
 .decision-support th:nth-child(3),
 .decision-support td:nth-child(4),
 .decision-support th:nth-child(4) {
-  background: #e8f4f7;
+  background: var(--mm-dropdown-hover, '#e8f4f7');
 }
 
 #editor {

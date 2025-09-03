@@ -9,7 +9,6 @@ import {
 import { MeiosisComponent, State, i18n, setPage, t } from '../services';
 import {
   Select,
-  ISelectOptions,
   FlatButton,
   InputCheckbox,
   uniqueId,
@@ -134,7 +133,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
       }
     });
 
-    console.log(doc);
+    // console.log(doc);
     // const delta = editor.getContents();
     const blob = await generateWord(doc, {
       exportAs: 'blob',
@@ -306,7 +305,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                       updateCurNarrative(newNarrative, editor, attrs, model);
                     }
                   },
-                } as ISelectOptions<string>),
+                }),
                 m(
                   '.right.mb0',
                   m(

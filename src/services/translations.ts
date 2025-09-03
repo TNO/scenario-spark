@@ -235,7 +235,7 @@ export const messages = {
   },
   TEMPLATE: {
     TITLE: 'Template string for fluid text',
-    DESC: 'Write a paragraph where {1} is replaced by the value for key factor 1, etc. Empty lines are converted to paragraphs.',
+    DESC: 'Write a paragraph where XXX is replaced by the value for key factor 1, etc. Empty lines are converted to paragraphs.',
   },
   SELECT_PERSONA: 'Select relevant persona for scenario',
   PERSONA_IMPRESSION: 'Impression',
@@ -270,6 +270,11 @@ export const messages = {
   AUTO_CREATE_MSG: {
     1: `Auto create 1 scenario`,
     n: 'Auto create {n} scenarios',
+  },
+  COPY_BOX: {
+    LABEL: 'Copy box',
+    TITLE: 'Copy table to clipboard',
+    TOAST: 'Morphological box copied to clipboard.',
   },
 };
 
@@ -522,7 +527,7 @@ export const messagesNL: typeof messages = {
   },
   TEMPLATE: {
     TITLE: 'Template om de stuurfactoren te vertalen naar een lopende tekst.',
-    DESC: 'Schrijf een paragraaf waarbij {1} zal vervangen worden door de waarde van factor 1, etc. Lege regels worden omgezet naar paragrafen.',
+    DESC: 'Schrijf een paragraaf waarbij XXX zal vervangen worden door de waarde van factor 1, etc. Lege regels worden omgezet naar paragrafen.',
   },
   SELECT_PERSONA: "Selecteer relevante persona's",
   PERSONA_IMPRESSION: 'Impressie',
@@ -557,6 +562,11 @@ export const messagesNL: typeof messages = {
   AUTO_CREATE_MSG: {
     1: 'Genereer 1 scenario automatisch',
     n: "Genereer {n} scenario's automatisch",
+  },
+  COPY_BOX: {
+    LABEL: 'Kopieer box',
+    TITLE: 'Kopieer box naar clipboard',
+    TOAST: 'Morphologische box is gekopieerd naar het clipboard.',
   },
 };
 

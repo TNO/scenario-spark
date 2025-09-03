@@ -46,7 +46,7 @@ export const SettingsPage: MeiosisComponent = () => {
       id: 'template',
       type: 'textarea',
       label: t('TEMPLATE', 'TITLE'),
-      placeholder: t('TEMPLATE', 'DESC'),
+      description: t('TEMPLATE', 'DESC').replace('XXX', '{1}'),
     },
     {
       id: 'personas',
@@ -169,6 +169,7 @@ export const SettingsPage: MeiosisComponent = () => {
     view: ({ attrs }) => {
       const { model } = attrs.state;
       const { personas = [] } = model;
+      // console.log(model.scenario?.personas);
       return [
         m('.settings-page.row', { key: model.version }, [
           m(Tabs, {
@@ -197,7 +198,7 @@ export const SettingsPage: MeiosisComponent = () => {
                       obj: model.scenario,
                       form,
                       i18n: i18n.i18n,
-                      context: [{ personas }],
+                      context: [{ personas }] as any,
                       onchange: async () => {
                         await saveModel(attrs, model);
                       },
@@ -237,7 +238,7 @@ export const SettingsPage: MeiosisComponent = () => {
                                 acc[cur.id] = cur.img;
                                 return acc;
                               }, {} as { [key: string]: string }),
-                            },
+                            } as any,
                           ],
                           form: [
                             {
