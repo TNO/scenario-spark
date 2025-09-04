@@ -18,11 +18,11 @@ importers:
         specifier: ^2.3.7
         version: 2.3.7
       mithril-materialized:
-        specifier: 3.3.0
-        version: 3.3.0
+        specifier: 3.3.1
+        version: 3.3.1
       mithril-ui-form:
         specifier: 2.0.6
-        version: 2.0.6(mithril-materialized@3.3.0)(mithril@2.3.7)
+        version: 2.0.6(mithril-materialized@3.3.1)(mithril@2.3.7)
       quill:
         specifier: 2.0.3
         version: 2.0.3
@@ -1066,8 +1066,8 @@ packages:
     resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
     engines: {node: '>=16 || 14 >=14.17'}
 
-  mithril-materialized@3.3.0:
-    resolution: {integrity: sha512-u6jqwLhTglxmzBLGU+cKLBlu3ZYr1Ta+262ZprK4icnBKyX70gpPYKPXUsPWoKcjRyo4Fc0SUQTLI9uI/I5GEQ==}
+  mithril-materialized@3.3.1:
+    resolution: {integrity: sha512-vBgCRgJzRh+JLkV7BJIF8/GfjEJLS5t+qe8pUn5/mvCcgx/5f5K7oqcIN3Yo08hSgagEBEfMX8fas6NbqMt+ZQ==}
 
   mithril-ui-form-plugin@0.7.0:
     resolution: {integrity: sha512-VuYXutj1AuFag6pxGVJ1goV98eg0kE+LP54oo7Zs3t31Fso47pS4gp3O2PZolWeVbN+2KN2kLaPXnYBPZ5W/hg==}
@@ -2729,16 +2729,16 @@ snapshots:
 
   minipass@7.1.2: {}
 
-  mithril-materialized@3.3.0:
+  mithril-materialized@3.3.1:
     dependencies:
       mithril: 2.3.7
 
   mithril-ui-form-plugin@0.7.0: {}
 
-  mithril-ui-form@2.0.6(mithril-materialized@3.3.0)(mithril@2.3.7):
+  mithril-ui-form@2.0.6(mithril-materialized@3.3.1)(mithril@2.3.7):
     dependencies:
       mithril: 2.3.7
-      mithril-materialized: 3.3.0
+      mithril-materialized: 3.3.1
       mithril-ui-form-plugin: 0.7.0
       slimdown-js: 1.1.1
 
