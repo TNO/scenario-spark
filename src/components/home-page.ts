@@ -128,6 +128,8 @@ export const HomePage: MeiosisComponent = () => {
     window.File && window.FileReader && window.FileList && window.Blob;
   let selectedId = 0;
   let removeAllKeyValues = false;
+  let deleteModelModal = false;
+  let clearAllModal = false;
 
   return {
     oninit: ({ attrs }) => {
@@ -360,7 +362,7 @@ export const HomePage: MeiosisComponent = () => {
                     className: 'icon-button',
                     iconName: 'delete',
                     title: t('DELETE'),
-                    variant: 'button',
+                    onclick: () => (deleteModelModal = true),
                   })
                 )
               )
@@ -372,7 +374,7 @@ export const HomePage: MeiosisComponent = () => {
               disabled: isCleared,
               className: 'btn-large',
               label: t('NEW_MODEL', 'btn'),
-              variant: 'button',
+              onclick: () => (clearAllModal = true),
             }),
             m('a#downloadAnchorElem', { style: 'display:none' }),
             m(Button, {
@@ -512,6 +514,8 @@ export const HomePage: MeiosisComponent = () => {
           ),
           m(ModalPanel, {
             id: 'delete_model',
+            isOpen: deleteModelModal,
+            onClose: () => (deleteModelModal = false),
             title: t('DELETE_MODEL', 'title'),
             description: m('.row', [
               m('.col.s12', [t('DELETE_MODEL', 'description')]),
@@ -541,6 +545,8 @@ export const HomePage: MeiosisComponent = () => {
           }),
           m(ModalPanel, {
             id: 'clearAll',
+            isOpen: clearAllModal,
+            onClose: () => (clearAllModal = false),
             title: t('NEW_MODEL', 'title'),
             description: m('.row', [
               m('.col.s12', [t('NEW_MODEL', 'description')]),
