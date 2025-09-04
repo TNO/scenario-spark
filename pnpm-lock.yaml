@@ -21,8 +21,8 @@ importers:
         specifier: 3.3.1
         version: 3.3.1
       mithril-ui-form:
-        specifier: 2.0.6
-        version: 2.0.6(mithril-materialized@3.3.1)(mithril@2.3.7)
+        specifier: 2.0.7
+        version: 2.0.7(mithril-materialized@3.3.1)(mithril@2.3.7)
       quill:
         specifier: 2.0.3
         version: 2.0.3
@@ -1072,11 +1072,11 @@ packages:
   mithril-ui-form-plugin@0.7.0:
     resolution: {integrity: sha512-VuYXutj1AuFag6pxGVJ1goV98eg0kE+LP54oo7Zs3t31Fso47pS4gp3O2PZolWeVbN+2KN2kLaPXnYBPZ5W/hg==}
 
-  mithril-ui-form@2.0.6:
-    resolution: {integrity: sha512-cSPGO/b5c3OlBrTyjRPgTRQq+SVb1uhRKQ+Cygic6X/E1+JhIkpf5Tc4EAWEwSQx+hp5seekEmvI411E6QIiNA==}
+  mithril-ui-form@2.0.7:
+    resolution: {integrity: sha512-SAV9JcIVl5BT0rG/4rxOM8+YbVFGOKALbjbQ09aBEe0rJ5hsIhk/Bz2OUHke4JWcrUUcaYSJ0J0ggdLLtl+IgA==}
     peerDependencies:
       mithril: ^2.3.7
-      mithril-materialized: 3.3.0
+      mithril-materialized: 3.3.1
 
   mithril@2.3.7:
     resolution: {integrity: sha512-igRr/o79tNDTL2wa4ta16V7B0A0KdtjPcRVBdw2BMHF0c08xpCk4GxN+Ws04NYq2kGDBA0En1QHF/dgCw1oIIw==}
@@ -1349,8 +1349,8 @@ packages:
     resolution: {integrity: sha512-94Bdh3cC2PKrbgSOUqTiGPWVZeSiXfKOVZNJniWoqrWrRkB1CJzBU3NEbiTsPcYy1lDsANA/THzS+9WBiy5nfQ==}
     engines: {node: '>= 10'}
 
-  slimdown-js@1.1.1:
-    resolution: {integrity: sha512-xnG+rkKspNDuf1skgGjTEqKi3K28Mg8k9vd8to7Opl9fmwiZsPqwZyQeNpal8MAHcgBUd5pfgvhBep1hysDd7A==}
+  slimdown-js@1.1.2:
+    resolution: {integrity: sha512-rCxRWYceJr2ks/EfW9nYbLov+JoPHJ+Z8eTIG3q/2yplku3jd3Qn0jwseX3B7NAv63lZQjp1gtzcDN2FX6IQmw==}
     engines: {node: '>=16'}
 
   sockjs@0.3.24:
@@ -2735,12 +2735,12 @@ snapshots:
 
   mithril-ui-form-plugin@0.7.0: {}
 
-  mithril-ui-form@2.0.6(mithril-materialized@3.3.1)(mithril@2.3.7):
+  mithril-ui-form@2.0.7(mithril-materialized@3.3.1)(mithril@2.3.7):
     dependencies:
       mithril: 2.3.7
       mithril-materialized: 3.3.1
       mithril-ui-form-plugin: 0.7.0
-      slimdown-js: 1.1.1
+      slimdown-js: 1.1.2
 
   mithril@2.3.7: {}
 
@@ -3030,7 +3030,7 @@ snapshots:
       mrmime: 2.0.1
       totalist: 3.0.1
 
-  slimdown-js@1.1.1: {}
+  slimdown-js@1.1.2: {}
 
   sockjs@0.3.24:
     dependencies:
