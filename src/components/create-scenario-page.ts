@@ -9,6 +9,7 @@ import {
   SelectAttrs,
   TextArea,
   TextInput,
+  toast,
   uniqueId,
 } from 'mithril-materialized';
 import { Dashboards, ID, Narrative } from '../models';
@@ -109,19 +110,6 @@ export const CategoryTable: MeiosisComponent<{
             multipleCategories && m('h5.truncate', category.label)
           ),
           m('.col.s2.m1.icons', [
-            // m(ToggleIcon, {
-            //   on: 'visibility',
-            //   off: 'visibility_off',
-            //   value: true,
-            //   callback: () => {
-            //     attrs.update({
-            //       excludedComps: (e = {}) => {
-            //         category?.componentIds.forEach((id) => delete e[id]);
-            //         return e;
-            //       },
-            //     });
-            //   },
-            // }),
             m(ToggleIcon, {
               on: 'lock_open',
               off: 'lock',
@@ -160,20 +148,6 @@ export const CategoryTable: MeiosisComponent<{
             } as SelectAttrs<string>),
             ,
             m('.col.s1.icons', [
-              // m(ToggleIcon, {
-              //   on: 'visibility',
-              //   off: 'visibility_off',
-              //   disabled: c.manual,
-              //   value: excludedComps[c.id] ? false : true,
-              //   callback: (v) => {
-              //     attrs.update({
-              //       excludedComps: (e = {}) => {
-              //         e[c.id] = !v;
-              //         return e;
-              //       },
-              //     });
-              //   },
-              // }),
               m(ToggleIcon, {
                 on: 'lock_open',
                 off: 'lock',
@@ -202,6 +176,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
   let version = 0;
   let askLlm = true;
   let showTables = true;
+  let deleteSavedNarrative = false;
 
   return {
     oninit: ({ attrs }) => setPage(attrs, Dashboards.CREATE_SCENARIO),
@@ -303,7 +278,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   model.scenario.components
                 ).catch((e) => {
                   console.error(e);
-                  M.toast({ html: e });
+                  toast({ html: e });
                   askLlm = true;
                   m.redraw();
                   return;
@@ -326,6 +301,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               label: t('AUTO_CREATE', 'BTN'),
               title: t('AUTO_CREATE_MSG', +count),
               iconName: 'auto_awesome_motion',
+              disabled: !curNarrative.components || !askLlm,
               onclick: async () => {
                 askLlm = false;
                 const { components = {} } = curNarrative;
@@ -354,7 +330,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                       model.scenario.components
                     ).catch((e) => {
                       console.error(e);
-                      M.toast({ html: e });
+                      toast({ html: e });
                       askLlm = true;
                       m.redraw();
                       return;
@@ -368,10 +344,10 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                       editor.setContents(quill);
                       narrative.desc = JSON.stringify(editor.getContents());
                       if (typeof story !== 'string') {
-                        M.toast({ html: `${attempt}. ${story.title}` });
+                        toast({ html: `${attempt}. ${story.title}` });
                         narrative.label = story.title;
                       } else {
-                        M.toast({ html: `${attempt}. ${story}` });
+                        toast({ html: `${attempt}. ${story}` });
                       }
                       saveNarrative(attrs, narrative);
                       m.redraw();
@@ -402,14 +378,16 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 m(FlatButton, {
                   label: t('DELETE'),
                   iconName: 'delete',
-                  modalId: 'deleteSavedNarrative',
+                  onclick: () => (deleteSavedNarrative = true),
                 }),
                 m(ModalPanel, {
                   id: 'deleteSavedNarrative',
                   title: t('DELETE_ITEM', 'title', { item: t('NARRATIVE') }),
+                  onClose: () => (deleteSavedNarrative = false),
                   description: t('DELETE_ITEM', 'description', {
                     item: t('NARRATIVE'),
                   }),
+                  isOpen: deleteSavedNarrative,
                   buttons: [
                     {
                       label: t('CANCEL'),

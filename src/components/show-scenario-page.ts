@@ -103,6 +103,7 @@ const CategoryTable: FactoryComponent<{
 
 export const ShowScenarioPage: MeiosisComponent = () => {
   let editor: Quill;
+  let wordModalOpen = false;
 
   const exportToWord = async (model: DataModel, narratives: Narrative[]) => {
     type RawQuillType = {
@@ -238,8 +239,9 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                 iconName: 'download',
                 className: 'right',
                 disabled: !curNarrative.desc,
-                // onclick: () => exportToWord(model, curNarrative.label),
-                modalId: 'exportToWord',
+                onclick: () => {
+                  wordModalOpen = true;
+                },
               }),
               m(InputCheckbox, {
                 checked: curNarrative.included,
@@ -250,6 +252,10 @@ export const ShowScenarioPage: MeiosisComponent = () => {
               m(ModalPanel, {
                 id: 'exportToWord',
                 title: t('EXPORT2WORD', 'TITLE'),
+                isOpen: wordModalOpen,
+                onToggle: (open) => {
+                  wordModalOpen = open;
+                },
                 fixedFooter: true,
                 description: m(
                   '.export-modal',

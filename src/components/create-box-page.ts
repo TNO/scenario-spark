@@ -8,7 +8,6 @@ import {
   Color,
   ThresholdColor,
   Scenario,
-  Narrative,
   Category,
 } from '../models';
 import {
@@ -215,7 +214,6 @@ const BoxHeader: MeiosisComponent<{
           className: 'widget-link',
           iconName: 'add',
           iconClass: 'right',
-          // modalId: sc.id,
           i18n: i18n.i18n,
           onclick: () => (addComponent = true),
         }),
@@ -227,11 +225,11 @@ const BoxHeader: MeiosisComponent<{
           onClose: () => (addComponent = false),
           description: m(
             '.row',
-            m(LayoutForm, {
+            m(LayoutForm<ContextualItem>, {
               form,
               obj,
               i18n: i18n.i18n,
-            } as FormAttributes<ContextualItem>)
+            })
           ),
           // options: { opacity: 0.7 },
           buttons: [

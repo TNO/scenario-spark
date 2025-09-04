@@ -163,6 +163,8 @@ export const SettingsPage: MeiosisComponent = () => {
     },
   ] as UIForm<Scenario>;
   let edit = false;
+  let deleteModel = false;
+  let mdEditor = false;
 
   return {
     oninit: ({ attrs }) => setPage(attrs, Dashboards.SETTINGS),
@@ -183,13 +185,13 @@ export const SettingsPage: MeiosisComponent = () => {
                       className: 'right',
                       iconName: 'delete',
                       label: t('DELETE'),
-                      modalId: 'deleteModel',
+                      onclick: () => (deleteModel = true),
                     }),
                     m(FlatButton, {
                       iconName: 'auto_fix_high',
                       className: 'right',
                       label: t('ADV_EDIT'),
-                      modalId: 'mdEditor',
+                      onclick: () => (mdEditor = true),
                     })
                   ),
                   m(
@@ -306,7 +308,8 @@ export const SettingsPage: MeiosisComponent = () => {
             id: 'deleteModel',
             title: t('DELETE_ITEM', 'title', { item: t('MODEL') }),
             description: t('DELETE_ITEM', 'description', { item: t('MODEL') }),
-            // options: { opacity: 0.7 },
+            isOpen: deleteModel,
+            onClose: () => (deleteModel = false),
             buttons: [
               {
                 label: t('CANCEL'),
@@ -322,6 +325,8 @@ export const SettingsPage: MeiosisComponent = () => {
           m(ModalPanel, {
             id: 'mdEditor',
             title: t('ADV_EDIT'),
+            isOpen: mdEditor,
+            onClose: () => (mdEditor = false),
             description: m(MorpBoxEditor, attrs),
             bottomSheet: true,
             fixedFooter: true,
@@ -447,7 +452,7 @@ export const MorpBoxEditor: MeiosisComponent = () => {
           },
         }),
         m(TextArea, {
-          initialValue: md,
+          defaultValue: md,
           disabled: !curCategory,
           onchange: (v) => {
             md = v;

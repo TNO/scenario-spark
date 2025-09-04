@@ -8,6 +8,7 @@ import {
   RadioButtons,
   Select,
   Tabs,
+  toast,
 } from 'mithril-materialized';
 import background from '../assets/hero.webp';
 import DutchFlag from '../assets/flag-nl.png';
@@ -262,7 +263,7 @@ export const HomePage: MeiosisComponent = () => {
                       model.scenarios = [model.scenario, ...model.scenarios];
                       model.scenario = newScenario();
                       await saveModel(attrs, model, true);
-                      M.toast({ html: t('SCENARIO_CREATED_MSG') });
+                      toast({ html: t('SCENARIO_CREATED_MSG') });
                       changePage(attrs, Dashboards.SETTINGS);
                     },
                   }),
@@ -340,9 +341,9 @@ export const HomePage: MeiosisComponent = () => {
                                 ];
                                 model.scenario = scenario;
                                 saveModel(attrs, model, true);
-                                M.toast({ html: t('SCENARIO_LOADED_MSG') });
+                                toast({ html: t('SCENARIO_LOADED_MSG') });
                               } else {
-                                M.toast({ html: t('SCENARIO_NOT_LOADED_MSG') });
+                                toast({ html: t('SCENARIO_NOT_LOADED_MSG') });
                               }
                             }
                           };
@@ -436,7 +437,7 @@ export const HomePage: MeiosisComponent = () => {
                             ? (json as DataModel)
                             : convertFromOld(json as OldDataModel);
                           saveModel(attrs, dataModel, true);
-                          M.toast({ html: t('COLLECTION_LOADED_MSG') });
+                          toast({ html: t('COLLECTION_LOADED_MSG') });
                         }
                       }
                     };
