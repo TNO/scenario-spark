@@ -95,12 +95,6 @@ export const Layout: MeiosisComponent = () => ({
             ]),
             m(
               'ul#slide-out.sidenav.hide-on-large-and-up',
-              {
-                // oncreate: () => {
-                //   const elems = document.querySelectorAll('.sidenav');
-                //   // M.Sidenav.init(elems);
-                // },
-              },
               ...routes.map((d) =>
                 m(`li.tooltip${isActive(d)}.unselectable`, [
                   m(
@@ -118,25 +112,6 @@ export const Layout: MeiosisComponent = () => ({
                 ])
               ),
               m('li', m(ThemeToggle))
-              // m('li.tooltip.language-settings.unselectable', [
-              //   // TODO FIX
-              //   // m(
-              //   //   'a.dropdown-trigger',
-              //   //   {
-              //   //     href: '#!',
-              //   //     'data-target': 'dropdown_languages',
-              //   //     oncreate: ({ dom }) => {
-              //   //       M.Dropdown.init(dom);
-              //   //     },
-              //   //   },
-              //   //   m(Icon, {
-              //   //     iconName: 'language',
-              //   //     className: 'hoverable',
-              //   //     style: 'font-size: 2.2rem; width: 4rem;',
-              //   //   }),
-              //   //   m('span.tooltiptext', t('SET_LANGUAGE').toUpperCase())
-              //   // ),
-              // ])
             ),
             m(
               'ul.right.hide-on-med-and-down',
