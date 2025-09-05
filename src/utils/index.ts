@@ -882,21 +882,20 @@ export const computeCompColor = (
   // maximum threshold value
   const maxThreshold = sortedThresholds[sortedThresholds.length - 1].threshold;
 
-  // map counts to colors
+  // map counts to colors (approach 1: last threshold reached)
   const count2color: Color[] = new Array(maxThreshold + 1);
-  let i = 0;
-  for (const tc of sortedThresholds) {
-    while (i <= tc.threshold && i < count2color.length) {
-      count2color[i] = tc.color;
-      i++;
-    }
-  }
 
-  // fill any gaps (e.g. thresholds didn’t cover all indices)
-  for (let j = 0; j < count2color.length; j++) {
-    if (!count2color[j]) {
-      count2color[j] = sortedThresholds[0].color;
+  for (let count = 0; count <= maxThreshold; count++) {
+    // find the highest threshold ≤ count
+    let color = sortedThresholds[0].color;
+    for (const tc of sortedThresholds) {
+      if (tc.threshold <= count) {
+        color = tc.color;
+      } else {
+        break;
+      }
     }
+    count2color[count] = color;
   }
 
   // assign colors to components
