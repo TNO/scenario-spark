@@ -945,13 +945,13 @@ ul.kanban > li {
   }
 }
 .table-container {
-  width: 100%; /* or a fixed width */
-  margin: 0 auto; /* center the container */
-  text-align: center; /* center the table inside the container */
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
 }
 .table {
-  display: inline-block; /* make the table an inline-block element */
-  text-align: left; /* reset the text alignment */
+  display: block;
+  text-align: left;
 }
 
 .missing {
