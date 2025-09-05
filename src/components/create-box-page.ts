@@ -816,14 +816,16 @@ interface MorphBoxOpts {
  * Each item is shown with a colored square (HTML span).
  */
 export const generateMorphologicalBoxMarkdown = ({
-  components,
-  narratives,
-  compColor,
+  components = [],
+  narratives = [],
+  compColor = {},
   includeDescriptions = false,
   resolveIds,
 }: MorphBoxOpts): string => {
   const itemById = new Map<ID, ContextualItem>();
   const itemIdSet = new Set<ID>();
+  const hasNarratives = narratives.length > 0;
+
   for (const sc of components) {
     for (const it of sc.values || []) {
       itemById.set(it.id, it);
@@ -870,10 +872,14 @@ export const generateMorphologicalBoxMarkdown = ({
   const columns: string[][] = components.map((sc) => {
     const col: string[] = [];
     for (const it of sc.values || []) {
-      const cnt = counts[it.id] ?? 0;
+      const cnt = hasNarratives ? counts[it.id] ?? 0 : 0;
       const label = capitalize(it.label);
       const desc = includeDescriptions && it.desc ? ` — ${it.desc}` : '';
-      col.push(`${colorSquare(it.id)} ${label} (${cnt}x)${desc}`);
+      col.push(
+        hasNarratives
+          ? `${colorSquare(it.id)} ${label} (${cnt}x)${desc}`
+          : `${label}${desc}`
+      );
     }
     return col;
   });
