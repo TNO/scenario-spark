@@ -10,6 +10,15 @@
   --mm-text-primary: rgba(0, 0, 0, 0.87);
   --mm-border-color: rgba(0, 0, 0, 0.12);
   --mm-popup-background: #fcffa5;
+
+  /* Inconsistency state colors */
+  --mm-inconsistency-possible: #4caf50;
+  --mm-inconsistency-impossible: #f44336;
+  --mm-inconsistency-improbable: #ff9800;
+
+  /* Table theming */
+  --mm-table-striped-color: rgba(0, 0, 0, 0.05);
+  --mm-surface-color: #ffffff;
 }
 
 [data-theme='dark'] {
@@ -18,6 +27,16 @@
   --mm-text-primary: rgba(255, 255, 255, 0.87);
   --mm-border-color: rgba(255, 255, 255, 0.12);
   --mm-popup-background: #7b7f04;
+
+  /* Inconsistency state colors (dark theme) */
+  --mm-inconsistency-possible: #81c784;
+  --mm-inconsistency-impossible: #e57373;
+  --mm-inconsistency-improbable: #ffb74d;
+
+  /* Table theming (dark theme) */
+  --mm-table-striped-color: rgba(255, 255, 255, 0.05);
+  --mm-surface-color: #1e1e1e;
+
   /* ... dark theme overrides */
 }
 
@@ -277,7 +296,7 @@ ul.measures {
 }
 
 li.collection-item:first-child {
-  background-color: white; /* should be the same as the background color behind the list */
+  /* background-color: white; /* should be the same as the background color behind the list */
   position: fixed;
 }
 
@@ -568,10 +587,10 @@ label,
   margin-top: 0;
 }
 
-a.waves-effect.waves-teal.btn-flat.selected {
+/* a.waves-effect.waves-teal.btn-flat.selected {
   background: #1a237e;
   color: white;
-}
+} */
 
 .input-field > label:not(.label-icon).active {
   -webkit-transform: translateY(-8px) scale(0.8);
@@ -659,7 +678,7 @@ a.waves-effect.waves-teal.btn-flat.selected {
   width: 200px;
   height: 60px;
   margin: 0 0 0.7rem 0;
-  color: white;
+  /* color: white; */
   text-align: center;
 
   & .card-content {
@@ -1066,17 +1085,17 @@ ul.kanban > li {
   position: sticky;
   left: 0;
   z-index: 20;
-  background: white;
+  /* background: white; */
 }
 th.component-header {
   text-align: center;
-  border-left: 2px solid #333;
-  border-bottom: 2px solid #333;
+  border-left: 2px solid var(--mm-border-color);
+  border-bottom: 2px solid var(--mm-border-color);
   position: relative;
 }
 th.component-name {
   padding: 10px;
-  border-right: 1px solid #ddd;
+  border-right: 1px solid var(--mm-border-color);
   font-weight: bold;
   text-align: right;
   position: sticky;
@@ -1087,7 +1106,7 @@ th.value-name {
   padding: 10px;
   font-weight: normal;
   text-align: right;
-  border-right: 2px solid #333;
+  border-right: 2px solid var(--mm-border-color);
   position: sticky;
   z-index: 15;
 }
@@ -1311,4 +1330,90 @@ td.matrix-cell {
   .hero-actions .language-option span {
     font-size: 0.8rem;
   }
+}
+
+/* Inconsistencies Editor Theme Support */
+.inconsistency-matrix.card {
+  background-color: var(--mm-surface-color);
+  color: var(--mm-text-primary);
+}
+
+table.matrix-table.highlight.matrix-table-themed {
+  background-color: var(--mm-surface-color);
+  color: var(--mm-text-primary);
+  border-collapse: collapse;
+  position: relative;
+}
+
+/* Override any default table backgrounds */
+table.matrix-table.highlight.matrix-table-themed th,
+table.matrix-table.highlight.matrix-table-themed td,
+table.matrix-table.highlight.matrix-table-themed tr {
+  background-color: var(--mm-surface-color);
+  color: var(--mm-text-primary);
+}
+
+.matrix-table-themed th,
+.matrix-table-themed td {
+  border-color: var(--mm-border-color);
+}
+
+table.matrix-table.highlight.matrix-table-themed th.component-header {
+  background-color: var(--mm-surface-color);
+  border-left: 2px solid var(--mm-border-color);
+  border-bottom: 2px solid var(--mm-border-color);
+}
+
+table.matrix-table.highlight.matrix-table-themed th.value-header {
+  background-color: var(--mm-surface-color);
+}
+
+table.matrix-table.highlight.matrix-table-themed th.component-name {
+  background-color: var(--mm-surface-color);
+  border-right: 1px solid var(--mm-border-color);
+}
+
+table.matrix-table.highlight.matrix-table-themed th.value-name {
+  background-color: var(--mm-surface-color);
+  border-right: 2px solid var(--mm-border-color);
+}
+
+table.matrix-table.highlight.matrix-table-themed tr.matrix-cell-alt-bg,
+table.matrix-table.highlight.matrix-table-themed th.matrix-cell-alt-bg,
+table.matrix-table.highlight.matrix-table-themed td.matrix-cell-alt-bg {
+  background-color: var(--mm-table-striped-color);
+}
+
+table.matrix-table.highlight.matrix-table-themed tr.matrix-disabled-cell,
+table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
+  background-color: var(--mm-table-striped-color);
+  opacity: 0.6;
+}
+
+.inconsistency-cell-possible {
+  color: var(--mm-inconsistency-possible);
+}
+
+.inconsistency-cell-impossible {
+  color: var(--mm-inconsistency-impossible);
+}
+
+.inconsistency-cell-improbable {
+  color: var(--mm-inconsistency-improbable);
+}
+
+.inconsistency-tooltip {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--mm-surface-color);
+  color: var(--mm-text-primary);
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--mm-border-color);
+  z-index: 1000;
+  width: max-content;
+  max-width: 250px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }

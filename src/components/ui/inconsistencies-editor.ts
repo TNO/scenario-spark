@@ -90,12 +90,12 @@ const InconsistencyCell: FactoryComponent<{
           ? 'radio_button_unchecked'
           : 'blur_circular';
 
-      const cellColor =
+      const cellClassName =
         typeof v === 'undefined'
-          ? '#4CAF50' // green for possible
+          ? 'inconsistency-cell-possible' // green for possible
           : v
-          ? '#F44336' // red for impossible
-          : '#FF9800'; // orange for improbable
+          ? 'inconsistency-cell-impossible' // red for impossible
+          : 'inconsistency-cell-improbable'; // orange for improbable
 
       return m(
         '.cell-with-tooltip',
@@ -110,10 +110,12 @@ const InconsistencyCell: FactoryComponent<{
         },
         [
           m(Icon, {
-            className: disabled ? 'disabled-cell' : 'clickable',
+            className: disabled 
+              ? 'disabled-cell' 
+              : `clickable ${cellClassName}`,
             style: disabled
-              ? 'opacity: 0.3; cursor: not-allowed;'
-              : `color: ${cellColor}; font-size: 1.2rem;`,
+              ? 'opacity: 0.3; cursor: not-allowed; font-size: 1.2rem;'
+              : 'font-size: 1.2rem;',
             iconName,
             onclick: async (e: MouseEvent) => {
               e.stopPropagation();
@@ -146,23 +148,8 @@ const InconsistencyCell: FactoryComponent<{
           }),
           tooltipVisible &&
             m(
-              '.tooltip',
-              {
-                style: `
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #333;
-            color: white;
-            padding: 8px;
-            border-radius: 4px;
-            z-index: 1000;
-            width: max-content;
-            max-width: 250px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-          `,
-              },
+              '.inconsistency-tooltip',
+              {},
               m(CellTooltip, {
                 rowComponent,
                 rowValue,
@@ -195,21 +182,24 @@ const InconsistencyLegend: FactoryComponent = () => {
             [
               m('li', [
                 m(Icon, {
-                  style: 'vertical-align: middle; color: #4CAF50;',
+                  className: 'inconsistency-cell-possible',
+                  style: 'vertical-align: middle;',
                   iconName: 'check_circle_outline',
                 }),
                 ' ' + t('COMBINATIONS', 'POSSIBLE'),
               ]),
               m('li', [
                 m(Icon, {
-                  style: 'vertical-align: middle; color: #F44336;',
+                  className: 'inconsistency-cell-impossible',
+                  style: 'vertical-align: middle;',
                   iconName: 'radio_button_unchecked',
                 }),
                 ' ' + t('COMBINATIONS', 'IMPOSSIBLE'),
               ]),
               m('li', [
                 m(Icon, {
-                  style: 'vertical-align: middle; color: #FF9800;',
+                  className: 'inconsistency-cell-improbable',
+                  style: 'vertical-align: middle;',
                   iconName: 'blur_circular',
                 }),
                 ' ' + t('COMBINATIONS', 'IMPROBABLE'),
@@ -389,7 +379,7 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
             m('.col.s12', [
               m('.inconsistency-matrix.card', [
                 m(
-                  'table.matrix-table.highlight',
+                  'table.matrix-table.highlight.matrix-table-themed',
                   {
                     style: 'border-collapse: collapse; position: relative;',
                   },
@@ -398,8 +388,7 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
                     m(
                       'thead',
                       {
-                        style:
-                          'position: sticky; top: 0; z-index: 20; background: white;',
+                        style: 'position: sticky; top: 0; z-index: 20;',
                       },
                       [
                         // First row: Empty corner
@@ -416,9 +405,7 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
                                 'th.component-header',
                                 {
                                   colspan: colComp.values!.length,
-                                  style: `background-color: ${
-                                    colIdx % 2 === 0 ? '#f5f9ff' : '#ffffff'
-                                  };`,
+                                  className: colIdx % 2 === 0 ? 'matrix-cell-alt-bg' : '',
                                 },
                                 colComp.label
                               );
@@ -436,13 +423,10 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
                               m(
                                 'th.value-header',
                                 {
-                                  style: `background-color: ${
-                                    compIdx % 2 === 0 ? '#f5f9ff' : '#ffffff'
-                                  };${
-                                    valIdx === 0
-                                      ? 'border-left: 2px solid #333;'
-                                      : ''
-                                  }`,
+                                  className: compIdx % 2 === 0 ? 'matrix-cell-alt-bg' : '',
+                                  style: valIdx === 0
+                                    ? 'border-left: 2px solid var(--mm-border-color);'
+                                    : '',
                                 },
                                 m('div', val.label)
                               )
@@ -470,14 +454,10 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
                             return m(
                               'tr',
                               {
-                                style: `background-color: ${
-                                  rowCompIdx % 2 === 0 ? '#f5f9ff' : '#ffffff'
-                                };
-                                  ${
-                                    rowValIdx === 0
-                                      ? 'border-top: 2px solid #333;'
-                                      : ''
-                                  }`,
+                                className: rowCompIdx % 2 === 0 ? 'matrix-cell-alt-bg' : '',
+                                style: rowValIdx === 0
+                                  ? 'border-top: 2px solid var(--mm-border-color);'
+                                  : '',
                               },
                               [
                                 // Display component name for first value only (merged cells) - fixed position
@@ -486,11 +466,7 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
                                       'th.component-name',
                                       {
                                         rowspan: rowComp.values?.length,
-                                        style: `background-color: ${
-                                          rowCompIdx % 2 === 0
-                                            ? '#f5f9ff'
-                                            : '#ffffff'
-                                        };`,
+                                        className: rowCompIdx % 2 === 0 ? 'matrix-cell-alt-bg' : '',
                                       },
                                       rowComp.label
                                     )
@@ -500,12 +476,8 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
                                 m(
                                   'th.value-name',
                                   {
-                                    style: `left: ${firstColWidth}px;
-                                      background-color: ${
-                                        rowCompIdx % 2 === 0
-                                          ? '#f5f9ff'
-                                          : '#ffffff'
-                                      };`,
+                                    className: rowCompIdx % 2 === 0 ? 'matrix-cell-alt-bg' : '',
+                                    style: `left: ${firstColWidth}px;`,
                                   },
                                   rowVal.label
                                 ),
@@ -541,21 +513,17 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
                                         return m(
                                           'td.matrix-cell',
                                           {
-                                            style: `background-color: ${
-                                              isDisabled
-                                                ? '#f0f0f0'
-                                                : (colCompIdx % 2 === 0 &&
-                                                    rowCompIdx % 2 === 0) ||
-                                                  (colCompIdx % 2 === 1 &&
-                                                    rowCompIdx % 2 === 1)
-                                                ? '#f5f9ff'
-                                                : '#ffffff'
-                                            };
-                                              ${
-                                                colValIdx === 0
-                                                  ? 'border-left: 2px solid #333;'
-                                                  : ''
-                                              }`,
+                                            className: isDisabled
+                                              ? 'matrix-disabled-cell'
+                                              : (colCompIdx % 2 === 0 &&
+                                                  rowCompIdx % 2 === 0) ||
+                                                (colCompIdx % 2 === 1 &&
+                                                  rowCompIdx % 2 === 1)
+                                              ? 'matrix-cell-alt-bg'
+                                              : '',
+                                            style: colValIdx === 0
+                                              ? 'border-left: 2px solid var(--mm-border-color);'
+                                              : '',
                                           },
                                           !isDisabled &&
                                             m(InconsistencyCell, {
