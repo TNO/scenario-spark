@@ -506,7 +506,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           m('.row', [
             m(TextInput, {
               className: 'col s6 m4',
-              initialValue: curNarrative.label,
+              defaultValue: curNarrative.label,
               label: t('NAME_NARRATIVE'),
               required: true,
               onchange: (n) => {
@@ -529,7 +529,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 placeholder: t('i18n', 'pick'),
                 className: 'col s6 m2',
                 label: t('PROBABILITY'),
-                initialValue: curNarrative.probability,
+                checkedId: curNarrative.probability,
                 options: range(0, 4).map((id) => ({
                   id: `probability_${id}`,
                   label: t('PROB5', id),
@@ -545,7 +545,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 placeholder: t('i18n', 'pick'),
                 className: 'col s6 m2',
                 label: t('IMPACT'),
-                initialValue: curNarrative.impact,
+                checkedId: curNarrative.impact,
                 options: range(0, 4).map((id) => ({
                   id: `impact_${id}`,
                   label: t('IMP5', id),
@@ -561,7 +561,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 placeholder: t('RISK_PLACEHOLDER'),
                 className: 'col s6 m2',
                 label: t('RISK'),
-                initialValue: curNarrative.risk,
+                checkedId: curNarrative.risk,
                 options: range(0, 4).map((id) => ({
                   id: `risk_${id}`,
                   label: t('RISK5', id),
@@ -634,7 +634,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   '.col.s6',
                   m(TextArea, {
                     label: t('PERSONA_IMPRESSION'),
-                    initialValue: curNarrative.personaEffects
+                    defaultValue: curNarrative.personaEffects
                       ? curNarrative.personaEffects[p.id]?.story
                       : undefined,
                     onchange: (story) => {

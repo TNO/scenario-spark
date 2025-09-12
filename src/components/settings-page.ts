@@ -372,14 +372,14 @@ export const MorpBoxEditor: MeiosisComponent = () => {
           ? m(TextInput, {
               label: t('CATEGORIES'),
               className: 'col s6',
-              initialValue: curCategory?.label,
+              defaultValue: curCategory?.label,
               readOnly: true,
             })
           : m(Select<string>, {
               label: t('CATEGORIES'),
               className: 'col s6',
               placeholder: t('i18n', 'pickOne'),
-              initialValue: curCategory?.id,
+              checkedId: curCategory?.id,
               options: categories,
               onchange: (v) => {
                 initialMd = undefined;
