@@ -1005,6 +1005,9 @@ ul.kanban > li {
 .show-scenario .ql-container.ql-snow {
   border: none;
 }
+.ql-editor.ql-blank:before {
+  color: var(--mm-text-primary);
+}
 
 /* .show-scenario .ql-editor {
   padding: 30px 0;
