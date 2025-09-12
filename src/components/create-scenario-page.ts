@@ -506,7 +506,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           m('.row', [
             m(TextInput, {
               className: 'col s6 m4',
-              defaultValue: curNarrative.label,
+              value: curNarrative.label,
               label: t('NAME_NARRATIVE'),
               required: true,
               onchange: (n) => {
@@ -634,7 +634,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   '.col.s6',
                   m(TextArea, {
                     label: t('PERSONA_IMPRESSION'),
-                    defaultValue: curNarrative.personaEffects
+                    value: curNarrative.personaEffects
                       ? curNarrative.personaEffects[p.id]?.story
                       : undefined,
                     onchange: (story) => {

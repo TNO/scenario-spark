@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { FormAttributes, LayoutForm, UIForm } from 'mithril-ui-form';
+import { LayoutForm, UIForm } from 'mithril-ui-form';
 import { i18n, MeiosisComponent, saveModel, t } from '../../services';
 import { Narrative } from '../../models';
 import { Category, Scenario, ScenarioComponent } from '../../models/data-model';
@@ -231,7 +231,7 @@ export const LLMSelector: MeiosisComponent = () => {
       const {
         state: { model },
       } = attrs;
-      return m(LayoutForm, {
+      return m(LayoutForm<Partial<Scenario>>, {
         i18n: i18n.i18n,
         form: [
           {
@@ -245,15 +245,14 @@ export const LLMSelector: MeiosisComponent = () => {
                 className: 'col s12 m3',
                 options: [
                   { id: 'ollama', label: 'Ollama' },
-                  { id: 'gemini', label: 'Gemini' },
-                  { id: 'claude', label: 'Claude' },
                   { id: 'openai', label: 'OpenAI' },
+                  { id: 'clipboard', label: 'Clipboard' },
                 ],
               },
               {
                 id: 'model',
                 label: t('MODEL'),
-                value: 'llama3.3',
+                value: 'gemma3',
                 className: 'col s12 m3',
                 type: 'text',
               },
@@ -298,17 +297,17 @@ export const LLMSelector: MeiosisComponent = () => {
                 description: t('OLLAMA_URL'),
                 type: 'url',
                 className: 'col s12 m6',
-                show: 'id=ollama',
+                show: 'id!=clipboard',
               },
             ] as UIForm<LLMConfig>,
           },
-        ],
+        ] as UIForm<Partial<Scenario>>,
         obj: model.scenario,
         onchange: () => {
           console.log('LLMSelector model:', model.scenario.llm);
           saveModel(attrs, model);
         },
-      } as FormAttributes<Partial<Scenario>>);
+      });
     },
   };
 };
