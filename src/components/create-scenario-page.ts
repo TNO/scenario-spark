@@ -177,6 +177,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
   let askLlm = true;
   let showTables = true;
   let deleteSavedNarrative = false;
+  let canAskLlm = false;
 
   return {
     oninit: ({ attrs }) => setPage(attrs, Dashboards.CREATE_SCENARIO),
@@ -194,6 +195,11 @@ export const CreateScenarioPage: MeiosisComponent = () => {
         personas = [],
         includeDecisionSupport,
       } = model.scenario;
+      canAskLlm =
+        (llm &&
+          llm.prompts &&
+          llm.prompts.some((p) => p.type === 'narrative')) ??
+        false;
       const curPersonas =
         includeDecisionSupport && personas.length > 0
           ? allPersonas.filter((p) => personas.includes(p.id))
@@ -216,7 +222,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               }, new Set<string>())
           : new Set<string>();
       const selectOptions = narrativesToOptions(model.scenario.narratives);
-      const count = llm?.autoLLMCount || 10;
+      // const count = llm?.autoLLMCount || 10;
 
       return m('.create-scenario.row', [
         m('.col.s12', [
@@ -260,7 +266,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               });
             },
           }),
-          model.scenario.llm && [
+          canAskLlm && [
             m(FlatButton, {
               label: t('ASK_LLM'),
               iconName: 'auto_awesome',
@@ -297,66 +303,66 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 m.redraw();
               },
             }),
-            m(FlatButton, {
-              label: t('AUTO_CREATE', 'BTN'),
-              title: t('AUTO_CREATE_MSG', +count),
-              iconName: 'auto_awesome_motion',
-              disabled: !curNarrative.components || !askLlm,
-              onclick: async () => {
-                askLlm = false;
-                const { components = {} } = curNarrative;
-                const locked = components
-                  ? Object.keys(lockedComps).reduce((acc, cur) => {
-                      if (lockedComps[cur]) {
-                        acc[cur] = components[cur];
-                      }
-                      return acc;
-                    }, {} as Record<ID, ID[]>)
-                  : ({} as Record<ID, ID[]>);
-                model.scenario.components
-                  .filter((c) => c.manual)
-                  .forEach((c) => {
-                    locked[c.id] = components[c.id];
-                  });
+            // m(FlatButton, {
+            //   label: t('AUTO_CREATE', 'BTN'),
+            //   title: t('AUTO_CREATE_MSG', +count),
+            //   iconName: 'auto_awesome_motion',
+            //   disabled: !curNarrative.components || !askLlm,
+            //   onclick: async () => {
+            //     askLlm = false;
+            //     const { components = {} } = curNarrative;
+            //     const locked = components
+            //       ? Object.keys(lockedComps).reduce((acc, cur) => {
+            //           if (lockedComps[cur]) {
+            //             acc[cur] = components[cur];
+            //           }
+            //           return acc;
+            //         }, {} as Record<ID, ID[]>)
+            //       : ({} as Record<ID, ID[]>);
+            //     model.scenario.components
+            //       .filter((c) => c.manual)
+            //       .forEach((c) => {
+            //         locked[c.id] = components[c.id];
+            //       });
 
-                let attempt = 0;
-                while (attempt < count) {
-                  const narrative = generateNarrative(model.scenario, locked);
-                  if (narrative) {
-                    const story = await generateStory(
-                      model.scenario.llm!,
-                      narrative,
-                      model.scenario.categories,
-                      model.scenario.components
-                    ).catch((e) => {
-                      console.error(e);
-                      toast({ html: e });
-                      askLlm = true;
-                      m.redraw();
-                      return;
-                    });
-                    console.log(story);
-                    if (story) {
-                      attempt++;
-                      const quill = markdownToQuill(
-                        typeof story === 'string' ? story : story.content
-                      );
-                      editor.setContents(quill);
-                      narrative.desc = JSON.stringify(editor.getContents());
-                      if (typeof story !== 'string') {
-                        toast({ html: `${attempt}. ${story.title}` });
-                        narrative.label = story.title;
-                      } else {
-                        toast({ html: `${attempt}. ${story}` });
-                      }
-                      saveNarrative(attrs, narrative);
-                      m.redraw();
-                    }
-                  }
-                }
-                askLlm = true;
-              },
-            }),
+            //     let attempt = 0;
+            //     while (attempt < count) {
+            //       const narrative = generateNarrative(model.scenario, locked);
+            //       if (narrative) {
+            //         const story = await generateStory(
+            //           model.scenario.llm!,
+            //           narrative,
+            //           model.scenario.categories,
+            //           model.scenario.components
+            //         ).catch((e) => {
+            //           console.error(e);
+            //           toast({ html: e });
+            //           askLlm = true;
+            //           m.redraw();
+            //           return;
+            //         });
+            //         console.log(story);
+            //         if (story) {
+            //           attempt++;
+            //           const quill = markdownToQuill(
+            //             typeof story === 'string' ? story : story.content
+            //           );
+            //           editor.setContents(quill);
+            //           narrative.desc = JSON.stringify(editor.getContents());
+            //           if (typeof story !== 'string') {
+            //             toast({ html: `${attempt}. ${story.title}` });
+            //             narrative.label = story.title;
+            //           } else {
+            //             toast({ html: `${attempt}. ${story}` });
+            //           }
+            //           saveNarrative(attrs, narrative);
+            //           m.redraw();
+            //         }
+            //       }
+            //     }
+            //     askLlm = true;
+            //   },
+            // }),
           ],
           curNarrative.saved
             ? [

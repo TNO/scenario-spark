@@ -2,15 +2,26 @@ import m from 'mithril';
 import { LayoutForm, UIForm } from 'mithril-ui-form';
 import { i18n, MeiosisComponent, saveModel, t } from '../../services';
 import { Narrative } from '../../models';
-import { Category, Scenario, ScenarioComponent } from '../../models/data-model';
+import {
+  Category,
+  ID,
+  Scenario,
+  ScenarioComponent,
+} from '../../models/data-model';
 
+export type PromptType = 'narrative' | 'effect' | 'persona' | 'communications';
+
+export type Prompt = {
+  type: PromptType;
+  prompt: string;
+  categories: ID[];
+};
 export interface LLMConfig {
   id: string;
   apiKey?: string;
   model?: string;
   url: string;
-  systemPrompt?: string;
-  userPrompt?: string;
+  prompts: Prompt[];
   temperature?: number;
   autoLLMCount?: number;
 }
@@ -29,7 +40,7 @@ interface BaseRequest {
 
 // API-specific request interfaces
 interface OllamaRequest {
-  prompt: string;
+  messages: Array<{ role: 'user' | 'system'; content: string }>;
   /** JSON schema */
   format?: Record<string, any>;
   model: string;
@@ -39,31 +50,31 @@ interface OllamaRequest {
   };
 }
 
-interface ClaudeRequest {
-  model: string;
-  messages: {
-    role: 'user' | 'assistant';
-    content: string;
-  }[];
-  system?: string;
-  temperature: number;
-}
+// interface ClaudeRequest {
+//   model: string;
+//   messages: {
+//     role: 'user' | 'assistant';
+//     content: string;
+//   }[];
+//   system?: string;
+//   temperature: number;
+// }
 
 interface OpenAIRequest extends BaseRequest {
   model: string;
 }
 
-interface GeminiRequest {
-  contents: {
-    role: 'user' | 'model';
-    parts: {
-      text: string;
-    }[];
-  }[];
-  generationConfig: {
-    temperature: number;
-  };
-}
+// interface GeminiRequest {
+//   contents: {
+//     role: 'user' | 'model';
+//     parts: {
+//       text: string;
+//     }[];
+//   }[];
+//   generationConfig: {
+//     temperature: number;
+//   };
+// }
 
 type LLMProvider = 'ollama' | 'claude' | 'openai' | 'gemini';
 
@@ -83,10 +94,12 @@ async function chatWithLLM(
 
   switch (provider) {
     case 'ollama':
-      url = `${url}${url.endsWith('/') ? '' : '/'}api/generate`;
+      // url = `${url}${url.endsWith('/') ? '' : '/'}api/generate`;
       requestBody = {
         model,
-        prompt: userPrompt + '\n\nRespond using JSON.',
+        messages: [
+          { role: 'user', content: userPrompt + '\n\nRespond using JSON.' },
+        ],
         format: {
           type: 'object',
           properties: {
@@ -107,17 +120,17 @@ async function chatWithLLM(
       } as OllamaRequest;
       break;
 
-    case 'claude':
-      if (!apiKey) throw new Error('API key required for Claude');
-      headers['x-api-key'] = apiKey;
-      // Claude doesn't support system messages in the messages array
-      requestBody = {
-        model,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userPrompt }],
-        temperature,
-      } as ClaudeRequest;
-      break;
+    // case 'claude':
+    //   if (!apiKey) throw new Error('API key required for Claude');
+    //   headers['x-api-key'] = apiKey;
+    //   // Claude doesn't support system messages in the messages array
+    //   requestBody = {
+    //     model,
+    //     system: systemPrompt,
+    //     messages: [{ role: 'user', content: userPrompt }],
+    //     temperature,
+    //   } as ClaudeRequest;
+    //   break;
 
     case 'openai':
       if (!apiKey) throw new Error('API key required for OpenAI');
@@ -133,27 +146,27 @@ async function chatWithLLM(
       } as OpenAIRequest;
       break;
 
-    case 'gemini':
-      if (!apiKey) throw new Error('API key required for Gemini');
-      // For Gemini, we append the API key to the URL instead of using a header
-      url = `${url}?key=${apiKey}`;
-      // Convert system prompt + user prompt into Gemini format
-      requestBody = {
-        contents: [
-          {
-            role: 'user',
-            parts: [
-              {
-                text: `${systemPrompt}\n\n${userPrompt}`,
-              },
-            ],
-          },
-        ],
-        generationConfig: {
-          temperature,
-        },
-      } as GeminiRequest;
-      break;
+    // case 'gemini':
+    //   if (!apiKey) throw new Error('API key required for Gemini');
+    //   // For Gemini, we append the API key to the URL instead of using a header
+    //   url = `${url}?key=${apiKey}`;
+    //   // Convert system prompt + user prompt into Gemini format
+    //   requestBody = {
+    //     contents: [
+    //       {
+    //         role: 'user',
+    //         parts: [
+    //           {
+    //             text: `${systemPrompt}\n\n${userPrompt}`,
+    //           },
+    //         ],
+    //       },
+    //     ],
+    //     generationConfig: {
+    //       temperature,
+    //     },
+    //   } as GeminiRequest;
+    //   break;
 
     default:
       throw new Error(`Unsupported provider: ${provider}`);
@@ -184,31 +197,33 @@ async function chatWithLLM(
 
       const data = await response.json();
 
-      // console.log(JSON.stringify(data, null, 2));
-
       // Extract the response content based on the provider's response format
       switch (provider) {
         case 'ollama':
           try {
-            return data.response
-              ? (JSON.parse(data.response) as {
+            const result = data?.message?.content
+              ? (JSON.parse(data.message.content) as {
                   title: string;
                   content: string;
                 })
               : undefined;
+            if (!result) {
+              console.warn(JSON.stringify(data, null, 2));
+            }
+            return result;
           } catch (e: any) {
             console.error(e);
             return '';
           }
 
-        case 'claude':
-          return data.content?.[0]?.text;
+        // case 'claude':
+        //   return data.content?.[0]?.text;
 
         case 'openai':
           return data.choices?.[0]?.message?.content;
 
-        case 'gemini':
-          return data.candidates?.[0]?.content?.parts?.[0]?.text;
+        // case 'gemini':
+        //   return data.candidates?.[0]?.content?.parts?.[0]?.text;
 
         default:
           return undefined;
@@ -226,87 +241,125 @@ async function chatWithLLM(
 }
 
 export const LLMSelector: MeiosisComponent = () => {
+  const form = (categories: Category[]) =>
+    [
+      {
+        id: 'llm',
+        label: t('LLM'),
+        type: [
+          {
+            id: 'id',
+            label: 'Service',
+            type: 'select',
+            className: 'col s12 m3',
+            options: [
+              { id: 'ollama', label: 'Ollama' },
+              { id: 'openai', label: 'OpenAI' },
+              { id: 'clipboard', label: 'Clipboard' },
+            ],
+          },
+          {
+            id: 'model',
+            label: t('MODEL'),
+            value: 'gemma3',
+            className: 'col s12 m3',
+            type: 'text',
+          },
+          {
+            id: 'temperature',
+            label: t('TEMPERATURE', 'BTN'),
+            description: t('TEMPERATURE', 'DESC'),
+            className: 'col s12 m3',
+            type: 'number',
+            value: '0.7',
+            min: 0,
+            max: 1,
+            step: 0.1,
+          },
+          // {
+          //   id: 'autoLLMCount',
+          //   label: t('AUTO_CREATE', 'COUNT'),
+          //   description: t('AUTO_CREATE', 'COUNT_DESC'),
+          //   className: 'col s12 m3',
+          //   type: 'number',
+          //   value: '10',
+          //   min: 0,
+          //   max: 100,
+          //   step: 1,
+          // },
+          {
+            id: 'apiKey',
+            show: 'id=openai',
+            label: t('API_KEY'),
+            type: 'text',
+            className: 'col s12 m3',
+          },
+          {
+            id: 'url',
+            label: t('URL'),
+            description: t('OLLAMA_URL'),
+            type: 'url',
+            className: 'col s12 m6',
+            show: 'id!=clipboard',
+          },
+          {
+            id: 'prompts',
+            label: 'PROMPTS',
+            repeat: true,
+            pageSize: 4,
+            max: 4,
+            type: [
+              {
+                id: 'type',
+                label: 'PROMPT_TYPE',
+                type: 'select',
+                options: [
+                  { id: 'narrative', label: 'Narrative prompt' },
+                  { id: 'effect', label: 'Effect prompt' },
+                  { id: 'persona', label: 'Persona prompt' },
+                  { id: 'communications', label: 'Communications prompt' },
+                ],
+                className: 'col s12 m4',
+              },
+              {
+                id: 'categories',
+                label: 'Included categories',
+                type: 'select',
+                multiple: true,
+                options: categories,
+                className: 'col s12 m8',
+              },
+              { id: 'prompt', label: 'PROMPT', type: 'textare8' },
+              {
+                id: 'prompt',
+                label: 'PROMPT',
+                type: 'textarea',
+              },
+            ],
+          },
+        ] as UIForm<LLMConfig>,
+      },
+    ] as UIForm<Partial<Scenario>>;
   return {
     view: ({ attrs }) => {
       const {
         state: { model },
       } = attrs;
+      const { categories = [] } = model.scenario || {};
       return m(LayoutForm<Partial<Scenario>>, {
         i18n: i18n.i18n,
-        form: [
-          {
-            id: 'llm',
-            label: t('LLM'),
-            type: [
-              {
-                id: 'id',
-                label: 'Service',
-                type: 'select',
-                className: 'col s12 m3',
-                options: [
-                  { id: 'ollama', label: 'Ollama' },
-                  { id: 'openai', label: 'OpenAI' },
-                  { id: 'clipboard', label: 'Clipboard' },
-                ],
-              },
-              {
-                id: 'model',
-                label: t('MODEL'),
-                value: 'gemma3',
-                className: 'col s12 m3',
-                type: 'text',
-              },
-              {
-                id: 'temperature',
-                label: t('TEMPERATURE', 'BTN'),
-                description: t('TEMPERATURE', 'DESC'),
-                className: 'col s12 m3',
-                type: 'number',
-                value: '0.7',
-                min: 0,
-                max: 1,
-                step: 0.1,
-              },
-              {
-                id: 'autoLLMCount',
-                label: t('AUTO_CREATE', 'COUNT'),
-                description: t('AUTO_CREATE', 'COUNT_DESC'),
-                className: 'col s12 m3',
-                type: 'number',
-                value: '10',
-                min: 0,
-                max: 100,
-                step: 1,
-              },
-              {
-                id: 'apiKey',
-                show: 'id!=ollama',
-                label: t('API_KEY'),
-                type: 'text',
-              },
-              {
-                id: 'systemPrompt',
-                show: 'id!=ollama',
-                label: t('SYSTEM_PROMPT'),
-                type: 'textarea',
-              },
-              { id: 'userPrompt', label: t('USER_PROMPT'), type: 'textarea' },
-              {
-                id: 'url',
-                label: t('URL'),
-                description: t('OLLAMA_URL'),
-                type: 'url',
-                className: 'col s12 m6',
-                show: 'id!=clipboard',
-              },
-            ] as UIForm<LLMConfig>,
-          },
-        ] as UIForm<Partial<Scenario>>,
+        form: form(categories),
         obj: model.scenario,
-        onchange: () => {
-          console.log('LLMSelector model:', model.scenario.llm);
-          saveModel(attrs, model);
+        onchange: async () => {
+          await saveModel(attrs, model);
         },
+        //                onchange: (isValid) => {
+        //   console.log(
+        //     `LLMSelector model is valid ${isValid}:`,
+        //     model.scenario.llm
+        //   );
+        //   saveModel(attrs, model);
+        // },
       });
     },
   };
@@ -316,38 +369,39 @@ export const generateStory = async (
   config: LLMConfig,
   narrative: Narrative,
   categories: Category[],
-  components: ScenarioComponent[]
+  components: ScenarioComponent[],
+  storyType: PromptType = 'narrative'
 ) => {
-  const { id, apiKey, systemPrompt, url: ollama, userPrompt } = config;
-  let { model } = config;
+  const { id, apiKey, prompts = [] } = config;
+  let storyPrompt = prompts.filter((p) => p.type === storyType).shift();
+  if (
+    !storyPrompt ||
+    !storyPrompt.prompt ||
+    !storyPrompt.categories ||
+    storyPrompt.categories.length === 0
+  )
+    return '';
+  const { prompt, categories: includedCategories = [] } = storyPrompt;
 
   console.log('Generating story with:', config, narrative, components);
 
-  let url: string;
+  let url = config.url || '';
+  let model = config.model || '';
   switch (id) {
+    case 'clipboard':
+      break;
     case 'ollama':
-      url = ollama;
-      if (!model) model = 'gemma3';
-      break;
-    case 'gemini':
-      url =
-        'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
-      if (!model) model = 'gemini-pro';
-      break;
-    case 'claude':
-      url = 'https://api.anthropic.com/v1/messages';
-      if (!model) model = 'claude-3-5-sonnet-latest';
       break;
     case 'openai':
-      url = 'https://api.openai.com/v1/chat/completions';
-      if (!model) model = 'gpt-4o-mini';
+      url = url || 'https://api.openai.com/v1/chat/completions';
+      model = model || 'gpt-4o-mini';
       break;
     default:
       throw new Error(`Unknown service: ${id}`);
   }
 
   const includedComponents = categories
-    .filter((c) => c.includeLLM)
+    .filter((c) => includedCategories.includes(c.id))
     .reduce((acc, cur) => {
       cur.componentIds?.forEach((id) => acc.add(id));
       return acc;
@@ -378,14 +432,20 @@ export const generateStory = async (
 
   console.log(translatedNarrative);
 
+  const userPrompt =
+    (prompt ?? '') +
+    '\n\n' +
+    // '\n\nCreate a story with the following elements:\n\n' +
+    translatedNarrative;
+
+  if (id === 'clipboard') return userPrompt;
+
   const story = await chatWithLLM(
     id as LLMProvider,
     url,
     model,
-    systemPrompt ?? 'You are a helpfull AI storywriter.',
-    (userPrompt ?? '') +
-      '\n\nCreate a story with the following elements:\n\n' +
-      translatedNarrative,
+    'You are a helpfull AI storywriter.',
+    userPrompt,
     0.7,
     apiKey
   );

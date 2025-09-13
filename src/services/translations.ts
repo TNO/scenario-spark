@@ -250,7 +250,10 @@ export const messages = {
   SERVICE: 'Service',
   PROVIDER: 'Provider',
   SYSTEM_PROMPT: 'System prompt',
-  USER_PROMPT: 'User prompt',
+  USER_PROMPT: 'Narrative prompt',
+  EFFECT_PROMPT: 'Effect prompt',
+  PERSONA_PROMPT: 'Persona prompt',
+  COMMUNICATIONS_PROMPT: 'Communications prompt',
   TEMPERATURE: {
     BTN: 'Temperature',
     DESC: 'How creative should the LLM be (max = 1)?',
@@ -259,7 +262,8 @@ export const messages = {
   URL: 'URL',
   ASK_LLM: 'Ask LLM',
   INCLUDE_LLM: 'Include in LLM',
-  OLLAMA_URL: 'Hostname (and port)',
+  OLLAMA_URL:
+    'Hostname (and port, optionally via a [proxy](https://github.com/erikvullings/proxy))',
   ADV_EDIT: 'Code editor',
   TOGGLE: { SHOW: 'Show table', HIDE: 'Hide table' },
   AUTO_CREATE: {
@@ -542,7 +546,10 @@ export const messagesNL: typeof messages = {
   SERVICE: 'Service',
   PROVIDER: 'Provider',
   SYSTEM_PROMPT: 'Systeem prompt',
-  USER_PROMPT: 'Gebruiker prompt',
+  USER_PROMPT: 'Scenario prompt',
+  EFFECT_PROMPT: 'Effect prompt',
+  PERSONA_PROMPT: 'Persona prompt',
+  COMMUNICATIONS_PROMPT: 'Communicatie prompt',
   TEMPERATURE: {
     BTN: 'Temperatuur',
     DESC: 'Hoe creatief mag de LLM zijn (max = 1)?',
@@ -551,7 +558,8 @@ export const messagesNL: typeof messages = {
   URL: 'URL',
   ASK_LLM: 'Vraag LLM',
   INCLUDE_LLM: 'Stuur naar LLM',
-  OLLAMA_URL: 'Domeinnaam (en poort)',
+  OLLAMA_URL:
+    'Domeinnaam (en poort, eventueel via een [proxy](https://github.com/erikvullings/proxy))',
   ADV_EDIT: 'Code editor',
   TOGGLE: { SHOW: 'Toon tabel', HIDE: 'Verberg tabel' },
   AUTO_CREATE: {

@@ -69,7 +69,7 @@ export const SettingsPage: MeiosisComponent = () => {
         },
         {
           id: 'desc',
-          className: 'col s4 m6 l3',
+          className: 'col s4 m9 l6',
           type: 'text',
           label: t('DESCRIPTION'),
         },
@@ -78,12 +78,7 @@ export const SettingsPage: MeiosisComponent = () => {
           type: 'checkbox',
           className: 'col s6 m3 l3 mt25',
           label: t('IS_DECISION_CATEGORY'),
-        },
-        {
-          id: 'includeLLM',
-          type: 'checkbox',
-          className: 'col s6 m3 l3 mt25',
-          label: t('INCLUDE_LLM'),
+          // show: ['includeDecisionSupport=true'],
         },
         {
           id: 'componentIds',
@@ -214,7 +209,7 @@ export const SettingsPage: MeiosisComponent = () => {
               },
               {
                 title: 'LLM',
-                vnode: m('.llm-settings', [m(LLMSelector, { ...attrs })]),
+                vnode: m('.llm-settings', m(LLMSelector, { ...attrs })),
               },
               {
                 title: t('PERSONA', 2),
