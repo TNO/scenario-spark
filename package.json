@@ -36,8 +36,8 @@
     "material-icons": "^1.13.14",
     "meiosis-setup": "^6.2.3",
     "mithril": "^2.3.7",
-    "mithril-materialized": "3.3.7",
-    "mithril-ui-form": "2.0.8",
+    "mithril-materialized": "3.3.8",
+    "mithril-ui-form": "2.0.10",
     "quill": "2.0.3",
     "quill-to-word": "^1.3.0",
     "translate.js": "1.3.2"
