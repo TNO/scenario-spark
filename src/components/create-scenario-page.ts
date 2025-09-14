@@ -195,8 +195,13 @@ export const CreateScenarioPage: MeiosisComponent = () => {
         personas = [],
         includeDecisionSupport,
       } = model.scenario;
+
+      const hasNarrative =
+        curNarrative.components &&
+        Object.keys(curNarrative.components).length > 0;
       canAskLlm =
-        (llm &&
+        (hasNarrative &&
+          llm &&
           llm.prompts &&
           llm.prompts.some((p) => p.type === 'narrative')) ??
         false;
@@ -259,11 +264,19 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             style: 'margin-left: 10px;',
             onclick: () => {
               version = version === 0 ? 1 : 0;
-              editor.setContents([] as any);
               attrs.update({
                 lockedComps: () => ({}),
-                curNarrative: () => ({ included: false } as Narrative),
+                curNarrative: () =>
+                  ({
+                    id: uniqueId(),
+                    included: false,
+                    components: {},
+                    saved: false,
+                    label: '',
+                    desc: '',
+                  } as Narrative),
               });
+              editor.setContents([] as any);
             },
           }),
           canAskLlm && [
@@ -289,13 +302,22 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   m.redraw();
                   return;
                 });
-                console.log(story);
                 askLlm = true;
+                if (model.scenario.llm?.id === 'clipboard') {
+                  // copy story to clipboard
+                  if (story && navigator.clipboard) {
+                    const content =
+                      typeof story === 'string' ? story : story.content;
+                    navigator.clipboard.writeText(content);
+                  }
+                  toast({ html: 'Copied' });
+                }
                 if (story) {
                   const quill = markdownToQuill(
                     typeof story === 'string' ? story : story.content
                   );
                   editor.setContents(quill);
+                  curNarrative.desc = JSON.stringify(editor.getContents());
                   if (typeof story !== 'string') {
                     curNarrative.label = story.title;
                   }
@@ -435,6 +457,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               ],
           narratives && [
             m(Select, {
+              key: `narrative-select-${version}-${curNarrative.id || 'new'}`,
               className: 'right mb0 w30',
               label: t('SELECT_NARRATIVE'),
               checkedId: curNarrative.saved ? curNarrative.id : undefined,
@@ -469,7 +492,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             } as SelectAttrs<string>),
           ],
         ]),
-        template
+        template && hasNarrative
           ? m(ScenarioParagraph, {
               ...attrs,
               template,
@@ -611,9 +634,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   const { curNarrative } = attrs.getState();
                   if (!curNarrative) return;
                   curNarrative.desc = JSON.stringify(editor.getContents());
-
-                  console.log(curNarrative.desc);
-
+                  // console.log(curNarrative.desc);
                   updateNarrative(attrs, curNarrative);
                 });
                 if (curNarrative) {
@@ -647,7 +668,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                       const found =
                         curNarrative.personaEffects &&
                         curNarrative.personaEffects[p.id];
-                      console.log(found);
+                      // console.log(found);
                       if (found) {
                         found.story = story;
                       } else if (curNarrative.personaEffects) {
