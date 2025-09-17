@@ -287,9 +287,6 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               disabled: !curNarrative.components || !askLlm,
               onclick: async () => {
                 askLlm = false;
-                curNarrative.label = '';
-                curNarrative.desc = '';
-                editor.setContents(markdownToQuill(''));
                 const story = await generateStory(
                   model.scenario.llm!,
                   curNarrative,
@@ -310,9 +307,14 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                       typeof story === 'string' ? story : story.content;
                     navigator.clipboard.writeText(content);
                   }
-                  toast({ html: 'Copied' });
+                  toast({ html: t('COPY_BOX', 'TOAST') });
+                  return;
                 }
                 if (story) {
+                  curNarrative.label = '';
+                  curNarrative.desc = '';
+                  editor.setContents(markdownToQuill(''));
+
                   const quill = markdownToQuill(
                     typeof story === 'string' ? story : story.content
                   );
