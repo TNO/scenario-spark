@@ -110,8 +110,8 @@ const InconsistencyCell: FactoryComponent<{
         },
         [
           m(Icon, {
-            className: disabled 
-              ? 'disabled-cell' 
+            className: disabled
+              ? 'disabled-cell'
               : `clickable ${cellClassName}`,
             style: disabled
               ? 'opacity: 0.3; cursor: not-allowed; font-size: 1.2rem;'
@@ -382,6 +382,26 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
                   'table.matrix-table.highlight.matrix-table-themed',
                   {
                     style: 'border-collapse: collapse; position: relative;',
+                    oncreate: ({ dom }) => {
+                      const table = dom as HTMLTableElement;
+                      if (!table) return;
+
+                      const cornerCell = table.querySelector(
+                        '.component-name'
+                      ) as HTMLTableCellElement;
+                      const valueNameCells =
+                        table.querySelectorAll('.value-name');
+
+                      // Meet de breedte van de eerste kolom
+                      const cornerCellWidth = cornerCell.offsetWidth;
+
+                      // Stel de 'left' eigenschap van de tweede kolom in
+                      valueNameCells.forEach((cell) => {
+                        (
+                          cell as HTMLTableCellElement
+                        ).style.left = `${cornerCellWidth}px`;
+                      });
+                    },
                   },
                   [
                     // Header row with column category components and values - fixed position
@@ -405,7 +425,10 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
                                 'th.component-header',
                                 {
                                   colspan: colComp.values!.length,
-                                  className: colIdx % 2 === 0 ? 'matrix-cell-alt-bg' : '',
+                                  className:
+                                    colIdx % 2 === 0
+                                      ? 'matrix-cell-alt-bg'
+                                      : '',
                                 },
                                 colComp.label
                               );
@@ -423,10 +446,14 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
                               m(
                                 'th.value-header',
                                 {
-                                  className: compIdx % 2 === 0 ? 'matrix-cell-alt-bg' : '',
-                                  style: valIdx === 0
-                                    ? 'border-left: 2px solid var(--mm-border-color);'
-                                    : '',
+                                  className:
+                                    compIdx % 2 === 0
+                                      ? 'matrix-cell-alt-bg'
+                                      : '',
+                                  style:
+                                    valIdx === 0
+                                      ? 'border-left: 2px solid var(--mm-border-color);'
+                                      : '',
                                 },
                                 m('div', val.label)
                               )
@@ -454,10 +481,14 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
                             return m(
                               'tr',
                               {
-                                className: rowCompIdx % 2 === 0 ? 'matrix-cell-alt-bg' : '',
-                                style: rowValIdx === 0
-                                  ? 'border-top: 2px solid var(--mm-border-color);'
-                                  : '',
+                                className:
+                                  rowCompIdx % 2 === 0
+                                    ? 'matrix-cell-alt-bg'
+                                    : '',
+                                style:
+                                  rowValIdx === 0
+                                    ? 'border-top: 2px solid var(--mm-border-color);'
+                                    : '',
                               },
                               [
                                 // Display component name for first value only (merged cells) - fixed position
@@ -466,7 +497,10 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
                                       'th.component-name',
                                       {
                                         rowspan: rowComp.values?.length,
-                                        className: rowCompIdx % 2 === 0 ? 'matrix-cell-alt-bg' : '',
+                                        className:
+                                          rowCompIdx % 2 === 0
+                                            ? 'matrix-cell-alt-bg'
+                                            : '',
                                       },
                                       rowComp.label
                                     )
@@ -476,7 +510,10 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
                                 m(
                                   'th.value-name',
                                   {
-                                    className: rowCompIdx % 2 === 0 ? 'matrix-cell-alt-bg' : '',
+                                    className:
+                                      rowCompIdx % 2 === 0
+                                        ? 'matrix-cell-alt-bg'
+                                        : '',
                                     style: `left: ${firstColWidth}px;`,
                                   },
                                   rowVal.label
@@ -521,9 +558,10 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
                                                   rowCompIdx % 2 === 1)
                                               ? 'matrix-cell-alt-bg'
                                               : '',
-                                            style: colValIdx === 0
-                                              ? 'border-left: 2px solid var(--mm-border-color);'
-                                              : '',
+                                            style:
+                                              colValIdx === 0
+                                                ? 'border-left: 2px solid var(--mm-border-color);'
+                                                : '',
                                           },
                                           !isDisabled &&
                                             m(InconsistencyCell, {

@@ -1310,13 +1310,13 @@ table.matrix-table.highlight.matrix-table-themed tr {
 
 .matrix-table-themed th,
 .matrix-table-themed td {
-  border-color: var(--mm-border-color);
+  border-color: var(--mm-chip-bg);
 }
 
 table.matrix-table.highlight.matrix-table-themed th.component-header {
   background-color: var(--mm-surface-color);
-  border-left: 2px solid var(--mm-border-color);
-  border-bottom: 2px solid var(--mm-border-color);
+  border-left: 2px solid var(--mm-chip-bg);
+  border-bottom: 2px solid var(--mm-chip-bg);
 }
 
 table.matrix-table.highlight.matrix-table-themed th.value-header {
@@ -1325,23 +1325,23 @@ table.matrix-table.highlight.matrix-table-themed th.value-header {
 
 table.matrix-table.highlight.matrix-table-themed th.component-name {
   background-color: var(--mm-surface-color);
-  border-right: 1px solid var(--mm-border-color);
+  border-right: 1px solid var(--mm-chip-bg);
 }
 
 table.matrix-table.highlight.matrix-table-themed th.value-name {
   background-color: var(--mm-surface-color);
-  border-right: 2px solid var(--mm-border-color);
+  border-right: 2px solid var(--mm-chip-bg);
 }
 
 table.matrix-table.highlight.matrix-table-themed tr.matrix-cell-alt-bg,
 table.matrix-table.highlight.matrix-table-themed th.matrix-cell-alt-bg,
 table.matrix-table.highlight.matrix-table-themed td.matrix-cell-alt-bg {
-  background-color: var(--mm-table-striped-color);
+  background-color: var(--mm-switch-disabled-thumb);
 }
 
 table.matrix-table.highlight.matrix-table-themed tr.matrix-disabled-cell,
 table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
-  background-color: var(--mm-table-striped-color);
+  background-color: var(--mm-switch-disabled-thumb);
   opacity: 0.6;
 }
 

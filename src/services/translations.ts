@@ -93,7 +93,7 @@ export const messages = {
       'Are you sure that you want to delete your scenario? There is no way back.',
   },
   INCONSISTENCIES: {
-    title: 'Edit inconsistencies',
+    title: 'Inconsistencies',
     SELECT_ROW_CATEGORY: 'Select row category',
     SELECT_COLUMN_CATEGORY: 'Select column category',
     SELECT_CATEGORIES_TO_START: 'Select categories to start',
