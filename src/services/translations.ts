@@ -215,7 +215,8 @@ export const messages = {
   SET_LANGUAGE: 'Set language',
   SCENARIO_LOADED_MSG: 'Scenario successfully loaded',
   COLLECTION_LOADED_MSG: 'The scenario collection is loaded',
-  SCENARIO_NOT_LOADED_MSG: 'The scenario is not loaded',
+  SCENARIO_NOT_LOADED_MSG:
+    'The scenario is not loaded: most likely cause, scenario is already part of the collection.',
   SCENARIO_CREATED_MSG: 'A new scenario is created',
   COPY_TO_CLIPBOARD: 'Copy table to clipboard',
   GROUP: { SELECTED: 'Selected scenarios', UNSELECTED: 'Unselected scenarios' },
@@ -493,7 +494,8 @@ export const messagesNL: typeof messages = {
   SET_LANGUAGE: 'Kies de taal',
   SCENARIO_LOADED_MSG: 'Het scenario is ingeladen',
   COLLECTION_LOADED_MSG: "De scenario's zijn ingeladen",
-  SCENARIO_NOT_LOADED_MSG: 'Het scenario is niet ingeladen',
+  SCENARIO_NOT_LOADED_MSG:
+    'Het scenario is niet ingeladen: mogelijk bestaat het al in de collectie.',
   SCENARIO_CREATED_MSG: 'Een nieuw scenario is aangemaakt',
   COPY_TO_CLIPBOARD: 'Kopieer tabel naar het plakbord',
   GROUP: { SELECTED: 'Geselecteerd', UNSELECTED: 'Niet geselecteerd' },

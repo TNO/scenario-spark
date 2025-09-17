@@ -33,7 +33,13 @@ import {
   defaultModels,
   newScenario,
 } from '../models';
-import { SAVED, capitalize, convertFromOld, modelToSaveName } from '../utils';
+import {
+  SAVED,
+  capitalize,
+  convertFromOld,
+  modelToSaveName,
+  uploadFile,
+} from '../utils';
 
 export const TableView: MeiosisComponent<{
   narratives: Narrative[];
@@ -303,14 +309,8 @@ export const HomePage: MeiosisComponent = () => {
                       iconName: 'upload',
                       title: t('UPLOAD', 'MODEL'),
                       onclick: () => {
-                        const fileInput = document.getElementById(
-                          'selectFiles'
-                        ) as HTMLInputElement;
-                        fileInput.onchange = () => {
-                          if (!fileInput) {
-                            return;
-                          }
-                          const files = fileInput.files;
+                        console.log('UPLOAD');
+                        uploadFile((files) => {
                           if (!files || (files && files.length <= 0)) {
                             return;
                           }
@@ -354,8 +354,7 @@ export const HomePage: MeiosisComponent = () => {
                               ? reader.readAsText(data)
                               : reader.readAsArrayBuffer(data);
                           }
-                        };
-                        fileInput.click();
+                        });
                       },
                     }),
                   m(FlatButton, {
@@ -402,24 +401,13 @@ export const HomePage: MeiosisComponent = () => {
                 localStorage.setItem(SAVED, 'true');
               },
             }),
-            m('input#selectFiles[type=file][accept=.json]', {
-              style: 'display:none',
-            }),
-            // m('input#selectFiles[type=file][accept=.json,.pdf]', { style: 'display:none' }),
             readerAvailable &&
               m(Button, {
                 iconName: 'upload',
                 className: 'btn-large',
                 label: t('UPLOAD', 'COLLECTION'),
                 onclick: () => {
-                  const fileInput = document.getElementById(
-                    'selectFiles'
-                  ) as HTMLInputElement;
-                  fileInput.onchange = () => {
-                    if (!fileInput) {
-                      return;
-                    }
-                    const files = fileInput.files;
+                  uploadFile((files) => {
                     if (!files || (files && files.length <= 0)) {
                       return;
                     }
@@ -448,8 +436,7 @@ export const HomePage: MeiosisComponent = () => {
                         ? reader.readAsText(data)
                         : reader.readAsArrayBuffer(data);
                     }
-                  };
-                  fileInput.click();
+                  });
                 },
               }),
           ]),

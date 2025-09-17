@@ -918,3 +918,26 @@ export const computeCompColor = (
 
   return compColor;
 };
+
+export const uploadFile = (onSelect: (files: FileList) => void): void => {
+  // Create the input
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.style.display = 'none';
+
+  // Attach onchange handler
+  input.onchange = () => {
+    if (input.files) {
+      onSelect(input.files);
+    }
+    // Clean up
+    input.remove();
+  };
+
+  // Add to DOM, trigger click, and schedule removal if cancelled
+  document.body.appendChild(input);
+  input.click();
+
+  // If user cancels, still remove the input after a short delay
+  setTimeout(() => input.remove(), 1000);
+};
