@@ -538,7 +538,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               value: curNarrative.label,
               label: t('NAME_NARRATIVE'),
               required: true,
-              onchange: (n) => {
+              oninput: (n) => {
                 curNarrative.label = n;
                 updateNarrative(attrs, curNarrative);
               },
