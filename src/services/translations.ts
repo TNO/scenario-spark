@@ -281,6 +281,14 @@ export const messages = {
     TITLE: 'Copy table to clipboard',
     TOAST: 'Morphological box copied to clipboard.',
   },
+  PROMPT_TYPE: {
+    PROMPTS: 'Prompts',
+    LABEL: 'Prompt type',
+    NARRATIVE: 'Narrative prompt',
+    EFFECT: 'Effect prompt',
+    PERSONA: 'Persona prompt',
+    COM: 'Communications prompt',
+  },
 };
 
 export const messagesNL: typeof messages = {
@@ -577,6 +585,14 @@ export const messagesNL: typeof messages = {
     LABEL: 'Kopieer box',
     TITLE: 'Kopieer box naar clipboard',
     TOAST: 'Morphologische box is gekopieerd naar het clipboard.',
+  },
+  PROMPT_TYPE: {
+    LABEL: 'Prompt type',
+    PROMPTS: 'Prompts',
+    NARRATIVE: 'Prompt voor narratieve',
+    EFFECT: 'Prompt voor effecten',
+    PERSONA: "Prompt voor persona's",
+    COM: 'Prompt voor communicatie',
   },
 };
 

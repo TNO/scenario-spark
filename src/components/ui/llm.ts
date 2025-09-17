@@ -304,20 +304,20 @@ export const LLMSelector: MeiosisComponent = () => {
           },
           {
             id: 'prompts',
-            label: 'PROMPTS',
+            label: t('PROMPT_TYPE', 'PROMPTS'),
             repeat: true,
             pageSize: 4,
             max: 4,
             type: [
               {
                 id: 'type',
-                label: 'PROMPT_TYPE',
+                label: t('PROMPT_TYPE', 'LABEL'),
                 type: 'select',
                 options: [
-                  { id: 'narrative', label: 'Narrative prompt' },
-                  { id: 'effect', label: 'Effect prompt' },
-                  { id: 'persona', label: 'Persona prompt' },
-                  { id: 'communications', label: 'Communications prompt' },
+                  { id: 'narrative', label: t('PROMPT_TYPE', 'NARRATIVE') },
+                  // { id: 'effect', label: t('PROMPT_TYPE', 'EFFECT') },
+                  // { id: 'persona', label: t('PROMPT_TYPE', 'PERSONA') },
+                  // { id: 'communications', label: t('PROMPT_TYPE', 'COM') },
                 ],
                 className: 'col s12 m4',
               },
