@@ -56,38 +56,12 @@ body {
   overflow-x: hidden;
 }
 
-/* Set theme color */
-/* .btn,
-.btn-floating {
-  background-color: #1565c0;
-}
-.page-footer,
-.nav-wrapper,
-.statusbar,
-.nav-content {
-  background-color: white;
-} */
 nav .title {
   position: fixed;
   top: 0;
   left: 200px;
   font-size: 2rem;
 }
-/* .input-field,
-.switch > label,
-.input-field > label,
-.input-field > .material-icons,
-.dropdown-content > li > a,
-.tooltip > .material-icons,
-label > span,
-.secondary-content > .material-icons {
-  color: #1a237e;
-  /* font-weight: bold; */
-
-/* .tabs.tabs-transparent .tab a,
-nav ul a {
-  padding: 0;
-} */
 
 */ .markdown ul {
   padding-left: 20px;
@@ -519,18 +493,6 @@ ul.projects > li > span.project-id {
   margin-left: 10px;
 }
 
-/* For the options' label */
-.input-field.options > label {
-  top: -2.5rem;
-}
-.input-field.options {
-  margin-top: 3rem;
-}
-
-.condensed .input-field {
-  margin: 0 auto;
-}
-
 .assessment-plugin.section {
   padding: 0;
 }
@@ -592,7 +554,7 @@ label,
   color: white;
 } */
 
-.input-field > label:not(.label-icon).active {
+/* .input-field > label:not(.label-icon).active {
   -webkit-transform: translateY(-8px) scale(0.8);
   transform: translateY(-8px) scale(0.8);
   -webkit-transform-origin: 0 0;
@@ -600,7 +562,7 @@ label,
 }
 .input-field > input[type='color'] {
   margin-top: 20px;
-}
+} */
 
 .button-group {
   display: flex;
@@ -824,16 +786,6 @@ ul.kanban > li {
 .popupContent.fade-out {
   opacity: 0;
 }
-
-/* .popupContainer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: var(--mm-popup-background, #fcffa5);
-  font-size: 2rem;
-  box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.3);
-} */
 
 .popupContainer > .popupContent {
   padding: 20px;

@@ -1,6 +1,6 @@
 import m from 'mithril';
 import 'material-icons/iconfont/filled.css';
-import 'mithril-materialized/index.css';
+import 'mithril-materialized/index.min.css';
 import 'quill/dist/quill.snow.css';
 import './css/style.css';
 import { routingSvc } from './services/routing-service';
