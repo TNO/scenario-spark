@@ -14,7 +14,6 @@ import {
   Select,
   Tabs,
   TextArea,
-  TextInput,
   uniqueId,
 } from 'mithril-materialized';
 import { FormAttributes, LayoutForm, UIForm } from 'mithril-ui-form';
@@ -105,7 +104,7 @@ export const SettingsPage: MeiosisComponent = () => {
         {
           id: 'manual',
           type: 'switch',
-          className: 'switch col s3 m2',
+          className: 'col s3 m2',
           label: t('MANUAL'),
         },
         {
@@ -299,45 +298,49 @@ export const SettingsPage: MeiosisComponent = () => {
               },
             ],
           }),
-          m(ModalPanel, {
-            id: 'deleteModel',
-            title: t('DELETE_ITEM', 'title', { item: t('MODEL') }),
-            description: t('DELETE_ITEM', 'description', { item: t('MODEL') }),
-            isOpen: deleteModel,
-            onClose: () => (deleteModel = false),
-            buttons: [
-              {
-                label: t('CANCEL'),
-              },
-              {
-                label: t('OK'),
-                onclick: () => {
-                  saveModel(attrs, emptyModel());
+          deleteModel &&
+            m(ModalPanel, {
+              id: 'deleteModel',
+              title: t('DELETE_ITEM', 'title', { item: t('MODEL') }),
+              description: t('DELETE_ITEM', 'description', {
+                item: t('MODEL'),
+              }),
+              isOpen: true,
+              onClose: () => (deleteModel = false),
+              buttons: [
+                {
+                  label: t('CANCEL'),
                 },
-              },
-            ],
-          }),
-          m(ModalPanel, {
-            id: 'mdEditor',
-            title: t('ADV_EDIT'),
-            isOpen: mdEditor,
-            onClose: () => (mdEditor = false),
-            description: m(MorpBoxEditor, attrs),
-            bottomSheet: true,
-            fixedFooter: true,
-            buttons: [
-              {
-                label: t('CANCEL'),
-              },
-            ],
-          }),
+                {
+                  label: t('OK'),
+                  onclick: () => {
+                    saveModel(attrs, emptyModel());
+                  },
+                },
+              ],
+            }),
+          mdEditor &&
+            m(ModalPanel, {
+              id: 'mdEditor',
+              title: t('ADV_EDIT'),
+              isOpen: true,
+              onClose: () => (mdEditor = false),
+              description: m(MorphBoxEditor, attrs),
+              bottomSheet: true,
+              fixedFooter: true,
+              buttons: [
+                {
+                  label: t('CANCEL'),
+                },
+              ],
+            }),
         ]),
       ];
     },
   };
 };
 
-export const MorpBoxEditor: MeiosisComponent = () => {
+export const MorphBoxEditor: MeiosisComponent = () => {
   let curCategory: Category | undefined;
   let initialMd: string | undefined;
   let md: string | undefined;
@@ -353,9 +356,10 @@ export const MorpBoxEditor: MeiosisComponent = () => {
       } = attrs;
       if (!model.scenario) return;
       const { categories = [], components = [] } = model.scenario;
-      if (categories.length === 1) {
+      if (!curCategory && categories.length > 0) {
         curCategory = categories[0];
       }
+      console.log(curCategory);
       if (!initialMd && curCategory) {
         initialMd = md = morphBoxToMarkdown(
           curCategory,
@@ -363,24 +367,18 @@ export const MorpBoxEditor: MeiosisComponent = () => {
         );
       }
       return m('.md-editor.row', [
-        categories.length === 1
-          ? m(TextInput, {
-              label: t('CATEGORIES'),
-              className: 'col s6',
-              defaultValue: curCategory?.label,
-              readOnly: true,
-            })
-          : m(Select<string>, {
-              label: t('CATEGORIES'),
-              className: 'col s6',
-              placeholder: t('i18n', 'pickOne'),
-              checkedId: curCategory?.id,
-              options: categories,
-              onchange: (v) => {
-                initialMd = undefined;
-                curCategory = categories.find((c) => c.id === v[0]);
-              },
-            }),
+        m(Select<string>, {
+          label: t('CATEGORIES'),
+          className: 'col s6',
+          placeholder: t('i18n', 'pickOne'),
+          checkedId: curCategory?.id,
+          options: categories,
+          onchange: (v) => {
+            initialMd = undefined;
+            curCategory = categories.find((c) => c.id === v[0]);
+            m.redraw();
+          },
+        }),
         m(FlatButton, {
           iconName: 'add',
           className: 'col s1',
@@ -447,11 +445,10 @@ export const MorpBoxEditor: MeiosisComponent = () => {
           },
         }),
         m(TextArea, {
-          defaultValue: md,
+          value: md,
           disabled: !curCategory,
-          onchange: (v) => {
+          oninput: (v) => {
             md = v;
-            console.log(v);
           },
         }),
       ]);
