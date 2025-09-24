@@ -3,15 +3,15 @@ import { Icon, ThemeToggle } from 'mithril-materialized';
 import logo_white from '../assets/tno_white.svg';
 import { IDashboard } from '../models';
 import { routingSvc } from '../services/routing-service';
-import { MeiosisComponent, changePage, i18n } from '../services';
-import { LANGUAGE } from '../utils';
+import { MeiosisComponent, changePage, i18n, setLanguage } from '../services';
+// import { LANGUAGE } from '../utils';
 import DutchFlag from '../assets/flag-nl.png';
 import EnglishFlag from '../assets/flag-en.png';
 
-export const setLanguage = async (locale = i18n.currentLocale) => {
-  localStorage.setItem(LANGUAGE, locale);
-  await i18n.loadAndSetLocale(locale);
-};
+// export const setLanguage = async (locale = i18n.currentLocale) => {
+//   localStorage.setItem(LANGUAGE, locale);
+//   await i18n.loadAndSetLocale(locale);
+// };
 
 export const Layout: MeiosisComponent = () => ({
   view: ({ children, attrs }) => {

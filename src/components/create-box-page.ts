@@ -17,9 +17,11 @@ import {
   i18n,
   t,
   moveScenarioComponent,
+  setFontSize,
 } from '../services';
 import {
   FlatButton,
+  IconButton,
   ModalPanel,
   Tabs,
   ThemeManager,
@@ -124,7 +126,7 @@ const BoxItem: MeiosisComponent<{
             },
             [
               m(
-                'span.card-title',
+                'span.card-title.morph-cell',
                 { style: { color: color[1] } },
                 capitalize(item.label)
               ),
@@ -480,6 +482,7 @@ export const CreateBoxPage: MeiosisComponent = () => {
     view: ({ attrs }) => {
       const {
         activeTooltip,
+        fontSize,
         model: { scenario },
       } = attrs.state;
       if (activeTooltip) {
@@ -510,6 +513,28 @@ export const CreateBoxPage: MeiosisComponent = () => {
             onclick: () => {
               copyMarkdownTable(scenario, categories);
               toast({ html: t('COPY_BOX', 'TOAST') });
+            },
+          }),
+          m(IconButton, {
+            style: {
+              marginTop: '20px',
+              marginBottom: '-40px',
+            },
+            className: 'right',
+            iconName: 'text_increase',
+            onclick: () => {
+              setFontSize(attrs, fontSize + 1);
+            },
+          }),
+          m(IconButton, {
+            style: {
+              marginTop: '20px',
+              marginBottom: '-40px',
+            },
+            className: 'right',
+            iconName: 'text_decrease',
+            onclick: () => {
+              setFontSize(attrs, fontSize - 1);
             },
           }),
           m(LegendComponent, { items: themeThresholdColors }),

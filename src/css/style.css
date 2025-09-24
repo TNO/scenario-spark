@@ -5,6 +5,7 @@
 }
 
 :root {
+  --morph-font-size: 24px;
   --mm-primary-color: #26a69a;
   --mm-background-color: #ffffff;
   --mm-text-primary: rgba(0, 0, 0, 0.87);
@@ -1371,4 +1372,8 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   width: max-content;
   max-width: 250px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card .card-title.morph-cell {
+  font-size: var(--morph-font-size);
 }

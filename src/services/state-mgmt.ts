@@ -22,8 +22,11 @@ import { LANGUAGE, SAVED, scrollToTop, validateNarrative } from '../utils';
 import { uniqueId } from 'mithril-materialized';
 
 const MODEL_KEY = 'SG_MODEL';
+const FONT_KEY = 'SPARK_FONT_SIZE';
+const DEFAULT_FONT_SIZE = 16;
 
 export type State = {
+  fontSize: number;
   page: Dashboards;
   model: DataModel;
   title: string;
@@ -58,6 +61,16 @@ export const changePage = (
 ) => {
   routingSvc && routingSvc.switchTo(page, params, query);
   cell.update({ page });
+};
+
+export const setFontSize = (cell: MeiosisCell<State>, size: number) => {
+  const fontSize = Math.max(12, Math.min(28, size)); // clamp between 12–28px
+  document.documentElement.style.setProperty(
+    '--morph-font-size',
+    `${fontSize}px`
+  );
+  localStorage.setItem(FONT_KEY, String(fontSize));
+  cell.update({ fontSize });
 };
 
 const validateScenario = (scenario?: Scenario) => {
@@ -286,9 +299,15 @@ const app: MComp<State> = {
     title: '',
     page: Dashboards.HOME,
     model: defaultModel,
+    fontSize:
+      parseInt(localStorage.getItem(FONT_KEY) || '') || DEFAULT_FONT_SIZE,
   },
 };
+
 export const cells = meiosisSetup<State>({ app });
 initialize(cells().update);
+
+// initialize once on load
+setFontSize(cells(), app.initial?.fontSize || DEFAULT_FONT_SIZE);
 
 cells.map(() => m.redraw());
