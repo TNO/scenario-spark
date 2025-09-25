@@ -1,7 +1,7 @@
 import m from 'mithril';
 import 'material-icons/iconfont/filled.css';
 import 'mithril-materialized/index.min.css';
-import 'quill/dist/quill.snow.css';
+import 'mithril-markdown-wysiwyg/css';
 import './css/style.css';
 import { routingSvc } from './services/routing-service';
 import { Languages, i18n } from './services';

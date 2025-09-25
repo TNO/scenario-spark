@@ -14,19 +14,20 @@ import {
   uniqueId,
   ModalPanel,
 } from 'mithril-materialized';
-import { deepCopy } from 'mithril-ui-form';
-import Quill from 'quill';
-import { generateWord } from 'quill-to-word';
+import { deepCopy, render, SlimdownView } from 'mithril-ui-form';
 import {
   createCircleSVG,
+  downloadAsWord,
   modelToSaveName,
   narrativesToOptions,
+  quillToMarkdown,
   svgToDataURI,
   trafficLight,
 } from '../utils';
 import { htmlTemplate } from '../assets/html-styles';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
 import { MeiosisCell } from 'meiosis-setup/types';
+import 'mithril-markdown-wysiwyg/css';
 
 const CategoryTable: FactoryComponent<{
   curNarrative?: Narrative;
@@ -102,84 +103,42 @@ const CategoryTable: FactoryComponent<{
 };
 
 export const ShowScenarioPage: MeiosisComponent = () => {
-  let editor: Quill;
   let wordModalOpen = false;
 
   const exportToWord = async (model: DataModel, narratives: Narrative[]) => {
-    type RawQuillType = {
-      ops: any[];
-    };
-    const addTitle = (delta: RawQuillType, title?: string, header = 1) => {
-      if (delta.ops && title) {
-        delta.ops.push(
-          {
-            insert: title,
-          },
-          { attributes: { header }, insert: '\n' }
-        );
-      }
-    };
-    const doc: RawQuillType = { ops: [] };
-    addTitle(doc, model?.scenario?.label);
-
+    const markdown: string[] = [];
+    markdown.push(`# ${model?.scenario?.label || ''}\n`);
     narratives.forEach((curNarrative) => {
-      addTitle(doc, curNarrative?.label, 2);
+      markdown.push(`## ${curNarrative.label}\n`);
       if (curNarrative.desc) {
         try {
-          const delta: RawQuillType = JSON.parse(curNarrative.desc);
-          if (delta.ops && delta.ops.length) {
-            doc.ops.push(...delta.ops);
-          }
-        } catch {}
+          const md =
+            curNarrative.desc.startsWith('{') ||
+            curNarrative.desc.startsWith('[')
+              ? quillToMarkdown(JSON.parse(curNarrative.desc))
+              : curNarrative.desc;
+          markdown.push(md);
+        } catch (e: any) {
+          console.error(e);
+        }
       }
     });
-
-    // console.log(doc);
-    // const delta = editor.getContents();
-    const blob = await generateWord(doc, {
-      exportAs: 'blob',
-      paragraphStyles: {
-        normal: {
-          paragraph: {
-            spacing: {
-              before: 0,
-              after: 12,
-            },
-          },
-          run: {
-            font: 'Calibri',
-            size: 24,
-          },
-        },
-      },
-    });
-
-    const dlAnchorElem = document.getElementById('downloadAnchorElem');
-    if (!dlAnchorElem) {
-      return;
-    }
-    model.version = model.version ? model.version++ : 1;
-    dlAnchorElem.setAttribute('href', URL.createObjectURL(blob as Blob));
-    dlAnchorElem.setAttribute(
-      'download',
+    const html = render(markdown.join('\n'), false, true);
+    downloadAsWord(
+      html,
       `${modelToSaveName(
         model,
         narratives.length === 1 ? narratives[0].label : undefined
-      )}.docx`
+      )}.doc`
     );
-    dlAnchorElem.click();
   };
 
   const updateCurNarrative = (
     newNarrative: Narrative | undefined,
-    editor: Quill,
     attrs: MeiosisCell<State>,
     model: DataModel
   ) => {
     if (newNarrative) {
-      editor.setContents(
-        newNarrative.desc ? JSON.parse(newNarrative.desc) : []
-      );
       attrs.update({
         curNarrative: () => deepCopy(newNarrative),
         lockedComps: () =>
@@ -218,6 +177,13 @@ export const ShowScenarioPage: MeiosisComponent = () => {
       const narrativeIdx = curNarrative
         ? narratives.findIndex((n) => n.id === curNarrative.id)
         : -1;
+      const markdown: string = (
+        curNarrative && curNarrative.desc
+          ? curNarrative.desc.startsWith('{')
+            ? quillToMarkdown(JSON.parse(curNarrative.desc))
+            : curNarrative.desc
+          : ''
+      ).replace(/</g, '&lt;');
 
       return m(
         '.show-scenario.row',
@@ -308,7 +274,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                       const newNarrative = model.scenario.narratives.find(
                         (n) => n.id === v[0]
                       );
-                      updateCurNarrative(newNarrative, editor, attrs, model);
+                      updateCurNarrative(newNarrative, attrs, model);
                     }
                   },
                 }),
@@ -324,12 +290,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                       onclick: () => {
                         if (narrativeIdx < narratives.length - 1) {
                           const newNarrative = narratives[narrativeIdx + 1];
-                          updateCurNarrative(
-                            newNarrative,
-                            editor,
-                            attrs,
-                            model
-                          );
+                          updateCurNarrative(newNarrative, attrs, model);
                         }
                       },
                     },
@@ -346,12 +307,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                       onclick: () => {
                         if (narrativeIdx > 0) {
                           const newNarrative = narratives[narrativeIdx - 1];
-                          updateCurNarrative(
-                            newNarrative,
-                            editor,
-                            attrs,
-                            model
-                          );
+                          updateCurNarrative(newNarrative, attrs, model);
                         }
                       },
                     },
@@ -360,24 +316,15 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                 )
               )
             ),
-            curNarrative && [
+            markdown && [
               m(
                 '.col.s12',
-                {
-                  oncreate: () => {
-                    editor = new Quill('#editor', {
-                      modules: {
-                        toolbar: false,
-                      },
-                      readOnly: true,
-                      theme: 'snow',
-                    });
-                    editor.setContents(
-                      curNarrative.desc ? JSON.parse(curNarrative.desc) : []
-                    );
-                  },
-                },
-                m('#editor.row', {})
+                m(
+                  '#editor.row.md-editable-area',
+                  m(SlimdownView, {
+                    md: markdown,
+                  })
+                )
               ),
               template
                 ? m(

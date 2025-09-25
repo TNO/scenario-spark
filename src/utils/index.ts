@@ -16,7 +16,6 @@ import {
   thresholdColors,
 } from '../models';
 import { t } from '../services';
-import { Delta } from 'quill';
 
 export const LANGUAGE = 'SG_LANGUAGE';
 export const SAVED = 'SG_MODEL_SAVED';
@@ -546,191 +545,109 @@ export const generateUniqueTitle = (
   return newTitle;
 };
 
-/**
- * Converts simple markdown to Quill Delta format
- * Supports headers, bold, italics, ordered and unordered lists
- */
-export const markdownToQuill = (markdown: string): Delta => {
-  const ops: any[] = [];
-  const lines = markdown.split('\n');
-
-  let inOrderedList = false;
-  let orderedListCounter = 1;
-  let inUnorderedList = false;
-
-  lines.forEach((line, lineIndex) => {
-    // Check for headers
-    const headerMatch = line.match(/^(#{1,6})\s+(.+)$/);
-    if (headerMatch) {
-      const headerLevel = headerMatch[1].length;
-      const headerText = headerMatch[2];
-
-      ops.push({ insert: headerText });
-      ops.push({ insert: '\n', attributes: { header: headerLevel } });
-      return;
-    }
-
-    // Check for ordered list items
-    const orderedListMatch = line.match(/^(\d+)\.\s+(.+)$/);
-    if (orderedListMatch) {
-      const listText = orderedListMatch[2];
-
-      // If we're starting a new ordered list, reset the counter
-      if (!inOrderedList) {
-        orderedListCounter = parseInt(orderedListMatch[1]);
-      } else {
-        // Increment counter for continuing lists
-        orderedListCounter++;
-      }
-
-      // Process inline formatting in list item
-      processInlineFormatting(listText, ops);
-      ops.push({ insert: '\n', attributes: { list: 'ordered' } });
-
-      inOrderedList = true;
-      inUnorderedList = false;
-      return;
-    }
-
-    // Check for unordered list items
-    const unorderedListMatch = line.match(/^[*-]\s+(.+)$/);
-    if (unorderedListMatch) {
-      const listText = unorderedListMatch[1];
-
-      // Process inline formatting in list item
-      processInlineFormatting(listText, ops);
-      ops.push({ insert: '\n', attributes: { list: 'bullet' } });
-
-      inUnorderedList = true;
-      inOrderedList = false;
-      return;
-    }
-
-    // Handle empty lines or line breaks
-    if (line.trim() === '') {
-      ops.push({ insert: '\n' });
-      inOrderedList = false;
-      inUnorderedList = false;
-      orderedListCounter = 1;
-      return;
-    }
-
-    // For regular text lines
-    processInlineFormatting(line, ops);
-    ops.push({ insert: '\n' });
-
-    // Reset list state if not in a list anymore
-    if (inOrderedList || inUnorderedList) {
-      const nextLine = lines[lineIndex + 1] || '';
-      const isNextLineOrderedList = nextLine.match(/^\d+\.\s+.+$/);
-      const isNextLineUnorderedList = nextLine.match(/^[*-]\s+.+$/);
-
-      if (!(isNextLineOrderedList || isNextLineUnorderedList)) {
-        inOrderedList = false;
-        inUnorderedList = false;
-        orderedListCounter = 1;
-      }
-    }
-  });
-
-  return { ops } as Delta;
+type QuillOp = {
+  insert: string;
+  attributes?: {
+    bold?: boolean;
+    italic?: boolean;
+    header?: number;
+    list?: 'ordered' | 'bullet' | 'checked' | 'unchecked';
+    indent?: number;
+    link?: string;
+    blockquote?: boolean;
+  };
 };
 
-/**
- * Helper function to process inline formatting (bold, italic)
- * Processes bold formatting first, then italic
- */
-const processInlineFormatting = (text: string, ops: any[]): void => {
-  // First pass: Handle bold formatting
-  let processedForBold = processBoldText(text);
+export const quillToMarkdown = (quillDelta: { ops: QuillOp[] }): string => {
+  let md = '';
+  let buffer = ''; // collect inline text until newline
+  let listCounters: Record<number, number> = {}; // for nested ordered lists
 
-  // Add each segment to ops
-  processedForBold.forEach((segment) => {
-    if (segment.isBold) {
-      ops.push({
-        insert: segment.text,
-        attributes: { bold: true },
-      });
-    } else {
-      // Process italics in non-bold segments
-      processItalicText(segment.text, ops);
-    }
-  });
-};
-
-/**
- * Process bold text and return segments
- */
-const processBoldText = (
-  text: string
-): Array<{ text: string; isBold: boolean }> => {
-  const segments: Array<{ text: string; isBold: boolean }> = [];
-  let remainingText = text;
-
-  while (remainingText.length > 0) {
-    const boldMatch = remainingText.match(/\*\*(.+?)\*\*/);
-
-    if (!boldMatch) {
-      // No more bold, add remaining text
-      segments.push({ text: remainingText, isBold: false });
-      break;
+  const flushParagraph = (text: string, attrs?: QuillOp['attributes']) => {
+    if (!attrs) {
+      md += text + '\n';
+      return;
     }
 
-    const boldIndex = remainingText.indexOf(boldMatch[0]);
-
-    // Add text before the bold
-    if (boldIndex > 0) {
-      segments.push({
-        text: remainingText.substring(0, boldIndex),
-        isBold: false,
-      });
+    // Handle headers
+    if (attrs.header) {
+      md += `${'#'.repeat(attrs.header)} ${text.trim()}\n\n`;
+      return;
     }
 
-    // Add the bold text
-    segments.push({ text: boldMatch[1], isBold: true });
+    // Handle blockquote
+    if (attrs.blockquote) {
+      const quoteLines = text
+        .trim()
+        .split('\n')
+        .map((l) => `> ${l}`)
+        .join('\n');
+      md += `${quoteLines}\n\n`;
+      return;
+    }
 
-    // Update remaining text
-    remainingText = remainingText.substring(boldIndex + boldMatch[0].length);
+    // Handle lists
+    if (attrs.list) {
+      const indent = attrs.indent || 0;
+      const indentSpaces = '  '.repeat(indent);
+
+      if (attrs.list === 'bullet') {
+        md += `${indentSpaces}- ${text.trim()}\n`;
+      } else if (attrs.list === 'ordered') {
+        listCounters[indent] = (listCounters[indent] || 0) + 1;
+        md += `${indentSpaces}${listCounters[indent]}. ${text.trim()}\n`;
+      } else if (attrs.list === 'checked') {
+        md += `${indentSpaces}- [x] ${text.trim()}\n`;
+      } else if (attrs.list === 'unchecked') {
+        md += `${indentSpaces}- [ ] ${text.trim()}\n`;
+      }
+      return;
+    }
+
+    // Default paragraph
+    md += text + '\n\n';
+  };
+
+  for (const op of quillDelta.ops) {
+    if (typeof op.insert !== 'string') continue;
+
+    let text = op.insert;
+
+    // Inline formatting
+    if (op.attributes?.link) {
+      text = `[${text.trim()}](${op.attributes.link})`;
+    }
+    if (op.attributes?.bold) {
+      text = `**${text.trim()}**`;
+    }
+    if (op.attributes?.italic) {
+      text = `*${text.trim()}*`;
+    }
+
+    // If newline with block attributes → flush buffer as that block type
+    if (text === '\n' && op.attributes) {
+      flushParagraph(buffer, op.attributes);
+      buffer = '';
+      continue;
+    }
+
+    // Normal newline (no special attributes) → treat as line break in paragraph
+    if (text === '\n') {
+      md += buffer + '\n\n';
+      buffer = '';
+      continue;
+    }
+
+    // Otherwise, accumulate text
+    buffer += text;
   }
 
-  return segments;
-};
-
-/**
- * Process italic text directly to ops
- */
-const processItalicText = (text: string, ops: any[]): void => {
-  let remainingText = text;
-
-  while (remainingText.length > 0) {
-    const italicMatch = remainingText.match(/\*(.+?)\*/);
-
-    if (!italicMatch) {
-      // No more italic, add remaining text
-      if (remainingText.length > 0) {
-        ops.push({ insert: remainingText });
-      }
-      break;
-    }
-
-    const italicIndex = remainingText.indexOf(italicMatch[0]);
-
-    // Add text before the italic
-    if (italicIndex > 0) {
-      ops.push({ insert: remainingText.substring(0, italicIndex) });
-    }
-
-    // Add the italic text
-    ops.push({
-      insert: italicMatch[1],
-      attributes: { italic: true },
-    });
-
-    // Update remaining text
-    remainingText = remainingText.substring(
-      italicIndex + italicMatch[0].length
-    );
+  // Flush any remaining text
+  if (buffer) {
+    md += buffer;
   }
+
+  return md.trim();
 };
 
 /** Compute a contrasting text color (black or white) based on WCAG luminance */
@@ -940,4 +857,37 @@ export const uploadFile = (onSelect: (files: FileList) => void): void => {
 
   // If user cancels, still remove the input after a short delay
   setTimeout(() => input.remove(), 1000);
+};
+
+export const downloadAsWord = (
+  htmlContent: string,
+  filename = 'document.doc'
+) => {
+  // Wrap in Word-compatible HTML
+  const preHtml =
+    `<!DOCTYPE html><html xmlns:o="urn:schemas-microsoft-com:office:office" ` +
+    `xmlns:w="urn:schemas-microsoft-com:office:word" lang="en"><head><meta charset="utf-8"></head><body>`;
+  const postHtml = '</body></html>';
+  const fullHtml = preHtml + htmlContent + postHtml;
+
+  // Create Blob
+  const blob = new Blob([fullHtml], {
+    type: 'application/msword;charset=utf-8',
+  });
+
+  // Create object URL
+  const url = URL.createObjectURL(blob);
+
+  // Create temp link
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+
+  // Trigger download
+  document.body.appendChild(link);
+  link.click();
+
+  // Cleanup
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 };

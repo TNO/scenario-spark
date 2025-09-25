@@ -289,6 +289,8 @@ export const messages = {
     PERSONA: 'Persona prompt',
     COM: 'Communications prompt',
   },
+  RESPONSE_INSTRUCTIONS:
+    'Start your response with a short, descriptive title on its own line, then a blank line, then the main content.',
 };
 
 export const messagesNL: typeof messages = {
@@ -594,6 +596,8 @@ export const messagesNL: typeof messages = {
     PERSONA: "Prompt voor persona's",
     COM: 'Prompt voor communicatie',
   },
+  RESPONSE_INSTRUCTIONS:
+    'Start je antwoord met een korte beschrijvende titel op een eigen regel, gevolgd door een lege regel en dan de rest van de inhoud.',
 };
 
 const setGuiLanguage = (language: Languages) => {

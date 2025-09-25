@@ -78,6 +78,42 @@ interface OpenAIRequest extends BaseRequest {
 
 type LLMProvider = 'ollama' | 'claude' | 'openai' | 'gemini';
 
+export function parseResponseToMessage(response: string): {
+  title: string;
+  content: string;
+} {
+  const lines = response.trim().split('\n');
+
+  // Find the first non-empty line as the title
+  const title = lines.find((line) => line.trim()) || '';
+
+  // Find the index of the first blank line after the title
+  const blankLineIndex = lines.findIndex(
+    (line, idx) => idx > 0 && line.trim() === ''
+  );
+
+  let content: string;
+  if (blankLineIndex !== -1) {
+    // Content is everything after the first blank line
+    content = lines
+      .slice(blankLineIndex + 1)
+      .join('\n')
+      .trim();
+  } else {
+    // If no blank line, content is everything after the title
+    const titleIndex = lines.indexOf(title);
+    content = lines
+      .slice(titleIndex + 1)
+      .join('\n')
+      .trim();
+  }
+
+  return {
+    title,
+    content,
+  };
+}
+
 async function chatWithLLM(
   provider: LLMProvider,
   url: string,
@@ -98,23 +134,29 @@ async function chatWithLLM(
       requestBody = {
         model,
         messages: [
-          { role: 'user', content: userPrompt + '\n\nRespond using JSON.' },
-        ],
-        format: {
-          type: 'object',
-          properties: {
-            title: {
-              type: 'string',
-              description: 'The title of the story',
-            },
-            content: {
-              type: 'string',
-              description: 'The main content of the story',
-            },
+          // {
+          //   role: 'system',
+          //   content:
+          //     'You are in thinking mode. Think step by step before answering.',
+          // },
+          {
+            role: 'user',
+            content: `${t('RESPONSE_INSTRUCTIONS')}\n\n${userPrompt}`,
           },
-          required: ['title', 'content'],
-          additionalProperties: false,
-        },
+        ],
+        // format: {
+        //   type: 'object',
+        //   properties: {
+        //     title: {
+        //       type: 'string',
+        //     },
+        //     content: {
+        //       type: 'string',
+        //     },
+        //   },
+        //   required: ['title', 'content'],
+        //   additionalProperties: false,
+        // },
         stream: false,
         options: { temperature },
       } as OllamaRequest;
@@ -202,7 +244,7 @@ async function chatWithLLM(
         case 'ollama':
           try {
             const result = data?.message?.content
-              ? (JSON.parse(data.message.content) as {
+              ? (parseResponseToMessage(data.message.content) as {
                   title: string;
                   content: string;
                 })

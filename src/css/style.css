@@ -20,6 +20,7 @@
   /* Table theming */
   --mm-table-striped-color: rgba(0, 0, 0, 0.05);
   --mm-surface-color: #ffffff;
+  --toolbar-bg: #f7f7f7;
 }
 
 [data-theme='dark'] {
@@ -37,6 +38,7 @@
   /* Table theming (dark theme) */
   --mm-table-striped-color: rgba(255, 255, 255, 0.05);
   --mm-surface-color: #1e1e1e;
+  --toolbar-bg: #161b22;
 
   /* ... dark theme overrides */
 }
@@ -64,9 +66,13 @@ nav .title {
   font-size: 2rem;
 }
 
-*/ .markdown ul {
+.markdown ul {
   padding-left: 20px;
 }
+.md-editable-area ul {
+  list-style-type: disc;
+}
+.md-editable-area ul > li,
 .markdown ul > li {
   padding-left: 20px;
   list-style-type: disc;

@@ -1,5 +1,4 @@
 import m, { FactoryComponent } from 'mithril';
-import Quill from 'quill';
 import {
   FlatButton,
   Icon,
@@ -9,6 +8,7 @@ import {
   SelectAttrs,
   TextArea,
   TextInput,
+  ThemeManager,
   toast,
   uniqueId,
 } from 'mithril-materialized';
@@ -25,13 +25,14 @@ import {
   deepCopy,
   generateNarrative,
   generateUniqueTitle,
-  markdownToQuill,
   narrativesToOptions,
 } from '../utils';
-import { range } from 'mithril-ui-form';
+import { range, render } from 'mithril-ui-form';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
 import { CircularSpinner, generateStory } from './ui';
 import { PersonaImages } from '../models/persona-images';
+import { MarkdownEditor } from 'mithril-markdown-wysiwyg';
+import { quillToMarkdown } from '../utils/index';
 
 const ToggleIcon: FactoryComponent<{
   on: string;
@@ -171,8 +172,6 @@ export const CategoryTable: MeiosisComponent<{
 };
 
 export const CreateScenarioPage: MeiosisComponent = () => {
-  let editor: Quill;
-  let lockState = false;
   let version = 0;
   let askLlm = true;
   let showTables = true;
@@ -228,6 +227,13 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           : new Set<string>();
       const selectOptions = narrativesToOptions(model.scenario.narratives);
       // const count = llm?.autoLLMCount || 10;
+      const markdown: string = (
+        curNarrative && curNarrative.desc
+          ? curNarrative.desc.startsWith('{')
+            ? quillToMarkdown(JSON.parse(curNarrative.desc))
+            : curNarrative.desc
+          : ''
+      ).replace(/</g, '&lt;');
 
       return m('.create-scenario.row', [
         m('.col.s12', [
@@ -235,6 +241,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             label: t('GENERATE_NARRATIVE'),
             iconName: 'refresh',
             onclick: () => {
+              console.log('GENERATE_NARRATIVE');
               const { components = {} } = curNarrative;
               const locked = components
                 ? Object.keys(lockedComps).reduce((acc, cur) => {
@@ -276,7 +283,6 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                     desc: '',
                   } as Narrative),
               });
-              editor.setContents([] as any);
             },
           }),
           canAskLlm && [
@@ -299,6 +305,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   m.redraw();
                   return;
                 });
+                console.log(story);
                 askLlm = true;
                 if (model.scenario.llm?.id === 'clipboard') {
                   // copy story to clipboard
@@ -312,16 +319,10 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 }
                 if (story) {
                   curNarrative.label = '';
-                  curNarrative.desc = '';
-                  editor.setContents(markdownToQuill(''));
-
-                  const quill = markdownToQuill(
-                    typeof story === 'string' ? story : story.content
-                  );
-                  editor.setContents(quill);
-                  curNarrative.desc = JSON.stringify(editor.getContents());
-                  if (typeof story !== 'string') {
-                    curNarrative.label = story.title;
+                  curNarrative.desc =
+                    typeof story === 'string' ? story : story.content;
+                  if (typeof story !== 'string' && story.title) {
+                    curNarrative.label = story.title.replace(/\*|_/g, '');
                   }
                 }
                 m.redraw();
@@ -430,9 +431,6 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                           model.scenario.narratives.filter(
                             (n) => n.id !== curNarrative.id
                           );
-                        lockState = true;
-                        editor.setContents([]);
-                        lockState = false;
                         attrs.update({
                           curNarrative: () =>
                             ({ included: false, components: {} } as Narrative),
@@ -471,15 +469,6 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   const newNarrative = narratives
                     .filter((n) => n.id === v[0])
                     .shift();
-                  lockState = true;
-                  try {
-                    editor.setContents(
-                      newNarrative && newNarrative.desc
-                        ? JSON.parse(newNarrative.desc)
-                        : []
-                    );
-                  } catch {}
-                  lockState = false;
                   // if (newNarrative) newNarrative.included = true;
                   attrs.update({
                     curNarrative: () => newNarrative,
@@ -605,47 +594,27 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           ]),
           // m('#toolbar'),
           [
-            m('#editor', {
-              oncreate: () => {
-                editor = new Quill('#editor', {
-                  // debug: 'info',
-                  modules: {
-                    // table: true,
-                    toolbar: [
-                      [{ header: [1, 2, 3, false] }],
-                      ['bold', 'italic', 'underline', 'strike'],
-                      [{ list: 'ordered' }, { list: 'bullet' }],
-                      [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
-                      [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-                      [
-                        { color: [] },
-                        // , { background: [] }
-                      ], // dropdown with defaults from theme
-                      // [{ font: [] }],
-                      [{ align: [] }],
-                      // [{ size: ['small', false, 'large', 'huge'] }],
-                      ['image', 'code-block'],
-                    ],
-                  },
-                  placeholder: t('EDITOR_PLACEHOLDER'),
-                  readOnly: false,
-                  theme: 'snow',
-                });
-                editor.on('text-change', () => {
-                  if (lockState) return;
+            m(
+              '#markdown-editor',
+              m(MarkdownEditor, {
+                key:
+                  curNarrative && curNarrative.desc
+                    ? curNarrative.id
+                    : 'markdown-editor',
+                content: markdown,
+                onContentChange: (newContent: string) => {
                   const { curNarrative } = attrs.getState();
                   if (!curNarrative) return;
-                  curNarrative.desc = JSON.stringify(editor.getContents());
-                  // console.log(curNarrative.desc);
+                  curNarrative.desc = newContent;
                   updateNarrative(attrs, curNarrative);
-                });
-                if (curNarrative) {
-                  editor.setContents(
-                    curNarrative.desc ? JSON.parse(curNarrative.desc) : []
-                  );
-                }
-              },
-            }),
+                },
+                // placeholder: 'Start writing...',
+                theme: ThemeManager.getTheme() === 'dark' ? 'dark' : 'light',
+                toolbar: true,
+                showTabs: true,
+                markdownToHtml: render,
+              })
+            ),
           ],
           [
             curPersonas.map((p) =>
