@@ -18,8 +18,8 @@ importers:
         specifier: ^2.3.7
         version: 2.3.7
       mithril-markdown-wysiwyg:
-        specifier: ^0.1.2
-        version: 0.1.2(mithril@2.3.7)
+        specifier: 0.2.0
+        version: 0.2.0(mithril@2.3.7)
       mithril-materialized:
         specifier: 3.4.5
         version: 3.4.5
@@ -1022,8 +1022,8 @@ packages:
     resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
     engines: {node: '>=16 || 14 >=14.17'}
 
-  mithril-markdown-wysiwyg@0.1.2:
-    resolution: {integrity: sha512-+0lJJC4hKFF18KuyhpKLovMlQ9bOTLVz9iuwDbqXA9kGaaTDI1pyT2Q2NODbdAHp9wW3YZNqG2TDahcCDSezxQ==}
+  mithril-markdown-wysiwyg@0.2.0:
+    resolution: {integrity: sha512-MBlxPeyHttXm1MscwQ7ybr3mMJwadb1YtqTlCThM6kRPQT4Fo5zY6e5O642gdrIUvrpDDz8E/h+u4zBkDH/pZw==}
     peerDependencies:
       mithril: ^2.3.7
 
@@ -2609,7 +2609,7 @@ snapshots:
 
   minipass@7.1.2: {}
 
-  mithril-markdown-wysiwyg@0.1.2(mithril@2.3.7):
+  mithril-markdown-wysiwyg@0.2.0(mithril@2.3.7):
     dependencies:
       mithril: 2.3.7
 

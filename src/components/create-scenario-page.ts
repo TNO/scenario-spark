@@ -227,13 +227,12 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           : new Set<string>();
       const selectOptions = narrativesToOptions(model.scenario.narratives);
       // const count = llm?.autoLLMCount || 10;
-      const markdown: string = (
+      const markdown: string =
         curNarrative && curNarrative.desc
           ? curNarrative.desc.startsWith('{')
             ? quillToMarkdown(JSON.parse(curNarrative.desc))
             : curNarrative.desc
-          : ''
-      ).replace(/</g, '&lt;');
+          : '';
 
       return m('.create-scenario.row', [
         m('.col.s12', [
