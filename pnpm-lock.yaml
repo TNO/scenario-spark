@@ -21,11 +21,11 @@ importers:
         specifier: 0.2.3
         version: 0.2.3(mithril@2.3.7)
       mithril-materialized:
-        specifier: 3.5.2
-        version: 3.5.2
+        specifier: 3.5.3
+        version: 3.5.3
       mithril-ui-form:
         specifier: 2.0.12
-        version: 2.0.12(mithril-materialized@3.5.2)(mithril@2.3.7)
+        version: 2.0.12(mithril-materialized@3.5.3)(mithril@2.3.7)
       translate.js:
         specifier: 1.3.2
         version: 1.3.2
@@ -1027,8 +1027,8 @@ packages:
     peerDependencies:
       mithril: ^2.3.7
 
-  mithril-materialized@3.5.2:
-    resolution: {integrity: sha512-XJO5embczPI/rV5QyrVQcKHBWanYbL1fmiueIXKf3NzUX8frKd/8NCx1YzVMIkoNUNkWg4TEJ2SknIBnvH6u8g==}
+  mithril-materialized@3.5.3:
+    resolution: {integrity: sha512-tcqolmt5D2pomjtlylRm32rRp6ni7u2OxsQbV0AdA0Wt34+q5wjNcAZMhR7Ea713AnAThL8GU8Aef/m6nI16Xw==}
 
   mithril-ui-form-plugin@0.7.0:
     resolution: {integrity: sha512-VuYXutj1AuFag6pxGVJ1goV98eg0kE+LP54oo7Zs3t31Fso47pS4gp3O2PZolWeVbN+2KN2kLaPXnYBPZ5W/hg==}
@@ -2613,16 +2613,16 @@ snapshots:
     dependencies:
       mithril: 2.3.7
 
-  mithril-materialized@3.5.2:
+  mithril-materialized@3.5.3:
     dependencies:
       mithril: 2.3.7
 
   mithril-ui-form-plugin@0.7.0: {}
 
-  mithril-ui-form@2.0.12(mithril-materialized@3.5.2)(mithril@2.3.7):
+  mithril-ui-form@2.0.12(mithril-materialized@3.5.3)(mithril@2.3.7):
     dependencies:
       mithril: 2.3.7
-      mithril-materialized: 3.5.2
+      mithril-materialized: 3.5.3
       mithril-ui-form-plugin: 0.7.0
       slimdown-js: 1.1.3
 
