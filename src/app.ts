@@ -10,6 +10,10 @@ import { LANGUAGE, SAVED } from './utils';
 export const AllLanguages = {
   en: { name: 'English', fqn: 'en-UK' },
   nl: { name: 'Nederlands', fqn: 'nl-NL', default: true },
+  fr: { name: 'Français', fqn: 'fr-FR' },
+  de: { name: 'Deutsch', fqn: 'de-DE' },
+  es: { name: 'Español', fqn: 'es-ES' },
+  pl: { name: 'Polski', fqn: 'pl-PL' },
 };
 
 window.onbeforeunload = (e) => {

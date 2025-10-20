@@ -13,6 +13,10 @@ import {
 import background from '../assets/hero.webp';
 import DutchFlag from '../assets/flag-nl.png';
 import EnglishFlag from '../assets/flag-en.png';
+import FrenchFlag from '../assets/flag-fr.png';
+import GermanFlag from '../assets/flag-de.png';
+import SpanishFlag from '../assets/flag-es.png';
+import PolishFlag from '../assets/flag-pl.png';
 import {
   changePage,
   MeiosisComponent,
@@ -202,6 +206,66 @@ export const HomePage: MeiosisComponent = () => {
                         title: 'English',
                       }),
                       m('span', 'English'),
+                    ]
+                  ),
+                  m(
+                    '.language-option',
+                    {
+                      className: language === 'fr' ? 'selected' : undefined,
+                      onclick: () => setLanguage(attrs, 'fr'),
+                    },
+                    [
+                      m('img', {
+                        src: FrenchFlag,
+                        alt: 'Français',
+                        title: 'Français',
+                      }),
+                      m('span', 'Français'),
+                    ]
+                  ),
+                  m(
+                    '.language-option',
+                    {
+                      className: language === 'de' ? 'selected' : undefined,
+                      onclick: () => setLanguage(attrs, 'de'),
+                    },
+                    [
+                      m('img', {
+                        src: GermanFlag,
+                        alt: 'Deutsch',
+                        title: 'Deutsch',
+                      }),
+                      m('span', 'Deutsch'),
+                    ]
+                  ),
+                  m(
+                    '.language-option',
+                    {
+                      className: language === 'es' ? 'selected' : undefined,
+                      onclick: () => setLanguage(attrs, 'es'),
+                    },
+                    [
+                      m('img', {
+                        src: SpanishFlag,
+                        alt: 'Español',
+                        title: 'Español',
+                      }),
+                      m('span', 'Español'),
+                    ]
+                  ),
+                  m(
+                    '.language-option',
+                    {
+                      className: language === 'pl' ? 'selected' : undefined,
+                      onclick: () => setLanguage(attrs, 'pl'),
+                    },
+                    [
+                      m('img', {
+                        src: PolishFlag,
+                        alt: 'Polski',
+                        title: 'Polski',
+                      }),
+                      m('span', 'Polski'),
                     ]
                   ),
                 ])
