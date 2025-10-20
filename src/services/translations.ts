@@ -291,6 +291,21 @@ export const messages = {
   },
   RESPONSE_INSTRUCTIONS:
     'Start your response with a short, descriptive title on its own line, then a blank line, then the main content.',
+  WIZARD_STEP1_TITLE: 'Scenario Information',
+  WIZARD_STEP1_SUBTITLE: 'Name and describe your scenario',
+  WIZARD_STEP2_TITLE: 'Key Drivers',
+  WIZARD_STEP2_SUBTITLE: 'Define the morphological category and key drivers',
+  WIZARD_STEP3_TITLE: 'Driver Options',
+  WIZARD_STEP3_SUBTITLE: 'Optionally add options for each driver',
+  WIZARD_CATEGORY_INFO: 'Category details',
+  WIZARD_COMPONENTS_INFO: 'Key drivers (dimensions)',
+  WIZARD_VALUES_INFO: 'Select a driver to add options:',
+  WIZARD_NO_COMPONENTS: 'No drivers defined yet. Go back to step 2.',
+  WIZARD_VALUES_FOR_COMPONENT: 'Options for {component}',
+  WIZARD_NEXT: 'Next',
+  WIZARD_PREVIOUS: 'Back',
+  WIZARD_COMPLETE: 'Create Scenario',
+  WIZARD_SKIP: 'Skip',
 };
 
 export const messagesNL: typeof messages = {
@@ -598,6 +613,21 @@ export const messagesNL: typeof messages = {
   },
   RESPONSE_INSTRUCTIONS:
     'Start je antwoord met een korte beschrijvende titel op een eigen regel, gevolgd door een lege regel en dan de rest van de inhoud.',
+  WIZARD_STEP1_TITLE: 'Scenario Informatie',
+  WIZARD_STEP1_SUBTITLE: 'Geef uw scenario een naam en beschrijving',
+  WIZARD_STEP2_TITLE: 'Stuurfactoren',
+  WIZARD_STEP2_SUBTITLE: 'Definieer de morfologische categorie en stuurfactoren',
+  WIZARD_STEP3_TITLE: 'Opties voor Stuurfactoren',
+  WIZARD_STEP3_SUBTITLE: 'Voeg optioneel opties toe voor elke stuurfactor',
+  WIZARD_CATEGORY_INFO: 'Categorie details',
+  WIZARD_COMPONENTS_INFO: 'Stuurfactoren (dimensies)',
+  WIZARD_VALUES_INFO: 'Selecteer een stuurfactor om opties toe te voegen:',
+  WIZARD_NO_COMPONENTS: 'Nog geen stuurfactoren gedefinieerd. Ga terug naar stap 2.',
+  WIZARD_VALUES_FOR_COMPONENT: 'Opties voor {component}',
+  WIZARD_NEXT: 'Volgende',
+  WIZARD_PREVIOUS: 'Terug',
+  WIZARD_COMPLETE: 'Scenario Aanmaken',
+  WIZARD_SKIP: 'Overslaan',
 };
 
 const setGuiLanguage = (language: Languages) => {

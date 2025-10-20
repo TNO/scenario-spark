@@ -6,3 +6,4 @@ export * from './create-scenario-page';
 export * from './show-scenario-page';
 export * from './decision-support-page';
 export * from './layout';
+export * from './new-scenario-wizard';

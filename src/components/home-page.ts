@@ -40,6 +40,7 @@ import {
   modelToSaveName,
   uploadFile,
 } from '../utils';
+import { NewScenarioWizard } from './new-scenario-wizard';
 
 export const TableView: MeiosisComponent<{
   narratives: Narrative[];
@@ -136,6 +137,7 @@ export const HomePage: MeiosisComponent = () => {
   let removeAllKeyValues = false;
   let deleteModelModal = false;
   let clearAllModal = false;
+  let newScenarioWizardOpen = false;
 
   return {
     oninit: ({ attrs }) => {
@@ -266,13 +268,8 @@ export const HomePage: MeiosisComponent = () => {
                     className: 'icon-button',
                     iconName: 'add',
                     title: t('NEW_SCENARIO'),
-                    onclick: async () => {
-                      if (!model.scenarios) model.scenarios = [];
-                      model.scenarios = [model.scenario, ...model.scenarios];
-                      model.scenario = newScenario();
-                      await saveModel(attrs, model, true);
-                      toast({ html: t('SCENARIO_CREATED_MSG') });
-                      changePage(attrs, Dashboards.SETTINGS);
+                    onclick: () => {
+                      newScenarioWizardOpen = true;
                     },
                   }),
                   m(FlatButton, {
@@ -578,6 +575,22 @@ export const HomePage: MeiosisComponent = () => {
                 },
               },
             ],
+          }),
+          m(NewScenarioWizard, {
+            ...attrs,
+            isOpen: newScenarioWizardOpen,
+            onClose: () => {
+              newScenarioWizardOpen = false;
+            },
+            onComplete: async (scenario: Scenario) => {
+              if (!model.scenarios) model.scenarios = [];
+              model.scenarios = [model.scenario, ...model.scenarios];
+              model.scenario = scenario;
+              await saveModel(attrs, model, true);
+              toast({ html: t('SCENARIO_CREATED_MSG') });
+              newScenarioWizardOpen = false;
+              changePage(attrs, Dashboards.DEFINE_BOX);
+            },
           }),
         ]),
       ];
