@@ -39,7 +39,7 @@ export const Layout: MeiosisComponent = () => ({
           m('.nav-wrapper', [
             m(
               'a.brand-logo[href=#].show-on-large',
-              { style: 'margin-left: 20px' },
+              { style: { marginLeft: '20px', height: '60px' } },
               [
                 m(`img[width=140][height=60][src=${logo_white}][alt=TNO]`, {
                   style: 'margin-left: -5px;',
