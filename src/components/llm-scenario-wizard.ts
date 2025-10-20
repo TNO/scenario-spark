@@ -163,7 +163,7 @@ export const LLMScenarioWizard: MeiosisComponent<{
       endpoint: 'clipboard',
       url: 'https://localhost:3000/api/chat',
       apiKey: '',
-      model: 'granite4',
+      model: 'gpt-oss:20b',
     },
     generatedMarkdown: '',
     isGenerating: false,
