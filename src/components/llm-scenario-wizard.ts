@@ -488,7 +488,6 @@ export const LLMScenarioWizard: MeiosisComponent<{
           currentStep: wizardState.currentStep,
           onStepChange: (stepIndex: number) => {
             wizardState.currentStep = stepIndex;
-            console.log('Setting full prompt', stepIndex);
             if (stepIndex === 1) {
               const userSection = `## User-Specific Input:
 
@@ -517,7 +516,6 @@ All morphological boxes and their descriptions must be written in fluent, domain
               } (not translated).`;
 
               wizardState.fullPrompt = `${BASE_PROMPT}\n\n${userSection}`;
-              console.log('Setting full prompt: ', wizardState.fullPrompt);
             }
           },
           onComplete: () => {
