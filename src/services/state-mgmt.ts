@@ -266,9 +266,13 @@ export const moveScenarioComponent = (
   saveModel(cell, model);
 };
 
-export const setLanguage = async (locale = i18n.currentLocale) => {
+export const setLanguage = async (
+  cell: MeiosisCell<State>,
+  locale = i18n.currentLocale
+) => {
   localStorage.setItem(LANGUAGE, locale);
   await i18n.loadAndSetLocale(locale);
+  cell.update({ language: locale });
 };
 /* END OF Actions */
 
@@ -301,6 +305,7 @@ const app: MComp<State> = {
     model: defaultModel,
     fontSize:
       parseInt(localStorage.getItem(FONT_KEY) || '') || DEFAULT_FONT_SIZE,
+    language: localStorage.getItem(LANGUAGE) || 'nl',
   },
 };
 

@@ -68,7 +68,7 @@ export const Layout: MeiosisComponent = () => ({
             m('ul#dropdown_languages.dropdown-content', [
               m(
                 'li',
-                m('a', { href: '#!', onclick: () => setLanguage('nl') }, [
+                m('a', { href: '#!', onclick: () => setLanguage(attrs, 'nl') }, [
                   m('img', {
                     src: DutchFlag,
                     alt: 'Nederlands',
@@ -81,7 +81,7 @@ export const Layout: MeiosisComponent = () => ({
               ),
               m(
                 'li',
-                m('a', { href: '#!', onclick: () => setLanguage('en') }, [
+                m('a', { href: '#!', onclick: () => setLanguage(attrs, 'en') }, [
                   m('img', {
                     src: EnglishFlag,
                     alt: 'English',

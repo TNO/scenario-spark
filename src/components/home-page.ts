@@ -178,7 +178,7 @@ export const HomePage: MeiosisComponent = () => {
                     '.language-option',
                     {
                       className: language === 'nl' ? 'selected' : undefined,
-                      onclick: () => setLanguage('nl'),
+                      onclick: () => setLanguage(attrs, 'nl'),
                     },
                     [
                       m('img', {
@@ -193,7 +193,7 @@ export const HomePage: MeiosisComponent = () => {
                     '.language-option',
                     {
                       className: language === 'en' ? 'selected' : undefined,
-                      onclick: () => setLanguage('en'),
+                      onclick: () => setLanguage(attrs, 'en'),
                     },
                     [
                       m('img', {
