@@ -1247,6 +1247,19 @@ td.matrix-cell {
   transform: scale(1.05);
 }
 
+.hero-actions .language-option.selected {
+  background: rgba(38, 166, 154, 0.2);
+  border: 2px solid var(--mm-primary-color);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(38, 166, 154, 0.3);
+}
+
+[data-theme='dark'] .hero-actions .language-option.selected {
+  background: rgba(128, 203, 196, 0.2);
+  border: 2px solid var(--mm-primary-color);
+  box-shadow: 0 2px 8px rgba(128, 203, 196, 0.3);
+}
+
 .hero-actions .language-option img {
   width: 24px;
   height: 16px;
