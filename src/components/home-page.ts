@@ -41,6 +41,7 @@ import {
   uploadFile,
 } from '../utils';
 import { NewScenarioWizard } from './new-scenario-wizard';
+import { LLMScenarioWizard } from './llm-scenario-wizard';
 
 export const TableView: MeiosisComponent<{
   narratives: Narrative[];
@@ -138,6 +139,7 @@ export const HomePage: MeiosisComponent = () => {
   let deleteModelModal = false;
   let clearAllModal = false;
   let newScenarioWizardOpen = false;
+  let llmScenarioWizardOpen = false;
 
   return {
     oninit: ({ attrs }) => {
@@ -145,7 +147,7 @@ export const HomePage: MeiosisComponent = () => {
     },
     view: ({ attrs }) => {
       const isCleared = false;
-      const { model, language } = attrs.state;
+      const { model, language = 'nl' } = attrs.state;
       const {
         scenarios = [],
         scenario: { id, label, narratives = [], components, categories },
@@ -175,6 +177,7 @@ export const HomePage: MeiosisComponent = () => {
                   m(
                     '.language-option',
                     {
+                      className: language === 'nl' ? 'selected' : undefined,
                       onclick: () => setLanguage('nl'),
                     },
                     [
@@ -182,9 +185,6 @@ export const HomePage: MeiosisComponent = () => {
                         src: DutchFlag,
                         alt: 'Nederlands',
                         title: 'Nederlands',
-                        disabled: language === 'nl',
-                        class:
-                          language === 'nl' ? 'disabled-image' : 'clickable',
                       }),
                       m('span', 'Nederlands'),
                     ]
@@ -192,6 +192,7 @@ export const HomePage: MeiosisComponent = () => {
                   m(
                     '.language-option',
                     {
+                      className: language === 'en' ? 'selected' : undefined,
                       onclick: () => setLanguage('en'),
                     },
                     [
@@ -199,9 +200,6 @@ export const HomePage: MeiosisComponent = () => {
                         src: EnglishFlag,
                         alt: 'English',
                         title: 'English',
-                        disabled: language === 'en',
-                        class:
-                          language === 'en' ? 'disabled-image' : 'clickable',
                       }),
                       m('span', 'English'),
                     ]
@@ -270,6 +268,14 @@ export const HomePage: MeiosisComponent = () => {
                     title: t('NEW_SCENARIO'),
                     onclick: () => {
                       newScenarioWizardOpen = true;
+                    },
+                  }),
+                  m(FlatButton, {
+                    className: 'icon-button',
+                    iconName: 'auto_fix_high',
+                    title: t('LLM_WIZARD_TITLE'),
+                    onclick: () => {
+                      llmScenarioWizardOpen = true;
                     },
                   }),
                   m(FlatButton, {
@@ -589,6 +595,22 @@ export const HomePage: MeiosisComponent = () => {
               await saveModel(attrs, model, true);
               toast({ html: t('SCENARIO_CREATED_MSG') });
               newScenarioWizardOpen = false;
+              changePage(attrs, Dashboards.DEFINE_BOX);
+            },
+          }),
+          m(LLMScenarioWizard, {
+            ...attrs,
+            isOpen: llmScenarioWizardOpen,
+            onClose: () => {
+              llmScenarioWizardOpen = false;
+            },
+            onComplete: async (scenario: Scenario) => {
+              if (!model.scenarios) model.scenarios = [];
+              model.scenarios = [model.scenario, ...model.scenarios];
+              model.scenario = scenario;
+              await saveModel(attrs, model, true);
+              toast({ html: t('SCENARIO_CREATED_MSG') });
+              llmScenarioWizardOpen = false;
               changePage(attrs, Dashboards.DEFINE_BOX);
             },
           }),

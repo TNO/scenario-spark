@@ -891,3 +891,42 @@ export const downloadAsWord = (
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 };
+
+export function fixMorphologicalBoxMarkdown(input: string): string {
+  let output = input.trim();
+
+  // Remove ```markdown, ```md, or similar code fences
+  output = output.replace(/```(?:markdown|md)?\s*/gi, '```');
+  // Remove leading/trailing triple backticks entirely
+  output = output.replace(/^```[\s\S]*?```$/gm, (match) =>
+    match.replace(/```/g, '').trim()
+  );
+
+  // Normalize heading levels: convert any ## or ### at start to #
+  output = output.replace(/^#{2,}\s*/gm, '# ');
+
+  // Ensure list numbering starts correctly (fixes broken lists)
+  // Replace bullets like "1)" or "1-" with "1."
+  output = output.replace(/^(\d+)[\)\-]\s+/gm, '$1. ');
+
+  // Normalize unordered lists: convert * or + to -
+  output = output.replace(/^[\*\+]\s+/gm, '- ');
+
+  // Fix indentation (ensure component values are indented under key drivers)
+  // Adds two spaces before unordered list items not already indented
+  output = output.replace(/^(-\s)/gm, '  $1');
+
+  // Remove stray headings or explanations outside code block
+  output = output
+    .replace(/^>.*$/gm, '') // remove blockquotes
+    .replace(/^#+\s*Example.*$/gim, '')
+    .trim();
+
+  // Remove extra blank lines (3+ in a row)
+  output = output.replace(/\n{3,}/g, '\n\n');
+
+  // Ensure there’s a single trailing newline
+  if (!output.endsWith('\n')) output += '\n';
+
+  return output;
+}

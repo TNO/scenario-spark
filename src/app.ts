@@ -7,6 +7,11 @@ import { routingSvc } from './services/routing-service';
 import { Languages, i18n } from './services';
 import { LANGUAGE, SAVED } from './utils';
 
+export const AllLanguages = {
+  en: { name: 'English', fqn: 'en-UK' },
+  nl: { name: 'Nederlands', fqn: 'nl-NL', default: true },
+};
+
 window.onbeforeunload = (e) => {
   if (localStorage.getItem(SAVED) === 'true') return;
   localStorage.setItem(SAVED, 'true');
@@ -20,9 +25,6 @@ i18n.addOnChangeListener((_locale: string) => {
   m.route(document.body, routingSvc.defaultRoute, routingSvc.routingTable());
 });
 i18n.init(
-  {
-    en: { name: 'English', fqn: 'en-UK', default: true },
-    nl: { name: 'Nederlands', fqn: 'nl-NL' },
-  },
+  AllLanguages,
   (window.localStorage.getItem(LANGUAGE) || 'nl') as Languages
 );
