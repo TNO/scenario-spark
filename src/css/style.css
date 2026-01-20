@@ -1405,3 +1405,10 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
 .card .card-title.morph-cell {
   font-size: var(--morph-font-size);
 }
+
+/* Language Switcher Selected State */
+.language-option.selected {
+  font-weight: bold;
+  border-bottom: 2px solid var(--mm-primary-color, #26a69a);
+  padding-bottom: 2px;
+}

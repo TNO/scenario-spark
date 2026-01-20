@@ -427,6 +427,7 @@ export const CreateBoxPage: MeiosisComponent = () => {
   let narrativeLength = 0;
   let compColor: { [key: ID]: [Color, Color] } = {};
   let themeThresholdColors: ThresholdColor[] = [];
+  let lastTheme: string;
 
   const setThresholdColors = (thc: ThresholdColor[]) => {
     if (!thc) return;
@@ -495,13 +496,17 @@ export const CreateBoxPage: MeiosisComponent = () => {
       }
       const { categories, thresholdColors = [], narratives = [] } = scenario;
       setThresholdColors(thresholdColors);
+      const theme = ThemeManager.getEffectiveTheme();
       if (
         Object.keys(compColor).length === 0 ||
-        narrativeLength !== narratives.length
+        narrativeLength !== narratives.length ||
+        lastTheme !== theme
       ) {
+        lastTheme = theme;
         narrativeLength = narratives.length;
         compColor = computeCompColor(narratives, themeThresholdColors);
       }
+
       return [
         m('.create-box-page', [
           m(FlatButton, {
