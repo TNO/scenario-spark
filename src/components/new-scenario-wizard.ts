@@ -256,7 +256,9 @@ export const NewScenarioWizard: MeiosisComponent<{
       return m(ModalPanel, {
         id: 'new-scenario-wizard',
         isOpen,
-        onClose,
+        onToggle: (open) => {
+          if (!open) onClose();
+        },
         title: t('NEW_SCENARIO'),
         fixedFooter: false,
         description: m(Wizard, {

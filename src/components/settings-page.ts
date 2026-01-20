@@ -9,6 +9,7 @@ import {
 } from '../models';
 import { MeiosisComponent, i18n, saveModel, setPage, t } from '../services';
 import {
+  ConfirmButton,
   FlatButton,
   ModalPanel,
   Select,
@@ -157,7 +158,6 @@ export const SettingsPage: MeiosisComponent = () => {
     },
   ] as UIForm<Scenario>;
   let edit = false;
-  let deleteModel = false;
   let mdEditor = false;
 
   return {
@@ -175,12 +175,14 @@ export const SettingsPage: MeiosisComponent = () => {
                 vnode: m('.model-settings', [
                   m(
                     '.row',
-                    m(FlatButton, {
-                      className: 'right',
-                      iconName: 'delete',
-                      label: t('DELETE'),
-                      onclick: () => (deleteModel = true),
-                    }),
+                      m(ConfirmButton, {
+                        className: 'right',
+                        iconName: 'delete',
+                        label: t('DELETE'),
+                        onclick: () => {
+                          saveModel(attrs, emptyModel());
+                        },
+                      }),
                     m(FlatButton, {
                       iconName: 'auto_fix_high',
                       className: 'right',
@@ -298,42 +300,42 @@ export const SettingsPage: MeiosisComponent = () => {
               },
             ],
           }),
-          deleteModel &&
-            m(ModalPanel, {
-              id: 'deleteModel',
-              title: t('DELETE_ITEM', 'title', { item: t('MODEL') }),
-              description: t('DELETE_ITEM', 'description', {
-                item: t('MODEL'),
-              }),
-              isOpen: true,
-              onClose: () => (deleteModel = false),
-              buttons: [
-                {
-                  label: t('CANCEL'),
-                },
-                {
-                  label: t('OK'),
-                  onclick: () => {
-                    saveModel(attrs, emptyModel());
-                  },
-                },
-              ],
-            }),
-          mdEditor &&
-            m(ModalPanel, {
-              id: 'mdEditor',
-              title: t('ADV_EDIT'),
-              isOpen: true,
-              onClose: () => (mdEditor = false),
-              description: m(MorphBoxEditor, attrs),
-              bottomSheet: true,
-              fixedFooter: true,
-              buttons: [
-                {
-                  label: t('CANCEL'),
-                },
-              ],
-            }),
+          // m(ModalPanel, {
+          //   id: 'deleteModel',
+          //   title: t('DELETE_ITEM', 'title', { item: t('MODEL') }),
+          //   description: t('DELETE_ITEM', 'description', {
+          //     item: t('MODEL'),
+          //   }),
+          //   isOpen: deleteModel,
+          //   onToggle: (open) => (deleteModel = open),
+          //   buttons: [
+          //     {
+          //       label: t('CANCEL'),
+          //       onclick: () => (deleteModel = false),
+          //     },
+          //     {
+          //       label: t('OK'),
+          //       onclick: () => {
+          //         saveModel(attrs, emptyModel());
+          //       },
+          //     },
+          //   ],
+          // }),
+          m(ModalPanel, {
+            id: 'mdEditor',
+            title: t('ADV_EDIT'),
+            isOpen: mdEditor,
+            onToggle: (open) => (mdEditor = open),
+            closeOnButtonClick: true,
+            description: m(MorphBoxEditor, attrs),
+            bottomSheet: true,
+            fixedFooter: true,
+            buttons: [
+              {
+                label: t('CANCEL'),
+              },
+            ],
+          }),
         ]),
       ];
     },

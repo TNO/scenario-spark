@@ -1,9 +1,9 @@
 import m, { FactoryComponent } from 'mithril';
 import {
   FlatButton,
+  ConfirmButton,
   Icon,
   InputCheckbox,
-  ModalPanel,
   Select,
   SelectAttrs,
   TextArea,
@@ -175,7 +175,6 @@ export const CreateScenarioPage: MeiosisComponent = () => {
   let version = 0;
   let askLlm = true;
   let showTables = true;
-  let deleteSavedNarrative = false;
   let canAskLlm = false;
 
   return {
@@ -405,41 +404,54 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                     saveNarrative(attrs, newNarrative);
                   },
                 }),
-                m(FlatButton, {
+                m(ConfirmButton, {
                   label: t('DELETE'),
                   iconName: 'delete',
-                  onclick: () => (deleteSavedNarrative = true),
+                  onclick: () => {
+                    version = 0;
+                    model.scenario.narratives =
+                      model.scenario.narratives.filter(
+                        (n) => n.id !== curNarrative.id
+                      );
+                    attrs.update({
+                      curNarrative: () =>
+                        ({ included: false, components: {} } as Narrative),
+                      lockedComps: () => undefined,
+                    });
+                    saveModel(attrs, model);
+                  },
                 }),
-                m(ModalPanel, {
-                  id: 'deleteSavedNarrative',
-                  title: t('DELETE_ITEM', 'title', { item: t('NARRATIVE') }),
-                  onClose: () => (deleteSavedNarrative = false),
-                  description: t('DELETE_ITEM', 'description', {
-                    item: t('NARRATIVE'),
-                  }),
-                  isOpen: deleteSavedNarrative,
-                  buttons: [
-                    {
-                      label: t('CANCEL'),
-                    },
-                    {
-                      label: t('OK'),
-                      onclick: () => {
-                        version = 0;
-                        model.scenario.narratives =
-                          model.scenario.narratives.filter(
-                            (n) => n.id !== curNarrative.id
-                          );
-                        attrs.update({
-                          curNarrative: () =>
-                            ({ included: false, components: {} } as Narrative),
-                          lockedComps: () => undefined,
-                        });
-                        saveModel(attrs, model);
-                      },
-                    },
-                  ],
-                }),
+                // m(ModalPanel, {
+                //   id: 'deleteSavedNarrative',
+                //   title: t('DELETE_ITEM', 'title', { item: t('NARRATIVE') }),
+                //   onToggle: (open) => (deleteSavedNarrative = open),
+                //   description: t('DELETE_ITEM', 'description', {
+                //     item: t('NARRATIVE'),
+                //   }),
+                //   isOpen: deleteSavedNarrative,
+                //   buttons: [
+                //     {
+                //       label: t('CANCEL'),
+                //       onclick: () => (deleteSavedNarrative = false),
+                //     },
+                //     {
+                //       label: t('OK'),
+                //       onclick: () => {
+                //         version = 0;
+                //         model.scenario.narratives =
+                //           model.scenario.narratives.filter(
+                //             (n) => n.id !== curNarrative.id
+                //           );
+                //         attrs.update({
+                //           curNarrative: () =>
+                //             ({ included: false, components: {} } as Narrative),
+                //           lockedComps: () => undefined,
+                //         });
+                //         saveModel(attrs, model);
+                //       },
+                //     },
+                //   ],
+                // }),
               ]
             : [
                 m(FlatButton, {

@@ -223,6 +223,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                   wordModalOpen = open;
                 },
                 fixedFooter: true,
+                closeOnButtonClick: true,
                 description: m(
                   '.export-modal',
                   m('.row', m('.col.s12', t('EXPORT2WORD', 'DESC')))

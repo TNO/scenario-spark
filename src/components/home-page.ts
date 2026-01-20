@@ -2,6 +2,7 @@ import m from 'mithril';
 import {
   Button,
   FlatButton,
+  ConfirmButton,
   Icon,
   InputCheckbox,
   ModalPanel,
@@ -140,7 +141,6 @@ export const HomePage: MeiosisComponent = () => {
     window.File && window.FileReader && window.FileList && window.Blob;
   let selectedId = 0;
   let removeAllKeyValues = false;
-  let deleteModelModal = false;
   let clearAllModal = false;
   let newScenarioWizardOpen = false;
   let llmScenarioWizardOpen = false;
@@ -424,12 +424,21 @@ export const HomePage: MeiosisComponent = () => {
                         });
                       },
                     }),
-                  m(FlatButton, {
-                    className: 'icon-button',
-                    iconName: 'delete',
-                    title: t('DELETE'),
-                    onclick: () => (deleteModelModal = true),
-                  })
+                    m(ConfirmButton, {
+                      className: 'icon-button',
+                      iconName: 'delete',
+                      title: t('DELETE'),
+                      onclick: async () => {
+                        model.scenario =
+                          model.scenarios && model.scenarios.length > 0
+                            ? model.scenarios[0]
+                            : newScenario();
+                        model.scenarios = model.scenarios.filter(
+                          (s) => s.id !== model.scenario.id
+                        );
+                        await saveModel(attrs, model, true);
+                      },
+                    })
                 )
               )
             )
@@ -566,37 +575,38 @@ export const HomePage: MeiosisComponent = () => {
               ]),
             ])
           ),
-          m(ModalPanel, {
-            id: 'delete_model',
-            isOpen: deleteModelModal,
-            onToggle: (open) => (deleteModelModal = open),
-            title: t('DELETE_MODEL', 'title'),
-            description: m('.row', [
-              m('.col.s12', [t('DELETE_MODEL', 'description')]),
-            ]),
-            buttons: [
-              { label: t('CANCEL'), iconName: 'cancel', onclick: () => (deleteModelModal = false) },
-              {
-                label: t('OK'),
-                iconName: 'delete',
-                onclick: async () => {
-                  model.scenario =
-                    model.scenarios && model.scenarios.length > 0
-                      ? model.scenarios[0]
-                      : newScenario();
-                  model.scenarios = model.scenarios.filter(
-                    (s) => s.id !== model.scenario.id
-                  );
-                  await saveModel(attrs, model, true);
-                },
-              },
-            ],
-          }),
+          // m(ModalPanel, {
+          //   id: 'delete_model',
+          //   isOpen: deleteModelModal,
+          //   onToggle: (open) => (deleteModelModal = open),
+          //   title: t('DELETE_MODEL', 'title'),
+          //   description: m('.row', [
+          //     m('.col.s12', [t('DELETE_MODEL', 'description')]),
+          //   ]),
+          //   buttons: [
+          //     { label: t('CANCEL'), iconName: 'cancel', onclick: () => (deleteModelModal = false) },
+          //     {
+          //       label: t('OK'),
+          //       iconName: 'delete',
+          //       onclick: async () => {
+          //         model.scenario =
+          //           model.scenarios && model.scenarios.length > 0
+          //             ? model.scenarios[0]
+          //             : newScenario();
+          //         model.scenarios = model.scenarios.filter(
+          //           (s) => s.id !== model.scenario.id
+          //         );
+          //         await saveModel(attrs, model, true);
+          //       },
+          //     },
+          //   ],
+          // }),
           m(ModalPanel, {
             id: 'clearAll',
             isOpen: clearAllModal,
-            onClose: () => (clearAllModal = false),
+            onToggle: (open) => (clearAllModal = open),
             title: t('NEW_MODEL', 'title'),
+            closeOnButtonClick: true,
             description: m('.row', [
               m('.col.s12', [t('NEW_MODEL', 'description')]),
               m('.col.s12', [
@@ -626,7 +636,10 @@ export const HomePage: MeiosisComponent = () => {
               ]),
             ]),
             buttons: [
-              { label: t('CANCEL'), iconName: 'cancel' },
+              {
+                label: t('CANCEL'),
+                iconName: 'cancel',
+              },
               {
                 label: t('OK'),
                 iconName: 'delete',

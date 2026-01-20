@@ -146,7 +146,7 @@ const BoxItem: MeiosisComponent<{
             title: t('EDIT_COMPONENT'),
             isOpen: editorOpen,
             fixedFooter: true,
-            onClose: () => (editorOpen = false),
+            onToggle: (open) => (editorOpen = open),
             description: m(
               '.row',
               m(LayoutForm, {
@@ -156,6 +156,7 @@ const BoxItem: MeiosisComponent<{
               } as FormAttributes<ContextualItem>)
             ),
             // options: { opacity: 0.7 },
+            closeOnButtonClick: true,
             buttons: [
               {
                 label: t('CANCEL'),
@@ -224,7 +225,8 @@ const BoxHeader: MeiosisComponent<{
           title: t('ADD_COMPONENT'),
           fixedFooter: true,
           isOpen: addComponent,
-          onClose: () => (addComponent = false),
+          onToggle: (open) => (addComponent = open),
+          closeOnButtonClick: true,
           description: m(
             '.row',
             m(LayoutForm<ContextualItem>, {
@@ -243,7 +245,7 @@ const BoxHeader: MeiosisComponent<{
               onclick: () => {
                 const item = { ...obj };
                 obj = {} as ContextualItem;
-                mutateScenarioComponent(attrs, id, item, 'create');
+                mutateScenarioComponent(attrs, id, item, 'create');                
               },
             },
           ],

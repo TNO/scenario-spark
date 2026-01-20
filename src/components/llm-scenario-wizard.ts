@@ -477,9 +477,11 @@ export const LLMScenarioWizard: MeiosisComponent<{
       return m(ModalPanel, {
         id: 'llm-scenario-wizard',
         isOpen,
-        onClose: () => {
-          resetWizardState();
-          onClose();
+        onToggle: (open) => {
+          if (!open) {
+            resetWizardState();
+            onClose();
+          }
         },
         title: t('LLM_WIZARD_TITLE'),
         fixedFooter: false,
