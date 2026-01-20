@@ -332,10 +332,12 @@ li.collection-item:first-child {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.card-title {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+.kanban-item .card-content .card-title {
+  /* text-overflow: ellipsis; */
+  /* overflow: hidden; */
+  /* white-space: nowrap; */
+  white-space: pre-wrap;
+  line-height: 1.35;
 }
 
 .comment {
@@ -645,14 +647,21 @@ label,
   padding: 0px;
   min-width: 200px;
   width: 200px;
-  height: 60px;
+  min-height: 60px;
+  max-height: 150px;
+  overflow-y: auto;
   margin: 0 0 0.7rem 0;
   /* color: white; */
   text-align: center;
 
   & .card-content {
     font-size: 0.8rem;
-    padding: 15px 10px;
+    padding: 5px 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
     & > .card-title {
       margin-bottom: 0;
     }

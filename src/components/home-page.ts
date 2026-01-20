@@ -569,13 +569,13 @@ export const HomePage: MeiosisComponent = () => {
           m(ModalPanel, {
             id: 'delete_model',
             isOpen: deleteModelModal,
-            onClose: () => (deleteModelModal = false),
+            onToggle: (open) => (deleteModelModal = open),
             title: t('DELETE_MODEL', 'title'),
             description: m('.row', [
               m('.col.s12', [t('DELETE_MODEL', 'description')]),
             ]),
             buttons: [
-              { label: t('CANCEL'), iconName: 'cancel' },
+              { label: t('CANCEL'), iconName: 'cancel', onclick: () => (deleteModelModal = false) },
               {
                 label: t('OK'),
                 iconName: 'delete',
@@ -588,11 +588,6 @@ export const HomePage: MeiosisComponent = () => {
                     (s) => s.id !== model.scenario.id
                   );
                   await saveModel(attrs, model, true);
-                  // routingSvc.switchTo(
-                  //   selectedId === 0
-                  //     ? Dashboards.SETTINGS
-                  //     : Dashboards.DEFINE_BOX
-                  // );
                 },
               },
             ],

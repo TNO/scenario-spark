@@ -346,7 +346,7 @@ export const CreateBoxPage: MeiosisComponent = () => {
 
   const form = [
     { id: 'id', autogenerate: 'id' },
-    { id: 'label', type: 'text', label: t('NAME') },
+    { id: 'label', type: 'textarea', label: t('NAME') },
     { id: 'desc', type: 'textarea', label: t('DESCRIPTION') },
     // {
     //   id: 'context',
