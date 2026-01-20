@@ -213,43 +213,44 @@ const BoxHeader: MeiosisComponent<{
           },
           sc.label
         ),
-        m(FlatButton, {
-          className: 'widget-link',
-          iconName: 'add',
-          iconClass: 'right',
-          i18n: i18n.i18n,
-          onclick: () => (addComponent = true),
-        }),
-        m(ModalPanel, {
-          id: sc.id,
-          title: t('ADD_COMPONENT'),
-          fixedFooter: true,
-          isOpen: addComponent,
-          onToggle: (open) => (addComponent = open),
-          closeOnButtonClick: true,
-          description: m(
-            '.row',
-            m(LayoutForm<ContextualItem>, {
-              form,
-              obj,
-              i18n: i18n.i18n,
+        m('div', [
+          m('div.widget-link', 
+            m(IconButton, {
+              iconName: 'add',
+              onclick: () => (addComponent = true),
             })
           ),
-          // options: { opacity: 0.7 },
-          buttons: [
-            {
-              label: t('CANCEL'),
-            },
-            {
-              label: t('OK'),
-              onclick: () => {
-                const item = { ...obj };
-                obj = {} as ContextualItem;
-                mutateScenarioComponent(attrs, id, item, 'create');                
+          m(ModalPanel, {
+            id: sc.id,
+            title: t('ADD_COMPONENT'),
+            fixedFooter: true,
+            isOpen: addComponent,
+            onToggle: (open) => (addComponent = open),
+            closeOnButtonClick: true,
+            description: m(
+              '.row',
+              m(LayoutForm<ContextualItem>, {
+                form,
+                obj,
+                i18n: i18n.i18n,
+              })
+            ),
+            // options: { opacity: 0.7 },
+            buttons: [
+              {
+                label: t('CANCEL'),
               },
-            },
-          ],
-        }),
+              {
+                label: t('OK'),
+                onclick: () => {
+                  const item = { ...obj };
+                  obj = {} as ContextualItem;
+                  mutateScenarioComponent(attrs, id, item, 'create');
+                },
+              },
+            ],
+          }),
+        ]),
       ]);
     },
   };
@@ -347,8 +348,8 @@ export const CreateBoxPage: MeiosisComponent = () => {
   }
 
   const form = [
-    { id: 'id', autogenerate: 'id' },
-    { id: 'label', type: 'textarea', label: t('NAME') },
+    { id: 'id', type: 'none', autogenerate: 'id' },
+    { id: 'label', type: 'textarea', label: t('NAME'), autofocus: true },
     { id: 'desc', type: 'textarea', label: t('DESCRIPTION') },
     // {
     //   id: 'context',
