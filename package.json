@@ -35,19 +35,19 @@
   "dependencies": {
     "material-icons": "^1.13.14",
     "meiosis-setup": "^6.2.3",
-    "mithril": "^2.3.7",
-    "mithril-materialized": "3.5.3",
+    "mithril": "^2.3.8",
+    "mithril-materialized": "3.14.0",
     "mithril-ui-form": "2.0.12",
     "translate.js": "1.3.2",
     "mithril-markdown-wysiwyg": "0.2.3"
   },
   "devDependencies": {
-    "@rspack/cli": "1.5.8",
-    "@rspack/core": "1.5.8",
+    "@rspack/cli": "1.7.3",
+    "@rspack/core": "1.7.3",
     "@types/mithril": "^2.2.7",
     "@types/quill": "^2.0.14",
     "dotenv": "17.2.3",
-    "rimraf": "^6.0.1",
+    "rimraf": "^6.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
