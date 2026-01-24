@@ -33,18 +33,22 @@
   "app": "src/index.html",
   "target": "web",
   "dependencies": {
+    "leaflet": "^1.9.4",
     "material-icons": "^1.13.14",
     "meiosis-setup": "^6.2.3",
     "mithril": "^2.3.8",
-    "mithril-materialized": "3.14.0",
+    "mithril-markdown-wysiwyg": "0.2.3",
+    "mithril-materialized": "3.14.4",
     "mithril-ui-form": "2.0.12",
-    "translate.js": "1.3.2",
-    "mithril-markdown-wysiwyg": "0.2.3"
+    "osmtogeojson": "3.0.0-beta.5",
+    "translate.js": "1.3.2"
   },
   "devDependencies": {
     "@rspack/cli": "1.7.3",
     "@rspack/core": "1.7.3",
+    "@types/leaflet": "^1.9.21",
     "@types/mithril": "^2.2.7",
+    "@types/osmtogeojson": "^2.2.34",
     "@types/quill": "^2.0.14",
     "dotenv": "17.2.3",
     "rimraf": "^6.1.2",
