@@ -1,12 +1,13 @@
 import m, { FactoryComponent } from 'mithril';
 import {
+  ContextualItem,
   Dashboards,
   DataModel,
   ID,
   Narrative,
   ScenarioComponent,
 } from '../models';
-import { MeiosisComponent, State, i18n, setPage, t } from '../services';
+import { MeiosisComponent, State, i18n, saveModel, setPage, t } from '../services';
 import {
   Select,
   FlatButton,
@@ -26,6 +27,7 @@ import {
 } from '../utils';
 import { htmlTemplate } from '../assets/html-styles';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
+import { MapView } from './ui';
 import { MeiosisCell } from 'meiosis-setup/types';
 import 'mithril-markdown-wysiwyg/css';
 
@@ -158,12 +160,30 @@ export const ShowScenarioPage: MeiosisComponent = () => {
 
       const {
         scenario: {
+          includeMapSupport,
+          mapConfig,
+          mapUnits,
+          osmAmenities,
           template,
           categories = [],
           components: modelComps = [],
           narratives = [],
         },
       } = model;
+      
+      const selectedItems: ContextualItem[] = [];
+      if (includeMapSupport && curNarrative && curNarrative.components) {
+        modelComps.forEach((comp) => {
+          const selectedIds = curNarrative.components![comp.id];
+          if (selectedIds) {
+            const ids = Array.isArray(selectedIds) ? selectedIds : [selectedIds];
+            ids.forEach((id) => {
+              const item = comp.values?.find((v) => v.id === id);
+              if (item) selectedItems.push(item);
+            });
+          }
+        });
+      }
       const multipleCategories = categories.length > 1;
       if ((!curNarrative || !curNarrative.saved) && narratives.length > 0) {
         const newNarrative = narratives[0];
@@ -172,6 +192,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
         });
         return;
       }
+
 
       const selectOptions = narrativesToOptions(model.scenario.narratives);
       const narrativeIdx = curNarrative
@@ -183,7 +204,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
             ? quillToMarkdown(JSON.parse(curNarrative.desc))
             : curNarrative.desc
           : ''
-      ).replace(/</g, '&lt;');
+      ).toString().replace(/</g, '&lt;');
 
       return m(
         '.show-scenario.row',
@@ -195,7 +216,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                 m('img[title=risk-status].right', {
                   src: svgToDataURI(
                     createCircleSVG(
-                      trafficLight[+curNarrative.risk.replace('risk_', '')],
+                      trafficLight[+(curNarrative.risk?.toString().replace('risk_', '') || 0)],
                       48
                     )
                   ),
@@ -214,6 +235,19 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                 label: t('NARRATIVE_INCLUDED'),
                 disabled: true,
                 className: 'right mt3',
+              }),
+              includeMapSupport && m(FlatButton, {
+                  iconName: mapConfig?.height === 0 ? 'map' : 'map',
+                  className: 'right',
+                  title: t('TOGGLE_MAP'),
+                  onclick: () => {
+                      const h = mapConfig?.height || 400;
+                      model.scenario.mapConfig = {
+                          ...model.scenario.mapConfig!,
+                          height: h === 0 ? 400 : 0
+                      };
+                      saveModel(attrs, model);
+                  }
               }),
               m(ModalPanel, {
                 id: 'exportToWord',
@@ -317,6 +351,22 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                 )
               )
             ),
+            includeMapSupport && mapConfig?.height !== 0 &&
+              m(
+                '.col.s12',
+                m(MapView, { 
+                    items: selectedItems, 
+                    mapConfig, 
+                    mapUnits, 
+                    osmAmenities, 
+                    height: mapConfig?.height || 400, 
+                    autoFit: true,
+                    onHeightChange: (h) => {
+                        model.scenario.mapConfig = { ...model.scenario.mapConfig!, height: h };
+                        saveModel(attrs, model);
+                    }
+                })
+              ),
             markdown && [
               m(
                 '.col.s12',
@@ -336,7 +386,8 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                     })
                   )
                 : '',
-              m(
+            ],
+            m(
                 '.col.s12',
                 m('.row', [
                   categories.map((category) => {
@@ -354,8 +405,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                     );
                   }),
                 ])
-              ),
-            ],
+            ),
           ]
       );
     },

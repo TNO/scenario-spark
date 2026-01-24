@@ -26,7 +26,7 @@ const subRegex = /\_([^\^ ]+)(\^|$|\s)/g;
 /** Expand markdown notation by converting A_1 to subscript and x^2 to superscript. */
 export const subSup = (s: string) =>
   s
-    ? s.replace(supRegex, `<sup>$1</sup>`).replace(subRegex, `<sub>$1</sub>`)
+    ? s?.toString().replace(supRegex, `<sup>$1</sup>`).replace(subRegex, `<sub>$1</sub>`)
     : s;
 
 export const capitalize = (s?: string) =>
@@ -92,7 +92,7 @@ export const getOptionsLabel = <T>(
   }
   const print = (o: Option<T>) =>
     showTitle
-      ? `${o.label}${o.title ? ` (${o.title.replace(/\.\s*$/, '')})` : ''}`
+      ? `${o.label}${o.title ? ` (${o.title.toString().replace(/\.\s*$/, '')})` : ''}`
       : o.label;
   if (id instanceof Array) {
     return options
@@ -360,7 +360,7 @@ export const modelToSaveName = (
   if (narrativeName) {
     name += `_${narrativeName}`;
   }
-  return `${name.replace(/\s/g, '_')}_v${padLeft(
+  return `${name?.toString().replace(/\s/g, '_')}_v${padLeft(
     model.version || 1,
     3
   )}_${formatDate()}`.toLowerCase();
@@ -660,7 +660,7 @@ export const contrastingColor = (() => {
     }
 
     // Expand shorthand #abc -> #aabbcc
-    let c = hex.replace(/^#/, '').toLowerCase();
+    let c = hex?.toString().replace(/^#/, '').toLowerCase();
     if (c.length === 3) {
       c = c
         .split('')
@@ -691,7 +691,7 @@ export const contrastingColor = (() => {
 
 // Utility: convert hex -> HSL
 const hexToHsl = (hex: string): [number, number, number] => {
-  hex = hex.replace(/^#/, '');
+  hex = (hex || '').toString().replace(/^#/, '');
   if (hex.length === 3) {
     hex = hex
       .split('')

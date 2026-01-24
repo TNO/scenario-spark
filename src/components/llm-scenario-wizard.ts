@@ -546,7 +546,7 @@ All morphological boxes and their descriptions must be written in fluent, domain
 
 // Helper function to clean markdown markup from text
 const cleanMarkup = (text: string): string => {
-  return text.replace(/\*{1,3}|_{1,2}/g, '').trim();
+  return text?.replace(/\*{1,3}|_{1,2}/g, '').trim();
 };
 
 // Convert markdown to Scenario model

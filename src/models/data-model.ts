@@ -90,7 +90,7 @@ export const contextTypeOptions = (
 ];
 
 export type ContextType = 'none' | 'location' | 'locationType';
-export type LocationType = 'name' | 'coords';
+export type LocationType = 'name' | 'coords' | 'circle' | 'ellipse' | 'osm';
 export type LocationTypeType = 'list' | 'keyValue';
 
 export type ContextualItem = Item & {
@@ -105,6 +105,10 @@ export type ContextualItem = Item & {
   lat?: number;
   /** Location's longitude, WGS84 */
   lon?: number;
+  /** Radius in meters, for circles (deprecated, use radii) */
+  radius?: number;
+  /** Comma-separated list of radii in meters */
+  radii?: string;
   /** OSM type */
   osmTypeId?: string;
   /** OSM attribute key */
@@ -145,6 +149,19 @@ export type Scenario = Item & {
   hideInconsistentValues: boolean;
   /** If true, activate the decision support module */
   includeDecisionSupport: boolean;
+  /** If true, activate the map support */
+  includeMapSupport?: boolean;
+  /** Default map configuration */
+  mapConfig?: {
+    lat: number;
+    lon: number;
+    zoom: number;
+    height?: number;
+  };
+  /** Map units */
+  mapUnits?: 'metric' | 'imperial';
+  /** Selected OSM amenities to display */
+  osmAmenities?: string[];
   /** Combinations of scenario components that should not be used together */
   inconsistencies: Inconsistencies;
   /** Categories of components */

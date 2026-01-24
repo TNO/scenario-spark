@@ -98,7 +98,7 @@ export const DecisionSupportPage: MeiosisComponent = () => {
       /** Weights is a value between 1 (very low risk) and 5 (very high risk) */
       const weights = selectedNarratives
         .map((n) => n.risk || '0')
-        .map((s) => +s.replace('risk_', '') + 1);
+        .map((s) => +(s?.toString().replace('risk_', '') || 0) + 1);
 
       const suggestedApproach: Narrative = {
         id: 'suggested_approach',

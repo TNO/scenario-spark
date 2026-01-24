@@ -114,7 +114,7 @@ class RoutingService {
     const dashboard = this.dashboards
       .filter((d) => d.id === dashboardId)
       .shift();
-    return dashboard
+    return dashboard && typeof dashboard.route === 'string'
       ? `#!${dashboard.route.replace(/:\w*/, '')}${params}`
       : this.defaultRoute;
   }
@@ -127,7 +127,7 @@ class RoutingService {
     const dashboard = this.dashboards
       .filter((d) => d.id === dashboardId)
       .shift();
-    if (dashboard) {
+    if (dashboard && typeof dashboard.route === 'string') {
       const url =
         dashboard.route + (query ? '?' + m.buildQueryString(query) : '');
       m.route.set(url, params);

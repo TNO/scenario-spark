@@ -41,7 +41,44 @@
   --toolbar-bg: #161b22;
 
   /* ... dark theme overrides */
+  .leaflet-popup-content-wrapper,
+  .leaflet-popup-tip {
+    background-color: #333;
+    color: var(--mm-text-primary);
+  }
 }
+
+/* Compact Leaflet Popup */
+.leaflet-popup-content {
+  margin: 10px;
+  line-height: 1.4;
+}
+.map-popup-card .card-content {
+  padding: 5px !important;
+}
+.map-popup-card .card-title {
+  font-size: 1rem !important;
+  line-height: 1.2 !important;
+  margin-bottom: 5px !important;
+}
+.map-popup-card table.condensed-table td,
+.map-popup-card table.condensed-table th {
+  padding: 2px 5px;
+}
+.map-popup-card {
+  color: black; /* default light mode color */
+}
+[data-theme='dark'] .map-popup-card {
+  background-color: #333;
+  color: white;
+}
+[data-theme='dark'] .map-popup-card table {
+  color: white;
+}
+[data-theme='dark'] .map-popup-card table tr {
+  border-bottom: 1px solid #555;
+}
+
 
 input[type='checkbox']:disabled {
   color: var(--mm-text-disabled);
@@ -1411,4 +1448,61 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   font-weight: bold;
   border-bottom: 2px solid var(--mm-primary-color, #26a69a);
   padding-bottom: 2px;
+}
+
+/* Map Resize Handle */
+.map-resize-handle {
+  width: 100%;
+  height: 12px;
+  background: var(--mm-border-color);
+  cursor: ns-resize;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s, height 0.2s;
+  z-index: 1001;
+}
+
+.map-resize-handle:hover {
+  background: var(--mm-primary-color);
+  height: 16px;
+}
+
+.map-resize-handle::after {
+  content: '▼';
+  font-size: 8px;
+  color: var(--mm-text-primary);
+  opacity: 0.5;
+}
+
+/* Map Popups */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--mm-surface-color) !important;
+  color: var(--mm-text-primary) !important;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4) !important;
+}
+
+.leaflet-popup-content {
+  margin: 8px !important;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.map-popup-card {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.map-popup-card .card-title {
+    color: var(--mm-text-primary) !important;
+}
+
+.condensed-table td, .condensed-table th {
+    padding: 2px 5px !important;
+    line-height: 1.2 !important;
+}
+
+[data-theme='dark'] .leaflet-tile {
+    filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
 }

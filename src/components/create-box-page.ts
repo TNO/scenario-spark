@@ -9,6 +9,8 @@ import {
   ThresholdColor,
   Scenario,
   Category,
+  OsmTypes,
+  contextTypeOptions,
 } from '../models';
 import {
   MeiosisComponent,
@@ -18,6 +20,7 @@ import {
   t,
   moveScenarioComponent,
   setFontSize,
+  setMapHeight,
 } from '../services';
 import {
   FlatButton,
@@ -35,7 +38,7 @@ import {
   UIForm,
 } from 'mithril-ui-form';
 import { capitalize, computeCompColor, toDarkThemeColor } from '../utils';
-import { LegendComponent } from './ui';
+import { LegendComponent, MapView } from './ui';
 
 const BoxItem: MeiosisComponent<{
   id: ID;
@@ -53,7 +56,7 @@ const BoxItem: MeiosisComponent<{
       const hasContext =
         contexts && contexts.length > 0 && contexts[0] !== 'none';
       contextAwareForm = form
-        .filter((i) => (i.id === 'context' ? hasContext : true))
+        // .filter((i) => (i.id === 'context' ? hasContext : true))
         .map((i) =>
           i.id === 'context' &&
           hasContext &&
@@ -146,13 +149,21 @@ const BoxItem: MeiosisComponent<{
             title: t('EDIT_COMPONENT'),
             isOpen: editorOpen,
             fixedFooter: true,
+            // bottomSheet: true,
             onToggle: (open) => (editorOpen = open),
             description: m(
               '.row',
+              attrs.state.model.scenario.includeMapSupport &&
+                m(MapView, {
+                  items: [obj],
+                  mapConfig: attrs.state.model.scenario.mapConfig,
+                  height: '200px',
+                  autoFit: true,
+                }),
               m(LayoutForm, {
                 form: contextAwareForm,
                 obj,
-                i18n: i18n.i18n,
+                i18n: i18n.i18n,             
               } as FormAttributes<ContextualItem>)
             ),
             // options: { opacity: 0.7 },
@@ -347,83 +358,77 @@ export const CreateBoxPage: MeiosisComponent = () => {
     }, 200); // matches .popupContent fade duration
   }
 
+  const OsmOptions = OsmTypes.map(({ id, name }) => ({ id, label: name }));
+  const mapFormOptions = [
+    {
+      id: 'context',
+      type: 'select',
+      label: t('CONTEXT'),
+      value: 'none',
+      options: contextTypeOptions(t),
+    },
+    {
+      id: 'lat',
+      show: ['context=location'],
+      type: 'number',
+      className: 'col s4',
+      label: t('LATITUDE'),
+    },
+    {
+      id: 'lon',
+      show: ['context=location'],
+      type: 'number',
+      className: 'col s4',
+      label: t('LONGITUDE'),
+    },
+    {
+      id: 'radii',
+      show: ['context=location'],
+      type: 'text',
+      className: 'col s4',
+      label: t('RADII'),
+    },
+    {
+      id: 'locationTypeType',
+      show: ['context=locationType'],
+      type: 'select',
+      label: t('LOCATION_TYPE'),
+      className: 'col s6',
+      options: [
+        { id: 'list', label: t('PICK_FROM_LIST') },
+        { id: 'keyValue', label: t('ENTER_KEY_VALUE') },
+      ],
+    },
+    {
+      id: 'osmTypeId',
+      show: ['context=locationType & locationTypeType=list'],
+      type: 'select',
+      label: t('NAME'),
+      className: 'col s6',
+      options: OsmOptions,
+    },
+    {
+      id: 'value',
+      show: ['context=locationType & locationTypeType=keyValue'],
+      type: 'text',
+      className: 'col s3',
+      label: t('KEY'),
+    },
+    {
+      id: 'key',
+      show: ['context=locationType & locationTypeType=keyValue'],
+      type: 'text',
+      className: 'col s3',
+      label: t('VALUE'),
+    },
+  ] as UIForm<ContextualItem>
+
   const form = [
     { id: 'id', type: 'none', autogenerate: 'id' },
     { id: 'label', type: 'textarea', label: t('NAME'), autofocus: true },
     { id: 'desc', type: 'textarea', label: t('DESCRIPTION') },
-    // {
-    //   id: 'context',
-    //   type: 'select',
-    //   label: t('CONTEXT'),
-    //   value: 'none',
-    //   options: contextTypeOptions(t),
-    // },
-    // {
-    //   id: 'locationType',
-    //   show: ['context=location'],
-    //   type: 'select',
-    //   label: t('LOCATION_TYPE'),
-    //   className: 'col s6',
-    //   options: [
-    //     { id: 'name', label: t('NAME') },
-    //     { id: 'coords', label: t('COORDINATES') },
-    //   ],
-    // },
-    // {
-    //   id: 'location',
-    //   show: ['context=location & locationType=name'],
-    //   type: 'text',
-    //   className: 'col s6',
-    //   label: t('LOCATION_NAME'),
-    // },
-    // {
-    //   id: 'lat',
-    //   show: ['context=location & locationType=coords'],
-    //   type: 'number',
-    //   className: 'col s3',
-    //   label: t('LATITUDE'),
-    // },
-    // {
-    //   id: 'lon',
-    //   show: ['context=location & locationType=coords'],
-    //   type: 'number',
-    //   className: 'col s3',
-    //   label: t('LONGITUDE'),
-    // },
-    // {
-    //   id: 'locationTypeType',
-    //   show: ['context=locationType'],
-    //   type: 'select',
-    //   label: t('LOCATION_TYPE'),
-    //   className: 'col s6',
-    //   options: [
-    //     { id: 'list', label: t('PICK_FROM_LIST') },
-    //     { id: 'keyValue', label: t('ENTER_KEY_VALUE') },
-    //   ],
-    // },
-    // {
-    //   id: 'osmTypeId',
-    //   show: ['context=locationType & locationTypeType=list'],
-    //   type: 'select',
-    //   label: t('NAME'),
-    //   className: 'col s6',
-    //   options: OsmTypes.map(({ id, name }) => ({ id, label: name })),
-    // },
-    // {
-    //   id: 'value',
-    //   show: ['context=locationType & locationTypeType=keyValue'],
-    //   type: 'text',
-    //   className: 'col s3',
-    //   label: t('KEY'),
-    // },
-    // {
-    //   id: 'key',
-    //   show: ['context=locationType & locationTypeType=keyValue'],
-    //   type: 'text',
-    //   className: 'col s3',
-    //   label: t('VALUE'),
-    // },
   ] as UIForm<ContextualItem>;
+
   let narrativeLength = 0;
   let compColor: { [key: ID]: [Color, Color] } = {};
   let themeThresholdColors: ThresholdColor[] = [];
@@ -479,6 +484,8 @@ export const CreateBoxPage: MeiosisComponent = () => {
     ]);
   };
 
+  let showMap = true;
+
   return {
     oninit: ({ attrs }) => {
       setPage(attrs, Dashboards.DEFINE_BOX);
@@ -489,6 +496,12 @@ export const CreateBoxPage: MeiosisComponent = () => {
         fontSize,
         model: { scenario },
       } = attrs.state;
+
+      const myForm: UIForm<ContextualItem> = [...form];
+      if (scenario.includeMapSupport) {
+        myForm.push(...mapFormOptions);
+      }
+
       if (activeTooltip) {
         showTooltip(activeTooltip);
       } else {
@@ -505,6 +518,18 @@ export const CreateBoxPage: MeiosisComponent = () => {
         lastTheme = theme;
         narrativeLength = narratives.length;
         compColor = computeCompColor(narratives, themeThresholdColors);
+      }
+
+      const { includeMapSupport, mapConfig, mapUnits, osmAmenities } = scenario;
+      const allSelectedItems: ContextualItem[] = [];
+      if (includeMapSupport) {
+        scenario.components.forEach((comp) => {
+          comp.values?.forEach((item) => {
+            if (item.context === 'location' || item.context === 'locationType') {
+              allSelectedItems.push(item);
+            }
+          });
+        });
       }
 
       return [
@@ -545,7 +570,35 @@ export const CreateBoxPage: MeiosisComponent = () => {
               setFontSize(attrs, fontSize - 1);
             },
           }),
+          includeMapSupport &&
+            m(FlatButton, {
+              style: {
+                marginTop: '20px',
+                marginBottom: '-40px',
+              },
+              className: 'right',
+              label: t('TOGGLE', showMap ? 'HIDE' : 'SHOW'),
+              iconName: 'map',
+              onclick: () => (showMap = !showMap),
+            }),
           m(LegendComponent, { items: themeThresholdColors }),
+          includeMapSupport &&
+            showMap &&
+            m(
+              '.row',
+              m(
+                '.col.s12',
+                m(MapView, {
+                  items: allSelectedItems,
+                  mapConfig,
+                  mapUnits,
+                  osmAmenities,
+                  height: attrs.state.mapHeight || 400,
+                  onHeightChange: (h) => setMapHeight(attrs, h),
+                  // autoFit: true,
+                })
+              )
+            ),
           categories.length > 1 &&
           categories[0].componentIds &&
           categories[1].componentIds
@@ -557,12 +610,12 @@ export const CreateBoxPage: MeiosisComponent = () => {
                     ...attrs,
                     compColor,
                     categoryId,
-                    form,
+                    form: myForm,
                   }),
                 })),
               })
             : categories.length === 1 && categories[0].componentIds
-            ? m(BoxView, { ...attrs, compColor, categoryId: 0, form })
+            ? m(BoxView, { ...attrs, compColor, categoryId: 0, form: myForm })
             : m('.row.mt10', m('.col.s12', t('SPEC_CATS'))),
           tooltip &&
             m(
@@ -581,256 +634,6 @@ export const CreateBoxPage: MeiosisComponent = () => {
     },
   };
 };
-
-// export const generateMorphologicalBox = (
-//   scs: ScenarioComponent[],
-//   compColor: { [key: ID]: [Color, Color] },
-//   withDesc: boolean = false
-// ): string => {
-//   // Collect headers
-//   const headers = scs.map((sc) => sc.label);
-//   const columns: (string | undefined)[][] = scs.map((sc) => {
-//     const grouped: Record<string, ContextualItem[]> = {};
-//     (sc.values || []).forEach((item) => {
-//       if (!grouped[item.label]) grouped[item.label] = [];
-//       grouped[item.label].push(item);
-//     });
-
-//     return Object.entries(grouped).map(([label, items]) => {
-//       const first = items[0];
-//       const [bg] = compColor[first.id] || ['#999', '#fff'];
-//       const colorIcon = `![#${bg.replace(
-//         '#',
-//         ''
-//       )}](https://via.placeholder.com/12/${bg.replace('#', '')}/000000?text=+)`;
-//       const text = `${capitalize(label)} (${items.length}x)`;
-//       return withDesc && first.desc
-//         ? `${colorIcon} ${text} — ${first.desc}`
-//         : `${colorIcon} ${text}`;
-//     });
-//   });
-
-//   // Find the maximum column length
-//   const maxRows = Math.max(...columns.map((c) => c.length));
-
-//   // Build table rows
-//   const headerRow = `| ${headers.join(' | ')} |`;
-//   const sepRow = `| ${headers.map(() => '---').join(' | ')} |`;
-
-//   const rows: string[] = [];
-//   for (let i = 0; i < maxRows; i++) {
-//     const row = columns.map((col) => col[i] || '');
-//     rows.push(`| ${row.join(' | ')} |`);
-//   }
-
-//   return [headerRow, sepRow, ...rows].join('\n');
-// };
-// // import { ScenarioComponent, ContextualItem, ID, Color } from '../models';
-// // import { capitalize } from '../utils';
-
-// /**
-//  * Generate a markdown table for a set of scenario components.
-//  * @param scs The scenario components
-//  * @param compColor A color lookup map for components
-//  * @param withDesc Whether to include descriptions in the table
-//  * @returns Markdown string
-//  */
-// export const generateMarkdownTable = (
-//   scs: ScenarioComponent[],
-//   compColor: { [key: ID]: [Color, Color] },
-//   withDesc: boolean = false
-// ): string => {
-//   const headers = ['Component', 'Count', 'Color'].concat(
-//     withDesc ? ['Description'] : []
-//   );
-//   const rows: string[] = [];
-
-//   for (const sc of scs) {
-//     const grouped: Record<string, ContextualItem[]> = {};
-//     (sc.values || []).forEach((item) => {
-//       if (!grouped[item.label]) grouped[item.label] = [];
-//       grouped[item.label].push(item);
-//     });
-
-//     for (const [label, items] of Object.entries(grouped)) {
-//       const first = items[0];
-//       const [bg] = compColor[first.id] || ['#999', '#fff'];
-
-//       // Color circle using markdown image hack
-//       const colorIcon = `![#${bg.replace(
-//         '#',
-//         ''
-//       )}](https://via.placeholder.com/15/${bg.replace('#', '')}/000000?text=+)`;
-
-//       const row = [capitalize(label), `${items.length}x`, colorIcon].concat(
-//         withDesc ? [first.desc || ''] : []
-//       );
-
-//       rows.push(`| ${row.join(' | ')} |`);
-//     }
-//   }
-
-//   const headerRow = `| ${headers.join(' | ')} |`;
-//   const sepRow = `| ${headers.map(() => '---').join(' | ')} |`;
-//   return [headerRow, sepRow, ...rows].join('\n');
-// };
-
-// import { ScenarioComponent, ContextualItem, ID, Color } from '../models';
-// import { capitalize } from '../utils';
-
-// type AnyNarrative = Record<string, unknown>;
-// type ResolveIds = (n: AnyNarrative, itemIdSet: Set<ID>) => ID[];
-
-// interface MorphBoxOpts {
-//   components: ScenarioComponent[];
-//   narratives: AnyNarrative[];
-//   compColor: Record<ID, [Color, Color]>;
-//   includeDescriptions?: boolean; // default: false
-//   colorStyle?: 'img' | 'emoji'; // default: 'img'
-//   resolveIds?: ResolveIds; // optional custom resolver
-// }
-
-// /**
-//  * Generate a Markdown "morphological box" table with per-item usage counts from narratives.
-//  *
-//  * - Columns are ScenarioComponents (their labels).
-//  * - Each column lists its ContextualItems; each item shows a color icon + "Label (Nx)".
-//  * - Counts are computed from how often each ContextualItem.id appears in the narratives.
-//  */
-// export const generateMorphologicalBoxMarkdown = ({
-//   components,
-//   narratives,
-//   compColor,
-//   includeDescriptions = false,
-//   colorStyle = 'img',
-//   resolveIds,
-// }: MorphBoxOpts): string => {
-//   // Map all items by id for quick lookup + a set for membership tests
-//   const itemById = new Map<ID, ContextualItem>();
-//   const itemIdSet = new Set<ID>();
-//   for (const sc of components) {
-//     for (const it of sc.values || []) {
-//       itemById.set(it.id, it);
-//       itemIdSet.add(it.id);
-//     }
-//   }
-
-//   // Default resolver: supports several common narrative shapes and
-//   // falls back to a safe deep scan limited to known item IDs.
-//   const defaultResolve: ResolveIds = (n, known) => {
-//     const out: ID[] = [];
-
-//     const pushVal = (v: unknown) => {
-//       if (typeof v === 'string' && known.has(v)) out.push(v as ID);
-//       else if (Array.isArray(v)) v.forEach(pushVal);
-//     };
-
-//     // Known shapes:
-//     // 1) n.components: { [componentId: ID]: ID | ID[] }
-//     if (n && typeof n === 'object' && 'components' in n) {
-//       const obj = (n as AnyNarrative).components as Record<string, unknown>;
-//       if (obj && typeof obj === 'object') Object.values(obj).forEach(pushVal);
-//     }
-
-//     // 2) n.selections: { [componentId: ID]: ID | ID[] }
-//     if (n && typeof n === 'object' && 'selections' in n) {
-//       const obj = (n as AnyNarrative).selections as Record<string, unknown>;
-//       if (obj && typeof obj === 'object') Object.values(obj).forEach(pushVal);
-//     }
-
-//     // 3) n.items: ID[]
-//     if (n && typeof n === 'object' && 'items' in n) {
-//       pushVal((n as AnyNarrative).items);
-//     }
-
-//     // If nothing found yet, do a bounded deep scan over values and pick strings that are known IDs.
-//     if (out.length === 0) {
-//       const stack: unknown[] = [n];
-//       const seen = new Set<unknown>();
-//       while (stack.length) {
-//         const cur = stack.pop();
-//         if (!cur || seen.has(cur)) continue;
-//         seen.add(cur);
-
-//         if (typeof cur === 'string') {
-//           if (known.has(cur)) out.push(cur as ID);
-//         } else if (Array.isArray(cur)) {
-//           for (const v of cur) stack.push(v);
-//         } else if (typeof cur === 'object') {
-//           for (const v of Object.values(cur as Record<string, unknown>)) {
-//             stack.push(v);
-//           }
-//         }
-//       }
-//     }
-//     return out;
-//   };
-
-//   const pickIds = resolveIds ?? defaultResolve;
-
-//   // Count occurrences across all narratives
-//   const counts: Record<ID, number> = {};
-//   for (const n of narratives || []) {
-//     const ids = pickIds(n, itemIdSet);
-//     for (const id of ids) {
-//       if (!counts[id]) counts[id] = 0;
-//       counts[id] += 1; // counts every occurrence; if you want "per narrative at most once", change to a Set per narrative
-//     }
-//   }
-
-//   // Helpers
-//   const colorIcon = (id: ID): string => {
-//     const [bg] = compColor[id] || ['#999999', '#ffffff'];
-//     if (colorStyle === 'emoji') {
-//       // crude mapping by hue; fallback to a square
-//       const hex = ('' + bg).replace('#', '').toLowerCase();
-//       const emoji = hex.startsWith('ff')
-//         ? '🟥'
-//         : hex.startsWith('00ff')
-//         ? '🟩'
-//         : hex.startsWith('0000ff')
-//         ? '🟦'
-//         : hex.startsWith('ffff00')
-//         ? '🟨'
-//         : hex.startsWith('ff00')
-//         ? '🟪'
-//         : '🟩';
-//       return emoji;
-//     }
-//     // tiny color square via placeholder image (renders in most Markdown engines)
-//     const hex = ('' + bg).replace('#', '');
-//     return `![#${hex}](https://via.placeholder.com/12/${hex}/000000?text=+)`;
-//   };
-
-//   // Build columns: one string per ContextualItem in original order
-//   const headers = components.map((sc) => sc.label);
-//   const columns: string[][] = components.map((sc) => {
-//     const col: string[] = [];
-//     for (const it of sc.values || []) {
-//       const cnt = counts[it.id] ?? 0;
-//       const label = capitalize(it.label);
-//       const desc = includeDescriptions && it.desc ? ` — ${it.desc}` : '';
-//       col.push(`${colorIcon(it.id)} ${label} (${cnt}x)${desc}`);
-//     }
-//     return col;
-//   });
-
-//   // Normalize row count to the tallest column
-//   const maxRows = Math.max(0, ...columns.map((c) => c.length));
-//   const headerRow = `| ${headers.join(' | ')} |`;
-//   const sepRow = `| ${headers.map(() => '---').join(' | ')} |`;
-
-//   const bodyRows: string[] = [];
-//   for (let r = 0; r < maxRows; r++) {
-//     const row = columns.map((col) => col[r] ?? '');
-//     bodyRows.push(`| ${row.join(' | ')} |`);
-//   }
-
-//   return [headerRow, sepRow, ...bodyRows].join('\n');
-// };
-
-// import { ScenarioComponent, ContextualItem, ID, Color } from '../models';
-// import { capitalize } from '../utils';
 
 type AnyNarrative = Record<string, unknown>;
 type ResolveIds = (n: AnyNarrative, itemIdSet: Set<ID>) => ID[];

@@ -8,7 +8,7 @@ export interface LegendItem {
 // Utility function to determine text color based on background brightness
 const getContrastColor = (backgroundColor: string): string => {
   // Remove # if present
-  const hex = backgroundColor.replace('#', '');
+  const hex = (backgroundColor || '').toString().replace('#', '');
 
   // Convert hex to RGB
   const r = parseInt(hex.substring(0, 2), 16);

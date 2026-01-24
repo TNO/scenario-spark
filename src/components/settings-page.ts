@@ -3,10 +3,13 @@ import {
   Category,
   Dashboards,
   DataModel,
+  OsmTypes,
   PersonaImages,
   Scenario,
   emptyModel,
 } from '../models';
+
+const OsmOptions = OsmTypes.map(({ id, name }) => ({ id, label: name }));
 import { MeiosisComponent, i18n, saveModel, setPage, t } from '../services';
 import {
   ConfirmButton,
@@ -41,12 +44,18 @@ export const SettingsPage: MeiosisComponent = () => {
       className: 'col s6 m3 mt25',
       label: t('INCLUDE_DECISION_SUPPORT'),
     },
+    {
+      id: 'includeMapSupport',
+      type: 'checkbox',
+      className: 'col s6 m3 mt25',
+      label: t('INCLUDE_MAP_SUPPORT'),
+    },
     { id: 'desc', type: 'textarea', label: t('DESCRIPTION') },
     {
       id: 'template',
       type: 'textarea',
       label: t('TEMPLATE', 'TITLE'),
-      description: t('TEMPLATE', 'DESC').replace('XXX', '{1}'),
+      description: t('TEMPLATE', 'DESC')?.replace('XXX', '{1}'),
     },
     {
       id: 'personas',
@@ -55,6 +64,53 @@ export const SettingsPage: MeiosisComponent = () => {
       multiple: true,
       options: 'personas',
       label: t('SELECT_PERSONA'),
+    },
+    {
+      id: 'mapConfig',
+      className: 'col s12',
+      label: t('MAP_CONFIG'),
+      show: ['includeMapSupport=true'],
+      type: [
+        {
+          id: 'lat',
+          type: 'number',
+          className: 'col s3',
+          label: t('LATITUDE'),
+        },
+        {
+          id: 'lon',
+          type: 'number',
+          className: 'col s3',
+          label: t('LONGITUDE'),
+        },
+        {
+          id: 'zoom',
+          type: 'number',
+          className: 'col s3',
+          label: t('ZOOM_LEVEL'),
+          value: "13",
+        },
+      ],
+    },
+    {
+        id: 'mapUnits',
+        type: 'select',
+        className: 'col s12 m3',
+        label: t('MAP_UNITS'),
+        show: ['includeMapSupport=true'],
+        options: [
+            { id: 'metric', label: t('METRIC') },
+            { id: 'imperial', label: t('IMPERIAL') }
+        ]
+    },
+    {
+        id: 'osmAmenities',
+        type: 'select',
+        multiple: true,
+        className: 'col s12 m9',
+        label: t('OSM_AMENITIES'),
+        show: ['includeMapSupport=true'],
+        options: 'osmtypes'
     },
     {
       id: 'categories',
@@ -196,7 +252,7 @@ export const SettingsPage: MeiosisComponent = () => {
                       obj: model.scenario,
                       form,
                       i18n: i18n.i18n,
-                      context: [{ personas }] as any,
+                      context: [{ personas, osmtypes: OsmOptions }] as any,
                       onchange: async () => {
                         await saveModel(attrs, model);
                       },
@@ -279,7 +335,7 @@ export const SettingsPage: MeiosisComponent = () => {
                       )
                     : m(
                         '.row',
-                        personas.map((p) =>
+                        personas?.map((p) =>
                           m(
                             '.col.s12.m6.l4',
                             m('.card large', [
@@ -361,7 +417,7 @@ export const MorphBoxEditor: MeiosisComponent = () => {
       if (!curCategory && categories.length > 0) {
         curCategory = categories[0];
       }
-      console.log(curCategory);
+      // console.log(curCategory);
       if (!initialMd && curCategory) {
         initialMd = md = morphBoxToMarkdown(
           curCategory,

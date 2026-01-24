@@ -12,7 +12,7 @@ import {
   toast,
   uniqueId,
 } from 'mithril-materialized';
-import { Dashboards, ID, Narrative } from '../models';
+import { ContextualItem, Dashboards, ID, Narrative } from '../models';
 import {
   MeiosisComponent,
   saveModel,
@@ -20,6 +20,7 @@ import {
   setPage,
   t,
   updateNarrative,
+  setMapHeight,
 } from '../services';
 import {
   deepCopy,
@@ -29,7 +30,7 @@ import {
 } from '../utils';
 import { range, render } from 'mithril-ui-form';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
-import { CircularSpinner, generateStory } from './ui';
+import { CircularSpinner, generateStory, MapView } from './ui';
 import { PersonaImages } from '../models/persona-images';
 import { MarkdownEditor } from 'mithril-markdown-wysiwyg';
 import { quillToMarkdown } from '../utils/index';
@@ -57,8 +58,8 @@ const ToggleIcon: FactoryComponent<{
 const calculateRisk = (narrative: Narrative) => {
   const { probability, impact } = narrative;
   if (typeof probability !== 'string' || typeof impact !== 'string') return;
-  const p = +probability.replace(/[a-zA-Z_]/g, '');
-  const i = +impact.replace(/[a-zA-Z_]/g, '');
+  const p = +probability.toString().replace(/[a-zA-Z_]/g, '');
+  const i = +impact.toString().replace(/[a-zA-Z_]/g, '');
   const riskMatrix: number[][] = [
     [0, 0, 1, 2, 3],
     [0, 1, 2, 3, 4],
@@ -176,6 +177,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
   let askLlm = true;
   let showTables = true;
   let canAskLlm = false;
+  let showMap = true; // Default to showing the map
 
   return {
     oninit: ({ attrs }) => setPage(attrs, Dashboards.CREATE_SCENARIO),
@@ -233,13 +235,33 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             : curNarrative.desc
           : '';
 
+      const {
+        includeMapSupport = false,
+        mapConfig,
+        mapUnits,
+        osmAmenities,
+      } = model.scenario;
+      const selectedItems: ContextualItem[] = [];
+      if (includeMapSupport && curNarrative.components) {
+        model.scenario.components.forEach((comp) => {
+          const selectedIds = curNarrative.components![comp.id];
+          if (selectedIds) {
+            const ids = Array.isArray(selectedIds) ? selectedIds : [selectedIds];
+            ids.forEach((id) => {
+              const item = comp.values?.find((v) => v.id === id);
+              if (item) selectedItems.push(item);
+            });
+          }
+        });
+      }
+
       return m('.create-scenario.row', [
+
         m('.col.s12', [
           m(FlatButton, {
             label: t('GENERATE_NARRATIVE'),
             iconName: 'refresh',
             onclick: () => {
-              console.log('GENERATE_NARRATIVE');
               const { components = {} } = curNarrative;
               const locked = components
                 ? Object.keys(lockedComps).reduce((acc, cur) => {
@@ -283,6 +305,25 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               });
             },
           }),
+          m(FlatButton, {
+            label: curNarrative.saved ? t('SAVE') : t('SAVE_NARRATIVE'),
+            iconName: 'save',
+            style: 'margin-left: 10px;',
+            disabled:
+              !curNarrative.label ||
+              !curNarrative.components ||
+              Object.keys(curNarrative.components).length === 0,
+            onclick: () => {
+              saveNarrative(attrs, curNarrative);
+            },
+          }),
+          includeMapSupport &&
+            m(FlatButton, {
+              label: t('TOGGLE', showMap ? 'HIDE' : 'SHOW'),
+              iconName: 'map',
+              style: 'margin-left: 10px;',
+              onclick: () => (showMap = !showMap),
+            }),
           canAskLlm && [
             m(FlatButton, {
               label: t('ASK_LLM'),
@@ -320,7 +361,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   curNarrative.desc =
                     typeof story === 'string' ? story : story.content;
                   if (typeof story !== 'string' && story.title) {
-                    curNarrative.label = story.title.replace(/\*|_/g, '');
+                    curNarrative.label = story.title.toString().replace(/\*|_/g, '');
                   }
                 }
                 m.redraw();
@@ -453,19 +494,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 //   ],
                 // }),
               ]
-            : [
-                m(FlatButton, {
-                  label: t('SAVE_NARRATIVE'),
-                  iconName: 'save',
-                  disabled:
-                    !curNarrative.label ||
-                    !curNarrative.components ||
-                    Object.keys(curNarrative.components).length === 0,
-                  onclick: () => {
-                    saveNarrative(attrs, curNarrative);
-                  },
-                }),
-              ],
+            : [],
           narratives && [
             m(Select, {
               key: `narrative-select-${version}-${curNarrative.id || 'new'}`,
@@ -494,6 +523,20 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             } as SelectAttrs<string>),
           ],
         ]),
+        includeMapSupport &&
+          showMap &&
+          m(
+            '.col.s12',
+            m(MapView, {
+              items: selectedItems,
+              mapConfig,
+              mapUnits,
+              osmAmenities,
+              height: attrs.state.mapHeight || 400,
+              onHeightChange: (h) => setMapHeight(attrs, h),
+              autoFit: true,
+            })
+          ),
         template && hasNarrative
           ? m(ScenarioParagraph, {
               ...attrs,

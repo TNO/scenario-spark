@@ -79,7 +79,7 @@ export const ScenarioParagraph: MeiosisComponent<
       const idBasedTemplate = template
         .split(extractIds)
         .map((t) =>
-          t.replace(/^\d+$/, (i) =>
+          t?.replace(/^\d+$/, (i) =>
             +i <= modelComps.length
               ? `{${modelComps[+i - 1].id}}`
               : `??? ${i} ???`

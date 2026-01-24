@@ -23,7 +23,9 @@ import { uniqueId } from 'mithril-materialized';
 
 const MODEL_KEY = 'SG_MODEL';
 const FONT_KEY = 'SPARK_FONT_SIZE';
+const MAP_HEIGHT_KEY = 'SG_MAP_HEIGHT';
 const DEFAULT_FONT_SIZE = 16;
+const DEFAULT_MAP_HEIGHT = 400;
 
 export type State = {
   fontSize: number;
@@ -38,6 +40,7 @@ export type State = {
   excludedComps?: Record<ID, boolean>;
   /** Components that have been given a fixed value in the narrative */
   lockedComps?: Record<ID, boolean>;
+  mapHeight: number;
 };
 
 export type MeiosisComponent<T = {}> = FactoryComponent<MeiosisCell<State> & T>;
@@ -274,6 +277,11 @@ export const setLanguage = async (
   await i18n.loadAndSetLocale(locale);
   cell.update({ language: locale });
 };
+
+export const setMapHeight = (cell: MeiosisCell<State>, height: number) => {
+  localStorage.setItem(MAP_HEIGHT_KEY, String(height));
+  cell.update({ mapHeight: height });
+};
 /* END OF Actions */
 
 const initialize = async (update: Update<State>) => {
@@ -306,6 +314,9 @@ const app: MComp<State> = {
     fontSize:
       parseInt(localStorage.getItem(FONT_KEY) || '') || DEFAULT_FONT_SIZE,
     language: localStorage.getItem(LANGUAGE) || 'nl',
+    mapHeight:
+      parseInt(localStorage.getItem(MAP_HEIGHT_KEY) || '') ||
+      DEFAULT_MAP_HEIGHT,
   },
 };
 
@@ -315,4 +326,8 @@ initialize(cells().update);
 // initialize once on load
 setFontSize(cells(), app.initial?.fontSize || DEFAULT_FONT_SIZE);
 
-cells.map(() => m.redraw());
+cells.map((state) => {
+  if (state) {
+    m.redraw();
+  }
+});
