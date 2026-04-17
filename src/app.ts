@@ -1,4 +1,10 @@
 import m from 'mithril';
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/scenario-spark/sw.js').catch(() => {});
+  });
+}
 import 'material-icons/iconfont/filled.css';
 import 'mithril-materialized/index.min.css';
 import 'mithril-markdown-wysiwyg/css';

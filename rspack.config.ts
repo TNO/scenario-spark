@@ -2,6 +2,7 @@ import { config } from 'dotenv';
 import { resolve } from 'path';
 import {
   type Configuration,
+  CopyRspackPlugin,
   DefinePlugin,
   HtmlRspackPlugin,
   SwcJsMinimizerRspackPlugin,
@@ -49,26 +50,14 @@ const configuration: Configuration = {
     new HtmlRspackPlugin({
       title: 'Scenario Spark',
       publicPath: devMode ? undefined : 'https://tno.github.io/scenario-spark',
-      // scriptLoading: 'defer',
       minify: !devMode,
       favicon: './src/favicon.ico',
-      meta: {
-        viewport: 'width=device-width, initial-scale=1',
-        'Content-Security-Policy': {
-          'http-equiv': 'Permissions-Policy',
-          content: 'interest-cohort=(), user-id=()',
-        },
-        'og:title': 'Scenario Spark',
-        'og:description':
-          'Generate consistent threat scenarios for your organisation.',
-        'og:url': 'https://tno.github.io/scenario-spark/',
-        'og:site_name': 'Scenario Spark',
-        'og:image:alt': 'Scenario Spark',
-        'og:image': './src/assets/logo.svg',
-        'og:image:type': 'image/svg',
-        'og:image:width': '200',
-        'og:image:height': '200',
-      },
+      template: './src/index.html',
+    }),
+    new CopyRspackPlugin({
+      patterns: [
+        { from: 'public', to: '.' },
+      ],
     }),
     new LightningCssMinimizerRspackPlugin({
       removeUnusedLocalIdents: true,
