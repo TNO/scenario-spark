@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "description": "GUI dashboard.",
   "scripts": {
-    "clean": "rimraf ./.parcel-cache ./.cache ./dist",
+    "clean": "rimraf ./docs ./dist",
     "cleanup": "npm run clean",
     "dev": "npx rspack serve",
     "start": "npm run dev",
