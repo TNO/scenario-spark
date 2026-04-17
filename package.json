@@ -38,21 +38,21 @@
     "meiosis-setup": "^6.2.3",
     "mithril": "^2.3.8",
     "mithril-markdown-wysiwyg": "0.2.3",
-    "mithril-materialized": "3.14.4",
-    "mithril-ui-form": "2.0.12",
+    "mithril-materialized": "3.16.0",
+    "mithril-ui-form": "2.1.2",
     "osmtogeojson": "3.0.0-beta.5",
     "translate.js": "1.3.2"
   },
   "devDependencies": {
-    "@rspack/cli": "1.7.3",
-    "@rspack/core": "1.7.3",
+    "@rspack/cli": "1.7.11",
+    "@rspack/core": "1.7.11",
     "@types/leaflet": "^1.9.21",
-    "@types/mithril": "^2.2.7",
+    "@types/mithril": "^2.2.8",
     "@types/osmtogeojson": "^2.2.34",
     "@types/quill": "^2.0.14",
-    "dotenv": "17.2.3",
-    "rimraf": "^6.1.2",
+    "dotenv": "17.4.2",
+    "rimraf": "^6.1.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   }
 }
