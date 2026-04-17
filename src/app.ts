@@ -1,4 +1,7 @@
 import m from 'mithril';
+import { ThemeManager } from 'mithril-materialized';
+
+ThemeManager.initialize();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

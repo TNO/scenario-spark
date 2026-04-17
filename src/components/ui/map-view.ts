@@ -2,13 +2,17 @@ import m, { FactoryComponent } from 'mithril';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { ContextualItem, OsmTypes } from '../../models';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import osmtogeojson from 'osmtogeojson';
 
 // Fix Leaflet's default icon path issues in webpack/rspack
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
 });
 
 export interface MapViewAttrs {
@@ -28,7 +32,6 @@ export interface MapViewAttrs {
 
 const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'cyan', 'magenta'];
 
-const osmtogeojson = require('osmtogeojson');
 
 export const MapView: FactoryComponent<MapViewAttrs> = () => {
   let map: L.Map;
@@ -186,8 +189,6 @@ export const MapView: FactoryComponent<MapViewAttrs> = () => {
                          const bounds = map.getBounds();
                          const geoJson = await fetchOsmData(bounds, attrs.osmAmenities);
                          
-                         const { OsmTypes } = require('../../models/osm'); // Re-import to be safe
-
                          if (geoJson && geoJson.features) {
                              // Filter out features that are "unknown" (no name and no matching type)
                              const features = geoJson.features.filter((f: any) => {
