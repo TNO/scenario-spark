@@ -18,6 +18,7 @@ import {
 } from '../models';
 import { markdownToMorphBox } from '../utils/morp-box-to-markdown';
 import { fixMorphologicalBoxMarkdown } from '../utils';
+import { LLMClient } from '../utils/llm-client';
 
 // Read the base prompt from prompt-guide.md
 const BASE_PROMPT = `You are to create one or more **morphological boxes** to systematically explore possible configurations or scenarios related to a defined goal or domain.
@@ -67,7 +68,7 @@ type UserInputs = {
 };
 
 type LLMSettings = {
-  endpoint: 'clipboard' | 'ollama' | 'openai';
+  provider: 'clipboard' | 'ollama' | 'openai';
   url: string;
   apiKey: string;
   model: string;
@@ -81,67 +82,6 @@ type WizardState = {
   generatedMarkdown: string;
   isGenerating: boolean;
 };
-
-async function generateWithLLM(
-  settings: LLMSettings,
-  prompt: string
-): Promise<string> {
-  const { endpoint, url, apiKey, model } = settings;
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-  };
-
-  let requestBody: any;
-  let apiUrl = url;
-
-  if (endpoint === 'ollama') {
-    requestBody = {
-      model: model || 'gemma2',
-      messages: [
-        {
-          role: 'user',
-          content: prompt,
-        },
-      ],
-      stream: false,
-      options: { temperature: 0.7 },
-    };
-  } else if (endpoint === 'openai') {
-    if (!apiKey) throw new Error('API key required for OpenAI');
-    headers['Authorization'] = `Bearer ${apiKey}`;
-    apiUrl = apiUrl || 'https://api.openai.com/v1/chat/completions';
-    requestBody = {
-      model: model || 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: 'You are a helpful AI assistant.' },
-        { role: 'user', content: prompt },
-      ],
-      temperature: 0.7,
-      stream: false,
-    };
-  }
-
-  const response = await fetch(apiUrl, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(requestBody),
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(
-      `Error: ${response.status} ${response.statusText} - ${errorText}`
-    );
-  }
-
-  const data = await response.json();
-
-  if (endpoint === 'ollama') {
-    return data?.message?.content || '';
-  } else {
-    return data.choices?.[0]?.message?.content || '';
-  }
-}
 
 export const LLMScenarioWizard: MeiosisComponent<{
   isOpen: boolean;
@@ -327,27 +267,27 @@ export const LLMScenarioWizard: MeiosisComponent<{
               m('.col.s12', [
                 m(RadioButtons, {
                   label: t('LLM_ENDPOINT'),
-                  checkedId: wizardState.llmSettings.endpoint,
+                  checkedId: wizardState.llmSettings.provider,
                   options: [
                     { id: 'clipboard', label: t('LLM_CLIPBOARD') },
                     { id: 'ollama', label: t('LLM_OLLAMA') },
                     { id: 'openai', label: t('LLM_OPENAI') },
                   ],
                   onchange: (value) => {
-                    wizardState.llmSettings.endpoint = value as
+                    wizardState.llmSettings.provider = value as
                       | 'clipboard'
                       | 'ollama'
                       | 'openai';
                   },
                 }),
               ]),
-              wizardState.llmSettings.endpoint !== 'clipboard' && [
+              wizardState.llmSettings.provider !== 'clipboard' && [
                 m('.col.s12', [
                   m(TextInput, {
                     id: 'llm-url',
                     label: t('URL'),
                     helperText:
-                      wizardState.llmSettings.endpoint === 'ollama'
+                      wizardState.llmSettings.provider === 'ollama'
                         ? t('LLM_OLLAMA_URL_HELP')
                         : t('LLM_OPENAI_URL_HELP'),
                     defaultValue: wizardState.llmSettings.url,
@@ -361,7 +301,7 @@ export const LLMScenarioWizard: MeiosisComponent<{
                     id: 'llm-model',
                     label: t('MODEL'),
                     helperText:
-                      wizardState.llmSettings.endpoint === 'ollama'
+                      wizardState.llmSettings.provider === 'ollama'
                         ? t('LLM_OLLAMA_MODEL_HELP')
                         : t('LLM_OPENAI_MODEL_HELP'),
                     defaultValue: wizardState.llmSettings.model,
@@ -370,7 +310,7 @@ export const LLMScenarioWizard: MeiosisComponent<{
                     },
                   }),
                 ]),
-                wizardState.llmSettings.endpoint === 'openai' &&
+                wizardState.llmSettings.provider === 'openai' &&
                   m('.col.s12', [
                     m(TextInput, {
                       id: 'llm-apikey',
@@ -385,8 +325,8 @@ export const LLMScenarioWizard: MeiosisComponent<{
               ],
             ]),
           validate: () => {
-            if (wizardState.llmSettings.endpoint === 'clipboard') return true;
-            if (wizardState.llmSettings.endpoint === 'openai') {
+            if (wizardState.llmSettings.provider === 'clipboard') return true;
+            if (wizardState.llmSettings.provider === 'openai') {
               return (
                 wizardState.llmSettings.url.trim().length > 0 &&
                 wizardState.llmSettings.model.trim().length > 0 &&
@@ -406,7 +346,7 @@ export const LLMScenarioWizard: MeiosisComponent<{
           icon: 'auto_awesome',
           vnode: () => {
             return m('.row', [
-              wizardState.llmSettings.endpoint === 'clipboard'
+              wizardState.llmSettings.provider === 'clipboard'
                 ? m('.col.s12', [
                     m('p', t('LLM_WIZARD_STEP4_CLIPBOARD_DESC')),
                     m(Button, {
@@ -440,13 +380,17 @@ export const LLMScenarioWizard: MeiosisComponent<{
                           onclick: async () => {
                             wizardState.isGenerating = true;
                             try {
-                              const markdown = await generateWithLLM(
+                              const result = await LLMClient.chatRaw(
                                 wizardState.llmSettings,
                                 wizardState.fullPrompt
                               );
-                              wizardState.generatedMarkdown =
-                                fixMorphologicalBoxMarkdown(markdown);
-                            } catch (error) {
+                              if (typeof result === 'string') {
+                                wizardState.generatedMarkdown =
+                                  fixMorphologicalBoxMarkdown(result);
+                              } else {
+                                alert(`${t('LLM_ERROR')}: ${result.message}`);
+                              }
+                            } catch (error: any) {
                               alert(`${t('LLM_ERROR')}: ${error}`);
                             } finally {
                               wizardState.isGenerating = false;

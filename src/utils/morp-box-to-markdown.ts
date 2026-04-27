@@ -62,14 +62,15 @@ export const markdownToMorphBox = (
   let currentDriver: KeyDriver | null = null;
 
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].replace(/\*{2,3}/g, '').trim();
-
-    console.log(line);
+    const rawLine = lines[i].trim();
 
     // Skip empty lines
-    if (line === '') {
+    if (rawLine === '') {
       continue;
     }
+
+    // Strip markdown bold/italic for matching (but preserve original for extraction)
+    const line = rawLine.replace(/\*{2,3}/g, '');
 
     if (line.startsWith('# ')) {
       const titleMatch = line.match(/^#\s+(.+?)(?:\s*:\s*(.+))?$/);
@@ -89,10 +90,10 @@ export const markdownToMorphBox = (
         keyDrivers.push(currentDriver);
       }
 
-      // Extract driver info
-      const label = driverMatch[2].trim();
+      // Extract driver info - strip markdown formatting from label/desc
+      const label = driverMatch[2].trim().replace(/\*{2,3}/g, '');
       const id = driverMatch[3] || uniqueId();
-      const desc = driverMatch[4];
+      const desc = driverMatch[4]?.replace(/\*{2,3}/g, '');
 
       currentDriver = {
         id,
@@ -111,8 +112,8 @@ export const markdownToMorphBox = (
 
       if (variantMatch) {
         const id = variantMatch[2] || uniqueId();
-        const label = variantMatch[1].trim();
-        const desc = variantMatch[3];
+        const label = variantMatch[1].trim().replace(/\*{2,3}/g, '');
+        const desc = variantMatch[3]?.replace(/\*{2,3}/g, '');
 
         currentDriver.values.push({
           id,

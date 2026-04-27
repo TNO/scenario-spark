@@ -13,7 +13,7 @@ export const OsmTypes: OsmType[] = [
     id: 'flats',
     name: 'Flats',
     key: '"building:levels"',
-    value: '"([6-9]|d{2,})"',
+    value: '"([6-9]|\d{2,})"',
     icon: 'apartment',
   },
   { id: 'gas_station', name: 'Gas station', key: 'amenity', value: 'fuel', icon: 'local_gas_station' },

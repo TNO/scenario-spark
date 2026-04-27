@@ -30,6 +30,8 @@
 // ```
 //  */
 
+const MAX_DB_RETRIES = 20;
+
 const dbFact = () => {
   {
     const win = typeof window !== 'undefined' ? window : undefined;
@@ -68,84 +70,128 @@ const dbFact = () => {
       };
     };
 
+    const waitForDb = (retries: number = 0): Promise<void> => {
+      return new Promise((resolve, reject) => {
+        if (db || retries >= MAX_DB_RETRIES) {
+          if (!db && retries >= MAX_DB_RETRIES) {
+            reject(new Error('IndexedDB failed to initialize after ' + MAX_DB_RETRIES + ' retries'));
+          } else {
+            resolve();
+          }
+          return;
+        }
+        setTimeout(() => waitForDb(retries + 1).then(resolve), 50);
+      });
+    };
+
     const localDb = {
       get: (key: string) =>
-        new Promise<string>((resolve) => {
-          if (!db) {
-            setTimeout(async () => resolve(await localDb.get(key)), 50);
-            return;
+        new Promise<string>(async (resolve, reject) => {
+          try {
+            await waitForDb();
+            if (!db) {
+              reject(new Error('IndexedDB not available'));
+              return;
+            }
+            db.transaction('s').objectStore('s').get(key).onsuccess = function (
+              event
+            ) {
+              const result =
+                ((event.target as any).result &&
+                  (event.target as any).result['v']) ||
+                null;
+              resolve(result);
+            };
+          } catch (e) {
+            reject(e);
           }
-          db.transaction('s').objectStore('s').get(key).onsuccess = function (
-            event
-          ) {
-            const result =
-              ((event.target as any).result &&
-                (event.target as any).result['v']) ||
-              null;
-            resolve(result);
-          };
         }),
       set: (key: string, value: string) =>
-        new Promise<void>((resolve) => {
-          if (!db) {
-            setTimeout(async () => resolve(await localDb.set(key, value)), 50);
-            return;
+        new Promise<void>(async (resolve, reject) => {
+          try {
+            await waitForDb();
+            if (!db) {
+              reject(new Error('IndexedDB not available'));
+              return;
+            }
+            let txn = db.transaction('s', 'readwrite');
+            txn.oncomplete = () => resolve();
+            txn.objectStore('s').put({
+              k: key,
+              v: value,
+            });
+            txn.commit();
+          } catch (e) {
+            reject(e);
           }
-          let txn = db.transaction('s', 'readwrite');
-          txn.oncomplete = () => resolve();
-          txn.objectStore('s').put({
-            k: key,
-            v: value,
-          });
-          txn.commit();
         }),
       delete: (key: string) =>
-        new Promise<void>((resolve) => {
-          if (!db) {
-            setTimeout(async () => resolve(await localDb.delete(key)), 50);
-            return;
-          }
-          db
-            .transaction('s', 'readwrite')
-            .objectStore('s')
-            .delete(key).onsuccess = function () {
-            resolve();
-          };
-        }),
-      list: () =>
-        new Promise<string[]>((resolve) => {
-          if (!db) {
-            setTimeout(async () => resolve(await localDb.list()), 50);
-            return;
-          }
-          db.transaction('s').objectStore('s').getAllKeys().onsuccess = (
-            event
-          ) => {
-            const result = (event.target as any).result || null;
-            resolve(result);
-          };
-        }),
-      getAll: () =>
-        new Promise<Array<{ k: string; v: string }>>((resolve) => {
-          if (!db) {
-            setTimeout(async () => resolve(await localDb.getAll()), 50);
-            return;
-          }
-          db.transaction('s').objectStore('s').getAll().onsuccess = (event) => {
-            const result = ((event.target as any).result as any) || null;
-            resolve(result);
-          };
-        }),
-      clear: () =>
-        new Promise<void>((resolve) => {
-          if (!db) {
-            setTimeout(async () => resolve(await localDb.clear()), 50);
-            return;
-          }
-          db.transaction('s', 'readwrite').objectStore('s').clear().onsuccess =
-            () => {
+        new Promise<void>(async (resolve, reject) => {
+          try {
+            await waitForDb();
+            if (!db) {
+              reject(new Error('IndexedDB not available'));
+              return;
+            }
+            db
+              .transaction('s', 'readwrite')
+              .objectStore('s')
+              .delete(key).onsuccess = function () {
               resolve();
             };
+          } catch (e) {
+            reject(e);
+          }
+        }),
+      list: () =>
+        new Promise<string[]>(async (resolve, reject) => {
+          try {
+            await waitForDb();
+            if (!db) {
+              reject(new Error('IndexedDB not available'));
+              return;
+            }
+            db.transaction('s').objectStore('s').getAllKeys().onsuccess = (
+              event
+            ) => {
+              const result = (event.target as any).result || null;
+              resolve(result);
+            };
+          } catch (e) {
+            reject(e);
+          }
+        }),
+      getAll: () =>
+        new Promise<Array<{ k: string; v: string }>>(async (resolve, reject) => {
+          try {
+            await waitForDb();
+            if (!db) {
+              reject(new Error('IndexedDB not available'));
+              return;
+            }
+            db.transaction('s').objectStore('s').getAll().onsuccess = (event) => {
+              const result = ((event.target as any).result as any) || null;
+              resolve(result);
+            };
+          } catch (e) {
+            reject(e);
+          }
+        }),
+      clear: () =>
+        new Promise<void>(async (resolve, reject) => {
+          try {
+            await waitForDb();
+            if (!db) {
+              reject(new Error('IndexedDB not available'));
+              return;
+            }
+            db.transaction('s', 'readwrite').objectStore('s').clear().onsuccess =
+              () => {
+                resolve();
+              };
+          } catch (e) {
+            reject(e);
+          }
         }),
     };
     return localDb;

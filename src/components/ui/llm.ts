@@ -8,6 +8,7 @@ import {
   Scenario,
   ScenarioComponent,
 } from '../../models/data-model';
+import { LLMClient } from '../../utils/llm-client';
 
 export type PromptType = 'narrative' | 'effect' | 'persona' | 'communications';
 
@@ -24,262 +25,6 @@ export interface LLMConfig {
   prompts: Prompt[];
   temperature?: number;
   autoLLMCount?: number;
-}
-
-interface Message {
-  role: 'system' | 'user' | 'assistant';
-  content: string;
-}
-
-// Base request interface
-interface BaseRequest {
-  messages: Message[];
-  temperature: number;
-  stream: boolean;
-}
-
-// API-specific request interfaces
-interface OllamaRequest {
-  messages: Array<{ role: 'user' | 'system'; content: string }>;
-  /** JSON schema */
-  format?: Record<string, any>;
-  model: string;
-  stream?: boolean;
-  options?: {
-    temperature?: number;
-  };
-}
-
-// interface ClaudeRequest {
-//   model: string;
-//   messages: {
-//     role: 'user' | 'assistant';
-//     content: string;
-//   }[];
-//   system?: string;
-//   temperature: number;
-// }
-
-interface OpenAIRequest extends BaseRequest {
-  model: string;
-}
-
-// interface GeminiRequest {
-//   contents: {
-//     role: 'user' | 'model';
-//     parts: {
-//       text: string;
-//     }[];
-//   }[];
-//   generationConfig: {
-//     temperature: number;
-//   };
-// }
-
-type LLMProvider = 'ollama' | 'claude' | 'openai' | 'gemini';
-
-export function parseResponseToMessage(response: string): {
-  title: string;
-  content: string;
-} {
-  const lines = response.trim().split('\n');
-
-  // Find the first non-empty line as the title
-  const title = lines.find((line) => line.trim()) || '';
-
-  // Find the index of the first blank line after the title
-  const blankLineIndex = lines.findIndex(
-    (line, idx) => idx > 0 && line.trim() === ''
-  );
-
-  let content: string;
-  if (blankLineIndex !== -1) {
-    // Content is everything after the first blank line
-    content = lines
-      .slice(blankLineIndex + 1)
-      .join('\n')
-      .trim();
-  } else {
-    // If no blank line, content is everything after the title
-    const titleIndex = lines.indexOf(title);
-    content = lines
-      .slice(titleIndex + 1)
-      .join('\n')
-      .trim();
-  }
-
-  return {
-    title,
-    content,
-  };
-}
-
-async function chatWithLLM(
-  provider: LLMProvider,
-  url: string,
-  model: string,
-  systemPrompt: string,
-  userPrompt: string,
-  temperature: number = 0.7,
-  apiKey?: string
-): Promise<string | undefined | { title: string; content: string }> {
-  let requestBody: any;
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-  };
-
-  switch (provider) {
-    case 'ollama':
-      // url = `${url}${url.endsWith('/') ? '' : '/'}api/generate`;
-      requestBody = {
-        model,
-        messages: [
-          // {
-          //   role: 'system',
-          //   content:
-          //     'You are in thinking mode. Think step by step before answering.',
-          // },
-          {
-            role: 'user',
-            content: `${t('RESPONSE_INSTRUCTIONS')}\n\n${userPrompt}`,
-          },
-        ],
-        // format: {
-        //   type: 'object',
-        //   properties: {
-        //     title: {
-        //       type: 'string',
-        //     },
-        //     content: {
-        //       type: 'string',
-        //     },
-        //   },
-        //   required: ['title', 'content'],
-        //   additionalProperties: false,
-        // },
-        stream: false,
-        options: { temperature },
-      } as OllamaRequest;
-      break;
-
-    // case 'claude':
-    //   if (!apiKey) throw new Error('API key required for Claude');
-    //   headers['x-api-key'] = apiKey;
-    //   // Claude doesn't support system messages in the messages array
-    //   requestBody = {
-    //     model,
-    //     system: systemPrompt,
-    //     messages: [{ role: 'user', content: userPrompt }],
-    //     temperature,
-    //   } as ClaudeRequest;
-    //   break;
-
-    case 'openai':
-      if (!apiKey) throw new Error('API key required for OpenAI');
-      headers['Authorization'] = `Bearer ${apiKey}`;
-      requestBody = {
-        model,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt },
-        ],
-        temperature,
-        stream: false,
-      } as OpenAIRequest;
-      break;
-
-    // case 'gemini':
-    //   if (!apiKey) throw new Error('API key required for Gemini');
-    //   // For Gemini, we append the API key to the URL instead of using a header
-    //   url = `${url}?key=${apiKey}`;
-    //   // Convert system prompt + user prompt into Gemini format
-    //   requestBody = {
-    //     contents: [
-    //       {
-    //         role: 'user',
-    //         parts: [
-    //           {
-    //             text: `${systemPrompt}\n\n${userPrompt}`,
-    //           },
-    //         ],
-    //       },
-    //     ],
-    //     generationConfig: {
-    //       temperature,
-    //     },
-    //   } as GeminiRequest;
-    //   break;
-
-    default:
-      throw new Error(`Unsupported provider: ${provider}`);
-  }
-
-  console.log(
-    `Request to ${provider}:`,
-    JSON.stringify({ url, headers, body: requestBody }, null, 2)
-  );
-
-  const maxRetries = 3;
-  let attempt = 0;
-
-  while (attempt < maxRetries) {
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(
-          `Error: ${response.status} ${response.statusText} - ${errorText}`
-        );
-      }
-
-      const data = await response.json();
-
-      // Extract the response content based on the provider's response format
-      switch (provider) {
-        case 'ollama':
-          try {
-            const result = data?.message?.content
-              ? (parseResponseToMessage(data.message.content) as {
-                  title: string;
-                  content: string;
-                })
-              : undefined;
-            if (!result) {
-              console.warn(JSON.stringify(data, null, 2));
-            }
-            return result;
-          } catch (e: any) {
-            console.error(e);
-            return '';
-          }
-
-        // case 'claude':
-        //   return data.content?.[0]?.text;
-
-        case 'openai':
-          return data.choices?.[0]?.message?.content;
-
-        // case 'gemini':
-        //   return data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-        default:
-          return undefined;
-      }
-    } catch (error) {
-      console.error(`Attempt ${attempt + 1} failed:`, error);
-      attempt++;
-      // if (attempt < maxRetries) {
-      //   const delay = Math.pow(2, attempt) * 1000; // Exponential backoff
-      //   await new Promise((resolve) => setTimeout(resolve, delay));
-      // }
-    }
-  }
-  return undefined;
 }
 
 export const LLMSelector: MeiosisComponent = () => {
@@ -371,7 +116,6 @@ export const LLMSelector: MeiosisComponent = () => {
                 options: categories,
                 className: 'col s12 m8',
               },
-              { id: 'prompt', label: 'PROMPT', type: 'textare8' },
               {
                 id: 'prompt',
                 label: 'PROMPT',
@@ -463,7 +207,7 @@ export const generateStory = async (
 
   // Translate narrative ids to labels
   const translatedNarrative = components
-    .filter((c) => includedComponents.has(c.id) && narrative.components[c.id])
+    .filter((c) => includedComponents.has(c.id) && Array.isArray(narrative.components[c.id]) && narrative.components[c.id].length > 0)
     .map((c) => {
       const values = narrative.components[c.id]
         .map((id) => lookup.get(c.id + id))
@@ -482,14 +226,13 @@ export const generateStory = async (
 
   if (id === 'clipboard') return userPrompt;
 
-  const story = await chatWithLLM(
-    id as LLMProvider,
-    url,
-    model,
-    'You are a helpfull AI storywriter.',
-    userPrompt,
-    0.7,
-    apiKey
+  const result = await LLMClient.chat(
+    { provider: id as 'ollama' | 'openai', url, model, apiKey, temperature: 0.7 },
+    'You are a helpful AI storywriter.',
+    userPrompt
   );
-  return story;
+
+  if ((result as { error?: boolean })?.error) return '';
+  if (!result) return '';
+  return (result as { title: string; content: string }).content;
 };

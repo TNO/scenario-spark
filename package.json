@@ -33,6 +33,7 @@
   "app": "src/index.html",
   "target": "web",
   "dependencies": {
+    "docx": "^9.6.1",
     "leaflet": "^1.9.4",
     "material-icons": "^1.13.14",
     "meiosis-setup": "^6.2.3",

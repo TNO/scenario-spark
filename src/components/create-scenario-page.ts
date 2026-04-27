@@ -23,6 +23,7 @@ import {
   setMapHeight,
 } from '../services';
 import {
+  GenerationDiagnostic,
   deepCopy,
   generateNarrative,
   generateUniqueTitle,
@@ -144,7 +145,7 @@ export const CategoryTable: MeiosisComponent<{
                 if (!curNarrative.components) {
                   curNarrative.components = {};
                 }
-                curNarrative.components[c.id] = ids;
+                curNarrative.components[c.id] = Array.isArray(ids) ? ids : [];
                 updateNarrative(attrs, curNarrative);
               },
             } as SelectAttrs<string>),
@@ -214,7 +215,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
       const excluded =
         curNarrative.components && hideInconsistentValues
           ? Object.keys(curNarrative.components)
-              .filter((cur) => curNarrative.components[cur])
+              .filter((cur) => Array.isArray(curNarrative.components[cur]))
               .reduce((acc, cur) => {
                 curNarrative.components[cur].forEach(
                   (v) =>
@@ -277,8 +278,17 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   locked[c.id] = components[c.id];
                 });
               const narrative = generateNarrative(model.scenario, locked);
-              if (!narrative) {
-                alert(t('NO_NARRATIVE'));
+              if (!narrative || (narrative as { error?: boolean }).error) {
+                const diag = (narrative as { diagnostic?: GenerationDiagnostic })?.diagnostic;
+                let msg = t('NO_NARRATIVE');
+                if (diag?.blockedComponents.length) {
+                  const worst = diag.blockedComponents[0];
+                  msg += `\n\nMost constrained: "${worst.componentLabel}" (${worst.availableValues}/${worst.totalValues} values available).`;
+                  if (diag.totalConstraints > 0) {
+                    msg += `\nTotal inconsistency constraints: ${diag.totalConstraints}.`;
+                  }
+                }
+                alert(msg);
               } else {
                 version++;
                 attrs.update({ curNarrative: () => narrative });

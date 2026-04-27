@@ -38,6 +38,8 @@ export const MapView: FactoryComponent<MapViewAttrs> = () => {
   let layerGroup: L.LayerGroup;
   let osmLayerGroup: L.LayerGroup;
   let resizeObserver: ResizeObserver;
+  let resizeMouseMove: ((e: MouseEvent) => void) | null = null;
+  let resizeMouseUp: (() => void) | null = null;
 
   const fetchOsmData = async (bounds: L.LatLngBounds, osmAmenities: string[] = []) => {
       if (!osmAmenities || osmAmenities.length === 0) return;
@@ -296,6 +298,12 @@ export const MapView: FactoryComponent<MapViewAttrs> = () => {
         if (resizeObserver) {
             resizeObserver.disconnect();
         }
+        if (resizeMouseMove && resizeMouseUp) {
+            window.removeEventListener('mousemove', resizeMouseMove);
+            window.removeEventListener('mouseup', resizeMouseUp);
+            resizeMouseMove = null;
+            resizeMouseUp = null;
+        }
         if (map) {
             map.remove();
         }
@@ -312,22 +320,26 @@ export const MapView: FactoryComponent<MapViewAttrs> = () => {
                     e.preventDefault();
                     const startY = e.clientY;
                     const startHeight = parseInt(height);
-                    
-                    const onMouseMove = (moveEvent: MouseEvent) => {
+
+                    const moveHandler = (moveEvent: MouseEvent) => {
                         const newHeight = Math.max(100, startHeight + (moveEvent.clientY - startY));
                         if (attrs.onHeightChange) {
                             attrs.onHeightChange(newHeight);
                             m.redraw();
                         }
                     };
-                    
-                    const onMouseUp = () => {
-                        window.removeEventListener('mousemove', onMouseMove);
-                        window.removeEventListener('mouseup', onMouseUp);
+
+                    const upHandler = () => {
+                        window.removeEventListener('mousemove', moveHandler);
+                        window.removeEventListener('mouseup', upHandler);
+                        resizeMouseMove = null;
+                        resizeMouseUp = null;
                     };
-                    
-                    window.addEventListener('mousemove', onMouseMove);
-                    window.addEventListener('mouseup', onMouseUp);
+
+                    resizeMouseMove = moveHandler;
+                    resizeMouseUp = upHandler;
+                    window.addEventListener('mousemove', moveHandler);
+                    window.addEventListener('mouseup', upHandler);
                 }
             })
         ]);

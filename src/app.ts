@@ -5,7 +5,14 @@ ThemeManager.initialize();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/scenario-spark/sw.js').catch(() => {});
+    navigator.serviceWorker
+      .register('/scenario-spark/sw.js', { scope: '/scenario-spark/' })
+      .then((registration) => {
+        console.log('ServiceWorker registered:', registration.scope);
+      })
+      .catch((error) => {
+        console.error('ServiceWorker registration failed:', error);
+      });
   });
 }
 import 'material-icons/iconfont/filled.css';

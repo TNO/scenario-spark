@@ -112,7 +112,6 @@ export const saveModel = async (
   model: DataModel,
   reset = false
 ) => {
-  localStorage.setItem(SAVED, 'false');
   model.lastUpdate = Date.now();
   if (!model.scenarios) {
     model.scenarios = [];

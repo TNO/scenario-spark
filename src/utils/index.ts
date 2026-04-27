@@ -343,7 +343,7 @@ export const convertFromOld = (old: OldDataModel): DataModel => {
     {
       scenario: {} as Scenario,
       version: 1,
-      lastUpdata: Date.now(),
+      lastUpdate: Date.now(),
       scenarios: [],
     } as DataModel
   );
@@ -364,6 +364,69 @@ export const modelToSaveName = (
     model.version || 1,
     3
   )}_${formatDate()}`.toLowerCase();
+};
+
+/** Diagnostic result for morphological box dead-end */
+export type GenerationDiagnostic = {
+  /** Components that have severely constrained values (< 2 available) */
+  blockedComponents: Array<{
+    componentId: ID;
+    componentLabel: string;
+    totalValues: number;
+    availableValues: number;
+    blockedValueIds: ID[];
+  }>;
+  /** Total inconsistency constraints */
+  totalConstraints: number;
+};
+
+/**
+ * Diagnose why morphological box generation is failing.
+ * Analyzes which components have all values blocked by inconsistency constraints.
+ */
+export const diagnoseGeneration = (
+  scenario: Scenario
+): GenerationDiagnostic => {
+  const { categories, components, inconsistencies } = scenario;
+
+  // Count how many values are blocked for each component
+  const blockedMap = new Map<ID, ID[]>(); // componentId -> blocked value ids
+
+  for (const category of categories) {
+    const catComps = components.filter(
+      (c) => category.componentIds && category.componentIds.includes(c.id)
+    );
+    for (const comp of catComps) {
+      if (!comp.values) continue;
+      const blocked = comp.values
+        .filter((v) => inconsistencies[v.id] && Object.keys(inconsistencies[v.id]).length > 0)
+        .map((v) => v.id);
+      if (blocked.length > 0) {
+        blockedMap.set(comp.id, blocked);
+      }
+    }
+  }
+
+  const blockedComponents = Array.from(blockedMap.entries())
+    .map(([compId, blockedIds]) => {
+      const comp = components.find((c) => c.id === compId);
+      return {
+        componentId: compId,
+        componentLabel: comp?.label || compId,
+        totalValues: comp?.values?.length || 0,
+        availableValues: (comp?.values?.length || 0) - blockedIds.length,
+        blockedValueIds: blockedIds,
+      };
+    })
+    .filter((c) => c.availableValues < 2)
+    .sort((a, b) => a.availableValues - b.availableValues);
+
+  const totalConstraints = Object.values(inconsistencies).reduce(
+    (sum, row) => sum + Object.values(row).filter(Boolean).length,
+    0
+  );
+
+  return { blockedComponents, totalConstraints };
 };
 
 export const generateNarrative = (
@@ -432,18 +495,20 @@ export const generateNarrative = (
   };
 
   do {
-    const components = generate();
-    if (components) {
+    const result = generate();
+    if (result) {
       const narrative = {
         id: uniqueId(),
-        components,
+        components: result,
         included: false,
       } as Narrative;
       return narrative;
     }
     tries++;
   } while (tries < 100);
-  return false;
+
+  // Return diagnostic info so caller can report why generation failed
+  return { error: true, diagnostic: diagnoseGeneration(scenario) } as const;
 };
 
 export const scrollToSection = (id: string, e?: MouseEvent): void => {
@@ -789,7 +854,9 @@ export const computeCompColor = (
     .filter((n) => n.included)
     .reduce((acc, cur) => {
       Object.keys(cur.components || {}).forEach((c) => {
-        for (const compValue of cur.components[c]) {
+        const vals = cur.components[c];
+        if (!Array.isArray(vals)) return;
+        for (const compValue of vals) {
           acc[compValue] = (acc[compValue] || 0) + 1;
         }
       });
@@ -888,6 +955,196 @@ export const downloadAsWord = (
   link.click();
 
   // Cleanup
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
+/**
+ * Generate a real .docx Word document from scenario narratives.
+ * Creates headings, paragraphs, and a summary table.
+ */
+export const downloadAsDocx = async (
+  title: string,
+  narratives: Array<{ label: string; content: string }>,
+  filename = 'scenario.docx'
+): Promise<void> => {
+  const {
+    Document,
+    Packer,
+    Paragraph,
+    TextRun,
+    HeadingLevel,
+    AlignmentType,
+    Table,
+    TableRow,
+    TableCell,
+    WidthType,
+    BorderStyle,
+    PageBreak,
+  } = await import('docx');
+
+  const sections: import('docx').SectionType[] = [
+    {
+      properties: {
+        page: {
+          margin: {
+            top: 720,
+            right: 720,
+            bottom: 720,
+            left: 720,
+          },
+        },
+      },
+      children: [
+        // Document title
+        new Paragraph({
+          text: title,
+          heading: HeadingLevel.TITLE,
+          alignment: AlignmentType.CENTER,
+          spacing: { after: 300 },
+        }),
+
+        // Summary table
+        new Paragraph({
+          text: 'Overview',
+          heading: HeadingLevel.HEADING_1,
+          spacing: { before: 200 },
+        }),
+        new Table({
+          width: { size: 100, type: WidthType.PERCENTAGE },
+          rows: [
+            new TableRow({
+              tableHeader: true,
+              children: [
+                new TableCell({
+                  children: [new Paragraph('#')],
+                  shading: { fill: 'FF7800' },
+                }),
+                new TableCell({
+                  children: [
+                    new Paragraph({
+                      children: [
+                        new TextRun({ text: 'Scenario', bold: true, color: 'FFFFFF' }),
+                      ],
+                    }),
+                  ],
+                  shading: { fill: 'FF7800' },
+                }),
+              ],
+            }),
+            ...narratives.map((n, i) =>
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph(String(i + 1))],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph(n.label)],
+                  }),
+                ],
+              })
+            ),
+          ],
+        }),
+
+        // Page break before narratives
+        new PageBreak(),
+
+        // Full narratives
+        ...narratives.flatMap((n, idx) => {
+          const children: import('docx').Paragraph[] = [
+            new Paragraph({
+              text: n.label,
+              heading: HeadingLevel.HEADING_2,
+              spacing: { before: idx === 0 ? 0 : 300 },
+            }),
+          ];
+
+          // Parse content lines into paragraphs
+          const lines = n.content.split('\n');
+          let currentText = '';
+          let currentBold = false;
+          let currentItalic = false;
+
+          const flushText = () => {
+            if (currentText.trim()) {
+              const runs: import('docx').TextRun[] = [];
+              // Simple bold/italic parsing
+              const boldParts = currentText.split(/\*\*(.+?)\*\*/g);
+              const parts = currentText.split(/\*(.+?)\*/g);
+
+              if (boldParts.length > 1) {
+                for (let i = 0; i < boldParts.length; i++) {
+                  if (i % 2 === 1) {
+                    runs.push(new TextRun({ text: boldParts[i], bold: true }));
+                  } else if (boldParts[i]) {
+                    runs.push(new TextRun(boldParts[i]));
+                  }
+                }
+              } else {
+                runs.push(new TextRun(currentText.trim()));
+              }
+
+              children.push(new Paragraph({ children: runs, spacing: { after: 120 } }));
+            }
+            currentText = '';
+            currentBold = false;
+            currentItalic = false;
+          };
+
+          for (const line of lines) {
+            if (line.trim() === '') {
+              flushText();
+              continue;
+            }
+            if (line.startsWith('# ')) {
+              flushText();
+              children.push(new Paragraph({
+                text: line.slice(2).trim(),
+                heading: HeadingLevel.HEADING_3,
+              }));
+            } else if (line.startsWith('- ') || line.startsWith('* ')) {
+              flushText();
+              children.push(new Paragraph({
+                children: [
+                  new TextRun({ text: '• ', bold: true }),
+                  new TextRun(line.slice(2).trim()),
+                ],
+                indent: { left: 360 },
+                spacing: { after: 60 },
+              }));
+            } else if (/^\d+\.\s/.test(line)) {
+              flushText();
+              const match = line.match(/^(\d+)\.\s(.+)/);
+              children.push(new Paragraph({
+                children: [
+                  new TextRun({ text: `${match![1]}.\t`, bold: true }),
+                  new TextRun(match![2]),
+                ],
+                indent: { left: 360 },
+                spacing: { after: 60 },
+              }));
+            } else {
+              currentText += line + ' ';
+            }
+          }
+          flushText();
+
+          return children;
+        }),
+      ],
+    },
+  ];
+
+  const doc = new Document({ sections });
+
+  const blob = await Packer.toBlob(doc);
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 };

@@ -7,6 +7,7 @@ const PRECACHE_URLS = [
   '/scenario-spark/manifest.webmanifest',
   '/scenario-spark/icons/icon-192.png',
   '/scenario-spark/icons/icon-512.png',
+  '/scenario-spark/offline.html',
 ];
 
 self.addEventListener('install', (event) => {
@@ -36,7 +37,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
           return response;
         })
-        .catch(() => caches.match('/scenario-spark/') || caches.match('/scenario-spark/index.html'))
+        .catch(() => caches.match('/scenario-spark/offline.html'))
     );
     return;
   }

@@ -15,10 +15,10 @@ import {
   uniqueId,
   ModalPanel,
 } from 'mithril-materialized';
-import { deepCopy, render, SlimdownView } from 'mithril-ui-form';
+import { deepCopy, SlimdownView } from 'mithril-ui-form';
 import {
   createCircleSVG,
-  downloadAsWord,
+  downloadAsDocx,
   modelToSaveName,
   narrativesToOptions,
   quillToMarkdown,
@@ -108,31 +108,28 @@ export const ShowScenarioPage: MeiosisComponent = () => {
   let wordModalOpen = false;
 
   const exportToWord = async (model: DataModel, narratives: Narrative[]) => {
-    const markdown: string[] = [];
-    markdown.push(`# ${model?.scenario?.label || ''}\n`);
-    narratives.forEach((curNarrative) => {
-      markdown.push(`## ${curNarrative.label}\n`);
+    const narrData: Array<{ label: string; content: string }> = [];
+    for (const curNarrative of narratives) {
+      let content = '';
       if (curNarrative.desc) {
         try {
-          const md =
+          content =
             curNarrative.desc.startsWith('{') ||
             curNarrative.desc.startsWith('[')
               ? quillToMarkdown(JSON.parse(curNarrative.desc))
               : curNarrative.desc;
-          markdown.push(md);
         } catch (e: any) {
           console.error(e);
         }
       }
-    });
-    const html = render(markdown.join('\n'), false, true);
-    downloadAsWord(
-      html,
-      `${modelToSaveName(
-        model,
-        narratives.length === 1 ? narratives[0].label : undefined
-      )}.doc`
-    );
+      narrData.push({ label: curNarrative.label, content });
+    }
+    const title = model?.scenario?.label || 'Scenario';
+    const filename = `${modelToSaveName(
+      model,
+      narratives.length === 1 ? narratives[0].label : undefined
+    )}.docx`;
+    await downloadAsDocx(title, narrData, filename);
   };
 
   const updateCurNarrative = (

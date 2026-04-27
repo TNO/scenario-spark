@@ -9,7 +9,9 @@ import {
   RadioButtons,
   Select,
   Tabs,
+  TextInput,
   toast,
+  uniqueId,
 } from 'mithril-materialized';
 import background from '../assets/hero.webp';
 import DutchFlag from '../assets/flag-nl.png';
@@ -144,6 +146,9 @@ export const HomePage: MeiosisComponent = () => {
   let clearAllModal = false;
   let newScenarioWizardOpen = false;
   let llmScenarioWizardOpen = false;
+  let narrativeFilter = '';
+  let importConflictModal = false;
+  let pendingScenario: Scenario | null = null;
 
   return {
     oninit: ({ attrs }) => {
@@ -157,8 +162,13 @@ export const HomePage: MeiosisComponent = () => {
         scenario: { id, label, narratives = [], components, categories },
       } = model;
 
-      const selectedNarratives = narratives
+      const filteredNarratives = narratives
         .filter((n) => n.included)
+        .filter((n) => {
+          if (!narrativeFilter.trim()) return true;
+          const term = narrativeFilter.toLowerCase();
+          return (n.label || '').toLowerCase().includes(term);
+        })
         .sort((a, b) => (a.label || '').localeCompare(b.label));
 
       return [
@@ -272,16 +282,28 @@ export const HomePage: MeiosisComponent = () => {
               ),
             ])
           ),
-          selectedNarratives.length > 0 &&
+          filteredNarratives.length > 0 &&
             categories.length > 0 && [
-              m('.row', m('.col.s12', [m('h4', t('SAVED_NARRATIVES'))])),
+              m('.row', m('.col.s12', [
+                m('h4', t('SAVED_NARRATIVES')),
+                m(TextInput, {
+                  id: 'narrative-filter',
+                  label: t('FILTER_NARRATIVES'),
+                  defaultValue: narrativeFilter,
+                  placeholder: t('FILTER_NARRATIVES_PLACEHOLDER'),
+                  onchange: (value) => {
+                    narrativeFilter = value;
+                    m.redraw();
+                  },
+                }),
+              ])),
               categories.length > 1
                 ? m(Tabs, {
                     tabs: categories.map((c) => ({
                       title: c.label,
                       vnode: m(TableView, {
                         ...attrs,
-                        narratives: selectedNarratives,
+                        narratives: filteredNarratives,
                         components: components.filter(
                           (comp) =>
                             c.componentIds && c.componentIds.includes(comp.id)
@@ -293,7 +315,7 @@ export const HomePage: MeiosisComponent = () => {
                     '.narratives',
                     m(TableView, {
                       ...attrs,
-                      narratives: selectedNarratives,
+                      narratives: filteredNarratives,
                       components: components.filter(
                         (comp) =>
                           categories[0].componentIds &&
@@ -302,7 +324,7 @@ export const HomePage: MeiosisComponent = () => {
                     })
                   ),
             ],
-          // selectedNarratives.length === 0 &&
+          // filteredNarratives.length === 0 &&
 
           m(
             '.row',
@@ -397,20 +419,28 @@ export const HomePage: MeiosisComponent = () => {
                               if (
                                 scenario &&
                                 scenario.id &&
-                                scenario.label &&
-                                model.scenario.id !== scenario.id &&
-                                !model.scenarios?.some(
-                                  (s) => s.id === scenario.id
-                                )
+                                scenario.label
                               ) {
-                                if (!model.scenarios) model.scenarios = [];
-                                model.scenarios = [
-                                  model.scenario,
-                                  ...model.scenarios,
-                                ];
-                                model.scenario = scenario;
-                                saveModel(attrs, model, true);
-                                toast({ html: t('SCENARIO_LOADED_MSG') });
+                                if (
+                                  model.scenario.id === scenario.id ||
+                                  model.scenarios?.some(
+                                    (s) => s.id === scenario.id
+                                  )
+                                ) {
+                                  // Duplicate scenario — ask user what to do
+                                  pendingScenario = scenario;
+                                  importConflictModal = true;
+                                  m.redraw();
+                                } else {
+                                  if (!model.scenarios) model.scenarios = [];
+                                  model.scenarios = [
+                                    model.scenario,
+                                    ...model.scenarios,
+                                  ];
+                                  model.scenario = scenario;
+                                  saveModel(attrs, model, true);
+                                  toast({ html: t('SCENARIO_LOADED_MSG') });
+                                }
                               } else {
                                 toast({ html: t('SCENARIO_NOT_LOADED_MSG') });
                               }
@@ -650,6 +680,70 @@ export const HomePage: MeiosisComponent = () => {
                       ? Dashboards.SETTINGS
                       : Dashboards.DEFINE_BOX
                   );
+                },
+              },
+            ],
+          }),
+          m(ModalPanel, {
+            id: 'importConflict',
+            isOpen: importConflictModal,
+            onToggle: (open) => {
+              if (!open) {
+                pendingScenario = null;
+                importConflictModal = false;
+              }
+            },
+            title: t('IMPORT_CONFLICT_TITLE'),
+            closeOnButtonClick: true,
+            description: m('.row', [
+              m('.col.s12', [
+                t('IMPORT_CONFLICT_MSG', { name: pendingScenario?.label || '' }),
+              ]),
+            ]),
+            buttons: [
+              {
+                label: t('CANCEL'),
+                iconName: 'cancel',
+              },
+              {
+                label: t('IMPORT_OVERWRITE'),
+                iconName: 'overwrite',
+                onclick: async () => {
+                  if (!pendingScenario) return;
+                  // Replace existing scenario in collection
+                  if (!model.scenarios) model.scenarios = [];
+                  const existingIdx = model.scenarios.findIndex(
+                    (s) => s.id === pendingScenario?.id
+                  );
+                  if (existingIdx >= 0) {
+                    model.scenarios[existingIdx] = pendingScenario;
+                  } else if (model.scenario.id === pendingScenario.id) {
+                    model.scenario = pendingScenario;
+                  }
+                  saveModel(attrs, model, true);
+                  toast({ html: t('SCENARIO_LOADED_MSG') });
+                  pendingScenario = null;
+                  importConflictModal = false;
+                },
+              },
+              {
+                label: t('IMPORT_AS_COPY'),
+                iconName: 'content_copy',
+                onclick: async () => {
+                  if (!pendingScenario) return;
+                  // Add as a new scenario with a new ID
+                  const copy: Scenario = {
+                    ...pendingScenario,
+                    id: uniqueId(),
+                    label: pendingScenario.label + ' (copy)',
+                  };
+                  if (!model.scenarios) model.scenarios = [];
+                  model.scenarios = [model.scenario, ...model.scenarios, copy];
+                  model.scenario = copy;
+                  saveModel(attrs, model, true);
+                  toast({ html: t('SCENARIO_LOADED_MSG') });
+                  pendingScenario = null;
+                  importConflictModal = false;
                 },
               },
             ],
