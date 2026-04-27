@@ -1,14 +1,16 @@
 const CACHE_NAME = 'scenario-spark-v1';
 
+const BASE = self.location.pathname.replace(/\/sw\.js$/, '') || '/';
+
 const PRECACHE_URLS = [
-  '/scenario-spark/',
-  '/scenario-spark/index.html',
-  '/scenario-spark/main.js',
-  '/scenario-spark/manifest.webmanifest',
-  '/scenario-spark/icons/icon-192.png',
-  '/scenario-spark/icons/icon-512.png',
-  '/scenario-spark/offline.html',
-];
+  BASE + '/',
+  BASE + '/index.html',
+  BASE + '/main.js',
+  BASE + '/manifest.webmanifest',
+  BASE + '/icons/icon-192.png',
+  BASE + '/icons/icon-512.png',
+  BASE + '/offline.html',
+].map((url) => url.replace(/\/+/g, '/'));
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -37,7 +39,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
           return response;
         })
-        .catch(() => caches.match('/scenario-spark/offline.html'))
+        .catch(() => caches.match(BASE + '/offline.html'))
     );
     return;
   }
