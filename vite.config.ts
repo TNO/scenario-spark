@@ -5,6 +5,7 @@ import { resolve } from 'path';
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig({
+  base: '/scenario-spark/',
   publicDir: 'public',
 
   build: {
