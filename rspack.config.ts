@@ -79,6 +79,9 @@ const configuration: Configuration = {
   ],
   resolve: {
     extensions: ['...', '.ts', '*.wasm', '*.csv', '*.json'], // "..." means to extend from the default extensions
+    alias: {
+      'osm-polygon-features': resolve(__dirname, 'src/utils/osm-polygon-features.js'),
+    },
   },
   module: {
     rules: [
