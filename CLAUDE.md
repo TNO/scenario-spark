@@ -23,7 +23,7 @@ This is **Scenario Spark**, a TypeScript web application for generating threat s
 - **Mithril.js** with TypeScript
 - **Meiosis state pattern** for state management using `meiosis-setup`
 - **Material Design** styling via `mithril-materialized`
-- **Rspack** bundler (not Webpack) configured in `rspack.config.ts`
+- **Vite** bundler configured in `vite.config.ts`
 
 ### State Management
 - Central state in `src/services/state-mgmt.ts` using Meiosis pattern
@@ -53,6 +53,8 @@ This is **Scenario Spark**, a TypeScript web application for generating threat s
 
 ### File Structure
 ```
+├── index.html                # Entry point (Vite auto-detects)
+├── vite.config.ts            # Vite configuration
 src/
 ├── app.ts                    # Application entry point
 ├── components/               # UI components
