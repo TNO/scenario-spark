@@ -13,6 +13,14 @@ export default defineConfig({
     sourcemap: true,
     minify: 'esbuild',
     cssMinify: 'esbuild',
+    rollupOptions: {
+      output: {
+        // Stable filenames so the service worker can cache them reliably
+        entryFileNames: 'assets/[name].js',
+        chunkFileNames: 'assets/[name].js',
+        assetFileNames: 'assets/[name][extname]',
+      },
+    },
   },
 
   define: {

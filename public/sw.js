@@ -5,7 +5,7 @@ const BASE = self.location.pathname.replace(/\/sw\.js$/, '') || '/';
 const PRECACHE_URLS = [
   BASE + '/',
   BASE + '/index.html',
-  BASE + '/main.js',
+  BASE + '/index.js',
   BASE + '/manifest.webmanifest',
   BASE + '/icons/icon-192.png',
   BASE + '/icons/icon-512.png',
