@@ -4,15 +4,23 @@ import { ThemeManager } from 'mithril-materialized';
 ThemeManager.initialize();
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('./sw.js')
-      .then((registration) => {
-        console.log('ServiceWorker registered:', registration.scope);
-      })
-      .catch((error) => {
-        console.error('ServiceWorker registration failed:', error);
-      });
+  window.addEventListener('load', async () => {
+    if (import.meta.env.PROD) {
+      navigator.serviceWorker
+        .register('./sw.js')
+        .then((registration) => {
+          console.log('ServiceWorker registered:', registration.scope);
+        })
+        .catch((error) => {
+          console.error('ServiceWorker registration failed:', error);
+        });
+      return;
+    }
+
+    // Avoid stale cached assets during local development.
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(registrations.map((r) => r.unregister()));
+    console.log(`ServiceWorkers unregistered in dev: ${registrations.length}`);
   });
 }
 import 'material-icons/iconfont/filled.css';
@@ -46,5 +54,5 @@ i18n.addOnChangeListener((_locale: string) => {
 });
 i18n.init(
   AllLanguages,
-  (window.localStorage.getItem(LANGUAGE) || 'nl') as Languages
+  (window.localStorage.getItem(LANGUAGE) || 'nl') as Languages,
 );

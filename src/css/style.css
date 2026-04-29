@@ -79,7 +79,6 @@
   border-bottom: 1px solid #555;
 }
 
-
 input[type='checkbox']:disabled {
   color: var(--mm-text-disabled);
 }
@@ -680,6 +679,54 @@ label,
   justify-content: space-between;
   align-items: center;
 }
+.kanban-add-driver-column {
+  width: 40px;
+  min-width: 40px;
+}
+.kanban-row-add-driver .kanban-header-add-driver {
+  width: 40px;
+  justify-content: center;
+  min-height: 50px;
+}
+.kanban-add-driver-plus {
+  width: 32px;
+  height: 32px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  border: 1px dashed rgba(120, 120, 120, 0.35);
+  border-radius: 50%;
+  opacity: 0.35;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+.kanban-row-add-driver:hover .kanban-add-driver-plus {
+  opacity: 1;
+  transform: scale(1.08);
+}
+.kanban-header-add-driver .kanban-add-driver-plus {
+  color: var(--mm-primary-color, #1565c0);
+}
+.kanban-header-actions {
+  display: none;
+  align-items: center;
+  gap: 0;
+}
+.widget:hover .kanban-header-actions {
+  display: flex;
+}
+.kanban-header-actions .kanban-header-action-btn {
+  margin: 0;
+  padding: 0;
+  min-width: 30px;
+}
 .kanban-item {
   padding: 0px;
   min-width: 200px;
@@ -822,7 +869,9 @@ ul.kanban > li {
   transform: translateY(20px);
   pointer-events: none;
 
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .popupContainer.show {
@@ -1181,7 +1230,9 @@ td.matrix-cell {
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   animation: heroFadeIn 1.2s ease-out;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .hero-image:hover {
@@ -1265,7 +1316,9 @@ td.matrix-cell {
   padding: 1rem 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .hero-actions .language-switcher:hover {
@@ -1459,7 +1512,9 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background 0.2s, height 0.2s;
+  transition:
+    background 0.2s,
+    height 0.2s;
   z-index: 1001;
 }
 
@@ -1490,19 +1545,20 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
 }
 
 .map-popup-card {
-    background: transparent !important;
-    box-shadow: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 .map-popup-card .card-title {
-    color: var(--mm-text-primary) !important;
+  color: var(--mm-text-primary) !important;
 }
 
-.condensed-table td, .condensed-table th {
-    padding: 2px 5px !important;
-    line-height: 1.2 !important;
+.condensed-table td,
+.condensed-table th {
+  padding: 2px 5px !important;
+  line-height: 1.2 !important;
 }
 
 [data-theme='dark'] .leaflet-tile {
-    filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
 }
