@@ -205,20 +205,40 @@ const BoxItem: MeiosisComponent<{
 const BoxHeader: MeiosisComponent<{
   sc: ScenarioComponent;
   form: UIForm<ContextualItem>;
+  categoryId: number;
 }> = () => {
   let obj = {} as ContextualItem;
   let keyDriverObj = {} as ScenarioComponent;
   let addComponent = false;
   let editKeyDriver = false;
-  const keyDriverForm = [
-    { id: 'label', type: 'textarea', label: t('NAME'), autofocus: true },
-    { id: 'desc', type: 'textarea', label: t('DESCRIPTION') },
-  ] as UIForm<ScenarioComponent>;
+  let keyDriverIndex = 1;
+  let keyDriverCount = 1;
 
   return {
     view: ({ attrs }) => {
-      const { sc, form } = attrs;
+      const { sc, form, categoryId } = attrs;
       const { id } = sc;
+      const keyDriverForm = [
+        {
+          id: 'order',
+          type: 'number',
+          label: `${t('ORDER')} (${keyDriverIndex}/${keyDriverCount})`,
+          className: 'col s4',
+        },
+        {
+          id: 'label',
+          type: 'text',
+          label: t('NAME'),
+          className: 'col s8',
+          autofocus: true,
+        },
+        {
+          id: 'desc',
+          type: 'textarea',
+          label: t('DESCRIPTION'),
+          className: 'col s12',
+        },
+      ] as UIForm<ScenarioComponent>;
 
       return m('li.kanban-header.widget', { key: `${id}_header` }, [
         m(
@@ -247,7 +267,13 @@ const BoxHeader: MeiosisComponent<{
               className: 'kanban-header-action-btn',
               iconName: 'edit',
               onclick: () => {
-                keyDriverObj = { ...sc };
+                const category =
+                  attrs.state.model.scenario.categories[categoryId];
+                const currentOrder =
+                  (category?.componentIds || []).indexOf(id) + 1 || 1;
+                keyDriverIndex = currentOrder;
+                keyDriverCount = category?.componentIds?.length || 1;
+                keyDriverObj = { ...sc, order: currentOrder };
                 editKeyDriver = true;
               },
             }),
@@ -339,6 +365,62 @@ const BoxHeader: MeiosisComponent<{
                 label: t('OK'),
                 onclick: () => {
                   const { model } = attrs.state;
+                  const category = model.scenario.categories[categoryId];
+
+                  if (
+                    category?.componentIds &&
+                    category.componentIds.length > 0
+                  ) {
+                    const currentIds = [...category.componentIds];
+                    const currentIndex = currentIds.indexOf(id);
+                    if (currentIndex >= 0) {
+                      const desiredOrderRaw = Number(
+                        keyDriverObj.order || currentIndex + 1,
+                      );
+                      const desiredOrder = Number.isFinite(desiredOrderRaw)
+                        ? Math.round(desiredOrderRaw)
+                        : currentIndex + 1;
+                      const targetIndex = Math.min(
+                        Math.max(desiredOrder - 1, 0),
+                        currentIds.length - 1,
+                      );
+
+                      if (targetIndex !== currentIndex) {
+                        const [movedId] = currentIds.splice(currentIndex, 1);
+                        currentIds.splice(targetIndex, 0, movedId);
+                      }
+
+                      category.componentIds = currentIds;
+
+                      const orderLookup = currentIds.reduce(
+                        (acc, cur, index) => {
+                          acc.set(cur, index + 1);
+                          return acc;
+                        },
+                        new Map<ID, number>(),
+                      );
+
+                      model.scenario.components = model.scenario.components.map(
+                        (component) => {
+                          const next =
+                            component.id === id
+                              ? {
+                                  ...component,
+                                  label: keyDriverObj.label,
+                                  desc: keyDriverObj.desc,
+                                }
+                              : component;
+                          const order = orderLookup.get(component.id);
+                          return typeof order === 'number'
+                            ? { ...next, order }
+                            : next;
+                        },
+                      );
+                      saveModel(attrs, model);
+                      return;
+                    }
+                  }
+
                   model.scenario.components = model.scenario.components.map(
                     (component) =>
                       component.id === id
@@ -346,6 +428,9 @@ const BoxHeader: MeiosisComponent<{
                             ...component,
                             label: keyDriverObj.label,
                             desc: keyDriverObj.desc,
+                            order: Number(
+                              keyDriverObj.order || component.order,
+                            ),
                           }
                         : component,
                   );
@@ -364,12 +449,19 @@ const BoxRow: MeiosisComponent<{
   sc: ScenarioComponent;
   form: UIForm<ContextualItem>;
   compColor: { [key: ID]: [Color, Color] };
+  categoryId: number;
 }> = () => {
   return {
     view: ({ attrs }) => {
-      const { sc, form, compColor } = attrs;
+      const { sc, form, compColor, categoryId } = attrs;
       const rowChildren = [
-        m(BoxHeader, { key: `${sc.id}_header`, ...attrs, sc, form }),
+        m(BoxHeader, {
+          key: `${sc.id}_header`,
+          ...attrs,
+          sc,
+          form,
+          categoryId,
+        }),
         ...(sc.values || []).map((c) =>
           m(BoxItem, {
             key: c.id,
@@ -406,14 +498,24 @@ const BoxView: MeiosisComponent<{
       const { scenario } = model;
       const { categories, components: components } = scenario;
       const category = categories[categoryId];
-      const scs = components.filter(
-        (c) =>
-          category.componentIds && category.componentIds.indexOf(c.id) >= 0,
-      );
+      const componentLookup = components.reduce((acc, cur) => {
+        acc.set(cur.id, cur);
+        return acc;
+      }, new Map<ID, ScenarioComponent>());
+      const scs = (category.componentIds || [])
+        .map((componentId) => componentLookup.get(componentId))
+        .filter((component): component is ScenarioComponent => !!component);
 
       return m('ul.kanban', [
         ...scs.map((sc) =>
-          m(BoxRow, { key: sc.id, ...attrs, sc, form, compColor }),
+          m(BoxRow, {
+            key: sc.id,
+            ...attrs,
+            sc,
+            form,
+            compColor,
+            categoryId,
+          }),
         ),
         m(
           'li.kanban-add-driver-column',
