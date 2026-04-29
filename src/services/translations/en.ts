@@ -364,4 +364,11 @@ export const messages = {
   LLM_GENERATING: 'Generating with LLM...',
   LLM_ERROR: 'Error generating',
   LLM_GENERATED_MARKDOWN: 'Generated Markdown',
+
+  IMPORT_FROM_SPREADSHEET: 'Paste from Spreadsheet',
+  IMPORT_PASTE_DATA: 'Paste Spreadsheet Data',
+  IMPORT_PLACEHOLDER: 'Paste tab-separated data from Excel/Google Sheets here...\n\nFirst row = key driver names, each column = options for that driver.',
+  IMPORT_PARSE: 'Parse & Import',
+  IMPORT_NO_DRIVERS: 'No key drivers detected. Check your paste.',
+  IMPORT_NEEDS_TWO_COLUMNS: 'Import requires at least 2 columns (driver names and options).',
 };

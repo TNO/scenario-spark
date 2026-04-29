@@ -367,4 +367,11 @@ export const messages: typeof messagesEN = {
   ORIENTATION_DESC: 'Angle en degrés (0 = Nord) ou ID de référence',
 
   LLM_GENERATED_MARKDOWN: 'Markdown généré',
+
+  IMPORT_FROM_SPREADSHEET: 'Coller depuis une feuille de calcul',
+  IMPORT_PASTE_DATA: 'Coller les données de la feuille de calcul',
+  IMPORT_PLACEHOLDER: 'Collez ici les données séparées par des tabulations d\'Excel/Google Sheets...\n\nPremière ligne = noms des facteurs clés, chaque colonne = options pour ce facteur.',
+  IMPORT_PARSE: 'Analyser et importer',
+  IMPORT_NO_DRIVERS: 'Aucun facteur clé détecté. Vérifiez les données collées.',
+  IMPORT_NEEDS_TWO_COLUMNS: 'L\'import nécessite au moins 2 colonnes (noms des facteurs clés et options).',
 };

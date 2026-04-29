@@ -5,6 +5,8 @@ import {
   Wizard,
   WizardStep,
   uniqueId,
+  TextArea,
+  Button,
 } from 'mithril-materialized';
 import { LayoutForm } from 'mithril-ui-form';
 import { MeiosisComponent, t } from '../services';
@@ -14,6 +16,8 @@ import {
   ScenarioComponent,
   thresholdColors,
 } from '../models';
+import { csvToMarkdown } from '../utils/csv-to-markdown';
+import { markdownToMorphBox } from '../utils/morp-box-to-markdown';
 
 // Simple types for wizard state
 type WizardScenario = {
@@ -47,6 +51,9 @@ type WizardState = {
   drivers: WizardDriver[];
   selectedDriverIndex?: number;
   driverValues: { [driverIndex: number]: WizardValue[] };
+  showImportPanel: boolean;
+  importRawText: string;
+  importWarnings: string[];
 };
 
 export const NewScenarioWizard: MeiosisComponent<{
@@ -60,6 +67,9 @@ export const NewScenarioWizard: MeiosisComponent<{
     category: {} as WizardCategory,
     drivers: [],
     driverValues: {},
+    showImportPanel: false,
+    importRawText: '',
+    importWarnings: [],
   };
 
   const resetWizardState = () => {
@@ -69,6 +79,9 @@ export const NewScenarioWizard: MeiosisComponent<{
       category: {} as WizardCategory,
       drivers: [],
       driverValues: {},
+      showImportPanel: false,
+      importRawText: '',
+      importWarnings: [],
     };
   };
 
@@ -171,6 +184,103 @@ export const NewScenarioWizard: MeiosisComponent<{
                 obj: { drivers: wizardState.drivers },
                 onchange: () => m.redraw(),
               }),
+              m('.col.s12', [
+                m(Button, {
+                  className: 'btn-flat',
+                  label: t('IMPORT_FROM_SPREADSHEET'),
+                  iconName: 'upload_file',
+                  onclick: () => {
+                    wizardState.showImportPanel = true;
+                    wizardState.importRawText = '';
+                    m.redraw();
+                  },
+                }),
+              ]),
+              wizardState.showImportPanel &&
+                m(ModalPanel, {
+                  id: 'spreadsheet-import',
+                  isOpen: wizardState.showImportPanel,
+                  onToggle: (open) => {
+                    if (!open) {
+                      wizardState.showImportPanel = false;
+                      wizardState.importWarnings = [];
+                      m.redraw();
+                    }
+                  },
+                  title: t('IMPORT_FROM_SPREADSHEET'),
+                  description: m('.row', [
+                    m(TextArea, {
+                      id: 'import-spreadsheet',
+                      label: t('IMPORT_PASTE_DATA'),
+                      placeholder: t('IMPORT_PLACEHOLDER'),
+                      value: wizardState.importRawText,
+                      rows: 10,
+                      oninput: (value) => {
+                        wizardState.importRawText = value;
+                        m.redraw();
+                      },
+                    }),
+                    wizardState.importRawText.trim().length > 0 && [
+                      m('.col.s12', [
+                        m(Button, {
+                          className: 'btn',
+                          label: t('IMPORT_PARSE'),
+                          iconName: 'play_arrow',
+                          onclick: () => {
+                            const { markdown, warnings } =
+                              csvToMarkdown(
+                                wizardState.importRawText,
+                                wizardState.category.label
+                              );
+                            if (warnings.includes('IMPORT_NO_DRIVERS')) {
+                              alert(t('IMPORT_NO_DRIVERS'));
+                              return;
+                            }
+                            if (
+                              warnings.includes('IMPORT_NEEDS_TWO_COLUMNS')
+                            ) {
+                              alert(t('IMPORT_NEEDS_TWO_COLUMNS'));
+                              return;
+                            }
+                            wizardState.importWarnings = warnings;
+                            // Parse markdown back to KeyDriver format
+                            const { keyDrivers } =
+                              markdownToMorphBox(markdown);
+                            // Fill in the drivers array
+                            wizardState.drivers = keyDrivers.map((d) => ({
+                              id: uniqueId(),
+                              label: d.label,
+                              desc: d.desc,
+                            }));
+                            // Fill in values for each driver
+                            wizardState.driverValues = {};
+                            keyDrivers.forEach((d, idx) => {
+                              wizardState.driverValues[idx] = d.values.map(
+                                (v) => ({
+                                  id: uniqueId(),
+                                  label: v.label,
+                                  desc: v.desc,
+                                })
+                              );
+                            });
+                            wizardState.showImportPanel = false;
+                            wizardState.importRawText = '';
+                            wizardState.importWarnings = [];
+                            m.redraw();
+                          },
+                        }),
+                      ]),
+                      wizardState.importWarnings.length > 0 &&
+                        wizardState.importWarnings.map(
+                          (w) =>
+                            w !== 'IMPORT_NO_DRIVERS' &&
+                            w !== 'IMPORT_NEEDS_TWO_COLUMNS' &&
+                            m('.col.s12.red-text', t(w))
+                        ),
+                    ],
+                  ]),
+                  fixedFooter: false,
+                }),
             ]),
           validate: () => {
             return (

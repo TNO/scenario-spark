@@ -50,7 +50,7 @@ export const messages: typeof messagesEN = {
   NAME_NARRATIVE: 'Titel van huidige verhaallijn',
   SAVE_NARRATIVE: 'Bewaar',
   SAVED_NARRATIVES: "Bewaarde scenario's",
-  FILTER_NARRATIVES: 'Filter scenario\'s',
+  FILTER_NARRATIVES: "Filter scenario's",
   FILTER_NARRATIVES_PLACEHOLDER: 'Typ om op naam te filteren...',
   INCLUDE_NARRATIVE: 'Selecteer scenario',
   NARRATIVE_INCLUDED: 'GESELECTEERD',
@@ -216,7 +216,8 @@ export const messages: typeof messagesEN = {
   SCENARIO_NOT_LOADED_MSG:
     'Het scenario is niet ingeladen: mogelijk bestaat het al in de collectie.',
   IMPORT_CONFLICT_TITLE: 'Scenario bestaat al',
-  IMPORT_CONFLICT_MSG: 'Een scenario met de naam "{name}" staat al in je collectie. Wat wilt je doen?',
+  IMPORT_CONFLICT_MSG:
+    'Een scenario met de naam "{name}" staat al in je collectie. Wat wilt je doen?',
   IMPORT_OVERWRITE: 'Overschrijven',
   IMPORT_AS_COPY: 'Toevoegen als kopie',
   SCENARIO_CREATED_MSG: 'Een nieuw scenario is aangemaakt',
@@ -396,4 +397,14 @@ export const messages: typeof messagesEN = {
   LLM_GENERATING: 'Genereren met LLM...',
   LLM_ERROR: 'Fout bij genereren',
   LLM_GENERATED_MARKDOWN: 'Gegenereerde Markdown',
+
+  IMPORT_FROM_SPREADSHEET: 'Plakken vanuit Spreadsheet',
+  IMPORT_PASTE_DATA: 'Spreadsheet-gegevens plakken',
+  IMPORT_PLACEHOLDER:
+    'Plak hier tab-gescheiden gegevens uit Excel/Google Sheets...\n\nEerste rij = naam stuurfactoren, elke kolom = opties voor die factor.',
+  IMPORT_PARSE: 'Verwerken & Importeren',
+  IMPORT_NO_DRIVERS:
+    'Geen stuurfactoren gevonden. Controleer de geplakte tekst.',
+  IMPORT_NEEDS_TWO_COLUMNS:
+    'Import vereist minimaal 2 kolommen (naam stuurfactoren en opties).',
 };

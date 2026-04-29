@@ -367,4 +367,11 @@ export const messages: typeof messagesEN = {
   ORIENTATION_DESC: 'Kąt w stopniach (0 = Północ) lub ID referencyjny',
 
   LLM_GENERATED_MARKDOWN: 'Wygenerowany Markdown',
+
+  IMPORT_FROM_SPREADSHEET: 'Wklej z arkusza',
+  IMPORT_PASTE_DATA: 'Wklej dane z arkusza',
+  IMPORT_PLACEHOLDER: 'Wklej tutaj dane rozdzielane tabulatorami z Excela/Google Sheets...\n\nPierwszy wiersz = nazwy kluczowych czynników, każda kolumna = opcje dla tego czynnika.',
+  IMPORT_PARSE: 'Przetwarzaj i importuj',
+  IMPORT_NO_DRIVERS: 'Nie wykryto kluczowych czynników. Sprawdź wklejone dane.',
+  IMPORT_NEEDS_TWO_COLUMNS: 'Import wymaga co najmniej 2 kolumn (nazwy czynników i opcje).',
 };

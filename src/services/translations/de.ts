@@ -216,12 +216,16 @@ export const messages: typeof messagesEN = {
   SCENARIO_NOT_LOADED_MSG:
     'Das Szenario wurde nicht geladen: wahrscheinlichste Ursache ist, dass das Szenario bereits Teil der Sammlung ist.',
   IMPORT_CONFLICT_TITLE: 'Szenario existiert bereits',
-  IMPORT_CONFLICT_MSG: 'Ein Szenario namens "{name}" ist bereits in deiner Sammlung. Was möchtest du tun?',
+  IMPORT_CONFLICT_MSG:
+    'Ein Szenario namens "{name}" ist bereits in deiner Sammlung. Was möchtest du tun?',
   IMPORT_OVERWRITE: 'Überschreiben',
   IMPORT_AS_COPY: 'Als Kopie hinzufügen',
   SCENARIO_CREATED_MSG: 'Ein neues Szenario wurde erstellt',
   COPY_TO_CLIPBOARD: 'Tabelle in Zwischenablage kopieren',
-  GROUP: { SELECTED: 'Ausgewählte Szenarien', UNSELECTED: 'Nicht ausgewählte Szenarien' },
+  GROUP: {
+    SELECTED: 'Ausgewählte Szenarien',
+    UNSELECTED: 'Nicht ausgewählte Szenarien',
+  },
   CLONE_NARRATIVE: 'Klonen',
   INCLUDE_DECISION_SUPPORT: 'Entscheidungsunterstützung aktivieren',
   IS_DECISION_CATEGORY: 'Für Entscheidungsunterstützung',
@@ -229,9 +233,27 @@ export const messages: typeof messagesEN = {
   IMPACT: 'Auswirkung',
   RISK: 'Risiko',
   RISK_PLACEHOLDER: 'Wahrscheinlichkeit x Auswirkung',
-  PROB5: { 0: 'Sehr niedrig', 1: 'Niedrig', 2: 'Mittel', 3: 'Hoch', 4: 'Sehr hoch' },
-  IMP5: { 0: 'Sehr niedrig', 1: 'Niedrig', 2: 'Mittel', 3: 'Hoch', 4: 'Sehr hoch' },
-  RISK5: { 0: 'Sehr niedrig', 1: 'Niedrig', 2: 'Mittel', 3: 'Hoch', 4: 'Sehr hoch' },
+  PROB5: {
+    0: 'Sehr niedrig',
+    1: 'Niedrig',
+    2: 'Mittel',
+    3: 'Hoch',
+    4: 'Sehr hoch',
+  },
+  IMP5: {
+    0: 'Sehr niedrig',
+    1: 'Niedrig',
+    2: 'Mittel',
+    3: 'Hoch',
+    4: 'Sehr hoch',
+  },
+  RISK5: {
+    0: 'Sehr niedrig',
+    1: 'Niedrig',
+    2: 'Mittel',
+    3: 'Hoch',
+    4: 'Sehr hoch',
+  },
   SUGGESTED_APPROACH: {
     TITLE: 'Vorgeschlagener Ansatz',
     DESC: 'Der vorgeschlagene Ansatz ist eine (risiko-)gewichtete Kombination der ausgewählten Gegenmaßnahmen.',
@@ -296,13 +318,15 @@ export const messages: typeof messagesEN = {
   WIZARD_STEP1_TITLE: 'Szenarioinformationen',
   WIZARD_STEP1_SUBTITLE: 'Benennen und beschreiben Sie Ihr Szenario',
   WIZARD_STEP2_TITLE: 'Schlüsseltreiber',
-  WIZARD_STEP2_SUBTITLE: 'Definieren Sie die morphologische Kategorie und Schlüsseltreiber',
+  WIZARD_STEP2_SUBTITLE:
+    'Definieren Sie die morphologische Kategorie und Schlüsseltreiber',
   WIZARD_STEP3_TITLE: 'Treiberoptionen',
   WIZARD_STEP3_SUBTITLE: 'Optional Optionen für jeden Treiber hinzufügen',
   WIZARD_CATEGORY_INFO: 'Kategoriedetails',
   WIZARD_COMPONENTS_INFO: 'Schlüsseltreiber (Dimensionen)',
   WIZARD_VALUES_INFO: 'Wählen Sie einen Treiber aus, um Optionen hinzuzufügen:',
-  WIZARD_NO_COMPONENTS: 'Noch keine Treiber definiert. Gehen Sie zurück zu Schritt 2.',
+  WIZARD_NO_COMPONENTS:
+    'Noch keine Treiber definiert. Gehen Sie zurück zu Schritt 2.',
   WIZARD_VALUES_FOR_COMPONENT: 'Optionen für {component}',
   WIZARD_NEXT: 'Weiter',
   WIZARD_PREVIOUS: 'Zurück',
@@ -311,28 +335,39 @@ export const messages: typeof messagesEN = {
   LLM_WIZARD_TITLE: 'Szenario mit LLM generieren',
   LLM_WIZARD_STEP1_TITLE: 'Anforderungen definieren',
   LLM_WIZARD_STEP1_SUBTITLE: 'Spezifizieren Sie, was Sie generieren möchten',
-  LLM_WIZARD_STEP1_DESC: 'Füllen Sie die Details unten aus, um Ihre morphologische Kasten-Generierung anzupassen:',
+  LLM_WIZARD_STEP1_DESC:
+    'Füllen Sie die Details unten aus, um Ihre morphologische Kasten-Generierung anzupassen:',
   LLM_WIZARD_STEP2_TITLE: 'Prompt überprüfen',
-  LLM_WIZARD_STEP2_SUBTITLE: 'Überprüfen und bearbeiten Sie den vollständigen Prompt',
-  LLM_WIZARD_STEP2_DESC: 'Überprüfen Sie den kombinierten Prompt unten. Sie können ihn bei Bedarf bearbeiten:',
+  LLM_WIZARD_STEP2_SUBTITLE:
+    'Überprüfen und bearbeiten Sie den vollständigen Prompt',
+  LLM_WIZARD_STEP2_DESC:
+    'Überprüfen Sie den kombinierten Prompt unten. Sie können ihn bei Bedarf bearbeiten:',
   LLM_WIZARD_STEP3_TITLE: 'LLM konfigurieren',
   LLM_WIZARD_STEP3_SUBTITLE: 'LLM-Dienst und Einstellungen auswählen',
-  LLM_WIZARD_STEP3_DESC: 'Konfigurieren Sie, wie Sie den morphologischen Kasten generieren möchten:',
+  LLM_WIZARD_STEP3_DESC:
+    'Konfigurieren Sie, wie Sie den morphologischen Kasten generieren möchten:',
   LLM_WIZARD_STEP4_TITLE: 'Szenario generieren',
   LLM_WIZARD_STEP4_SUBTITLE: 'Generieren oder fügen Sie das Ergebnis ein',
-  LLM_WIZARD_STEP4_CLIPBOARD_DESC: 'Der Prompt ist bereit. Kopieren Sie ihn und verwenden Sie ein externes LLM, um den morphologischen Kasten zu generieren:',
+  LLM_WIZARD_STEP4_CLIPBOARD_DESC:
+    'Der Prompt ist bereit. Kopieren Sie ihn und verwenden Sie ein externes LLM, um den morphologischen Kasten zu generieren:',
   LLM_PURPOSE: 'Zweck',
-  LLM_PURPOSE_HELP: 'Was möchten Sie erkunden oder entwerfen? Z.B. "Krisenmanagement-Szenarien für nationale Notfallplanung"',
+  LLM_PURPOSE_HELP:
+    'Was möchten Sie erkunden oder entwerfen? Z.B. "Krisenmanagement-Szenarien für nationale Notfallplanung"',
   LLM_DOMAIN: 'Bereich',
-  LLM_DOMAIN_HELP: 'Geben Sie das Fachgebiet oder den Kontext an, z.B. "Katastrophenschutz", "Cybersicherheit", "militärische Operationen"',
+  LLM_DOMAIN_HELP:
+    'Geben Sie das Fachgebiet oder den Kontext an, z.B. "Katastrophenschutz", "Cybersicherheit", "militärische Operationen"',
   LLM_OUTPUT_TYPE: 'Ausgabetyp',
-  LLM_OUTPUT_TYPE_HELP: 'Ein morphologischer Kasten, mehrere Kästen, szenariofokussiert, maßnahmenfokussiert oder beides?',
+  LLM_OUTPUT_TYPE_HELP:
+    'Ein morphologischer Kasten, mehrere Kästen, szenariofokussiert, maßnahmenfokussiert oder beides?',
   LLM_CONSTRAINTS: 'Einschränkungen oder Schwerpunktbereiche',
-  LLM_CONSTRAINTS_HELP: 'Z.B. "Soziopolitische, ökologische und technologische Faktoren einbeziehen"',
+  LLM_CONSTRAINTS_HELP:
+    'Z.B. "Soziopolitische, ökologische und technologische Faktoren einbeziehen"',
   LLM_DETAIL_DEPTH: 'Detailtiefe',
-  LLM_DETAIL_DEPTH_HELP: 'Z.B. "6-7 detaillierte Optionen pro Faktor einbeziehen, jeweils mit einer Ein-Satz-Definition"',
+  LLM_DETAIL_DEPTH_HELP:
+    'Z.B. "6-7 detaillierte Optionen pro Faktor einbeziehen, jeweils mit einer Ein-Satz-Definition"',
   LLM_LANGUAGE: 'Ausgabesprache',
-  LLM_LANGUAGE_HELP: 'Die Sprache für den generierten Inhalt, z.B. "Englisch", "Deutsch"',
+  LLM_LANGUAGE_HELP:
+    'Die Sprache für den generierten Inhalt, z.B. "Englisch", "Deutsch"',
   LLM_FULL_PROMPT: 'Vollständiger Prompt',
   LLM_ENDPOINT: 'Generierungsmethode',
   LLM_CLIPBOARD: 'In Zwischenablage kopieren (externes LLM verwenden)',
@@ -367,4 +402,14 @@ export const messages: typeof messagesEN = {
   ORIENTATION_DESC: 'Winkel in Grad (0 = Nord) oder Referenz-ID',
 
   LLM_GENERATED_MARKDOWN: 'Generiertes Markdown',
+
+  IMPORT_FROM_SPREADSHEET: 'Aus Tabelle einfügen',
+  IMPORT_PASTE_DATA: 'Tabellendaten einfügen',
+  IMPORT_PLACEHOLDER:
+    'Hier tabulatorgetrennte Daten aus Excel/Google Sheets einfügen...\n\nErste Zeile = Schlüssel-Treiber-Namen, jede Spalte = Optionen für diesen Treiber.',
+  IMPORT_PARSE: 'Parsern & Importieren',
+  IMPORT_NO_DRIVERS:
+    'Keine Schlüssel-Treiber erkannt. Überprüfen Sie die Einfügung.',
+  IMPORT_NEEDS_TWO_COLUMNS:
+    'Import benötigt mindestens 2 Spalten (Schlüssel-Treiber-Namen und Optionen).',
 };
