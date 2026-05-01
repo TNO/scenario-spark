@@ -1,4 +1,4 @@
-import m from 'mithril';
+import m from "mithril";
 import {
   Dashboards,
   ContextualItem,
@@ -11,7 +11,7 @@ import {
   Category,
   OsmTypes,
   contextTypeOptions,
-} from '../models';
+} from "../models";
 import {
   MeiosisComponent,
   mutateScenarioComponent,
@@ -23,7 +23,7 @@ import {
   setFontSize,
   setMapHeight,
   State,
-} from '../services';
+} from "../services";
 import {
   ConfirmButton,
   FlatButton,
@@ -33,22 +33,22 @@ import {
   ThemeManager,
   toast,
   uniqueId,
-} from 'mithril-materialized';
+} from "mithril-materialized";
 import {
   FormAttributes,
   LayoutForm,
   render,
   SlimdownView,
   UIForm,
-} from 'mithril-ui-form';
+} from "mithril-ui-form";
 import {
   capitalize,
   computeCompColor,
   toDarkThemeColor,
   validateNarrative,
-} from '../utils';
-import { LegendComponent, MapView } from './ui';
-import { MeiosisCell } from 'meiosis-setup/types';
+} from "../utils";
+import { LegendComponent, MapView } from "./ui";
+import { MeiosisCell } from "meiosis-setup/types";
 
 const BoxItem: MeiosisComponent<{
   id: ID;
@@ -64,11 +64,11 @@ const BoxItem: MeiosisComponent<{
   return {
     oninit: ({ attrs: { item, form, contexts } }) => {
       const hasContext =
-        contexts && contexts.length > 0 && contexts[0] !== 'none';
+        contexts && contexts.length > 0 && contexts[0] !== "none";
       contextAwareForm = form
         // .filter((i) => (i.id === 'context' ? hasContext : true))
         .map((i) =>
-          i.id === 'context' &&
+          i.id === "context" &&
           hasContext &&
           i.options &&
           i.options instanceof Array
@@ -76,7 +76,7 @@ const BoxItem: MeiosisComponent<{
                 ...i,
                 options: i.options.filter(
                   (o) =>
-                    o.id === 'none' ||
+                    o.id === "none" ||
                     contexts.indexOf(o.id as ContextType) >= 0,
                 ),
               }
@@ -87,7 +87,7 @@ const BoxItem: MeiosisComponent<{
     view: ({ attrs }) => {
       const { item, id, color } = attrs;
       return m(
-        'li.kanban-item.card.widget[draggable=true]',
+        "li.kanban-item.card.widget[draggable=true]",
         {
           key: item.id,
           id: `ki_${item.id}`,
@@ -118,14 +118,14 @@ const BoxItem: MeiosisComponent<{
         },
         [
           m(
-            '.card-content',
+            ".card-content",
             {
               style: {
                 backgroundColor: color[0],
               },
               onmouseenter: () => {
-                const activeTooltip = `${item.label || ''}${
-                  item.desc ? `: ${item.desc}` : ''
+                const activeTooltip = `${item.label || ""}${
+                  item.desc ? `: ${item.desc}` : ""
                 }`;
                 attrs.update({
                   activeTooltip,
@@ -139,15 +139,15 @@ const BoxItem: MeiosisComponent<{
             },
             [
               m(
-                'span.card-title.morph-cell',
+                "span.card-title.morph-cell",
                 { style: { color: color[1] } },
                 capitalize(item.label),
               ),
               // item.desc && m('span.card-desc', item.desc),
               m(FlatButton, {
-                className: 'top-right widget-link',
-                iconName: 'edit',
-                iconClass: 'no-gutter',
+                className: "top-right widget-link",
+                iconName: "edit",
+                iconClass: "no-gutter",
                 onclick: () => {
                   editorOpen = true;
                 },
@@ -156,18 +156,18 @@ const BoxItem: MeiosisComponent<{
           ),
           m(ModalPanel, {
             id: `modal_${item.id}`,
-            title: t('EDIT_COMPONENT'),
+            title: t("EDIT_COMPONENT"),
             isOpen: editorOpen,
             fixedFooter: true,
             // bottomSheet: true,
             onToggle: (open) => (editorOpen = open),
             description: m(
-              '.row',
+              ".row",
               attrs.state.model.scenario.includeMapSupport &&
                 m(MapView, {
                   items: [obj],
                   mapConfig: attrs.state.model.scenario.mapConfig,
-                  height: '200px',
+                  height: "200px",
                   autoFit: true,
                 }),
               m(LayoutForm, {
@@ -180,18 +180,18 @@ const BoxItem: MeiosisComponent<{
             closeOnButtonClick: true,
             buttons: [
               {
-                label: t('CANCEL'),
+                label: t("CANCEL"),
               },
               {
-                label: t('DELETE'),
+                label: t("DELETE"),
                 onclick: () => {
-                  mutateScenarioComponent(attrs, id, obj, 'delete');
+                  mutateScenarioComponent(attrs, id, obj, "delete");
                 },
               },
               {
-                label: t('OK'),
+                label: t("OK"),
                 onclick: () => {
-                  mutateScenarioComponent(attrs, id, obj, 'update');
+                  mutateScenarioComponent(attrs, id, obj, "update");
                 },
               },
             ],
@@ -220,34 +220,34 @@ const BoxHeader: MeiosisComponent<{
       const { id } = sc;
       const keyDriverForm = [
         {
-          id: 'order',
-          type: 'number',
-          label: `${t('ORDER')} (${keyDriverIndex}/${keyDriverCount})`,
-          className: 'col s4',
+          id: "order",
+          type: "number",
+          label: `${t("ORDER")} (${keyDriverIndex}/${keyDriverCount})`,
+          className: "col s4",
         },
         {
-          id: 'label',
-          type: 'text',
-          label: t('NAME'),
-          className: 'col s8',
+          id: "label",
+          type: "text",
+          label: t("NAME"),
+          className: "col s8",
           autofocus: true,
         },
         {
-          id: 'desc',
-          type: 'textarea',
-          label: t('DESCRIPTION'),
-          className: 'col s12',
+          id: "desc",
+          type: "textarea",
+          label: t("DESCRIPTION"),
+          className: "col s12",
         },
       ] as UIForm<ScenarioComponent>;
 
-      return m('li.kanban-header.widget', { key: `${id}_header` }, [
+      return m("li.kanban-header.widget", { key: `${id}_header` }, [
         m(
-          '.span.title.truncate.left.ml10',
+          ".span.title.truncate.left.ml10",
           {
             onmouseenter: sc.desc
               ? () => {
                   attrs.update({
-                    activeTooltip: `${sc.label || ''}: ${sc.desc}`,
+                    activeTooltip: `${sc.label || ""}: ${sc.desc}`,
                   });
                 }
               : undefined,
@@ -261,11 +261,11 @@ const BoxHeader: MeiosisComponent<{
           },
           sc.label,
         ),
-        m('div', [
-          m('div.widget-link.kanban-header-actions', [
+        m("div", [
+          m("div.widget-link.kanban-header-actions", [
             m(IconButton, {
-              className: 'kanban-header-action-btn',
-              iconName: 'edit',
+              className: "kanban-header-action-btn",
+              iconName: "edit",
               onclick: () => {
                 const category =
                   attrs.state.model.scenario.categories[categoryId];
@@ -278,20 +278,20 @@ const BoxHeader: MeiosisComponent<{
               },
             }),
             m(IconButton, {
-              className: 'kanban-header-action-btn',
-              iconName: 'add',
+              className: "kanban-header-action-btn",
+              iconName: "add",
               onclick: () => (addComponent = true),
             }),
           ]),
           m(ModalPanel, {
             id: sc.id,
-            title: t('ADD_COMPONENT'),
+            title: t("ADD_COMPONENT"),
             fixedFooter: true,
             isOpen: addComponent,
             onToggle: (open) => (addComponent = open),
             closeOnButtonClick: true,
             description: m(
-              '.row',
+              ".row",
               m(LayoutForm<ContextualItem>, {
                 form,
                 obj,
@@ -301,33 +301,33 @@ const BoxHeader: MeiosisComponent<{
             // options: { opacity: 0.7 },
             buttons: [
               {
-                label: t('CANCEL'),
+                label: t("CANCEL"),
               },
               {
-                label: t('OK'),
+                label: t("OK"),
                 onclick: () => {
                   const item = { ...obj };
                   obj = {} as ContextualItem;
-                  mutateScenarioComponent(attrs, id, item, 'create');
+                  mutateScenarioComponent(attrs, id, item, "create");
                 },
               },
             ],
           }),
           m(ModalPanel, {
             id: `edit_${sc.id}`,
-            title: t('EDIT_COMPONENT'),
+            title: t("EDIT_COMPONENT"),
             fixedFooter: true,
             isOpen: editKeyDriver,
             onToggle: (open) => (editKeyDriver = open),
             closeOnButtonClick: true,
             description: m(
-              '.row',
+              ".row",
               m(
-                '.col.s12',
+                ".col.s12",
                 m(ConfirmButton, {
-                  className: 'right',
-                  iconName: 'delete',
-                  label: t('DELETE'),
+                  className: "right",
+                  iconName: "delete",
+                  label: t("DELETE"),
                   onclick: () => {
                     const { model } = attrs.state;
                     model.scenario.components =
@@ -359,10 +359,10 @@ const BoxHeader: MeiosisComponent<{
             ),
             buttons: [
               {
-                label: t('CANCEL'),
+                label: t("CANCEL"),
               },
               {
-                label: t('OK'),
+                label: t("OK"),
                 onclick: () => {
                   const { model } = attrs.state;
                   const category = model.scenario.categories[categoryId];
@@ -411,7 +411,7 @@ const BoxHeader: MeiosisComponent<{
                                 }
                               : component;
                           const order = orderLookup.get(component.id);
-                          return typeof order === 'number'
+                          return typeof order === "number"
                             ? { ...next, order }
                             : next;
                         },
@@ -470,12 +470,12 @@ const BoxRow: MeiosisComponent<{
             contexts: sc.contexts,
             item: c,
             form,
-            color: compColor[c.id] || compColor['OTHER'],
+            color: compColor[c.id] || compColor["OTHER"],
           }),
         ),
       ];
 
-      return m('li', { key: sc.id }, [m('ul.kanban-row', rowChildren)]);
+      return m("li", { key: sc.id }, [m("ul.kanban-row", rowChildren)]);
     },
   };
 };
@@ -506,7 +506,7 @@ const BoxView: MeiosisComponent<{
         .map((componentId) => componentLookup.get(componentId))
         .filter((component): component is ScenarioComponent => !!component);
 
-      return m('ul.kanban', [
+      return m("ul.kanban", [
         ...scs.map((sc) =>
           m(BoxRow, {
             key: sc.id,
@@ -518,45 +518,45 @@ const BoxView: MeiosisComponent<{
           }),
         ),
         m(
-          'li.kanban-add-driver-column',
+          "li.kanban-add-driver-column",
           {
             key: `add_driver_${category.id}`,
             style: {
-              width: '40px',
-              minWidth: '40px',
-              display: 'block',
+              width: "40px",
+              minWidth: "40px",
+              display: "block",
             },
           },
           [
             m(
-              'div.kanban-row.kanban-row-add-driver',
+              "div.kanban-row.kanban-row-add-driver",
               {
                 style: {
-                  width: '40px',
-                  minWidth: '40px',
-                  marginTop: '10px',
+                  width: "40px",
+                  minWidth: "40px",
+                  marginTop: "10px",
                 },
               },
               [
                 m(
-                  'div.kanban-header.kanban-header-add-driver.widget',
+                  "div.kanban-header.kanban-header-add-driver.widget",
                   {
                     style: {
-                      width: '40px',
-                      minHeight: '50px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      width: "40px",
+                      minHeight: "50px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                     },
                   },
                   [
                     m(
-                      '.kanban-add-driver-plus',
+                      ".kanban-add-driver-plus",
                       {
-                        title: t('WIZARD_COMPONENTS_INFO'),
+                        title: t("WIZARD_COMPONENTS_INFO"),
                         onclick: () => onAddKeyDriver(categoryId),
                       },
-                      '+',
+                      "+",
                     ),
                   ],
                 ),
@@ -570,8 +570,8 @@ const BoxView: MeiosisComponent<{
 };
 
 export const CreateBoxPage: MeiosisComponent = () => {
-  let tooltip = '';
-  let tmpTooltip = '';
+  let tooltip = "";
+  let tmpTooltip = "";
   let fadeOut = false;
   let timer: number | undefined;
 
@@ -594,8 +594,8 @@ export const CreateBoxPage: MeiosisComponent = () => {
   function hideTooltip() {
     clearTimeout(timer);
     timer = window.setTimeout(() => {
-      tooltip = '';
-      tmpTooltip = '';
+      tooltip = "";
+      tmpTooltip = "";
       fadeOut = false;
       m.redraw();
     }, 200); // matches .popupContent fade duration
@@ -604,72 +604,72 @@ export const CreateBoxPage: MeiosisComponent = () => {
   const OsmOptions = OsmTypes.map(({ id, name }) => ({ id, label: name }));
   const mapFormOptions = [
     {
-      id: 'context',
-      type: 'select',
-      label: t('CONTEXT'),
-      value: 'none',
+      id: "context",
+      type: "select",
+      label: t("CONTEXT"),
+      value: "none",
       options: contextTypeOptions(t),
     },
     {
-      id: 'lat',
-      show: ['context=location'],
-      type: 'number',
-      className: 'col s4',
-      label: t('LATITUDE'),
+      id: "lat",
+      show: ["context=location"],
+      type: "number",
+      className: "col s4",
+      label: t("LATITUDE"),
     },
     {
-      id: 'lon',
-      show: ['context=location'],
-      type: 'number',
-      className: 'col s4',
-      label: t('LONGITUDE'),
+      id: "lon",
+      show: ["context=location"],
+      type: "number",
+      className: "col s4",
+      label: t("LONGITUDE"),
     },
     {
-      id: 'radii',
-      show: ['context=location'],
-      type: 'text',
-      className: 'col s4',
-      label: t('RADII'),
+      id: "radii",
+      show: ["context=location"],
+      type: "text",
+      className: "col s4",
+      label: t("RADII"),
     },
     {
-      id: 'locationTypeType',
-      show: ['context=locationType'],
-      type: 'select',
-      label: t('LOCATION_TYPE'),
-      className: 'col s6',
+      id: "locationTypeType",
+      show: ["context=locationType"],
+      type: "select",
+      label: t("LOCATION_TYPE"),
+      className: "col s6",
       options: [
-        { id: 'list', label: t('PICK_FROM_LIST') },
-        { id: 'keyValue', label: t('ENTER_KEY_VALUE') },
+        { id: "list", label: t("PICK_FROM_LIST") },
+        { id: "keyValue", label: t("ENTER_KEY_VALUE") },
       ],
     },
     {
-      id: 'osmTypeId',
-      show: ['context=locationType & locationTypeType=list'],
-      type: 'select',
-      label: t('NAME'),
-      className: 'col s6',
+      id: "osmTypeId",
+      show: ["context=locationType & locationTypeType=list"],
+      type: "select",
+      label: t("NAME"),
+      className: "col s6",
       options: OsmOptions,
     },
     {
-      id: 'value',
-      show: ['context=locationType & locationTypeType=keyValue'],
-      type: 'text',
-      className: 'col s3',
-      label: t('KEY'),
+      id: "value",
+      show: ["context=locationType & locationTypeType=keyValue"],
+      type: "text",
+      className: "col s3",
+      label: t("KEY"),
     },
     {
-      id: 'key',
-      show: ['context=locationType & locationTypeType=keyValue'],
-      type: 'text',
-      className: 'col s3',
-      label: t('VALUE'),
+      id: "key",
+      show: ["context=locationType & locationTypeType=keyValue"],
+      type: "text",
+      className: "col s3",
+      label: t("VALUE"),
     },
   ] as UIForm<ContextualItem>;
 
   const form = [
-    { id: 'id', type: 'none', autogenerate: 'id' },
-    { id: 'label', type: 'textarea', label: t('NAME'), autofocus: true },
-    { id: 'desc', type: 'textarea', label: t('DESCRIPTION') },
+    { id: "id", type: "none", autogenerate: "id" },
+    { id: "label", type: "textarea", label: t("NAME"), autofocus: true },
+    { id: "desc", type: "textarea", label: t("DESCRIPTION") },
   ] as UIForm<ContextualItem>;
 
   let narrativeLength = 0;
@@ -679,7 +679,7 @@ export const CreateBoxPage: MeiosisComponent = () => {
 
   const setThresholdColors = (thc: ThresholdColor[]) => {
     if (!thc) return;
-    if (ThemeManager.getEffectiveTheme() === 'light') {
+    if (ThemeManager.getEffectiveTheme() === "light") {
       themeThresholdColors = [...thc];
     } else {
       themeThresholdColors = thc.map((c) => ({
@@ -716,13 +716,13 @@ export const CreateBoxPage: MeiosisComponent = () => {
     // });
 
     // console.log(md);
-    const md = fragments.join('\n\n');
+    const md = fragments.join("\n\n");
     const html = render(md, true);
 
     navigator.clipboard.write([
       new ClipboardItem({
-        'text/html': new Blob([html], { type: 'text/html' }),
-        'text/plain': new Blob([md], { type: 'text/plain' }),
+        "text/html": new Blob([html], { type: "text/html" }),
+        "text/plain": new Blob([md], { type: "text/plain" }),
       }),
     ]);
   };
@@ -742,7 +742,7 @@ export const CreateBoxPage: MeiosisComponent = () => {
     const nextNumber = (category.componentIds?.length || 0) + 1;
     const newDriver: ScenarioComponent = {
       id,
-      label: `${t('DIMENSIONS')} ${nextNumber}`,
+      label: `${t("DIMENSIONS")} ${nextNumber}`,
       values: [],
     };
 
@@ -791,8 +791,8 @@ export const CreateBoxPage: MeiosisComponent = () => {
         scenario.components.forEach((comp) => {
           comp.values?.forEach((item) => {
             if (
-              item.context === 'location' ||
-              item.context === 'locationType'
+              item.context === "location" ||
+              item.context === "locationType"
             ) {
               allSelectedItems.push(item);
             }
@@ -801,39 +801,39 @@ export const CreateBoxPage: MeiosisComponent = () => {
       }
 
       return [
-        m('.create-box-page', [
+        m(".create-box-page", [
           m(FlatButton, {
             style: {
-              marginTop: '20px',
-              marginBottom: '-40px',
+              marginTop: "20px",
+              marginBottom: "-40px",
             },
-            className: 'right',
-            label: t('COPY_BOX', 'LABEL'),
-            iconName: 'content_copy',
-            title: t('COPY_BOX', 'TITLE'),
+            className: "right",
+            label: t("COPY_BOX", "LABEL"),
+            iconName: "content_copy",
+            title: t("COPY_BOX", "TITLE"),
             onclick: () => {
               copyMarkdownTable(scenario, categories);
-              toast({ html: t('COPY_BOX', 'TOAST') });
+              toast({ html: t("COPY_BOX", "TOAST") });
             },
           }),
           m(IconButton, {
             style: {
-              marginTop: '20px',
-              marginBottom: '-40px',
+              marginTop: "20px",
+              marginBottom: "-40px",
             },
-            className: 'right',
-            iconName: 'text_increase',
+            className: "right",
+            iconName: "text_increase",
             onclick: () => {
               setFontSize(attrs, fontSize + 1);
             },
           }),
           m(IconButton, {
             style: {
-              marginTop: '20px',
-              marginBottom: '-40px',
+              marginTop: "20px",
+              marginBottom: "-40px",
             },
-            className: 'right',
-            iconName: 'text_decrease',
+            className: "right",
+            iconName: "text_decrease",
             onclick: () => {
               setFontSize(attrs, fontSize - 1);
             },
@@ -841,21 +841,21 @@ export const CreateBoxPage: MeiosisComponent = () => {
           includeMapSupport &&
             m(FlatButton, {
               style: {
-                marginTop: '20px',
-                marginBottom: '-40px',
+                marginTop: "20px",
+                marginBottom: "-40px",
               },
-              className: 'right',
-              label: t('TOGGLE', showMap ? 'HIDE' : 'SHOW'),
-              iconName: 'map',
+              className: "right",
+              label: t("TOGGLE", showMap ? "HIDE" : "SHOW"),
+              iconName: "map",
               onclick: () => (showMap = !showMap),
             }),
           m(LegendComponent, { items: themeThresholdColors }),
           includeMapSupport &&
             showMap &&
             m(
-              '.row',
+              ".row",
               m(
-                '.col.s12',
+                ".col.s12",
                 m(MapView, {
                   items: allSelectedItems,
                   mapConfig,
@@ -867,9 +867,7 @@ export const CreateBoxPage: MeiosisComponent = () => {
                 }),
               ),
             ),
-          categories.length > 1 &&
-          categories[0].componentIds &&
-          categories[1].componentIds
+          categories.length >= 1 && categories[0].componentIds
             ? m(Tabs, {
                 tabs: categories.map((c, categoryId) => ({
                   id: c.id,
@@ -883,24 +881,16 @@ export const CreateBoxPage: MeiosisComponent = () => {
                   }),
                 })),
               })
-            : categories.length === 1 && categories[0].componentIds
-              ? m(BoxView, {
-                  ...attrs,
-                  compColor,
-                  categoryId: 0,
-                  form: myForm,
-                  onAddKeyDriver: (id) => addKeyDriver(attrs, id),
-                })
-              : m('.row.mt10', m('.col.s12', t('SPEC_CATS'))),
+            : m(".row.mt10", m(".col.s12", t("SPEC_CATS"))),
           tooltip &&
             m(
-              '.popupContainer',
+              ".popupContainer",
               {
-                className: 'show',
+                className: "show",
               },
               m(
-                '.popupContent.center',
-                { class: fadeOut ? 'fade-out' : undefined },
+                ".popupContent.center",
+                { class: fadeOut ? "fade-out" : undefined },
                 m(SlimdownView, { md: tooltip, removeParagraphs: true }),
               ),
             ),
@@ -947,17 +937,17 @@ export const generateMorphologicalBoxMarkdown = ({
   const defaultResolve: ResolveIds = (n, known) => {
     const out: ID[] = [];
     const pushVal = (v: unknown) => {
-      if (typeof v === 'string' && known.has(v)) out.push(v as ID);
+      if (typeof v === "string" && known.has(v)) out.push(v as ID);
       else if (Array.isArray(v)) v.forEach(pushVal);
     };
-    if (n && typeof n === 'object') {
-      if ('components' in n) {
+    if (n && typeof n === "object") {
+      if ("components" in n) {
         Object.values((n as any).components || {}).forEach(pushVal);
       }
-      if ('selections' in n) {
+      if ("selections" in n) {
         Object.values((n as any).selections || {}).forEach(pushVal);
       }
-      if ('items' in n) {
+      if ("items" in n) {
         pushVal((n as any).items);
       }
     }
@@ -975,7 +965,7 @@ export const generateMorphologicalBoxMarkdown = ({
   }
 
   const colorSquare = (id: ID): string => {
-    const [bg] = compColor[id] || ['#999999', '#ffffff'];
+    const [bg] = compColor[id] || ["#999999", "#ffffff"];
     return `<span style="color:${bg}">■</span>`;
   };
 
@@ -985,7 +975,7 @@ export const generateMorphologicalBoxMarkdown = ({
     for (const it of sc.values || []) {
       const cnt = hasNarratives ? (counts[it.id] ?? 0) : 0;
       const label = capitalize(it.label);
-      const desc = includeDescriptions && it.desc ? ` — ${it.desc}` : '';
+      const desc = includeDescriptions && it.desc ? ` — ${it.desc}` : "";
       col.push(
         hasNarratives
           ? `${colorSquare(it.id)} ${label} (${cnt}x)${desc}`
@@ -996,14 +986,14 @@ export const generateMorphologicalBoxMarkdown = ({
   });
 
   const maxRows = Math.max(0, ...columns.map((c) => c.length));
-  const headerRow = `| ${headers.join(' | ')} |`;
-  const sepRow = `| ${headers.map(() => '---').join(' | ')} |`;
+  const headerRow = `| ${headers.join(" | ")} |`;
+  const sepRow = `| ${headers.map(() => "---").join(" | ")} |`;
 
   const bodyRows: string[] = [];
   for (let r = 0; r < maxRows; r++) {
-    const row = columns.map((col) => col[r] ?? '');
-    bodyRows.push(`| ${row.join(' | ')} |`);
+    const row = columns.map((col) => col[r] ?? "");
+    bodyRows.push(`| ${row.join(" | ")} |`);
   }
 
-  return [headerRow, sepRow, ...bodyRows].join('\n');
+  return [headerRow, sepRow, ...bodyRows].join("\n");
 };
