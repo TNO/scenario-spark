@@ -401,6 +401,7 @@ export const messages: typeof messagesEN = {
   LLM_OLLAMA_MODEL_HELP: 'Modelnaam, bijv. gemma2, llama3, qwen2.5',
   LLM_OPENAI_MODEL_HELP: 'Modelnaam, bijv. gpt-4o-mini, gpt-4o',
   LLM_COPY_PROMPT: 'Kopieer Prompt naar Klembord',
+  TEMPLATE_PROMPT_COPIED: 'Sjabloonprompt gekopieerd naar klembord',
   LLM_PROMPT_COPIED: 'Prompt gekopieerd naar klembord!',
   LLM_PASTE_OUTPUT: 'Plak de LLM output hieronder:',
   LLM_GENERATE: 'Genereer met LLM',

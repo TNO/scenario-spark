@@ -1,6 +1,5 @@
 import m from 'mithril';
 import { ThemeManager } from 'mithril-materialized';
-
 ThemeManager.initialize();
 
 if ('serviceWorker' in navigator) {
@@ -30,6 +29,9 @@ import './css/style.css';
 import { routingSvc } from './services/routing-service';
 import { Languages, i18n } from './services';
 import { LANGUAGE, SAVED } from './utils';
+import { registerTemplatePromptPlugin } from './utils/template-prompt-plugin';
+
+registerTemplatePromptPlugin();
 
 export const AllLanguages = {
   en: { name: 'English', fqn: 'en-UK' },

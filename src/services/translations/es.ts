@@ -353,6 +353,7 @@ export const messages: typeof messagesEN = {
   LLM_OLLAMA_MODEL_HELP: 'Nombre del modelo, por ejemplo, gemma2, llama3, qwen2.5',
   LLM_OPENAI_MODEL_HELP: 'Nombre del modelo, por ejemplo, gpt-4o-mini, gpt-4o',
   LLM_COPY_PROMPT: 'Copiar prompt al portapapeles',
+  TEMPLATE_PROMPT_COPIED: 'Prompt de plantilla copiado al portapapeles',
   LLM_PROMPT_COPIED: '¡Prompt copiado al portapapeles!',
   LLM_PASTE_OUTPUT: 'Pegue la salida del LLM a continuación:',
   LLM_GENERATE: 'Generar con LLM',

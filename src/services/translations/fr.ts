@@ -353,6 +353,7 @@ export const messages: typeof messagesEN = {
   LLM_OLLAMA_MODEL_HELP: 'Nom du modèle, par exemple, gemma2, llama3, qwen2.5',
   LLM_OPENAI_MODEL_HELP: 'Nom du modèle, par exemple, gpt-4o-mini, gpt-4o',
   LLM_COPY_PROMPT: 'Copier l\'invite dans le presse-papiers',
+  TEMPLATE_PROMPT_COPIED: 'Invite de modèle copiée dans le presse-papiers',
   LLM_PROMPT_COPIED: 'Invite copiée dans le presse-papiers !',
   LLM_PASTE_OUTPUT: 'Collez la sortie du LLM ci-dessous :',
   LLM_GENERATE: 'Générer avec le LLM',

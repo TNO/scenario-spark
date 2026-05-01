@@ -53,7 +53,7 @@ export const SettingsPage: MeiosisComponent = () => {
     { id: 'desc', type: 'textarea', label: t('DESCRIPTION') },
     {
       id: 'template',
-      type: 'textarea',
+      type: 'template-with-llm',
       label: t('TEMPLATE', 'TITLE'),
       description: t('TEMPLATE', 'DESC')?.replace('XXX', '{1}'),
     },
@@ -221,6 +221,7 @@ export const SettingsPage: MeiosisComponent = () => {
     view: ({ attrs }) => {
       const { model } = attrs.state;
       const { personas = [] } = model;
+      const { categories = [], components = [] } = model.scenario ?? {};
       // console.log(model.scenario?.personas);
       return [
         m('.settings-page.row', { key: model.version }, [
@@ -252,7 +253,7 @@ export const SettingsPage: MeiosisComponent = () => {
                       obj: model.scenario,
                       form,
                       i18n: i18n.i18n,
-                      context: [{ personas, osmtypes: OsmOptions }] as any,
+                      context: [{ personas, osmtypes: OsmOptions, categories, components, language: i18n.currentLocale }] as any,
                       onchange: async () => {
                         await saveModel(attrs, model);
                       },
