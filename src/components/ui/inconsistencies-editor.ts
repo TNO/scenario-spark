@@ -33,6 +33,11 @@ interface CategoryWithComponents extends Category {
   components: ScenarioComponent[];
 }
 
+type ComponentValue = {
+  id: ID;
+  label: string;
+};
+
 // Tooltip component for cell info
 const CellTooltip: FactoryComponent<{
   rowComponent: string;
@@ -57,6 +62,7 @@ const InconsistencyCell: FactoryComponent<{
   rowId: ID;
   colId: ID;
   callback: () => Promise<void>;
+  onactivate?: () => void;
   disabled?: boolean;
   rowComponent: string;
   rowValue: string;
@@ -72,6 +78,7 @@ const InconsistencyCell: FactoryComponent<{
         colId,
         inconsistencies,
         callback,
+        onactivate,
         disabled,
         rowComponent,
         rowValue,
@@ -121,6 +128,8 @@ const InconsistencyCell: FactoryComponent<{
               e.stopPropagation();
               if (disabled) return;
 
+              onactivate?.();
+
               switch (v) {
                 case true:
                   inconsistencies[rowId][colId] = inconsistencies[colId][
@@ -163,52 +172,51 @@ const InconsistencyCell: FactoryComponent<{
   };
 };
 
-// Legend component to explain cell states
-const InconsistencyLegend: FactoryComponent = () => {
+const KeyboardLegend: FactoryComponent = () => {
   return {
-    view: () => {
-      return m(
-        '.card.legend-card',
-        {
-          style: 'padding: 4px; margin: 0;',
-        },
-        [
-          // m('h6', t('INCONSISTENCIES', 'LEGEND')),
-          m(
-            'ul.legend-list',
-            {
-              style: 'list-style-type: none; padding-left: 0; margin: 0;',
-            },
-            [
-              m('li', [
-                m(Icon, {
-                  className: 'inconsistency-cell-possible',
-                  style: 'vertical-align: middle;',
-                  iconName: 'check_circle_outline',
-                }),
-                ' ' + t('COMBINATIONS', 'POSSIBLE'),
-              ]),
-              m('li', [
-                m(Icon, {
-                  className: 'inconsistency-cell-impossible',
-                  style: 'vertical-align: middle;',
-                  iconName: 'radio_button_unchecked',
-                }),
-                ' ' + t('COMBINATIONS', 'IMPOSSIBLE'),
-              ]),
-              m('li', [
-                m(Icon, {
-                  className: 'inconsistency-cell-improbable',
-                  style: 'vertical-align: middle;',
-                  iconName: 'blur_circular',
-                }),
-                ' ' + t('COMBINATIONS', 'IMPROBABLE'),
-              ]),
-            ]
-          ),
-        ]
-      );
-    },
+    view: () =>
+      m('.card.nav-legend-card', [
+        m('.nav-legend-row.nav-legend-row-combinations', [
+          m('.nav-legend-item', [
+            m(Icon, {
+              className: 'inconsistency-cell-possible nav-legend-icon',
+              iconName: 'check_circle_outline',
+            }),
+            m('span', t('COMBINATIONS', 'POSSIBLE')),
+          ]),
+          m('.nav-legend-item', [
+            m(Icon, {
+              className: 'inconsistency-cell-impossible nav-legend-icon',
+              iconName: 'radio_button_unchecked',
+            }),
+            m('span', t('COMBINATIONS', 'IMPOSSIBLE')),
+          ]),
+          m('.nav-legend-item', [
+            m(Icon, {
+              className: 'inconsistency-cell-improbable nav-legend-icon',
+              iconName: 'blur_circular',
+            }),
+            m('span', t('COMBINATIONS', 'IMPROBABLE')),
+          ]),
+        ]),
+        m('.nav-legend-row.nav-legend-row-keyboard', [
+          m('strong.nav-legend-keyboard-label', `${t('INCONSISTENCIES', 'NAV_TITLE')}:`),
+          m('.nav-legend-item', [
+            m(Icon, {
+              iconName: 'open_with',
+              className: 'nav-legend-icon',
+            }),
+            m('span', t('INCONSISTENCIES', 'NAV_ARROWS')),
+          ]),
+          m('.nav-legend-item', [
+            m(Icon, {
+              iconName: 'keyboard_return',
+              className: 'nav-legend-icon',
+            }),
+            m('span', t('INCONSISTENCIES', 'NAV_TOGGLE')),
+          ]),
+        ]),
+      ]),
   };
 };
 
@@ -259,10 +267,111 @@ const groupComponentsByCategory = (
   return Object.values(categoryMap).filter((cat) => cat.components.length > 0);
 };
 
+const getInconsistencyValue = (
+  inconsistencies: Inconsistencies,
+  rowId: ID,
+  colId: ID
+) => {
+  const row = inconsistencies[rowId];
+  return typeof row !== 'undefined' ? row[colId] : undefined;
+};
+
+const cycleInconsistencyValue = (
+  inconsistencies: Inconsistencies,
+  rowId: ID,
+  colId: ID
+) => {
+  const v = getInconsistencyValue(inconsistencies, rowId, colId);
+
+  switch (v) {
+    case true:
+      inconsistencies[rowId][colId] = inconsistencies[colId][rowId] = false;
+      break;
+    case false:
+      delete inconsistencies[rowId][colId];
+      delete inconsistencies[colId][rowId];
+      break;
+    default:
+      if (!inconsistencies[rowId]) {
+        inconsistencies[rowId] = {};
+      }
+      if (!inconsistencies[colId]) {
+        inconsistencies[colId] = {};
+      }
+      inconsistencies[rowId][colId] = inconsistencies[colId][rowId] = true;
+      break;
+  }
+};
+
+const hasValues = (comp: ScenarioComponent) =>
+  Array.isArray(comp.values) && comp.values.length > 0;
+
+const firstSelectableComponentId = (
+  components: ScenarioComponent[],
+  excludedId?: ID
+) => {
+  const candidate = components.find(
+    (comp) => hasValues(comp) && (!excludedId || comp.id !== excludedId)
+  );
+  return candidate?.id || '';
+};
+
+const cycleComponentId = (
+  components: ScenarioComponent[],
+  currentId: ID,
+  direction: 1 | -1,
+  excludedId?: ID
+) => {
+  if (!components.length) return '';
+
+  const ids = components
+    .filter((comp) => hasValues(comp))
+    .map((comp) => comp.id)
+    .filter((id) => !excludedId || id !== excludedId);
+
+  if (!ids.length) return '';
+
+  const currentIndex = ids.indexOf(currentId);
+  const start = currentIndex >= 0 ? currentIndex : 0;
+  const nextIndex = (start + direction + ids.length) % ids.length;
+  return ids[nextIndex];
+};
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.max(min, Math.min(max, value));
+
+const focusedCellAttrs = (isFocused: boolean) => {
+  if (!isFocused) {
+    return {};
+  }
+  return {
+    oncreate: ({ dom }: { dom: Element }) => {
+      dom.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    },
+    onupdate: ({ dom }: { dom: Element }) => {
+      dom.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    },
+  };
+};
+
 // Main inconsistencies editor component
 export const InconsistenciesEditor: MeiosisComponent = () => {
   let rowCategoryId: ID = '';
   let colCategoryId: ID = '';
+  let activeRowCompId: ID = '';
+  let activeColCompId: ID = '';
+  let activeCellRow = 0;
+  let activeCellCol = 0;
+  let colHeaderHeight = 0;
+  let colHeaderResizeObserver: ResizeObserver | undefined;
+
+  const syncColHeaderHeight = (dom: Element) => {
+    const nextHeight = Math.ceil((dom as HTMLElement).getBoundingClientRect().height);
+    if (nextHeight > 0 && nextHeight !== colHeaderHeight) {
+      colHeaderHeight = nextHeight;
+      m.redraw();
+    }
+  };
 
   return {
     oninit: ({ attrs }) => {
@@ -274,6 +383,9 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
       if (categories && categories.length) {
         rowCategoryId = colCategoryId = categories[0].id;
       }
+    },
+    onremove: () => {
+      colHeaderResizeObserver?.disconnect();
     },
     view: ({ attrs }) => {
       const { model } = attrs.state;
@@ -297,300 +409,370 @@ export const InconsistenciesEditor: MeiosisComponent = () => {
         (c) => c.id === colCategoryId
       );
 
-      // Check if using the same category for both axes
       const usingSameCategory = rowCategoryId === colCategoryId;
+      const rowComponents = (rowCategory?.components || []).filter(hasValues);
+      const colComponents = (colCategory?.components || []).filter(hasValues);
 
-      // Calculate total cells and indexes for each component's values
-      const calculateValueIndexes = (category: CategoryWithComponents) => {
-        let result = [];
-        let currentIndex = 0;
+      if (!activeRowCompId || !rowComponents.some((c) => c.id === activeRowCompId)) {
+        activeRowCompId = firstSelectableComponentId(rowComponents);
+      }
 
-        for (const comp of category.components) {
-          if (!comp.values || comp.values.length === 0) continue;
+      if (
+        !activeColCompId ||
+        !colComponents.some((c) => c.id === activeColCompId) ||
+        (usingSameCategory && activeColCompId === activeRowCompId)
+      ) {
+        activeColCompId = firstSelectableComponentId(
+          colComponents,
+          usingSameCategory ? activeRowCompId : undefined
+        );
+      }
 
-          const startIndex = currentIndex;
-          currentIndex += comp.values.length;
-          result.push({
-            component: comp,
-            startIndex,
-            endIndex: currentIndex - 1,
-          });
+      if (usingSameCategory && activeRowCompId === activeColCompId) {
+        activeRowCompId = firstSelectableComponentId(
+          rowComponents,
+          activeColCompId
+        );
+      }
+
+      const activeRowComp = rowComponents.find((c) => c.id === activeRowCompId);
+      const activeColComp = colComponents.find((c) => c.id === activeColCompId);
+
+      const rowValues: ComponentValue[] = activeRowComp?.values || [];
+      const colValues: ComponentValue[] = activeColComp?.values || [];
+      const hasActiveDrivers =
+        Boolean(activeRowComp) && Boolean(activeColComp) && rowValues.length > 0 && colValues.length > 0;
+
+      if (rowValues.length > 0) {
+        activeCellRow = clamp(activeCellRow, 0, rowValues.length - 1);
+      } else {
+        activeCellRow = 0;
+      }
+
+      if (colValues.length > 0) {
+        activeCellCol = clamp(activeCellCol, 0, colValues.length - 1);
+      } else {
+        activeCellCol = 0;
+      }
+
+      const onMatrixKeyDown = async (e: KeyboardEvent) => {
+        if (!hasActiveDrivers) {
+          return;
         }
 
-        return {
-          indexes: result,
-          totalValues: currentIndex,
-        };
+        const { key, shiftKey } = e;
+
+        if (shiftKey) {
+          if (key === 'ArrowUp' || key === 'ArrowDown') {
+            e.preventDefault();
+            const direction: 1 | -1 = key === 'ArrowDown' ? 1 : -1;
+            const nextRowCompId = cycleComponentId(
+              rowComponents,
+              activeRowCompId,
+              direction,
+              usingSameCategory ? activeColCompId : undefined
+            );
+            if (nextRowCompId) {
+              activeRowCompId = nextRowCompId;
+              activeCellRow = 0;
+              activeCellCol = 0;
+            }
+            return;
+          }
+
+          if (key === 'ArrowLeft' || key === 'ArrowRight') {
+            e.preventDefault();
+            const direction: 1 | -1 = key === 'ArrowRight' ? 1 : -1;
+            const nextColCompId = cycleComponentId(
+              colComponents,
+              activeColCompId,
+              direction,
+              usingSameCategory ? activeRowCompId : undefined
+            );
+            if (nextColCompId) {
+              activeColCompId = nextColCompId;
+              activeCellRow = 0;
+              activeCellCol = 0;
+            }
+            return;
+          }
+        }
+
+        if (key === 'ArrowUp') {
+          e.preventDefault();
+          activeCellRow = clamp(activeCellRow - 1, 0, rowValues.length - 1);
+          return;
+        }
+
+        if (key === 'ArrowDown') {
+          e.preventDefault();
+          activeCellRow = clamp(activeCellRow + 1, 0, rowValues.length - 1);
+          return;
+        }
+
+        if (key === 'ArrowLeft') {
+          e.preventDefault();
+          activeCellCol = clamp(activeCellCol - 1, 0, colValues.length - 1);
+          return;
+        }
+
+        if (key === 'ArrowRight') {
+          e.preventDefault();
+          activeCellCol = clamp(activeCellCol + 1, 0, colValues.length - 1);
+          return;
+        }
+
+        if (key === 'Enter' || key === ' ' || key === 'Spacebar') {
+          e.preventDefault();
+          const rowValue = rowValues[activeCellRow];
+          const colValue = colValues[activeCellCol];
+          if (!rowValue || !colValue) {
+            return;
+          }
+          cycleInconsistencyValue(inconsistencies, rowValue.id, colValue.id);
+          await saveModel(attrs, model);
+        }
       };
 
-      const rowData = rowCategory ? calculateValueIndexes(rowCategory) : null;
-      const colData = colCategory ? calculateValueIndexes(colCategory) : null;
-
-      // Get column components - when using the same category but different arrangement
-      const getColumnComponents = () => {
-        if (!usingSameCategory || !colCategory)
-          return colCategory?.components || [];
-
-        return colCategory.components;
-      };
-
-      const columnComponents = getColumnComponents();
-
-      return m('.inconsistencies-editor', [
+      return m('.inconsistencies-editor', { tabindex: 0, onkeydown: onMatrixKeyDown }, [
         m('.category-selectors.row', [
           // Row category selector
           m(Select, {
             checkedId: rowCategoryId,
             iconName: 'view_stream',
-            className: 'col s12 m4',
+            className: 'col s12 m6',
             placeholder: t('i18n', 'pickOne'),
             label: t('INCONSISTENCIES', 'SELECT_ROW_CATEGORY'),
             options: categoriesWithComponents.map((c) => ({
               id: c.id,
               label: c.label,
             })),
-            onchange: (ids) => (rowCategoryId = ids[0] as string),
+            onchange: (ids) => {
+              rowCategoryId = ids[0] as string;
+              const nextRowCategory = categoriesWithComponents.find(
+                (c) => c.id === rowCategoryId
+              );
+              const nextRowComponents = (nextRowCategory?.components || []).filter(
+                hasValues
+              );
+              const nextColCategory = categoriesWithComponents.find(
+                (c) => c.id === colCategoryId
+              );
+              const isSame = rowCategoryId === colCategoryId;
+              activeRowCompId = firstSelectableComponentId(
+                nextRowComponents,
+                isSame ? activeColCompId : undefined
+              );
+
+              if (isSame && activeColCompId === activeRowCompId) {
+                activeColCompId = firstSelectableComponentId(
+                  (nextColCategory?.components || []).filter(hasValues),
+                  activeRowCompId
+                );
+              }
+              activeCellRow = 0;
+              activeCellCol = 0;
+            },
           }),
 
           // Column category selector
           m(Select, {
             checkedId: colCategoryId,
             iconName: 'view_column',
-            className: 'col s12 m4',
+            className: 'col s12 m6',
             placeholder: t('i18n', 'pickOne'),
             label: t('INCONSISTENCIES', 'SELECT_COLUMN_CATEGORY'),
             options: categoriesWithComponents.map((c) => ({
               id: c.id,
               label: c.label,
             })),
-            onchange: (ids) => (colCategoryId = ids[0] as string),
-          }),
+            onchange: (ids) => {
+              colCategoryId = ids[0] as string;
+              const nextColCategory = categoriesWithComponents.find(
+                (c) => c.id === colCategoryId
+              );
+              const nextColComponents = (nextColCategory?.components || []).filter(
+                hasValues
+              );
+              const nextRowCategory = categoriesWithComponents.find(
+                (c) => c.id === rowCategoryId
+              );
+              const isSame = rowCategoryId === colCategoryId;
+              activeColCompId = firstSelectableComponentId(
+                nextColComponents,
+                isSame ? activeRowCompId : undefined
+              );
 
-          // Legend
-          m('.col.s12.m4', m(InconsistencyLegend)),
+              if (isSame && activeRowCompId === activeColCompId) {
+                activeRowCompId = firstSelectableComponentId(
+                  (nextRowCategory?.components || []).filter(hasValues),
+                  activeColCompId
+                );
+              }
+              activeCellRow = 0;
+              activeCellCol = 0;
+            },
+          }),
         ]),
 
-        // Only show the matrix when both categories are selected
         rowCategory &&
           colCategory &&
-          rowData &&
-          colData &&
-          m('.matrix-container.row', [
-            m('.col.s12', [
-              m('.inconsistency-matrix.card', [
-                m(
-                  'table.matrix-table.highlight.matrix-table-themed',
-                  {
-                    style: 'border-collapse: collapse; position: relative;',
-                    oncreate: ({ dom }) => {
-                      const table = dom as HTMLTableElement;
-                      if (!table) return;
-
-                      const cornerCell = table.querySelector(
-                        '.component-name'
-                      ) as HTMLTableCellElement;
-                      const valueNameCells =
-                        table.querySelectorAll('.value-name');
-
-                      // Meet de breedte van de eerste kolom
-                      const cornerCellWidth = cornerCell.offsetWidth;
-
-                      // Stel de 'left' eigenschap van de tweede kolom in
-                      valueNameCells.forEach((cell) => {
-                        (
-                          cell as HTMLTableCellElement
-                        ).style.left = `${cornerCellWidth}px`;
-                      });
-                    },
-                  },
-                  [
-                    // Header row with column category components and values - fixed position
-                    m(
-                      'thead',
-                      {
-                        style: 'position: sticky; top: 0; z-index: 20;',
+          m('.kd-selector-outer', [
+            m('.kd-left-col', [
+              m('.kd-left-spacer', {
+                style:
+                  colHeaderHeight > 0
+                    ? `height: ${colHeaderHeight}px;`
+                    : undefined,
+              }),
+              m(
+                '.row-kd-sidebar',
+                rowComponents.map((rowComp) => {
+                  const isDisabled =
+                    usingSameCategory && rowComp.id === activeColCompId;
+                  const isActive = activeRowCompId === rowComp.id;
+                  return m(
+                    'button.row-kd-item',
+                    {
+                      type: 'button',
+                      className: [
+                        isActive ? 'kd-active' : 'kd-inactive',
+                        isDisabled ? 'kd-disabled' : '',
+                      ].join(' '),
+                      disabled: isDisabled,
+                      onclick: () => {
+                        if (isDisabled) return;
+                        activeRowCompId = rowComp.id;
+                        activeCellRow = 0;
+                        activeCellCol = 0;
                       },
-                      [
-                        // First row: Empty corner
-                        m('tr', [
-                          // Empty corner cells for the row headers - fixed position
-                          m('th.corner-cell', {
-                            rowspan: 2,
-                            colspan: 2,
-                          }),
-                          // Column components headers
-                          ...columnComponents
-                            .map((colComp, colIdx) => {
-                              return m(
-                                'th.component-header',
-                                {
-                                  colspan: colComp.values!.length,
-                                  className:
-                                    colIdx % 2 === 0
-                                      ? 'matrix-cell-alt-bg'
-                                      : '',
-                                },
-                                colComp.label
-                              );
-                            })
-                            .filter(Boolean),
+                      title: rowComp.label,
+                    },
+                    rowComp.label
+                  );
+                })
+              ),
+            ]),
+            m('.kd-right-col', [
+              m(
+                '.col-kd-header',
+                {
+                  oncreate: ({ dom }: { dom: Element }) => {
+                    syncColHeaderHeight(dom);
+                    if (typeof ResizeObserver !== 'undefined') {
+                      colHeaderResizeObserver?.disconnect();
+                      colHeaderResizeObserver = new ResizeObserver((entries) => {
+                        if (!entries.length) return;
+                        const nextHeight = Math.ceil(entries[0].contentRect.height);
+                        if (nextHeight > 0 && nextHeight !== colHeaderHeight) {
+                          colHeaderHeight = nextHeight;
+                          m.redraw();
+                        }
+                      });
+                      colHeaderResizeObserver.observe(dom as HTMLElement);
+                    }
+                  },
+                  onupdate: ({ dom }: { dom: Element }) => syncColHeaderHeight(dom),
+                },
+                colComponents.map((colComp) => {
+                  const isDisabled =
+                    usingSameCategory && colComp.id === activeRowCompId;
+                  const isActive = activeColCompId === colComp.id;
+                  return m(
+                    'button.col-kd-item',
+                    {
+                      type: 'button',
+                      className: [
+                        isActive ? 'kd-active' : 'kd-inactive',
+                        isDisabled ? 'kd-disabled' : '',
+                      ].join(' '),
+                      disabled: isDisabled,
+                      onclick: () => {
+                        if (isDisabled) return;
+                        activeColCompId = colComp.id;
+                        activeCellRow = 0;
+                        activeCellCol = 0;
+                      },
+                      title: colComp.label,
+                    },
+                    m('span.kd-label', colComp.label)
+                  );
+                })
+              ),
+              hasActiveDrivers
+                ? m('.editing-table-area', [
+                    m('.inconsistency-matrix.card', [
+                      m('table.matrix-table.highlight.matrix-table-themed', [
+                        m('thead', [
+                          m('tr', [
+                            m('th.component-name.active-driver-header', {
+                              rowspan: 2,
+                            }, activeRowComp?.label),
+                            m('th.col-driver-title', {
+                              colspan: colValues.length,
+                            }, activeColComp?.label),
+                          ]),
+                          m('tr', [
+                            ...colValues.map((colVal) =>
+                              m('th.value-header.active-driver-header', m('div', colVal.label))
+                            ),
+                          ]),
                         ]),
-                        // Second row: Value headers
-                        m('tr.value-header-row', [
-                          // Value headers with dividers between components
-                          ...columnComponents.flatMap((comp, compIdx) => {
-                            if (!comp.values || comp.values.length === 0)
-                              return [];
-
-                            return comp.values.map((val, valIdx) =>
-                              m(
-                                'th.value-header',
-                                {
-                                  className:
-                                    compIdx % 2 === 0
-                                      ? 'matrix-cell-alt-bg'
-                                      : '',
-                                  style:
-                                    valIdx === 0
-                                      ? 'border-left: 2px solid var(--mm-border-color);'
-                                      : '',
-                                },
-                                m('div', val.label)
-                              )
-                            );
-                          }),
-                        ]),
-                      ]
-                    ),
-
-                    // Table body with row components and matrix cells
-                    m('tbody', [
-                      // For each component in the row category
-                      ...rowCategory.components
-                        // .filter((rowComp, i) => i > 0)
-                        .flatMap((rowComp, rowCompIdx) => {
-                          if (!rowComp.values || rowComp.values.length === 0)
-                            return [];
-
-                          // For each value in the component
-                          return rowComp.values.map((rowVal, rowValIdx) => {
-                            // Calculate left position for sticky columns
-                            // First column (component name) width
-                            const firstColWidth = 120;
-
-                            return m(
-                              'tr',
-                              {
-                                className:
-                                  rowCompIdx % 2 === 0
-                                    ? 'matrix-cell-alt-bg'
-                                    : '',
-                                style:
-                                  rowValIdx === 0
-                                    ? 'border-top: 2px solid var(--mm-border-color);'
-                                    : '',
-                              },
-                              [
-                                // Display component name for first value only (merged cells) - fixed position
-                                rowValIdx === 0
-                                  ? m(
-                                      'th.component-name',
-                                      {
-                                        rowspan: rowComp.values?.length,
-                                        className:
-                                          rowCompIdx % 2 === 0
-                                            ? 'matrix-cell-alt-bg'
-                                            : '',
-                                      },
-                                      rowComp.label
-                                    )
-                                  : null,
-
-                                // Value name - fixed position
-                                m(
-                                  'th.value-name',
+                        m(
+                          'tbody',
+                          rowValues.map((rowVal, rowValIdx) =>
+                            m('tr', [
+                              m('th.value-name', rowVal.label),
+                              ...colValues.map((colVal, colValIdx) => {
+                                const isFocused =
+                                  rowValIdx === activeCellRow &&
+                                  colValIdx === activeCellCol;
+                                return m(
+                                  'td.matrix-cell',
                                   {
-                                    className:
-                                      rowCompIdx % 2 === 0
-                                        ? 'matrix-cell-alt-bg'
-                                        : '',
-                                    style: `left: ${firstColWidth}px;`,
+                                    className: isFocused
+                                      ? 'matrix-cell-focused'
+                                      : '',
+                                    'data-row': rowValIdx,
+                                    'data-col': colValIdx,
+                                    onclick: () => {
+                                      activeCellRow = rowValIdx;
+                                      activeCellCol = colValIdx;
+                                    },
+                                    ...focusedCellAttrs(isFocused),
                                   },
-                                  rowVal.label
-                                ),
-
-                                // Matrix cells - one for each column value
-                                ...columnComponents.flatMap(
-                                  (colComp, colCompIdx) => {
-                                    if (
-                                      !colComp.values ||
-                                      colComp.values.length === 0
-                                    )
-                                      return [];
-
-                                    return colComp.values.map(
-                                      (colVal, colValIdx) => {
-                                        // Cells should be disabled if:
-                                        // 1. Same component (comparing component with itself is not valid)
-                                        // 2. In the upper triangle when the same category is used on both axes
-                                        const isSameComponent =
-                                          rowComp.id === colComp.id;
-
-                                        // When using same category, display only half of the matrix
-                                        // We'll use the lower triangle: only show cells where rowCompIdx >= colCompIdx
-                                        const isInHiddenTriangle =
-                                          usingSameCategory &&
-                                          (rowCompIdx < colCompIdx ||
-                                            (rowCompIdx === colCompIdx &&
-                                              rowValIdx < colValIdx));
-
-                                        const isDisabled =
-                                          isSameComponent || isInHiddenTriangle;
-
-                                        return m(
-                                          'td.matrix-cell',
-                                          {
-                                            className: isDisabled
-                                              ? 'matrix-disabled-cell'
-                                              : (colCompIdx % 2 === 0 &&
-                                                  rowCompIdx % 2 === 0) ||
-                                                (colCompIdx % 2 === 1 &&
-                                                  rowCompIdx % 2 === 1)
-                                              ? 'matrix-cell-alt-bg'
-                                              : '',
-                                            style:
-                                              colValIdx === 0
-                                                ? 'border-left: 2px solid var(--mm-border-color);'
-                                                : '',
-                                          },
-                                          !isDisabled &&
-                                            m(InconsistencyCell, {
-                                              rowId: rowVal.id,
-                                              colId: colVal.id,
-                                              inconsistencies,
-                                              callback: async () =>
-                                                await saveModel(attrs, model),
-                                              rowComponent: rowComp.label,
-                                              rowValue: rowVal.label,
-                                              colComponent: colComp.label,
-                                              colValue: colVal.label,
-                                              disabled: isDisabled,
-                                            })
-                                        );
-                                      }
-                                    );
-                                  }
-                                ),
-                              ]
-                            );
-                          });
-                        }),
+                                  m(InconsistencyCell, {
+                                    rowId: rowVal.id,
+                                    colId: colVal.id,
+                                    inconsistencies,
+                                    onactivate: () => {
+                                      activeCellRow = rowValIdx;
+                                      activeCellCol = colValIdx;
+                                    },
+                                    callback: async () => await saveModel(attrs, model),
+                                    rowComponent: activeRowComp?.label || '',
+                                    rowValue: rowVal.label,
+                                    colComponent: activeColComp?.label || '',
+                                    colValue: colVal.label,
+                                  })
+                                );
+                              }),
+                            ])
+                          )
+                        ),
+                      ]),
                     ]),
-                  ]
-                ),
-              ]),
+                  ])
+                : m(
+                    '.editing-table-area.no-drivers-area',
+                    m('p.flow-text', t('INCONSISTENCIES', 'NO_DRIVERS'))
+                  ),
             ]),
           ]),
+
+        m('.row', [
+          m('.col.s12', m(KeyboardLegend)),
+        ]),
 
         // Show message when categories aren't selected
         (!rowCategory || !colCategory) &&

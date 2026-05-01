@@ -95,6 +95,16 @@ export const messages: typeof messagesEN = {
     SELECT_ROW_CATEGORY: 'Sélectionner la catégorie de ligne',
     SELECT_COLUMN_CATEGORY: 'Sélectionner la catégorie de colonne',
     SELECT_CATEGORIES_TO_START: 'Sélectionner les catégories pour commencer',
+    NO_DRIVERS:
+      'Aucun facteur clé avec des valeurs n\'est disponible pour cette combinaison de catégories',
+    NAV_TITLE: 'Navigation clavier',
+    NAV_ARROWS:
+      'Flèches: naviguer entre les cellules, avec Shift entre facteurs clés',
+    NAV_TOGGLE: 'Espace ou Entrée: changer l\'état de la combinaison',
+    NAV_SHIFT_VERTICAL:
+      'Shift + Haut/Bas: changer le facteur clé de ligne actif',
+    NAV_SHIFT_HORIZONTAL:
+      'Shift + Gauche/Droite: changer le facteur clé de colonne actif',
   },
   saveButton: {
     label: 'Enregistrer',

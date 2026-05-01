@@ -95,6 +95,16 @@ export const messages: typeof messagesEN = {
     SELECT_ROW_CATEGORY: 'Wybierz kategorię wiersza',
     SELECT_COLUMN_CATEGORY: 'Wybierz kategorię kolumny',
     SELECT_CATEGORIES_TO_START: 'Wybierz kategorie, aby rozpocząć',
+    NO_DRIVERS:
+      'Dla tej kombinacji kategorii nie ma dostępnych kluczowych czynników z wartościami',
+    NAV_TITLE: 'Nawigacja klawiaturą',
+    NAV_ARROWS:
+      'Strzałki: poruszanie się między komórkami, z Shift między kluczowymi czynnikami',
+    NAV_TOGGLE: 'Spacja lub Enter: zmień stan kombinacji',
+    NAV_SHIFT_VERTICAL:
+      'Shift + Góra/Dół: zmień aktywny kluczowy czynnik wiersza',
+    NAV_SHIFT_HORIZONTAL:
+      'Shift + Lewo/Prawo: zmień aktywny kluczowy czynnik kolumny',
   },
   saveButton: {
     label: 'Zapisz',

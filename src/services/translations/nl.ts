@@ -95,6 +95,16 @@ export const messages: typeof messagesEN = {
     SELECT_ROW_CATEGORY: 'Selecteer rij categorie',
     SELECT_COLUMN_CATEGORY: 'Selecteer kolom categorie',
     SELECT_CATEGORIES_TO_START: 'Selecteer categorieën om te beginnen',
+    NO_DRIVERS:
+      'Er zijn geen stuurfactoren met waarden beschikbaar voor deze categoriecombinatie',
+    NAV_TITLE: 'Toetsenbordnavigatie',
+    NAV_ARROWS:
+      'Pijltjestoetsen: ga door cellen, met Shift door stuurfactoren',
+    NAV_TOGGLE: 'Spatie of Enter: wissel combinatiestatus',
+    NAV_SHIFT_VERTICAL:
+      'Shift + omhoog/omlaag: actieve rij-stuurfactor wijzigen',
+    NAV_SHIFT_HORIZONTAL:
+      'Shift + links/rechts: actieve kolom-stuurfactor wijzigen',
   },
   saveButton: {
     label: 'Opslaan',

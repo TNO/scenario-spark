@@ -95,6 +95,16 @@ export const messages: typeof messagesEN = {
     SELECT_ROW_CATEGORY: 'Seleccionar categoría de fila',
     SELECT_COLUMN_CATEGORY: 'Seleccionar categoría de columna',
     SELECT_CATEGORIES_TO_START: 'Seleccionar categorías para comenzar',
+    NO_DRIVERS:
+      'No hay impulsores clave con valores disponibles para esta combinación de categorías',
+    NAV_TITLE: 'Navegación con teclado',
+    NAV_ARROWS:
+      'Flechas: moverse entre celdas, con Shift entre impulsores clave',
+    NAV_TOGGLE: 'Espacio o Enter: cambiar estado de combinación',
+    NAV_SHIFT_VERTICAL:
+      'Shift + Arriba/Abajo: cambiar impulsor clave de fila activo',
+    NAV_SHIFT_HORIZONTAL:
+      'Shift + Izquierda/Derecha: cambiar impulsor clave de columna activo',
   },
   saveButton: {
     label: 'Guardar',

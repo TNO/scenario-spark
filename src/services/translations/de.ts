@@ -95,6 +95,16 @@ export const messages: typeof messagesEN = {
     SELECT_ROW_CATEGORY: 'Zeilenkategorie auswählen',
     SELECT_COLUMN_CATEGORY: 'Spaltenkategorie auswählen',
     SELECT_CATEGORIES_TO_START: 'Kategorien zum Starten auswählen',
+    NO_DRIVERS:
+      'Für diese Kategoriekombination sind keine Schlüsseltreiber mit Werten verfügbar',
+    NAV_TITLE: 'Tastaturnavigation',
+    NAV_ARROWS:
+      'Pfeiltasten: Zwischen Zellen wechseln, mit Shift zwischen Schlüsseltreibern',
+    NAV_TOGGLE: 'Leertaste oder Enter: Kombinationsstatus wechseln',
+    NAV_SHIFT_VERTICAL:
+      'Shift + Hoch/Runter: Aktiven Zeilen-Schlüsseltreiber wechseln',
+    NAV_SHIFT_HORIZONTAL:
+      'Shift + Links/Rechts: Aktiven Spalten-Schlüsseltreiber wechseln',
   },
   saveButton: {
     label: 'Speichern',

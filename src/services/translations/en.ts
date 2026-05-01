@@ -93,6 +93,12 @@ export const messages = {
     SELECT_ROW_CATEGORY: 'Select row category',
     SELECT_COLUMN_CATEGORY: 'Select column category',
     SELECT_CATEGORIES_TO_START: 'Select categories to start',
+    NO_DRIVERS: 'No key drivers with values are available for this category combination',
+    NAV_TITLE: 'Keyboard navigation',
+    NAV_ARROWS: 'Arrow keys: move through cells, with Shift through key drivers',
+    NAV_TOGGLE: 'Space or Enter: cycle combination state',
+    NAV_SHIFT_VERTICAL: 'Shift + Up/Down: change active row key driver',
+    NAV_SHIFT_HORIZONTAL: 'Shift + Left/Right: change active column key driver',
   },
   saveButton: {
     label: 'Save',
