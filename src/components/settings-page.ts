@@ -35,19 +35,19 @@ export const SettingsPage: MeiosisComponent = () => {
     {
       id: 'hideInconsistentValues',
       type: 'checkbox',
-      className: 'col s6 m3 mt25',
+      className: 'col s6 m3',
       label: t('HIDE_INCONSISTENT'),
     },
     {
       id: 'includeDecisionSupport',
       type: 'checkbox',
-      className: 'col s6 m3 mt25',
+      className: 'col s6 m3',
       label: t('INCLUDE_DECISION_SUPPORT'),
     },
     {
       id: 'includeMapSupport',
       type: 'checkbox',
-      className: 'col s6 m3 mt25',
+      className: 'col s6 m3',
       label: t('INCLUDE_MAP_SUPPORT'),
     },
     { id: 'desc', type: 'textarea', label: t('DESCRIPTION') },
@@ -88,29 +88,29 @@ export const SettingsPage: MeiosisComponent = () => {
           type: 'number',
           className: 'col s3',
           label: t('ZOOM_LEVEL'),
-          value: "13",
+          value: '13',
         },
       ],
     },
     {
-        id: 'mapUnits',
-        type: 'select',
-        className: 'col s12 m3',
-        label: t('MAP_UNITS'),
-        show: ['includeMapSupport=true'],
-        options: [
-            { id: 'metric', label: t('METRIC') },
-            { id: 'imperial', label: t('IMPERIAL') }
-        ]
+      id: 'mapUnits',
+      type: 'select',
+      className: 'col s12 m3',
+      label: t('MAP_UNITS'),
+      show: ['includeMapSupport=true'],
+      options: [
+        { id: 'metric', label: t('METRIC') },
+        { id: 'imperial', label: t('IMPERIAL') },
+      ],
     },
     {
-        id: 'osmAmenities',
-        type: 'select',
-        multiple: true,
-        className: 'col s12 m9',
-        label: t('OSM_AMENITIES'),
-        show: ['includeMapSupport=true'],
-        options: 'osmtypes'
+      id: 'osmAmenities',
+      type: 'select',
+      multiple: true,
+      className: 'col s12 m9',
+      label: t('OSM_AMENITIES'),
+      show: ['includeMapSupport=true'],
+      options: 'osmtypes',
     },
     {
       id: 'categories',
@@ -132,7 +132,7 @@ export const SettingsPage: MeiosisComponent = () => {
         {
           id: 'decisionSupport',
           type: 'checkbox',
-          className: 'col s6 m3 l3 mt25',
+          className: 'col s6 m3 l3',
           label: t('IS_DECISION_CATEGORY'),
           // show: ['includeDecisionSupport=true'],
         },
@@ -232,20 +232,20 @@ export const SettingsPage: MeiosisComponent = () => {
                 vnode: m('.model-settings', [
                   m(
                     '.row',
-                      m(ConfirmButton, {
-                        className: 'right',
-                        iconName: 'delete',
-                        label: t('DELETE'),
-                        onclick: () => {
-                          saveModel(attrs, emptyModel());
-                        },
-                      }),
+                    m(ConfirmButton, {
+                      className: 'right',
+                      iconName: 'delete',
+                      label: t('DELETE'),
+                      onclick: () => {
+                        saveModel(attrs, emptyModel());
+                      },
+                    }),
                     m(FlatButton, {
                       iconName: 'auto_fix_high',
                       className: 'right',
                       label: t('ADV_EDIT'),
                       onclick: () => (mdEditor = true),
-                    })
+                    }),
                   ),
                   m(
                     '.row',
@@ -253,11 +253,19 @@ export const SettingsPage: MeiosisComponent = () => {
                       obj: model.scenario,
                       form,
                       i18n: i18n.i18n,
-                      context: [{ personas, osmtypes: OsmOptions, categories, components, language: i18n.currentLocale }] as any,
+                      context: [
+                        {
+                          personas,
+                          osmtypes: OsmOptions,
+                          categories,
+                          components,
+                          language: i18n.currentLocale,
+                        },
+                      ] as any,
                       onchange: async () => {
                         await saveModel(attrs, model);
                       },
-                    } as FormAttributes<Scenario>)
+                    } as FormAttributes<Scenario>),
                   ),
                 ]),
               },
@@ -279,7 +287,7 @@ export const SettingsPage: MeiosisComponent = () => {
                       iconName: edit ? 'save' : 'edit',
                       className: 'right',
                       onclick: () => (edit = !edit),
-                    })
+                    }),
                   ),
                   edit
                     ? m(
@@ -289,10 +297,13 @@ export const SettingsPage: MeiosisComponent = () => {
                           i18n: i18n.i18n,
                           context: [
                             {
-                              images: PersonaImages.reduce((acc, cur) => {
-                                acc[cur.id] = cur.img;
-                                return acc;
-                              }, {} as { [key: string]: string }),
+                              images: PersonaImages.reduce(
+                                (acc, cur) => {
+                                  acc[cur.id] = cur.img;
+                                  return acc;
+                                },
+                                {} as { [key: string]: string },
+                              ),
                             } as any,
                           ],
                           form: [
@@ -332,7 +343,7 @@ export const SettingsPage: MeiosisComponent = () => {
                           onchange: async () => {
                             await saveModel(attrs, model);
                           },
-                        } as FormAttributes<DataModel>)
+                        } as FormAttributes<DataModel>),
                       )
                     : m(
                         '.row',
@@ -349,9 +360,9 @@ export const SettingsPage: MeiosisComponent = () => {
                                 m('.span.card-title', p.label),
                               ]),
                               m('.card-content', m('p', p.desc)),
-                            ])
-                          )
-                        )
+                            ]),
+                          ),
+                        ),
                       ),
                 ]),
               },
@@ -422,7 +433,7 @@ export const MorphBoxEditor: MeiosisComponent = () => {
       if (!initialMd && curCategory) {
         initialMd = md = morphBoxToMarkdown(
           curCategory,
-          model.scenario.components
+          model.scenario.components,
         );
       }
       return m('.md-editor.row', [
@@ -469,14 +480,14 @@ export const MorphBoxEditor: MeiosisComponent = () => {
                 if (label) curCategory.label = label;
                 if (desc) curCategory.desc = desc;
                 const removableComponentIds = new Set<string>(
-                  curCategory.componentIds
+                  curCategory.componentIds,
                 );
                 curCategory.componentIds = keyDrivers.map((d) => d.id);
                 curCategory.componentIds.forEach((id) =>
-                  removableComponentIds.delete(id)
+                  removableComponentIds.delete(id),
                 );
                 model.scenario.categories = categories.map((c) =>
-                  c.id === curCategory?.id ? curCategory : c
+                  c.id === curCategory?.id ? curCategory : c,
                 );
                 const lookup = keyDrivers.reduce((acc, cur) => {
                   acc.set(cur.id, cur);

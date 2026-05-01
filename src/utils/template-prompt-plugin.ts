@@ -16,7 +16,7 @@ const languageNames: Record<string, string> = {
 const generateTemplatePrompt = (
   categories: Category[],
   components: ScenarioComponent[],
-  language: string
+  language: string,
 ): string => {
   const langName = languageNames[language] ?? 'English';
   const lines: string[] = [
@@ -47,34 +47,41 @@ const generateTemplatePrompt = (
   return lines.join('\n');
 };
 
-const templateWithLLMPlugin: PluginType<string, {}, { template?: string }> = () => ({
+const templateWithLLMPlugin: PluginType<
+  string,
+  {},
+  { template?: string }
+> = () => ({
   view: ({ attrs: { iv, onchange, props, context } }) => {
     const ctxArray: any[] = Array.isArray(context) ? context : [context];
     const find = <T>(key: string): T | undefined =>
       ctxArray.map((c) => c?.[key]).find((v) => v !== undefined);
     const categories: Category[] = find<Category[]>('categories') ?? [];
-    const components: ScenarioComponent[] = find<ScenarioComponent[]>('components') ?? [];
+    const components: ScenarioComponent[] =
+      find<ScenarioComponent[]>('components') ?? [];
     const language: string = find<string>('language') ?? 'en';
 
     return m('.template-with-llm', [
-      m('.row.mb0', [
-        m('label.col.s11', props.label),
-        m('.col.s1', m(IconButton, {
-          iconName: 'psychology',
-          title: 'Copy LLM prompt to clipboard',
-          onclick: () => {
-            const prompt = generateTemplatePrompt(categories, components, language);
-            navigator.clipboard.writeText(prompt).then(() => {
-              toast({ html: t('TEMPLATE_PROMPT_COPIED') as string });
-            });
-          },
-        })),
-      ]),
-      props.description && m('.row', m('.col.s12', m('span.helper-text', props.description))),
+      m(IconButton, {
+        className: 'right',
+        iconName: 'psychology',
+        title: 'Copy LLM prompt to clipboard',
+        onclick: () => {
+          const prompt = generateTemplatePrompt(
+            categories,
+            components,
+            language,
+          );
+          navigator.clipboard.writeText(prompt).then(() => {
+            toast({ html: t('TEMPLATE_PROMPT_COPIED') as string });
+          });
+        },
+      }),
       m(TextArea, {
-        label: '',
+        label: props.label,
         value: iv,
         disabled: !onchange,
+        helperText: props.description,
         oninput: (v: string) => onchange?.(v),
       }),
     ]);
