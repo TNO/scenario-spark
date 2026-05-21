@@ -26,7 +26,10 @@ const subRegex = /\_([^\^ ]+)(\^|$|\s)/g;
 /** Expand markdown notation by converting A_1 to subscript and x^2 to superscript. */
 export const subSup = (s: string) =>
   s
-    ? s?.toString().replace(supRegex, `<sup>$1</sup>`).replace(subRegex, `<sub>$1</sub>`)
+    ? s
+        ?.toString()
+        .replace(supRegex, `<sup>$1</sup>`)
+        .replace(subRegex, `<sub>$1</sub>`)
     : s;
 
 export const capitalize = (s?: string) =>
@@ -52,7 +55,7 @@ export const debounce = (func: (...args: any) => void, timeout: number) => {
 export const formatDate = (date: number | Date = new Date()) => {
   const d = new Date(date);
   return `${d.getFullYear()}-${padLeft(d.getMonth() + 1)}-${padLeft(
-    d.getDate()
+    d.getDate(),
   )}`;
 };
 
@@ -85,7 +88,7 @@ type Option<T> = {
 export const getOptionsLabel = <T>(
   options: Array<Option<T>>,
   id?: T | T[],
-  showTitle = true
+  showTitle = true,
 ) => {
   if (!id) {
     return '';
@@ -109,7 +112,7 @@ export const joinListWithAnd = (
   arr: string[] = [],
   and = 'and',
   prefix = '',
-  lowercase = true
+  lowercase = true,
 ) => {
   const terms = arr.filter((term) => term);
   return terms.length === 0
@@ -122,7 +125,7 @@ export const joinListWithAnd = (
               .map((t, i) =>
                 i === 0 || typeof t === 'undefined' || !lowercase
                   ? t
-                  : t.toLowerCase()
+                  : t.toLowerCase(),
               )
               .join(', ')} ${and} ${
               lowercase
@@ -142,11 +145,11 @@ export const isUnique = <T>(item: T, pos: number, arr: T[]) =>
 export const generateNumbers = (
   start: number,
   end: number,
-  step: number = 1
+  step: number = 1,
 ): number[] => {
   if (start > end) {
     throw new Error(
-      'Start number must be less than or equal to the end number.'
+      'Start number must be less than or equal to the end number.',
     );
   }
 
@@ -223,28 +226,31 @@ export const convertFromOld = (old: OldDataModel): DataModel => {
             acc[to][from] = value;
             return acc;
           },
-          {} as Inconsistencies
+          {} as Inconsistencies,
         );
         acc.scenario.narratives = scenario.narratives.map(
           ({ id, name, components, narrative, included }) => ({
             id,
             label: name,
-            components: Object.keys(components).reduce((acc, key) => {
-              acc[key] = [components[key]];
-              return acc;
-            }, {} as { [key: ID]: ID[] }),
+            components: Object.keys(components).reduce(
+              (acc, key) => {
+                acc[key] = [components[key]];
+                return acc;
+              },
+              {} as { [key: ID]: ID[] },
+            ),
             desc: narrative,
             included,
             saved: true,
             personaEffects: {},
-          })
+          }),
         );
         acc.scenario.categories = Object.keys(scenario.categories).map(
           (key) => ({
             id: key,
             label: key,
             componentIds: scenario.categories[key],
-          })
+          }),
         );
       } else {
         // Parse components
@@ -271,16 +277,16 @@ export const convertFromOld = (old: OldDataModel): DataModel => {
               ? context.type === 'LOCATION'
                 ? 'location'
                 : context.type === 'LOCATIONTYPE'
-                ? 'locationType'
-                : 'none'
+                  ? 'locationType'
+                  : 'none'
               : undefined;
             const locationType =
               context && context.type === 'LOCATION'
                 ? context.data.NAME
                   ? 'name'
                   : context.data.COORDINATES
-                  ? 'coords'
-                  : undefined
+                    ? 'coords'
+                    : undefined
                 : undefined;
             const [lat, lon] =
               locationType === 'coords' && context!.data.COORDINATES
@@ -325,16 +331,19 @@ export const convertFromOld = (old: OldDataModel): DataModel => {
           let order = 1;
           const compIds = acc.scenario.categories
             .filter((c) => c.componentIds)
-            .reduce((acc, cur) => {
-              cur.componentIds?.forEach((c) => (acc[c] = order++));
-              return acc;
-            }, {} as { [key: ID]: number });
+            .reduce(
+              (acc, cur) => {
+                cur.componentIds?.forEach((c) => (acc[c] = order++));
+                return acc;
+              },
+              {} as { [key: ID]: number },
+            );
           acc.scenario.components = acc.scenario.components.map((c) => ({
             ...c,
             order: compIds[c.id],
           }));
           acc.scenario.components.sort((a, b) =>
-            a.order! > b.order! ? 1 : -1
+            a.order! > b.order! ? 1 : -1,
           );
         }
       }
@@ -345,14 +354,14 @@ export const convertFromOld = (old: OldDataModel): DataModel => {
       version: 1,
       lastUpdate: Date.now(),
       scenarios: [],
-    } as DataModel
+    } as DataModel,
   );
 };
 
 export const modelToSaveName = (
   model: DataModel,
   narrativeName?: string,
-  isCollection = true
+  isCollection = true,
 ) => {
   let name = isCollection
     ? 'spark_collection'
@@ -362,7 +371,7 @@ export const modelToSaveName = (
   }
   return `${name?.toString().replace(/\s/g, '_')}_v${padLeft(
     model.version || 1,
-    3
+    3,
   )}_${formatDate()}`.toLowerCase();
 };
 
@@ -385,7 +394,7 @@ export type GenerationDiagnostic = {
  * Analyzes which components have all values blocked by inconsistency constraints.
  */
 export const diagnoseGeneration = (
-  scenario: Scenario
+  scenario: Scenario,
 ): GenerationDiagnostic => {
   const { categories, components, inconsistencies } = scenario;
 
@@ -394,12 +403,16 @@ export const diagnoseGeneration = (
 
   for (const category of categories) {
     const catComps = components.filter(
-      (c) => category.componentIds && category.componentIds.includes(c.id)
+      (c) => category.componentIds && category.componentIds.includes(c.id),
     );
     for (const comp of catComps) {
       if (!comp.values) continue;
       const blocked = comp.values
-        .filter((v) => inconsistencies[v.id] && Object.keys(inconsistencies[v.id]).length > 0)
+        .filter(
+          (v) =>
+            inconsistencies[v.id] &&
+            Object.keys(inconsistencies[v.id]).length > 0,
+        )
         .map((v) => v.id);
       if (blocked.length > 0) {
         blockedMap.set(comp.id, blocked);
@@ -423,7 +436,7 @@ export const diagnoseGeneration = (
 
   const totalConstraints = Object.values(inconsistencies).reduce(
     (sum, row) => sum + Object.values(row).filter(Boolean).length,
-    0
+    0,
   );
 
   return { blockedComponents, totalConstraints };
@@ -431,7 +444,7 @@ export const diagnoseGeneration = (
 
 export const generateNarrative = (
   scenario: Scenario,
-  locked: Record<ID, ID[]> = {}
+  locked: Record<ID, ID[]> = {},
 ) => {
   const { categories, components, inconsistencies } = scenario;
 
@@ -441,7 +454,7 @@ export const generateNarrative = (
     for (const category of categories) {
       const catComps = components
         .filter(
-          (c) => category.componentIds && category.componentIds.includes(c.id)
+          (c) => category.componentIds && category.componentIds.includes(c.id),
         )
         .map((c) => {
           const inc = c.values
@@ -466,7 +479,7 @@ export const generateNarrative = (
             chosenValue.forEach((v) => {
               inconsistencies[v] &&
                 Object.keys(inconsistencies[v]).forEach(
-                  (id) => inconsistencies[v][id] && excluded.push(id)
+                  (id) => inconsistencies[v][id] && excluded.push(id),
                 );
             });
           }
@@ -483,7 +496,7 @@ export const generateNarrative = (
         if (v) {
           inconsistencies[v] &&
             Object.keys(inconsistencies[v]).forEach(
-              (id) => inconsistencies[v][id] && excluded.push(id)
+              (id) => inconsistencies[v][id] && excluded.push(id),
             );
           chosen[catComp.id] = [v];
         } else {
@@ -531,7 +544,7 @@ export const scrollToTop = (): void => {
 
 export const validateNarrative = (
   n: Narrative,
-  components: ScenarioComponent[]
+  components: ScenarioComponent[],
 ) => {
   const { components: narrativeComps, ...attrs } = n;
   const newNarrative = { components: {}, ...attrs } as Narrative;
@@ -539,7 +552,7 @@ export const validateNarrative = (
     .filter((c) => narrativeComps.hasOwnProperty(c.id))
     .forEach((c) => {
       newNarrative.components[c.id] = narrativeComps[c.id].filter((id) =>
-        c.values?.find((v) => v.id === id)
+        c.values?.find((v) => v.id === id),
       );
     });
   return newNarrative;
@@ -555,8 +568,8 @@ export const narrativesToOptions = (narratives: Narrative[]) =>
       a.included && b.included
         ? (a.label || '').localeCompare(b.label)
         : a.included
-        ? -1
-        : 1
+          ? -1
+          : 1,
     );
 
 export const trafficLight = [
@@ -578,15 +591,15 @@ export const createCircleSVG = (color: string, diameter: number): string => {
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${diameter}" height="${diameter}">
     <circle cx="${diameter / 2}" cy="${diameter / 2}" r="${
-    (diameter - strokeWidth) / 2
-  }" fill="${color}" stroke="black" stroke-width="${strokeWidth}" /></svg>`;
+      (diameter - strokeWidth) / 2
+    }" fill="${color}" stroke="black" stroke-width="${strokeWidth}" /></svg>`;
 
   return svg;
 };
 
 export const generateUniqueTitle = (
   title: string,
-  otherTitles: string[] = []
+  otherTitles: string[] = [],
 ): string => {
   let count = 1;
 
@@ -836,7 +849,7 @@ export const toDarkThemeColor = (() => {
 
 export const computeCompColor = (
   narratives: Scenario['narratives'] = [],
-  thresholdColors: ThresholdColor[]
+  thresholdColors: ThresholdColor[],
 ): { [key: ID]: [Color, Color] } => {
   if (!thresholdColors || thresholdColors.length === 0) {
     // no thresholds defined → everything gets a fallback color
@@ -846,22 +859,25 @@ export const computeCompColor = (
 
   // ensure thresholds are sorted without mutating original array
   const sortedThresholds = [...thresholdColors].sort(
-    (a, b) => a.threshold - b.threshold
+    (a, b) => a.threshold - b.threshold,
   );
 
   // build usage counts
   const componentUsage = narratives
     .filter((n) => n.included)
-    .reduce((acc, cur) => {
-      Object.keys(cur.components || {}).forEach((c) => {
-        const vals = cur.components[c];
-        if (!Array.isArray(vals)) return;
-        for (const compValue of vals) {
-          acc[compValue] = (acc[compValue] || 0) + 1;
-        }
-      });
-      return acc;
-    }, {} as { [key: ID]: number });
+    .reduce(
+      (acc, cur) => {
+        Object.keys(cur.components || {}).forEach((c) => {
+          const vals = cur.components[c];
+          if (!Array.isArray(vals)) return;
+          for (const compValue of vals) {
+            acc[compValue] = (acc[compValue] || 0) + 1;
+          }
+        });
+        return acc;
+      },
+      {} as { [key: ID]: number },
+    );
 
   // maximum threshold value
   const maxThreshold = sortedThresholds[sortedThresholds.length - 1].threshold;
@@ -893,7 +909,7 @@ export const computeCompColor = (
       acc[id] = [color, contrastingColor(color)];
       return acc;
     },
-    {} as { [key: ID]: [Color, Color] }
+    {} as { [key: ID]: [Color, Color] },
   );
 
   // add OTHER default
@@ -928,7 +944,7 @@ export const uploadFile = (onSelect: (files: FileList) => void): void => {
 
 export const downloadAsWord = (
   htmlContent: string,
-  filename = 'document.doc'
+  filename = 'document.doc',
 ) => {
   // Wrap in Word-compatible HTML
   const preHtml =
@@ -966,14 +982,18 @@ export const downloadAsWord = (
 export const downloadAsDocx = async (
   title: string,
   narratives: Array<{ label: string; content: string }>,
-  filename = 'scenario.docx'
+  filename = 'scenario.docx',
 ): Promise<void> => {
+  const sanitizeDocxText = (input: string): string =>
+    input.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '');
+
   const {
     Document,
     Packer,
     Paragraph,
     TextRun,
     HeadingLevel,
+    LevelFormat,
     AlignmentType,
     Table,
     TableRow,
@@ -998,7 +1018,7 @@ export const downloadAsDocx = async (
       children: [
         // Document title
         new Paragraph({
-          text: title,
+          text: sanitizeDocxText(title),
           heading: HeadingLevel.TITLE,
           alignment: AlignmentType.CENTER,
           spacing: { after: 300 },
@@ -1024,7 +1044,11 @@ export const downloadAsDocx = async (
                   children: [
                     new Paragraph({
                       children: [
-                        new TextRun({ text: 'Scenario', bold: true, color: 'FFFFFF' }),
+                        new TextRun({
+                          text: 'Scenario',
+                          bold: true,
+                          color: 'FFFFFF',
+                        }),
                       ],
                     }),
                   ],
@@ -1032,103 +1056,165 @@ export const downloadAsDocx = async (
                 }),
               ],
             }),
-            ...narratives.map((n, i) =>
-              new TableRow({
-                children: [
-                  new TableCell({
-                    children: [new Paragraph(String(i + 1))],
-                  }),
-                  new TableCell({
-                    children: [new Paragraph(n.label)],
-                  }),
-                ],
-              })
+            ...narratives.map(
+              (n, i) =>
+                new TableRow({
+                  children: [
+                    new TableCell({
+                      children: [new Paragraph(String(i + 1))],
+                    }),
+                    new TableCell({
+                      children: [new Paragraph(sanitizeDocxText(n.label))],
+                    }),
+                  ],
+                }),
             ),
           ],
         }),
 
         // Page break before narratives
-        new PageBreak(),
+        new Paragraph({ children: [new PageBreak()] }),
 
         // Full narratives
         ...narratives.flatMap((n, idx) => {
           const children: import('docx').Paragraph[] = [
             new Paragraph({
-              text: n.label,
+              text: sanitizeDocxText(n.label),
               heading: HeadingLevel.HEADING_2,
               spacing: { before: idx === 0 ? 0 : 300 },
             }),
           ];
 
-          // Parse content lines into paragraphs
-          const lines = n.content.split('\n');
-          let currentText = '';
-          let currentBold = false;
-          let currentItalic = false;
+          const parseInlineRuns = (text: string): import('docx').TextRun[] => {
+            const clean = sanitizeDocxText(text);
+            const runs: import('docx').TextRun[] = [];
+            const tokenRegex = /(\*\*[^*]+\*\*|__[^_]+__|\*[^*]+\*|_[^_]+_)/g;
+            let last = 0;
+            let match: RegExpExecArray | null;
 
-          const flushText = () => {
-            if (currentText.trim()) {
-              const runs: import('docx').TextRun[] = [];
-              // Simple bold/italic parsing
-              const boldParts = currentText.split(/\*\*(.+?)\*\*/g);
-              const parts = currentText.split(/\*(.+?)\*/g);
-
-              if (boldParts.length > 1) {
-                for (let i = 0; i < boldParts.length; i++) {
-                  if (i % 2 === 1) {
-                    runs.push(new TextRun({ text: boldParts[i], bold: true }));
-                  } else if (boldParts[i]) {
-                    runs.push(new TextRun(boldParts[i]));
-                  }
-                }
-              } else {
-                runs.push(new TextRun(currentText.trim()));
+            while ((match = tokenRegex.exec(clean)) !== null) {
+              if (match.index > last) {
+                runs.push(new TextRun(clean.slice(last, match.index)));
               }
 
-              children.push(new Paragraph({ children: runs, spacing: { after: 120 } }));
+              const token = match[0];
+              const isStrong =
+                (token.startsWith('**') && token.endsWith('**')) ||
+                (token.startsWith('__') && token.endsWith('__'));
+              const content = isStrong
+                ? token.slice(2, -2)
+                : token.slice(1, -1);
+
+              runs.push(
+                new TextRun({
+                  text: content,
+                  bold: isStrong,
+                  italics: !isStrong,
+                }),
+              );
+              last = match.index + token.length;
             }
-            currentText = '';
-            currentBold = false;
-            currentItalic = false;
+
+            if (last < clean.length) {
+              runs.push(new TextRun(clean.slice(last)));
+            }
+
+            return runs.length > 0 ? runs : [new TextRun(clean)];
           };
 
-          for (const line of lines) {
-            if (line.trim() === '') {
-              flushText();
+          const paragraphBuffer: string[] = [];
+          const flushParagraph = () => {
+            if (paragraphBuffer.length === 0) return;
+            const paragraphText = paragraphBuffer.join(' ').trim();
+            if (paragraphText) {
+              children.push(
+                new Paragraph({
+                  children: parseInlineRuns(paragraphText),
+                  spacing: { after: 120 },
+                }),
+              );
+            }
+            paragraphBuffer.length = 0;
+          };
+
+          for (const rawLine of n.content.split('\n')) {
+            const line = rawLine.trim();
+
+            if (!line) {
+              flushParagraph();
               continue;
             }
-            if (line.startsWith('# ')) {
-              flushText();
-              children.push(new Paragraph({
-                text: line.slice(2).trim(),
-                heading: HeadingLevel.HEADING_3,
-              }));
-            } else if (line.startsWith('- ') || line.startsWith('* ')) {
-              flushText();
-              children.push(new Paragraph({
-                children: [
-                  new TextRun({ text: '• ', bold: true }),
-                  new TextRun(line.slice(2).trim()),
-                ],
-                indent: { left: 360 },
-                spacing: { after: 60 },
-              }));
-            } else if (/^\d+\.\s/.test(line)) {
-              flushText();
-              const match = line.match(/^(\d+)\.\s(.+)/);
-              children.push(new Paragraph({
-                children: [
-                  new TextRun({ text: `${match![1]}.\t`, bold: true }),
-                  new TextRun(match![2]),
-                ],
-                indent: { left: 360 },
-                spacing: { after: 60 },
-              }));
-            } else {
-              currentText += line + ' ';
+
+            const headingMatch = line.match(/^(#{1,6})\s+(.+)$/);
+            if (headingMatch) {
+              flushParagraph();
+              const depth = headingMatch[1].length;
+              const headingMap = {
+                1: HeadingLevel.HEADING_1,
+                2: HeadingLevel.HEADING_2,
+                3: HeadingLevel.HEADING_3,
+                4: HeadingLevel.HEADING_4,
+                5: HeadingLevel.HEADING_5,
+                6: HeadingLevel.HEADING_6,
+              } as const;
+              children.push(
+                new Paragraph({
+                  text: sanitizeDocxText(headingMatch[2].trim()),
+                  heading:
+                    headingMap[Math.min(depth, 6) as 1 | 2 | 3 | 4 | 5 | 6],
+                  spacing: { before: 120, after: 80 },
+                }),
+              );
+              continue;
             }
+
+            if (/^([-*_])(?:\s*\1){2,}\s*$/.test(line)) {
+              flushParagraph();
+              children.push(
+                new Paragraph({
+                  border: {
+                    bottom: {
+                      style: BorderStyle.SINGLE,
+                      size: 6,
+                      color: 'BDBDBD',
+                    },
+                  },
+                  spacing: { before: 120, after: 120 },
+                }),
+              );
+              continue;
+            }
+
+            const unordered = line.match(/^[-*•]\s+(.+)$/);
+            if (unordered) {
+              flushParagraph();
+              children.push(
+                new Paragraph({
+                  children: parseInlineRuns(unordered[1].trim()),
+                  bullet: { level: 0 },
+                  spacing: { after: 60 },
+                }),
+              );
+              continue;
+            }
+
+            const ordered = line.match(/^\d+[\.)]\s+(.+)$/);
+            if (ordered) {
+              flushParagraph();
+              children.push(
+                new Paragraph({
+                  children: parseInlineRuns(ordered[1].trim()),
+                  numbering: { reference: 'scenario-numbered-list', level: 0 },
+                  spacing: { after: 60 },
+                }),
+              );
+              continue;
+            }
+
+            paragraphBuffer.push(line);
           }
-          flushText();
+
+          flushParagraph();
 
           return children;
         }),
@@ -1136,7 +1222,29 @@ export const downloadAsDocx = async (
     },
   ];
 
-  const doc = new Document({ sections });
+  const doc = new Document({
+    numbering: {
+      config: [
+        {
+          reference: 'scenario-numbered-list',
+          levels: [
+            {
+              level: 0,
+              format: LevelFormat.DECIMAL,
+              text: '%1.',
+              alignment: AlignmentType.START,
+              style: {
+                paragraph: {
+                  indent: { left: 720, hanging: 360 },
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    sections,
+  });
 
   const blob = await Packer.toBlob(doc);
   const url = URL.createObjectURL(blob);
@@ -1156,7 +1264,7 @@ export function fixMorphologicalBoxMarkdown(input: string): string {
   output = output.replace(/```(?:markdown|md)?\s*/gi, '```');
   // Remove leading/trailing triple backticks entirely
   output = output.replace(/^```[\s\S]*?```$/gm, (match) =>
-    match.replace(/```/g, '').trim()
+    match.replace(/```/g, '').trim(),
   );
 
   // Normalize heading levels: convert any ## or ### at start to #
