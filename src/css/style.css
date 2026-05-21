@@ -1191,9 +1191,10 @@ td.matrix-cell {
   position: relative;
 }
 .inconsistency-matrix {
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: visible;
   padding: 0;
-  max-height: 80vh;
+  max-height: none;
   position: relative;
 }
 
@@ -1275,15 +1276,18 @@ td.matrix-cell {
   gap: 0.4rem;
   padding-top: 0.25rem;
   max-height: 80vh;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .row-kd-item {
+  display: block;
   width: 100%;
   text-align: right;
   padding: 0.45rem 0.65rem;
   cursor: pointer;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .editing-table-area {

@@ -98,8 +98,7 @@ export const messages: typeof messagesEN = {
     NO_DRIVERS:
       'Er zijn geen stuurfactoren met waarden beschikbaar voor deze categoriecombinatie',
     NAV_TITLE: 'Toetsenbordnavigatie',
-    NAV_ARROWS:
-      'Pijltjestoetsen: ga door cellen, met Shift door stuurfactoren',
+    NAV_ARROWS: 'Pijltjestoetsen: ga door cellen, met Shift door stuurfactoren',
     NAV_TOGGLE: 'Spatie of Enter: wissel combinatiestatus',
     NAV_SHIFT_VERTICAL:
       'Shift + omhoog/omlaag: actieve rij-stuurfactor wijzigen',
@@ -337,6 +336,8 @@ export const messages: typeof messagesEN = {
     PERSONA: "Prompt voor persona's",
     COM: 'Prompt voor communicatie',
   },
+  LLM_DEFAULT_NARRATIVE_PROMPT:
+    'Gebruik de volgende elementen om een realistisch scenario te definieren.',
   RESPONSE_INSTRUCTIONS:
     'Start je antwoord met een korte beschrijvende titel op een eigen regel, gevolgd door een lege regel en dan de rest van de inhoud.',
   WIZARD_STEP1_TITLE: 'Scenario Informatie',

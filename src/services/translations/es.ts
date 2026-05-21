@@ -226,12 +226,16 @@ export const messages: typeof messagesEN = {
   SCENARIO_NOT_LOADED_MSG:
     'El escenario no se ha cargado: causa más probable, el escenario ya forma parte de la colección.',
   IMPORT_CONFLICT_TITLE: 'El escenario ya existe',
-  IMPORT_CONFLICT_MSG: 'Un escenario llamado "{name}" ya está en tu colección. ¿Qué quieres hacer?',
+  IMPORT_CONFLICT_MSG:
+    'Un escenario llamado "{name}" ya está en tu colección. ¿Qué quieres hacer?',
   IMPORT_OVERWRITE: 'Sobrescribir',
   IMPORT_AS_COPY: 'Agregar como copia',
   SCENARIO_CREATED_MSG: 'Se ha creado un nuevo escenario',
   COPY_TO_CLIPBOARD: 'Copiar tabla al portapapeles',
-  GROUP: { SELECTED: 'Escenarios seleccionados', UNSELECTED: 'Escenarios no seleccionados' },
+  GROUP: {
+    SELECTED: 'Escenarios seleccionados',
+    UNSELECTED: 'Escenarios no seleccionados',
+  },
   CLONE_NARRATIVE: 'Clonar',
   INCLUDE_DECISION_SUPPORT: 'Activar apoyo a la decisión',
   IS_DECISION_CATEGORY: 'Para apoyo a la decisión',
@@ -301,6 +305,8 @@ export const messages: typeof messagesEN = {
     PERSONA: 'Prompt de persona',
     COM: 'Prompt de comunicaciones',
   },
+  LLM_DEFAULT_NARRATIVE_PROMPT:
+    'Utiliza los siguientes elementos para definir un escenario realista.',
   RESPONSE_INSTRUCTIONS:
     'Comience su respuesta con un título breve y descriptivo en su propia línea, luego una línea en blanco, luego el contenido principal.',
   WIZARD_STEP1_TITLE: 'Información del escenario',
@@ -321,36 +327,48 @@ export const messages: typeof messagesEN = {
   LLM_WIZARD_TITLE: 'Generar escenario con LLM',
   LLM_WIZARD_STEP1_TITLE: 'Definir requisitos',
   LLM_WIZARD_STEP1_SUBTITLE: 'Especifique lo que desea generar',
-  LLM_WIZARD_STEP1_DESC: 'Complete los detalles a continuación para personalizar la generación de su caja morfológica:',
+  LLM_WIZARD_STEP1_DESC:
+    'Complete los detalles a continuación para personalizar la generación de su caja morfológica:',
   LLM_WIZARD_STEP2_TITLE: 'Revisar prompt',
   LLM_WIZARD_STEP2_SUBTITLE: 'Revise y edite el prompt completo',
-  LLM_WIZARD_STEP2_DESC: 'Revise el prompt combinado a continuación. Puede editarlo si es necesario:',
+  LLM_WIZARD_STEP2_DESC:
+    'Revise el prompt combinado a continuación. Puede editarlo si es necesario:',
   LLM_WIZARD_STEP3_TITLE: 'Configurar LLM',
   LLM_WIZARD_STEP3_SUBTITLE: 'Elija el servicio y la configuración de LLM',
   LLM_WIZARD_STEP3_DESC: 'Configure cómo desea generar la caja morfológica:',
   LLM_WIZARD_STEP4_TITLE: 'Generar escenario',
   LLM_WIZARD_STEP4_SUBTITLE: 'Genere o pegue el resultado',
-  LLM_WIZARD_STEP4_CLIPBOARD_DESC: 'El prompt está listo. Cópielo y use un LLM externo para generar la caja morfológica:',
+  LLM_WIZARD_STEP4_CLIPBOARD_DESC:
+    'El prompt está listo. Cópielo y use un LLM externo para generar la caja morfológica:',
   LLM_PURPOSE: 'Propósito',
-  LLM_PURPOSE_HELP: '¿Qué desea explorar o diseñar? Por ejemplo, "escenarios de gestión de crisis para planificación de emergencias nacionales"',
+  LLM_PURPOSE_HELP:
+    '¿Qué desea explorar o diseñar? Por ejemplo, "escenarios de gestión de crisis para planificación de emergencias nacionales"',
   LLM_DOMAIN: 'Dominio',
-  LLM_DOMAIN_HELP: 'Especifique el campo o contexto, por ejemplo, "respuesta a desastres", "ciberseguridad", "operaciones militares"',
+  LLM_DOMAIN_HELP:
+    'Especifique el campo o contexto, por ejemplo, "respuesta a desastres", "ciberseguridad", "operaciones militares"',
   LLM_OUTPUT_TYPE: 'Tipo de salida',
-  LLM_OUTPUT_TYPE_HELP: '¿Una caja morfológica, múltiples cajas, enfocada en escenarios, enfocada en medidas, o ambas?',
+  LLM_OUTPUT_TYPE_HELP:
+    '¿Una caja morfológica, múltiples cajas, enfocada en escenarios, enfocada en medidas, o ambas?',
   LLM_CONSTRAINTS: 'Restricciones o áreas de enfoque',
-  LLM_CONSTRAINTS_HELP: 'Por ejemplo, "Incluir factores sociopolíticos, ambientales y tecnológicos"',
+  LLM_CONSTRAINTS_HELP:
+    'Por ejemplo, "Incluir factores sociopolíticos, ambientales y tecnológicos"',
   LLM_DETAIL_DEPTH: 'Profundidad de detalle',
-  LLM_DETAIL_DEPTH_HELP: 'Por ejemplo, "Incluir 6-7 opciones detalladas por factor, cada una con una definición de una oración"',
+  LLM_DETAIL_DEPTH_HELP:
+    'Por ejemplo, "Incluir 6-7 opciones detalladas por factor, cada una con una definición de una oración"',
   LLM_LANGUAGE: 'Idioma de salida',
-  LLM_LANGUAGE_HELP: 'El idioma para el contenido generado, por ejemplo, "Inglés", "Español"',
+  LLM_LANGUAGE_HELP:
+    'El idioma para el contenido generado, por ejemplo, "Inglés", "Español"',
   LLM_FULL_PROMPT: 'Prompt completo',
   LLM_ENDPOINT: 'Método de generación',
   LLM_CLIPBOARD: 'Copiar al portapapeles (usar LLM externo)',
   LLM_OLLAMA: 'Generar con Ollama',
   LLM_OPENAI: 'Generar con OpenAI',
-  LLM_OLLAMA_URL_HELP: 'URL de la API de Ollama, por ejemplo, http://localhost:11434/api/chat',
-  LLM_OPENAI_URL_HELP: 'URL de la API de OpenAI (dejar vacío para predeterminado)',
-  LLM_OLLAMA_MODEL_HELP: 'Nombre del modelo, por ejemplo, gemma2, llama3, qwen2.5',
+  LLM_OLLAMA_URL_HELP:
+    'URL de la API de Ollama, por ejemplo, http://localhost:11434/api/chat',
+  LLM_OPENAI_URL_HELP:
+    'URL de la API de OpenAI (dejar vacío para predeterminado)',
+  LLM_OLLAMA_MODEL_HELP:
+    'Nombre del modelo, por ejemplo, gemma2, llama3, qwen2.5',
   LLM_OPENAI_MODEL_HELP: 'Nombre del modelo, por ejemplo, gpt-4o-mini, gpt-4o',
   LLM_COPY_PROMPT: 'Copiar prompt al portapapeles',
   TEMPLATE_PROMPT_COPIED: 'Prompt de plantilla copiado al portapapeles',
@@ -381,8 +399,11 @@ export const messages: typeof messagesEN = {
 
   IMPORT_FROM_SPREADSHEET: 'Pegar desde hoja de cálculo',
   IMPORT_PASTE_DATA: 'Pegar datos de la hoja de cálculo',
-  IMPORT_PLACEHOLDER: 'Pegue aquí los datos separados por tabulaciones de Excel/Google Sheets...\n\nPrimera fila = nombres de los factores clave, cada columna = opciones para ese factor.',
+  IMPORT_PLACEHOLDER:
+    'Pegue aquí los datos separados por tabulaciones de Excel/Google Sheets...\n\nPrimera fila = nombres de los factores clave, cada columna = opciones para ese factor.',
   IMPORT_PARSE: 'Analizar e importar',
-  IMPORT_NO_DRIVERS: 'No se detectaron factores clave. Verifique los datos pegados.',
-  IMPORT_NEEDS_TWO_COLUMNS: 'La importación requiere al menos 2 columnas (nombres de factores clave y opciones).',
+  IMPORT_NO_DRIVERS:
+    'No se detectaron factores clave. Verifique los datos pegados.',
+  IMPORT_NEEDS_TWO_COLUMNS:
+    'La importación requiere al menos 2 columnas (nombres de factores clave y opciones).',
 };

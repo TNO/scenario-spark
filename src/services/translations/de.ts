@@ -323,6 +323,8 @@ export const messages: typeof messagesEN = {
     PERSONA: 'Persona-Prompt',
     COM: 'Kommunikations-Prompt',
   },
+  LLM_DEFAULT_NARRATIVE_PROMPT:
+    'Verwenden Sie die folgenden Elemente, um ein realistisches Szenario zu definieren.',
   RESPONSE_INSTRUCTIONS:
     'Beginnen Sie Ihre Antwort mit einem kurzen, beschreibenden Titel in einer eigenen Zeile, dann einer Leerzeile, dann dem Hauptinhalt.',
   WIZARD_STEP1_TITLE: 'Szenarioinformationen',

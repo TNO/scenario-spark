@@ -2,7 +2,7 @@ import { messages as messagesEN } from './en';
 
 export const messages: typeof messagesEN = {
   HOME: { TITLE: 'accueil', ROUTE: '/home' },
-  ABOUT: { TITLE: 'À propos de l\'application', ROUTE: '/about' },
+  ABOUT: { TITLE: "À propos de l'application", ROUTE: '/about' },
   DEFINE_BOX: { TITLE: 'Boîte morphologique', ROUTE: '/define' },
   SETTINGS: { TITLE: 'Paramètres', ROUTE: '/settings' },
   CREATE_SCENARIO: { TITLE: 'Créer un scénario', ROUTE: '/create' },
@@ -96,11 +96,11 @@ export const messages: typeof messagesEN = {
     SELECT_COLUMN_CATEGORY: 'Sélectionner la catégorie de colonne',
     SELECT_CATEGORIES_TO_START: 'Sélectionner les catégories pour commencer',
     NO_DRIVERS:
-      'Aucun facteur clé avec des valeurs n\'est disponible pour cette combinaison de catégories',
+      "Aucun facteur clé avec des valeurs n'est disponible pour cette combinaison de catégories",
     NAV_TITLE: 'Navigation clavier',
     NAV_ARROWS:
       'Flèches: naviguer entre les cellules, avec Shift entre facteurs clés',
-    NAV_TOGGLE: 'Espace ou Entrée: changer l\'état de la combinaison',
+    NAV_TOGGLE: "Espace ou Entrée: changer l'état de la combinaison",
     NAV_SHIFT_VERTICAL:
       'Shift + Haut/Bas: changer le facteur clé de ligne actif',
     NAV_SHIFT_HORIZONTAL:
@@ -149,16 +149,16 @@ export const messages: typeof messagesEN = {
     MOTIVATION: 'Motivation',
     NARRATIVE: 'Récit',
     NARRATIVE_PLACEHOLDER:
-      'Décrivez le contexte dans lequel l\'incident a eu lieu, comme une description de la localisation (géographique), la personne ou le bâtiment qui doit être protégé, la manière dont un acteur obtient des informations, à quel moment l\'action a eu lieu, dans quelles circonstances météorologiques, combien de personnes étaient impliquées dans l\'action, de quelle organisation, comment ont-elles obtenu l\'accès, ou quels moyens/armes ont été employés.',
+      "Décrivez le contexte dans lequel l'incident a eu lieu, comme une description de la localisation (géographique), la personne ou le bâtiment qui doit être protégé, la manière dont un acteur obtient des informations, à quel moment l'action a eu lieu, dans quelles circonstances météorologiques, combien de personnes étaient impliquées dans l'action, de quelle organisation, comment ont-elles obtenu l'accès, ou quels moyens/armes ont été employés.",
     OBJECT: 'Objet',
     OPENCOMPARTMENTS: 'Compartiment ouvert',
     PEOPLEDENSITY: 'Densité de personnes',
     PERSONS: 'Personne',
-    PHYSICALANGLEOFATTACKDURINGEXECUTION: 'Angle d\'attaque physique',
+    PHYSICALANGLEOFATTACKDURINGEXECUTION: "Angle d'attaque physique",
     PHYSICAL_ANGLE: 'Angle physique',
     PRIVACYAWARENESS: 'Sensibilisation à la vie privée',
     RELATIONOWNEROBJECTANDOWNERSECURITYSYSTEM:
-      'Relation entre le propriétaire de l\'objet et le propriétaire du système de sécurité',
+      "Relation entre le propriétaire de l'objet et le propriétaire du système de sécurité",
     RESPONSIBILITY: 'Responsabilité',
     SCENARIOS: 'Scénario',
     SECURITYAWARENESS: 'Sensibilisation à la sécurité',
@@ -168,8 +168,8 @@ export const messages: typeof messagesEN = {
     ACTION: 'Action',
     ACCESS: 'Accès',
     MEANS: 'Moyens',
-    TYPEOFENVIRONMENT: 'Type d\'environnement',
-    TYPEOFOBJECT: 'Type d\'objet',
+    TYPEOFENVIRONMENT: "Type d'environnement",
+    TYPEOFOBJECT: "Type d'objet",
     WEAPON: 'Arme',
     WEATHERBEHAVIOUR: 'Comportement météorologique',
     WEATHERTYPE: 'Condition météorologique',
@@ -180,11 +180,11 @@ export const messages: typeof messagesEN = {
     C2HEADQUARTERS: 'Localisation du PC C2',
     TARGET: 'Cible',
     DELIBERATEACTION: 'Action délibérée',
-    MEANS2: 'Moyens d\'attaque',
-    MEANS3: 'Moyens pour l\'action',
-    MEANS4: 'Moyens pour l\'accès',
-    ACCESS2: 'Moyens d\'accès',
-    MEANS2ACCESS: 'Moyens d\'accéder',
+    MEANS2: "Moyens d'attaque",
+    MEANS3: "Moyens pour l'action",
+    MEANS4: "Moyens pour l'accès",
+    ACCESS2: "Moyens d'accès",
+    MEANS2ACCESS: "Moyens d'accéder",
   },
   MODEL_NAMES: {
     0: 'Modèle vide',
@@ -194,10 +194,10 @@ export const messages: typeof messagesEN = {
     0: 'Un modèle de scénario vide.',
     1: 'Un modèle de scénario avec une catégorie de menace et de contexte.',
   },
-  JSON_NOT_VALID: 'Le fichier de modèle JSON n\'est pas valide ! Annulation.',
+  JSON_NOT_VALID: "Le fichier de modèle JSON n'est pas valide ! Annulation.",
   NO_NARRATIVE: 'Récit non généré après 100 tentatives !',
   SPEC_CATS:
-    'Spécifiez d\'abord quelques catégories, où chaque catégorie contient des facteurs clés.',
+    "Spécifiez d'abord quelques catégories, où chaque catégorie contient des facteurs clés.",
   EXPORT2WORD: {
     TITLE: 'Exporter vers Word',
     DESC: 'Quel scénario voulez-vous exporter ?',
@@ -212,39 +212,61 @@ export const messages: typeof messagesEN = {
   },
   USAGE: {
     TITLE: 'Utilisation',
-    DESC: 'ScenarioSpark aide l\'utilisateur à créer et compiler un ensemble représentatif de scénarios qui peuvent être utilisés dans les différentes étapes du processus de gestion des risques.',
+    DESC: "ScenarioSpark aide l'utilisateur à créer et compiler un ensemble représentatif de scénarios qui peuvent être utilisés dans les différentes étapes du processus de gestion des risques.",
   },
   SECURITY: {
     TITLE: 'Sécurité',
     DESC: 'Toutes les informations utilisées et saisies sont traitées et stockées exclusivement en local.',
   },
   SUMMARY:
-    'Un outil gratuit pour vous aider à créer de nouveaux scénarios en utilisant une boîte morphologique. D\'abord, vous définissez les aspects qui sont d\'intérêt dans votre domaine. Ensuite, vous spécifiez les variations pour chaque aspect. Et enfin, vous créez manuellement de nouveaux scénarios ou vous vous inspirez en générant automatiquement des scénarios possibles.',
+    "Un outil gratuit pour vous aider à créer de nouveaux scénarios en utilisant une boîte morphologique. D'abord, vous définissez les aspects qui sont d'intérêt dans votre domaine. Ensuite, vous spécifiez les variations pour chaque aspect. Et enfin, vous créez manuellement de nouveaux scénarios ou vous vous inspirez en générant automatiquement des scénarios possibles.",
   SET_LANGUAGE: 'Définir la langue',
   SCENARIO_LOADED_MSG: 'Scénario chargé avec succès',
   COLLECTION_LOADED_MSG: 'La collection de scénarios est chargée',
   SCENARIO_NOT_LOADED_MSG:
-    'Le scénario n\'est pas chargé : cause la plus probable, le scénario fait déjà partie de la collection.',
+    "Le scénario n'est pas chargé : cause la plus probable, le scénario fait déjà partie de la collection.",
   IMPORT_CONFLICT_TITLE: 'Le scénario existe déjà',
-  IMPORT_CONFLICT_MSG: 'Un scénario nommé "{name}" est déjà dans votre collection. Que voulez-vous faire ?',
+  IMPORT_CONFLICT_MSG:
+    'Un scénario nommé "{name}" est déjà dans votre collection. Que voulez-vous faire ?',
   IMPORT_OVERWRITE: 'Écraser',
   IMPORT_AS_COPY: 'Ajouter en copie',
   SCENARIO_CREATED_MSG: 'Un nouveau scénario a été créé',
   COPY_TO_CLIPBOARD: 'Copier le tableau dans le presse-papiers',
-  GROUP: { SELECTED: 'Scénarios sélectionnés', UNSELECTED: 'Scénarios non sélectionnés' },
+  GROUP: {
+    SELECTED: 'Scénarios sélectionnés',
+    UNSELECTED: 'Scénarios non sélectionnés',
+  },
   CLONE_NARRATIVE: 'Cloner',
-  INCLUDE_DECISION_SUPPORT: 'Activer l\'aide à la décision',
-  IS_DECISION_CATEGORY: 'Pour l\'aide à la décision',
-  PROBABILITY: 'Probabilité d\'occurrence',
+  INCLUDE_DECISION_SUPPORT: "Activer l'aide à la décision",
+  IS_DECISION_CATEGORY: "Pour l'aide à la décision",
+  PROBABILITY: "Probabilité d'occurrence",
   IMPACT: 'Impact',
   RISK: 'Risque',
   RISK_PLACEHOLDER: 'Probabilité x Impact',
-  PROB5: { 0: 'Très faible', 1: 'Faible', 2: 'Moyen', 3: 'Élevé', 4: 'Très élevé' },
-  IMP5: { 0: 'Très faible', 1: 'Faible', 2: 'Moyen', 3: 'Élevé', 4: 'Très élevé' },
-  RISK5: { 0: 'Très faible', 1: 'Faible', 2: 'Moyen', 3: 'Élevé', 4: 'Très élevé' },
+  PROB5: {
+    0: 'Très faible',
+    1: 'Faible',
+    2: 'Moyen',
+    3: 'Élevé',
+    4: 'Très élevé',
+  },
+  IMP5: {
+    0: 'Très faible',
+    1: 'Faible',
+    2: 'Moyen',
+    3: 'Élevé',
+    4: 'Très élevé',
+  },
+  RISK5: {
+    0: 'Très faible',
+    1: 'Faible',
+    2: 'Moyen',
+    3: 'Élevé',
+    4: 'Très élevé',
+  },
   SUGGESTED_APPROACH: {
     TITLE: 'Approche suggérée',
-    DESC: 'L\'approche suggérée est une combinaison (pondérée par le risque) des contre-mesures sélectionnées.',
+    DESC: "L'approche suggérée est une combinaison (pondérée par le risque) des contre-mesures sélectionnées.",
   },
   TEMPLATE: {
     TITLE: 'Modèle de texte fluide',
@@ -264,7 +286,7 @@ export const messages: typeof messagesEN = {
   PROVIDER: 'Fournisseur',
   SYSTEM_PROMPT: 'Invite système',
   USER_PROMPT: 'Invite de récit',
-  EFFECT_PROMPT: 'Invite d\'effet',
+  EFFECT_PROMPT: "Invite d'effet",
   PERSONA_PROMPT: 'Invite de persona',
   COMMUNICATIONS_PROMPT: 'Invite de communications',
   TEMPERATURE: {
@@ -276,7 +298,7 @@ export const messages: typeof messagesEN = {
   ASK_LLM: 'Demander au LLM',
   INCLUDE_LLM: 'Inclure dans le LLM',
   OLLAMA_URL:
-    'Nom d\'hôte (et port, optionnellement via un [proxy](https://github.com/erikvullings/proxy))',
+    "Nom d'hôte (et port, optionnellement via un [proxy](https://github.com/erikvullings/proxy))",
   ADV_EDIT: 'Éditeur de code',
   TOGGLE: { SHOW: 'Afficher le tableau', HIDE: 'Masquer le tableau' },
   AUTO_CREATE: {
@@ -295,24 +317,29 @@ export const messages: typeof messagesEN = {
   },
   PROMPT_TYPE: {
     PROMPTS: 'Invites',
-    LABEL: 'Type d\'invite',
+    LABEL: "Type d'invite",
     NARRATIVE: 'Invite de récit',
-    EFFECT: 'Invite d\'effet',
+    EFFECT: "Invite d'effet",
     PERSONA: 'Invite de persona',
     COM: 'Invite de communications',
   },
+  LLM_DEFAULT_NARRATIVE_PROMPT:
+    'Utilisez les elements suivants pour definir un scenario realiste.',
   RESPONSE_INSTRUCTIONS:
     'Commencez votre réponse par un titre court et descriptif sur sa propre ligne, puis une ligne vide, puis le contenu principal.',
   WIZARD_STEP1_TITLE: 'Informations sur le scénario',
   WIZARD_STEP1_SUBTITLE: 'Nommez et décrivez votre scénario',
   WIZARD_STEP2_TITLE: 'Facteurs clés',
-  WIZARD_STEP2_SUBTITLE: 'Définissez la catégorie morphologique et les facteurs clés',
+  WIZARD_STEP2_SUBTITLE:
+    'Définissez la catégorie morphologique et les facteurs clés',
   WIZARD_STEP3_TITLE: 'Options des facteurs',
-  WIZARD_STEP3_SUBTITLE: 'Ajoutez optionnellement des options pour chaque facteur',
+  WIZARD_STEP3_SUBTITLE:
+    'Ajoutez optionnellement des options pour chaque facteur',
   WIZARD_CATEGORY_INFO: 'Détails de la catégorie',
   WIZARD_COMPONENTS_INFO: 'Facteurs clés (dimensions)',
   WIZARD_VALUES_INFO: 'Sélectionnez un facteur pour ajouter des options :',
-  WIZARD_NO_COMPONENTS: 'Aucun facteur défini pour le moment. Retournez à l\'étape 2.',
+  WIZARD_NO_COMPONENTS:
+    "Aucun facteur défini pour le moment. Retournez à l'étape 2.",
   WIZARD_VALUES_FOR_COMPONENT: 'Options pour {component}',
   WIZARD_NEXT: 'Suivant',
   WIZARD_PREVIOUS: 'Retour',
@@ -321,38 +348,49 @@ export const messages: typeof messagesEN = {
   LLM_WIZARD_TITLE: 'Générer un scénario avec LLM',
   LLM_WIZARD_STEP1_TITLE: 'Définir les exigences',
   LLM_WIZARD_STEP1_SUBTITLE: 'Spécifiez ce que vous voulez générer',
-  LLM_WIZARD_STEP1_DESC: 'Remplissez les détails ci-dessous pour personnaliser la génération de votre boîte morphologique :',
-  LLM_WIZARD_STEP2_TITLE: 'Réviser l\'invite',
-  LLM_WIZARD_STEP2_SUBTITLE: 'Révisez et modifiez l\'invite complète',
-  LLM_WIZARD_STEP2_DESC: 'Révisez l\'invite combinée ci-dessous. Vous pouvez la modifier si nécessaire :',
+  LLM_WIZARD_STEP1_DESC:
+    'Remplissez les détails ci-dessous pour personnaliser la génération de votre boîte morphologique :',
+  LLM_WIZARD_STEP2_TITLE: "Réviser l'invite",
+  LLM_WIZARD_STEP2_SUBTITLE: "Révisez et modifiez l'invite complète",
+  LLM_WIZARD_STEP2_DESC:
+    "Révisez l'invite combinée ci-dessous. Vous pouvez la modifier si nécessaire :",
   LLM_WIZARD_STEP3_TITLE: 'Configurer le LLM',
   LLM_WIZARD_STEP3_SUBTITLE: 'Choisissez le service LLM et les paramètres',
-  LLM_WIZARD_STEP3_DESC: 'Configurez comment vous voulez générer la boîte morphologique :',
+  LLM_WIZARD_STEP3_DESC:
+    'Configurez comment vous voulez générer la boîte morphologique :',
   LLM_WIZARD_STEP4_TITLE: 'Générer le scénario',
   LLM_WIZARD_STEP4_SUBTITLE: 'Générez ou collez le résultat',
-  LLM_WIZARD_STEP4_CLIPBOARD_DESC: 'L\'invite est prête. Copiez-la et utilisez un LLM externe pour générer la boîte morphologique :',
+  LLM_WIZARD_STEP4_CLIPBOARD_DESC:
+    "L'invite est prête. Copiez-la et utilisez un LLM externe pour générer la boîte morphologique :",
   LLM_PURPOSE: 'Objectif',
-  LLM_PURPOSE_HELP: 'Que voulez-vous explorer ou concevoir ? Par exemple, "scénarios de gestion de crise pour la planification d\'urgence nationale"',
+  LLM_PURPOSE_HELP:
+    'Que voulez-vous explorer ou concevoir ? Par exemple, "scénarios de gestion de crise pour la planification d\'urgence nationale"',
   LLM_DOMAIN: 'Domaine',
-  LLM_DOMAIN_HELP: 'Spécifiez le domaine ou le contexte, par exemple, "réponse aux catastrophes", "cybersécurité", "opérations militaires"',
+  LLM_DOMAIN_HELP:
+    'Spécifiez le domaine ou le contexte, par exemple, "réponse aux catastrophes", "cybersécurité", "opérations militaires"',
   LLM_OUTPUT_TYPE: 'Type de sortie',
-  LLM_OUTPUT_TYPE_HELP: 'Une boîte morphologique, plusieurs boîtes, axé sur les scénarios, axé sur les mesures, ou les deux ?',
-  LLM_CONSTRAINTS: 'Contraintes ou domaines d\'intérêt',
-  LLM_CONSTRAINTS_HELP: 'Par exemple, "Inclure les facteurs socio-politiques, environnementaux et technologiques"',
+  LLM_OUTPUT_TYPE_HELP:
+    'Une boîte morphologique, plusieurs boîtes, axé sur les scénarios, axé sur les mesures, ou les deux ?',
+  LLM_CONSTRAINTS: "Contraintes ou domaines d'intérêt",
+  LLM_CONSTRAINTS_HELP:
+    'Par exemple, "Inclure les facteurs socio-politiques, environnementaux et technologiques"',
   LLM_DETAIL_DEPTH: 'Niveau de détail',
-  LLM_DETAIL_DEPTH_HELP: 'Par exemple, "Inclure 6-7 options détaillées par facteur, chacune avec une définition en une phrase"',
+  LLM_DETAIL_DEPTH_HELP:
+    'Par exemple, "Inclure 6-7 options détaillées par facteur, chacune avec une définition en une phrase"',
   LLM_LANGUAGE: 'Langue de sortie',
-  LLM_LANGUAGE_HELP: 'La langue pour le contenu généré, par exemple, "Anglais", "Français"',
+  LLM_LANGUAGE_HELP:
+    'La langue pour le contenu généré, par exemple, "Anglais", "Français"',
   LLM_FULL_PROMPT: 'Invite complète',
   LLM_ENDPOINT: 'Méthode de génération',
   LLM_CLIPBOARD: 'Copier dans le presse-papiers (utiliser un LLM externe)',
   LLM_OLLAMA: 'Générer avec Ollama',
   LLM_OPENAI: 'Générer avec OpenAI',
-  LLM_OLLAMA_URL_HELP: 'URL de l\'API Ollama, par exemple, http://localhost:11434/api/chat',
-  LLM_OPENAI_URL_HELP: 'URL de l\'API OpenAI (laisser vide par défaut)',
+  LLM_OLLAMA_URL_HELP:
+    "URL de l'API Ollama, par exemple, http://localhost:11434/api/chat",
+  LLM_OPENAI_URL_HELP: "URL de l'API OpenAI (laisser vide par défaut)",
   LLM_OLLAMA_MODEL_HELP: 'Nom du modèle, par exemple, gemma2, llama3, qwen2.5',
   LLM_OPENAI_MODEL_HELP: 'Nom du modèle, par exemple, gpt-4o-mini, gpt-4o',
-  LLM_COPY_PROMPT: 'Copier l\'invite dans le presse-papiers',
+  LLM_COPY_PROMPT: "Copier l'invite dans le presse-papiers",
   TEMPLATE_PROMPT_COPIED: 'Invite de modèle copiée dans le presse-papiers',
   LLM_PROMPT_COPIED: 'Invite copiée dans le presse-papiers !',
   LLM_PASTE_OUTPUT: 'Collez la sortie du LLM ci-dessous :',
@@ -381,8 +419,10 @@ export const messages: typeof messagesEN = {
 
   IMPORT_FROM_SPREADSHEET: 'Coller depuis une feuille de calcul',
   IMPORT_PASTE_DATA: 'Coller les données de la feuille de calcul',
-  IMPORT_PLACEHOLDER: 'Collez ici les données séparées par des tabulations d\'Excel/Google Sheets...\n\nPremière ligne = noms des facteurs clés, chaque colonne = options pour ce facteur.',
+  IMPORT_PLACEHOLDER:
+    "Collez ici les données séparées par des tabulations d'Excel/Google Sheets...\n\nPremière ligne = noms des facteurs clés, chaque colonne = options pour ce facteur.",
   IMPORT_PARSE: 'Analyser et importer',
   IMPORT_NO_DRIVERS: 'Aucun facteur clé détecté. Vérifiez les données collées.',
-  IMPORT_NEEDS_TWO_COLUMNS: 'L\'import nécessite au moins 2 colonnes (noms des facteurs clés et options).',
+  IMPORT_NEEDS_TWO_COLUMNS:
+    "L'import nécessite au moins 2 colonnes (noms des facteurs clés et options).",
 };

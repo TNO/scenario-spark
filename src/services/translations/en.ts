@@ -93,9 +93,11 @@ export const messages = {
     SELECT_ROW_CATEGORY: 'Select row category',
     SELECT_COLUMN_CATEGORY: 'Select column category',
     SELECT_CATEGORIES_TO_START: 'Select categories to start',
-    NO_DRIVERS: 'No key drivers with values are available for this category combination',
+    NO_DRIVERS:
+      'No key drivers with values are available for this category combination',
     NAV_TITLE: 'Keyboard navigation',
-    NAV_ARROWS: 'Arrow keys: move through cells, with Shift through key drivers',
+    NAV_ARROWS:
+      'Arrow keys: move through cells, with Shift through key drivers',
     NAV_TOGGLE: 'Space or Enter: cycle combination state',
     NAV_SHIFT_VERTICAL: 'Shift + Up/Down: change active row key driver',
     NAV_SHIFT_HORIZONTAL: 'Shift + Left/Right: change active column key driver',
@@ -220,7 +222,8 @@ export const messages = {
   SCENARIO_NOT_LOADED_MSG:
     'The scenario is not loaded: most likely cause, scenario is already part of the collection.',
   IMPORT_CONFLICT_TITLE: 'Scenario already exists',
-  IMPORT_CONFLICT_MSG: 'A scenario named "{name}" is already in your collection. What would you like to do?',
+  IMPORT_CONFLICT_MSG:
+    'A scenario named "{name}" is already in your collection. What would you like to do?',
   IMPORT_OVERWRITE: 'Overwrite',
   IMPORT_AS_COPY: 'Add as copy',
   SCENARIO_CREATED_MSG: 'A new scenario is created',
@@ -312,6 +315,8 @@ export const messages = {
     PERSONA: 'Persona prompt',
     COM: 'Communications prompt',
   },
+  LLM_DEFAULT_NARRATIVE_PROMPT:
+    'Use the following elements to define a realistic scenario.',
   RESPONSE_INSTRUCTIONS:
     'Start your response with a short, descriptive title on its own line, then a blank line, then the main content.',
   WIZARD_STEP1_TITLE: 'Scenario Information',
@@ -332,28 +337,38 @@ export const messages = {
   LLM_WIZARD_TITLE: 'Generate Scenario with LLM',
   LLM_WIZARD_STEP1_TITLE: 'Define Requirements',
   LLM_WIZARD_STEP1_SUBTITLE: 'Specify what you want to generate',
-  LLM_WIZARD_STEP1_DESC: 'Fill in the details below to customize your morphological box generation:',
+  LLM_WIZARD_STEP1_DESC:
+    'Fill in the details below to customize your morphological box generation:',
   LLM_WIZARD_STEP2_TITLE: 'Review Prompt',
   LLM_WIZARD_STEP2_SUBTITLE: 'Review and edit the complete prompt',
-  LLM_WIZARD_STEP2_DESC: 'Review the combined prompt below. You can edit it if needed:',
+  LLM_WIZARD_STEP2_DESC:
+    'Review the combined prompt below. You can edit it if needed:',
   LLM_WIZARD_STEP3_TITLE: 'Configure LLM',
   LLM_WIZARD_STEP3_SUBTITLE: 'Choose LLM service and settings',
-  LLM_WIZARD_STEP3_DESC: 'Configure how you want to generate the morphological box:',
+  LLM_WIZARD_STEP3_DESC:
+    'Configure how you want to generate the morphological box:',
   LLM_WIZARD_STEP4_TITLE: 'Generate Scenario',
   LLM_WIZARD_STEP4_SUBTITLE: 'Generate or paste the result',
-  LLM_WIZARD_STEP4_CLIPBOARD_DESC: 'The prompt is ready. Copy it and use an external LLM to generate the morphological box:',
+  LLM_WIZARD_STEP4_CLIPBOARD_DESC:
+    'The prompt is ready. Copy it and use an external LLM to generate the morphological box:',
   LLM_PURPOSE: 'Purpose',
-  LLM_PURPOSE_HELP: 'What do you want to explore or design? E.g., "crisis management scenarios for national emergency planning"',
+  LLM_PURPOSE_HELP:
+    'What do you want to explore or design? E.g., "crisis management scenarios for national emergency planning"',
   LLM_DOMAIN: 'Domain',
-  LLM_DOMAIN_HELP: 'Specify the field or context, e.g., "disaster response", "cybersecurity", "military operations"',
+  LLM_DOMAIN_HELP:
+    'Specify the field or context, e.g., "disaster response", "cybersecurity", "military operations"',
   LLM_OUTPUT_TYPE: 'Output Type',
-  LLM_OUTPUT_TYPE_HELP: 'One morphological box, multiple boxes, scenario-focused, measure-focused, or both?',
+  LLM_OUTPUT_TYPE_HELP:
+    'One morphological box, multiple boxes, scenario-focused, measure-focused, or both?',
   LLM_CONSTRAINTS: 'Constraints or Focus Areas',
-  LLM_CONSTRAINTS_HELP: 'E.g., "Include socio-political, environmental, and technological factors"',
+  LLM_CONSTRAINTS_HELP:
+    'E.g., "Include socio-political, environmental, and technological factors"',
   LLM_DETAIL_DEPTH: 'Detail Depth',
-  LLM_DETAIL_DEPTH_HELP: 'E.g., "Include 6-7 detailed options per factor, each with a one-sentence definition"',
+  LLM_DETAIL_DEPTH_HELP:
+    'E.g., "Include 6-7 detailed options per factor, each with a one-sentence definition"',
   LLM_LANGUAGE: 'Output Language',
-  LLM_LANGUAGE_HELP: 'The language for the generated content, e.g., "English", "Dutch"',
+  LLM_LANGUAGE_HELP:
+    'The language for the generated content, e.g., "English", "Dutch"',
   LLM_FULL_PROMPT: 'Complete Prompt',
   LLM_ENDPOINT: 'Generation Method',
   LLM_CLIPBOARD: 'Copy to Clipboard (use external LLM)',
@@ -374,8 +389,10 @@ export const messages = {
 
   IMPORT_FROM_SPREADSHEET: 'Paste from Spreadsheet',
   IMPORT_PASTE_DATA: 'Paste Spreadsheet Data',
-  IMPORT_PLACEHOLDER: 'Paste tab-separated data from Excel/Google Sheets here...\n\nFirst row = key driver names, each column = options for that driver.',
+  IMPORT_PLACEHOLDER:
+    'Paste tab-separated data from Excel/Google Sheets here...\n\nFirst row = key driver names, each column = options for that driver.',
   IMPORT_PARSE: 'Parse & Import',
   IMPORT_NO_DRIVERS: 'No key drivers detected. Check your paste.',
-  IMPORT_NEEDS_TWO_COLUMNS: 'Import requires at least 2 columns (driver names and options).',
+  IMPORT_NEEDS_TWO_COLUMNS:
+    'Import requires at least 2 columns (driver names and options).',
 };

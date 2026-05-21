@@ -27,6 +27,81 @@ export interface LLMConfig {
   autoLLMCount?: number;
 }
 
+const LEGACY_MULTILINGUAL_DEFAULT_NARRATIVE_PROMPT = [
+  'EN: Use the following elements to define a realistic scenario.',
+  'NL: Gebruik de volgende elementen om een realistisch scenario te definieren.',
+  'FR: Utilisez les elements suivants pour definir un scenario realiste.',
+  'DE: Verwenden Sie die folgenden Elemente, um ein realistisches Szenario zu definieren.',
+  'ES: Utiliza los siguientes elementos para definir un escenario realista.',
+  'PL: Uzyj ponizszych elementow, aby zdefiniowac realistyczny scenariusz.',
+].join('\n');
+
+const getDefaultNarrativePrompt = () => t('LLM_DEFAULT_NARRATIVE_PROMPT');
+
+const ensureDefaultLLMConfig = (
+  scenario: Partial<Scenario>,
+  categories: Category[],
+): boolean => {
+  const allCategoryIds = categories.map((c) => c.id);
+  const defaultNarrativePrompt: Prompt = {
+    type: 'narrative',
+    categories: allCategoryIds,
+    prompt: getDefaultNarrativePrompt(),
+  };
+
+  let changed = false;
+
+  if (!scenario.llm) {
+    scenario.llm = {
+      id: 'clipboard',
+      url: '',
+      model: 'gemma3',
+      temperature: 0.7,
+      prompts: [defaultNarrativePrompt],
+    };
+    return true;
+  }
+
+  if (!scenario.llm.id) {
+    scenario.llm.id = 'clipboard';
+    changed = true;
+  }
+
+  if (!Array.isArray(scenario.llm.prompts)) {
+    scenario.llm.prompts = [defaultNarrativePrompt];
+    changed = true;
+  }
+
+  const narrativePrompt = scenario.llm.prompts.find(
+    (p) => p.type === 'narrative',
+  );
+  if (!narrativePrompt) {
+    scenario.llm.prompts.push(defaultNarrativePrompt);
+    changed = true;
+  } else if (
+    !Array.isArray(narrativePrompt.categories) ||
+    narrativePrompt.categories.length === 0
+  ) {
+    narrativePrompt.categories = allCategoryIds;
+    changed = true;
+  }
+
+  if (!narrativePrompt?.prompt?.trim()) {
+    narrativePrompt!.prompt = getDefaultNarrativePrompt();
+    changed = true;
+  }
+
+  if (
+    narrativePrompt &&
+    narrativePrompt.prompt === LEGACY_MULTILINGUAL_DEFAULT_NARRATIVE_PROMPT
+  ) {
+    narrativePrompt.prompt = getDefaultNarrativePrompt();
+    changed = true;
+  }
+
+  return changed;
+};
+
 export const LLMSelector: MeiosisComponent = () => {
   const form = (categories: Category[]) =>
     [
@@ -38,6 +113,7 @@ export const LLMSelector: MeiosisComponent = () => {
             id: 'id',
             label: 'Service',
             type: 'select',
+            value: 'clipboard',
             className: 'col s12 m3',
             options: [
               { id: 'ollama', label: 'Ollama' },
@@ -127,6 +203,25 @@ export const LLMSelector: MeiosisComponent = () => {
       },
     ] as UIForm<Partial<Scenario>>;
   return {
+    oninit: async ({ attrs }) => {
+      const {
+        state: { model },
+      } = attrs;
+      const { categories = [] } = model.scenario || {};
+      if (ensureDefaultLLMConfig(model.scenario, categories)) {
+        await saveModel(attrs, model);
+      }
+    },
+    onbeforeupdate: ({ attrs }) => {
+      const {
+        state: { model },
+      } = attrs;
+      const { categories = [] } = model.scenario || {};
+      if (ensureDefaultLLMConfig(model.scenario, categories)) {
+        void saveModel(attrs, model);
+      }
+      return true;
+    },
     view: ({ attrs }) => {
       const {
         state: { model },
@@ -156,7 +251,7 @@ export const generateStory = async (
   narrative: Narrative,
   categories: Category[],
   components: ScenarioComponent[],
-  storyType: PromptType = 'narrative'
+  storyType: PromptType = 'narrative',
 ) => {
   const { id, apiKey, prompts = [] } = config;
   let storyPrompt = prompts.filter((p) => p.type === storyType).shift();
@@ -197,17 +292,28 @@ export const generateStory = async (
     components &&
     components
       .filter((c) => includedComponents.has(c.id))
-      .reduce((acc, cur) => {
-        cur.values &&
-          cur.values.forEach((v) => {
-            acc.set(cur.id + v.id, `${v.label}${v.desc ? ` (${v.desc})` : ''}`);
-          });
-        return acc;
-      }, new Map() as Map<string, string>);
+      .reduce(
+        (acc, cur) => {
+          cur.values &&
+            cur.values.forEach((v) => {
+              acc.set(
+                cur.id + v.id,
+                `${v.label}${v.desc ? ` (${v.desc})` : ''}`,
+              );
+            });
+          return acc;
+        },
+        new Map() as Map<string, string>,
+      );
 
   // Translate narrative ids to labels
   const translatedNarrative = components
-    .filter((c) => includedComponents.has(c.id) && Array.isArray(narrative.components[c.id]) && narrative.components[c.id].length > 0)
+    .filter(
+      (c) =>
+        includedComponents.has(c.id) &&
+        Array.isArray(narrative.components[c.id]) &&
+        narrative.components[c.id].length > 0,
+    )
     .map((c) => {
       const values = narrative.components[c.id]
         .map((id) => lookup.get(c.id + id))
@@ -227,9 +333,15 @@ export const generateStory = async (
   if (id === 'clipboard') return userPrompt;
 
   const result = await LLMClient.chat(
-    { provider: id as 'ollama' | 'openai', url, model, apiKey, temperature: 0.7 },
+    {
+      provider: id as 'ollama' | 'openai',
+      url,
+      model,
+      apiKey,
+      temperature: 0.7,
+    },
     'You are a helpful AI storywriter.',
-    userPrompt
+    userPrompt,
   );
 
   if ((result as { error?: boolean })?.error) return '';

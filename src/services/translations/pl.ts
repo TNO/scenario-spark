@@ -87,8 +87,7 @@ export const messages: typeof messagesEN = {
   DELETE_MODEL: {
     btn: 'Usuń scenariusz',
     title: 'Usuń wybrany scenariusz',
-    description:
-      'Czy na pewno chcesz usunąć swój scenariusz? Nie ma odwrotu.',
+    description: 'Czy na pewno chcesz usunąć swój scenariusz? Nie ma odwrotu.',
   },
   INCONSISTENCIES: {
     title: 'Niespójności',
@@ -226,12 +225,16 @@ export const messages: typeof messagesEN = {
   SCENARIO_NOT_LOADED_MSG:
     'Scenariusz nie został wczytany: najprawdopodobniej scenariusz jest już częścią kolekcji.',
   IMPORT_CONFLICT_TITLE: 'Scenariusz już istnieje',
-  IMPORT_CONFLICT_MSG: 'Scenariusz o nazwie "{name}" jest już w Twojej kolekcji. Co chcesz zrobić?',
+  IMPORT_CONFLICT_MSG:
+    'Scenariusz o nazwie "{name}" jest już w Twojej kolekcji. Co chcesz zrobić?',
   IMPORT_OVERWRITE: 'Nadpisz',
   IMPORT_AS_COPY: 'Dodaj jako kopię',
   SCENARIO_CREATED_MSG: 'Utworzono nowy scenariusz',
   COPY_TO_CLIPBOARD: 'Kopiuj tabelę do schowka',
-  GROUP: { SELECTED: 'Wybrane scenariusze', UNSELECTED: 'Niewybrane scenariusze' },
+  GROUP: {
+    SELECTED: 'Wybrane scenariusze',
+    UNSELECTED: 'Niewybrane scenariusze',
+  },
   CLONE_NARRATIVE: 'Klonuj',
   INCLUDE_DECISION_SUPPORT: 'Aktywuj wsparcie decyzji',
   IS_DECISION_CATEGORY: 'Do wsparcia decyzji',
@@ -239,9 +242,27 @@ export const messages: typeof messagesEN = {
   IMPACT: 'Wpływ',
   RISK: 'Ryzyko',
   RISK_PLACEHOLDER: 'Prawdopodobieństwo x Wpływ',
-  PROB5: { 0: 'Bardzo niskie', 1: 'Niskie', 2: 'Średnie', 3: 'Wysokie', 4: 'Bardzo wysokie' },
-  IMP5: { 0: 'Bardzo niski', 1: 'Niski', 2: 'Średni', 3: 'Wysoki', 4: 'Bardzo wysoki' },
-  RISK5: { 0: 'Bardzo niskie', 1: 'Niskie', 2: 'Średnie', 3: 'Wysokie', 4: 'Bardzo wysokie' },
+  PROB5: {
+    0: 'Bardzo niskie',
+    1: 'Niskie',
+    2: 'Średnie',
+    3: 'Wysokie',
+    4: 'Bardzo wysokie',
+  },
+  IMP5: {
+    0: 'Bardzo niski',
+    1: 'Niski',
+    2: 'Średni',
+    3: 'Wysoki',
+    4: 'Bardzo wysoki',
+  },
+  RISK5: {
+    0: 'Bardzo niskie',
+    1: 'Niskie',
+    2: 'Średnie',
+    3: 'Wysokie',
+    4: 'Bardzo wysokie',
+  },
   SUGGESTED_APPROACH: {
     TITLE: 'Sugerowane podejście',
     DESC: 'Sugerowane podejście to kombinacja wybranych środków zaradczych ważona (ryzykiem).',
@@ -301,12 +322,15 @@ export const messages: typeof messagesEN = {
     PERSONA: 'Prompt persony',
     COM: 'Prompt komunikacji',
   },
+  LLM_DEFAULT_NARRATIVE_PROMPT:
+    'Uzyj ponizszych elementow, aby zdefiniowac realistyczny scenariusz.',
   RESPONSE_INSTRUCTIONS:
     'Rozpocznij odpowiedź krótkim, opisowym tytułem w osobnej linii, następnie pustą linią, a potem główną treścią.',
   WIZARD_STEP1_TITLE: 'Informacje o scenariuszu',
   WIZARD_STEP1_SUBTITLE: 'Nazwij i opisz swój scenariusz',
   WIZARD_STEP2_TITLE: 'Kluczowe czynniki',
-  WIZARD_STEP2_SUBTITLE: 'Zdefiniuj kategorię morfologiczną i kluczowe czynniki',
+  WIZARD_STEP2_SUBTITLE:
+    'Zdefiniuj kategorię morfologiczną i kluczowe czynniki',
   WIZARD_STEP3_TITLE: 'Opcje czynników',
   WIZARD_STEP3_SUBTITLE: 'Opcjonalnie dodaj opcje dla każdego czynnika',
   WIZARD_CATEGORY_INFO: 'Szczegóły kategorii',
@@ -321,26 +345,35 @@ export const messages: typeof messagesEN = {
   LLM_WIZARD_TITLE: 'Wygeneruj scenariusz za pomocą LLM',
   LLM_WIZARD_STEP1_TITLE: 'Określ wymagania',
   LLM_WIZARD_STEP1_SUBTITLE: 'Określ, co chcesz wygenerować',
-  LLM_WIZARD_STEP1_DESC: 'Wypełnij poniższe szczegóły, aby dostosować generowanie tabeli morfologicznej:',
+  LLM_WIZARD_STEP1_DESC:
+    'Wypełnij poniższe szczegóły, aby dostosować generowanie tabeli morfologicznej:',
   LLM_WIZARD_STEP2_TITLE: 'Przejrzyj prompt',
   LLM_WIZARD_STEP2_SUBTITLE: 'Przejrzyj i edytuj kompletny prompt',
-  LLM_WIZARD_STEP2_DESC: 'Przejrzyj poniższy połączony prompt. Możesz go edytować, jeśli to konieczne:',
+  LLM_WIZARD_STEP2_DESC:
+    'Przejrzyj poniższy połączony prompt. Możesz go edytować, jeśli to konieczne:',
   LLM_WIZARD_STEP3_TITLE: 'Skonfiguruj LLM',
   LLM_WIZARD_STEP3_SUBTITLE: 'Wybierz usługę i ustawienia LLM',
-  LLM_WIZARD_STEP3_DESC: 'Skonfiguruj sposób generowania tabeli morfologicznej:',
+  LLM_WIZARD_STEP3_DESC:
+    'Skonfiguruj sposób generowania tabeli morfologicznej:',
   LLM_WIZARD_STEP4_TITLE: 'Wygeneruj scenariusz',
   LLM_WIZARD_STEP4_SUBTITLE: 'Wygeneruj lub wklej wynik',
-  LLM_WIZARD_STEP4_CLIPBOARD_DESC: 'Prompt jest gotowy. Skopiuj go i użyj zewnętrznego LLM do wygenerowania tabeli morfologicznej:',
+  LLM_WIZARD_STEP4_CLIPBOARD_DESC:
+    'Prompt jest gotowy. Skopiuj go i użyj zewnętrznego LLM do wygenerowania tabeli morfologicznej:',
   LLM_PURPOSE: 'Cel',
-  LLM_PURPOSE_HELP: 'Co chcesz zbadać lub zaprojektować? Np. "scenariusze zarządzania kryzysowego dla krajowego planowania awaryjnego"',
+  LLM_PURPOSE_HELP:
+    'Co chcesz zbadać lub zaprojektować? Np. "scenariusze zarządzania kryzysowego dla krajowego planowania awaryjnego"',
   LLM_DOMAIN: 'Dziedzina',
-  LLM_DOMAIN_HELP: 'Określ obszar lub kontekst, np. "reagowanie na katastrofy", "cyberbezpieczeństwo", "operacje wojskowe"',
+  LLM_DOMAIN_HELP:
+    'Określ obszar lub kontekst, np. "reagowanie na katastrofy", "cyberbezpieczeństwo", "operacje wojskowe"',
   LLM_OUTPUT_TYPE: 'Typ wyniku',
-  LLM_OUTPUT_TYPE_HELP: 'Jedna tabela morfologiczna, wiele tabel, scenariusz, środki zaradcze, czy oba?',
+  LLM_OUTPUT_TYPE_HELP:
+    'Jedna tabela morfologiczna, wiele tabel, scenariusz, środki zaradcze, czy oba?',
   LLM_CONSTRAINTS: 'Ograniczenia lub obszary skupienia',
-  LLM_CONSTRAINTS_HELP: 'Np. "Uwzględnij czynniki społeczno-polityczne, środowiskowe i technologiczne"',
+  LLM_CONSTRAINTS_HELP:
+    'Np. "Uwzględnij czynniki społeczno-polityczne, środowiskowe i technologiczne"',
   LLM_DETAIL_DEPTH: 'Głębokość szczegółów',
-  LLM_DETAIL_DEPTH_HELP: 'Np. "Uwzględnij 6-7 szczegółowych opcji na czynnik, każda z definicją w jednym zdaniu"',
+  LLM_DETAIL_DEPTH_HELP:
+    'Np. "Uwzględnij 6-7 szczegółowych opcji na czynnik, każda z definicją w jednym zdaniu"',
   LLM_LANGUAGE: 'Język wyniku',
   LLM_LANGUAGE_HELP: 'Język wygenerowanej treści, np. "angielski", "polski"',
   LLM_FULL_PROMPT: 'Kompletny prompt',
@@ -381,8 +414,10 @@ export const messages: typeof messagesEN = {
 
   IMPORT_FROM_SPREADSHEET: 'Wklej z arkusza',
   IMPORT_PASTE_DATA: 'Wklej dane z arkusza',
-  IMPORT_PLACEHOLDER: 'Wklej tutaj dane rozdzielane tabulatorami z Excela/Google Sheets...\n\nPierwszy wiersz = nazwy kluczowych czynników, każda kolumna = opcje dla tego czynnika.',
+  IMPORT_PLACEHOLDER:
+    'Wklej tutaj dane rozdzielane tabulatorami z Excela/Google Sheets...\n\nPierwszy wiersz = nazwy kluczowych czynników, każda kolumna = opcje dla tego czynnika.',
   IMPORT_PARSE: 'Przetwarzaj i importuj',
   IMPORT_NO_DRIVERS: 'Nie wykryto kluczowych czynników. Sprawdź wklejone dane.',
-  IMPORT_NEEDS_TWO_COLUMNS: 'Import wymaga co najmniej 2 kolumn (nazwy czynników i opcje).',
+  IMPORT_NEEDS_TWO_COLUMNS:
+    'Import wymaga co najmniej 2 kolumn (nazwy czynników i opcje).',
 };
