@@ -442,83 +442,152 @@ export const diagnoseGeneration = (
   return { blockedComponents, totalConstraints };
 };
 
+const getInconsistency = (
+  inconsistencies: Inconsistencies,
+  from: ID,
+  to: ID,
+) => {
+  const fromValue = inconsistencies[from]?.[to];
+  if (typeof fromValue !== 'undefined') return fromValue;
+  return inconsistencies[to]?.[from];
+};
+
+const countConstraints = (inconsistencies: Inconsistencies, id: ID) =>
+  Object.values(inconsistencies[id] || {}).reduce(
+    (count, value) => count + (value ? 2 : 1),
+    0,
+  );
+
+const getScenarioComponents = (
+  categories: Scenario['categories'],
+  components: ScenarioComponent[],
+) => {
+  const seen = new Set<ID>();
+  const byId = new Map(components.map((component) => [component.id, component]));
+  return categories
+    .flatMap((category) => category.componentIds || [])
+    .map((id) => byId.get(id))
+    .filter((component): component is ScenarioComponent => {
+      if (!component || seen.has(component.id)) return false;
+      seen.add(component.id);
+      return true;
+    });
+};
+
+const getSelectedValueIds = (chosen: Record<ID, ID[]>) =>
+  Object.values(chosen).flatMap((ids) => ids || []);
+
+const getPairScore = (
+  inconsistencies: Inconsistencies,
+  id: ID,
+  selectedIds: ID[],
+) => {
+  let unlikely = 0;
+  for (const selectedId of selectedIds) {
+    const state = getInconsistency(inconsistencies, id, selectedId);
+    if (state === true) return undefined;
+    if (state === false) unlikely++;
+  }
+  return unlikely;
+};
+
+const shuffle = <T>(array: T[]) =>
+  array
+    .map((value) => ({ value, rank: Math.random() }))
+    .sort((a, b) => a.rank - b.rank)
+    .map(({ value }) => value);
+
 export const generateNarrative = (
   scenario: Scenario,
   locked: Record<ID, ID[]> = {},
 ) => {
   const { categories, components, inconsistencies } = scenario;
 
-  let tries = 0;
-  const generate = () => {
-    const chosen = { ...locked } as Record<ID, ID[]>;
-    for (const category of categories) {
-      const catComps = components
-        .filter(
-          (c) => category.componentIds && category.componentIds.includes(c.id),
-        )
-        .map((c) => {
-          const inc = c.values
-            ? c.values.reduce((acc, cur) => {
-                return (
-                  acc +
-                  (inconsistencies[cur.id]
-                    ? Object.keys(inconsistencies[cur.id]).length
-                    : 0)
-                );
-              }, 0)
-            : 0;
-          return { ...c, inc };
-        })
-        .sort((a, b) => (a.inc > b.inc ? -1 : 1));
-      const excluded: ID[] = [];
-      for (const catComp of catComps) {
-        if (chosen.hasOwnProperty(catComp.id)) {
-          const chosenValue = chosen[catComp.id];
-          if (chosenValue && chosenValue.length) {
-            if (chosenValue.some((v) => excluded.includes(v))) return false;
-            chosenValue.forEach((v) => {
-              inconsistencies[v] &&
-                Object.keys(inconsistencies[v]).forEach(
-                  (id) => inconsistencies[v][id] && excluded.push(id),
-                );
-            });
-          }
-          continue;
-        }
-        const valuesToChooseFrom =
-          catComp.values &&
-          catComp.values
-            .map(({ id }) => id)
-            .filter((id) => !excluded.includes(id));
-        if (!valuesToChooseFrom || valuesToChooseFrom.length === 0)
-          return false;
-        const v = getRandomValue(valuesToChooseFrom);
-        if (v) {
-          inconsistencies[v] &&
-            Object.keys(inconsistencies[v]).forEach(
-              (id) => inconsistencies[v][id] && excluded.push(id),
-            );
-          chosen[catComp.id] = [v];
-        } else {
-          return false;
-        }
-      }
+  const orderedComponents = getScenarioComponents(categories, components).sort(
+    (a, b) =>
+      (b.values || []).reduce(
+        (sum, value) => sum + countConstraints(inconsistencies, value.id),
+        0,
+      ) -
+      (a.values || []).reduce(
+        (sum, value) => sum + countConstraints(inconsistencies, value.id),
+        0,
+      ),
+  );
+  const chosen = Object.fromEntries(
+    Object.entries(locked).map(([id, valueIds]) => [id, valueIds || []]),
+  ) as Record<ID, ID[]>;
+  const lockedValueIds = getSelectedValueIds(chosen);
+  let lockedUnlikelyCount = 0;
+
+  for (let i = 0; i < lockedValueIds.length; i++) {
+    const score = getPairScore(
+      inconsistencies,
+      lockedValueIds[i],
+      lockedValueIds.slice(i + 1),
+    );
+    if (typeof score === 'undefined') {
+      return { error: true, diagnostic: diagnoseGeneration(scenario) } as const;
     }
-    return chosen;
+    lockedUnlikelyCount += score;
+  }
+
+  let best:
+    | {
+        chosen: Record<ID, ID[]>;
+        unlikelyCount: number;
+      }
+    | undefined;
+
+  const search = (
+    componentIndex: number,
+    current: Record<ID, ID[]>,
+    selectedValueIds: ID[],
+    unlikelyCount: number,
+  ) => {
+    if (best && unlikelyCount >= best.unlikelyCount) return;
+    if (componentIndex >= orderedComponents.length) {
+      best = { chosen: current, unlikelyCount };
+      return;
+    }
+
+    const component = orderedComponents[componentIndex];
+    if (Object.prototype.hasOwnProperty.call(current, component.id)) {
+      search(componentIndex + 1, current, selectedValueIds, unlikelyCount);
+      return;
+    }
+
+    const candidates = shuffle(component.values || [])
+      .map(({ id }) => ({
+        id,
+        score: getPairScore(inconsistencies, id, selectedValueIds),
+      }))
+      .filter(
+        (candidate): candidate is { id: ID; score: number } =>
+          typeof candidate.score !== 'undefined',
+      )
+      .sort((a, b) => a.score - b.score);
+
+    for (const candidate of candidates) {
+      search(
+        componentIndex + 1,
+        { ...current, [component.id]: [candidate.id] },
+        selectedValueIds.concat(candidate.id),
+        unlikelyCount + candidate.score,
+      );
+    }
   };
 
-  do {
-    const result = generate();
-    if (result) {
-      const narrative = {
-        id: uniqueId(),
-        components: result,
-        included: false,
-      } as Narrative;
-      return narrative;
-    }
-    tries++;
-  } while (tries < 100);
+  search(0, chosen, lockedValueIds, lockedUnlikelyCount);
+
+  if (best) {
+    const narrative = {
+      id: uniqueId(),
+      components: best.chosen,
+      included: false,
+    } as Narrative;
+    return narrative;
+  }
 
   // Return diagnostic info so caller can report why generation failed
   return { error: true, diagnostic: diagnoseGeneration(scenario) } as const;
