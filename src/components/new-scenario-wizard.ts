@@ -49,6 +49,8 @@ type WizardState = {
   scenario: WizardScenario;
   category: WizardCategory;
   drivers: WizardDriver[];
+  hasImportedDrivers: boolean;
+  manualDriversStarted: boolean;
   selectedDriverIndex?: number;
   driverValues: { [driverIndex: number]: WizardValue[] };
   showImportPanel: boolean;
@@ -56,33 +58,75 @@ type WizardState = {
   importWarnings: string[];
 };
 
+const createInitialWizardState = (): WizardState => ({
+  currentStep: 0,
+  scenario: {} as WizardScenario,
+  category: {
+    label: t('WIZARD_DEFAULT_CATEGORY_NAME'),
+  } as WizardCategory,
+  drivers: [],
+  hasImportedDrivers: false,
+  manualDriversStarted: false,
+  driverValues: {},
+  showImportPanel: false,
+  importRawText: '',
+  importWarnings: [],
+});
+
 export const NewScenarioWizard: MeiosisComponent<{
   isOpen: boolean;
   onClose: () => void;
   onComplete: (scenario: Scenario) => void;
 }> = () => {
-  let wizardState: WizardState = {
-    currentStep: 0,
-    scenario: {} as WizardScenario,
-    category: {} as WizardCategory,
-    drivers: [],
-    driverValues: {},
-    showImportPanel: false,
-    importRawText: '',
-    importWarnings: [],
+  let wizardState: WizardState = createInitialWizardState();
+
+  const addManualDriver = () => {
+    wizardState.drivers = [
+      ...wizardState.drivers,
+      { id: uniqueId(), label: '', desc: '' },
+    ];
+    if (!wizardState.hasImportedDrivers) {
+      wizardState.manualDriversStarted = true;
+    }
+  };
+
+  const updateDriver = (
+    index: number,
+    field: 'label' | 'desc',
+    value: string,
+  ) => {
+    const current = wizardState.drivers[index];
+    if (!current) return;
+    wizardState.drivers[index] = { ...current, [field]: value };
+    if (!wizardState.hasImportedDrivers && wizardState.drivers.length > 0) {
+      wizardState.manualDriversStarted = true;
+    }
+  };
+
+  const removeDriver = (index: number) => {
+    wizardState.drivers = wizardState.drivers.filter((_, i) => i !== index);
+
+    const nextDriverValues: { [driverIndex: number]: WizardValue[] } = {};
+    Object.entries(wizardState.driverValues).forEach(([key, values]) => {
+      const driverIndex = Number(key);
+      if (driverIndex < index) {
+        nextDriverValues[driverIndex] = values;
+      } else if (driverIndex > index) {
+        nextDriverValues[driverIndex - 1] = values;
+      }
+    });
+    wizardState.driverValues = nextDriverValues;
+
+    if (wizardState.selectedDriverIndex === undefined) return;
+    if (wizardState.selectedDriverIndex === index) {
+      wizardState.selectedDriverIndex = undefined;
+    } else if (wizardState.selectedDriverIndex > index) {
+      wizardState.selectedDriverIndex -= 1;
+    }
   };
 
   const resetWizardState = () => {
-    wizardState = {
-      currentStep: 0,
-      scenario: {} as WizardScenario,
-      category: {} as WizardCategory,
-      drivers: [],
-      driverValues: {},
-      showImportPanel: false,
-      importRawText: '',
-      importWarnings: [],
-    };
+    wizardState = createInitialWizardState();
   };
 
   return {
@@ -156,40 +200,56 @@ export const NewScenarioWizard: MeiosisComponent<{
                 // onchange: () => m.redraw(),
               }),
               m('h6.col.s12', t('WIZARD_COMPONENTS_INFO')),
-              m(LayoutForm, {
-                form: [
-                  {
-                    id: 'drivers',
-                    type: [
-                      { id: 'id', autogenerate: 'id' },
-                      {
-                        id: 'label',
+              m('.col.s12', [
+                wizardState.drivers.map((driver, index) =>
+                  m('.row', [
+                    m('.input-field.col.s12.m5', [
+                      m('input', {
                         type: 'text',
-                        className: 'col s6',
-                        label: t('NAME'),
-                        required: true,
-                      },
-                      {
-                        id: 'desc',
+                        value: driver.label,
+                        placeholder: t('NAME'),
+                        oninput: (e: InputEvent) => {
+                          const target = e.target as HTMLInputElement;
+                          updateDriver(index, 'label', target.value);
+                        },
+                      }),
+                    ]),
+                    m('.input-field.col.s12.m5', [
+                      m('input', {
                         type: 'text',
-                        className: 'col s6',
-                        label: t('DESCRIPTION'),
-                      },
-                    ],
-                    repeat: true,
-                    pageSize: 0,
-                    label: t('DIMENSIONS'),
-                  },
-                ],
-                obj: { drivers: wizardState.drivers },
-                onchange: () => m.redraw(),
-              }),
+                        value: driver.desc || '',
+                        placeholder: t('DESCRIPTION'),
+                        oninput: (e: InputEvent) => {
+                          const target = e.target as HTMLInputElement;
+                          updateDriver(index, 'desc', target.value);
+                        },
+                      }),
+                    ]),
+                    m('.col.s12.m2', [
+                      m(Button, {
+                        className: 'btn-flat right',
+                        label: t('DELETE'),
+                        iconName: 'delete',
+                        onclick: () => removeDriver(index),
+                      }),
+                    ]),
+                  ]),
+                ),
+                m(Button, {
+                  className: 'btn-flat',
+                  label: t('ADD_COMPONENT'),
+                  iconName: 'add',
+                  onclick: addManualDriver,
+                }),
+              ]),
               m('.col.s12', [
                 m(Button, {
                   className: 'btn-flat',
                   label: t('IMPORT_FROM_SPREADSHEET'),
                   iconName: 'upload_file',
+                  disabled: wizardState.manualDriversStarted,
                   onclick: () => {
+                    if (wizardState.manualDriversStarted) return;
                     wizardState.showImportPanel = true;
                     wizardState.importRawText = '';
                     m.redraw();
@@ -227,31 +287,29 @@ export const NewScenarioWizard: MeiosisComponent<{
                           label: t('IMPORT_PARSE'),
                           iconName: 'play_arrow',
                           onclick: () => {
-                            const { markdown, warnings } =
-                              csvToMarkdown(
-                                wizardState.importRawText,
-                                wizardState.category.label
-                              );
+                            const { markdown, warnings } = csvToMarkdown(
+                              wizardState.importRawText,
+                              wizardState.category.label,
+                            );
                             if (warnings.includes('IMPORT_NO_DRIVERS')) {
                               alert(t('IMPORT_NO_DRIVERS'));
                               return;
                             }
-                            if (
-                              warnings.includes('IMPORT_NEEDS_TWO_COLUMNS')
-                            ) {
+                            if (warnings.includes('IMPORT_NEEDS_TWO_COLUMNS')) {
                               alert(t('IMPORT_NEEDS_TWO_COLUMNS'));
                               return;
                             }
                             wizardState.importWarnings = warnings;
                             // Parse markdown back to KeyDriver format
-                            const { keyDrivers } =
-                              markdownToMorphBox(markdown);
+                            const { keyDrivers } = markdownToMorphBox(markdown);
                             // Fill in the drivers array
                             wizardState.drivers = keyDrivers.map((d) => ({
                               id: uniqueId(),
                               label: d.label,
                               desc: d.desc,
                             }));
+                            wizardState.hasImportedDrivers = true;
+                            wizardState.manualDriversStarted = false;
                             // Fill in values for each driver
                             wizardState.driverValues = {};
                             keyDrivers.forEach((d, idx) => {
@@ -260,7 +318,7 @@ export const NewScenarioWizard: MeiosisComponent<{
                                   id: uniqueId(),
                                   label: v.label,
                                   desc: v.desc,
-                                })
+                                }),
                               );
                             });
                             wizardState.showImportPanel = false;
@@ -275,7 +333,7 @@ export const NewScenarioWizard: MeiosisComponent<{
                           (w) =>
                             w !== 'IMPORT_NO_DRIVERS' &&
                             w !== 'IMPORT_NEEDS_TWO_COLUMNS' &&
-                            m('.col.s12.red-text', t(w))
+                            m('.col.s12.red-text', t(w)),
                         ),
                     ],
                   ]),
@@ -288,7 +346,7 @@ export const NewScenarioWizard: MeiosisComponent<{
               wizardState.category.label.trim().length > 0 &&
               wizardState.drivers.length > 0 &&
               wizardState.drivers.every(
-                (c) => typeof c.label === 'string' && c.label.trim().length > 0
+                (c) => typeof c.label === 'string' && c.label.trim().length > 0,
               )
             );
           },
@@ -390,7 +448,7 @@ export const NewScenarioWizard: MeiosisComponent<{
                     id: uniqueId(),
                     label: v.label,
                     desc: v.desc,
-                  })
+                  }),
                 );
 
                 return {
@@ -399,7 +457,7 @@ export const NewScenarioWizard: MeiosisComponent<{
                   desc: driver.desc,
                   values,
                 };
-              }
+              },
             );
 
             const componentIds = components.map((c) => c.id);

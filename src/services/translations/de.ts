@@ -196,6 +196,8 @@ export const messages: typeof messagesEN = {
   },
   JSON_NOT_VALID: 'JSON-Modelldatei nicht gültig! Abbruch.',
   NO_NARRATIVE: 'Narrativ wurde in 100 Versuchen nicht generiert!',
+  ALL_LOCKED_WARNING:
+    'Alle Komponenten sind gesperrt — kein neues Szenario kann generiert werden. Löschen Sie zunächst das aktuelle Szenario.',
   SPEC_CATS:
     'Spezifizieren Sie zunächst einige Kategorien, wobei jede Kategorie einige Schlüsseltreiber enthält.',
   EXPORT2WORD: {
@@ -340,6 +342,7 @@ export const messages: typeof messagesEN = {
   WIZARD_NO_COMPONENTS:
     'Noch keine Treiber definiert. Gehen Sie zurück zu Schritt 2.',
   WIZARD_VALUES_FOR_COMPONENT: 'Optionen für {component}',
+  WIZARD_DEFAULT_CATEGORY_NAME: 'Initiale Morphologische Box',
   WIZARD_NEXT: 'Weiter',
   WIZARD_PREVIOUS: 'Zurück',
   WIZARD_COMPLETE: 'Szenario erstellen',

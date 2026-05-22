@@ -195,6 +195,8 @@ export const messages: typeof messagesEN = {
   },
   JSON_NOT_VALID: 'JSON bestand niet valide! Het inladen wordt afgebroken.',
   NO_NARRATIVE: 'Er kon geen verhaallijn gegenereerd worden na 100 pogingen!',
+  ALL_LOCKED_WARNING:
+    'Alle componenten zijn vergrendeld — er kan geen nieuw scenario gegenereerd worden. Wis het huidige scenario eerst.',
   SPEC_CATS:
     'Definieer eerst 1 of 2 categorieën, met in iedere categorie enkele hoofdfactoren.',
   EXPORT2WORD: {
@@ -353,6 +355,7 @@ export const messages: typeof messagesEN = {
   WIZARD_NO_COMPONENTS:
     'Nog geen stuurfactoren gedefinieerd. Ga terug naar stap 2.',
   WIZARD_VALUES_FOR_COMPONENT: 'Opties voor {component}',
+  WIZARD_DEFAULT_CATEGORY_NAME: 'Initiële Morfologische Box',
   WIZARD_NEXT: 'Volgende',
   WIZARD_PREVIOUS: 'Terug',
   WIZARD_COMPLETE: 'Scenario Aanmaken',

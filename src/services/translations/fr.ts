@@ -196,6 +196,8 @@ export const messages: typeof messagesEN = {
   },
   JSON_NOT_VALID: "Le fichier de modèle JSON n'est pas valide ! Annulation.",
   NO_NARRATIVE: 'Récit non généré après 100 tentatives !',
+  ALL_LOCKED_WARNING:
+    "Tous les composants sont verrouillés — aucun nouveau scénario ne peut être généré. Effacez d'abord le scénario actuel.",
   SPEC_CATS:
     "Spécifiez d'abord quelques catégories, où chaque catégorie contient des facteurs clés.",
   EXPORT2WORD: {
@@ -341,6 +343,7 @@ export const messages: typeof messagesEN = {
   WIZARD_NO_COMPONENTS:
     "Aucun facteur défini pour le moment. Retournez à l'étape 2.",
   WIZARD_VALUES_FOR_COMPONENT: 'Options pour {component}',
+  WIZARD_DEFAULT_CATEGORY_NAME: 'Boîte Morphologique Initiale',
   WIZARD_NEXT: 'Suivant',
   WIZARD_PREVIOUS: 'Retour',
   WIZARD_COMPLETE: 'Créer le scénario',

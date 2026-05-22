@@ -195,6 +195,8 @@ export const messages: typeof messagesEN = {
   },
   JSON_NOT_VALID: 'Plik modelu JSON jest nieprawidłowy! Przerywanie.',
   NO_NARRATIVE: 'Narracja nie została wygenerowana w 100 próbach!',
+  ALL_LOCKED_WARNING:
+    'Wszystkie komponenty są zablokowane — nie można wygenerować nowego scenariusza. Najpierw wyczyść bieżący scenariusz.',
   SPEC_CATS:
     'Najpierw określ kategorie, gdzie każda kategoria zawiera kluczowe czynniki.',
   EXPORT2WORD: {
@@ -338,6 +340,7 @@ export const messages: typeof messagesEN = {
   WIZARD_VALUES_INFO: 'Wybierz czynnik, aby dodać opcje:',
   WIZARD_NO_COMPONENTS: 'Nie zdefiniowano jeszcze czynników. Wróć do kroku 2.',
   WIZARD_VALUES_FOR_COMPONENT: 'Opcje dla {component}',
+  WIZARD_DEFAULT_CATEGORY_NAME: 'Początkowa Tabela Morfologiczna',
   WIZARD_NEXT: 'Dalej',
   WIZARD_PREVIOUS: 'Wstecz',
   WIZARD_COMPLETE: 'Utwórz scenariusz',

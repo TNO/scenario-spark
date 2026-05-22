@@ -25,7 +25,7 @@ export const Layout: MeiosisComponent = () => ({
         (d) =>
           (typeof d.visible === 'boolean'
             ? d.visible
-            : d.visible(attrs.state?.model?.scenario)) || isActive(d)
+            : d.visible(attrs.state?.model?.scenario)) || isActive(d),
       );
 
     const language = i18n.currentLocale;
@@ -39,16 +39,32 @@ export const Layout: MeiosisComponent = () => ({
           m('.nav-wrapper', [
             m(
               'a.brand-logo[href=#].show-on-large',
-              { style: { marginLeft: '20px', height: '60px' } },
+              {
+                style: {
+                  marginLeft: '20px',
+                  height: '60px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  minWidth: 0,
+                },
+              },
               [
                 m(`img[width=140][height=60][src=${logo_white}][alt=TNO]`, {
-                  style: { marginTop: '2px' },
+                  style: { marginTop: '2px', flexShrink: 0 },
                 }),
                 m(
                   '.title.show-on-med-and-up.truncate',
-                  attrs.state.model?.scenario?.label
+                  {
+                    style: {
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      maxWidth: 'calc(100vw - 670px)',
+                    },
+                  },
+                  attrs.state.model?.scenario?.label,
                 ),
-              ]
+              ],
             ),
             m(
               // 'a.sidenav-trigger[href=#!/home][data-target=slide-out]',
@@ -63,34 +79,42 @@ export const Layout: MeiosisComponent = () => ({
                 iconName: 'menu',
                 className: 'hide-on-large-and-up black-text',
                 style: 'margin-left: 5px;',
-              })
+              }),
             ),
             m('ul#dropdown_languages.dropdown-content', [
               m(
                 'li',
-                m('a', { href: '#!', onclick: () => setLanguage(attrs, 'nl') }, [
-                  m('img', {
-                    src: DutchFlag,
-                    alt: 'Nederlands',
-                    title: 'Nederlands',
-                    disabled: language === 'nl',
-                    class: language === 'nl' ? 'disabled-image' : 'clickable',
-                  }),
-                  'Nederlands',
-                ])
+                m(
+                  'a',
+                  { href: '#!', onclick: () => setLanguage(attrs, 'nl') },
+                  [
+                    m('img', {
+                      src: DutchFlag,
+                      alt: 'Nederlands',
+                      title: 'Nederlands',
+                      disabled: language === 'nl',
+                      class: language === 'nl' ? 'disabled-image' : 'clickable',
+                    }),
+                    'Nederlands',
+                  ],
+                ),
               ),
               m(
                 'li',
-                m('a', { href: '#!', onclick: () => setLanguage(attrs, 'en') }, [
-                  m('img', {
-                    src: EnglishFlag,
-                    alt: 'English',
-                    title: 'English',
-                    disabled: language === 'en',
-                    class: language === 'en' ? 'disabled-image' : 'clickable',
-                  }),
-                  'English',
-                ])
+                m(
+                  'a',
+                  { href: '#!', onclick: () => setLanguage(attrs, 'en') },
+                  [
+                    m('img', {
+                      src: EnglishFlag,
+                      alt: 'English',
+                      title: 'English',
+                      disabled: language === 'en',
+                      class: language === 'en' ? 'disabled-image' : 'clickable',
+                    }),
+                    'English',
+                  ],
+                ),
               ),
             ]),
             m(
@@ -107,11 +131,11 @@ export const Layout: MeiosisComponent = () => ({
                     (typeof d.title === 'string'
                       ? d.title
                       : d.title()
-                    ).toUpperCase()
+                    ).toUpperCase(),
                   ),
-                ])
+                ]),
               ),
-              m('li', m(ThemeToggle))
+              m('li', m(ThemeToggle)),
             ),
             m(
               'ul.right.hide-on-med-and-down',
@@ -129,14 +153,14 @@ export const Layout: MeiosisComponent = () => ({
                     (typeof d.title === 'string'
                       ? d.title
                       : d.title()
-                    ).toUpperCase()
+                    ).toUpperCase(),
                   ),
-                ])
+                ]),
               ),
-              m('li', m(ThemeToggle))
+              m('li', m(ThemeToggle)),
             ),
-          ])
-        )
+          ]),
+        ),
       ),
       m('.container', children),
     ]);

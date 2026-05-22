@@ -268,6 +268,16 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             iconName: 'refresh',
             onclick: () => {
               const { components = {} } = curNarrative;
+              const nonManualComps = model.scenario.components.filter(
+                (c) => !c.manual,
+              );
+              const allLocked =
+                nonManualComps.length > 0 &&
+                nonManualComps.every((c) => lockedComps[c.id]);
+              if (allLocked) {
+                toast({ html: t('ALL_LOCKED_WARNING') });
+                return;
+              }
               const locked = components
                 ? Object.keys(lockedComps).reduce(
                     (acc, cur) => {
@@ -309,7 +319,8 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             iconName: 'clear',
             style: 'margin-left: 10px;',
             onclick: () => {
-              version = version === 0 ? 1 : 0;
+              version++;
+              editingNarrativeTitle = false;
               attrs.update({
                 lockedComps: () => ({}),
                 curNarrative: () =>
@@ -430,7 +441,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             // }),
           ],
           narratives && [
-            m('.right.valign-wrapper', [
+            m('.right.valign-wrapper', { key: curNarrative.id }, [
               curNarrative.saved &&
                 m(IconButton, {
                   iconName: 'content_copy',
@@ -465,18 +476,11 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   },
                 }),
               hasNarrative &&
-                m(ConfirmButton, {
-                  iconName: editingNarrativeTitle ? 'check' : 'edit',
+                !editingNarrativeTitle &&
+                m(IconButton, {
+                  iconName: 'edit',
                   title: t('NAME_NARRATIVE'),
                   onclick: () => {
-                    if (editingNarrativeTitle) {
-                      const title = (narrativeTitleDraft || '').trim();
-                      if (!title) return;
-                      curNarrative.label = title;
-                      saveNarrative(attrs, curNarrative);
-                      editingNarrativeTitle = false;
-                      return;
-                    }
                     editingNarrativeTitle = true;
                     narrativeTitleDraft = curNarrative.label || '';
                   },
@@ -593,7 +597,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           m('.row', [
             curNarrative.saved &&
               m(InputCheckbox, {
-                className: 'col s6 m2',
+                className: 'col s6 m3',
                 checked: curNarrative.included,
                 label: t('INCLUDE_NARRATIVE'),
                 onchange: (n) => {
@@ -605,7 +609,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               m(Select, {
                 key: `prob${curNarrative.id}`,
                 placeholder: t('i18n', 'pick'),
-                className: 'col s6 m2',
+                className: 'col s6 m3',
                 label: t('PROBABILITY'),
                 checkedId: curNarrative.probability,
                 options: range(0, 4).map((id) => ({
@@ -621,7 +625,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               m(Select, {
                 key: `imp${curNarrative.id}`,
                 placeholder: t('i18n', 'pick'),
-                className: 'col s6 m2',
+                className: 'col s6 m3',
                 label: t('IMPACT'),
                 checkedId: curNarrative.impact,
                 options: range(0, 4).map((id) => ({
@@ -637,7 +641,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               m(Select, {
                 key: `${curNarrative.id}-${curNarrative.probability}-${curNarrative.impact}`,
                 placeholder: t('RISK_PLACEHOLDER'),
-                className: 'col s6 m2',
+                className: 'col s6 m3',
                 label: t('RISK'),
                 checkedId: curNarrative.risk,
                 options: range(0, 4).map((id) => ({

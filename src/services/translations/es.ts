@@ -196,6 +196,8 @@ export const messages: typeof messagesEN = {
   },
   JSON_NOT_VALID: '¡El archivo de modelo JSON no es válido! Abortando.',
   NO_NARRATIVE: '¡Narrativa no generada en 100 intentos!',
+  ALL_LOCKED_WARNING:
+    'Todos los componentes están bloqueados — no se puede generar un nuevo escenario. Borre primero el escenario actual.',
   SPEC_CATS:
     'Primero especifique algunas categorías, donde cada categoría contiene algunos factores clave.',
   EXPORT2WORD: {
@@ -320,6 +322,7 @@ export const messages: typeof messagesEN = {
   WIZARD_VALUES_INFO: 'Seleccione un factor para agregar opciones:',
   WIZARD_NO_COMPONENTS: 'No hay factores definidos aún. Regrese al paso 2.',
   WIZARD_VALUES_FOR_COMPONENT: 'Opciones para {component}',
+  WIZARD_DEFAULT_CATEGORY_NAME: 'Caja Morfológica Inicial',
   WIZARD_NEXT: 'Siguiente',
   WIZARD_PREVIOUS: 'Atrás',
   WIZARD_COMPLETE: 'Crear escenario',

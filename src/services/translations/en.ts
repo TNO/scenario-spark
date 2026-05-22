@@ -192,6 +192,8 @@ export const messages = {
   },
   JSON_NOT_VALID: 'JSON model file not valid! Aborting.',
   NO_NARRATIVE: 'Narrative not generated in 100 tries!',
+  ALL_LOCKED_WARNING:
+    'All components are locked — no new scenario can be generated. Clear the current scenario first.',
   SPEC_CATS:
     'First specify some categories, where each category contains some key drivers.',
   EXPORT2WORD: {
@@ -330,6 +332,7 @@ export const messages = {
   WIZARD_VALUES_INFO: 'Select a driver to add options:',
   WIZARD_NO_COMPONENTS: 'No drivers defined yet. Go back to step 2.',
   WIZARD_VALUES_FOR_COMPONENT: 'Options for {component}',
+  WIZARD_DEFAULT_CATEGORY_NAME: 'Initial Morphological Box',
   WIZARD_NEXT: 'Next',
   WIZARD_PREVIOUS: 'Back',
   WIZARD_COMPLETE: 'Create Scenario',
