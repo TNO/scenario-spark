@@ -1,11 +1,12 @@
-const CACHE_NAME = 'scenario-spark-v1';
+const CACHE_NAME = 'scenario-spark-v2';
 
 const BASE = self.location.pathname.replace(/\/sw\.js$/, '') || '/';
 
 const PRECACHE_URLS = [
   BASE + '/',
   BASE + '/index.html',
-  BASE + '/index.js',
+  BASE + '/assets/index.js',
+  BASE + '/assets/index.css',
   BASE + '/manifest.webmanifest',
   BASE + '/icons/icon-192.png',
   BASE + '/icons/icon-512.png',
