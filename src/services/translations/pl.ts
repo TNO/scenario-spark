@@ -85,11 +85,10 @@ export const messages: typeof messagesEN = {
   NEW_SCENARIO: 'Nowy scenariusz',
   NEW_MODEL: {
     btn: 'Nowa kolekcja',
-    title: 'Wybierz nowy model scenariusza i wyczyść wszystko',
+    title: 'Wybierz nową kolekcję',
     description:
-      'Czy na pewno chcesz usunąć istniejącą kolekcję i rozpocząć jedną z dostępnych nowych? Nie ma odwrotu.',
+      'Obecna kolekcja zostanie zastąpiona. Pobierz ją wcześniej, jeśli chcesz ją zachować.',
     choose: 'Wybierz nową kolekcję',
-    remove: 'Usuń wszystkie wartości kluczowe',
   },
   DELETE_MODEL: {
     btn: 'Usuń scenariusz',
@@ -194,11 +193,11 @@ export const messages: typeof messagesEN = {
   },
   MODEL_NAMES: {
     0: 'Pusty model',
-    1: 'Prosty model (w języku angielskim)',
+    1: 'Niderlandzki zestaw startowy',
   },
   MODEL_DESC: {
-    0: 'Pusty model scenariusza.',
-    1: 'Model scenariusza z kategorią zagrożenia i kontekstu.',
+    0: 'Rozpocznij od pustej tabeli morfologicznej.',
+    1: 'Dziesięć niderlandzkich modeli ćwiczeń z przykładami, ograniczeniami i poleceniami LLM.',
   },
   JSON_NOT_VALID: 'Plik modelu JSON jest nieprawidłowy! Przerywanie.',
   NO_NARRATIVE: 'Narracja nie została wygenerowana w 100 próbach!',

@@ -85,11 +85,10 @@ export const messages: typeof messagesEN = {
   NEW_SCENARIO: 'Nieuw scenario',
   NEW_MODEL: {
     btn: 'Nieuwe collectie',
-    title: 'Kies een nieuw scenario en wis alles',
+    title: 'Kies een nieuwe collectie',
     description:
-      'Weet u zeker dat u de huidige collectie wilt wissen, en met één van onderstaande modellen wilt verdergaan? Er is geen weg terug.',
-    choose: 'Kies uw nieuwe scenario',
-    remove: 'Verwijder alle reeds ingevulde waarden',
+      'Je huidige collectie wordt vervangen. Download die eerst als je haar wilt bewaren.',
+    choose: 'Kies een nieuwe collectie',
   },
   DELETE_MODEL: {
     btn: 'Verwijder scenario',
@@ -194,11 +193,11 @@ export const messages: typeof messagesEN = {
   },
   MODEL_NAMES: {
     0: 'Leeg model',
-    1: 'Simpel model (in Engels)',
+    1: 'Nederlandse starterkit',
   },
   MODEL_DESC: {
-    0: 'Een leeg scenario model.',
-    1: 'Een scenario model met een dreigings- en contextcategorie.',
+    0: 'Begin met een lege morfologische box.',
+    1: 'Tien oefenboxen met voorbeeldscenario’s, inconsistenties en LLM-prompts.',
   },
   JSON_NOT_VALID: 'JSON bestand niet valide! Het inladen wordt afgebroken.',
   NO_NARRATIVE: 'Er kon geen verhaallijn gegenereerd worden na 100 pogingen!',

@@ -85,11 +85,10 @@ export const messages: typeof messagesEN = {
   NEW_SCENARIO: 'Nuevo escenario',
   NEW_MODEL: {
     btn: 'Nueva colección',
-    title: 'Elegir un nuevo modelo de escenario y borrar todo',
+    title: 'Elegir una nueva colección',
     description:
-      '¿Está seguro de que desea eliminar su colección existente e iniciar una de las nuevas disponibles? No hay vuelta atrás.',
+      'Se reemplazará su colección actual. Descárguela primero si desea conservarla.',
     choose: 'Elija su nueva colección',
-    remove: 'Eliminar todos los valores clave',
   },
   DELETE_MODEL: {
     btn: 'Eliminar escenario',
@@ -195,11 +194,11 @@ export const messages: typeof messagesEN = {
   },
   MODEL_NAMES: {
     0: 'Modelo vacío',
-    1: 'Modelo simple (en inglés)',
+    1: 'Kit inicial neerlandés',
   },
   MODEL_DESC: {
-    0: 'Un modelo de escenario vacío.',
-    1: 'Un modelo de escenario con una categoría de amenaza y contexto.',
+    0: 'Comenzar con una caja morfológica vacía.',
+    1: 'Diez cajas de ejercicios en neerlandés con ejemplos, restricciones e indicaciones LLM.',
   },
   JSON_NOT_VALID: '¡El archivo de modelo JSON no es válido! Abortando.',
   NO_NARRATIVE: '¡Narrativa no generada en 100 intentos!',

@@ -83,11 +83,10 @@ export const messages = {
   NEW_SCENARIO: 'New scenario',
   NEW_MODEL: {
     btn: 'New collection',
-    title: 'Choose a new scenario model and erase everything',
+    title: 'Choose a new collection',
     description:
-      'Are you sure that you want to delete your existing collection and start one of the available new ones? There is no way back.',
+      'Your current collection will be replaced. Download it first if you want to keep it.',
     choose: 'Choose your new collection',
-    remove: 'Remove all key values',
   },
   DELETE_MODEL: {
     btn: 'Delete scenario',
@@ -191,11 +190,11 @@ export const messages = {
   },
   MODEL_NAMES: {
     0: 'Empty model',
-    1: 'Simple model (in English)',
+    1: 'Dutch starter kit',
   },
   MODEL_DESC: {
-    0: 'An empty scenario model.',
-    1: 'A scenario model with a threat and a context category.',
+    0: 'Start with an empty morphological box.',
+    1: 'Ten Dutch exercise boxes with sample scenarios, constraints and LLM prompts.',
   },
   JSON_NOT_VALID: 'JSON model file not valid! Aborting.',
   NO_NARRATIVE: 'Narrative not generated in 100 tries!',

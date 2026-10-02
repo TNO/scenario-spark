@@ -85,11 +85,10 @@ export const messages: typeof messagesEN = {
   NEW_SCENARIO: 'Nouveau scénario',
   NEW_MODEL: {
     btn: 'Nouvelle collection',
-    title: 'Choisir un nouveau modèle de scénario et tout effacer',
+    title: 'Choisir une nouvelle collection',
     description:
-      'Êtes-vous sûr de vouloir supprimer votre collection existante et démarrer une des nouvelles collections disponibles ? Cette action est irréversible.',
+      'Votre collection actuelle sera remplacée. Téléchargez-la d’abord si vous souhaitez la conserver.',
     choose: 'Choisissez votre nouvelle collection',
-    remove: 'Supprimer toutes les valeurs clés',
   },
   DELETE_MODEL: {
     btn: 'Supprimer le scénario',
@@ -195,11 +194,11 @@ export const messages: typeof messagesEN = {
   },
   MODEL_NAMES: {
     0: 'Modèle vide',
-    1: 'Modèle simple (en anglais)',
+    1: 'Kit de démarrage néerlandais',
   },
   MODEL_DESC: {
-    0: 'Un modèle de scénario vide.',
-    1: 'Un modèle de scénario avec une catégorie de menace et de contexte.',
+    0: 'Commencer avec une boîte morphologique vide.',
+    1: 'Dix boîtes d’exercice en néerlandais avec exemples, contraintes et invites LLM.',
   },
   JSON_NOT_VALID: "Le fichier de modèle JSON n'est pas valide ! Annulation.",
   NO_NARRATIVE: 'Récit non généré après 100 tentatives !',

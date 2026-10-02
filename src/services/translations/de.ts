@@ -85,11 +85,10 @@ export const messages: typeof messagesEN = {
   NEW_SCENARIO: 'Neues Szenario',
   NEW_MODEL: {
     btn: 'Neue Sammlung',
-    title: 'Ein neues Szenariomodell wählen und alles löschen',
+    title: 'Neue Sammlung auswählen',
     description:
-      'Sind Sie sicher, dass Sie Ihre bestehende Sammlung löschen und eine der verfügbaren neuen Sammlungen starten möchten? Es gibt keinen Weg zurück.',
+      'Ihre aktuelle Sammlung wird ersetzt. Laden Sie sie zuerst herunter, wenn Sie sie behalten möchten.',
     choose: 'Wählen Sie Ihre neue Sammlung',
-    remove: 'Alle Schlüsselwerte entfernen',
   },
   DELETE_MODEL: {
     btn: 'Szenario löschen',
@@ -195,11 +194,11 @@ export const messages: typeof messagesEN = {
   },
   MODEL_NAMES: {
     0: 'Leeres Modell',
-    1: 'Einfaches Modell (auf Englisch)',
+    1: 'Niederländisches Starterpaket',
   },
   MODEL_DESC: {
-    0: 'Ein leeres Szenariomodell.',
-    1: 'Ein Szenariomodell mit einer Bedrohungs- und einer Kontextkategorie.',
+    0: 'Mit einer leeren morphologischen Box beginnen.',
+    1: 'Zehn niederländische Übungsboxen mit Beispielen, Ausschlüssen und LLM-Prompts.',
   },
   JSON_NOT_VALID: 'JSON-Modelldatei nicht gültig! Abbruch.',
   NO_NARRATIVE: 'Narrativ wurde in 100 Versuchen nicht generiert!',

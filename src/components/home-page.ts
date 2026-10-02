@@ -4,7 +4,6 @@ import {
   FlatButton,
   ConfirmButton,
   Icon,
-  InputCheckbox,
   ModalPanel,
   RadioButtons,
   Select,
@@ -143,7 +142,6 @@ export const HomePage: MeiosisComponent = () => {
   const readerAvailable =
     window.File && window.FileReader && window.FileList && window.Blob;
   let selectedId = 0;
-  let removeAllKeyValues = false;
   let clearAllModal = false;
   let newScenarioWizardOpen = false;
   let llmScenarioWizardOpen = false;
@@ -591,20 +589,12 @@ export const HomePage: MeiosisComponent = () => {
                     checkedId: 1,
                     options: defaultModels.map((_, i) => ({
                       id: i + 1,
-                      label: `<strong>${t('MODEL_NAMES', i)}: </strong>${t(
+                      label: `${t('MODEL_NAMES', i)}: ${t(
                         'MODEL_DESC',
                         i
                       )}`,
                     })),
                     onchange: (i) => (selectedId = (i as number) - 1),
-                  })
-                ),
-                m(
-                  '.row',
-                  m(InputCheckbox, {
-                    label: t('NEW_MODEL', 'remove'),
-                    checked: removeAllKeyValues,
-                    onchange: (v) => (removeAllKeyValues = v),
                   })
                 ),
               ]),
@@ -618,7 +608,7 @@ export const HomePage: MeiosisComponent = () => {
                 label: t('OK'),
                 iconName: 'delete',
                 onclick: async () => {
-                  await saveModel(attrs, defaultModels[selectedId], true);
+                  await saveModel(attrs, defaultModels[selectedId](), true);
                   routingSvc.switchTo(
                     selectedId === 0
                       ? Dashboards.SETTINGS

@@ -2,6 +2,7 @@ import { Translate, Options } from 'translate.js';
 import { messages } from '../services';
 import { uniqueId } from 'mithril-materialized';
 import { LLMConfig } from '../components/ui/llm';
+import { createStarterKitNl } from './starter-kit-nl';
 
 export type DataModel = {
   version?: number;
@@ -204,174 +205,7 @@ export const thresholdColors = [
   { threshold: 3, color: '#ff0000' },
 ];
 
-/**
- * One example model
- * TODO Create several models, e.g. one for security narratives,
- * one for safety regions/L3, one for TBB, etc.
- */
-export const defaultModel = {
-  version: 1,
-  lastUpdate: new Date().valueOf(),
-  scenarios: [],
-  scenario: {
-    id: 'demo1',
-    label: 'Demo',
-    desc: 'Demo scenario',
-    includeDecisionSupport: false,
-    hideInconsistentValues: true,
-    inconsistencies: {} as Inconsistencies,
-    categories: [
-      {
-        id: 'threat',
-        label: 'Threat',
-        componentIds: [
-          'ThreatDirection',
-          'Impact',
-          'Motivation',
-          'ModusOperandiDuringExecution',
-          'Equipment',
-          'Responsibility',
-        ],
-      },
-      {
-        id: 'context',
-        label: 'Context',
-        componentIds: [
-          'WeatherType',
-          'WeatherBehaviour',
-          'TypeOfObject',
-          'AvailableBudget',
-          'OpenCompartments',
-          'Location',
-        ],
-      },
-    ],
-    components: [
-      {
-        id: 'ThreatDirection',
-        label: 'Threat direction',
-        values: [
-          { id: 'df62efe6', label: 'Hannibal' },
-          { id: '70630364', label: 'The Romans' },
-          { id: '82d5d4f5', label: 'Herbert Hoover' },
-        ],
-      },
-      {
-        id: 'Impact',
-        label: 'Impact',
-        values: [
-          { id: '5c532a23', label: 'Low' },
-          { id: '16ad9a77', label: 'Medium' },
-          { id: 'b894abb6', label: 'High' },
-        ],
-      },
-      {
-        id: 'Motivation',
-        label: 'Motivation',
-        values: [
-          { id: 'f4ab7a7a', label: 'Money' },
-          { id: 'ff550f8f', label: 'Justice' },
-          { id: '22b4867e', label: 'Revenge' },
-        ],
-      },
-      {
-        id: 'ModusOperandiDuringExecution',
-        label: 'Modus operandi during execution',
-        values: [
-          {
-            id: '7ed25fa5',
-            label: 'Sniper attack',
-            type: 'ModusOperandiDuringExecution',
-          },
-          {
-            id: '1f9b68c9',
-            label: 'Kidnapping',
-            type: 'ModusOperandiDuringExecution',
-          },
-          {
-            id: '5cc5e352',
-            label: 'Singing',
-            type: 'ModusOperandiDuringExecution',
-          },
-        ],
-      },
-      {
-        id: 'Equipment',
-        label: 'Equipment',
-        values: [
-          { id: 'b4218a1f', label: 'None' },
-          { id: '8f6185f7', label: 'Drone' },
-          { id: 'cb02878d', label: 'Bomb' },
-          { id: '9d645efb', label: 'Helicopter' },
-          { id: '3a4398c7', label: 'Hammer' },
-        ],
-      },
-      {
-        id: 'Responsibility',
-        label: 'Responsibility',
-        values: [
-          { id: 'f44d22be', label: 'Private' },
-          { id: '20f9a6ed', label: 'Public' },
-        ],
-      },
-      {
-        id: 'WeatherType',
-        label: 'Weather type',
-        values: [
-          { id: 'b9fe2b73', label: 'Rainy' },
-          { id: '478581c1', label: 'Sunny' },
-          { id: 'b855ac10', label: 'Windy' },
-          { id: '24c73f36', label: 'Cloudy' },
-        ],
-      },
-      {
-        id: 'WeatherBehaviour',
-        label: 'Weather behaviour',
-        values: [
-          { id: '0ff8041e', label: 'Stable' },
-          { id: '894a9bcb', label: 'Changing' },
-        ],
-      },
-      {
-        id: 'TypeOfObject',
-        label: 'Type of object',
-        values: [
-          { id: '29a303b3', label: 'Church' },
-          { id: '2e7df143', label: 'Park' },
-          { id: 'e11282fb', label: 'Palace' },
-          { id: '9a1b3256', label: 'Airport' },
-        ],
-      },
-      {
-        id: 'AvailableBudget',
-        label: 'Available budget',
-        values: [
-          { id: '90e1ba48', label: 'Knowledge' },
-          { id: 'f961174c', label: 'Water' },
-        ],
-      },
-      {
-        id: 'OpenCompartments',
-        label: 'Open compartments',
-        values: [
-          { id: '01c3940a', label: 'Open' },
-          { id: '56b7fa45', label: 'Closed' },
-        ],
-      },
-      {
-        id: 'Location',
-        label: 'Location',
-        values: [
-          { id: 'ea57f820', label: 'Vietnam' },
-          { id: 'b8bd8bc3', label: 'Washington' },
-          { id: '8fb1e1ab', label: 'Buitenpost' },
-        ],
-      },
-    ],
-    narratives: [],
-    thresholdColors,
-  },
-} as DataModel;
+export const defaultModel: DataModel = createStarterKitNl(thresholdColors);
 
 export const newScenario = () => ({
   id: uniqueId(),
@@ -402,7 +236,10 @@ export const emptyModel = () =>
  *    MODEL_NAME, MODEL_DESC
  * where the index of the model should match.
  */
-export const defaultModels: DataModel[] = [emptyModel(), defaultModel];
+export const defaultModels: Array<() => DataModel> = [
+  emptyModel,
+  () => createStarterKitNl(thresholdColors),
+];
 
 export type ID = string;
 
