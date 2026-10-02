@@ -35,13 +35,18 @@ type BoxSpec = {
 
 type StarterKitData = { effectsPrompt: string; boxes: BoxSpec[] };
 
+// Node imports JSON directly; Vite serves JSON imports as JavaScript modules in the browser.
+const jsonImportOptions = typeof window === 'undefined'
+  ? { with: { type: 'json' } } as const
+  : undefined;
+
 const files: Record<Languages, () => Promise<{ default: StarterKitData }>> = {
-  nl: () => import('./starter-kits/nl.json', { with: { type: 'json' } }),
-  en: () => import('./starter-kits/en.json', { with: { type: 'json' } }),
-  fr: () => import('./starter-kits/fr.json', { with: { type: 'json' } }),
-  de: () => import('./starter-kits/de.json', { with: { type: 'json' } }),
-  es: () => import('./starter-kits/es.json', { with: { type: 'json' } }),
-  pl: () => import('./starter-kits/pl.json', { with: { type: 'json' } }),
+  nl: () => import('./starter-kits/nl.json', jsonImportOptions),
+  en: () => import('./starter-kits/en.json', jsonImportOptions),
+  fr: () => import('./starter-kits/fr.json', jsonImportOptions),
+  de: () => import('./starter-kits/de.json', jsonImportOptions),
+  es: () => import('./starter-kits/es.json', jsonImportOptions),
+  pl: () => import('./starter-kits/pl.json', jsonImportOptions),
 };
 
 const createScenario = (

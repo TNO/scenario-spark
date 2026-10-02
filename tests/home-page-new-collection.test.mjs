@@ -7,7 +7,7 @@ const require = createRequire(import.meta.url);
 const esbuild = createRequire(require.resolve('vite/package.json'))('esbuild');
 const materialized = require('mithril-materialized');
 
-const loadHomePage = (saveModel, locale, onStarterLanguage, onToast = () => {}, failStarter = false) => {
+const loadHomePage = (saveModel, locale, onStarterLanguage, onToast = () => {}, failStarter = false, onNavigate = () => {}) => {
   const source = readFileSync(new URL('../src/components/home-page.ts', import.meta.url), 'utf8');
   const code = esbuild.transformSync(source, { loader: 'ts', format: 'cjs', target: 'es2022' }).code;
   const mocks = {
@@ -18,12 +18,13 @@ const loadHomePage = (saveModel, locale, onStarterLanguage, onToast = () => {}, 
     '../services': {
       t: (...args) => args.join(':'),
       i18n: { currentLocale: locale },
-      routingSvc: { switchTo: () => {} },
+      routingSvc: { switchTo: () => {}, href: (page) => `/${page}` },
       saveModel,
       setPage: () => {},
+      changePage: (_attrs, page) => onNavigate(page),
     },
     '../models': {
-      Dashboards: { HOME: 'home', SETTINGS: 'settings', DEFINE_BOX: 'define' },
+      Dashboards: { HOME: 'home', SETTINGS: 'settings', DEFINE_BOX: 'define', CREATE_SCENARIO: 'create' },
       defaultModels: [
         () => ({ scenario: { id: 'empty' } }),
         (language) => {
@@ -146,7 +147,7 @@ test('unavailable locale kit reports an error without changing the collection', 
     await findModal().attrs.buttons.find(({ label }) => label === 'OK').onclick();
     const addButton = find(
       page.view({ attrs }),
-      (node) => node.tag === materialized.Button && node.attrs.label === 'ADD_STARTER_KIT'
+      (node) => node.tag === materialized.FlatButton && node.attrs.label === 'ADD_STARTER_KIT'
     );
     await addButton.attrs.onclick();
   } finally {
@@ -154,4 +155,119 @@ test('unavailable locale kit reports an error without changing the collection', 
   }
   assert.equal(saves, 0);
   assert.deepEqual(notifications, ['STARTER_KIT_LOAD_FAILED', 'STARTER_KIT_LOAD_FAILED']);
+});
+
+test('saved scenarios are browsable without an expanded factor table or unnecessary filter', () => {
+  let destination;
+  const page = loadHomePage(async () => {}, 'nl', () => {}, () => {}, false, (page) => { destination = page; });
+  const model = {
+    scenario: {
+      id: 'box',
+      label: 'Cyberincident',
+      categories: [{ id: 'context', label: 'Context', componentIds: ['service'] }],
+      components: [{ id: 'service', label: 'Service', values: [{ id: 'local', label: 'Local service' }] }],
+      narratives: [{
+        id: 'example',
+        label: 'The local service is delayed',
+        included: true,
+        components: { service: ['local'] },
+      }],
+    },
+    scenarios: [],
+  };
+  let selectedNarrative;
+  const attrs = {
+    state: { model, language: 'nl' },
+    getState: () => ({ model }),
+    update: ({ curNarrative }) => { selectedNarrative = curNarrative(); },
+  };
+  const screen = page.view({ attrs });
+  const scenarioLink = find(screen, (node) => node.tag === 'a' && node.attrs?.className === 'home-scenario-link');
+  assert.ok(scenarioLink);
+  scenarioLink.attrs.onclick();
+  assert.equal(selectedNarrative.id, 'example');
+  assert.equal(find(screen, (node) => node.tag === materialized.Tabs), null);
+  assert.equal(find(screen, (node) => node.attrs?.label === 'FILTER_NARRATIVES'), null);
+  assert.ok(find(screen, (node) => node.tag === 'img' && node.attrs?.className === 'home-hero-image'));
+  const primary = find(screen, (node) => node.tag === materialized.Button && node.attrs?.label === 'CREATE_SCENARIO:TITLE');
+  assert.ok(primary);
+  primary.attrs.onclick();
+  assert.equal(destination, 'create');
+  const boxActions = find(screen, (node) => node.attrs?.ariaLabel === 'BOX_ACTIONS');
+  assert.deepEqual(boxActions.attrs.items.map(({ id }) => id), ['new', 'llm', 'download', 'delete']);
+  model.scenario.narratives.push({
+    id: 'second', label: 'The service recovers', included: true, components: { service: ['local'] },
+  });
+  const compare = find(page.view({ attrs }), (node) => node.attrs?.label === 'COMPARE_SCENARIOS');
+  assert.ok(compare);
+  compare.attrs.onclick();
+  assert.ok(find(page.view({ attrs }), (node) => node.tag === 'div' && node.attrs?.className === 'home-comparison'));
+});
+
+test('scenario actions retain confirmation before deletion and a named download', async () => {
+  let saves = 0;
+  const page = loadHomePage(async () => { saves++; }, 'en', () => {});
+  const model = {
+    scenario: { id: 'current', label: 'Current box', categories: [], components: [], narratives: [] },
+    scenarios: [{ id: 'next', label: 'Next box', categories: [], components: [], narratives: [] }],
+  };
+  const attrs = { state: { model, language: 'en' }, getState: () => ({ model }) };
+  const actionMenu = find(page.view({ attrs }), (node) => node.attrs?.ariaLabel === 'BOX_ACTIONS');
+  assert.ok(actionMenu);
+  actionMenu.attrs.onSelect('new');
+  const openWizard = find(page.view({ attrs }), (node) =>
+    node.attrs?.isOpen === true && typeof node.attrs?.onComplete === 'function'
+  );
+  assert.ok(openWizard);
+  openWizard.attrs.onClose();
+  actionMenu.attrs.onSelect('llm');
+  assert.ok(find(page.view({ attrs }), (node) =>
+    node.attrs?.isOpen === true && typeof node.attrs?.onComplete === 'function'
+  ));
+  actionMenu.attrs.onSelect('download');
+  assert.equal(find(page.view({ attrs }), (node) => node.attrs?.id === 'downloadScenario').attrs.isOpen, true);
+  actionMenu.attrs.onSelect('delete');
+  const confirmation = find(page.view({ attrs }), (node) => node.attrs?.id === 'deleteScenario');
+  assert.equal(confirmation.attrs.isOpen, true);
+  assert.equal(saves, 0);
+  await confirmation.attrs.buttons.find(({ label }) => label === 'DELETE_MODEL:btn').onclick();
+  assert.equal(saves, 1);
+  assert.equal(model.scenario.id, 'next');
+  assert.deepEqual(model.scenarios, []);
+});
+
+test('search appears for larger scenario sets and keeps a visible no-match state', () => {
+  const page = loadHomePage(async () => {}, 'en', () => {});
+  const model = {
+    scenario: {
+      id: 'box', label: 'Box', categories: [], components: [],
+      narratives: Array.from({ length: 5 }, (_, index) => ({
+        id: String(index), label: `Example ${index}`, included: true, components: {},
+      })),
+    },
+    scenarios: [],
+  };
+  const attrs = { state: { model, language: 'en' }, getState: () => ({ model }) };
+  const filter = find(page.view({ attrs }), (node) => node.attrs?.label === 'FILTER_NARRATIVES');
+  assert.ok(filter);
+  filter.attrs.oninput('nonexistent');
+  const screen = page.view({ attrs });
+  assert.ok(find(screen, (node) => node.tag === 'p' && node.attrs?.className === 'home-empty-state'));
+  assert.equal(find(screen, (node) => node.tag === 'a' && node.attrs?.className === 'home-scenario-link'), null);
+});
+
+test('an empty box leads to the box editor instead of scenario creation', () => {
+  let destination;
+  const page = loadHomePage(async () => {}, 'nl', () => {}, () => {}, false, (route) => { destination = route; });
+  const model = {
+    scenario: { id: 'empty', label: 'Empty box', components: [], categories: [], narratives: [] },
+    scenarios: [],
+  };
+  const attrs = { state: { model, language: 'nl' }, getState: () => ({ model }) };
+  const screen = page.view({ attrs });
+  const primary = find(screen, (node) => node.tag === materialized.Button && node.attrs?.label === 'EDIT_BOX');
+  assert.ok(primary);
+  primary.attrs.onclick();
+  assert.equal(destination, 'define');
+  assert.ok(find(screen, (node) => node.tag === 'img' && node.attrs?.className === 'home-hero-image'));
 });

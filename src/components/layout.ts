@@ -1,18 +1,16 @@
 import m from 'mithril';
-import { Icon, ThemeToggle } from 'mithril-materialized';
+import { Icon, Menu, ThemeToggle } from 'mithril-materialized';
 import logo_white from '../assets/tno_white.svg';
 import { IDashboard } from '../models';
 import { routingSvc } from '../services/routing-service';
 import { MeiosisComponent, changePage, i18n, setLanguage, t } from '../services';
 // import { LANGUAGE } from '../utils';
-import DutchFlag from '../assets/flag-nl.png';
-import EnglishFlag from '../assets/flag-en.png';
+import type { Languages } from '../services/translations';
 import { CircularSpinner } from './ui/preloader';
 
-// export const setLanguage = async (locale = i18n.currentLocale) => {
-//   localStorage.setItem(LANGUAGE, locale);
-//   await i18n.loadAndSetLocale(locale);
-// };
+const DesktopLanguageMenu = Menu<Languages>();
+const MobileLanguageMenu = Menu<Languages>();
+const languages: Languages[] = ['nl', 'en', 'fr', 'de', 'es', 'pl'];
 
 export const Layout: MeiosisComponent = () => ({
   view: ({ children, attrs }) => {
@@ -30,6 +28,28 @@ export const Layout: MeiosisComponent = () => ({
       );
 
     const language = i18n.currentLocale;
+    const navUtilities = (mobile = false) => [
+      m('li', m(mobile ? MobileLanguageMenu : DesktopLanguageMenu, {
+        ariaLabel: t('SET_LANGUAGE'),
+        menuClassName: 'language-menu',
+        trigger: (menuAttrs) => m('button.nav-language-button', {
+          ...menuAttrs,
+          type: 'button',
+          title: t('SET_LANGUAGE'),
+          'aria-label': t('SET_LANGUAGE'),
+        }, m(Icon, { iconName: 'language' })),
+        items: languages.map((locale) => ({
+          id: locale,
+          label: t('LANGUAGE_NAMES', locale),
+          iconName: locale === language ? 'check' : undefined,
+          className: `nav-language-item nav-language-item-${locale}`,
+        })),
+        onSelect: (locale) => {
+          if (locale !== language) setLanguage(attrs, locale);
+        },
+      })),
+      m('li', m(ThemeToggle)),
+    ];
 
     return m('.main', { style: 'overflow-x: hidden' }, [
       m(
@@ -60,7 +80,7 @@ export const Layout: MeiosisComponent = () => ({
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',
-                      maxWidth: 'calc(100vw - 670px)',
+                      maxWidth: 'calc(100vw - 720px)',
                     },
                   },
                   attrs.state.modelReady ? attrs.state.model?.scenario?.label : '',
@@ -82,42 +102,6 @@ export const Layout: MeiosisComponent = () => ({
                 style: 'margin-left: 5px;',
               }),
             ),
-            m('ul#dropdown_languages.dropdown-content', [
-              m(
-                'li',
-                m(
-                  'a',
-                  { href: '#!', onclick: () => setLanguage(attrs, 'nl') },
-                  [
-                    m('img', {
-                      src: DutchFlag,
-                      alt: 'Nederlands',
-                      title: 'Nederlands',
-                      disabled: language === 'nl',
-                      class: language === 'nl' ? 'disabled-image' : 'clickable',
-                    }),
-                    'Nederlands',
-                  ],
-                ),
-              ),
-              m(
-                'li',
-                m(
-                  'a',
-                  { href: '#!', onclick: () => setLanguage(attrs, 'en') },
-                  [
-                    m('img', {
-                      src: EnglishFlag,
-                      alt: 'English',
-                      title: 'English',
-                      disabled: language === 'en',
-                      class: language === 'en' ? 'disabled-image' : 'clickable',
-                    }),
-                    'English',
-                  ],
-                ),
-              ),
-            ]),
             m(
               'ul#slide-out.sidenav.hide-on-large-and-up',
               ...routes.map((d) =>
@@ -136,7 +120,6 @@ export const Layout: MeiosisComponent = () => ({
                   ),
                 ]),
               ),
-              m('li', m(ThemeToggle)),
             ),
             m(
               'ul.right.hide-on-med-and-down',
@@ -158,8 +141,9 @@ export const Layout: MeiosisComponent = () => ({
                   ),
                 ]),
               ),
-              m('li', m(ThemeToggle)),
+              ...navUtilities(),
             ),
+            m('ul.right.nav-mobile-utilities', navUtilities(true)),
           ]),
         ),
       ),

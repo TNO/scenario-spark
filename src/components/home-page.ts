@@ -2,8 +2,8 @@ import m from 'mithril';
 import {
   Button,
   FlatButton,
-  ConfirmButton,
   Icon,
+  Menu,
   ModalPanel,
   RadioButtons,
   Select,
@@ -13,12 +13,6 @@ import {
   uniqueId,
 } from 'mithril-materialized';
 import background from '../assets/hero.webp';
-import DutchFlag from '../assets/flag-nl.png';
-import EnglishFlag from '../assets/flag-en.png';
-import FrenchFlag from '../assets/flag-fr.png';
-import GermanFlag from '../assets/flag-de.png';
-import SpanishFlag from '../assets/flag-es.png';
-import PolishFlag from '../assets/flag-pl.png';
 import {
   changePage,
   MeiosisComponent,
@@ -26,7 +20,6 @@ import {
   routingSvc,
   saveModel,
   selectScenarioFromCollection,
-  setLanguage,
   setPage,
   t,
 } from '../services';
@@ -52,6 +45,7 @@ import { NewScenarioWizard } from './new-scenario-wizard';
 import { LLMScenarioWizard } from './llm-scenario-wizard';
 import { parseImportedModel } from '../utils/import-model';
 import { jsonFilename } from '../utils/json-filename';
+const BoxActions = Menu<'new' | 'llm' | 'download' | 'delete'>();
 
 export const TableView: MeiosisComponent<{
   narratives: Narrative[];
@@ -155,6 +149,8 @@ export const HomePage: MeiosisComponent = () => {
   let pendingCollection: DataModel | null = null;
   let downloadScenarioModalOpen = false;
   let downloadFilename = '';
+  let deleteScenarioModalOpen = false;
+  let showComparison = false;
 
   return {
     oninit: ({ attrs }) => {
@@ -162,261 +158,175 @@ export const HomePage: MeiosisComponent = () => {
     },
     view: ({ attrs }) => {
       const isCleared = false;
-      const { model, language = 'nl' } = attrs.state;
+      const { model } = attrs.state;
       const {
         scenarios = [],
         scenario: { id, label, narratives = [], components, categories },
       } = model;
 
-      const filteredNarratives = narratives
-        .filter((n) => n.included)
+      const savedNarratives = narratives.filter((n) => n.included);
+      const filteredNarratives = savedNarratives
         .filter((n) => {
           if (!narrativeFilter.trim()) return true;
           const term = narrativeFilter.toLowerCase();
           return (n.label || '').toLowerCase().includes(term);
         })
         .sort((a, b) => (a.label || '').localeCompare(b.label));
+      const valueLabels = new Map(
+        components.flatMap((component) =>
+          (component.values || []).map((value) => [value.id, value.label] as const)
+        )
+      );
+      const hasBoxContent = components.length > 0;
 
       return [
         m('div', { style: 'position: relative;' }, [
-          m(
-            '.hero-section',
-            m('.hero-container', [
-              m(
-                '.hero-image-wrapper',
-                m(
-                  'img.hero-image[alt=ScenarioSpark - A scenario generating tool combining morphological analysis with LLM technology]',
-                  {
-                    src: background,
-                  }
-                )
-              ),
-              m(
-                '.hero-actions',
-                m('.language-switcher', [
-                  m(
-                    '.language-option',
-                    {
-                      className: language === 'nl' ? 'selected' : undefined,
-                      onclick: () => setLanguage(attrs, 'nl'),
+          m('main.home-dashboard', [
+            m('header.home-intro', [
+              m('.home-workspace', [
+                m('h1.home-work-title', t('HOME_WORK_TITLE')),
+                m('p.home-work-hint', t('HOME_WORK_HINT')),
+                m('.home-box-selector', [
+                  m('.home-select-slot', m(Select, {
+                    key: id,
+                    label: t('SELECT_SCENARIO'),
+                    checkedId: id,
+                    options: [{ id, label }, ...scenarios],
+                    onchange: async (ids) => {
+                      narrativeFilter = '';
+                      showComparison = false;
+                      await selectScenarioFromCollection(attrs, ids[0] as string);
                     },
-                    [
-                      m('img', {
-                        src: DutchFlag,
-                        alt: 'Nederlands',
-                        title: 'Nederlands',
-                      }),
-                      m('span', 'Nederlands'),
-                    ]
-                  ),
-                  m(
-                    '.language-option',
-                    {
-                      className: language === 'en' ? 'selected' : undefined,
-                      onclick: () => setLanguage(attrs, 'en'),
+                  })),
+                ]),
+                m('.home-task-actions', [
+                  m(Button, {
+                    iconName: hasBoxContent ? 'edit' : 'grid_view',
+                    label: hasBoxContent ? t('CREATE_SCENARIO', 'TITLE') : t('EDIT_BOX'),
+                    onclick: () => changePage(
+                      attrs,
+                      hasBoxContent ? Dashboards.CREATE_SCENARIO : Dashboards.DEFINE_BOX
+                    ),
+                  }),
+                  hasBoxContent && m(FlatButton, {
+                    iconName: 'grid_view',
+                    label: t('EDIT_BOX'),
+                    onclick: () => changePage(attrs, Dashboards.DEFINE_BOX),
+                  }),
+                  m(BoxActions, {
+                    ariaLabel: t('BOX_ACTIONS'),
+                    trigger: (menuAttrs) => m('button.btn-flat.home-box-menu-trigger', {
+                      ...menuAttrs,
+                      type: 'button',
+                      title: t('BOX_ACTIONS'),
+                      'aria-label': t('BOX_ACTIONS'),
+                    }, [
+                      m(Icon, { iconName: 'more_vert' }),
+                      m('span.home-box-menu-label', t('BOX_ACTIONS')),
+                    ]),
+                    items: [
+                      { id: 'new', label: t('NEW_SCENARIO'), iconName: 'add' },
+                      { id: 'llm', label: t('LLM_WIZARD_TITLE'), iconName: 'auto_fix_high' },
+                      { id: 'download', label: t('DOWNLOAD', 'MODEL'), iconName: 'download' },
+                      { id: 'delete', label: t('DELETE_MODEL', 'btn'), iconName: 'delete' },
+                    ],
+                    onSelect: (action) => {
+                      if (action === 'new') {
+                        newScenarioWizardOpen = true;
+                      } else if (action === 'llm') {
+                        llmScenarioWizardOpen = true;
+                      } else if (action === 'delete') {
+                        deleteScenarioModalOpen = true;
+                      } else {
+                        const version =
+                          typeof model.version === 'undefined' ? 1 : model.version + 1;
+                        downloadFilename = modelToSaveName(
+                          { ...model, version }, undefined, false
+                        );
+                        downloadScenarioModalOpen = true;
+                      }
                     },
-                    [
-                      m('img', {
-                        src: EnglishFlag,
-                        alt: 'English',
-                        title: 'English',
-                      }),
-                      m('span', 'English'),
-                    ]
-                  ),
-                  m(
-                    '.language-option',
-                    {
-                      className: language === 'fr' ? 'selected' : undefined,
-                      onclick: () => setLanguage(attrs, 'fr'),
-                    },
-                    [
-                      m('img', {
-                        src: FrenchFlag,
-                        alt: 'Français',
-                        title: 'Français',
-                      }),
-                      m('span', 'Français'),
-                    ]
-                  ),
-                  m(
-                    '.language-option',
-                    {
-                      className: language === 'de' ? 'selected' : undefined,
-                      onclick: () => setLanguage(attrs, 'de'),
-                    },
-                    [
-                      m('img', {
-                        src: GermanFlag,
-                        alt: 'Deutsch',
-                        title: 'Deutsch',
-                      }),
-                      m('span', 'Deutsch'),
-                    ]
-                  ),
-                  m(
-                    '.language-option',
-                    {
-                      className: language === 'es' ? 'selected' : undefined,
-                      onclick: () => setLanguage(attrs, 'es'),
-                    },
-                    [
-                      m('img', {
-                        src: SpanishFlag,
-                        alt: 'Español',
-                        title: 'Español',
-                      }),
-                      m('span', 'Español'),
-                    ]
-                  ),
-                  m(
-                    '.language-option',
-                    {
-                      className: language === 'pl' ? 'selected' : undefined,
-                      onclick: () => setLanguage(attrs, 'pl'),
-                    },
-                    [
-                      m('img', {
-                        src: PolishFlag,
-                        alt: 'Polski',
-                        title: 'Polski',
-                      }),
-                      m('span', 'Polski'),
-                    ]
-                  ),
-                ])
-              ),
-            ])
-          ),
-          filteredNarratives.length > 0 &&
-            categories.length > 0 && [
-              m('.row', m('.col.s12', [
-                m('h4', t('SAVED_NARRATIVES')),
-                m(TextInput, {
-                  id: 'narrative-filter',
-                  label: t('FILTER_NARRATIVES'),
-                  defaultValue: narrativeFilter,
-                  placeholder: t('FILTER_NARRATIVES_PLACEHOLDER'),
-                  onchange: (value) => {
-                    narrativeFilter = value;
-                    m.redraw();
-                  },
-                }),
-              ])),
-              categories.length > 1
-                ? m(Tabs, {
-                    tabs: categories.map((c) => ({
-                      title: c.label,
-                      vnode: m(TableView, {
-                        ...attrs,
-                        narratives: filteredNarratives,
-                        components: components.filter(
-                          (comp) =>
-                            c.componentIds && c.componentIds.includes(comp.id)
-                        ),
-                      }),
+                  }),
+                ]),
+              ]),
+              m('.home-visual', [
+                m('img.home-hero-image', { src: background, alt: '' }),
+              ]),
+            ]),
+            m('section.home-saved-scenarios', [
+              m('.home-saved-heading', [
+                m('h2', t('SAVED_NARRATIVES')),
+                m('span.home-saved-count', savedNarratives.length),
+              ]),
+              savedNarratives.length > 4 && m(TextInput, {
+                id: 'narrative-filter',
+                label: t('FILTER_NARRATIVES'),
+                value: narrativeFilter,
+                placeholder: t('FILTER_NARRATIVES_PLACEHOLDER'),
+                oninput: (value) => {
+                  narrativeFilter = value;
+                },
+              }),
+              savedNarratives.length === 0
+                ? m('p.home-empty-state', { role: 'status' }, t('NO_SAVED_NARRATIVES'))
+                : filteredNarratives.length === 0
+                  ? m('p.home-empty-state', { role: 'status' }, t('NO_MATCHING_NARRATIVES'))
+                  : m('.home-scenario-list', filteredNarratives.map((n) => {
+                      const preview = Object.values(n.components || {})
+                        .flat()
+                        .map((valueId) => valueLabels.get(valueId))
+                        .filter((value): value is string => Boolean(value))
+                        .slice(0, 3)
+                        .join(' · ');
+                      return m('a.home-scenario-link', {
+                        href: routingSvc.href(Dashboards.SHOW_SCENARIO),
+                        onclick: () => attrs.update({ curNarrative: () => n }),
+                      }, [
+                        m('.home-scenario-details', [
+                          m('span.home-scenario-name', n.label || t('NARRATIVE')),
+                          preview && m('span.home-scenario-preview', preview),
+                        ]),
+                        m('span.home-scenario-open', t('OPEN_SCENARIO')),
+                      ]);
                     })),
-                  })
-                : m(
-                    '.narratives',
-                    m(TableView, {
+              filteredNarratives.length > 1 && categories.length > 0 &&
+                m(FlatButton, {
+                  className: 'home-compare-toggle',
+                  iconName: showComparison ? 'expand_less' : 'view_column',
+                  label: t(showComparison ? 'HIDE_COMPARISON' : 'COMPARE_SCENARIOS'),
+                  'aria-expanded': showComparison,
+                  'aria-controls': 'home-comparison',
+                  onclick: () => { showComparison = !showComparison; },
+                }),
+              showComparison && filteredNarratives.length > 1 && categories.length > 0 &&
+                m('.home-comparison#home-comparison', categories.length > 1
+                  ? m(Tabs, {
+                      tabs: categories.map((c) => ({
+                        title: c.label,
+                        vnode: m(TableView, {
+                          ...attrs,
+                          narratives: filteredNarratives,
+                          components: components.filter((comp) => c.componentIds?.includes(comp.id)),
+                        }),
+                      })),
+                    })
+                  : m(TableView, {
                       ...attrs,
                       narratives: filteredNarratives,
-                      components: components.filter(
-                        (comp) =>
-                          categories[0].componentIds &&
-                          categories[0].componentIds.includes(comp.id)
-                      ),
-                    })
-                  ),
-            ],
-          // filteredNarratives.length === 0 &&
-
-          m(
-            '.row',
-            m(
-              '.col.s12.m8.l6.offset-m2.offset-l3',
-              m(
-                '.flex-row',
-                m(Select, {
-                  key: id,
-                  iconName: 'cases',
-                  className: 'flex-grow',
-                  label: t('SELECT_SCENARIO'),
-                  checkedId: id,
-                  options: [{ id, label }, ...scenarios],
-                  onchange: async (id) => {
-                    await selectScenarioFromCollection(attrs, id[0] as string);
-                  },
-                }),
-                m(
-                  '.icon-buttons',
-                  {
-                    key: 'icons',
-                  },
-                  m(FlatButton, {
-                    className: 'icon-button',
-                    iconName: 'add',
-                    title: t('NEW_SCENARIO'),
-                    onclick: () => {
-                      newScenarioWizardOpen = true;
-                    },
-                  }),
-                  m(FlatButton, {
-                    className: 'icon-button',
-                    iconName: 'auto_fix_high',
-                    title: t('LLM_WIZARD_TITLE'),
-                    onclick: () => {
-                      llmScenarioWizardOpen = true;
-                    },
-                  }),
-                  m(FlatButton, {
-                    className: 'icon-button',
-                    iconName: 'download',
-                    title: t('DOWNLOAD', 'MODEL'),
-                    onclick: () => {
-                      const version =
-                        typeof model.version === 'undefined'
-                          ? 1
-                          : model.version + 1;
-                      downloadFilename = modelToSaveName(
-                        { ...model, version },
-                        undefined,
-                        false
-                      );
-                      downloadScenarioModalOpen = true;
-                    },
-                  }),
-                    m(ConfirmButton, {
-                      className: 'icon-button',
-                      iconName: 'delete',
-                      title: t('DELETE'),
-                      onclick: async () => {
-                        model.scenario =
-                          model.scenarios && model.scenarios.length > 0
-                            ? model.scenarios[0]
-                            : newScenario();
-                        model.scenarios = model.scenarios.filter(
-                          (s) => s.id !== model.scenario.id
-                        );
-                        await saveModel(attrs, model, true);
-                      },
-                    })
-                )
-              )
-            )
-          ),
-          m('.buttons.center', { style: 'margin: 10px auto;' }, [
-            m(Button, {
+                      components: components.filter((comp) => categories[0].componentIds?.includes(comp.id)),
+                    })),
+            ]),
+            m('section.home-collection-tools', [
+              m('h2', t('COLLECTION_ACTIONS')),
+              m('.home-collection-tool-row', [
+            m(FlatButton, {
               iconName: 'clear',
               disabled: isCleared,
-              className: 'btn-large',
               label: t('NEW_MODEL', 'btn'),
               onclick: () => (clearAllModal = true),
             }),
-            m(Button, {
+            m(FlatButton, {
               iconName: 'playlist_add',
-              className: 'btn-large',
               label: t('ADD_STARTER_KIT'),
               title: t('ADD_STARTER_KIT_HINT'),
               onclick: async () => {
@@ -438,10 +348,9 @@ export const HomePage: MeiosisComponent = () => {
               },
             }),
             m('a#downloadAnchorElem', { style: 'display:none' }),
-            m(Button, {
+            m(FlatButton, {
               iconName: 'download',
               disabled: isCleared,
-              className: 'btn-large',
               label: t('DOWNLOAD', 'COLLECTION'),
               onclick: () => {
                 const dlAnchorElem =
@@ -464,9 +373,8 @@ export const HomePage: MeiosisComponent = () => {
               },
             }),
             readerAvailable &&
-              m(Button, {
+              m(FlatButton, {
                 iconName: 'upload',
-                className: 'btn-large',
                 label: t('UPLOAD_FILE'),
                 onclick: () => {
                   uploadFile((files) => {
@@ -513,8 +421,10 @@ export const HomePage: MeiosisComponent = () => {
                   });
                 },
               }),
+              ]),
+            ]),
           ]),
-          m(
+          savedNarratives.length === 0 && m(
             '.section',
             m('.row.container.center', [
               m('.row', m('.col.s12.align-center', [m('h5', 'ScenarioSpark')])),
@@ -573,32 +483,28 @@ export const HomePage: MeiosisComponent = () => {
               ]),
             ])
           ),
-          // m(ModalPanel, {
-          //   id: 'delete_model',
-          //   isOpen: deleteModelModal,
-          //   onToggle: (open) => (deleteModelModal = open),
-          //   title: t('DELETE_MODEL', 'title'),
-          //   description: m('.row', [
-          //     m('.col.s12', [t('DELETE_MODEL', 'description')]),
-          //   ]),
-          //   buttons: [
-          //     { label: t('CANCEL'), iconName: 'cancel', onclick: () => (deleteModelModal = false) },
-          //     {
-          //       label: t('OK'),
-          //       iconName: 'delete',
-          //       onclick: async () => {
-          //         model.scenario =
-          //           model.scenarios && model.scenarios.length > 0
-          //             ? model.scenarios[0]
-          //             : newScenario();
-          //         model.scenarios = model.scenarios.filter(
-          //           (s) => s.id !== model.scenario.id
-          //         );
-          //         await saveModel(attrs, model, true);
-          //       },
-          //     },
-          //   ],
-          // }),
+          m(ModalPanel, {
+            id: 'deleteScenario',
+            isOpen: deleteScenarioModalOpen,
+            onToggle: (open) => { deleteScenarioModalOpen = open; },
+            title: t('DELETE_MODEL', 'title'),
+            description: t('DELETE_MODEL', 'description'),
+            closeOnButtonClick: true,
+            buttons: [
+              { label: t('CANCEL'), iconName: 'cancel' },
+              {
+                label: t('DELETE_MODEL', 'btn'),
+                iconName: 'delete',
+                onclick: async () => {
+                  model.scenario = scenarios[0] || newScenario(t('NEW_BOX'));
+                  model.scenarios = scenarios.filter(
+                    (scenario) => scenario.id !== model.scenario.id
+                  );
+                  await saveModel(attrs, model, true);
+                },
+              },
+            ],
+          }),
           m(ModalPanel, {
             id: 'clearAll',
             isOpen: clearAllModal,
@@ -636,7 +542,7 @@ export const HomePage: MeiosisComponent = () => {
                 onclick: async () => {
                   let preset: DataModel;
                   try {
-                    preset = await defaultModels[selectedId](i18n.currentLocale);
+                    preset = await defaultModels[selectedId](i18n.currentLocale, t('NEW_BOX'));
                   } catch (error) {
                     console.error('Could not load starter kit', error);
                     toast({ html: t('STARTER_KIT_LOAD_FAILED') });
