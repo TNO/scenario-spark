@@ -83,6 +83,10 @@ export const messages: typeof messagesEN = {
       'Czy na pewno chcesz usunąć ten element: {item}? Nie ma odwrotu.',
   },
   NEW_SCENARIO: 'Nowy scenariusz',
+  ADD_STARTER_KIT: 'Dodaj zestaw startowy',
+  ADD_STARTER_KIT_HINT: 'Dodaje tylko brakujące modele; istniejące wersje pozostają bez zmian.',
+  STARTER_KIT_ADDED: 'Dodane modele: {count}. Istniejące modele zachowano.',
+  STARTER_KIT_ALREADY_PRESENT: 'Wszystkie modele startowe są już obecne. Usuń stary model, aby dodać jego nową wersję.',
   NEW_MODEL: {
     btn: 'Nowa kolekcja',
     title: 'Wybierz nową kolekcję',

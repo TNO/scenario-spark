@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { createStarterKitNl } from '../src/models/starter-kit-nl.ts';
+import { addStarterKitToModel, createStarterKitNl } from '../src/models/starter-kit-nl.ts';
 import { parseImportedModel } from '../src/utils/import-model.ts';
 
 const scenarios = (model) => [model.scenario, ...model.scenarios];
@@ -32,14 +32,31 @@ test('provides ten importable, distinct Dutch starter boxes', () => {
   for (const box of boxes) {
     assert.ok(box.label.trim());
     assert.ok(box.desc.trim());
-    assert.ok(box.categories.length >= 2);
-    assert.ok(box.components.length >= 5);
+    assert.ok(box.categories.length >= 4, box.label);
+    assert.ok(box.components.length >= 12, box.label);
     assert.deepEqual(box.thresholdColors, [{ threshold: 0, color: '#123456' }]);
     assert.equal(box.llm.prompts.length, 1);
     assert.ok(box.llm.prompts[0].prompt.length >= 100);
     assert.equal(box.narratives.length, 1);
     assert.ok(box.narratives[0].desc.length >= 100);
   }
+});
+
+test('event safety and cyber continuity offer source-level depth', () => {
+  const boxes = scenarios(createStarterKitNl([]));
+  assert.ok(boxes.find(({ id }) => id.endsWith('evenementenveiligheid')).components.length >= 20);
+  assert.ok(boxes.find(({ id }) => id.endsWith('cybercontinuiteit')).components.length >= 16);
+  const event = boxes.find(({ id }) => id.endsWith('evenementenveiligheid'));
+  for (const theme of ['evenement', 'verstoring', 'maatregel', 'effect']) {
+    assert.ok(
+      event.categories.some((category) => category.label.toLowerCase().includes(theme)),
+      theme
+    );
+  }
+  const expected = 'starter-nl-evenementenveiligheid-opkomst-groot';
+  const permitted = 'starter-nl-evenementenveiligheid-maximum-vijfhonderd';
+  assert.notEqual(event.inconsistencies[expected]?.[permitted], true);
+  assert.notEqual(event.inconsistencies[permitted]?.[expected], true);
 });
 
 test('every driver and category has valid, documented, unique choices', () => {
@@ -117,4 +134,31 @@ test('the safety-region examples cite public background sources', () => {
     assert.ok(box, label);
     assert.match(box.desc, /\[[^\]]+\]\(https:\/\/[^)]+\)/, label);
   }
+});
+
+test('adding the kit is non-destructive, idempotent and preserves edited starter boxes', () => {
+  const kit = createStarterKitNl([]);
+  const standalone = {
+    scenario: { ...kit.scenario, id: 'standalone', label: 'Bestaande box' },
+    scenarios: [],
+  };
+  const appended = addStarterKitToModel(standalone, kit);
+  assert.equal(appended.added, 10);
+  assert.equal(appended.model.scenario, standalone.scenario);
+  assert.equal(standalone.scenarios.length, 0);
+  assert.equal(parseImportedModel(JSON.stringify(appended.model)).kind, 'collection');
+  const personal = {
+    scenario: { id: 'personal', label: 'Eigen box', categories: [], components: [], narratives: [], inconsistencies: {} },
+    scenarios: [{ ...kit.scenario, label: 'Eigen aanpassing' }],
+  };
+  const first = addStarterKitToModel(personal, kit);
+  assert.equal(first.added, 9);
+  assert.equal(first.model.scenario, personal.scenario);
+  assert.equal(first.model.scenarios[0], personal.scenarios[0]);
+  assert.equal(first.model.scenarios[0].label, 'Eigen aanpassing');
+  assert.equal(personal.scenarios.length, 1);
+  assert.equal(first.model.scenarios.length, 10);
+  const second = addStarterKitToModel(first.model, kit);
+  assert.equal(second.added, 0);
+  assert.equal(second.model, first.model);
 });

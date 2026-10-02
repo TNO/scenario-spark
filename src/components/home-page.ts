@@ -37,7 +37,9 @@ import {
   ScenarioComponent,
   defaultModels,
   newScenario,
+  thresholdColors,
 } from '../models';
+import { addStarterKitToModel, createStarterKitNl } from '../models/starter-kit-nl';
 import {
   SAVED,
   capitalize,
@@ -410,6 +412,24 @@ export const HomePage: MeiosisComponent = () => {
               className: 'btn-large',
               label: t('NEW_MODEL', 'btn'),
               onclick: () => (clearAllModal = true),
+            }),
+            m(Button, {
+              iconName: 'playlist_add',
+              className: 'btn-large',
+              label: t('ADD_STARTER_KIT'),
+              title: t('ADD_STARTER_KIT_HINT'),
+              onclick: async () => {
+                const result = addStarterKitToModel(
+                  model,
+                  createStarterKitNl(thresholdColors)
+                );
+                if (result.added) await saveModel(attrs, result.model);
+                toast({
+                  html: result.added
+                    ? t('STARTER_KIT_ADDED', { count: result.added })
+                    : t('STARTER_KIT_ALREADY_PRESENT'),
+                });
+              },
             }),
             m('a#downloadAnchorElem', { style: 'display:none' }),
             m(Button, {

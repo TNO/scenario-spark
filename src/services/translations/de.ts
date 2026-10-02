@@ -83,6 +83,10 @@ export const messages: typeof messagesEN = {
       'Sind Sie sicher, dass Sie diese(s) {item} löschen möchten? Es gibt kein Zurück.',
   },
   NEW_SCENARIO: 'Neues Szenario',
+  ADD_STARTER_KIT: 'Starterpaket hinzufügen',
+  ADD_STARTER_KIT_HINT: 'Nur fehlende Boxen hinzufügen; vorhandene Versionen bleiben erhalten.',
+  STARTER_KIT_ADDED: 'Hinzugefügte Boxen: {count}. Vorhandene Boxen bleiben erhalten.',
+  STARTER_KIT_ALREADY_PRESENT: 'Alle Starterboxen sind vorhanden. Entfernen Sie eine alte Box, um die neue Version hinzuzufügen.',
   NEW_MODEL: {
     btn: 'Neue Sammlung',
     title: 'Neue Sammlung auswählen',

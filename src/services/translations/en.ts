@@ -81,6 +81,10 @@ export const messages = {
       'Are you certain you want to delete this {item}. There is no turning back?',
   },
   NEW_SCENARIO: 'New scenario',
+  ADD_STARTER_KIT: 'Add starter kit',
+  ADD_STARTER_KIT_HINT: 'Add only missing boxes; existing versions remain unchanged.',
+  STARTER_KIT_ADDED: 'Boxes added: {count}. Existing boxes were kept.',
+  STARTER_KIT_ALREADY_PRESENT: 'All starter boxes are present. Remove an old starter box to add its updated version.',
   NEW_MODEL: {
     btn: 'New collection',
     title: 'Choose a new collection',

@@ -83,6 +83,10 @@ export const messages: typeof messagesEN = {
       'Weet u zeker dat u de {item} wilt verwijderen? Dit kan niet ongedaan gemaakt worden.',
   },
   NEW_SCENARIO: 'Nieuw scenario',
+  ADD_STARTER_KIT: 'Voeg starterkit toe',
+  ADD_STARTER_KIT_HINT: 'Voeg alleen ontbrekende boxen toe; bestaande versies blijven behouden.',
+  STARTER_KIT_ADDED: 'Aantal toegevoegde boxen: {count}. Bestaande boxen zijn behouden.',
+  STARTER_KIT_ALREADY_PRESENT: 'Alle starterboxen zijn al aanwezig. Verwijder een oude starterbox om de bijgewerkte versie toe te voegen.',
   NEW_MODEL: {
     btn: 'Nieuwe collectie',
     title: 'Kies een nieuwe collectie',

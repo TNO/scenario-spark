@@ -83,6 +83,10 @@ export const messages: typeof messagesEN = {
       'Êtes-vous certain de vouloir supprimer cet(te) {item} ? Cette action est irréversible.',
   },
   NEW_SCENARIO: 'Nouveau scénario',
+  ADD_STARTER_KIT: 'Ajouter le kit de démarrage',
+  ADD_STARTER_KIT_HINT: 'Ajoute uniquement les boîtes manquantes, sans modifier les versions existantes.',
+  STARTER_KIT_ADDED: 'Boîtes ajoutées : {count}. Les boîtes existantes ont été conservées.',
+  STARTER_KIT_ALREADY_PRESENT: 'Toutes les boîtes sont présentes. Supprimez une ancienne boîte pour ajouter sa version mise à jour.',
   NEW_MODEL: {
     btn: 'Nouvelle collection',
     title: 'Choisir une nouvelle collection',

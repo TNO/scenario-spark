@@ -83,6 +83,10 @@ export const messages: typeof messagesEN = {
       '¿Está seguro de que desea eliminar este {item}? No hay vuelta atrás.',
   },
   NEW_SCENARIO: 'Nuevo escenario',
+  ADD_STARTER_KIT: 'Añadir kit inicial',
+  ADD_STARTER_KIT_HINT: 'Añade solo las cajas que faltan; las versiones existentes no cambian.',
+  STARTER_KIT_ADDED: 'Cajas añadidas: {count}. Se conservaron las cajas existentes.',
+  STARTER_KIT_ALREADY_PRESENT: 'Ya están todas las cajas. Elimine una versión antigua para añadir la nueva.',
   NEW_MODEL: {
     btn: 'Nueva colección',
     title: 'Elegir una nueva colección',

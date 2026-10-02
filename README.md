@@ -12,7 +12,7 @@ For an overview, see the [5 minute video introduction](https://www.youtube.com/w
 - Items can have a location on the map, optionally including radii.
 - Supports modelling inconsistencies, e.g. a small research reactor can only produce modest radiation levels during an incident.
 - Can integrate with LLM-service, or by using copy-paste.
-- First-time visitors receive a Dutch starter collection of ten public-safety and continuity boxes, each with categories, described key drivers, impossible combinations, an example scenario, and a tailored LLM prompt. Existing browser collections are not replaced; choose the starter kit again under **New collection** (which replaces the current collection, so download it first if needed).
+- First-time visitors receive a Dutch starter collection of ten public-safety and continuity boxes, each with four categories, described key drivers, impossible combinations, an example scenario, and a tailored LLM prompt. Existing browser collections are not replaced. Use **Add starter kit** to append only missing boxes without changing existing ones. To get an updated version of a starter box already in your collection, remove that old box first; **New collection** replaces the entire collection (download it first if needed).
 
 ## Development
 
