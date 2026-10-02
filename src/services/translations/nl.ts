@@ -300,7 +300,17 @@ export const messages: typeof messagesEN = {
     DESC: 'Schrijf een paragraaf waarbij XXX zal vervangen worden door de waarde van factor 1, etc. Lege regels worden omgezet naar paragrafen.',
   },
   SELECT_PERSONA: "Selecteer relevante persona's",
-  PERSONA_IMPRESSION: 'Impressie',
+  SELECT_PERSONA_HELP: 'Leg per geselecteerde persona vast hoe die een opgeslagen scenario ervaart, op maatregelen reageert en geïnformeerd of betrokken moet worden.',
+  PERSONA_IMPRESSION: 'Feedback van persona',
+  COPY_PERSONA_PROMPT: 'Kopieer feedbackprompt',
+  COPY_PERSONA_PROMPT_SHORT: 'Kopieer',
+  COPY_PERSONA_PROMPT_FOR: 'Kopieer feedbackprompt voor {persona}',
+  GENERATE_PERSONA_FEEDBACK: 'Genereer feedback',
+  GENERATE_PERSONA_FEEDBACK_SHORT: 'Genereer',
+  GENERATE_PERSONA_FEEDBACK_FOR: 'Genereer feedback voor {persona}',
+  PERSONA_PROMPT_COPIED: 'Feedbackprompt gekopieerd. Plak het antwoord in dit veld.',
+  PERSONA_PASTE_HINT: 'Plak het LLM-antwoord direct in het veld hierboven; het wordt automatisch opgeslagen.',
+  PERSONA_FEEDBACK_ERROR: 'Feedback genereren of kopiëren is mislukt. Probeer het opnieuw.',
   PERSONA: {
     1: 'Persona',
     n: 'Personas',
@@ -352,6 +362,14 @@ export const messages: typeof messagesEN = {
   },
   LLM_DEFAULT_NARRATIVE_PROMPT:
     'Gebruik de volgende elementen om een realistisch scenario te definieren.',
+  LLM_INCLUDED_CATEGORIES: 'Opgenomen categorieën',
+  LLM_PROMPT_TEXT: 'Prompt',
+  LLM_CATEGORY_REQUIRED: 'Selecteer minstens één categorie voor deze prompt.',
+  LLM_DEFAULT_PERSONA_PROMPT:
+    'Beschrijf hoe de doelpersona deze situatie ervaart, inclusief voorgestelde maatregelen en, indien relevant, hoe die geïnformeerd of betrokken moet worden. Baseer de feedback op het scenario en de beschrijvingen van de persona’s; verzin geen details. Geef alleen de feedback voor de doelpersona, klaar om in het feedbackveld te plakken. Voeg geen kop, personanaam of codeblokken toe.',
+  LLM_PERSONA_CONTEXT: 'Geselecteerde persona’s en beschrijvingen:\n{personas}',
+  LLM_PERSONA_TARGET: 'Schrijf alleen feedback voor: {persona}',
+  LLM_SCENARIO_TEXT: 'Scenariobeschrijving:\n{narrative}',
   RESPONSE_INSTRUCTIONS:
     'Start je antwoord met een korte beschrijvende titel op een eigen regel, gevolgd door een lege regel en dan de rest van de inhoud.',
   WIZARD_STEP1_TITLE: 'Scenario Informatie',

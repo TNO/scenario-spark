@@ -60,10 +60,10 @@ export const SettingsPage: MeiosisComponent = () => {
     {
       id: 'personas',
       type: 'select',
-      show: ['includeDecisionSupport=true'],
       multiple: true,
       options: 'personas',
       label: t('SELECT_PERSONA'),
+      description: t('SELECT_PERSONA_HELP'),
     },
     {
       id: 'mapConfig',

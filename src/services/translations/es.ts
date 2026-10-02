@@ -269,7 +269,17 @@ export const messages: typeof messagesEN = {
     DESC: 'Escriba un párrafo donde XXX sea reemplazado por el valor del factor clave 1, etc. Las líneas vacías se convierten en párrafos.',
   },
   SELECT_PERSONA: 'Seleccionar persona relevante para el escenario',
-  PERSONA_IMPRESSION: 'Impresión',
+  SELECT_PERSONA_HELP: 'Registre cómo cada persona seleccionada percibe un escenario guardado, reacciona a las medidas y necesita información o participación.',
+  PERSONA_IMPRESSION: 'Comentarios de la persona',
+  COPY_PERSONA_PROMPT: 'Copiar prompt de comentarios',
+  COPY_PERSONA_PROMPT_SHORT: 'Copiar',
+  COPY_PERSONA_PROMPT_FOR: 'Copiar prompt de comentarios para {persona}',
+  GENERATE_PERSONA_FEEDBACK: 'Generar comentarios',
+  GENERATE_PERSONA_FEEDBACK_SHORT: 'Generar',
+  GENERATE_PERSONA_FEEDBACK_FOR: 'Generar comentarios para {persona}',
+  PERSONA_PROMPT_COPIED: 'Prompt copiado. Pegue la respuesta en este campo.',
+  PERSONA_PASTE_HINT: 'Pegue la respuesta del LLM directamente en el campo anterior; se guarda automáticamente.',
+  PERSONA_FEEDBACK_ERROR: 'No se pudieron generar o copiar los comentarios. Inténtelo de nuevo.',
   PERSONA: {
     1: 'Persona',
     n: 'Personas',
@@ -321,6 +331,14 @@ export const messages: typeof messagesEN = {
   },
   LLM_DEFAULT_NARRATIVE_PROMPT:
     'Utiliza los siguientes elementos para definir un escenario realista.',
+  LLM_INCLUDED_CATEGORIES: 'Categorías incluidas',
+  LLM_PROMPT_TEXT: 'Prompt',
+  LLM_CATEGORY_REQUIRED: 'Seleccione al menos una categoría para este prompt.',
+  LLM_DEFAULT_PERSONA_PROMPT:
+    'Describa cómo percibe esta situación la persona objetivo, incluidas las medidas propuestas y, cuando corresponda, cómo informarla o incluirla. Base los comentarios en el escenario y las descripciones de las personas; no invente detalles. Devuelva únicamente los comentarios para la persona objetivo, listos para pegarlos en su campo. No añada título, nombre de persona ni bloques de código.',
+  LLM_PERSONA_CONTEXT: 'Personas seleccionadas y descripciones:\n{personas}',
+  LLM_PERSONA_TARGET: 'Escriba comentarios solo para: {persona}',
+  LLM_SCENARIO_TEXT: 'Narrativa del escenario:\n{narrative}',
   RESPONSE_INSTRUCTIONS:
     'Comience su respuesta con un título breve y descriptivo en su propia línea, luego una línea en blanco, luego el contenido principal.',
   WIZARD_STEP1_TITLE: 'Información del escenario',

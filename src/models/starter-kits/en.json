@@ -1,5 +1,25 @@
 {
   "effectsPrompt": "Also describe separately the possible short-term effects (hours to days) and medium-term effects (weeks to months) on those involved, service delivery and decision-making. Identify at least two plausible game changers: for each, state the condition under which the scenario could change course and its possible consequence, without treating the selected factor values as facts that can be changed. Distinguish established consequences, assumptions and conditional developments. Place the two requested reflection or exercise questions at the end.",
+  "personas": [
+    {
+      "id": "starter-event-visitor",
+      "label": "Event visitor",
+      "desc": "Attending an unfamiliar public event and relying on clear on-site instructions, accessible routes and timely updates if plans change.",
+      "url": "families1"
+    },
+    {
+      "id": "starter-nearby-resident",
+      "label": "Nearby resident",
+      "desc": "Lives near an affected area and needs timely, accessible information about safety, access to home and services, and how long disruption may last.",
+      "url": "families2"
+    },
+    {
+      "id": "starter-event-organiser",
+      "label": "Event organiser",
+      "desc": "Coordinates visitor safety, crowd movement and information for staff and visitors while weighing whether and how the event can continue.",
+      "url": "female_worker_with_laptop1"
+    }
+  ],
   "boxes": [
     {
       "id": "evenementenveiligheid",

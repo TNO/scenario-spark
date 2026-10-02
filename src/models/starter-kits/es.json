@@ -1,5 +1,25 @@
 {
   "effectsPrompt": "Describe también por separado los posibles efectos a corto plazo (de horas a días) y a medio plazo (de semanas a meses) para las personas afectadas, los servicios y la toma de decisiones. Indica al menos dos posibles factores de cambio decisivos: señala para cada uno la condición que podría cambiar el rumbo del escenario y su posible consecuencia, sin alterar como hechos los valores de los factores elegidos. Distingue entre consecuencias constatadas, hipótesis y acontecimientos condicionados. Sitúa las dos preguntas de reflexión o ejercicio solicitadas al final.",
+  "personas": [
+    {
+      "id": "starter-event-visitor",
+      "label": "Asistente al evento",
+      "desc": "Acude a un evento público en un lugar desconocido y depende de instrucciones claras en el recinto, rutas accesibles y avisos oportunos si cambian los planes.",
+      "url": "families1"
+    },
+    {
+      "id": "starter-nearby-resident",
+      "label": "Residente cercano",
+      "desc": "Vive cerca de una zona afectada y necesita información oportuna y accesible sobre seguridad, acceso a su hogar y servicios, y la posible duración de la interrupción.",
+      "url": "families2"
+    },
+    {
+      "id": "starter-event-organiser",
+      "label": "Organizador del evento",
+      "desc": "Coordina la seguridad de los asistentes, sus movimientos y la información al personal y al público mientras valora si el evento puede continuar y de qué manera.",
+      "url": "female_worker_with_laptop1"
+    }
+  ],
   "boxes": [
     {
       "id": "evenementenveiligheid",

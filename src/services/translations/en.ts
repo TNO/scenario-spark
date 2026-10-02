@@ -279,7 +279,17 @@ export const messages = {
     DESC: 'Write a paragraph where XXX is replaced by the value for key factor 1, etc. Empty lines are converted to paragraphs.',
   },
   SELECT_PERSONA: 'Select relevant persona for scenario',
-  PERSONA_IMPRESSION: 'Impression',
+  SELECT_PERSONA_HELP: 'Capture how each selected persona perceives a saved scenario, responds to measures, and needs to be informed or involved.',
+  PERSONA_IMPRESSION: 'Persona feedback',
+  COPY_PERSONA_PROMPT: 'Copy feedback prompt',
+  COPY_PERSONA_PROMPT_SHORT: 'Copy',
+  COPY_PERSONA_PROMPT_FOR: 'Copy feedback prompt for {persona}',
+  GENERATE_PERSONA_FEEDBACK: 'Generate feedback',
+  GENERATE_PERSONA_FEEDBACK_SHORT: 'Generate',
+  GENERATE_PERSONA_FEEDBACK_FOR: 'Generate feedback for {persona}',
+  PERSONA_PROMPT_COPIED: 'Feedback prompt copied. Paste the response into this field.',
+  PERSONA_PASTE_HINT: 'Paste the LLM response directly into the field above; it saves automatically.',
+  PERSONA_FEEDBACK_ERROR: 'Could not generate or copy feedback. Try again.',
   PERSONA: {
     1: 'Persona',
     n: 'Personas',
@@ -331,6 +341,14 @@ export const messages = {
   },
   LLM_DEFAULT_NARRATIVE_PROMPT:
     'Use the following elements to define a realistic scenario.',
+  LLM_INCLUDED_CATEGORIES: 'Included categories',
+  LLM_PROMPT_TEXT: 'Prompt',
+  LLM_CATEGORY_REQUIRED: 'Select at least one category for this prompt.',
+  LLM_DEFAULT_PERSONA_PROMPT:
+    'Describe how the target persona perceives this situation, including any proposed measures and how they should be informed or involved when relevant. Ground the feedback in the scenario and persona descriptions; do not invent details. Return only the feedback for the target persona, ready to paste into their feedback field. Do not add a heading, persona name, or code fences.',
+  LLM_PERSONA_CONTEXT: 'Selected personas and descriptions:\n{personas}',
+  LLM_PERSONA_TARGET: 'Write feedback only for: {persona}',
+  LLM_SCENARIO_TEXT: 'Scenario narrative:\n{narrative}',
   RESPONSE_INSTRUCTIONS:
     'Start your response with a short, descriptive title on its own line, then a blank line, then the main content.',
   WIZARD_STEP1_TITLE: 'Scenario Information',

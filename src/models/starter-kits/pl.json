@@ -1,5 +1,25 @@
 {
   "effectsPrompt": "Opisz osobno możliwe skutki krótkoterminowe (od godzin do dni) i średnioterminowe (od tygodni do miesięcy) dla osób dotkniętych sytuacją, świadczenia usług i podejmowania decyzji. Wskaż co najmniej dwa wiarygodne czynniki mogące zmienić bieg wydarzeń: dla każdego podaj warunek, w którym scenariusz może się zmienić, oraz możliwą konsekwencję, nie zmieniając wybranych wartości czynników scenariusza, które są przyjętymi faktami. Oddziel potwierdzone skutki, założenia i rozwój wydarzeń zależny od warunków. Na końcu umieść dwa pytania do refleksji lub ćwiczenia.",
+  "personas": [
+    {
+      "id": "starter-event-visitor",
+      "label": "Uczestnik wydarzenia",
+      "desc": "Uczestniczy w wydarzeniu publicznym w nieznanym miejscu i w razie zmian potrzebuje jasnych wskazówek na miejscu, dostępnych tras oraz szybkich informacji.",
+      "url": "families1"
+    },
+    {
+      "id": "starter-nearby-resident",
+      "label": "Okoliczny mieszkaniec",
+      "desc": "Mieszka blisko obszaru objętego zdarzeniem i potrzebuje szybkich, dostępnych informacji o bezpieczeństwie, dostępie do domu i usług oraz możliwym czasie trwania utrudnień.",
+      "url": "families2"
+    },
+    {
+      "id": "starter-event-organiser",
+      "label": "Organizator wydarzenia",
+      "desc": "Koordynuje bezpieczeństwo uczestników, przemieszczanie się tłumu oraz informacje dla personelu i gości, rozważając, czy i jak wydarzenie może być kontynuowane.",
+      "url": "female_worker_with_laptop1"
+    }
+  ],
   "boxes": [
     {
       "id": "evenementenveiligheid",

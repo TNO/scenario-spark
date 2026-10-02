@@ -32,7 +32,12 @@ import {
 } from '../utils';
 import { range, render } from 'mithril-ui-form';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
-import { CircularSpinner, generateStory, MapView } from './ui';
+import {
+  CircularSpinner,
+  ensureDefaultLLMConfig,
+  generateStory,
+  MapView,
+} from './ui';
 import { PersonaImages } from '../models/persona-images';
 import { MarkdownEditor } from 'mithril-markdown-wysiwyg';
 import { quillToMarkdown } from '../utils/index';
@@ -184,7 +189,16 @@ export const CreateScenarioPage: MeiosisComponent = () => {
   let narrativeTitleDraft = '';
 
   return {
-    oninit: ({ attrs }) => setPage(attrs, Dashboards.CREATE_SCENARIO),
+    oninit: ({ attrs }) => {
+      setPage(attrs, Dashboards.CREATE_SCENARIO);
+      const { model } = attrs.state;
+      if (
+        model.scenario.llm &&
+        ensureDefaultLLMConfig(model.scenario, model.scenario.categories || [])
+      ) {
+        void saveModel(attrs, model);
+      }
+    },
     view: ({ attrs }) => {
       const {
         state: { model, curNarrative = {} as Narrative, lockedComps = {} },
@@ -209,10 +223,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           llm.prompts &&
           llm.prompts.some((p) => p.type === 'narrative')) ??
         false;
-      const curPersonas =
-        includeDecisionSupport && personas.length > 0
-          ? allPersonas.filter((p) => personas.includes(p.id))
-          : [];
+      const curPersonas = allPersonas.filter((p) => personas.includes(p.id));
       // console.log(curPersonas);
       const narratives = model.scenario && model.scenario.narratives;
       const excluded =
@@ -238,6 +249,8 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             ? quillToMarkdown(JSON.parse(curNarrative.desc))
             : curNarrative.desc
           : '';
+      const personaPromptReady =
+        !!llm?.prompts?.some((p) => p.type === 'persona' && p.prompt?.trim());
 
       const {
         includeMapSupport = false,
@@ -679,10 +692,10 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             ),
           ],
           curNarrative.saved && [
-            curPersonas.map((p) =>
+            curPersonas.map((p, index) =>
               m('.row.persona', [
                 m('.col.s12', m('h5', p.label)),
-                m('.col.s6', [
+                m('.col.s12.m6', [
                   m('img.reponsive-image', {
                     style: { height: '200px' },
                     src: PersonaImages.find((img) => img.id === p.url)?.img,
@@ -690,31 +703,66 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   }),
                   m('p', p.desc),
                 ]),
-                m(
-                  '.col.s6',
+                m('.col.s12.m6', [
                   m(TextArea, {
                     label: t('PERSONA_IMPRESSION'),
-                    value: curNarrative.personaEffects
-                      ? curNarrative.personaEffects[p.id]?.story
-                      : undefined,
-                    onchange: (story) => {
-                      const found =
-                        curNarrative.personaEffects &&
-                        curNarrative.personaEffects[p.id];
-                      // console.log(found);
-                      if (found) {
-                        found.story = story;
-                      } else if (curNarrative.personaEffects) {
-                        curNarrative.personaEffects[p.id] = { scale: 0, story };
-                      } else {
-                        curNarrative.personaEffects = {
-                          [p.id]: { scale: 0, story },
-                        };
-                      }
+                    value: curNarrative.personaEffects?.[p.id]?.story,
+                    oninput: (story) => {
+                      curNarrative.personaEffects ??= {};
+                      curNarrative.personaEffects[p.id] ??= { scale: 0 };
+                      curNarrative.personaEffects[p.id].story = story;
                       updateNarrative(attrs, curNarrative);
                     },
                   }),
-                ),
+                  personaPromptReady &&
+                    m(FlatButton, {
+                      label: llm?.id === 'clipboard'
+                        ? t(index === 0 ? 'COPY_PERSONA_PROMPT' : 'COPY_PERSONA_PROMPT_SHORT')
+                        : t(index === 0 ? 'GENERATE_PERSONA_FEEDBACK' : 'GENERATE_PERSONA_FEEDBACK_SHORT'),
+                      'aria-label': llm?.id === 'clipboard'
+                        ? t('COPY_PERSONA_PROMPT_FOR', { persona: p.label })
+                        : t('GENERATE_PERSONA_FEEDBACK_FOR', { persona: p.label }),
+                      title: llm?.id === 'clipboard'
+                        ? t('PERSONA_PASTE_HINT')
+                        : undefined,
+                      iconName:
+                        llm?.id === 'clipboard' ? 'content_copy' : 'auto_awesome',
+                      disabled: !askLlm,
+                      onclick: async () => {
+                        askLlm = false;
+                        m.redraw();
+                        try {
+                          const feedback = await generateStory(
+                            llm!,
+                            curNarrative,
+                            categories,
+                            model.scenario.components,
+                            'persona',
+                            {
+                              target: p,
+                              selected: curPersonas,
+                              narrativeText: markdown,
+                            },
+                          );
+                          if (llm?.id === 'clipboard') {
+                            await navigator.clipboard.writeText(feedback);
+                            toast({ html: t('PERSONA_PROMPT_COPIED') });
+                          } else {
+                            curNarrative.personaEffects ??= {};
+                            curNarrative.personaEffects[p.id] ??= { scale: 0 };
+                            curNarrative.personaEffects[p.id].story = feedback;
+                            await updateNarrative(attrs, curNarrative);
+                          }
+                        } catch (error) {
+                          console.error(error);
+                          toast({ html: t('PERSONA_FEEDBACK_ERROR') });
+                        } finally {
+                          askLlm = true;
+                          m.redraw();
+                        }
+                      },
+                    }),
+                ]),
               ]),
             ),
           ],

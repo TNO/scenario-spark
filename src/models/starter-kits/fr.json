@@ -1,5 +1,25 @@
 {
   "effectsPrompt": "Décrivez séparément les effets possibles à court terme (de quelques heures à quelques jours) et à moyen terme (de quelques semaines à quelques mois) pour les personnes concernées, la prestation des services et la prise de décision. Présentez au moins deux facteurs de bascule plausibles : pour chacun, précisez la condition susceptible de faire évoluer le scénario et sa conséquence éventuelle, sans modifier les valeurs choisies des facteurs déterminants comme s'il s'agissait de faits. Distinguez les conséquences établies, les hypothèses et les évolutions conditionnelles. Terminez par les deux questions de réflexion ou d'exercice demandées.",
+  "personas": [
+    {
+      "id": "starter-event-visitor",
+      "label": "Visiteur de l’événement",
+      "desc": "Participe à un événement public dans un lieu inconnu et compte sur des consignes claires sur place, des parcours accessibles et des informations rapides en cas de changement.",
+      "url": "families1"
+    },
+    {
+      "id": "starter-nearby-resident",
+      "label": "Riverain",
+      "desc": "Habite près d’une zone touchée et a besoin d’informations rapides et accessibles sur la sécurité, l’accès au domicile et aux services, et la durée possible des perturbations.",
+      "url": "families2"
+    },
+    {
+      "id": "starter-event-organiser",
+      "label": "Organisateur de l’événement",
+      "desc": "Coordonne la sécurité des visiteurs, les déplacements du public et l’information du personnel et des visiteurs tout en évaluant si et comment l’événement peut se poursuivre.",
+      "url": "female_worker_with_laptop1"
+    }
+  ],
   "boxes": [
     {
       "id": "evenementenveiligheid",

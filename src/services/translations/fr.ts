@@ -287,7 +287,17 @@ export const messages: typeof messagesEN = {
     DESC: 'Rédigez un paragraphe où XXX est remplacé par la valeur du facteur clé 1, etc. Les lignes vides sont converties en paragraphes.',
   },
   SELECT_PERSONA: 'Sélectionner le persona pertinent pour le scénario',
-  PERSONA_IMPRESSION: 'Impression',
+  SELECT_PERSONA_HELP: 'Notez comment chaque persona sélectionné perçoit un scénario enregistré, réagit aux mesures et doit être informé ou impliqué.',
+  PERSONA_IMPRESSION: 'Retour du persona',
+  COPY_PERSONA_PROMPT: "Copier l’invite de retour",
+  COPY_PERSONA_PROMPT_SHORT: 'Copier',
+  COPY_PERSONA_PROMPT_FOR: "Copier l’invite de retour pour {persona}",
+  GENERATE_PERSONA_FEEDBACK: 'Générer un retour',
+  GENERATE_PERSONA_FEEDBACK_SHORT: 'Générer',
+  GENERATE_PERSONA_FEEDBACK_FOR: 'Générer un retour pour {persona}',
+  PERSONA_PROMPT_COPIED: "Invite copiée. Collez la réponse dans ce champ.",
+  PERSONA_PASTE_HINT: "Collez directement la réponse du LLM dans le champ ci-dessus ; elle est enregistrée automatiquement.",
+  PERSONA_FEEDBACK_ERROR: "Impossible de générer ou de copier le retour. Réessayez.",
   PERSONA: {
     1: 'Persona',
     n: 'Personas',
@@ -339,6 +349,14 @@ export const messages: typeof messagesEN = {
   },
   LLM_DEFAULT_NARRATIVE_PROMPT:
     'Utilisez les elements suivants pour definir un scenario realiste.',
+  LLM_INCLUDED_CATEGORIES: 'Catégories incluses',
+  LLM_PROMPT_TEXT: 'Invite',
+  LLM_CATEGORY_REQUIRED: 'Sélectionnez au moins une catégorie pour cette invite.',
+  LLM_DEFAULT_PERSONA_PROMPT:
+    "Décrivez comment le persona ciblé perçoit cette situation, y compris les mesures proposées et, si pertinent, la façon de l’informer ou de l’impliquer. Appuyez-vous sur le scénario et les descriptions des personas ; n’inventez pas de détails. Renvoyez uniquement le retour du persona ciblé, prêt à être collé dans son champ. N’ajoutez ni titre, ni nom de persona, ni bloc de code.",
+  LLM_PERSONA_CONTEXT: 'Personas sélectionnés et descriptions :\n{personas}',
+  LLM_PERSONA_TARGET: 'Rédigez un retour uniquement pour : {persona}',
+  LLM_SCENARIO_TEXT: 'Récit du scénario :\n{narrative}',
   RESPONSE_INSTRUCTIONS:
     'Commencez votre réponse par un titre court et descriptif sur sa propre ligne, puis une ligne vide, puis le contenu principal.',
   WIZARD_STEP1_TITLE: 'Informations sur le scénario',

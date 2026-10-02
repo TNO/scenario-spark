@@ -286,7 +286,17 @@ export const messages: typeof messagesEN = {
     DESC: 'Napisz akapit, w którym XXX zostanie zastąpione wartością dla kluczowego czynnika 1, itd. Puste wiersze są konwertowane na akapity.',
   },
   SELECT_PERSONA: 'Wybierz odpowiednią personę dla scenariusza',
-  PERSONA_IMPRESSION: 'Wrażenie',
+  SELECT_PERSONA_HELP: 'Zapisz, jak każda wybrana persona postrzega zapisany scenariusz, reaguje na środki i jak należy ją informować lub angażować.',
+  PERSONA_IMPRESSION: 'Opinia persony',
+  COPY_PERSONA_PROMPT: 'Kopiuj prompt opinii',
+  COPY_PERSONA_PROMPT_SHORT: 'Kopiuj',
+  COPY_PERSONA_PROMPT_FOR: 'Kopiuj prompt opinii dla {persona}',
+  GENERATE_PERSONA_FEEDBACK: 'Generuj opinię',
+  GENERATE_PERSONA_FEEDBACK_SHORT: 'Generuj',
+  GENERATE_PERSONA_FEEDBACK_FOR: 'Generuj opinię dla {persona}',
+  PERSONA_PROMPT_COPIED: 'Prompt skopiowany. Wklej odpowiedź w tym polu.',
+  PERSONA_PASTE_HINT: 'Wklej odpowiedź LLM bezpośrednio w pole powyżej; zostanie zapisana automatycznie.',
+  PERSONA_FEEDBACK_ERROR: 'Nie udało się wygenerować lub skopiować opinii. Spróbuj ponownie.',
   PERSONA: {
     1: 'Persona',
     n: 'Persony',
@@ -338,6 +348,14 @@ export const messages: typeof messagesEN = {
   },
   LLM_DEFAULT_NARRATIVE_PROMPT:
     'Uzyj ponizszych elementow, aby zdefiniowac realistyczny scenariusz.',
+  LLM_INCLUDED_CATEGORIES: 'Uwzględnione kategorie',
+  LLM_PROMPT_TEXT: 'Prompt',
+  LLM_CATEGORY_REQUIRED: 'Wybierz co najmniej jedną kategorię dla tego promptu.',
+  LLM_DEFAULT_PERSONA_PROMPT:
+    'Opisz, jak wskazana persona postrzega tę sytuację, w tym proponowane środki oraz, jeśli to istotne, jak ją poinformować lub zaangażować. Oprzyj opinię na scenariuszu i opisach person; nie wymyślaj szczegółów. Zwróć wyłącznie opinię wskazanej persony, gotową do wklejenia w jej pole. Nie dodawaj nagłówka, nazwy persony ani bloków kodu.',
+  LLM_PERSONA_CONTEXT: 'Wybrane persony i opisy:\n{personas}',
+  LLM_PERSONA_TARGET: 'Napisz opinię tylko dla: {persona}',
+  LLM_SCENARIO_TEXT: 'Opis scenariusza:\n{narrative}',
   RESPONSE_INSTRUCTIONS:
     'Rozpocznij odpowiedź krótkim, opisowym tytułem w osobnej linii, następnie pustą linią, a potem główną treścią.',
   WIZARD_STEP1_TITLE: 'Informacje o scenariuszu',

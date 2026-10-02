@@ -287,7 +287,17 @@ export const messages: typeof messagesEN = {
     DESC: 'Schreiben Sie einen Absatz, in dem XXX durch den Wert für Schlüsselfaktor 1 usw. ersetzt wird. Leere Zeilen werden in Absätze umgewandelt.',
   },
   SELECT_PERSONA: 'Relevante Persona für Szenario auswählen',
-  PERSONA_IMPRESSION: 'Eindruck',
+  SELECT_PERSONA_HELP: 'Halten Sie fest, wie jede ausgewählte Persona ein gespeichertes Szenario wahrnimmt, auf Maßnahmen reagiert und informiert oder einbezogen werden sollte.',
+  PERSONA_IMPRESSION: 'Feedback der Persona',
+  COPY_PERSONA_PROMPT: 'Feedback-Prompt kopieren',
+  COPY_PERSONA_PROMPT_SHORT: 'Kopieren',
+  COPY_PERSONA_PROMPT_FOR: 'Feedback-Prompt für {persona} kopieren',
+  GENERATE_PERSONA_FEEDBACK: 'Feedback generieren',
+  GENERATE_PERSONA_FEEDBACK_SHORT: 'Generieren',
+  GENERATE_PERSONA_FEEDBACK_FOR: 'Feedback für {persona} generieren',
+  PERSONA_PROMPT_COPIED: 'Feedback-Prompt kopiert. Fügen Sie die Antwort in dieses Feld ein.',
+  PERSONA_PASTE_HINT: 'Fügen Sie die LLM-Antwort direkt in das Feld oben ein; sie wird automatisch gespeichert.',
+  PERSONA_FEEDBACK_ERROR: 'Feedback konnte nicht generiert oder kopiert werden. Versuchen Sie es erneut.',
   PERSONA: {
     1: 'Persona',
     n: 'Personas',
@@ -339,6 +349,14 @@ export const messages: typeof messagesEN = {
   },
   LLM_DEFAULT_NARRATIVE_PROMPT:
     'Verwenden Sie die folgenden Elemente, um ein realistisches Szenario zu definieren.',
+  LLM_INCLUDED_CATEGORIES: 'Einbezogene Kategorien',
+  LLM_PROMPT_TEXT: 'Prompt',
+  LLM_CATEGORY_REQUIRED: 'Wählen Sie mindestens eine Kategorie für diesen Prompt aus.',
+  LLM_DEFAULT_PERSONA_PROMPT:
+    'Beschreiben Sie, wie die Zielpersona diese Situation wahrnimmt, einschließlich vorgeschlagener Maßnahmen und gegebenenfalls wie sie informiert oder einbezogen werden sollte. Stützen Sie sich auf das Szenario und die Persona-Beschreibungen; erfinden Sie keine Details. Geben Sie nur das Feedback der Zielpersona zurück, direkt zum Einfügen in ihr Feedbackfeld. Keine Überschrift, kein Persona-Name und keine Codeblöcke.',
+  LLM_PERSONA_CONTEXT: 'Ausgewählte Personas und Beschreibungen:\n{personas}',
+  LLM_PERSONA_TARGET: 'Schreiben Sie Feedback nur für: {persona}',
+  LLM_SCENARIO_TEXT: 'Szenariobeschreibung:\n{narrative}',
   RESPONSE_INSTRUCTIONS:
     'Beginnen Sie Ihre Antwort mit einem kurzen, beschreibenden Titel in einer eigenen Zeile, dann einer Leerzeile, dann dem Hauptinhalt.',
   WIZARD_STEP1_TITLE: 'Szenarioinformationen',

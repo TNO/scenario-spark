@@ -77,7 +77,56 @@ test('each translated starter kit preserves every factor, constraint and templat
     assert.equal(model.scenario.label, data.boxes[0].label, language);
     assert.equal(model.scenario.components.length, data.boxes[0].categories.flatMap(({ factors }) => factors).length);
     assert.ok(model.scenario.llm.prompts[0].prompt.includes(data.effectsPrompt), language);
+    assert.deepEqual(model.personas, data.personas, language);
+    assert.deepEqual(
+      model.scenario.personas,
+      ['starter-event-visitor', 'starter-nearby-resident', 'starter-event-organiser'],
+      language
+    );
+    assert.ok(model.personas.every(({ id, label, desc, url }) =>
+      id && label && desc && url
+    ), language);
+    if (language !== 'nl') {
+      assert.deepEqual(
+        model.personas.map(({ id }) => id),
+        reference.personas.map(({ id }) => id),
+        language
+      );
+      assert.ok(model.personas.every((persona, index) =>
+        persona.label !== reference.personas[index].label &&
+        persona.desc !== reference.personas[index].desc
+      ), language);
+    }
+    const relevant = [model.scenario, ...model.scenarios].filter(
+      ({ personas }) => personas?.length
+    );
+    assert.deepEqual(
+      relevant.map(({ id }) => id),
+      ['starter-nl-evenementenveiligheid', 'starter-nl-hoogwater', 'starter-nl-dijkdoorbraak'],
+      language
+    );
+    assert.ok(relevant.every(({ personas }) =>
+      personas?.every((id) => model.personas.some((persona) => persona.id === id))
+    ), language);
   }
+});
+
+test('adding missing starter boxes also adds only their missing personas', async () => {
+  const starter = await loadStarterKit('en', []);
+  const resident = { ...starter.personas.find(({ id }) => id === 'starter-nearby-resident'), desc: 'Custom description' };
+  const existing = {
+    scenario: { id: 'own', label: 'My box' },
+    scenarios: [starter.scenarios[1]],
+    personas: [resident, { id: 'own-persona', label: 'Mine' }],
+  };
+  const merged = addStarterKitToModel(existing, starter);
+  assert.equal(merged.added, 9);
+  assert.equal(merged.model.scenarios[0], existing.scenarios[0]);
+  assert.equal(merged.model.personas[0], resident);
+  assert.deepEqual(
+    merged.model.personas.map(({ id }) => id),
+    ['starter-nearby-resident', 'own-persona', 'starter-event-visitor', 'starter-event-organiser']
+  );
 });
 
 test('switching languages never overwrites existing starter boxes', async () => {

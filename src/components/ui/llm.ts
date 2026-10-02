@@ -1,7 +1,8 @@
 import m from 'mithril';
 import { LayoutForm, UIForm } from 'mithril-ui-form';
+import { Select, TextArea, toast } from 'mithril-materialized';
 import { i18n, MeiosisComponent, saveModel, t } from '../../services';
-import { Narrative } from '../../models';
+import { Narrative, Persona } from '../../models';
 import {
   Category,
   ID,
@@ -37,8 +38,9 @@ const LEGACY_MULTILINGUAL_DEFAULT_NARRATIVE_PROMPT = [
 ].join('\n');
 
 const getDefaultNarrativePrompt = () => t('LLM_DEFAULT_NARRATIVE_PROMPT');
+const getDefaultPersonaPrompt = () => t('LLM_DEFAULT_PERSONA_PROMPT');
 
-const ensureDefaultLLMConfig = (
+export const ensureDefaultLLMConfig = (
   scenario: Partial<Scenario>,
   categories: Category[],
 ): boolean => {
@@ -47,6 +49,11 @@ const ensureDefaultLLMConfig = (
     type: 'narrative',
     categories: allCategoryIds,
     prompt: getDefaultNarrativePrompt(),
+  };
+  const defaultPersonaPrompt: Prompt = {
+    type: 'persona',
+    categories: allCategoryIds,
+    prompt: getDefaultPersonaPrompt(),
   };
 
   let changed = false;
@@ -57,7 +64,7 @@ const ensureDefaultLLMConfig = (
       url: '',
       model: 'gemma3',
       temperature: 0.7,
-      prompts: [defaultNarrativePrompt],
+      prompts: [defaultNarrativePrompt, defaultPersonaPrompt],
     };
     return true;
   }
@@ -68,7 +75,7 @@ const ensureDefaultLLMConfig = (
   }
 
   if (!Array.isArray(scenario.llm.prompts)) {
-    scenario.llm.prompts = [defaultNarrativePrompt];
+    scenario.llm.prompts = [defaultNarrativePrompt, defaultPersonaPrompt];
     changed = true;
   }
 
@@ -78,32 +85,50 @@ const ensureDefaultLLMConfig = (
   if (!narrativePrompt) {
     scenario.llm.prompts.push(defaultNarrativePrompt);
     changed = true;
-  } else if (
-    !Array.isArray(narrativePrompt.categories) ||
-    narrativePrompt.categories.length === 0
-  ) {
-    narrativePrompt.categories = allCategoryIds;
-    changed = true;
+  } else {
+    if (
+      !Array.isArray(narrativePrompt.categories) ||
+      narrativePrompt.categories.length === 0
+    ) {
+      narrativePrompt.categories = allCategoryIds;
+      changed = true;
+    }
+    if (
+      !narrativePrompt.prompt?.trim() ||
+      narrativePrompt.prompt === LEGACY_MULTILINGUAL_DEFAULT_NARRATIVE_PROMPT
+    ) {
+      narrativePrompt.prompt = getDefaultNarrativePrompt();
+      changed = true;
+    }
   }
 
-  if (!narrativePrompt?.prompt?.trim()) {
-    narrativePrompt!.prompt = getDefaultNarrativePrompt();
+  const personaPrompt = scenario.llm.prompts.find((p) => p.type === 'persona');
+  if (!personaPrompt) {
+    scenario.llm.prompts.push(defaultPersonaPrompt);
     changed = true;
-  }
-
-  if (
-    narrativePrompt &&
-    narrativePrompt.prompt === LEGACY_MULTILINGUAL_DEFAULT_NARRATIVE_PROMPT
-  ) {
-    narrativePrompt.prompt = getDefaultNarrativePrompt();
-    changed = true;
+  } else {
+    if (
+      !Array.isArray(personaPrompt.categories) ||
+      personaPrompt.categories.length === 0
+    ) {
+      personaPrompt.categories = allCategoryIds;
+      changed = true;
+    }
+    if (!personaPrompt.prompt?.trim()) {
+      personaPrompt.prompt = getDefaultPersonaPrompt();
+      changed = true;
+    }
   }
 
   return changed;
 };
 
 export const LLMSelector: MeiosisComponent = () => {
-  const form = (categories: Category[]) =>
+  let selectedType: 'narrative' | 'persona' = 'narrative';
+  let configuredScenario: Scenario | undefined;
+  const PromptTypeSelect = Select<'narrative' | 'persona'>();
+  const CategorySelect = Select<ID>();
+  const form = () =>
     [
       {
         id: 'llm',
@@ -165,40 +190,6 @@ export const LLMSelector: MeiosisComponent = () => {
             className: 'col s12 m6',
             show: 'id!=clipboard',
           },
-          {
-            id: 'prompts',
-            label: t('PROMPT_TYPE', 'PROMPTS'),
-            repeat: true,
-            pageSize: 4,
-            max: 4,
-            type: [
-              {
-                id: 'type',
-                label: t('PROMPT_TYPE', 'LABEL'),
-                type: 'select',
-                options: [
-                  { id: 'narrative', label: t('PROMPT_TYPE', 'NARRATIVE') },
-                  // { id: 'effect', label: t('PROMPT_TYPE', 'EFFECT') },
-                  // { id: 'persona', label: t('PROMPT_TYPE', 'PERSONA') },
-                  // { id: 'communications', label: t('PROMPT_TYPE', 'COM') },
-                ],
-                className: 'col s12 m4',
-              },
-              {
-                id: 'categories',
-                label: 'Included categories',
-                type: 'select',
-                multiple: true,
-                options: categories,
-                className: 'col s12 m8',
-              },
-              {
-                id: 'prompt',
-                label: 'PROMPT',
-                type: 'textarea',
-              },
-            ],
-          },
         ] as UIForm<LLMConfig>,
       },
     ] as UIForm<Partial<Scenario>>;
@@ -211,14 +202,18 @@ export const LLMSelector: MeiosisComponent = () => {
       if (ensureDefaultLLMConfig(model.scenario, categories)) {
         await saveModel(attrs, model);
       }
+      configuredScenario = model.scenario;
     },
     onbeforeupdate: ({ attrs }) => {
       const {
         state: { model },
       } = attrs;
       const { categories = [] } = model.scenario || {};
-      if (ensureDefaultLLMConfig(model.scenario, categories)) {
-        void saveModel(attrs, model);
+      if (configuredScenario !== model.scenario) {
+        if (ensureDefaultLLMConfig(model.scenario, categories)) {
+          void saveModel(attrs, model);
+        }
+        configuredScenario = model.scenario;
       }
       return true;
     },
@@ -227,21 +222,63 @@ export const LLMSelector: MeiosisComponent = () => {
         state: { model },
       } = attrs;
       const { categories = [] } = model.scenario || {};
-      return m(LayoutForm<Partial<Scenario>>, {
-        i18n: i18n.i18n,
-        form: form(categories),
-        obj: model.scenario,
-        onchange: async () => {
-          await saveModel(attrs, model);
-        },
-        //                onchange: (isValid) => {
-        //   console.log(
-        //     `LLMSelector model is valid ${isValid}:`,
-        //     model.scenario.llm
-        //   );
-        //   saveModel(attrs, model);
-        // },
-      });
+      const selectedPrompt = model.scenario.llm?.prompts.find(
+        (p) => p.type === selectedType,
+      );
+      return m('div', [
+        m(LayoutForm<Partial<Scenario>>, {
+          i18n: i18n.i18n,
+          form: form(),
+          obj: model.scenario,
+          onchange: async () => {
+            await saveModel(attrs, model);
+          },
+        }),
+        selectedPrompt &&
+          m('.row.llm-prompt-editor', [
+            m(PromptTypeSelect, {
+              label: t('PROMPT_TYPE', 'LABEL'),
+              className: 'col s12 m4',
+              checkedId: selectedType,
+              options: [
+                { id: 'narrative', label: t('PROMPT_TYPE', 'NARRATIVE') },
+                { id: 'persona', label: t('PROMPT_TYPE', 'PERSONA') },
+              ],
+              onchange: (ids) => {
+                if (ids[0] === 'narrative' || ids[0] === 'persona') {
+                  selectedType = ids[0];
+                }
+              },
+            }),
+            m(CategorySelect, {
+              label: t('LLM_INCLUDED_CATEGORIES'),
+              className: 'col s12 m8',
+              multiple: true,
+              checkedId: selectedPrompt.categories,
+              options: categories,
+              onchange: async (ids) => {
+                if (ids.length === 0) {
+                  toast({ html: t('LLM_CATEGORY_REQUIRED') });
+                  return;
+                }
+                selectedPrompt.categories = ids;
+                await saveModel(attrs, model);
+              },
+            }),
+            m(TextArea, {
+              label: t('LLM_PROMPT_TEXT'),
+              className: 'col s12',
+              value: selectedPrompt.prompt,
+              oninput: (value) => {
+                selectedPrompt.prompt = value;
+              },
+              onchange: async (value) => {
+                selectedPrompt.prompt = value;
+                await saveModel(attrs, model);
+              },
+            }),
+          ]),
+      ]);
     },
   };
 };
@@ -252,6 +289,11 @@ export const generateStory = async (
   categories: Category[],
   components: ScenarioComponent[],
   storyType: PromptType = 'narrative',
+  personaContext?: {
+    target: Persona;
+    selected: Persona[];
+    narrativeText: string;
+  },
 ) => {
   const { id, apiKey, prompts = [] } = config;
   let storyPrompt = prompts.filter((p) => p.type === storyType).shift();
@@ -260,11 +302,13 @@ export const generateStory = async (
     !storyPrompt.prompt ||
     !storyPrompt.categories ||
     storyPrompt.categories.length === 0
-  )
+  ) {
+    if (storyType === 'persona') {
+      throw new Error('Configure a persona prompt with at least one category.');
+    }
     return '';
+  }
   const { prompt, categories: includedCategories = [] } = storyPrompt;
-
-  console.log('Generating story with:', config, narrative, components);
 
   let url = config.url || '';
   let model = config.model || '';
@@ -322,15 +366,35 @@ export const generateStory = async (
     })
     .join('\n');
 
-  console.log(translatedNarrative);
-
-  const userPrompt =
-    (prompt ?? '') +
-    '\n\n' +
-    // '\n\nCreate a story with the following elements:\n\n' +
-    translatedNarrative;
+  if (storyType === 'persona' && !personaContext) {
+    throw new Error('Persona context is required for feedback generation.');
+  }
+  const userPrompt = [
+    prompt,
+    translatedNarrative,
+    personaContext && t('LLM_PERSONA_CONTEXT', {
+      personas: personaContext.selected
+        .map((p) => `- ${p.label}${p.desc ? `: ${p.desc}` : ''}`)
+        .join('\n'),
+    }),
+    personaContext && t('LLM_PERSONA_TARGET', { persona: personaContext.target.label }),
+    personaContext?.narrativeText &&
+      t('LLM_SCENARIO_TEXT', { narrative: personaContext.narrativeText }),
+  ]
+    .filter(Boolean)
+    .join('\n\n');
 
   if (id === 'clipboard') return userPrompt;
+
+  if (storyType === 'persona') {
+    const result = await LLMClient.chatRaw(
+      { provider: id as 'ollama' | 'openai', url, model, apiKey, temperature: config.temperature },
+      userPrompt,
+    );
+    if (typeof result !== 'string') throw new Error(result.message);
+    if (!result.trim()) throw new Error('Empty response from LLM');
+    return result.trim();
+  }
 
   const result = await LLMClient.chat(
     {

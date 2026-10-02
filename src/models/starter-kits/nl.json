@@ -1,5 +1,25 @@
 {
   "effectsPrompt": "Beschrijf daarnaast afzonderlijk de mogelijke effecten op korte termijn (uren tot dagen) en middellange termijn (weken tot maanden) voor betrokkenen, dienstverlening en besluitvorming. Benoem minstens twee plausibele gamechangers: geef per gamechanger de voorwaarde waaronder het scenario kan kantelen en het mogelijke gevolg, zonder de gekozen stuurfactorwaarden als feiten te veranderen. Scheid vastgestelde gevolgen, aannames en voorwaardelijke ontwikkelingen. Plaats de gevraagde twee reflectie- of oefenvragen aan het einde.",
+  "personas": [
+    {
+      "id": "starter-event-visitor",
+      "label": "Evenementbezoeker",
+      "desc": "Bezoekt een onbekend publiek evenement en vertrouwt op duidelijke instructies ter plaatse, toegankelijke routes en tijdige updates als plannen veranderen.",
+      "url": "families1"
+    },
+    {
+      "id": "starter-nearby-resident",
+      "label": "Omwonende",
+      "desc": "Woont dicht bij een getroffen gebied en heeft tijdige, toegankelijke informatie nodig over veiligheid, bereikbaarheid van huis en voorzieningen en de duur van de verstoring.",
+      "url": "families2"
+    },
+    {
+      "id": "starter-event-organiser",
+      "label": "Evenementorganisator",
+      "desc": "Coördineert bezoekersveiligheid, publieksstromen en informatie voor medewerkers en bezoekers en weegt af of en hoe het evenement kan doorgaan.",
+      "url": "female_worker_with_laptop1"
+    }
+  ],
   "boxes": [
     {
       "id": "evenementenveiligheid",

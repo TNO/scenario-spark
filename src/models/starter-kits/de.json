@@ -1,5 +1,25 @@
 {
   "effectsPrompt": "Beschreiben Sie außerdem getrennt die möglichen kurzfristigen (Stunden bis Tage) und mittelfristigen Auswirkungen (Wochen bis Monate) auf Betroffene, Dienstleistungen und Entscheidungsprozesse. Nennen Sie mindestens zwei plausible Wendepunkte: Geben Sie für jeden Wendepunkt an, unter welcher Bedingung sich das Szenario verändern könnte und welche Folgen dies hätte, ohne die gewählten Einflussfaktorwerte nachträglich als andere Tatsachen darzustellen. Trennen Sie festgestellte Folgen, Annahmen und bedingte Entwicklungen. Stellen Sie die zwei geforderten Reflexions- oder Übungsfragen an das Ende.",
+  "personas": [
+    {
+      "id": "starter-event-visitor",
+      "label": "Veranstaltungsbesucher",
+      "desc": "Besucht eine öffentliche Veranstaltung an einem unbekannten Ort und ist bei Änderungen auf klare Hinweise vor Ort, barrierefreie Wege und zeitnahe Informationen angewiesen.",
+      "url": "families1"
+    },
+    {
+      "id": "starter-nearby-resident",
+      "label": "Anwohner",
+      "desc": "Lebt in der Nähe eines betroffenen Gebiets und benötigt zeitnahe, zugängliche Informationen über Sicherheit, die Erreichbarkeit von Wohnung und Versorgung sowie die voraussichtliche Dauer der Störung.",
+      "url": "families2"
+    },
+    {
+      "id": "starter-event-organiser",
+      "label": "Veranstalter",
+      "desc": "Koordiniert die Sicherheit der Besucher, Personenströme und die Information von Personal und Gästen und wägt ab, ob und wie die Veranstaltung fortgesetzt werden kann.",
+      "url": "female_worker_with_laptop1"
+    }
+  ],
   "boxes": [
     {
       "id": "evenementenveiligheid",

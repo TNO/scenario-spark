@@ -14,6 +14,14 @@ For an overview, see the [5 minute video introduction](https://www.youtube.com/w
 - Can integrate with LLM-service, or by using copy-paste.
 - First-time visitors receive ten public-safety and continuity boxes in the selected app language, each with four categories, described key drivers, impossible combinations, an example scenario, a prose template covering every driver, and a tailored LLM prompt addressing short- and medium-term effects and conditional game changers. Each language's kit is loaded on demand from its own JSON file; the current language is cached for offline use once online. Existing browser collections are not translated or replaced when the app language changes. Use **Add starter kit** to append only missing boxes in the current app language without changing existing ones. To get an updated version of a starter box already in your collection, remove that old box first; **New collection** replaces the entire collection (download it first if needed).
 
+## Persona feedback
+
+Personas are reusable audience profiles. Select the relevant personas for each morphological box independently of decision support. For each saved scenario, their feedback captures a **hypothetical perspective**: how they might perceive the situation, respond to proposed measures, and need to be informed or involved. It is not evidence from real people. Each persona has a separate feedback field so their perspectives stay distinct.
+
+New starter collections include translated profiles for an event visitor, a nearby resident and an event organiser. Event safety selects all three; high water and levee breach select the resident. Adding missing starter boxes also adds only their missing profiles without replacing existing personas or box selections.
+
+In the box's LLM settings, choose **Narrative prompt** or **Persona prompt** in the prompt-type selector to edit its included categories and text; there is one editor, not an addable list of prompts. On a saved scenario, use **Copy feedback prompt** beside a persona to send its prompt to an external LLM; paste its plain-text response directly into that persona's feedback field. With Ollama or OpenAI configured, **Generate feedback** fills that field automatically. The prompt includes the selected scenario factors, the narrative when available, and the selected personas and their descriptions, while requesting a response for only the chosen persona.
+
 ## Development
 
 ```bash
