@@ -34,7 +34,6 @@ import {
   Dashboards,
   DataModel,
   Narrative,
-  OldDataModel,
   Scenario,
   ScenarioComponent,
   defaultModels,
@@ -49,6 +48,7 @@ import {
 } from '../utils';
 import { NewScenarioWizard } from './new-scenario-wizard';
 import { LLMScenarioWizard } from './llm-scenario-wizard';
+import { parseImportedModel } from '../utils/import-model';
 
 export const TableView: MeiosisComponent<{
   narratives: Narrative[];
@@ -149,6 +149,8 @@ export const HomePage: MeiosisComponent = () => {
   let narrativeFilter = '';
   let importConflictModal = false;
   let pendingScenario: Scenario | null = null;
+  let confirmCollectionImport = false;
+  let pendingCollection: DataModel | null = null;
 
   return {
     oninit: ({ attrs }) => {
@@ -392,68 +394,6 @@ export const HomePage: MeiosisComponent = () => {
                       localStorage.setItem(SAVED, 'true');
                     },
                   }),
-                  readerAvailable &&
-                    m(FlatButton, {
-                      className: 'icon-button',
-                      iconName: 'upload',
-                      title: t('UPLOAD', 'MODEL'),
-                      onclick: () => {
-                        console.log('UPLOAD');
-                        uploadFile((files) => {
-                          if (!files || (files && files.length <= 0)) {
-                            return;
-                          }
-                          const data = files && files.item(0);
-                          const isJson = data && /json$/i.test(data.name);
-                          const reader = new FileReader();
-                          reader.onload = async (
-                            e: ProgressEvent<FileReader>
-                          ) => {
-                            if (isJson) {
-                              const result = (e &&
-                                e.target &&
-                                e.target.result) as string;
-                              const scenario = JSON.parse(
-                                result.toString()
-                              ) as Scenario;
-                              if (
-                                scenario &&
-                                scenario.id &&
-                                scenario.label
-                              ) {
-                                if (
-                                  model.scenario.id === scenario.id ||
-                                  model.scenarios?.some(
-                                    (s) => s.id === scenario.id
-                                  )
-                                ) {
-                                  // Duplicate scenario — ask user what to do
-                                  pendingScenario = scenario;
-                                  importConflictModal = true;
-                                  m.redraw();
-                                } else {
-                                  if (!model.scenarios) model.scenarios = [];
-                                  model.scenarios = [
-                                    model.scenario,
-                                    ...model.scenarios,
-                                  ];
-                                  model.scenario = scenario;
-                                  saveModel(attrs, model, true);
-                                  toast({ html: t('SCENARIO_LOADED_MSG') });
-                                }
-                              } else {
-                                toast({ html: t('SCENARIO_NOT_LOADED_MSG') });
-                              }
-                            }
-                          };
-                          if (data) {
-                            isJson
-                              ? reader.readAsText(data)
-                              : reader.readAsArrayBuffer(data);
-                          }
-                        });
-                      },
-                    }),
                     m(ConfirmButton, {
                       className: 'icon-button',
                       iconName: 'delete',
@@ -511,37 +451,49 @@ export const HomePage: MeiosisComponent = () => {
               m(Button, {
                 iconName: 'upload',
                 className: 'btn-large',
-                label: t('UPLOAD', 'COLLECTION'),
+                label: t('UPLOAD_FILE'),
                 onclick: () => {
                   uploadFile((files) => {
-                    if (!files || (files && files.length <= 0)) {
-                      return;
-                    }
-                    const data = files && files.item(0);
-                    const isJson = data && /json$/i.test(data.name);
+                    const data = files.item(0);
+                    if (!data) return;
                     const reader = new FileReader();
-                    reader.onload = async (e: ProgressEvent<FileReader>) => {
-                      if (isJson) {
-                        const result = (e &&
-                          e.target &&
-                          e.target.result) as string;
-                        const json = JSON.parse(result.toString()) as
-                          | DataModel
-                          | OldDataModel;
-                        if (json) {
-                          const dataModel = json.version
-                            ? (json as DataModel)
-                            : convertFromOld(json as OldDataModel);
-                          saveModel(attrs, dataModel, true);
-                          toast({ html: t('COLLECTION_LOADED_MSG') });
+                    reader.onerror = () => {
+                      toast({ html: t('IMPORT_READ_ERROR') });
+                    };
+                    reader.onload = async () => {
+                      let imported: ReturnType<typeof parseImportedModel>;
+                      try {
+                        imported = parseImportedModel(reader.result as string);
+                      } catch (error) {
+                        if (!(error instanceof Error)) throw error;
+                        toast({ html: t('JSON_NOT_VALID') });
+                        return;
+                      }
+                      if (imported.kind === 'scenario') {
+                        const scenario = imported.value;
+                        if (
+                          model.scenario.id === scenario.id ||
+                          model.scenarios?.some((s) => s.id === scenario.id)
+                        ) {
+                          pendingScenario = scenario;
+                          importConflictModal = true;
+                          m.redraw();
+                        } else {
+                          model.scenarios = [model.scenario, ...model.scenarios];
+                          model.scenario = scenario;
+                          await saveModel(attrs, model, true);
+                          toast({ html: t('SCENARIO_LOADED_MSG') });
                         }
+                      } else {
+                        pendingCollection =
+                          imported.kind === 'legacy'
+                            ? convertFromOld(imported.value)
+                            : imported.value;
+                        confirmCollectionImport = true;
+                        m.redraw();
                       }
                     };
-                    if (data) {
-                      isJson
-                        ? reader.readAsText(data)
-                        : reader.readAsArrayBuffer(data);
-                    }
+                    reader.readAsText(data);
                   });
                 },
               }),
@@ -680,6 +632,33 @@ export const HomePage: MeiosisComponent = () => {
                       ? Dashboards.SETTINGS
                       : Dashboards.DEFINE_BOX
                   );
+                },
+              },
+            ],
+          }),
+          m(ModalPanel, {
+            id: 'confirmCollectionImport',
+            isOpen: confirmCollectionImport,
+            onToggle: (open) => {
+              if (!open) {
+                pendingCollection = null;
+                confirmCollectionImport = false;
+              }
+            },
+            title: t('IMPORT_COLLECTION_TITLE'),
+            description: t('IMPORT_COLLECTION_MSG'),
+            closeOnButtonClick: true,
+            buttons: [
+              { label: t('CANCEL'), iconName: 'cancel' },
+              {
+                label: t('IMPORT_OVERWRITE'),
+                iconName: 'upload',
+                onclick: async () => {
+                  if (!pendingCollection) return;
+                  await saveModel(attrs, pendingCollection, true);
+                  toast({ html: t('COLLECTION_LOADED_MSG') });
+                  pendingCollection = null;
+                  confirmCollectionImport = false;
                 },
               },
             ],

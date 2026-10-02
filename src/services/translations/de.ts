@@ -16,6 +16,11 @@ export const messages: typeof messagesEN = {
     COLLECTION: 'Sammlung laden',
     MODEL: 'Szenariodatei laden',
   },
+  UPLOAD_FILE: 'Szenario oder Sammlung laden',
+  IMPORT_READ_ERROR: 'Die ausgewählte Datei konnte nicht gelesen werden.',
+  IMPORT_COLLECTION_TITLE: 'Sammlung ersetzen?',
+  IMPORT_COLLECTION_MSG:
+    'Diese Datei enthält eine Sammlung. Beim Laden wird Ihre aktuelle Sammlung einschließlich nicht gespeicherter Änderungen ersetzt. Fortfahren?',
   CANCEL: 'Abbrechen',
   DELETE: 'Löschen',
   AND: 'und',

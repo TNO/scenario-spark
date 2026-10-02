@@ -16,6 +16,11 @@ export const messages: typeof messagesEN = {
     COLLECTION: 'Charger la collection',
     MODEL: 'Charger le fichier de scénario',
   },
+  UPLOAD_FILE: 'Charger un scénario ou une collection',
+  IMPORT_READ_ERROR: 'Impossible de lire le fichier sélectionné.',
+  IMPORT_COLLECTION_TITLE: 'Remplacer la collection ?',
+  IMPORT_COLLECTION_MSG:
+    'Ce fichier contient une collection. Son chargement remplacera votre collection actuelle, y compris les modifications non enregistrées. Continuer ?',
   CANCEL: 'Annuler',
   DELETE: 'Supprimer',
   AND: 'et',

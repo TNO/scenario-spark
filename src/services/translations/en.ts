@@ -14,6 +14,11 @@ export const messages = {
     COLLECTION: 'Load collection',
     MODEL: 'Load scenario file',
   },
+  UPLOAD_FILE: 'Load scenario or collection',
+  IMPORT_READ_ERROR: 'Could not read the selected file.',
+  IMPORT_COLLECTION_TITLE: 'Replace collection?',
+  IMPORT_COLLECTION_MSG:
+    'This file contains a collection. Loading it replaces your current collection, including unsaved changes. Continue?',
   CANCEL: 'Cancel',
   DELETE: 'Delete',
   AND: 'and',

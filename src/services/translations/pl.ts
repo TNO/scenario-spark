@@ -16,6 +16,11 @@ export const messages: typeof messagesEN = {
     COLLECTION: 'Wczytaj kolekcję',
     MODEL: 'Wczytaj plik scenariusza',
   },
+  UPLOAD_FILE: 'Wczytaj scenariusz lub kolekcję',
+  IMPORT_READ_ERROR: 'Nie można odczytać wybranego pliku.',
+  IMPORT_COLLECTION_TITLE: 'Zastąpić kolekcję?',
+  IMPORT_COLLECTION_MSG:
+    'Ten plik zawiera kolekcję. Wczytanie go zastąpi bieżącą kolekcję, w tym niezapisane zmiany. Kontynuować?',
   CANCEL: 'Anuluj',
   DELETE: 'Usuń',
   AND: 'i',

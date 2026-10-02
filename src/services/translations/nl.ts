@@ -16,6 +16,11 @@ export const messages: typeof messagesEN = {
     COLLECTION: 'Lees collectie',
     MODEL: 'Lees scenario bestand',
   },
+  UPLOAD_FILE: 'Laad scenario of collectie',
+  IMPORT_READ_ERROR: 'Het geselecteerde bestand kon niet worden gelezen.',
+  IMPORT_COLLECTION_TITLE: 'Collectie vervangen?',
+  IMPORT_COLLECTION_MSG:
+    'Dit bestand bevat een collectie. Bij het laden wordt je huidige collectie vervangen, inclusief niet-opgeslagen wijzigingen. Doorgaan?',
   CANCEL: 'Afbreken',
   DELETE: 'Verwijderen',
   AND: 'en',
