@@ -8,7 +8,7 @@ For an overview, see the [5 minute video introduction](https://www.youtube.com/w
 
 - [Online morphological box tool](tno.github.io/scenario-spark), free to use and modify.
 - All data is stored locally, in your browser, and can be downloaded as JSON.
-- Supports one or more morphological boxes to define a single scenario. For example, one for a dissaster scenario, and one for measures.
+- A collection holds multiple morphological boxes. Select a box on the home page to create or reopen its scenarios; edit the box separately to change its factors and constraints. The box actions menu contains new, AI-generated, download, and delete options; the globe icon beside the theme switcher changes language.
 - Items can have a location on the map, optionally including radii.
 - Supports modelling inconsistencies, e.g. a small research reactor can only produce modest radiation levels during an incident.
 - Can integrate with LLM-service, or by using copy-paste.

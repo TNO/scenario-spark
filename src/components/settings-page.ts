@@ -228,7 +228,7 @@ export const SettingsPage: MeiosisComponent = () => {
           m(Tabs, {
             tabs: [
               {
-                title: t('MODEL'),
+                title: t('DEFINE_BOX', 'TITLE'),
                 vnode: m('.model-settings', [
                   m(
                     '.row',
@@ -237,7 +237,7 @@ export const SettingsPage: MeiosisComponent = () => {
                       iconName: 'delete',
                       label: t('DELETE'),
                       onclick: () => {
-                        saveModel(attrs, emptyModel());
+                        saveModel(attrs, emptyModel(t('NEW_BOX')));
                       },
                     }),
                     m(FlatButton, {

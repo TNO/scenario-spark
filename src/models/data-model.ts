@@ -1,5 +1,5 @@
 import { Translate, Options } from 'translate.js';
-import { messages } from '../services';
+import type { messages } from '../services';
 import { uniqueId } from 'mithril-materialized';
 import { LLMConfig } from '../components/ui/llm';
 import type { Languages } from '../services/translations';
@@ -206,9 +206,9 @@ export const thresholdColors = [
   { threshold: 3, color: '#ff0000' },
 ];
 
-export const newScenario = () => ({
+export const newScenario = (label = '') => ({
   id: uniqueId(),
-  label: 'NEW SCENARIO',
+  label,
   desc: '',
   includeDecisionSupport: false,
   hideInconsistentValues: false,
@@ -219,12 +219,12 @@ export const newScenario = () => ({
   thresholdColors,
 });
 
-export const emptyModel = () =>
+export const emptyModel = (label = '') =>
   ({
     version: 1,
     lastUpdate: new Date().valueOf(),
     scenarios: [],
-    scenario: newScenario(),
+    scenario: newScenario(label),
     personas: [],
   } as DataModel);
 
@@ -235,8 +235,8 @@ export const emptyModel = () =>
  *    MODEL_NAME, MODEL_DESC
  * where the index of the model should match.
  */
-export const defaultModels: Array<(language: Languages) => DataModel | Promise<DataModel>> = [
-  emptyModel,
+export const defaultModels: Array<(language: Languages, emptyBoxLabel: string) => DataModel | Promise<DataModel>> = [
+  (_language, emptyBoxLabel) => emptyModel(emptyBoxLabel),
   (language) => loadStarterKit(language, thresholdColors),
 ];
 
