@@ -18,6 +18,8 @@ export const messages = {
   },
   UPLOAD_FILE: 'Load scenario or collection',
   IMPORT_READ_ERROR: 'Could not read the selected file.',
+  COLLECTION_LOAD_FAILED: 'Could not load the collection. Check your connection and reload the page.',
+  STARTER_KIT_LOAD_FAILED: 'Could not load the starter kit. Check your connection and try again.',
   IMPORT_COLLECTION_TITLE: 'Replace collection?',
   IMPORT_COLLECTION_MSG:
     'This file contains a collection. Loading it replaces your current collection, including unsaved changes. Continue?',
@@ -194,11 +196,11 @@ export const messages = {
   },
   MODEL_NAMES: {
     0: 'Empty model',
-    1: 'Dutch starter kit',
+    1: 'Starter kit',
   },
   MODEL_DESC: {
     0: 'Start with an empty morphological box.',
-    1: 'Ten Dutch exercise boxes with sample scenarios, constraints and LLM prompts.',
+    1: 'Ten exercise boxes in your language with examples, constraints, prose templates and LLM prompts.',
   },
   JSON_NOT_VALID: 'JSON model file not valid! Aborting.',
   NO_NARRATIVE: 'Narrative not generated in 100 tries!',

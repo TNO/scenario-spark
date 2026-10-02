@@ -51,10 +51,18 @@ window.onbeforeunload = (e) => {
   // e.returnValue = ''; // For modern browsers
 };
 
-i18n.addOnChangeListener((_locale: string) => {
+i18n.addOnChangeListener((locale: string) => {
   console.log(`Language loaded`);
   routingSvc.init();
   m.route(document.body, routingSvc.defaultRoute, routingSvc.routingTable());
+  if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+    navigator.serviceWorker.ready
+      .then((registration) => {
+        if (!registration.active) throw new Error('No active service worker');
+        registration.active.postMessage({ type: 'CACHE_STARTER_KIT', language: locale });
+      })
+      .catch((error) => console.error('Could not request starter kit cache:', error));
+  }
 });
 i18n.init(
   AllLanguages,

@@ -22,6 +22,7 @@ import PolishFlag from '../assets/flag-pl.png';
 import {
   changePage,
   MeiosisComponent,
+  i18n,
   routingSvc,
   saveModel,
   selectScenarioFromCollection,
@@ -39,7 +40,7 @@ import {
   newScenario,
   thresholdColors,
 } from '../models';
-import { addStarterKitToModel, createStarterKitNl } from '../models/starter-kit-nl';
+import { addStarterKitToModel, loadStarterKit } from '../models/starter-kit';
 import {
   SAVED,
   capitalize,
@@ -419,10 +420,15 @@ export const HomePage: MeiosisComponent = () => {
               label: t('ADD_STARTER_KIT'),
               title: t('ADD_STARTER_KIT_HINT'),
               onclick: async () => {
-                const result = addStarterKitToModel(
-                  model,
-                  createStarterKitNl(thresholdColors)
-                );
+                let starter: DataModel;
+                try {
+                  starter = await loadStarterKit(i18n.currentLocale, thresholdColors);
+                } catch (error) {
+                  console.error('Could not load starter kit', error);
+                  toast({ html: t('STARTER_KIT_LOAD_FAILED') });
+                  return;
+                }
+                const result = addStarterKitToModel(model, starter);
                 if (result.added) await saveModel(attrs, result.model);
                 toast({
                   html: result.added
@@ -628,7 +634,15 @@ export const HomePage: MeiosisComponent = () => {
                 label: t('OK'),
                 iconName: 'delete',
                 onclick: async () => {
-                  await saveModel(attrs, defaultModels[selectedId](), true);
+                  let preset: DataModel;
+                  try {
+                    preset = await defaultModels[selectedId](i18n.currentLocale);
+                  } catch (error) {
+                    console.error('Could not load starter kit', error);
+                    toast({ html: t('STARTER_KIT_LOAD_FAILED') });
+                    return;
+                  }
+                  await saveModel(attrs, preset, true);
                   routingSvc.switchTo(
                     selectedId === 0
                       ? Dashboards.SETTINGS

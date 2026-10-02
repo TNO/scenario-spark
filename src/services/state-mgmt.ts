@@ -8,9 +8,11 @@ import {
   ID,
   Narrative,
   Scenario,
-  defaultModel,
+  emptyModel,
   thresholdColors,
 } from '../models';
+import { loadStarterKit } from '../models/starter-kit';
+import type { Languages } from './translations';
 import { ldb } from '../utils/local-ldb';
 import {
   MeiosisCell,
@@ -31,6 +33,8 @@ export type State = {
   fontSize: number;
   page: Dashboards;
   model: DataModel;
+  modelReady: boolean;
+  modelLoadError: boolean;
   title: string;
   language: string;
   activeTooltip?: string;
@@ -285,12 +289,18 @@ export const setMapHeight = (cell: MeiosisCell<State>, height: number) => {
 
 const initialize = async (update: Update<State>) => {
   const ds = await ldb.get(MODEL_KEY);
-  const model = ds ? JSON.parse(ds) : defaultModel;
+  const model = ds
+    ? JSON.parse(ds)
+    : await loadStarterKit(
+        (localStorage.getItem(LANGUAGE) || 'nl') as Languages,
+        thresholdColors
+      );
   const title = model.scenario?.label || '';
   setTitle(title);
 
   update({
     model: () => ({ ...model }),
+    modelReady: true,
     title,
   });
 };
@@ -309,7 +319,9 @@ const app: MComp<State> = {
   initial: {
     title: '',
     page: Dashboards.HOME,
-    model: defaultModel,
+    model: emptyModel(),
+    modelReady: false,
+    modelLoadError: false,
     fontSize:
       parseInt(localStorage.getItem(FONT_KEY) || '') || DEFAULT_FONT_SIZE,
     language: localStorage.getItem(LANGUAGE) || 'nl',
@@ -320,7 +332,10 @@ const app: MComp<State> = {
 };
 
 export const cells = meiosisSetup<State>({ app });
-initialize(cells().update);
+initialize(cells().update).catch((error: unknown) => {
+  console.error('Could not load collection', error);
+  cells().update({ modelLoadError: true });
+});
 
 // initialize once on load
 setFontSize(cells(), app.initial?.fontSize || DEFAULT_FONT_SIZE);

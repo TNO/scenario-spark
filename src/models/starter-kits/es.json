@@ -1,0 +1,3343 @@
+{
+  "effectsPrompt": "Describe también por separado los posibles efectos a corto plazo (de horas a días) y a medio plazo (de semanas a meses) para las personas afectadas, los servicios y la toma de decisiones. Indica al menos dos posibles factores de cambio decisivos: señala para cada uno la condición que podría cambiar el rumbo del escenario y su posible consecuencia, sin alterar como hechos los valores de los factores elegidos. Distingue entre consecuencias constatadas, hipótesis y acontecimientos condicionados. Sitúa las dos preguntas de reflexión o ejercicio solicitadas al final.",
+  "boxes": [
+    {
+      "id": "evenementenveiligheid",
+      "label": "Seguridad en eventos",
+      "desc": "Una caja de ejercicios con cuatro capas: características del evento, perturbaciones, medidas y efectos. Combínelas para debatir las hipótesis sobre visitantes, accesibilidad, aforo, toma de decisiones y recuperación. Se permite deliberadamente que la asistencia prevista supere el aforo autorizado: precisamente eso puede plantear un dilema relevante.\n\nFuente: [NIPV – Seguridad en eventos](https://nipv.nl/onderzoek/evenementenveiligheid/).",
+      "categories": [
+        {
+          "id": "evenement",
+          "label": "Características del evento",
+          "desc": "El tipo, la ubicación, la escala, la duración y la composición del público determinan la situación inicial.",
+          "factors": [
+            {
+              "id": "soort",
+              "label": "Tipo de evento",
+              "desc": "¿Qué encuentro constituye el punto de partida del ejercicio?",
+              "values": [
+                [
+                  "festival",
+                  "Festival cultural"
+                ],
+                [
+                  "wedstrijd",
+                  "Competición deportiva"
+                ],
+                [
+                  "markt",
+                  "Mercado público"
+                ]
+              ]
+            },
+            {
+              "id": "terrein",
+              "label": "Recinto",
+              "desc": "¿Cómo está configurado físicamente el espacio para el público?",
+              "values": [
+                [
+                  "openbaar",
+                  "Espacio público al aire libre"
+                ],
+                [
+                  "afgesloten",
+                  "Recinto cerrado"
+                ],
+                [
+                  "gebouw",
+                  "Edificio o pabellón"
+                ]
+              ]
+            },
+            {
+              "id": "opkomst",
+              "label": "Asistencia prevista",
+              "desc": "¿Cuántos visitantes pueden llegar simultáneamente al lugar? Esta cifra puede superar el aforo autorizado.",
+              "values": [
+                [
+                  "klein",
+                  "Hasta 500 visitantes"
+                ],
+                [
+                  "middel",
+                  "Entre 1.000 y 5.000 visitantes"
+                ],
+                [
+                  "groot",
+                  "Más de 10.000 visitantes"
+                ]
+              ]
+            },
+            {
+              "id": "duur",
+              "label": "Duración del evento",
+              "desc": "¿Durante cuánto tiempo debe la organización movilizar personas y recursos?",
+              "values": [
+                [
+                  "kort",
+                  "Unas horas"
+                ],
+                [
+                  "dag",
+                  "Un día completo"
+                ],
+                [
+                  "meerdaags",
+                  "Varios días consecutivos"
+                ]
+              ]
+            },
+            {
+              "id": "moment",
+              "label": "Franja horaria",
+              "desc": "¿En qué momentos se celebra el encuentro?",
+              "values": [
+                [
+                  "dag",
+                  "Solo durante una parte del día"
+                ],
+                [
+                  "avond",
+                  "Solo durante una noche"
+                ],
+                [
+                  "doorlopend",
+                  "De forma continua durante varios días"
+                ]
+              ]
+            },
+            {
+              "id": "bezoekers",
+              "label": "Composición del público",
+              "desc": "¿Qué necesidades de información, movilidad y servicios requieren atención sin asignar un perfil de riesgo a las personas?",
+              "values": [
+                [
+                  "families",
+                  "Muchas familias"
+                ],
+                [
+                  "gemengd",
+                  "Público diverso"
+                ],
+                [
+                  "ondersteuning",
+                  "Muchos visitantes con necesidades de apoyo"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "belasting",
+          "label": "Perturbaciones y presión",
+          "desc": "El tiempo meteorológico, la accesibilidad, los incidentes o la afluencia de público pueden alterar el desarrollo.",
+          "factors": [
+            {
+              "id": "weer",
+              "label": "Condiciones meteorológicas",
+              "desc": "¿Qué condiciones deben tenerse en cuenta en la preparación?",
+              "values": [
+                [
+                  "rustig",
+                  "Tiempo tranquilo"
+                ],
+                [
+                  "hitte",
+                  "Calor persistente"
+                ],
+                [
+                  "regen",
+                  "Lluvia prolongada"
+                ],
+                [
+                  "storm",
+                  "Viento fuerte"
+                ]
+              ]
+            },
+            {
+              "id": "bereik",
+              "label": "Accesibilidad del entorno",
+              "desc": "¿Hasta qué punto son accesibles las rutas habituales de entrada y salida para visitantes y servicios de emergencia?",
+              "values": [
+                [
+                  "normaal",
+                  "Accesibilidad habitual"
+                ],
+                [
+                  "beperkt",
+                  "Retrasos parciales"
+                ],
+                [
+                  "dicht",
+                  "Ruta habitual de acceso no disponible"
+                ]
+              ]
+            },
+            {
+              "id": "medisch",
+              "label": "Necesidades de asistencia médica",
+              "desc": "¿Qué nivel de incidentes médicos se ha constatado durante este encuentro?",
+              "values": [
+                [
+                  "geen",
+                  "Ningún incidente con lesiones"
+                ],
+                [
+                  "beperkt",
+                  "Algunos incidentes con lesiones leves"
+                ],
+                [
+                  "ernstig",
+                  "Incidentes con lesiones graves"
+                ]
+              ]
+            },
+            {
+              "id": "techniek",
+              "label": "Comunicación disponible para el público",
+              "desc": "¿Qué medios de comunicación funcionan en este momento?",
+              "values": [
+                [
+                  "volledig",
+                  "Megafonía y canales móviles disponibles"
+                ],
+                [
+                  "mobiel",
+                  "Solo canales móviles disponibles"
+                ],
+                [
+                  "terplekke",
+                  "Solo comunicación verbal a través del personal"
+                ]
+              ]
+            },
+            {
+              "id": "stroom",
+              "label": "Flujo de visitantes",
+              "desc": "¿Cuándo se nota la mayor concentración simultánea de personas en el recinto o sus alrededores?",
+              "values": [
+                [
+                  "gespreid",
+                  "Distribución uniforme"
+                ],
+                [
+                  "entree",
+                  "Pico a la llegada"
+                ],
+                [
+                  "vertrek",
+                  "Pico a la salida"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "organisatie",
+          "label": "Medidas y organización",
+          "desc": "Los acuerdos de acceso, los servicios y la coordinación ofrecen opciones de actuación.",
+          "factors": [
+            {
+              "id": "maximum",
+              "label": "Aforo simultáneo autorizado",
+              "desc": "¿Qué límite máximo se ha establecido para este lugar ficticio?",
+              "values": [
+                [
+                  "vijfhonderd",
+                  "Máximo 500"
+                ],
+                [
+                  "vijfduizend",
+                  "Máximo 5.000"
+                ],
+                [
+                  "ruim",
+                  "Más de 10.000"
+                ]
+              ]
+            },
+            {
+              "id": "toegang",
+              "label": "Régimen de acceso",
+              "desc": "¿Cómo se permite el acceso de los visitantes?",
+              "values": [
+                [
+                  "vrij",
+                  "Acceso libre"
+                ],
+                [
+                  "ticket",
+                  "Acceso con entrada"
+                ],
+                [
+                  "uitnodiging",
+                  "Solo personas invitadas"
+                ]
+              ]
+            },
+            {
+              "id": "zorg",
+              "label": "Preparación sanitaria",
+              "desc": "¿Qué tipo de primeros auxilios se ha previsto de antemano para los visitantes?",
+              "values": [
+                [
+                  "basis",
+                  "Servicio básico en el lugar"
+                ],
+                [
+                  "meervoud",
+                  "Varios puestos de primeros auxilios"
+                ],
+                [
+                  "opschalen",
+                  "Apoyo médico ampliable"
+                ]
+              ]
+            },
+            {
+              "id": "regie",
+              "label": "Forma de coordinación",
+              "desc": "¿Quién coordina las decisiones entre la organización, el municipio y los servicios de emergencia?",
+              "values": [
+                [
+                  "organisator",
+                  "Organización con personas de contacto designadas"
+                ],
+                [
+                  "gezamenlijk",
+                  "Reunión de coordinación conjunta"
+                ],
+                [
+                  "crisis",
+                  "Estructura pública de gestión de crisis ampliada"
+                ]
+              ]
+            },
+            {
+              "id": "bericht",
+              "label": "Canal de comunicación activo",
+              "desc": "¿Cómo llega la organización a los visitantes durante esta situación?",
+              "values": [
+                [
+                  "omroep",
+                  "Sistema de megafonía"
+                ],
+                [
+                  "mobiel",
+                  "Mensajes al móvil"
+                ],
+                [
+                  "medewerkers",
+                  "Personal en el lugar"
+                ]
+              ]
+            },
+            {
+              "id": "opvang",
+              "label": "Acogida tras una interrupción",
+              "desc": "¿Qué tipo de acogida se ha preparado si los visitantes no pueden continuar?",
+              "values": [
+                [
+                  "terrein",
+                  "Lugar temporal en el recinto"
+                ],
+                [
+                  "omgeving",
+                  "Acogida en los alrededores"
+                ],
+                [
+                  "regionaal",
+                  "Coordinación para la acogida regional"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "gevolgen",
+          "label": "Efectos y recuperación",
+          "desc": "Las consecuencias para las personas, el programa, el entorno y la organización orientan la evaluación.",
+          "factors": [
+            {
+              "id": "gezondheid",
+              "label": "Consecuencias para los visitantes",
+              "desc": "¿Qué efectos sobre la salud se han constatado realmente y no solo se temen?",
+              "values": [
+                [
+                  "geen",
+                  "Ninguna persona herida"
+                ],
+                [
+                  "licht",
+                  "Lesiones leves"
+                ],
+                [
+                  "ernstig",
+                  "Lesiones graves"
+                ]
+              ]
+            },
+            {
+              "id": "uitloop",
+              "label": "Consecuencias para el programa",
+              "desc": "¿Cómo modifica la situación el programa previsto?",
+              "values": [
+                [
+                  "opplan",
+                  "Según lo previsto"
+                ],
+                [
+                  "vertraging",
+                  "Retraso temporal"
+                ],
+                [
+                  "stop",
+                  "Finalización anticipada"
+                ]
+              ]
+            },
+            {
+              "id": "omgeving",
+              "label": "Consecuencias para residentes cercanos",
+              "desc": "¿Qué perciben las personas que viven en las inmediaciones del evento?",
+              "values": [
+                [
+                  "beperkt",
+                  "Molestias limitadas"
+                ],
+                [
+                  "bereik",
+                  "Accesibilidad bajo presión"
+                ],
+                [
+                  "voorziening",
+                  "Interrupción temporal de servicios"
+                ]
+              ]
+            },
+            {
+              "id": "vertrouwen",
+              "label": "Necesidad de información pública",
+              "desc": "¿Qué alcance tiene la demanda de explicaciones fiables y rendición de cuentas?",
+              "values": [
+                [
+                  "lokaal",
+                  "Principalmente visitantes y residentes cercanos"
+                ],
+                [
+                  "regionaal",
+                  "También atención regional"
+                ],
+                [
+                  "breed",
+                  "Amplia atención social"
+                ]
+              ]
+            },
+            {
+              "id": "evaluatie",
+              "label": "Seguimiento tras el evento",
+              "desc": "¿Qué actividad de atención posterior o aprendizaje requiere este ejercicio?",
+              "values": [
+                [
+                  "regulier",
+                  "Evaluación habitual"
+                ],
+                [
+                  "nazorg",
+                  "Atención posterior y seguimiento"
+                ],
+                [
+                  "onderzoek",
+                  "Investigación conjunta de los hechos"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "exclusions": [
+        [
+          "duur.meerdaags",
+          "moment.dag"
+        ],
+        [
+          "duur.meerdaags",
+          "moment.avond"
+        ],
+        [
+          "duur.kort",
+          "moment.doorlopend"
+        ],
+        [
+          "duur.dag",
+          "moment.doorlopend"
+        ],
+        [
+          "techniek.mobiel",
+          "bericht.omroep"
+        ],
+        [
+          "techniek.terplekke",
+          "bericht.omroep"
+        ],
+        [
+          "techniek.terplekke",
+          "bericht.mobiel"
+        ],
+        [
+          "medisch.geen",
+          "gezondheid.licht"
+        ],
+        [
+          "medisch.geen",
+          "gezondheid.ernstig"
+        ],
+        [
+          "medisch.beperkt",
+          "gezondheid.geen"
+        ],
+        [
+          "medisch.ernstig",
+          "gezondheid.geen"
+        ],
+        [
+          "medisch.ernstig",
+          "gezondheid.licht"
+        ]
+      ],
+      "template": "El tipo de encuentro es {1} y el recinto está configurado como {2}, con una asistencia prevista de {3}. La duración es {4}, la franja horaria es {5} y el público está compuesto por {6}.\nLas condiciones meteorológicas son {7} y la accesibilidad del entorno es {8}. Los incidentes médicos constatados son {9}; para la comunicación con el público se dispone de {10}, mientras que el flujo de visitantes se caracteriza por {11}.\nEl aforo autorizado es {12} y el régimen de acceso es {13}. La preparación sanitaria consiste en {14}; las decisiones se coordinan mediante {15}, la información llega a los visitantes a través de {16} y, en caso de interrupción, se ha previsto {17}.\nLos efectos sobre la salud de los visitantes son {18}. El efecto sobre el programa es {19}; para los residentes cercanos esto supone {20} y la necesidad de información pública es {21}. Después tendrá lugar {22}.",
+      "prompt": "Escribe en español un escenario de ejercicio verosímil sobre la seguridad en eventos que incluya todos los valores elegidos. Organiza el relato en preparación, perturbación, medidas y efectos. Describe los flujos de visitantes, la colaboración entre la organización, el municipio y los servicios de emergencia, y un dilema relacionado con la accesibilidad, el aforo, la información o el tiempo meteorológico. Distingue entre la asistencia prevista y el aforo autorizado: superarlo es un posible problema, no una combinación imposible. Explicita las hipótesis; no proporciones vulnerabilidades operativas ni instrucciones para eludir medidas. Termina con dos preguntas de reflexión.",
+      "example": {
+        "label": "Una noche de festival que no sale según lo previsto",
+        "desc": "<p>Un festival cultural en un recinto cerrado espera varios miles de visitantes para un programa nocturno. El calor y los retrasos en el acceso provocan de repente un pico de llegadas a la entrada. Algunos visitantes necesitan atención médica por lesiones leves. La organización suspende temporalmente el programa e informa al público por megafonía.</p><p>En una reunión conjunta, el municipio y los servicios de emergencia sopesan cómo se relacionan el aforo autorizado, la acogida en los alrededores y la accesibilidad para los residentes cercanos. A la mañana siguiente se presta atención posterior y se evalúan la decisión y la comunicación.</p>",
+        "choices": [
+          "soort.festival",
+          "terrein.afgesloten",
+          "opkomst.middel",
+          "duur.kort",
+          "moment.avond",
+          "bezoekers.gemengd",
+          "weer.hitte",
+          "bereik.beperkt",
+          "medisch.beperkt",
+          "techniek.volledig",
+          "stroom.entree",
+          "maximum.vijfduizend",
+          "toegang.ticket",
+          "zorg.meervoud",
+          "regie.gezamenlijk",
+          "bericht.omroep",
+          "opvang.omgeving",
+          "gezondheid.licht",
+          "uitloop.vertraging",
+          "omgeving.bereik",
+          "vertrouwen.regionaal",
+          "evaluatie.nazorg"
+        ]
+      }
+    },
+    {
+      "id": "cybercontinuiteit",
+      "label": "Ciberincidente y continuidad",
+      "desc": "Un modelo de ejercicio defensivo sobre servicios, detección, dependencias entre organizaciones, toma de decisiones y recuperación tras un incidente digital. Se centra en la continuidad de la gestión, no en técnicas de ataque.\n\nFuente: [NCSC – Incidentes y recuperación](https://www.ncsc.nl/incidenten-en-herstellen/resultaten).",
+      "categories": [
+        {
+          "id": "dienst",
+          "label": "Servicios",
+          "desc": "¿Qué servicio y dependencias digitales ocupan un lugar central?",
+          "factors": [
+            {
+              "id": "sector",
+              "label": "Servicio afectado",
+              "desc": "¿Qué función social se ve afectada por la perturbación?",
+              "values": [
+                [
+                  "zorg",
+                  "Atención sanitaria"
+                ],
+                [
+                  "gemeente",
+                  "Servicios municipales"
+                ],
+                [
+                  "logistiek",
+                  "Coordinación logística"
+                ]
+              ]
+            },
+            {
+              "id": "netwerk",
+              "label": "Conexión de red del servicio",
+              "desc": "¿En qué medida está conectado el servicio en cuestión con redes externas?",
+              "values": [
+                [
+                  "los",
+                  "Totalmente autónomo y sin conexión de red"
+                ],
+                [
+                  "partner",
+                  "Solo a una red de socios"
+                ],
+                [
+                  "internet",
+                  "Accesible a través de internet"
+                ]
+              ]
+            },
+            {
+              "id": "afhankelijkheid",
+              "label": "Dependencia crítica",
+              "desc": "¿Qué elemento externo o interno es necesario para que funcione el servicio?",
+              "values": [
+                [
+                  "intern",
+                  "Equipo informático propio"
+                ],
+                [
+                  "leverancier",
+                  "Proveedor externo"
+                ],
+                [
+                  "meervoud",
+                  "Varios socios de la cadena"
+                ]
+              ]
+            },
+            {
+              "id": "gebruikers",
+              "label": "Usuarios del servicio",
+              "desc": "¿Qué grupo percibe primero las consecuencias de la perturbación?",
+              "values": [
+                [
+                  "medewerkers",
+                  "Personal interno"
+                ],
+                [
+                  "inwoners",
+                  "Residentes y usuarios de servicios"
+                ],
+                [
+                  "keten",
+                  "Organizaciones colaboradoras"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "incident",
+          "label": "Situación del incidente",
+          "desc": "El efecto observable y la fase de gestión.",
+          "factors": [
+            {
+              "id": "effect",
+              "label": "Efecto observable",
+              "desc": "¿Qué efecto detecta la organización sin haber determinado aún la causa?",
+              "values": [
+                [
+                  "uitval",
+                  "Interrupción total del servicio digital"
+                ],
+                [
+                  "twijfel",
+                  "Dudas sobre la calidad de los datos"
+                ],
+                [
+                  "leverancier",
+                  "Perturbación en un proveedor"
+                ]
+              ]
+            },
+            {
+              "id": "fase",
+              "label": "Fase de gestión",
+              "desc": "¿En qué punto del ciclo del incidente se encuentra la organización?",
+              "values": [
+                [
+                  "detectie",
+                  "Detección y verificación"
+                ],
+                [
+                  "respons",
+                  "Coordinación durante el incidente"
+                ],
+                [
+                  "herstel",
+                  "Recuperación y evaluación"
+                ]
+              ]
+            },
+            {
+              "id": "detectie",
+              "label": "Primera señal",
+              "desc": "¿Qué observación permite reconocer inicialmente un problema?",
+              "values": [
+                [
+                  "gebruikers",
+                  "Avisos de usuarios"
+                ],
+                [
+                  "monitoring",
+                  "Monitorización interna"
+                ],
+                [
+                  "partner",
+                  "Aviso de un socio de la cadena"
+                ]
+              ]
+            },
+            {
+              "id": "zekerheid",
+              "label": "Certeza sobre la causa",
+              "desc": "¿Hasta qué punto se conoce en este momento el origen de la situación?",
+              "values": [
+                [
+                  "onbekend",
+                  "Causa desconocida"
+                ],
+                [
+                  "werkhypothese",
+                  "Se investiga una hipótesis de trabajo"
+                ],
+                [
+                  "bevestigd",
+                  "Causa confirmada por una investigación"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aanpak",
+          "label": "Continuidad y contacto",
+          "desc": "¿Cómo pueden mantenerse los servicios y la comunicación?",
+          "factors": [
+            {
+              "id": "kanaal",
+              "label": "Canal de este servicio",
+              "desc": "¿Por qué canal pueden acceder los usuarios al servicio en cuestión?",
+              "values": [
+                [
+                  "lokaal",
+                  "Solo de forma presencial"
+                ],
+                [
+                  "intern",
+                  "A través de la red interna"
+                ],
+                [
+                  "online",
+                  "A través de un portal público en línea"
+                ]
+              ]
+            },
+            {
+              "id": "niveau",
+              "label": "Disponibilidad digital",
+              "desc": "¿En qué medida funciona actualmente el servicio digital afectado?",
+              "values": [
+                [
+                  "offline",
+                  "No disponible digitalmente"
+                ],
+                [
+                  "beperkt",
+                  "Disponibilidad digital limitada"
+                ],
+                [
+                  "normaal",
+                  "Disponibilidad digital normal"
+                ]
+              ]
+            },
+            {
+              "id": "noodproces",
+              "label": "Proceso de continuidad",
+              "desc": "¿Qué procedimiento temporal permite mantener los servicios esenciales?",
+              "values": [
+                [
+                  "handmatig",
+                  "Registro manual"
+                ],
+                [
+                  "prioriteit",
+                  "Solo solicitudes prioritarias"
+                ],
+                [
+                  "alternatief",
+                  "Servicio alternativo independiente"
+                ]
+              ]
+            },
+            {
+              "id": "gegevens",
+              "label": "Estado de los datos",
+              "desc": "¿Qué se sabe de la fiabilidad de los datos de este servicio?",
+              "values": [
+                [
+                  "onzeker",
+                  "Fiabilidad aún incierta"
+                ],
+                [
+                  "controle",
+                  "Nueva comprobación en curso"
+                ],
+                [
+                  "geverifieerd",
+                  "Fiabilidad confirmada"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "bestuur",
+          "label": "Decisiones y recuperación",
+          "desc": "Se valoran por separado la responsabilidad, la colaboración, la comunicación externa y la recuperación.",
+          "factors": [
+            {
+              "id": "regie",
+              "label": "Dirección de las decisiones",
+              "desc": "¿Dónde se fijan las prioridades para los servicios y la recuperación?",
+              "values": [
+                [
+                  "dienst",
+                  "Dentro del servicio"
+                ],
+                [
+                  "organisatie",
+                  "Equipo de crisis de toda la organización"
+                ],
+                [
+                  "keten",
+                  "Conjuntamente con socios de la cadena"
+                ]
+              ]
+            },
+            {
+              "id": "afstemming",
+              "label": "Coordinación entre organizaciones",
+              "desc": "¿Cómo intercambian información sobre la situación las organizaciones implicadas?",
+              "values": [
+                [
+                  "bilateraal",
+                  "Contactos por separado"
+                ],
+                [
+                  "gezamenlijk",
+                  "Panorama común de la situación"
+                ],
+                [
+                  "tijdelijk",
+                  "Reunión temporal de coordinación"
+                ]
+              ]
+            },
+            {
+              "id": "publiek",
+              "label": "Comunicación al público",
+              "desc": "¿Qué puede comunicarse responsablemente a los usuarios?",
+              "values": [
+                [
+                  "ontvangst",
+                  "Aviso recibido, hechos aún desconocidos"
+                ],
+                [
+                  "dienst",
+                  "Consecuencias para los servicios conocidas"
+                ],
+                [
+                  "herstel",
+                  "Pasos de recuperación confirmados"
+                ]
+              ]
+            },
+            {
+              "id": "herstel",
+              "label": "Estado de la recuperación",
+              "desc": "¿En qué medida vuelve a estar utilizable el servicio digital en cuestión?",
+              "values": [
+                [
+                  "niet",
+                  "La recuperación aún no ha comenzado"
+                ],
+                [
+                  "beperkt",
+                  "Recuperación por fases"
+                ],
+                [
+                  "afgerond",
+                  "Servicio completamente restablecido"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "exclusions": [
+        [
+          "netwerk.los",
+          "kanaal.intern"
+        ],
+        [
+          "netwerk.los",
+          "kanaal.online"
+        ],
+        [
+          "netwerk.partner",
+          "kanaal.online"
+        ],
+        [
+          "effect.uitval",
+          "niveau.beperkt"
+        ],
+        [
+          "effect.uitval",
+          "niveau.normaal"
+        ],
+        [
+          "effect.uitval",
+          "herstel.afgerond"
+        ],
+        [
+          "effect.twijfel",
+          "gegevens.geverifieerd"
+        ],
+        [
+          "niveau.offline",
+          "herstel.afgerond"
+        ]
+      ],
+      "template": "El servicio afectado es {1}, con una conexión de red {2} y una dependencia crítica de {3}. Las primeras consecuencias las perciben {4}.\nEl efecto observable es {5}. La gestión se encuentra en la fase de {6}; la primera señal es {7} y el grado de certeza sobre la causa es {8}.\nEl canal del servicio es {9}, mientras que la disponibilidad digital es {10}. El procedimiento temporal es {11}; el estado de los datos es {12}.\nLa dirección de las decisiones corresponde a {13} y la coordinación entre organizaciones se realiza mediante {14}. Respecto a la comunicación a los usuarios, {15}; el estado de la recuperación es {16}.",
+      "prompt": "Crea en español un escenario de ejercicio sobre cibercontinuidad defensiva basado en todos los valores elegidos. Organízalo en primera señal, verificación, consecuencias para los usuarios, gestión y recuperación. Expón las decisiones relativas a la incertidumbre, la calidad de los datos, la comunicación y los socios de la cadena. Un servicio interrumpido puede continuar mediante un proceso temporal de emergencia; no confundas el servicio con la tecnología subyacente. Distingue las observaciones de las sospechas; no describas pasos de ataque, puntos débiles ni formas de eludir medidas. Termina con dos preguntas sobre los servicios y la rendición de cuentas.",
+      "example": {
+        "label": "El portal municipal deja de funcionar",
+        "desc": "<p>Los usuarios informan de que un portal municipal en línea ha dejado de funcionar. La organización investiga con su proveedor si los datos existentes siguen siendo fiables. Un procedimiento manual de emergencia permite tramitar las solicitudes prioritarias, pero exige dar más explicaciones a los residentes.</p><p>El equipo de crisis de toda la organización analiza con los socios de la cadena cómo compartir un panorama de la situación. La recuperación digital aún no ha comenzado; por ello, el primer comunicado al público explica las consecuencias para los servicios sin atribuirlas a una causa sin confirmar.</p>",
+        "choices": [
+          "sector.gemeente",
+          "netwerk.internet",
+          "afhankelijkheid.leverancier",
+          "gebruikers.inwoners",
+          "effect.uitval",
+          "fase.respons",
+          "detectie.gebruikers",
+          "zekerheid.onbekend",
+          "kanaal.online",
+          "niveau.offline",
+          "noodproces.handmatig",
+          "gegevens.onzeker",
+          "regie.organisatie",
+          "afstemming.gezamenlijk",
+          "publiek.dienst",
+          "herstel.niet"
+        ]
+      }
+    },
+    {
+      "id": "hoogwater",
+      "label": "Crecidas e inundaciones",
+      "desc": "Practique la toma de decisiones ante crecidas, la exposición de los residentes y la accesibilidad de la ayuda. Las opciones del escenario son ficticias y no sustituyen las alertas vigentes.\n\nFuente: [Programa Delta – Seguridad frente al agua](https://www.deltaprogramma.nl/themas/waterveiligheid).",
+      "categories": [
+        {
+          "id": "water",
+          "label": "Situación del agua",
+          "desc": "Origen y estado visible del agua en la zona del ejercicio.",
+          "factors": [
+            {
+              "id": "bron",
+              "label": "Origen predominante del agua",
+              "desc": "¿De dónde procede principalmente el agua en esta situación ficticia?",
+              "values": [
+                [
+                  "rivier",
+                  "Caudal elevado del río"
+                ],
+                [
+                  "kust",
+                  "Nivel del mar elevado"
+                ],
+                [
+                  "regen",
+                  "Precipitaciones extremas"
+                ]
+              ]
+            },
+            {
+              "id": "beeld",
+              "label": "Efecto visible",
+              "desc": "¿Qué consecuencias pueden observarse en este momento?",
+              "values": [
+                [
+                  "droog",
+                  "Zona todavía seca"
+                ],
+                [
+                  "straat",
+                  "Calles inundadas"
+                ],
+                [
+                  "woning",
+                  "Edificios inundados"
+                ]
+              ]
+            },
+            {
+              "id": "verloop",
+              "label": "Evolución de la situación del agua",
+              "desc": "¿Qué cambio se conoce por observaciones o previsiones?",
+              "values": [
+                [
+                  "stijgend",
+                  "Se espera que suba"
+                ],
+                [
+                  "stabiel",
+                  "Estable por ahora"
+                ],
+                [
+                  "dalend",
+                  "Descenso observado"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "omgeving",
+          "label": "Zona y exposición",
+          "desc": "El entorno determina la naturaleza de las posibles consecuencias sociales.",
+          "factors": [
+            {
+              "id": "gebied",
+              "label": "Tipo de zona",
+              "desc": "¿Qué zona constituye el centro del ejercicio?",
+              "values": [
+                [
+                  "stad",
+                  "Barrio densamente edificado"
+                ],
+                [
+                  "dorp",
+                  "Pueblo rural"
+                ],
+                [
+                  "knooppunt",
+                  "Servicios esenciales"
+                ]
+              ]
+            },
+            {
+              "id": "inwoners",
+              "label": "Residentes potencialmente afectados",
+              "desc": "¿Qué tamaño tiene el grupo que podría necesitar ayuda o información?",
+              "values": [
+                [
+                  "beperkt",
+                  "Algunos hogares"
+                ],
+                [
+                  "wijk",
+                  "Un barrio o pueblo"
+                ],
+                [
+                  "regio",
+                  "Varios municipios"
+                ]
+              ]
+            },
+            {
+              "id": "zorgvraag",
+              "label": "Necesidades especiales de atención",
+              "desc": "¿Qué necesidad de apoyo requiere coordinación explícita con las entidades asistenciales?",
+              "values": [
+                [
+                  "mobiliteit",
+                  "Personas con movilidad reducida"
+                ],
+                [
+                  "zorg",
+                  "Centros asistenciales"
+                ],
+                [
+                  "verspreid",
+                  "Personas atendidas en sus domicilios en distintos lugares"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "bereikbaarheid",
+          "label": "Accesibilidad y ayuda",
+          "desc": "Las vías de acceso disponibles en la práctica condicionan cómo puede llegar la ayuda.",
+          "factors": [
+            {
+              "id": "wegen",
+              "label": "Vías de acceso a la zona",
+              "desc": "¿Están disponibles las vías de acceso para vehículos?",
+              "values": [
+                [
+                  "open",
+                  "Todas las vías de acceso transitables"
+                ],
+                [
+                  "deels",
+                  "Algunas vías de acceso transitables"
+                ],
+                [
+                  "dicht",
+                  "Todas las vías de acceso cerradas"
+                ]
+              ]
+            },
+            {
+              "id": "aanvoer",
+              "label": "Llegada de la ayuda",
+              "desc": "¿Cómo llega la ayuda desde fuera de la zona al lugar afectado?",
+              "values": [
+                [
+                  "direct",
+                  "Por la vía de acceso habitual"
+                ],
+                [
+                  "omweg",
+                  "Por una vía de acceso alternativa"
+                ],
+                [
+                  "nietweg",
+                  "No por carretera"
+                ]
+              ]
+            },
+            {
+              "id": "voorziening",
+              "label": "Disponibilidad de servicios básicos",
+              "desc": "¿Qué consecuencias para la energía, el agua potable o las comunicaciones deben tenerse en cuenta?",
+              "values": [
+                [
+                  "normaal",
+                  "Disponibles con normalidad"
+                ],
+                [
+                  "plaatselijk",
+                  "Limitación local"
+                ],
+                [
+                  "meervoud",
+                  "Varios servicios limitados"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "besluit",
+          "label": "Información y decisiones",
+          "desc": "Las alertas, la acogida y la colaboración son decisiones que se toman en condiciones de incertidumbre.",
+          "factors": [
+            {
+              "id": "zekerheid",
+              "label": "Fiabilidad del panorama de la situación",
+              "desc": "¿Qué grado de certeza tienen los datos sobre el agua, las carreteras y la población?",
+              "values": [
+                [
+                  "voorlopig",
+                  "Avisos preliminares"
+                ],
+                [
+                  "gedeeld",
+                  "Panorama compartido pero parcialmente incierto"
+                ],
+                [
+                  "bevestigd",
+                  "Observaciones confirmadas"
+                ]
+              ]
+            },
+            {
+              "id": "opvang",
+              "label": "Necesidad de acogida",
+              "desc": "¿Qué demanda de apoyo temporal se prevé?",
+              "values": [
+                [
+                  "thuis",
+                  "Los residentes permanecen en casa por ahora"
+                ],
+                [
+                  "lokaal",
+                  "Acogida temporal local"
+                ],
+                [
+                  "regionaal",
+                  "Coordinación para la acogida regional"
+                ]
+              ]
+            },
+            {
+              "id": "regie",
+              "label": "Cooperación entre autoridades",
+              "desc": "¿Quiénes comparten un panorama común para actuar?",
+              "values": [
+                [
+                  "gemeente",
+                  "Municipio y autoridad del agua"
+                ],
+                [
+                  "regio",
+                  "Socios regionales de gestión de crisis"
+                ],
+                [
+                  "grens",
+                  "Varias regiones de protección civil"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "exclusions": [
+        [
+          "wegen.dicht",
+          "aanvoer.direct"
+        ],
+        [
+          "wegen.dicht",
+          "aanvoer.omweg"
+        ]
+      ],
+      "template": "El origen predominante del agua es {1}. El efecto visible es {2}, mientras que se prevé que la situación del agua evolucione como {3}.\nEl entorno es {4} y la exposición potencial abarca {5}. Las necesidades especiales de atención afectan a {6}.\nLas vías de acceso están {7}; en cuanto a la llegada de la ayuda, {8}. Respecto a los servicios básicos, {9}.\nEl panorama de la situación es {10}. La necesidad de acogida es {11}, mientras que la cooperación entre autoridades se organiza entre {12}.",
+      "prompt": "Escribe en español un escenario de crecida para una región de protección civil que incluya todos los valores elegidos. Relaciona el origen y la evolución de la situación del agua, las necesidades de atención, la accesibilidad y los servicios básicos con las decisiones de las autoridades sobre alertas y acogida. Muestra cómo influyen en las decisiones la certeza del panorama de la situación y la colaboración entre la autoridad del agua, el municipio y la región. Distingue entre previsiones y observaciones; no presupongas niveles exactos de agua ni daños sin datos. Termina con dos preguntas para el ejercicio.",
+      "example": {
+        "label": "El desvío hacia el pueblo",
+        "desc": "<p>Tras una crecida prolongada, las calles de un pueblo rural se inundan; el nivel del agua podría seguir subiendo. Parte de las vías de acceso aún es transitable, pero la ayuda debe llegar dando un rodeo. El municipio y la autoridad del agua comparten un panorama todavía incierto sobre las necesidades de las personas atendidas en sus domicilios.</p><p>Ante los problemas locales con los servicios básicos, se estudia la acogida temporal. La cuestión para la reunión regional es cuándo avisar a los residentes cercanos, mientras la zona accesible cambia de una hora a otra.</p>",
+        "choices": [
+          "bron.rivier",
+          "beeld.straat",
+          "verloop.stijgend",
+          "gebied.dorp",
+          "inwoners.wijk",
+          "zorgvraag.verspreid",
+          "wegen.deels",
+          "aanvoer.omweg",
+          "voorziening.plaatselijk",
+          "zekerheid.gedeeld",
+          "opvang.lokaal",
+          "regie.regio"
+        ]
+      }
+    },
+    {
+      "id": "dijkdoorbraak",
+      "label": "Rotura de un dique",
+      "desc": "Explore la detección, la incertidumbre, el desplazamiento de personas y la continuidad ante daños en una defensa contra inundaciones. En este modelo no se seleccionan a la vez una brecha visible y un dique intacto.\n\nFuentes: [Programa Delta – Seguridad frente al agua](https://www.deltaprogramma.nl/themas/waterveiligheid) y [Rijkswaterstaat – Protección frente al agua](https://www.rijkswaterstaat.nl/water/waterbeheer/bescherming-tegen-het-water).",
+      "categories": [
+        {
+          "id": "kering",
+          "label": "Dique y observaciones",
+          "desc": "Explicite la situación física y el grado de confirmación.",
+          "factors": [
+            {
+              "id": "toestand",
+              "label": "Estado del dique",
+              "desc": "¿Qué estado se ha establecido como punto de partida de este ejercicio?",
+              "values": [
+                [
+                  "intact",
+                  "Dique intacto"
+                ],
+                [
+                  "schade",
+                  "Daños sin rotura"
+                ],
+                [
+                  "door",
+                  "Dique roto"
+                ]
+              ]
+            },
+            {
+              "id": "bres",
+              "label": "Brecha observada",
+              "desc": "¿Qué se sabe con certeza sobre una posible abertura en el dique?",
+              "values": [
+                [
+                  "geen",
+                  "No se ha constatado ninguna brecha"
+                ],
+                [
+                  "onzeker",
+                  "Aviso aún no confirmado"
+                ],
+                [
+                  "bevestigd",
+                  "Brecha confirmada"
+                ]
+              ]
+            },
+            {
+              "id": "belasting",
+              "label": "Presión del agua",
+              "desc": "¿Qué presión externa sobre el dique se prevé en el ejercicio?",
+              "values": [
+                [
+                  "rivier",
+                  "Caudal elevado del río"
+                ],
+                [
+                  "kust",
+                  "Nivel elevado del agua costera"
+                ],
+                [
+                  "combinatie",
+                  "Presión del agua y precipitaciones coincidentes"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "gebied",
+          "label": "Zona y tiempo",
+          "desc": "Contexto espacial y tiempo disponible para prepararse.",
+          "factors": [
+            {
+              "id": "omgeving",
+              "label": "Zona situada detrás del dique",
+              "desc": "¿Qué tipo de zona podría verse afectada?",
+              "values": [
+                [
+                  "woonwijk",
+                  "Barrio residencial"
+                ],
+                [
+                  "polder",
+                  "Pólder rural"
+                ],
+                [
+                  "bedrijven",
+                  "Zona industrial"
+                ]
+              ]
+            },
+            {
+              "id": "tijd",
+              "label": "Tiempo para adoptar medidas",
+              "desc": "¿Cuánto tiempo presupone el ejercicio para que las autoridades sopesen las opciones?",
+              "values": [
+                [
+                  "vooraf",
+                  "Es posible prepararse"
+                ],
+                [
+                  "kort",
+                  "Poco tiempo de reacción"
+                ],
+                [
+                  "direct",
+                  "Es necesaria una decisión inmediata"
+                ]
+              ]
+            },
+            {
+              "id": "blootstelling",
+              "label": "Personas detrás del dique",
+              "desc": "¿Qué grupo podría necesitar una alerta o apoyo?",
+              "values": [
+                [
+                  "verspreid",
+                  "Hogares dispersos"
+                ],
+                [
+                  "wijk",
+                  "Núcleo residencial densamente poblado"
+                ],
+                [
+                  "zorg",
+                  "Centros asistenciales de la zona"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "gevolgen",
+          "label": "Consecuencias sociales",
+          "desc": "Opciones de desplazamiento y servicios básicos, sin prescribir una medida concreta.",
+          "factors": [
+            {
+              "id": "verplaatsing",
+              "label": "Necesidad de desplazamiento",
+              "desc": "¿Qué decisión relativa a los residentes se plantea?",
+              "values": [
+                [
+                  "blijven",
+                  "Estudiar si pueden permanecer de forma segura en el lugar"
+                ],
+                [
+                  "gefaseerd",
+                  "Considerar un desplazamiento por fases"
+                ],
+                [
+                  "snel",
+                  "Preparar un desplazamiento rápido"
+                ]
+              ]
+            },
+            {
+              "id": "voorzieningen",
+              "label": "Servicios básicos",
+              "desc": "¿Cómo funcionan la energía, el agua potable y las comunicaciones en el escenario?",
+              "values": [
+                [
+                  "normaal",
+                  "Disponibles con normalidad"
+                ],
+                [
+                  "deels",
+                  "Limitados localmente"
+                ],
+                [
+                  "uitval",
+                  "Varios servicios interrumpidos"
+                ]
+              ]
+            },
+            {
+              "id": "opvang",
+              "label": "Capacidad de acogida",
+              "desc": "¿Qué opción de acogida preparada está disponible?",
+              "values": [
+                [
+                  "lokaal",
+                  "Servicios locales"
+                ],
+                [
+                  "regionaal",
+                  "Acogida acordada a nivel regional"
+                ],
+                [
+                  "onbekend",
+                  "Capacidad todavía en estudio"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "regie",
+          "label": "Coordinación y conocimiento",
+          "desc": "Verificación de las observaciones y coordinación entre la autoridad del agua y las administraciones.",
+          "factors": [
+            {
+              "id": "meting",
+              "label": "Panorama de la situación",
+              "desc": "¿Qué información se ha confirmado de forma independiente?",
+              "values": [
+                [
+                  "meldingen",
+                  "Avisos aislados"
+                ],
+                [
+                  "gedeeld",
+                  "Panorama conjunto preliminar"
+                ],
+                [
+                  "bevestigd",
+                  "Mediciones confirmadas"
+                ]
+              ]
+            },
+            {
+              "id": "afstemming",
+              "label": "Coordinación entre socios",
+              "desc": "¿Dónde se toman las decisiones con las organizaciones pertinentes?",
+              "values": [
+                [
+                  "beheerder",
+                  "Autoridad del agua y municipio"
+                ],
+                [
+                  "regio",
+                  "Región de protección civil con socios del ámbito del agua"
+                ],
+                [
+                  "meerdere",
+                  "Varias regiones y autoridades del agua"
+                ]
+              ]
+            },
+            {
+              "id": "bericht",
+              "label": "Comunicación pública",
+              "desc": "¿Qué puede compartirse responsablemente a partir de la información actual?",
+              "values": [
+                [
+                  "waakzaam",
+                  "Explicación de la incertidumbre"
+                ],
+                [
+                  "voorbereiden",
+                  "Preparar a los residentes para las medidas"
+                ],
+                [
+                  "handelen",
+                  "Informar a los residentes sobre la decisión vigente"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "exclusions": [
+        [
+          "toestand.intact",
+          "bres.bevestigd"
+        ],
+        [
+          "toestand.door",
+          "bres.geen"
+        ],
+        [
+          "toestand.schade",
+          "bres.bevestigd"
+        ]
+      ],
+      "template": "El estado del dique es {1}. Respecto a una posible brecha, {2}, mientras que la presión del agua viene determinada por {3}.\nDetrás del dique hay una zona del tipo {4}. El tiempo disponible para adoptar medidas es {5}; el grupo potencialmente afectado está formado por {6}.\nLa necesidad de desplazamiento implica {7}. Los servicios básicos tienen el estado {8} y, en cuanto a la capacidad de acogida, {9}.\nEl panorama de la situación consta de {10}; la coordinación entre socios se realiza mediante {11}. Respecto a la comunicación pública, {12}.",
+      "prompt": "Crea en español un escenario de ejercicio realista sobre un dique dañado o roto con todos los valores elegidos. Describe la presión sobre el dique, lo que se ha confirmado sobre una brecha, quién vive detrás del dique y cuánto tiempo queda para decidir. Relaciona la verificación y la coordinación con las decisiones sobre alertas, desplazamiento, acogida y servicios básicos. No inventes previsiones exactas ni instrucciones para intervenir en el dique. Termina con dos preguntas de reflexión para las autoridades.",
+      "example": {
+        "label": "Un aviso sin confirmar junto al pólder",
+        "desc": "<p>Tras un caudal elevado del río se comunican daños en un dique junto a un pólder rural, pero aún no se ha confirmado ninguna brecha. Los hogares dispersos tienen poco tiempo para prepararse. El municipio y la autoridad del agua comparten avisos aislados mientras todavía se estudia la capacidad de acogida.</p><p>La región de protección civil estudia un desplazamiento por fases. Debe decidir qué puede comunicar ya a los residentes sobre el estado incierto del dique, sin presentar una rotura como un hecho constatado.</p>",
+        "choices": [
+          "toestand.schade",
+          "bres.onzeker",
+          "belasting.rivier",
+          "omgeving.polder",
+          "tijd.kort",
+          "blootstelling.verspreid",
+          "verplaatsing.gefaseerd",
+          "voorzieningen.normaal",
+          "opvang.onbekend",
+          "meting.meldingen",
+          "afstemming.regio",
+          "bericht.waakzaam"
+        ]
+      }
+    },
+    {
+      "id": "natuurbrand",
+      "label": "Incendio forestal",
+      "desc": "Utilice los incendios en espacios naturales para ejercitar la evaluación del entorno, el humo, el acceso público y la protección de las personas. Este modelo no predice la evolución del fuego.\n\nFuente: [NIPV – Investigación sobre incendios forestales](https://nipv.nl/onderzoek/natuurbranden/).",
+      "categories": [
+        {
+          "id": "brand",
+          "label": "Incendio y paisaje",
+          "desc": "Paisaje y estado actual del incendio para el ejercicio.",
+          "factors": [
+            {
+              "id": "terrein",
+              "label": "Tipo de espacio natural",
+              "desc": "¿Qué paisaje determina las posibles consecuencias para quienes utilizan la zona?",
+              "values": [
+                [
+                  "bos",
+                  "Zona boscosa"
+                ],
+                [
+                  "heide",
+                  "Zona de brezales"
+                ],
+                [
+                  "duin",
+                  "Paisaje de dunas"
+                ]
+              ]
+            },
+            {
+              "id": "status",
+              "label": "Estado del incendio",
+              "desc": "¿Hay ya un incendio en la zona estudiada?",
+              "values": [
+                [
+                  "dreiging",
+                  "Aún no hay ningún incendio en esta zona"
+                ],
+                [
+                  "lokaal",
+                  "Incendio localizado"
+                ],
+                [
+                  "meervoud",
+                  "Incendios en varios puntos"
+                ]
+              ]
+            },
+            {
+              "id": "omstandigheden",
+              "label": "Condiciones en la zona",
+              "desc": "¿Qué condiciones meteorológicas y del terreno influyen en el panorama de la situación?",
+              "values": [
+                [
+                  "droog",
+                  "Seco y cálido"
+                ],
+                [
+                  "wind",
+                  "Viento fuerte"
+                ],
+                [
+                  "wisselend",
+                  "Condiciones variables"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "omgeving",
+          "label": "Entorno y humo",
+          "desc": "El humo y las personas presentes pueden dar lugar a decisiones diferentes.",
+          "factors": [
+            {
+              "id": "rook",
+              "label": "Humo de este incendio",
+              "desc": "¿Qué se observa respecto al humo del incendio en esta zona?",
+              "values": [
+                [
+                  "geen",
+                  "No hay humo de este incendio"
+                ],
+                [
+                  "plaatselijk",
+                  "Humo localizado"
+                ],
+                [
+                  "wijd",
+                  "Humo en varios núcleos residenciales"
+                ]
+              ]
+            },
+            {
+              "id": "mensen",
+              "label": "Personas presentes",
+              "desc": "¿A quiénes puede afectar la situación en la zona?",
+              "values": [
+                [
+                  "weinig",
+                  "Pocos visitantes"
+                ],
+                [
+                  "recreanten",
+                  "Muchos excursionistas"
+                ],
+                [
+                  "woningen",
+                  "También residentes cercanos"
+                ]
+              ]
+            },
+            {
+              "id": "omgeving",
+              "label": "Actividades en los límites de la zona",
+              "desc": "¿Qué actividad social puede verse afectada o necesitar información?",
+              "values": [
+                [
+                  "recreatie",
+                  "Instalaciones recreativas"
+                ],
+                [
+                  "wonen",
+                  "Barrios residenciales"
+                ],
+                [
+                  "zorg",
+                  "Centros asistenciales y alojamientos"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "publiek",
+          "label": "Público y accesibilidad",
+          "desc": "Se distingue el cierre formal de las posibilidades reales de acceso del público.",
+          "factors": [
+            {
+              "id": "afsluiting",
+              "label": "Cierre al público",
+              "desc": "¿Qué restricción de acceso se aplica al público?",
+              "values": [
+                [
+                  "open",
+                  "Sin cierre"
+                ],
+                [
+                  "deels",
+                  "Parte de la zona cerrada"
+                ],
+                [
+                  "dicht",
+                  "Toda la zona cerrada al público"
+                ]
+              ]
+            },
+            {
+              "id": "toegang",
+              "label": "Acceso del público",
+              "desc": "¿Cómo pueden utilizar la zona los visitantes en este ejercicio?",
+              "values": [
+                [
+                  "vrij",
+                  "Acceso libre a toda la zona"
+                ],
+                [
+                  "geleid",
+                  "Solo acceso del público con acompañamiento"
+                ],
+                [
+                  "geen",
+                  "Sin acceso público"
+                ]
+              ]
+            },
+            {
+              "id": "opvang",
+              "label": "Apoyo a los visitantes",
+              "desc": "¿Cómo se atiende o informa a los excursionistas y residentes?",
+              "values": [
+                [
+                  "lokaal",
+                  "Contacto a través de la administración del terreno"
+                ],
+                [
+                  "gemeente",
+                  "Apoyo municipal"
+                ],
+                [
+                  "regionaal",
+                  "Apoyo coordinado a nivel regional"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "regie",
+          "label": "Cooperación y recuperación",
+          "desc": "Un panorama compartido y una atención posterior adecuada orientan las decisiones.",
+          "factors": [
+            {
+              "id": "beeld",
+              "label": "Certeza sobre el panorama de la situación",
+              "desc": "¿Hasta qué punto es completa la información sobre el humo y las consecuencias para el entorno?",
+              "values": [
+                [
+                  "eerste",
+                  "Primeros avisos"
+                ],
+                [
+                  "gedeeld",
+                  "Panorama compartido con incertidumbres"
+                ],
+                [
+                  "bevestigd",
+                  "Observaciones confirmadas"
+                ]
+              ]
+            },
+            {
+              "id": "partners",
+              "label": "Organizaciones implicadas",
+              "desc": "¿Quiénes deben colaborar para ofrecer una respuesta coherente al público?",
+              "values": [
+                [
+                  "beheer",
+                  "Administración del terreno y municipio"
+                ],
+                [
+                  "regio",
+                  "Región de protección civil y administración del terreno"
+                ],
+                [
+                  "grens",
+                  "Varias regiones y administraciones del terreno"
+                ]
+              ]
+            },
+            {
+              "id": "nazorg",
+              "label": "Necesidades de recuperación",
+              "desc": "¿Qué requiere atención cuando disminuye la presión inmediata?",
+              "values": [
+                [
+                  "toegang",
+                  "Reapertura de la zona"
+                ],
+                [
+                  "gezondheid",
+                  "Explicaciones sobre el humo y la salud"
+                ],
+                [
+                  "omgeving",
+                  "Recuperación del entorno y evaluación"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "exclusions": [
+        [
+          "status.dreiging",
+          "rook.plaatselijk"
+        ],
+        [
+          "status.dreiging",
+          "rook.wijd"
+        ],
+        [
+          "afsluiting.dicht",
+          "toegang.vrij"
+        ],
+        [
+          "afsluiting.dicht",
+          "toegang.geleid"
+        ],
+        [
+          "afsluiting.deels",
+          "toegang.vrij"
+        ]
+      ],
+      "template": "La zona es {1}, donde el estado del incendio es {2}. Las condiciones del lugar son {3}.\nEn cuanto al humo de este incendio, {4}. En la zona hay {5}; en sus límites se encuentran {6}.\nEl cierre al público es {7}, con {8} como posibilidad de acceso para los visitantes. El apoyo a las personas afectadas consiste en {9}.\nEl grado de certeza sobre el panorama de la situación es {10}; en la cooperación participan {11}. Cuando disminuya la presión inmediata, se prestará atención a {12}.",
+      "prompt": "Escribe en español un escenario para una región de protección civil sobre un incendio forestal o su amenaza. Utiliza todos los valores elegidos relativos al paisaje, las condiciones meteorológicas, el estado del incendio, el humo, los visitantes y las actividades en el entorno. Describe las decisiones sobre acceso público, apoyo, incertidumbre del panorama de la situación, cooperación y atención posterior. Evita las predicciones exactas sobre el incendio y las instrucciones operativas de extinción. Termina con dos preguntas para el ejercicio.",
+      "example": {
+        "label": "Humo cerca de los brezales",
+        "desc": "<p>Se declara un incendio localizado en una zona seca de brezales mientras hay muchos excursionistas. Se informa de humo localizado y se cierra parte de la zona; sigue siendo posible el acceso del público con acompañamiento en otra parte. Las instalaciones recreativas piden un panorama único y fiable de la situación.</p><p>La administración del terreno y la región de protección civil coordinan el apoyo municipal a los visitantes. Aunque los primeros avisos siguen siendo incompletos, también debaten cómo preparar con cuidado la futura reapertura y la comunicación sobre el humo.</p>",
+        "choices": [
+          "terrein.heide",
+          "status.lokaal",
+          "omstandigheden.droog",
+          "rook.plaatselijk",
+          "mensen.recreanten",
+          "omgeving.recreatie",
+          "afsluiting.deels",
+          "toegang.geleid",
+          "opvang.gemeente",
+          "beeld.eerste",
+          "partners.regio",
+          "nazorg.toegang"
+        ]
+      }
+    },
+    {
+      "id": "demonstraties",
+      "label": "Manifestaciones y orden público",
+      "desc": "Explore manifestaciones pacíficas, por ejemplo de agricultores o estudiantes, o una protesta ante una embajada. La identidad de los participantes no indica ningún nivel de amenaza; priman el derecho de manifestación y las decisiones proporcionadas.",
+      "categories": [
+        {
+          "id": "bijeenkomst",
+          "label": "Motivo y formato",
+          "desc": "El mensaje y el formato se eligen por separado; no debe equipararse ningún grupo a un perfil de riesgo.",
+          "factors": [
+            {
+              "id": "thema",
+              "label": "Contexto de la manifestación",
+              "desc": "¿Qué ejemplo ayuda a concretar el ejercicio sin estereotipar a los participantes?",
+              "values": [
+                [
+                  "landbouw",
+                  "Agricultores en torno a la política agraria"
+                ],
+                [
+                  "studie",
+                  "Estudiantes en torno a la política educativa"
+                ],
+                [
+                  "diplomatie",
+                  "Manifestación ante una embajada"
+                ]
+              ]
+            },
+            {
+              "id": "vorm",
+              "label": "Formato del encuentro",
+              "desc": "¿Está previsto un desplazamiento como parte del programa?",
+              "values": [
+                [
+                  "statisch",
+                  "Concentración estática"
+                ],
+                [
+                  "mars",
+                  "Marcha"
+                ],
+                [
+                  "combinatie",
+                  "Concentración seguida de una marcha"
+                ]
+              ]
+            },
+            {
+              "id": "fase",
+              "label": "Fase del proceso de decisión pública",
+              "desc": "¿En qué momento del debate público se celebra el encuentro?",
+              "values": [
+                [
+                  "voorstel",
+                  "Se debate una propuesta"
+                ],
+                [
+                  "besluit",
+                  "Tras una decisión anunciada"
+                ],
+                [
+                  "evaluatie",
+                  "Durante la evaluación de una política"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ruimte",
+          "label": "Espacio público",
+          "desc": "El entorno y el recorrido previsto determinan dónde confluyen los distintos intereses.",
+          "factors": [
+            {
+              "id": "locatie",
+              "label": "Entorno",
+              "desc": "¿Qué tipo de entorno es relevante para el ejercicio del derecho de manifestación?",
+              "values": [
+                [
+                  "plein",
+                  "Plaza urbana"
+                ],
+                [
+                  "campus",
+                  "Campus y alrededores"
+                ],
+                [
+                  "diplomatiek",
+                  "Barrio con sedes diplomáticas"
+                ]
+              ]
+            },
+            {
+              "id": "route",
+              "label": "Desplazamiento de la manifestación",
+              "desc": "¿Qué movimiento está previsto en este escenario de ejercicio?",
+              "values": [
+                [
+                  "geen",
+                  "Sin desplazamiento"
+                ],
+                [
+                  "afgesproken",
+                  "Recorrido peatonal acordado previamente"
+                ],
+                [
+                  "onbekend",
+                  "Desplazamiento con recorrido aún desconocido"
+                ]
+              ]
+            },
+            {
+              "id": "bereikbaarheid",
+              "label": "Accesibilidad del entorno",
+              "desc": "¿Qué consecuencias para los desplazamientos habituales se conocen de antemano?",
+              "values": [
+                [
+                  "normaal",
+                  "Rutas habituales accesibles"
+                ],
+                [
+                  "omleiding",
+                  "Desvíos temporales"
+                ],
+                [
+                  "onzeker",
+                  "Accesibilidad aún desconocida"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "afstemming",
+          "label": "Coordinación",
+          "desc": "La asistencia y el contacto con los organizadores orientan la información que se facilita, no los derechos de los participantes.",
+          "factors": [
+            {
+              "id": "opkomst",
+              "label": "Asistencia prevista",
+              "desc": "¿Cuántos participantes se esperan aproximadamente?",
+              "values": [
+                [
+                  "klein",
+                  "Decenas"
+                ],
+                [
+                  "middel",
+                  "Centenares"
+                ],
+                [
+                  "groot",
+                  "Miles"
+                ]
+              ]
+            },
+            {
+              "id": "contact",
+              "label": "Contacto con los organizadores",
+              "desc": "¿Qué posibilidades de coordinación existen?",
+              "values": [
+                [
+                  "bereikbaar",
+                  "Personas de contacto disponibles"
+                ],
+                [
+                  "los",
+                  "Colectivo organizado de manera informal"
+                ],
+                [
+                  "onbekend",
+                  "Todavía no se ha establecido contacto"
+                ]
+              ]
+            },
+            {
+              "id": "tijd",
+              "label": "Duración del encuentro",
+              "desc": "¿Cuánto tiempo se prevé ocupar el espacio público?",
+              "values": [
+                [
+                  "kort",
+                  "Unas horas"
+                ],
+                [
+                  "dag",
+                  "Parte de un día"
+                ],
+                [
+                  "lang",
+                  "Varias partes de días"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "rechten",
+          "label": "Derechos y comunicación",
+          "desc": "Documente las decisiones sin juzgar a los participantes por su identidad.",
+          "factors": [
+            {
+              "id": "kennisgeving",
+              "label": "Estado de la notificación",
+              "desc": "¿Qué contacto ha habido con la autoridad competente sobre la manifestación prevista?",
+              "values": [
+                [
+                  "ontvangen",
+                  "Notificación recibida"
+                ],
+                [
+                  "laat",
+                  "Conocida a última hora"
+                ],
+                [
+                  "onzeker",
+                  "Estado todavía poco claro"
+                ]
+              ]
+            },
+            {
+              "id": "belang",
+              "label": "Principal cuestión a considerar",
+              "desc": "¿Qué otro interés público requiere atención además del derecho de manifestación?",
+              "values": [
+                [
+                  "toegang",
+                  "Acceso para residentes cercanos"
+                ],
+                [
+                  "hulp",
+                  "Accesibilidad para los servicios de emergencia"
+                ],
+                [
+                  "dialoog",
+                  "Diálogo sereno entre las partes"
+                ]
+              ]
+            },
+            {
+              "id": "publiek",
+              "label": "Comunicación a residentes cercanos",
+              "desc": "¿Qué tipo de información sobre el desarrollo y la accesibilidad se ha preparado?",
+              "values": [
+                [
+                  "lokaal",
+                  "Información local"
+                ],
+                [
+                  "breed",
+                  "Información coordinada ampliamente"
+                ],
+                [
+                  "voorlopig",
+                  "Información provisional con incertidumbres"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "exclusions": [
+        [
+          "vorm.statisch",
+          "route.afgesproken"
+        ],
+        [
+          "vorm.statisch",
+          "route.onbekend"
+        ],
+        [
+          "vorm.mars",
+          "route.geen"
+        ],
+        [
+          "vorm.combinatie",
+          "route.geen"
+        ]
+      ],
+      "template": "La manifestación tiene como contexto {1} y adopta la forma de {2}. El momento del proceso de decisión pública es {3}.\nEl encuentro tiene lugar en {4}. En cuanto al desplazamiento, {5}, mientras que la accesibilidad del entorno es {6}.\nLa asistencia prevista es {7}. El contacto con los organizadores es {8} y la duración prevista es {9}.\nLa notificación tiene el estado {10}. Además del derecho de manifestación, requiere atención {11}; los residentes cercanos reciben {12}.",
+      "prompt": "Escribe en español un escenario equilibrado sobre una manifestación pacífica que incluya todos los valores elegidos. Describe el motivo, la fase del proceso de decisión, el formato, el recorrido, la asistencia prevista y la notificación. Muestra cómo se sopesan el derecho de manifestación, el contacto con los organizadores, la accesibilidad para los residentes cercanos y una comunicación pública justa. No equipares ningún grupo a una amenaza, no inventes delitos ni des indicaciones tácticas. Termina con dos preguntas sobre proporcionalidad.",
+      "example": {
+        "label": "Una marcha de estudiantes por la ciudad",
+        "desc": "<p>Cientos de estudiantes quieren marchar desde el campus hasta la plaza urbana tras el anuncio de una decisión sobre educación. Sus personas de contacto han acordado un recorrido peatonal para parte del día; se necesitan desvíos temporales. Se ha recibido la notificación.</p><p>El municipio se asegura de que los residentes cercanos sepan con antelación qué rutas seguirán accesibles. En la reunión se tienen en cuenta tanto el derecho de manifestación como el acceso al barrio. Los organizadores pueden comunicar directamente cualquier cambio.</p>",
+        "choices": [
+          "thema.studie",
+          "vorm.mars",
+          "fase.besluit",
+          "locatie.campus",
+          "route.afgesproken",
+          "bereikbaarheid.omleiding",
+          "opkomst.middel",
+          "contact.bereikbaar",
+          "tijd.dag",
+          "kennisgeving.ontvangen",
+          "belang.toegang",
+          "publiek.lokaal"
+        ]
+      }
+    },
+    {
+      "id": "publieke-gebouwen",
+      "label": "Seguridad de edificios públicos",
+      "desc": "Una caja orientada a la gestión sobre acceso, servicios y atención a visitantes en edificios públicos. Elija explícitamente si el edificio está abierto; no describa vulnerabilidades ni maneras de eludir las medidas.",
+      "categories": [
+        {
+          "id": "gebouw",
+          "label": "Edificio y uso",
+          "desc": "¿Qué función pública y estado de apertura son centrales?",
+          "factors": [
+            {
+              "id": "functie",
+              "label": "Función del edificio",
+              "desc": "¿Qué servicio o función vienen a utilizar los visitantes?",
+              "values": [
+                [
+                  "gemeente",
+                  "Ayuntamiento"
+                ],
+                [
+                  "cultuur",
+                  "Biblioteca o museo"
+                ],
+                [
+                  "onderwijs",
+                  "Edificio educativo"
+                ]
+              ]
+            },
+            {
+              "id": "opening",
+              "label": "Apertura al público",
+              "desc": "¿Cuál es el estado actual de acceso del público al edificio?",
+              "values": [
+                [
+                  "open",
+                  "Abierto al público"
+                ],
+                [
+                  "beperkt",
+                  "Apertura limitada"
+                ],
+                [
+                  "gesloten",
+                  "Completamente cerrado al público"
+                ]
+              ]
+            },
+            {
+              "id": "gebruik",
+              "label": "Tipo de uso",
+              "desc": "¿Qué actividad hace importante el espacio afectado en este momento?",
+              "values": [
+                [
+                  "loket",
+                  "Servicios públicos"
+                ],
+                [
+                  "bijeenkomst",
+                  "Encuentro programado"
+                ],
+                [
+                  "dagelijks",
+                  "Actividad educativa o cultural cotidiana"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "bezoekers",
+          "label": "Visitantes y entorno",
+          "desc": "La combinación de ocupación y condiciones de visita determina las necesidades de atención al público.",
+          "factors": [
+            {
+              "id": "bezoek",
+              "label": "Condiciones de visita",
+              "desc": "¿En qué condiciones pueden entrar los visitantes?",
+              "values": [
+                [
+                  "vrij",
+                  "Entrada libre"
+                ],
+                [
+                  "afspraak",
+                  "Solo con cita previa"
+                ],
+                [
+                  "geen",
+                  "No se permite la entrada al público"
+                ]
+              ]
+            },
+            {
+              "id": "drukte",
+              "label": "Ocupación",
+              "desc": "¿Cuántas personas se espera que haya en el edificio?",
+              "values": [
+                [
+                  "laag",
+                  "Ocupación baja"
+                ],
+                [
+                  "middel",
+                  "Ocupación media"
+                ],
+                [
+                  "hoog",
+                  "Ocupación alta"
+                ]
+              ]
+            },
+            {
+              "id": "behoefte",
+              "label": "Necesidades de accesibilidad",
+              "desc": "¿Qué visitantes necesitan apoyo adicional ante los cambios?",
+              "values": [
+                [
+                  "taal",
+                  "Explicaciones en varios idiomas"
+                ],
+                [
+                  "digitaal",
+                  "Ayuda por canales no digitales"
+                ],
+                [
+                  "mobiliteit",
+                  "Acompañamiento accesible"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "dienst",
+          "label": "Servicios y entradas",
+          "desc": "¿Qué relación existe entre los servicios y las entradas físicas para el público?",
+          "factors": [
+            {
+              "id": "service",
+              "label": "Prestación de servicios",
+              "desc": "¿Cómo se mantiene disponible la función social?",
+              "values": [
+                [
+                  "normaal",
+                  "Prestación normal de servicios"
+                ],
+                [
+                  "beperkt",
+                  "Prestación limitada de servicios"
+                ],
+                [
+                  "online",
+                  "Principalmente a distancia"
+                ]
+              ]
+            },
+            {
+              "id": "entree",
+              "label": "Entradas para el público",
+              "desc": "¿En qué medida están abiertas las entradas para visitantes?",
+              "values": [
+                [
+                  "open",
+                  "Todas las entradas para el público abiertas"
+                ],
+                [
+                  "deels",
+                  "Una entrada para el público abierta"
+                ],
+                [
+                  "dicht",
+                  "Todas las entradas para el público cerradas"
+                ]
+              ]
+            },
+            {
+              "id": "verstoring",
+              "label": "Consecuencia para el servicio",
+              "desc": "¿Qué efecto del cambio percibe un visitante?",
+              "values": [
+                [
+                  "wachttijd",
+                  "Mayor tiempo de espera"
+                ],
+                [
+                  "verplaatst",
+                  "Cita trasladada"
+                ],
+                [
+                  "alternatief",
+                  "Otra forma de prestación del servicio"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "regie",
+          "label": "Continuidad y atención posterior",
+          "desc": "Incluso cuando se restringe el acceso, siguen siendo importantes las necesidades de los usuarios.",
+          "factors": [
+            {
+              "id": "beheer",
+              "label": "Coordinación entre edificio y servicio",
+              "desc": "¿Cómo organizan la administración del edificio y el proveedor del servicio sus decisiones?",
+              "values": [
+                [
+                  "direct",
+                  "Contacto directo"
+                ],
+                [
+                  "team",
+                  "Reunión conjunta"
+                ],
+                [
+                  "keten",
+                  "Reunión con socios externos"
+                ]
+              ]
+            },
+            {
+              "id": "alternatief",
+              "label": "Alternativa para visitantes",
+              "desc": "¿Cómo sigue siendo accesible un servicio necesario para quienes no pueden entrar?",
+              "values": [
+                [
+                  "afspraak",
+                  "Nueva cita"
+                ],
+                [
+                  "locatie",
+                  "Otro lugar"
+                ],
+                [
+                  "afstand",
+                  "Apoyo a distancia"
+                ]
+              ]
+            },
+            {
+              "id": "bericht",
+              "label": "Información al público",
+              "desc": "¿Cuándo recibe el visitante explicaciones sobre los cambios en el acceso?",
+              "values": [
+                [
+                  "vooraf",
+                  "Con antelación por canales conocidos"
+                ],
+                [
+                  "terplekke",
+                  "A la llegada"
+                ],
+                [
+                  "persoonlijk",
+                  "Personalmente en el caso de una cita existente"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "exclusions": [
+        [
+          "opening.gesloten",
+          "bezoek.vrij"
+        ],
+        [
+          "opening.gesloten",
+          "entree.open"
+        ],
+        [
+          "opening.gesloten",
+          "entree.deels"
+        ],
+        [
+          "bezoek.vrij",
+          "entree.dicht"
+        ],
+        [
+          "bezoek.geen",
+          "entree.open"
+        ]
+      ],
+      "template": "El edificio tiene la función {1} y está {2} para el público. El espacio se utiliza para {3}.\nLas condiciones de visita son {4}, con una ocupación de {5}. Para los visitantes, {6} constituye una necesidad de accesibilidad.\nLa prestación de servicios es {7} y el estado de las entradas para el público es {8}. Los visitantes perciben {9} como consecuencia.\nLa coordinación entre la administración del edificio y el proveedor del servicio se realiza mediante {10}. Para los visitantes, la alternativa es {11}; reciben información {12}.",
+      "prompt": "Crea en español un escenario sobre la continuidad y la atención a visitantes en un edificio público. Utiliza todos los valores elegidos sobre el uso, la apertura, la ocupación, las necesidades de accesibilidad, la perturbación del servicio y los servicios alternativos. Relaciona las decisiones de la administración del edificio y del proveedor del servicio con una información clara y sus consecuencias para los visitantes. No describas puntos débiles técnicos ni físicos. Termina con dos preguntas para la organización.",
+      "example": {
+        "label": "El ayuntamiento sigue siendo accesible",
+        "desc": "<p>Un ayuntamiento recibe a los visitantes del servicio de atención al público solo con cita previa, mientras una entrada permanece abierta. La ocupación es media y la prestación de servicios está temporalmente limitada. Sobre todo los residentes con dificultades para usar medios digitales afrontan tiempos de espera más largos.</p><p>La administración del edificio y el servicio acuerdan conjuntamente una alternativa: quien no pueda ser atendido recibe personalmente una nueva cita. Así se mantiene el acceso a los servicios necesarios sin que el municipio presuponga que todo el mundo puede desenvolverse por internet.</p>",
+        "choices": [
+          "functie.gemeente",
+          "opening.beperkt",
+          "gebruik.loket",
+          "bezoek.afspraak",
+          "drukte.middel",
+          "behoefte.digitaal",
+          "service.beperkt",
+          "entree.deels",
+          "verstoring.wachttijd",
+          "beheer.team",
+          "alternatief.afspraak",
+          "bericht.persoonlijk"
+        ]
+      }
+    },
+    {
+      "id": "religieuze-centra",
+      "label": "Seguridad de centros religiosos",
+      "desc": "Una caja de ejercicios inclusiva sobre hospitalidad, encuentros y atención a visitantes de centros religiosos. Ni la religión ni la comunidad se consideran un riesgo.",
+      "categories": [
+        {
+          "id": "bijeenkomst",
+          "label": "Encuentro y visitantes",
+          "desc": "La actividad determina quién es bienvenido y cuántas personas se esperan.",
+          "factors": [
+            {
+              "id": "activiteit",
+              "label": "Actividad",
+              "desc": "¿Qué actividad se celebra en el edificio?",
+              "values": [
+                [
+                  "publiek",
+                  "Celebración abierta al público"
+                ],
+                [
+                  "besloten",
+                  "Encuentro privado"
+                ],
+                [
+                  "geen",
+                  "Sin encuentro colectivo; se permiten visitas individuales"
+                ]
+              ]
+            },
+            {
+              "id": "bezoekers",
+              "label": "Acceso del público al encuentro",
+              "desc": "¿A qué grupo está abierto el encuentro?",
+              "values": [
+                [
+                  "iedereen",
+                  "Público bienvenido"
+                ],
+                [
+                  "gasten",
+                  "Solo personas invitadas"
+                ],
+                [
+                  "niemand",
+                  "No se permite la entrada al público"
+                ]
+              ]
+            },
+            {
+              "id": "ritme",
+              "label": "Momento del encuentro",
+              "desc": "¿Cuándo y con qué preparación se reúnen las personas?",
+              "values": [
+                [
+                  "regulier",
+                  "Encuentro habitual"
+                ],
+                [
+                  "feestdag",
+                  "Día festivo concurrido"
+                ],
+                [
+                  "bijzonder",
+                  "Encuentro especial de la comunidad"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "omgeving",
+          "label": "Entorno y ocupación",
+          "desc": "La relación con el entorno y el tamaño del encuentro.",
+          "factors": [
+            {
+              "id": "plek",
+              "label": "Entorno del centro",
+              "desc": "¿Dónde está situado el edificio respecto a los flujos cotidianos de visitantes?",
+              "values": [
+                [
+                  "buurt",
+                  "Barrio residencial"
+                ],
+                [
+                  "centrum",
+                  "Centro urbano"
+                ],
+                [
+                  "dorp",
+                  "Centro del pueblo"
+                ]
+              ]
+            },
+            {
+              "id": "drukte",
+              "label": "Ocupación prevista",
+              "desc": "¿Cuántos visitantes están presentes al mismo tiempo?",
+              "values": [
+                [
+                  "klein",
+                  "Grupo pequeño"
+                ],
+                [
+                  "middel",
+                  "Grupo mediano"
+                ],
+                [
+                  "groot",
+                  "Encuentro concurrido"
+                ]
+              ]
+            },
+            {
+              "id": "mobiliteit",
+              "label": "Accesibilidad para visitantes",
+              "desc": "¿Qué forma de llegada requiere atención durante el encuentro?",
+              "values": [
+                [
+                  "lopen",
+                  "Principalmente a pie"
+                ],
+                [
+                  "vervoer",
+                  "Combinación de transporte público y coche"
+                ],
+                [
+                  "ondersteuning",
+                  "Se necesita transporte accesible adicional"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "gastvrijheid",
+          "label": "Hospitalidad y comunicación",
+          "desc": "El acceso público y la comunicación se organizan pensando en el cuidado de los visitantes.",
+          "factors": [
+            {
+              "id": "toegang",
+              "label": "Acceso al centro",
+              "desc": "¿Cómo se organiza el acceso de los visitantes?",
+              "values": [
+                [
+                  "open",
+                  "Entrada libre"
+                ],
+                [
+                  "uitnodiging",
+                  "Solo por invitación"
+                ],
+                [
+                  "dicht",
+                  "Sin acceso para visitantes"
+                ]
+              ]
+            },
+            {
+              "id": "communicatie",
+              "label": "Contacto con el entorno",
+              "desc": "¿Cómo se comparte la información pertinente con las personas implicadas?",
+              "values": [
+                [
+                  "intern",
+                  "A través de la comunidad"
+                ],
+                [
+                  "buurt",
+                  "También con residentes cercanos"
+                ],
+                [
+                  "breed",
+                  "También por canales públicos"
+                ]
+              ]
+            },
+            {
+              "id": "welkom",
+              "label": "Apoyo en el lugar",
+              "desc": "¿Cómo se acoge a personas con necesidades diferentes?",
+              "values": [
+                [
+                  "vrijwilligers",
+                  "Voluntarios como punto de contacto"
+                ],
+                [
+                  "meertalig",
+                  "Acompañamiento en varios idiomas"
+                ],
+                [
+                  "zorg",
+                  "Apoyo para visitantes con movilidad reducida"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "samenwerking",
+          "label": "Colaboración y atención posterior",
+          "desc": "Las decisiones se toman con la comunidad y mantienen la accesibilidad como prioridad.",
+          "factors": [
+            {
+              "id": "regie",
+              "label": "Toma de decisiones",
+              "desc": "¿Quién decide cómo se adaptan la acogida y la comunicación?",
+              "values": [
+                [
+                  "gemeenschap",
+                  "Organización de la comunidad"
+                ],
+                [
+                  "buurt",
+                  "Junto con organizaciones del barrio"
+                ],
+                [
+                  "publiek",
+                  "Junto con los socios públicos implicados"
+                ]
+              ]
+            },
+            {
+              "id": "zorg",
+              "label": "Atención adicional",
+              "desc": "¿Qué cuestión merece especial atención después de un encuentro concurrido?",
+              "values": [
+                [
+                  "toegang",
+                  "Accesibilidad de la participación"
+                ],
+                [
+                  "contact",
+                  "Contacto con residentes cercanos"
+                ],
+                [
+                  "nazorg",
+                  "Atención posterior a los visitantes"
+                ]
+              ]
+            },
+            {
+              "id": "terugkoppeling",
+              "label": "Evaluación",
+              "desc": "¿Cómo se recogen las experiencias de visitantes y voluntarios?",
+              "values": [
+                [
+                  "gesprek",
+                  "Conversación al terminar"
+                ],
+                [
+                  "gemeenschap",
+                  "Comentarios compartidos dentro de la comunidad"
+                ],
+                [
+                  "samen",
+                  "Evaluación conjunta"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "exclusions": [
+        [
+          "activiteit.publiek",
+          "bezoekers.niemand"
+        ],
+        [
+          "activiteit.publiek",
+          "toegang.dicht"
+        ],
+        [
+          "bezoekers.iedereen",
+          "toegang.dicht"
+        ]
+      ],
+      "template": "La actividad en el centro religioso es {1}. El acceso del público al encuentro es {2} y el momento del encuentro es {3}.\nEl centro se encuentra en {4} y espera {5}. En cuanto a la accesibilidad de los visitantes, {6}.\nEl acceso al centro es {7}; el alcance de la comunicación es {8}. Para la acogida se dispone de {9}.\nLa toma de decisiones corresponde a {10}, con especial atención a {11}. Las experiencias de visitantes y voluntarios se recogen mediante {12}.",
+      "prompt": "Escribe en español un escenario respetuoso para un centro religioso que incluya todos los valores elegidos. Relaciona el momento y la dimensión del encuentro, el transporte, la acogida y el acceso libre con la hospitalidad, la colaboración con la comunidad y una comunicación cuidadosa con los residentes cercanos. Indica quién toma las decisiones y cómo se evalúan las experiencias de los visitantes. No presupongas amenazas por motivos religiosos ni menciones vulnerabilidades o detalles de seguridad. Termina con dos preguntas de reflexión.",
+      "example": {
+        "label": "Un encuentro concurrido en el barrio",
+        "desc": "<p>Una celebración abierta al público en un día festivo atrae a muchos visitantes a un centro de un barrio residencial. Muchas personas llegan en medios de transporte desde los alrededores. La organización mantiene la entrada libre e informa a los residentes cercanos sobre la afluencia prevista.</p><p>Los voluntarios se ocupan de la acogida. La comunidad analiza con el barrio cómo puede participar todo el mundo sin que la accesibilidad se vea sometida a una presión innecesaria. Al terminar, visitantes y voluntarios comparten sus experiencias en una conversación.</p>",
+        "choices": [
+          "activiteit.publiek",
+          "bezoekers.iedereen",
+          "ritme.feestdag",
+          "plek.buurt",
+          "drukte.groot",
+          "mobiliteit.vervoer",
+          "toegang.open",
+          "communicatie.buurt",
+          "welkom.vrijwilligers",
+          "regie.buurt",
+          "zorg.contact",
+          "terugkoppeling.gesprek"
+        ]
+      }
+    },
+    {
+      "id": "havencontinuiteit",
+      "label": "Puerto y continuidad",
+      "desc": "Practique la evaluación de las consecuencias de perturbaciones en la logística portuaria para los servicios y los socios de la cadena. La capacidad y el flujo de operaciones describen únicamente la terminal ficticia, incluso cuando atiende a pasajeros en vez de mercancías; no se incluyen detalles de seguridad.",
+      "categories": [
+        {
+          "id": "haven",
+          "label": "Función portuaria",
+          "desc": "Tipo de terminal y operaciones actuales en el ejercicio.",
+          "factors": [
+            {
+              "id": "functie",
+              "label": "Función portuaria",
+              "desc": "¿Qué función tiene la terminal ficticia estudiada?",
+              "values": [
+                [
+                  "container",
+                  "Operaciones con contenedores"
+                ],
+                [
+                  "veer",
+                  "Conexión por transbordador"
+                ],
+                [
+                  "gemengd",
+                  "Logística mixta"
+                ]
+              ]
+            },
+            {
+              "id": "afhandeling",
+              "label": "Operaciones en la terminal",
+              "desc": "¿Puede la terminal atender mercancías y pasajeros?",
+              "values": [
+                [
+                  "normaal",
+                  "Operaciones normales"
+                ],
+                [
+                  "beperkt",
+                  "Operaciones limitadas"
+                ],
+                [
+                  "stil",
+                  "Operaciones suspendidas"
+                ]
+              ]
+            },
+            {
+              "id": "tijd",
+              "label": "Duración de la perturbación",
+              "desc": "¿Durante cuánto tiempo prevé la organización que habrá efectos sobre la terminal?",
+              "values": [
+                [
+                  "kort",
+                  "Unas horas"
+                ],
+                [
+                  "dag",
+                  "Un día completo"
+                ],
+                [
+                  "lang",
+                  "Varios días"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "keten",
+          "label": "Cadena y navegación",
+          "desc": "Las dependencias externas a la terminal pueden persistir incluso si las operaciones son limitadas.",
+          "factors": [
+            {
+              "id": "scheepvaart",
+              "label": "Navegación en el puerto",
+              "desc": "¿Cuál es la situación del tráfico marítimo más allá de esta terminal?",
+              "values": [
+                [
+                  "normaal",
+                  "Tráfico habitual"
+                ],
+                [
+                  "beperkt",
+                  "Tráfico limitado"
+                ],
+                [
+                  "omgeleid",
+                  "Tráfico desviado"
+                ]
+              ]
+            },
+            {
+              "id": "druk",
+              "label": "Presión sobre los socios de la cadena",
+              "desc": "¿Qué magnitud tiene la necesidad de coordinación con transportistas y autoridades?",
+              "values": [
+                [
+                  "laag",
+                  "Limitada"
+                ],
+                [
+                  "middel",
+                  "Notable"
+                ],
+                [
+                  "hoog",
+                  "Elevada"
+                ]
+              ]
+            },
+            {
+              "id": "achterland",
+              "label": "Conexión con el interior",
+              "desc": "¿Qué se sabe sobre el transporte fuera de la terminal?",
+              "values": [
+                [
+                  "normaal",
+                  "Disponibilidad habitual"
+                ],
+                [
+                  "beperkt",
+                  "Disponibilidad limitada"
+                ],
+                [
+                  "onzeker",
+                  "Capacidad aún incierta"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "capaciteit",
+          "label": "Capacidad de la terminal",
+          "desc": "Muestre por separado la capacidad y el flujo real de mercancías.",
+          "factors": [
+            {
+              "id": "capaciteit",
+              "label": "Capacidad operativa de la terminal",
+              "desc": "¿Qué parte de la capacidad habitual de operaciones está disponible?",
+              "values": [
+                [
+                  "normaal",
+                  "Totalmente disponible"
+                ],
+                [
+                  "beperkt",
+                  "Parcialmente disponible"
+                ],
+                [
+                  "geen",
+                  "Sin capacidad operativa"
+                ]
+              ]
+            },
+            {
+              "id": "stroom",
+              "label": "Flujo de operaciones de la terminal",
+              "desc": "¿Qué operaciones con mercancías o pasajeros siguen realizándose a través de esta terminal concreta?",
+              "values": [
+                [
+                  "normaal",
+                  "Flujo normal"
+                ],
+                [
+                  "beperkt",
+                  "Flujo limitado"
+                ],
+                [
+                  "geen",
+                  "Sin flujo"
+                ]
+              ]
+            },
+            {
+              "id": "bezetting",
+              "label": "Personal disponible",
+              "desc": "¿Qué parte de la plantilla habitual puede prestar apoyo al servicio?",
+              "values": [
+                [
+                  "normaal",
+                  "Plantilla habitual"
+                ],
+                [
+                  "beperkt",
+                  "Plantilla reducida"
+                ],
+                [
+                  "wisselend",
+                  "Plantilla variable"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "regie",
+          "label": "Coordinación de la cadena y recuperación",
+          "desc": "Coordine las consecuencias para la terminal con los servicios a la sociedad y con los socios.",
+          "factors": [
+            {
+              "id": "prioriteit",
+              "label": "Servicios prioritarios",
+              "desc": "¿Qué interés merece una atención especial al decidir?",
+              "values": [
+                [
+                  "reiziger",
+                  "Continuidad de los servicios a pasajeros"
+                ],
+                [
+                  "levering",
+                  "Continuidad de los suministros"
+                ],
+                [
+                  "veiligheid",
+                  "Atención al personal y al entorno"
+                ]
+              ]
+            },
+            {
+              "id": "afstemming",
+              "label": "Panorama compartido de la situación",
+              "desc": "¿Con qué partes se comparte el estado de la terminal?",
+              "values": [
+                [
+                  "terminal",
+                  "Terminal y autoridad portuaria"
+                ],
+                [
+                  "keten",
+                  "Socios de la cadena logística"
+                ],
+                [
+                  "overheid",
+                  "Socios de la cadena y autoridades públicas"
+                ]
+              ]
+            },
+            {
+              "id": "informatie",
+              "label": "Explicaciones a las personas afectadas",
+              "desc": "¿Cómo se comunican la planificación y las incertidumbres?",
+              "values": [
+                [
+                  "gericht",
+                  "Actualizaciones dirigidas a clientes"
+                ],
+                [
+                  "breed",
+                  "Comunicación pública amplia"
+                ],
+                [
+                  "voorlopig",
+                  "Estado provisional con incertidumbres"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "exclusions": [
+        [
+          "afhandeling.normaal",
+          "capaciteit.geen"
+        ],
+        [
+          "afhandeling.stil",
+          "stroom.normaal"
+        ],
+        [
+          "afhandeling.stil",
+          "stroom.beperkt"
+        ],
+        [
+          "capaciteit.geen",
+          "stroom.normaal"
+        ],
+        [
+          "capaciteit.geen",
+          "stroom.beperkt"
+        ]
+      ],
+      "template": "La terminal estudiada tiene como función {1}. Las operaciones son {2}, previsiblemente durante {3}.\nEn el conjunto del puerto, la navegación presenta {4}. La presión sobre los socios de la cadena es {5}; la conexión con el interior es {6}.\nLa capacidad operativa de la terminal es {7}, mientras que el flujo real de operaciones es {8}. La plantilla disponible es {9}.\nLa prioridad de los servicios es {10}. El panorama compartido de la situación se comunica a {11} y las personas afectadas reciben {12}.",
+      "prompt": "Escribe en español un escenario de continuidad para una terminal portuaria ficticia. Muestra cómo la duración, la función de la terminal, el personal disponible, el flujo de operaciones y la conexión con el interior influyen en las decisiones sobre pasajeros o suministros. Deja claro qué afecta solo a la terminal y qué afecta al puerto entero. No describas rutas de acceso, vulnerabilidades ni procedimientos de seguridad. Termina con dos preguntas sobre colaboración y recuperación.",
+      "example": {
+        "label": "Una terminal reduce su actividad",
+        "desc": "<p>Se prevé que una terminal de contenedores solo pueda realizar operaciones limitadas durante un día completo, mientras que en otras partes del puerto la navegación sigue con normalidad. La plantilla de la terminal varía y la conexión con el interior es limitada. Por ello disminuye el flujo de operaciones y los socios de la cadena piden previsiones claras.</p><p>La autoridad portuaria, los transportistas y las administraciones acuerdan qué suministros tienen prioridad. En actualizaciones dirigidas a los clientes explican por qué las consecuencias para esta terminal no equivalen a la paralización de todo el puerto.</p>",
+        "choices": [
+          "functie.container",
+          "afhandeling.beperkt",
+          "tijd.dag",
+          "scheepvaart.normaal",
+          "druk.hoog",
+          "achterland.beperkt",
+          "capaciteit.beperkt",
+          "stroom.beperkt",
+          "bezetting.wisselend",
+          "prioriteit.levering",
+          "afstemming.overheid",
+          "informatie.gericht"
+        ]
+      }
+    },
+    {
+      "id": "luchthavencontinuiteit",
+      "label": "Aeropuerto y continuidad",
+      "desc": "Una caja de ejercicios sobre operaciones aéreas, atención a pasajeros y comunicación en un aeropuerto ficticio. En este modelo, si todas las pistas operativas están cerradas, no hay despegues ni aterrizajes.",
+      "categories": [
+        {
+          "id": "vluchten",
+          "label": "Aeropuerto y vuelos",
+          "desc": "Tipo de aeropuerto y despegues y aterrizajes actuales.",
+          "factors": [
+            {
+              "id": "functie",
+              "label": "Función del aeropuerto",
+              "desc": "¿Qué tamaño y función tiene el aeropuerto ficticio?",
+              "values": [
+                [
+                  "regionaal",
+                  "Aeropuerto regional"
+                ],
+                [
+                  "internationaal",
+                  "Aeropuerto internacional"
+                ],
+                [
+                  "gemengd",
+                  "Aeropuerto de uso mixto"
+                ]
+              ]
+            },
+            {
+              "id": "operatie",
+              "label": "Despegues y aterrizajes",
+              "desc": "¿Cuál es la situación real de los vuelos en el ejercicio?",
+              "values": [
+                [
+                  "normaal",
+                  "Según el horario habitual"
+                ],
+                [
+                  "beperkt",
+                  "Número limitado de vuelos"
+                ],
+                [
+                  "stil",
+                  "Sin despegues ni aterrizajes"
+                ]
+              ]
+            },
+            {
+              "id": "tijd",
+              "label": "Duración prevista",
+              "desc": "¿Cuánto tiempo se espera que persista la incertidumbre sobre la situación?",
+              "values": [
+                [
+                  "kort",
+                  "Unas horas"
+                ],
+                [
+                  "dag",
+                  "Parte de un día"
+                ],
+                [
+                  "lang",
+                  "Más de un día completo"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "infrastructuur",
+          "label": "Infraestructura disponible",
+          "desc": "Las pistas y la terminal pueden sufrir limitaciones independientes.",
+          "factors": [
+            {
+              "id": "banen",
+              "label": "Pistas operativas",
+              "desc": "¿Están disponibles las pistas para los vuelos?",
+              "values": [
+                [
+                  "open",
+                  "Todas las pistas disponibles"
+                ],
+                [
+                  "deels",
+                  "Algunas pistas disponibles"
+                ],
+                [
+                  "dicht",
+                  "Todas las pistas cerradas"
+                ]
+              ]
+            },
+            {
+              "id": "terminal",
+              "label": "Terminal para el público",
+              "desc": "¿Está abierta la terminal de pasajeros?",
+              "values": [
+                [
+                  "open",
+                  "Abierta por completo"
+                ],
+                [
+                  "deels",
+                  "Abierta parcialmente"
+                ],
+                [
+                  "dicht",
+                  "Cerrada por completo"
+                ]
+              ]
+            },
+            {
+              "id": "verbinding",
+              "label": "Transporte hacia y desde el aeropuerto",
+              "desc": "¿Qué opciones tienen los viajeros en la región?",
+              "values": [
+                [
+                  "normaal",
+                  "Transporte habitual"
+                ],
+                [
+                  "beperkt",
+                  "Transporte limitado"
+                ],
+                [
+                  "onzeker",
+                  "Se estudian alternativas"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "reizigers",
+          "label": "Pasajeros e información",
+          "desc": "¿Qué servicios e información reciben los pasajeros?",
+          "factors": [
+            {
+              "id": "verwerking",
+              "label": "Atención de pasajeros en la terminal",
+              "desc": "¿En qué medida se atiende a los pasajeros en la terminal?",
+              "values": [
+                [
+                  "normaal",
+                  "Normal"
+                ],
+                [
+                  "beperkt",
+                  "Limitada"
+                ],
+                [
+                  "stil",
+                  "Suspendida"
+                ]
+              ]
+            },
+            {
+              "id": "informatie",
+              "label": "Información a los pasajeros",
+              "desc": "¿Con qué rapidez pueden las partes implicadas compartir información actualizada?",
+              "values": [
+                [
+                  "tijdig",
+                  "Actualizaciones conjuntas oportunas"
+                ],
+                [
+                  "traag",
+                  "Actualizaciones con retraso"
+                ],
+                [
+                  "onzeker",
+                  "Panorama incierto"
+                ]
+              ]
+            },
+            {
+              "id": "opvang",
+              "label": "Atención a los pasajeros",
+              "desc": "¿Qué apoyo se ha organizado para los viajeros varados o retrasados?",
+              "values": [
+                [
+                  "terplekke",
+                  "Información en el lugar"
+                ],
+                [
+                  "vervoer",
+                  "Ayuda para encontrar transporte alternativo"
+                ],
+                [
+                  "opvang",
+                  "Acogida temporal coordinada"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "regie",
+          "label": "Decisiones entre organizaciones",
+          "desc": "Un aeropuerto también depende de transportistas, administraciones y servicios regionales.",
+          "factors": [
+            {
+              "id": "partners",
+              "label": "Socios implicados",
+              "desc": "¿Quiénes elaboran un panorama común de la situación?",
+              "values": [
+                [
+                  "luchthaven",
+                  "Aeropuerto y compañías aéreas"
+                ],
+                [
+                  "regionaal",
+                  "También transportistas regionales"
+                ],
+                [
+                  "breed",
+                  "También autoridades implicadas y entidades asistenciales"
+                ]
+              ]
+            },
+            {
+              "id": "keuze",
+              "label": "Principal cuestión a considerar",
+              "desc": "¿Qué interés social debe atenderse con urgencia?",
+              "values": [
+                [
+                  "reizigers",
+                  "Atención a los pasajeros"
+                ],
+                [
+                  "vluchten",
+                  "Priorizar vuelos"
+                ],
+                [
+                  "omgeving",
+                  "Consecuencias para el entorno"
+                ]
+              ]
+            },
+            {
+              "id": "herstel",
+              "label": "Perspectivas de recuperación",
+              "desc": "¿Qué grado de certeza hay sobre el regreso al horario habitual?",
+              "values": [
+                [
+                  "onbekend",
+                  "Todavía desconocidas"
+                ],
+                [
+                  "gefaseerd",
+                  "Se prevé una reanudación por fases"
+                ],
+                [
+                  "normaal",
+                  "Situación habitual restablecida"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "exclusions": [
+        [
+          "banen.dicht",
+          "operatie.normaal"
+        ],
+        [
+          "banen.dicht",
+          "operatie.beperkt"
+        ],
+        [
+          "terminal.dicht",
+          "verwerking.normaal"
+        ],
+        [
+          "terminal.dicht",
+          "verwerking.beperkt"
+        ]
+      ],
+      "template": "El aeropuerto ficticio tiene como función {1}. Respecto a los despegues y aterrizajes, {2}, con una duración prevista de {3}.\nEn cuanto a las pistas operativas, {4}; la terminal para el público está {5}. El transporte hacia y desde el aeropuerto es {6}.\nLa atención de pasajeros en la terminal es {7}. Los viajeros reciben {8} y la atención a los pasajeros consiste en {9}.\nEntre los socios implicados se encuentran {10}. La principal cuestión a considerar es {11}, mientras que las perspectivas de recuperación son {12}.",
+      "prompt": "Crea en español un escenario sobre la continuidad y la atención a pasajeros en un aeropuerto ficticio con todos los valores elegidos. Describe por separado las operaciones aéreas, la terminal, la atención de pasajeros y el transporte regional, y ten en cuenta la incertidumbre sobre la duración y las perspectivas de recuperación. Muestra cómo el aeropuerto, los transportistas y las administraciones apoyan a los viajeros y coordinan la información. Evita mencionar vulnerabilidades concretas de la infraestructura y detalles técnicos de seguridad. Termina con dos preguntas sobre la información a los viajeros.",
+      "example": {
+        "label": "Los viajeros esperan información clara",
+        "desc": "<p>Se prevé que un aeropuerto internacional pueda gestionar un número limitado de vuelos durante parte de un día. Parte de la terminal está fuera de servicio y los viajeros sufren retrasos. El transporte regional también puede llevar a menos personas, mientras las actualizaciones de los transportistas llegan tarde.</p><p>El aeropuerto, las compañías aéreas y los transportistas regionales coordinan la acogida temporal y las opciones de viaje alternativas. El regreso al horario habitual sigue siendo incierto; por ello, la atención a los viajeros es fundamental al decidir qué información puede compartirse ya.</p>",
+        "choices": [
+          "functie.internationaal",
+          "operatie.beperkt",
+          "tijd.dag",
+          "banen.deels",
+          "terminal.deels",
+          "verbinding.beperkt",
+          "verwerking.beperkt",
+          "informatie.traag",
+          "opvang.opvang",
+          "partners.regionaal",
+          "keuze.reizigers",
+          "herstel.onbekend"
+        ]
+      }
+    }
+  ]
+}

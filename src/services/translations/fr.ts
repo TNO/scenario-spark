@@ -20,6 +20,8 @@ export const messages: typeof messagesEN = {
   },
   UPLOAD_FILE: 'Charger un scénario ou une collection',
   IMPORT_READ_ERROR: 'Impossible de lire le fichier sélectionné.',
+  COLLECTION_LOAD_FAILED: 'Impossible de charger la collection. Vérifiez votre connexion et actualisez la page.',
+  STARTER_KIT_LOAD_FAILED: 'Impossible de charger le kit de démarrage. Vérifiez votre connexion et réessayez.',
   IMPORT_COLLECTION_TITLE: 'Remplacer la collection ?',
   IMPORT_COLLECTION_MSG:
     'Ce fichier contient une collection. Son chargement remplacera votre collection actuelle, y compris les modifications non enregistrées. Continuer ?',
@@ -198,11 +200,11 @@ export const messages: typeof messagesEN = {
   },
   MODEL_NAMES: {
     0: 'Modèle vide',
-    1: 'Kit de démarrage néerlandais',
+    1: 'Kit de démarrage',
   },
   MODEL_DESC: {
     0: 'Commencer avec une boîte morphologique vide.',
-    1: 'Dix boîtes d’exercice en néerlandais avec exemples, contraintes et invites LLM.',
+    1: 'Dix boîtes d’exercice en français avec exemples, contraintes, modèles de récit et invites LLM.',
   },
   JSON_NOT_VALID: "Le fichier de modèle JSON n'est pas valide ! Annulation.",
   NO_NARRATIVE: 'Récit non généré après 100 tentatives !',

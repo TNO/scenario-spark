@@ -1,4 +1,5 @@
-const CACHE_NAME = 'scenario-spark-v7';
+const CACHE_NAME = 'scenario-spark-v8';
+const STARTER_KIT_LANGUAGES = new Set(['nl', 'en', 'fr', 'de', 'es', 'pl']);
 
 const BASE = self.location.pathname.replace(/\/sw\.js$/, '') || '/';
 
@@ -24,6 +25,21 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((keys) =>
       Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
     ).then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data?.type !== 'CACHE_STARTER_KIT') return;
+  const language = event.data.language;
+  if (!STARTER_KIT_LANGUAGES.has(language)) {
+    console.error('Unsupported starter kit language:', language);
+    return;
+  }
+  const url = `${BASE}/assets/${language}.js`;
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.match(url).then((cached) => cached || cache.add(url)))
+      .catch((error) => console.error('Could not cache starter kit:', error))
   );
 });
 

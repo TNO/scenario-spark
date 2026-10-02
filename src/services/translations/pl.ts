@@ -20,6 +20,8 @@ export const messages: typeof messagesEN = {
   },
   UPLOAD_FILE: 'Wczytaj scenariusz lub kolekcję',
   IMPORT_READ_ERROR: 'Nie można odczytać wybranego pliku.',
+  COLLECTION_LOAD_FAILED: 'Nie udało się wczytać kolekcji. Sprawdź połączenie i odśwież stronę.',
+  STARTER_KIT_LOAD_FAILED: 'Nie udało się wczytać zestawu startowego. Sprawdź połączenie i spróbuj ponownie.',
   IMPORT_COLLECTION_TITLE: 'Zastąpić kolekcję?',
   IMPORT_COLLECTION_MSG:
     'Ten plik zawiera kolekcję. Wczytanie go zastąpi bieżącą kolekcję, w tym niezapisane zmiany. Kontynuować?',
@@ -197,11 +199,11 @@ export const messages: typeof messagesEN = {
   },
   MODEL_NAMES: {
     0: 'Pusty model',
-    1: 'Niderlandzki zestaw startowy',
+    1: 'Zestaw startowy',
   },
   MODEL_DESC: {
     0: 'Rozpocznij od pustej tabeli morfologicznej.',
-    1: 'Dziesięć niderlandzkich modeli ćwiczeń z przykładami, ograniczeniami i poleceniami LLM.',
+    1: 'Dziesięć polskojęzycznych modeli ćwiczeń z przykładami, ograniczeniami, szablonami tekstu i poleceniami LLM.',
   },
   JSON_NOT_VALID: 'Plik modelu JSON jest nieprawidłowy! Przerywanie.',
   NO_NARRATIVE: 'Narracja nie została wygenerowana w 100 próbach!',

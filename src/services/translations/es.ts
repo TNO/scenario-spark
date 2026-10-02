@@ -20,6 +20,8 @@ export const messages: typeof messagesEN = {
   },
   UPLOAD_FILE: 'Cargar escenario o colección',
   IMPORT_READ_ERROR: 'No se pudo leer el archivo seleccionado.',
+  COLLECTION_LOAD_FAILED: 'No se pudo cargar la colección. Compruebe su conexión y vuelva a cargar la página.',
+  STARTER_KIT_LOAD_FAILED: 'No se pudo cargar el kit inicial. Compruebe su conexión e inténtelo de nuevo.',
   IMPORT_COLLECTION_TITLE: '¿Reemplazar la colección?',
   IMPORT_COLLECTION_MSG:
     'Este archivo contiene una colección. Al cargarla, se reemplazará la colección actual, incluidos los cambios no guardados. ¿Continuar?',
@@ -198,11 +200,11 @@ export const messages: typeof messagesEN = {
   },
   MODEL_NAMES: {
     0: 'Modelo vacío',
-    1: 'Kit inicial neerlandés',
+    1: 'Kit inicial',
   },
   MODEL_DESC: {
     0: 'Comenzar con una caja morfológica vacía.',
-    1: 'Diez cajas de ejercicios en neerlandés con ejemplos, restricciones e indicaciones LLM.',
+    1: 'Diez cajas de ejercicios en español con ejemplos, restricciones, plantillas de texto e indicaciones para el LLM.',
   },
   JSON_NOT_VALID: '¡El archivo de modelo JSON no es válido! Abortando.',
   NO_NARRATIVE: '¡Narrativa no generada en 100 intentos!',

@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { addStarterKitToModel, createStarterKitNl } from '../src/models/starter-kit-nl.ts';
+import { addStarterKitToModel, loadStarterKit } from '../src/models/starter-kit.ts';
 import { parseImportedModel } from '../src/utils/import-model.ts';
 
 const scenarios = (model) => [model.scenario, ...model.scenarios];
+const createStarterKitNl = (colors) => loadStarterKit('nl', colors);
 const canComplete = (scenario, requiredId) => {
   const factors = scenario.components;
   const incompatible = (a, b) =>
@@ -23,8 +24,8 @@ const canComplete = (scenario, requiredId) => {
   return search(0, []);
 };
 
-test('provides ten importable, distinct Dutch starter boxes', () => {
-  const model = createStarterKitNl([{ threshold: 0, color: '#123456' }]);
+test('provides ten importable, distinct Dutch starter boxes', async () => {
+  const model = await createStarterKitNl([{ threshold: 0, color: '#123456' }]);
   const boxes = scenarios(model);
   assert.equal(boxes.length, 10);
   assert.equal(new Set(boxes.map((box) => box.id)).size, 10);
@@ -42,8 +43,8 @@ test('provides ten importable, distinct Dutch starter boxes', () => {
   }
 });
 
-test('every starter box has a complete prose template and an effects-focused LLM prompt', () => {
-  for (const box of scenarios(createStarterKitNl([]))) {
+test('every starter box has a complete prose template and an effects-focused LLM prompt', async () => {
+  for (const box of scenarios(await createStarterKitNl([]))) {
     const placeholders = [...box.template.matchAll(/\{(\d+)\}/g)].map(([, number]) => Number(number));
     assert.deepEqual(
       placeholders.slice().sort((a, b) => a - b),
@@ -60,8 +61,8 @@ test('every starter box has a complete prose template and an effects-focused LLM
   }
 });
 
-test('event safety and cyber continuity offer source-level depth', () => {
-  const boxes = scenarios(createStarterKitNl([]));
+test('event safety and cyber continuity offer source-level depth', async () => {
+  const boxes = scenarios(await createStarterKitNl([]));
   assert.ok(boxes.find(({ id }) => id.endsWith('evenementenveiligheid')).components.length >= 20);
   assert.ok(boxes.find(({ id }) => id.endsWith('cybercontinuiteit')).components.length >= 16);
   const event = boxes.find(({ id }) => id.endsWith('evenementenveiligheid'));
@@ -77,8 +78,8 @@ test('event safety and cyber continuity offer source-level depth', () => {
   assert.notEqual(event.inconsistencies[permitted]?.[expected], true);
 });
 
-test('every driver and category has valid, documented, unique choices', () => {
-  for (const box of scenarios(createStarterKitNl([]))) {
+test('every driver and category has valid, documented, unique choices', async () => {
+  for (const box of scenarios(await createStarterKitNl([]))) {
     const componentIds = new Set(box.components.map(({ id }) => id));
     const valueIds = box.components.flatMap(({ values }) => values.map(({ id }) => id));
     assert.equal(componentIds.size, box.components.length, box.label);
@@ -106,8 +107,8 @@ test('every driver and category has valid, documented, unique choices', () => {
   }
 });
 
-test('hard exclusions link different factors and leave every option feasible', () => {
-  for (const box of scenarios(createStarterKitNl([]))) {
+test('hard exclusions link different factors and leave every option feasible', async () => {
+  for (const box of scenarios(await createStarterKitNl([]))) {
     const factorByValue = new Map(
       box.components.flatMap((factor) => factor.values.map(({ id }) => [id, factor.id]))
     );
@@ -136,17 +137,17 @@ test('hard exclusions link different factors and leave every option feasible', (
   }
 });
 
-test('creating a new starter kit does not reuse mutable scenario data', () => {
-  const first = createStarterKitNl([]);
+test('creating a new starter kit does not reuse mutable scenario data', async () => {
+  const first = await createStarterKitNl([]);
   first.scenario.label = 'Changed by user';
   first.scenarios.length = 0;
-  const second = createStarterKitNl([]);
+  const second = await createStarterKitNl([]);
   assert.notEqual(second.scenario.label, 'Changed by user');
   assert.equal(second.scenarios.length, 9);
 });
 
-test('the safety-region examples cite public background sources', () => {
-  const boxes = scenarios(createStarterKitNl([]));
+test('the safety-region examples cite public background sources', async () => {
+  const boxes = scenarios(await createStarterKitNl([]));
   for (const label of ['Hoogwater en wateroverlast', 'Dijkdoorbraak', 'Natuurbrand']) {
     const box = boxes.find((item) => item.label === label);
     assert.ok(box, label);
@@ -154,8 +155,8 @@ test('the safety-region examples cite public background sources', () => {
   }
 });
 
-test('adding the kit is non-destructive, idempotent and preserves edited starter boxes', () => {
-  const kit = createStarterKitNl([]);
+test('adding the kit is non-destructive, idempotent and preserves edited starter boxes', async () => {
+  const kit = await createStarterKitNl([]);
   const standalone = {
     scenario: { ...kit.scenario, id: 'standalone', label: 'Bestaande box' },
     scenarios: [],

@@ -2,7 +2,8 @@ import { Translate, Options } from 'translate.js';
 import { messages } from '../services';
 import { uniqueId } from 'mithril-materialized';
 import { LLMConfig } from '../components/ui/llm';
-import { createStarterKitNl } from './starter-kit-nl';
+import type { Languages } from '../services/translations';
+import { loadStarterKit } from './starter-kit';
 
 export type DataModel = {
   version?: number;
@@ -205,8 +206,6 @@ export const thresholdColors = [
   { threshold: 3, color: '#ff0000' },
 ];
 
-export const defaultModel: DataModel = createStarterKitNl(thresholdColors);
-
 export const newScenario = () => ({
   id: uniqueId(),
   label: 'NEW SCENARIO',
@@ -236,9 +235,9 @@ export const emptyModel = () =>
  *    MODEL_NAME, MODEL_DESC
  * where the index of the model should match.
  */
-export const defaultModels: Array<() => DataModel> = [
+export const defaultModels: Array<(language: Languages) => DataModel | Promise<DataModel>> = [
   emptyModel,
-  () => createStarterKitNl(thresholdColors),
+  (language) => loadStarterKit(language, thresholdColors),
 ];
 
 export type ID = string;

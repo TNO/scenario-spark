@@ -20,6 +20,8 @@ export const messages: typeof messagesEN = {
   },
   UPLOAD_FILE: 'Szenario oder Sammlung laden',
   IMPORT_READ_ERROR: 'Die ausgewählte Datei konnte nicht gelesen werden.',
+  COLLECTION_LOAD_FAILED: 'Die Sammlung konnte nicht geladen werden. Prüfen Sie Ihre Verbindung und laden Sie die Seite neu.',
+  STARTER_KIT_LOAD_FAILED: 'Das Starterpaket konnte nicht geladen werden. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.',
   IMPORT_COLLECTION_TITLE: 'Sammlung ersetzen?',
   IMPORT_COLLECTION_MSG:
     'Diese Datei enthält eine Sammlung. Beim Laden wird Ihre aktuelle Sammlung einschließlich nicht gespeicherter Änderungen ersetzt. Fortfahren?',
@@ -198,11 +200,11 @@ export const messages: typeof messagesEN = {
   },
   MODEL_NAMES: {
     0: 'Leeres Modell',
-    1: 'Niederländisches Starterpaket',
+    1: 'Starterpaket',
   },
   MODEL_DESC: {
     0: 'Mit einer leeren morphologischen Box beginnen.',
-    1: 'Zehn niederländische Übungsboxen mit Beispielen, Ausschlüssen und LLM-Prompts.',
+    1: 'Zehn deutschsprachige Übungsboxen mit Beispielen, Ausschlüssen, Textvorlagen und LLM-Prompts.',
   },
   JSON_NOT_VALID: 'JSON-Modelldatei nicht gültig! Abbruch.',
   NO_NARRATIVE: 'Narrativ wurde in 100 Versuchen nicht generiert!',

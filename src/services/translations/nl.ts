@@ -20,6 +20,8 @@ export const messages: typeof messagesEN = {
   },
   UPLOAD_FILE: 'Laad scenario of collectie',
   IMPORT_READ_ERROR: 'Het geselecteerde bestand kon niet worden gelezen.',
+  COLLECTION_LOAD_FAILED: 'De collectie kon niet worden geladen. Controleer je verbinding en laad de pagina opnieuw.',
+  STARTER_KIT_LOAD_FAILED: 'De starterkit kon niet worden geladen. Controleer je verbinding en probeer het opnieuw.',
   IMPORT_COLLECTION_TITLE: 'Collectie vervangen?',
   IMPORT_COLLECTION_MSG:
     'Dit bestand bevat een collectie. Bij het laden wordt je huidige collectie vervangen, inclusief niet-opgeslagen wijzigingen. Doorgaan?',
@@ -197,11 +199,11 @@ export const messages: typeof messagesEN = {
   },
   MODEL_NAMES: {
     0: 'Leeg model',
-    1: 'Nederlandse starterkit',
+    1: 'Starterkit',
   },
   MODEL_DESC: {
     0: 'Begin met een lege morfologische box.',
-    1: 'Tien oefenboxen met voorbeeldscenario’s, inconsistenties en LLM-prompts.',
+    1: 'Tien Nederlandstalige oefenboxen met voorbeelden, inconsistenties, tekstsjablonen en LLM-prompts.',
   },
   JSON_NOT_VALID: 'JSON bestand niet valide! Het inladen wordt afgebroken.',
   NO_NARRATIVE: 'Er kon geen verhaallijn gegenereerd worden na 100 pogingen!',

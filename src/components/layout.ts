@@ -3,10 +3,11 @@ import { Icon, ThemeToggle } from 'mithril-materialized';
 import logo_white from '../assets/tno_white.svg';
 import { IDashboard } from '../models';
 import { routingSvc } from '../services/routing-service';
-import { MeiosisComponent, changePage, i18n, setLanguage } from '../services';
+import { MeiosisComponent, changePage, i18n, setLanguage, t } from '../services';
 // import { LANGUAGE } from '../utils';
 import DutchFlag from '../assets/flag-nl.png';
 import EnglishFlag from '../assets/flag-en.png';
+import { CircularSpinner } from './ui/preloader';
 
 // export const setLanguage = async (locale = i18n.currentLocale) => {
 //   localStorage.setItem(LANGUAGE, locale);
@@ -62,7 +63,7 @@ export const Layout: MeiosisComponent = () => ({
                       maxWidth: 'calc(100vw - 670px)',
                     },
                   },
-                  attrs.state.model?.scenario?.label,
+                  attrs.state.modelReady ? attrs.state.model?.scenario?.label : '',
                 ),
               ],
             ),
@@ -162,7 +163,14 @@ export const Layout: MeiosisComponent = () => ({
           ]),
         ),
       ),
-      m('.container', children),
+      m(
+        '.container',
+        attrs.state.modelReady
+          ? children
+          : attrs.state.modelLoadError
+            ? m('p[role=alert]', t('COLLECTION_LOAD_FAILED'))
+            : m(CircularSpinner),
+      ),
     ]);
   },
 });
