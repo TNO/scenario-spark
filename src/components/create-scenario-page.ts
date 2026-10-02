@@ -684,7 +684,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   updateNarrative(attrs, curNarrative);
                 },
                 // placeholder: 'Start writing...',
-                theme: ThemeManager.getTheme() === 'dark' ? 'dark' : 'light',
+                theme: ThemeManager.getTheme(),
                 toolbar: true,
                 showTabs: true,
                 markdownToHtml: render,

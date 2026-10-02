@@ -6,6 +6,7 @@ import { test } from 'node:test';
 const require = createRequire(import.meta.url);
 const esbuild = createRequire(require.resolve('vite/package.json'))('esbuild');
 const materialized = require('mithril-materialized');
+const MarkdownEditor = () => {};
 require('mithril').redraw = () => {};
 const source = readFileSync(new URL('../src/components/create-scenario-page.ts', import.meta.url), 'utf8');
 const code = esbuild.transformSync(source, { loader: 'ts', format: 'cjs', target: 'es2022' }).code;
@@ -32,7 +33,7 @@ const findAll = (node, predicate) => {
   ];
 };
 
-const setup = (provider, withSecondPersona = false) => {
+const setup = (provider, withSecondPersona = false, themePreference = 'auto') => {
   const persona = { id: 'resident', label: 'Resident', desc: 'Needs accessible updates' };
   const secondPersona = { id: 'visitor', label: 'Visitor', desc: 'Needs clear directions' };
   const personas = withSecondPersona ? [persona, secondPersona] : [persona];
@@ -55,7 +56,11 @@ const setup = (provider, withSecondPersona = false) => {
   const calls = [];
   const module = { exports: {} };
   const mocks = {
-    'mithril-materialized': { ...materialized, toast: () => {} },
+    'mithril-materialized': {
+      ...materialized,
+      ThemeManager: { getTheme: () => themePreference },
+      toast: () => {},
+    },
     'mithril-ui-form': { range: () => [], render: (value) => value },
     '../models': { Dashboards: { CREATE_SCENARIO: 'create' } },
     '../services': {
@@ -77,7 +82,7 @@ const setup = (provider, withSecondPersona = false) => {
       },
     },
     '../models/persona-images': { PersonaImages: [] },
-    'mithril-markdown-wysiwyg': { MarkdownEditor: () => {} },
+    'mithril-markdown-wysiwyg': { MarkdownEditor },
     '../utils/index': { quillToMarkdown: (value) => value },
     './ui/scenario-paragraph': { ScenarioParagraph: () => {} },
   };
@@ -96,14 +101,21 @@ const setup = (provider, withSecondPersona = false) => {
     (node) => node.tag === materialized.TextArea && node.attrs.label === 'PERSONA_IMPRESSION',
   );
   const render = () => page.view({ attrs });
+  const editor = () => find(render(), (node) => node.tag === MarkdownEditor);
   const actions = () => findAll(
     render(),
     (node) => node.tag === materialized.FlatButton &&
       (node.attrs?.['aria-label']?.startsWith('COPY_PERSONA_PROMPT_FOR') ||
         node.attrs?.['aria-label']?.startsWith('GENERATE_PERSONA_FEEDBACK_FOR')),
   );
-  return { button, field, render, actions, calls, narrative, persona, saved };
+  return { button, field, render, editor, actions, calls, narrative, persona, saved };
 };
+
+test('markdown editor receives the app theme including auto mode', () => {
+  for (const theme of ['auto', 'dark', 'light']) {
+    assert.equal(setup('clipboard', false, theme).editor().attrs.theme, theme);
+  }
+});
 
 test('provider feedback saves to the matching persona without replacing narrative text', async () => {
   const { button, calls, narrative, persona, saved } = setup('ollama');
