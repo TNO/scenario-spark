@@ -10,6 +10,8 @@ export const messages = {
     COLLECTION: 'Save collection',
     MODEL: 'Save scenario file',
   },
+  DOWNLOAD_FILENAME_TITLE: 'Save scenario file',
+  DOWNLOAD_FILENAME_LABEL: 'File name',
   UPLOAD: {
     COLLECTION: 'Load collection',
     MODEL: 'Load scenario file',
@@ -401,6 +403,7 @@ export const messages = {
     'Paste tab-separated data from Excel/Google Sheets here...\n\nFirst row = key driver names, each column = options for that driver.',
   IMPORT_PARSE: 'Parse & Import',
   IMPORT_NO_DRIVERS: 'No key drivers detected. Check your paste.',
+  IMPORT_NO_DATA: 'No spreadsheet data detected. Paste a table and try again.',
   IMPORT_NEEDS_TWO_COLUMNS:
     'Import requires at least 2 columns (driver names and options).',
 };

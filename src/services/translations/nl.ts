@@ -12,6 +12,8 @@ export const messages: typeof messagesEN = {
     COLLECTION: 'Bewaar collectie',
     MODEL: 'Bewaar scenario bestand',
   },
+  DOWNLOAD_FILENAME_TITLE: 'Scenario opslaan',
+  DOWNLOAD_FILENAME_LABEL: 'Bestandsnaam',
   UPLOAD: {
     COLLECTION: 'Lees collectie',
     MODEL: 'Lees scenario bestand',
@@ -423,6 +425,7 @@ export const messages: typeof messagesEN = {
   IMPORT_PLACEHOLDER:
     'Plak hier tab-gescheiden gegevens uit Excel/Google Sheets...\n\nEerste rij = naam stuurfactoren, elke kolom = opties voor die factor.',
   IMPORT_PARSE: 'Verwerken & Importeren',
+  IMPORT_NO_DATA: 'Geen tabelgegevens gevonden. Plak een tabel en probeer opnieuw.',
   IMPORT_NO_DRIVERS:
     'Geen stuurfactoren gevonden. Controleer de geplakte tekst.',
   IMPORT_NEEDS_TWO_COLUMNS:

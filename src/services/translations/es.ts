@@ -12,6 +12,8 @@ export const messages: typeof messagesEN = {
     COLLECTION: 'Guardar colección',
     MODEL: 'Guardar archivo de escenario',
   },
+  DOWNLOAD_FILENAME_TITLE: 'Guardar escenario',
+  DOWNLOAD_FILENAME_LABEL: 'Nombre del archivo',
   UPLOAD: {
     COLLECTION: 'Cargar colección',
     MODEL: 'Cargar archivo de escenario',
@@ -410,6 +412,7 @@ export const messages: typeof messagesEN = {
   IMPORT_PLACEHOLDER:
     'Pegue aquí los datos separados por tabulaciones de Excel/Google Sheets...\n\nPrimera fila = nombres de los factores clave, cada columna = opciones para ese factor.',
   IMPORT_PARSE: 'Analizar e importar',
+  IMPORT_NO_DATA: 'No se detectaron datos tabulares. Pegue una tabla e inténtelo de nuevo.',
   IMPORT_NO_DRIVERS:
     'No se detectaron factores clave. Verifique los datos pegados.',
   IMPORT_NEEDS_TWO_COLUMNS:

@@ -12,6 +12,8 @@ export const messages: typeof messagesEN = {
     COLLECTION: 'Sammlung speichern',
     MODEL: 'Szenariodatei speichern',
   },
+  DOWNLOAD_FILENAME_TITLE: 'Szenario speichern',
+  DOWNLOAD_FILENAME_LABEL: 'Dateiname',
   UPLOAD: {
     COLLECTION: 'Sammlung laden',
     MODEL: 'Szenariodatei laden',
@@ -429,6 +431,7 @@ export const messages: typeof messagesEN = {
   IMPORT_PLACEHOLDER:
     'Hier tabulatorgetrennte Daten aus Excel/Google Sheets einfügen...\n\nErste Zeile = Schlüssel-Treiber-Namen, jede Spalte = Optionen für diesen Treiber.',
   IMPORT_PARSE: 'Parsern & Importieren',
+  IMPORT_NO_DATA: 'Keine Tabellendaten erkannt. Tabelle einfügen und erneut versuchen.',
   IMPORT_NO_DRIVERS:
     'Keine Schlüssel-Treiber erkannt. Überprüfen Sie die Einfügung.',
   IMPORT_NEEDS_TWO_COLUMNS:

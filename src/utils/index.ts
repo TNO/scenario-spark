@@ -1072,7 +1072,7 @@ export const downloadAsDocx = async (
     PageBreak,
   } = await import('docx');
 
-  const sections: import('docx').SectionType[] = [
+  const sections: import('docx').ISectionOptions[] = [
     {
       properties: {
         page: {

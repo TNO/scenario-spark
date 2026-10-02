@@ -6,7 +6,11 @@
 
 :root {
   --morph-font-size: 24px;
-  --mm-primary-color: #26a69a;
+  --mm-primary-color: #245486;
+  --mm-primary-color-light: #b9d5ee;
+  --mm-primary-color-dark: #163b63;
+  --mm-secondary-color: #815a2a;
+  --mm-secondary-color-dark: #64431b;
   --mm-background-color: #ffffff;
   --mm-text-primary: rgba(0, 0, 0, 0.87);
   --mm-border-color: rgba(0, 0, 0, 0.12);
@@ -24,7 +28,11 @@
 }
 
 [data-theme='dark'] {
-  --mm-primary-color: #80cbc4;
+  --mm-primary-color: #a8cdf4;
+  --mm-primary-color-light: #d0e5fb;
+  --mm-primary-color-dark: #78a9dc;
+  --mm-secondary-color: #efc687;
+  --mm-secondary-color-dark: #deb06b;
   --mm-background-color: #121212;
   --mm-text-primary: rgba(255, 255, 255, 0.87);
   --mm-border-color: rgba(255, 255, 255, 0.12);
@@ -45,6 +53,20 @@
   .leaflet-popup-tip {
     background-color: #333;
     color: var(--mm-text-primary);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --mm-primary-color: #a8cdf4;
+    --mm-primary-color-light: #d0e5fb;
+    --mm-primary-color-dark: #78a9dc;
+    --mm-secondary-color: #efc687;
+    --mm-secondary-color-dark: #deb06b;
+    --mm-popup-background: #7b7f04;
+    --mm-surface-color: #1e1e1e;
+    --mm-table-striped-color: rgba(255, 255, 255, 0.05);
+    --toolbar-bg: #161b22;
   }
 }
 
@@ -159,6 +181,20 @@ nav .title {
 }
 .sidenav {
   top: 66px;
+}
+.nav-wrapper > ul.right > li:last-child {
+  display: flex;
+  align-items: center;
+  height: 64px;
+}
+.nav-wrapper > ul.right > li .secondary {
+  color: inherit;
+}
+.nav-wrapper > ul.right > li.active .material-icons {
+  color: #163b63;
+}
+.nav-wrapper > ul.right .theme-toggle {
+  color: white;
 }
 .buttons a {
   margin: 5px;
@@ -606,6 +642,17 @@ label,
   overflow-y: auto;
 }
 
+#llm-scenario-wizard.modal {
+  max-height: calc(100dvh - 2rem) !important;
+  overflow: hidden !important;
+}
+
+#llm-scenario-wizard .modal-content {
+  min-height: 0 !important;
+  padding: 36px 24px 16px !important;
+  overflow-y: auto !important;
+}
+
 /* a.waves-effect.waves-teal.btn-flat.selected {
   background: #1a237e;
   color: white;
@@ -853,13 +900,16 @@ ul.kanban > li {
 }
 .scenario-table .material-icons {
   margin-top: 1.6rem;
-  margin-left: 5px;
 }
 .scenario-table .icons {
   display: flex;
   flex-wrap: nowrap;
   justify-content: right;
   align-items: flex-start;
+  padding: 0;
+}
+.scenario-table > .col.s2.icons .material-icons {
+  margin-top: 10px;
 }
 .narratives {
   border: solid #dbe2e0;
@@ -1122,6 +1172,17 @@ ul.kanban > li {
 .icon-button {
   margin: 0;
   padding: 0;
+}
+.icon-buttons .icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 40px;
+  min-width: 40px;
+  height: 40px;
+}
+.icon-buttons .icon-button .material-icons {
+  margin: 0;
 }
 .flex-row {
   display: flex;
@@ -1438,7 +1499,7 @@ td.matrix-cell {
   ); */
   background: linear-gradient(
     to bottom,
-    rgba(38, 166, 154, 0.05) 0%,
+    color-mix(in srgb, var(--mm-primary-color) 5%, transparent) 0%,
     var(--mm-background-color) 100%
   );
   position: relative;
@@ -1489,7 +1550,7 @@ td.matrix-cell {
 [data-theme='dark'] .hero-section {
   background: linear-gradient(
     to bottom,
-    rgba(128, 203, 196, 0.08) 0%,
+    color-mix(in srgb, var(--mm-primary-color) 8%, transparent) 0%,
     var(--mm-background-color) 100%
   );
 }
@@ -1570,21 +1631,16 @@ td.matrix-cell {
 }
 
 .hero-actions .language-option:hover {
-  background: rgba(38, 166, 154, 0.1);
+  background: color-mix(in srgb, var(--mm-primary-color) 10%, transparent);
   transform: scale(1.05);
 }
 
 .hero-actions .language-option.selected {
-  background: rgba(38, 166, 154, 0.2);
+  background: color-mix(in srgb, var(--mm-primary-color) 20%, transparent);
   border: 2px solid var(--mm-primary-color);
   font-weight: 600;
-  box-shadow: 0 2px 8px rgba(38, 166, 154, 0.3);
-}
-
-[data-theme='dark'] .hero-actions .language-option.selected {
-  background: rgba(128, 203, 196, 0.2);
-  border: 2px solid var(--mm-primary-color);
-  box-shadow: 0 2px 8px rgba(128, 203, 196, 0.3);
+  box-shadow: 0 2px 8px
+    color-mix(in srgb, var(--mm-primary-color) 30%, transparent);
 }
 
 .hero-actions .language-option img {
@@ -1731,7 +1787,7 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
 /* Language Switcher Selected State */
 .language-option.selected {
   font-weight: bold;
-  border-bottom: 2px solid var(--mm-primary-color, #26a69a);
+  border-bottom: 2px solid var(--mm-primary-color, #245486);
   padding-bottom: 2px;
 }
 

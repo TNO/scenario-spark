@@ -12,6 +12,8 @@ export const messages: typeof messagesEN = {
     COLLECTION: 'Enregistrer la collection',
     MODEL: 'Enregistrer le fichier de scénario',
   },
+  DOWNLOAD_FILENAME_TITLE: 'Enregistrer le scénario',
+  DOWNLOAD_FILENAME_LABEL: 'Nom du fichier',
   UPLOAD: {
     COLLECTION: 'Charger la collection',
     MODEL: 'Charger le fichier de scénario',
@@ -430,6 +432,7 @@ export const messages: typeof messagesEN = {
   IMPORT_PLACEHOLDER:
     "Collez ici les données séparées par des tabulations d'Excel/Google Sheets...\n\nPremière ligne = noms des facteurs clés, chaque colonne = options pour ce facteur.",
   IMPORT_PARSE: 'Analyser et importer',
+  IMPORT_NO_DATA: 'Aucune donnée tabulaire détectée. Collez un tableau et réessayez.',
   IMPORT_NO_DRIVERS: 'Aucun facteur clé détecté. Vérifiez les données collées.',
   IMPORT_NEEDS_TWO_COLUMNS:
     "L'import nécessite au moins 2 colonnes (noms des facteurs clés et options).",

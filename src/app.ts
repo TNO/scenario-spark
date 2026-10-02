@@ -1,6 +1,7 @@
 import m from 'mithril';
 import { ThemeManager } from 'mithril-materialized';
 ThemeManager.initialize();
+document.documentElement.dataset.mmPreset = 'compact-minimal';
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -23,7 +24,8 @@ if ('serviceWorker' in navigator) {
   });
 }
 import 'material-icons/iconfont/filled.css';
-import 'mithril-materialized/index.min.css';
+import 'mithril-materialized/index.css';
+import 'mithril-materialized/presets/compact-minimal.css';
 import 'mithril-markdown-wysiwyg/css';
 import './css/style.css';
 import { routingSvc } from './services/routing-service';

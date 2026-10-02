@@ -127,12 +127,17 @@ export function parseSpreadsheetText(text: string): ParsedSpreadsheet {
  * - Subsequent rows = option values, each cell in a column is an option for that driver
  * - Empty cells are skipped
  */
+export type ImportWarning =
+  | 'IMPORT_NO_DATA'
+  | 'IMPORT_NO_DRIVERS'
+  | 'IMPORT_NEEDS_TWO_COLUMNS';
+
 export function spreadsheetToMarkdown(
   headers: string[],
   rows: string[][],
   categoryLabel?: string
-): { markdown: string; warnings: string[] } {
-  const warnings: string[] = [];
+): { markdown: string; warnings: ImportWarning[] } {
+  const warnings: ImportWarning[] = [];
 
   if (headers.length < 2) {
     warnings.push(
@@ -184,7 +189,7 @@ export function spreadsheetToMarkdown(
 export function csvToMarkdown(
   rawText: string,
   categoryLabel?: string
-): { markdown: string; warnings: string[] } {
+): { markdown: string; warnings: ImportWarning[] } {
   const { headers, rows } = parseSpreadsheetText(rawText);
 
   if (headers.length === 0) {

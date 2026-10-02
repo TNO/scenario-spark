@@ -18,7 +18,7 @@ import {
 } from '../models';
 import { markdownToMorphBox } from '../utils/morp-box-to-markdown';
 import { fixMorphologicalBoxMarkdown } from '../utils';
-import { LLMClient } from '../utils/llm-client';
+import { LLMClient, type LLMSettings } from '../utils/llm-client';
 
 // Read the base prompt from prompt-guide.md
 const BASE_PROMPT = `You are to create one or more **morphological boxes** to systematically explore possible configurations or scenarios related to a defined goal or domain.
@@ -67,13 +67,6 @@ type UserInputs = {
   language: string;
 };
 
-type LLMSettings = {
-  provider: 'clipboard' | 'ollama' | 'openai';
-  url: string;
-  apiKey: string;
-  model: string;
-};
-
 type WizardState = {
   currentStep: number;
   userInputs: UserInputs;
@@ -100,7 +93,7 @@ export const LLMScenarioWizard: MeiosisComponent<{
     },
     fullPrompt: '',
     llmSettings: {
-      endpoint: 'clipboard',
+      provider: 'clipboard',
       url: 'https://localhost:3000/api/chat',
       apiKey: '',
       model: 'gpt-oss:20b',
@@ -122,7 +115,7 @@ export const LLMScenarioWizard: MeiosisComponent<{
       },
       fullPrompt: '',
       llmSettings: {
-        endpoint: 'clipboard',
+        provider: 'clipboard',
         url: 'https://localhost:3000/api/chat',
         apiKey: '',
         model: 'granite4',
@@ -330,7 +323,7 @@ export const LLMScenarioWizard: MeiosisComponent<{
               return (
                 wizardState.llmSettings.url.trim().length > 0 &&
                 wizardState.llmSettings.model.trim().length > 0 &&
-                wizardState.llmSettings.apiKey.trim().length > 0
+                Boolean(wizardState.llmSettings.apiKey?.trim())
               );
             }
             return (

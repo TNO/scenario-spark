@@ -49,6 +49,7 @@ import {
 import { NewScenarioWizard } from './new-scenario-wizard';
 import { LLMScenarioWizard } from './llm-scenario-wizard';
 import { parseImportedModel } from '../utils/import-model';
+import { jsonFilename } from '../utils/json-filename';
 
 export const TableView: MeiosisComponent<{
   narratives: Narrative[];
@@ -151,6 +152,8 @@ export const HomePage: MeiosisComponent = () => {
   let pendingScenario: Scenario | null = null;
   let confirmCollectionImport = false;
   let pendingCollection: DataModel | null = null;
+  let downloadScenarioModalOpen = false;
+  let downloadFilename = '';
 
   return {
     oninit: ({ attrs }) => {
@@ -371,27 +374,16 @@ export const HomePage: MeiosisComponent = () => {
                     iconName: 'download',
                     title: t('DOWNLOAD', 'MODEL'),
                     onclick: () => {
-                      const dlAnchorElem =
-                        document.getElementById('downloadAnchorElem');
-                      if (!dlAnchorElem) {
-                        return;
-                      }
                       const version =
                         typeof model.version === 'undefined'
                           ? 1
-                          : ++model.version;
-                      const dataStr =
-                        'data:text/json;charset=utf-8,' +
-                        encodeURIComponent(
-                          JSON.stringify({ ...model.scenario, version })
-                        );
-                      dlAnchorElem.setAttribute('href', dataStr);
-                      dlAnchorElem.setAttribute(
-                        'download',
-                        `${modelToSaveName(model, undefined, false)}.json`
+                          : model.version + 1;
+                      downloadFilename = modelToSaveName(
+                        { ...model, version },
+                        undefined,
+                        false
                       );
-                      dlAnchorElem.click();
-                      localStorage.setItem(SAVED, 'true');
+                      downloadScenarioModalOpen = true;
                     },
                   }),
                     m(ConfirmButton, {
@@ -632,6 +624,53 @@ export const HomePage: MeiosisComponent = () => {
                       ? Dashboards.SETTINGS
                       : Dashboards.DEFINE_BOX
                   );
+                },
+              },
+            ],
+          }),
+          m(ModalPanel, {
+            id: 'downloadScenario',
+            isOpen: downloadScenarioModalOpen,
+            onToggle: (open) => {
+              downloadScenarioModalOpen = open;
+            },
+            title: t('DOWNLOAD_FILENAME_TITLE'),
+            description: m('.row', [
+              m(TextInput, {
+                label: t('DOWNLOAD_FILENAME_LABEL'),
+                value: downloadFilename,
+                oninput: (value) => {
+                  downloadFilename = value;
+                },
+              }),
+            ]),
+            closeOnButtonClick: true,
+            buttons: [
+              { label: t('CANCEL'), iconName: 'cancel' },
+              {
+                label: t('DOWNLOAD', 'MODEL'),
+                iconName: 'download',
+                disabled: !jsonFilename(downloadFilename),
+                onclick: () => {
+                  const filename = jsonFilename(downloadFilename);
+                  const dlAnchorElem =
+                    document.getElementById('downloadAnchorElem');
+                  if (!filename || !dlAnchorElem) return;
+                  const version =
+                    typeof model.version === 'undefined'
+                      ? 1
+                      : model.version + 1;
+                  const dataStr =
+                    'data:text/json;charset=utf-8,' +
+                    encodeURIComponent(
+                      JSON.stringify({ ...model.scenario, version })
+                    );
+                  dlAnchorElem.setAttribute('href', dataStr);
+                  dlAnchorElem.setAttribute('download', filename);
+                  dlAnchorElem.click();
+                  model.version = version;
+                  localStorage.setItem(SAVED, 'true');
+                  downloadScenarioModalOpen = false;
                 },
               },
             ],

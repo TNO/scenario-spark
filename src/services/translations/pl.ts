@@ -12,6 +12,8 @@ export const messages: typeof messagesEN = {
     COLLECTION: 'Zapisz kolekcję',
     MODEL: 'Zapisz plik scenariusza',
   },
+  DOWNLOAD_FILENAME_TITLE: 'Zapisz scenariusz',
+  DOWNLOAD_FILENAME_LABEL: 'Nazwa pliku',
   UPLOAD: {
     COLLECTION: 'Wczytaj kolekcję',
     MODEL: 'Wczytaj plik scenariusza',
@@ -425,6 +427,7 @@ export const messages: typeof messagesEN = {
   IMPORT_PLACEHOLDER:
     'Wklej tutaj dane rozdzielane tabulatorami z Excela/Google Sheets...\n\nPierwszy wiersz = nazwy kluczowych czynników, każda kolumna = opcje dla tego czynnika.',
   IMPORT_PARSE: 'Przetwarzaj i importuj',
+  IMPORT_NO_DATA: 'Nie wykryto danych tabeli. Wklej tabelę i spróbuj ponownie.',
   IMPORT_NO_DRIVERS: 'Nie wykryto kluczowych czynników. Sprawdź wklejone dane.',
   IMPORT_NEEDS_TWO_COLUMNS:
     'Import wymaga co najmniej 2 kolumn (nazwy czynników i opcje).',

@@ -77,7 +77,7 @@ export const Layout: MeiosisComponent = () => ({
               },
               m(Icon, {
                 iconName: 'menu',
-                className: 'hide-on-large-and-up black-text',
+                className: 'hide-on-large-and-up',
                 style: 'margin-left: 5px;',
               }),
             ),

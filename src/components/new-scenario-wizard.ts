@@ -16,7 +16,7 @@ import {
   ScenarioComponent,
   thresholdColors,
 } from '../models';
-import { csvToMarkdown } from '../utils/csv-to-markdown';
+import { csvToMarkdown, type ImportWarning } from '../utils/csv-to-markdown';
 import { markdownToMorphBox } from '../utils/morp-box-to-markdown';
 
 // Simple types for wizard state
@@ -55,7 +55,7 @@ type WizardState = {
   driverValues: { [driverIndex: number]: WizardValue[] };
   showImportPanel: boolean;
   importRawText: string;
-  importWarnings: string[];
+  importWarnings: ImportWarning[];
 };
 
 const createInitialWizardState = (): WizardState => ({
