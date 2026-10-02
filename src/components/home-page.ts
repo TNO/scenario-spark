@@ -606,7 +606,7 @@ export const HomePage: MeiosisComponent = () => {
                   '.row',
                   m(RadioButtons, {
                     label: t('NEW_MODEL', 'choose'),
-                    checkedId: 1,
+                    checkedId: selectedId + 1,
                     options: defaultModels.map((_, i) => ({
                       id: i + 1,
                       label: `${t('MODEL_NAMES', i)}: ${t(
