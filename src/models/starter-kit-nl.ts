@@ -27,9 +27,12 @@ type BoxSpec = {
   desc: string;
   categories: CategorySpec[];
   exclusions: [from: string, to: string][];
+  template: string;
   prompt: string;
   example: { label: string; desc: string; choices: string[] };
 };
+
+const effectsPrompt = 'Beschrijf daarnaast afzonderlijk de mogelijke effecten op korte termijn (uren tot dagen) en middellange termijn (weken tot maanden) voor betrokkenen, dienstverlening en besluitvorming. Benoem minstens twee plausibele gamechangers: geef per gamechanger de voorwaarde waaronder het scenario kan kantelen en het mogelijke gevolg, zonder de gekozen stuurfactorwaarden als feiten te veranderen. Scheid vastgestelde gevolgen, aannames en voorwaardelijke ontwikkelingen. Plaats de gevraagde twee reflectie- of oefenvragen aan het einde.';
 
 const boxes: BoxSpec[] = [
   {
@@ -85,6 +88,10 @@ const boxes: BoxSpec[] = [
       },
     ],
     exclusions: [['duur.meerdaags', 'moment.dag'], ['duur.meerdaags', 'moment.avond'], ['duur.kort', 'moment.doorlopend'], ['duur.dag', 'moment.doorlopend'], ['techniek.mobiel', 'bericht.omroep'], ['techniek.terplekke', 'bericht.omroep'], ['techniek.terplekke', 'bericht.mobiel'], ['medisch.geen', 'gezondheid.licht'], ['medisch.geen', 'gezondheid.ernstig'], ['medisch.beperkt', 'gezondheid.geen'], ['medisch.ernstig', 'gezondheid.geen'], ['medisch.ernstig', 'gezondheid.licht']],
+    template: `Het type bijeenkomst is {1} en het terrein is ingericht als {2}, met een verwachte opkomst van {3}. De duur is {4}, het tijdvenster is {5} en het publiek bestaat uit {6}.
+De weersituatie is {7} en de bereikbaarheid van de omgeving is {8}. Het beeld van medische incidenten is {9}; voor publiekscommunicatie geldt {10}, terwijl de bezoekersstromen worden gekenmerkt door {11}.
+De toegestane capaciteit is {12} en het toegangsregime is {13}. De medische voorbereiding bestaat uit {14}; besluiten worden afgestemd via {15}, informatie bereikt bezoekers via {16} en bij onderbreking is {17} voorzien.
+Voor bezoekers zijn de gezondheidseffecten {18}. Het effect op het programma is {19}; voor omwonenden betekent dit {20} en de publieke informatiebehoefte is {21}. Na afloop volgt {22}.`,
     prompt: 'Schrijf in het Nederlands een geloofwaardig oefenscenario voor evenementenveiligheid met alle gekozen waarden. Orden het verhaal in aanloop, verstoring, maatregelen en effecten. Beschrijf bezoekersstromen, de samenwerking tussen organisator, gemeente en hulpdiensten, en een dilemma rond bereikbaarheid, capaciteit, informatie of weer. Maak onderscheid tussen verwachte opkomst en toegestane capaciteit: een overschrijding is een mogelijk probleem, geen onmogelijke combinatie. Maak aannames expliciet; geef geen operationele kwetsbaarheden of omzeilingsinstructies. Sluit af met twee reflectievragen.',
     example: {
       label: 'Een festivalavond die anders loopt',
@@ -139,6 +146,10 @@ const boxes: BoxSpec[] = [
       },
     ],
     exclusions: [['netwerk.los', 'kanaal.intern'], ['netwerk.los', 'kanaal.online'], ['netwerk.partner', 'kanaal.online'], ['effect.uitval', 'niveau.beperkt'], ['effect.uitval', 'niveau.normaal'], ['effect.uitval', 'herstel.afgerond'], ['effect.twijfel', 'gegevens.geverifieerd'], ['niveau.offline', 'herstel.afgerond']],
+    template: `De betrokken dienst is {1}, met als netwerkverbinding {2} en als kritieke afhankelijkheid {3}. De eerste gevolgen zijn merkbaar voor {4}.
+Het waarneembare effect is {5}. De afhandeling bevindt zich in de fase {6}; het eerste signaal is {7} en de zekerheid over de oorzaak is {8}.
+Het kanaal voor de dienst is {9}, terwijl de digitale beschikbaarheid {10} is. De tijdelijke werkwijze is {11}; de status van de gegevens is {12}.
+De vorm van regie is {13} en de ketenafstemming verloopt via {14}. Voor de communicatie naar gebruikers geldt {15}; de herstelstatus is {16}.`,
     prompt: 'Maak een Nederlandstalig oefenscenario voor defensieve cybercontinuïteit op basis van alle gekozen waarden. Orden het in eerste signaal, verificatie, gevolgen voor gebruikers, bestuur en herstel. Leg afwegingen over onzekerheid, gegevenskwaliteit, communicatie en ketenpartners bloot. Een uitgevallen dienst kan via een tijdelijk noodproces doorgaan; verwar dienst en achterliggende techniek niet. Onderscheid waarnemingen van vermoedens; beschrijf geen aanvalsstappen, zwakke plekken of omzeiling. Eindig met twee vragen over dienstverlening en verantwoording.',
     example: {
       label: 'Het gemeentelijke loket valt weg',
@@ -189,6 +200,10 @@ const boxes: BoxSpec[] = [
       },
     ],
     exclusions: [['wegen.dicht', 'aanvoer.direct'], ['wegen.dicht', 'aanvoer.omweg']],
+    template: `De dominante waterbron is {1}. Het zichtbare effect is {2}, terwijl het waterbeeld zich naar verwachting ontwikkelt als {3}.
+De omgeving is {4} en de potentiële blootstelling omvat {5}. De bijzondere zorgvraag betreft {6}.
+De toegangswegen zijn {7}; voor de aanvoer van hulp geldt {8}. Voor de basisvoorzieningen geldt {9}.
+Het situatiebeeld is {10}. De opvangvraag is {11}, terwijl de bestuurlijke samenwerking wordt vormgegeven door {12}.`,
     prompt: 'Schrijf een Nederlandstalig hoogwaterscenario voor een veiligheidsregio met alle gekozen waarden. Verbind bron, ontwikkeling van het waterbeeld, zorgvraag, bereikbaarheid en voorzieningen met bestuurlijke keuzes over waarschuwing en opvang. Laat zien hoe zekerheid van het situatiebeeld en samenwerking tussen waterbeheerder, gemeente en regio besluiten beïnvloeden. Maak onderscheid tussen verwachting en waarneming; veronderstel geen exacte waterstanden of schade zonder gegevens. Eindig met twee oefenvragen.',
     example: {
       label: 'De omweg naar het dorp',
@@ -239,6 +254,10 @@ const boxes: BoxSpec[] = [
       },
     ],
     exclusions: [['toestand.intact', 'bres.bevestigd'], ['toestand.door', 'bres.geen'], ['toestand.schade', 'bres.bevestigd']],
+    template: `De toestand van de kering is {1}. Voor een eventuele bres geldt {2}, terwijl de waterbelasting wordt bepaald door {3}.
+Achter de kering ligt een gebied van het type {4}. Voor maatregelen is het tijdsvenster {5}; de mogelijk getroffen groep bestaat uit {6}.
+De verplaatsingsvraag betreft {7}. De basisvoorzieningen hebben als status {8} en de opvangcapaciteit staat op {9}.
+Het situatiebeeld bestaat uit {10}; de afstemming tussen partners verloopt via {11}. Voor de publieke communicatie geldt {12}.`,
     prompt: 'Maak een realistisch Nederlandstalig oefenscenario over een beschadigde of doorgebroken dijk met alle gekozen waarden. Beschrijf belasting van de kering, wat over een bres bevestigd is, wie achter de kering woont en welke tijd voor besluiten overblijft. Verbind verificatie en afstemming met keuzes over waarschuwing, verplaatsing, opvang en basisvoorzieningen. Verzin geen exacte voorspellingen of instructies voor ingrepen aan de kering. Eindig met twee bestuurlijke reflectievragen.',
     example: {
       label: 'Een onbevestigde melding bij de polder',
@@ -289,6 +308,10 @@ const boxes: BoxSpec[] = [
       },
     ],
     exclusions: [['status.dreiging', 'rook.plaatselijk'], ['status.dreiging', 'rook.wijd'], ['afsluiting.dicht', 'toegang.vrij'], ['afsluiting.dicht', 'toegang.geleid'], ['afsluiting.deels', 'toegang.vrij']],
+    template: `Het gebied is {1}, waar de brandstatus {2} is. De omstandigheden ter plaatse zijn {3}.
+Voor rook van deze brand geldt {4}. In het gebied zijn {5} aanwezig; aan de rand ervan bevinden zich {6}.
+De publieke afsluiting is {7}, met voor bezoekers {8} als toegangsmogelijkheid. De ondersteuning voor betrokkenen bestaat uit {9}.
+De zekerheid van het situatiebeeld is {10}; bij de samenwerking zijn {11} betrokken. Als de directe druk afneemt, krijgt {12} aandacht.`,
     prompt: 'Schrijf een Nederlandstalig scenario voor een veiligheidsregio over een natuurbrand of de dreiging daarvan. Gebruik alle gekozen waarden over landschap, weersomstandigheden, brandstatus, rook, bezoekers en functies rond het gebied. Beschrijf afwegingen over publieke toegang, ondersteuning, onzekerheid van het situatiebeeld, samenwerking en nazorg. Vermijd exacte brandvoorspellingen en operationele bestrijdingsinstructies. Eindig met twee oefenvragen.',
     example: {
       label: 'Rook bij het heidegebied',
@@ -339,6 +362,10 @@ const boxes: BoxSpec[] = [
       },
     ],
     exclusions: [['vorm.statisch', 'route.afgesproken'], ['vorm.statisch', 'route.onbekend'], ['vorm.mars', 'route.geen'], ['vorm.combinatie', 'route.geen']],
+    template: `De demonstratie heeft als context {1} en krijgt de vorm {2}. Het moment in de publieke besluitvorming is {3}.
+De bijeenkomst speelt zich af bij {4}. Voor verplaatsing geldt {5}, terwijl de bereikbaarheid van de omgeving {6} is.
+De verwachte opkomst is {7}. Het contact met organisatoren is {8} en de geplande tijdsduur is {9}.
+De kennisgeving heeft de status {10}. Naast het demonstratierecht vraagt {11} om aandacht; omwonenden ontvangen {12}.`,
     prompt: 'Schrijf een evenwichtig Nederlandstalig scenario rond een vreedzame demonstratie met alle gekozen waarden. Beschrijf aanleiding, fase van besluitvorming, vorm, route, verwachte opkomst en kennisgeving. Laat zien hoe demonstratierecht, contact met organisatoren, bereikbaarheid voor omwonenden en eerlijke publieke communicatie tegen elkaar worden afgewogen. Stel geen groep gelijk aan een dreiging, verzin geen strafbare feiten en geef geen tactische aanwijzingen. Eindig met twee vragen over proportionaliteit.',
     example: {
       label: 'Een studentenmars door de stad',
@@ -389,6 +416,10 @@ const boxes: BoxSpec[] = [
       },
     ],
     exclusions: [['opening.gesloten', 'bezoek.vrij'], ['opening.gesloten', 'entree.open'], ['opening.gesloten', 'entree.deels'], ['bezoek.vrij', 'entree.dicht'], ['bezoek.geen', 'entree.open']],
+    template: `Het gebouw heeft als functie {1} en is voor publiek {2}. De ruimte wordt gebruikt voor {3}.
+Het bezoekersregime is {4}, bij een bezetting van {5}. Voor bezoekers speelt {6} als toegankelijkheidsbehoefte.
+De dienstverlening is {7} en de status van de publieksentrees is {8}. Bezoekers merken daarvan {9}.
+De afstemming tussen gebouwbeheer en dienstverlener verloopt via {10}. Voor bezoekers is {11} het alternatief; zij krijgen informatie {12}.`,
     prompt: 'Maak een Nederlandstalig scenario over continuïteit en bezoekerszorg in een publiek gebouw. Gebruik alle gekozen waarden over gebruik, opening, bezetting, toegankelijkheidsbehoeften, dienstverstoring en alternatieve dienstverlening. Verbind keuzes van gebouwbeheer en dienstverlener met heldere informatie en de gevolgen voor bezoekers. Beschrijf geen technische of fysieke zwakke plekken. Eindig met twee vragen voor de organisatie.',
     example: {
       label: 'Het gemeentehuis blijft bereikbaar',
@@ -439,6 +470,10 @@ const boxes: BoxSpec[] = [
       },
     ],
     exclusions: [['activiteit.publiek', 'bezoekers.niemand'], ['activiteit.publiek', 'toegang.dicht'], ['bezoekers.iedereen', 'toegang.dicht']],
+    template: `De activiteit in het religieuze centrum is {1}. Het publieksbereik is {2} en het moment van samenkomst is {3}.
+Het centrum ligt in {4} en verwacht {5}. Voor de bereikbaarheid van bezoekers geldt {6}.
+De toegang tot het centrum is {7}; het bereik van de communicatie is {8}. Bij de ontvangst is {9} beschikbaar.
+Voor de besluitvorming geldt {10}, met bijzondere aandacht voor {11}. De ervaringen van bezoekers en vrijwilligers worden verzameld via {12}.`,
     prompt: 'Schrijf een respectvol Nederlandstalig scenario voor een religieus centrum met alle gekozen waarden. Verbind moment en omvang van de bijeenkomst, vervoer, ontvangst en vrije toegang met gastvrijheid, samenwerking met de gemeenschap en zorgvuldige communicatie met omwonenden. Benoem wie besluiten neemt en hoe bezoekerservaringen worden geëvalueerd. Maak geen aannames over dreiging op basis van religie en noem geen kwetsbaarheden of beveiligingsdetails. Eindig met twee reflectievragen.',
     example: {
       label: 'Een drukke bijeenkomst in de buurt',
@@ -489,6 +524,10 @@ const boxes: BoxSpec[] = [
       },
     ],
     exclusions: [['afhandeling.normaal', 'capaciteit.geen'], ['afhandeling.stil', 'stroom.normaal'], ['afhandeling.stil', 'stroom.beperkt'], ['capaciteit.geen', 'stroom.normaal'], ['capaciteit.geen', 'stroom.beperkt']],
+    template: `De onderzochte terminal heeft als functie {1}. De afhandeling is {2}, naar verwachting gedurende {3}.
+Voor de haven als geheel geldt {4} voor de scheepvaart. De druk op ketenpartners is {5}; de verbinding met het achterland is {6}.
+De verwerkingscapaciteit van de terminal is {7}, terwijl de feitelijke afhandelingsstroom {8} is. De personeelsbezetting is {9}.
+De prioriteit in de dienstverlening is {10}. Het gezamenlijke situatiebeeld wordt gedeeld met {11}, en betrokkenen ontvangen {12}.`,
     prompt: 'Schrijf een Nederlandstalig continuïteitsscenario voor een fictieve haventerminal. Laat zien hoe duur, terminalfunctie, beschikbare medewerkers, afhandelingsstroom en achterlandverbinding de afwegingen voor reizigers of leveringen beïnvloeden. Maak expliciet wat alleen de terminal betreft en wat de hele haven betreft. Beschrijf geen toegangsroutes, kwetsbaarheden of beveiligingsprocedures. Eindig met twee vragen over samenwerking en herstel.',
     example: {
       label: 'Een terminal schakelt terug',
@@ -539,6 +578,10 @@ const boxes: BoxSpec[] = [
       },
     ],
     exclusions: [['banen.dicht', 'operatie.normaal'], ['banen.dicht', 'operatie.beperkt'], ['terminal.dicht', 'verwerking.normaal'], ['terminal.dicht', 'verwerking.beperkt']],
+    template: `De fictieve luchthaven heeft als functie {1}. Voor starts en landingen geldt {2}, met een verwachte duur van {3}.
+Voor operationele banen geldt {4}; de terminal voor publiek is {5}. Vervoer van en naar de luchthaven is {6}.
+De passagiersverwerking in de terminal is {7}. Reizigers ontvangen {8} en de reizigerszorg bestaat uit {9}.
+De kring van betrokken partners omvat {10}. De belangrijkste afweging is {11}, terwijl het herstelperspectief {12} is.`,
     prompt: 'Maak een Nederlandstalig scenario over continuïteit en reizigerszorg op een fictieve luchthaven met alle gekozen waarden. Beschrijf afzonderlijk vluchtoperatie, terminal, passagiersverwerking en regionaal vervoer, en betrek onzekerheid over de duur en het herstelperspectief. Laat zien hoe luchthaven, vervoerders en overheden reizigers ondersteunen en informatie afstemmen. Vermijd specifieke infrastructuurkwetsbaarheden en technische beveiligingsdetails. Eindig met twee vragen over reizigersinformatie.',
     example: {
       label: 'Reizigers wachten op duidelijkheid',
@@ -590,6 +633,7 @@ const createScenario = (box: BoxSpec, thresholdColors: ThresholdColor[]): Scenar
     id,
     label: box.label,
     desc: box.desc,
+    template: box.template,
     hideInconsistentValues: true,
     includeDecisionSupport: false,
     inconsistencies,
@@ -610,7 +654,7 @@ const createScenario = (box: BoxSpec, thresholdColors: ThresholdColor[]): Scenar
       url: '',
       model: 'gemma3',
       temperature: 0.7,
-      prompts: [{ type: 'narrative', categories: categories.map(({ id }) => id), prompt: box.prompt }],
+      prompts: [{ type: 'narrative', categories: categories.map(({ id }) => id), prompt: `${box.prompt} ${effectsPrompt}` }],
     },
   };
 };

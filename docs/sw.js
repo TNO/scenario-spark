@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scenario-spark-v6';
+const CACHE_NAME = 'scenario-spark-v7';
 
 const BASE = self.location.pathname.replace(/\/sw\.js$/, '') || '/';
 

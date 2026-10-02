@@ -42,6 +42,24 @@ test('provides ten importable, distinct Dutch starter boxes', () => {
   }
 });
 
+test('every starter box has a complete prose template and an effects-focused LLM prompt', () => {
+  for (const box of scenarios(createStarterKitNl([]))) {
+    const placeholders = [...box.template.matchAll(/\{(\d+)\}/g)].map(([, number]) => Number(number));
+    assert.deepEqual(
+      placeholders.slice().sort((a, b) => a - b),
+      box.components.map((_, index) => index + 1),
+      box.label
+    );
+    assert.equal(box.template.trim().split(/\n+/).length, box.categories.length, box.label);
+    assert.ok(box.template.split(/\n+/).every((paragraph) => paragraph.trim().endsWith('.')), box.label);
+    const prompt = box.llm.prompts[0].prompt;
+    assert.match(prompt, /korte termijn/i, box.label);
+    assert.match(prompt, /middellange termijn/i, box.label);
+    assert.match(prompt, /gamechangers/i, box.label);
+    assert.match(prompt, /voorwaarde.*gevolg/i, box.label);
+  }
+});
+
 test('event safety and cyber continuity offer source-level depth', () => {
   const boxes = scenarios(createStarterKitNl([]));
   assert.ok(boxes.find(({ id }) => id.endsWith('evenementenveiligheid')).components.length >= 20);
