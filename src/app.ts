@@ -7,9 +7,12 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     if (import.meta.env.PROD) {
       navigator.serviceWorker
-        .register('./sw.js')
+        .register('./sw.js', { updateViaCache: 'none' })
         .then((registration) => {
           console.log('ServiceWorker registered:', registration.scope);
+          window.addEventListener('focus', () => {
+            registration.update().catch((error) => console.error('ServiceWorker update failed:', error));
+          });
         })
         .catch((error) => {
           console.error('ServiceWorker registration failed:', error);
