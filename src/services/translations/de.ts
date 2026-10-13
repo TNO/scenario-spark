@@ -68,6 +68,10 @@ export const messages: typeof messagesEN = {
   COMPARE_SCENARIOS: 'Szenarien vergleichen',
   HIDE_COMPARISON: 'Vergleich ausblenden',
   BOX_ACTIONS: 'Weitere Aktionen',
+  PERMALINK: 'Permalink kopieren',
+  PERMALINK_COPIED: 'Permalink in die Zwischenablage kopiert. Fügen Sie ihn in eine E-Mail ein, um diese Box zu teilen.',
+  PERMALINK_COPIED_LONG: 'Permalink kopiert, aber er ist sehr lang: Manche E-Mail-Programme können ihn abschneiden. Senden Sie besser die heruntergeladene Datei.',
+  PERMALINK_INVALID: 'Der geteilte Link ist ungültig oder unvollständig.',
   COLLECTION_ACTIONS: 'Sammlungsverwaltung',
   LANGUAGE_NAMES: {
     nl: 'Nederlands', en: 'English', fr: 'Français',

@@ -66,6 +66,10 @@ export const messages = {
   COMPARE_SCENARIOS: 'Compare scenarios',
   HIDE_COMPARISON: 'Hide comparison',
   BOX_ACTIONS: 'More actions',
+  PERMALINK: 'Copy permalink',
+  PERMALINK_COPIED: 'Permalink copied to the clipboard. Paste it in an email to share this box.',
+  PERMALINK_COPIED_LONG: 'Permalink copied, but it is very long: some email clients may break it. Consider sending the downloaded file instead.',
+  PERMALINK_INVALID: 'The shared link is invalid or incomplete.',
   COLLECTION_ACTIONS: 'Collection tools',
   LANGUAGE_NAMES: {
     nl: 'Nederlands', en: 'English', fr: 'Français',

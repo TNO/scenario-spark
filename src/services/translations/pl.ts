@@ -68,6 +68,10 @@ export const messages: typeof messagesEN = {
   COMPARE_SCENARIOS: 'Porównaj scenariusze',
   HIDE_COMPARISON: 'Ukryj porównanie',
   BOX_ACTIONS: 'Więcej działań',
+  PERMALINK: 'Kopiuj stały link',
+  PERMALINK_COPIED: 'Stały link skopiowano do schowka. Wklej go do e-maila, aby udostępnić tę tabelę.',
+  PERMALINK_COPIED_LONG: 'Link skopiowano, ale jest bardzo długi: niektóre programy pocztowe mogą go uciąć. Rozważ wysłanie pobranego pliku.',
+  PERMALINK_INVALID: 'Udostępniony link jest nieprawidłowy lub niekompletny.',
   COLLECTION_ACTIONS: 'Zarządzanie kolekcją',
   LANGUAGE_NAMES: {
     nl: 'Nederlands', en: 'English', fr: 'Français',

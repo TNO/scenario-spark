@@ -68,6 +68,10 @@ export const messages: typeof messagesEN = {
   COMPARE_SCENARIOS: 'Comparar escenarios',
   HIDE_COMPARISON: 'Ocultar comparación',
   BOX_ACTIONS: 'Más acciones',
+  PERMALINK: 'Copiar enlace permanente',
+  PERMALINK_COPIED: 'Enlace permanente copiado al portapapeles. Péguelo en un correo para compartir esta caja.',
+  PERMALINK_COPIED_LONG: 'Enlace copiado, pero es muy largo: algunos clientes de correo pueden cortarlo. Considere enviar el archivo descargado.',
+  PERMALINK_INVALID: 'El enlace compartido no es válido o está incompleto.',
   COLLECTION_ACTIONS: 'Gestión de la colección',
   LANGUAGE_NAMES: {
     nl: 'Nederlands', en: 'English', fr: 'Français',

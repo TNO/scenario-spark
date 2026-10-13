@@ -69,6 +69,10 @@ export const messages: typeof messagesEN = {
   COMPARE_SCENARIOS: "Vergelijk scenario's",
   HIDE_COMPARISON: 'Verberg vergelijking',
   BOX_ACTIONS: 'Meer acties',
+  PERMALINK: 'Kopieer permalink',
+  PERMALINK_COPIED: 'Permalink gekopieerd naar het klembord. Plak deze in een e-mail om de box te delen.',
+  PERMALINK_COPIED_LONG: "Permalink gekopieerd, maar hij is erg lang: sommige e-mailprogramma's kunnen hem afbreken. Stuur eventueel het gedownloade bestand.",
+  PERMALINK_INVALID: 'De gedeelde link is ongeldig of onvolledig.',
   COLLECTION_ACTIONS: 'Collectiebeheer',
   LANGUAGE_NAMES: {
     nl: 'Nederlands', en: 'English', fr: 'Français',

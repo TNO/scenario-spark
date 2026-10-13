@@ -68,6 +68,10 @@ export const messages: typeof messagesEN = {
   COMPARE_SCENARIOS: 'Comparer les scénarios',
   HIDE_COMPARISON: 'Masquer la comparaison',
   BOX_ACTIONS: 'Autres actions',
+  PERMALINK: 'Copier le permalien',
+  PERMALINK_COPIED: 'Permalien copié dans le presse-papiers. Collez-le dans un e-mail pour partager cette boîte.',
+  PERMALINK_COPIED_LONG: 'Permalien copié, mais il est très long : certains clients de messagerie peuvent le couper. Envoyez plutôt le fichier téléchargé.',
+  PERMALINK_INVALID: 'Le lien partagé est invalide ou incomplet.',
   COLLECTION_ACTIONS: 'Gestion de la collection',
   LANGUAGE_NAMES: {
     nl: 'Nederlands', en: 'English', fr: 'Français',

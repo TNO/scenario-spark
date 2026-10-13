@@ -1,6 +1,12 @@
 import m from 'mithril';
 import { Icon, Menu, Sidenav, SidenavItem, ThemeToggle } from 'mithril-materialized';
 import logo_white from '../assets/tno_white.svg';
+import flagDe from '../assets/flag-de.png';
+import flagEn from '../assets/flag-en.png';
+import flagEs from '../assets/flag-es.png';
+import flagFr from '../assets/flag-fr.png';
+import flagNl from '../assets/flag-nl.png';
+import flagPl from '../assets/flag-pl.png';
 import { IDashboard } from '../models';
 import { routingSvc } from '../services/routing-service';
 import { MeiosisComponent, changePage, i18n, setLanguage, t } from '../services';
@@ -11,9 +17,18 @@ import { CircularSpinner } from './ui/preloader';
 const DesktopLanguageMenu = Menu<Languages>();
 const MobileLanguageMenu = Menu<Languages>();
 const languages: Languages[] = ['nl', 'en', 'fr', 'de', 'es', 'pl'];
+const flags: Record<Languages, string> = {
+  nl: flagNl,
+  en: flagEn,
+  fr: flagFr,
+  de: flagDe,
+  es: flagEs,
+  pl: flagPl,
+};
 
 export const Layout: MeiosisComponent = () => {
   let isMenuOpen = false;
+  let isLanguageSubmenuOpen = false;
   return {
   view: ({ children, attrs }) => {
     const isActive = (d: IDashboard) =>
@@ -80,6 +95,28 @@ export const Layout: MeiosisComponent = () => {
             },
           }),
         ),
+        m(SidenavItem, { divider: true }),
+        m(SidenavItem, {
+          text: t('SET_LANGUAGE').toUpperCase(),
+          icon: 'language',
+          active: isLanguageSubmenuOpen,
+          className: 'sidenav-language',
+          submenuMode: 'radio',
+          onclick: () => {
+            isLanguageSubmenuOpen = !isLanguageSubmenuOpen;
+          },
+          submenu: languages.map((locale) => ({
+            text: t('LANGUAGE_NAMES', locale),
+            icon: { type: 'image' as const, content: flags[locale] },
+            selected: locale === language,
+            value: locale,
+            onSelect: () => {
+              isMenuOpen = false;
+              isLanguageSubmenuOpen = false;
+              if (locale !== language) setLanguage(attrs, locale);
+            },
+          })),
+        }),
       ),
       m(
         '.navbar-fixed',

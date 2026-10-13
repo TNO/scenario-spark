@@ -45,7 +45,10 @@ import { NewScenarioWizard } from './new-scenario-wizard';
 import { LLMScenarioWizard } from './llm-scenario-wizard';
 import { parseImportedModel } from '../utils/import-model';
 import { jsonFilename } from '../utils/json-filename';
-const BoxActions = Menu<'new' | 'llm' | 'download' | 'delete'>();
+import { PERMALINK_PARAM, createPermalink, decodePermalinkData } from '../utils/permalink';
+const BoxActions = Menu<'new' | 'llm' | 'download' | 'permalink' | 'delete'>();
+/** Links longer than this may be truncated by some mail clients. */
+const MAX_SAFE_LINK_LENGTH = 8000;
 
 export const TableView: MeiosisComponent<{
   narratives: Narrative[];
@@ -151,12 +154,76 @@ export const HomePage: MeiosisComponent = () => {
   let downloadFilename = '';
   let deleteScenarioModalOpen = false;
   let showComparison = false;
+  let sharedBox = m.route.param(PERMALINK_PARAM) as string | undefined;
+
+  const importModelText = async (attrs: Parameters<typeof saveModel>[0], text: string) => {
+    const { model } = attrs.state;
+    let imported: ReturnType<typeof parseImportedModel>;
+    try {
+      imported = parseImportedModel(text);
+    } catch (error) {
+      if (!(error instanceof Error)) throw error;
+      toast({ html: t('JSON_NOT_VALID') });
+      return;
+    }
+    if (imported.kind === 'scenario') {
+      const scenario = imported.value;
+      if (
+        model.scenario.id === scenario.id ||
+        model.scenarios?.some((s) => s.id === scenario.id)
+      ) {
+        pendingScenario = scenario;
+        importConflictModal = true;
+        m.redraw();
+      } else {
+        model.scenarios = [model.scenario, ...model.scenarios];
+        model.scenario = scenario;
+        await saveModel(attrs, model, true);
+        toast({ html: t('SCENARIO_LOADED_MSG') });
+      }
+    } else {
+      pendingCollection =
+        imported.kind === 'legacy' ? convertFromOld(imported.value) : imported.value;
+      confirmCollectionImport = true;
+      m.redraw();
+    }
+  };
+
+  const importSharedBox = async (attrs: Parameters<typeof saveModel>[0], encoded: string) => {
+    history.replaceState(null, '', location.href.split('?')[0]);
+    let text: string;
+    try {
+      text = await decodePermalinkData(encoded);
+    } catch {
+      toast({ html: t('PERMALINK_INVALID') });
+      return;
+    }
+    await importModelText(attrs, text);
+  };
+
+  const copyPermalink = async (scenario: Scenario) => {
+    const baseUrl = location.href.split('#')[0];
+    const link = await createPermalink(scenario, baseUrl, routingSvc.href(Dashboards.HOME));
+    try {
+      await navigator.clipboard.writeText(link);
+      toast({
+        html: t(link.length > MAX_SAFE_LINK_LENGTH ? 'PERMALINK_COPIED_LONG' : 'PERMALINK_COPIED'),
+      });
+    } catch {
+      window.prompt(t('PERMALINK'), link);
+    }
+  };
 
   return {
     oninit: ({ attrs }) => {
       setPage(attrs, Dashboards.HOME);
     },
     view: ({ attrs }) => {
+      if (sharedBox && attrs.state.modelReady) {
+        const encoded = sharedBox;
+        sharedBox = undefined;
+        importSharedBox(attrs, encoded);
+      }
       const isCleared = false;
       const { model } = attrs.state;
       const {
@@ -228,6 +295,7 @@ export const HomePage: MeiosisComponent = () => {
                       { id: 'new', label: t('NEW_SCENARIO'), iconName: 'add' },
                       { id: 'llm', label: t('LLM_WIZARD_TITLE'), iconName: 'auto_fix_high' },
                       { id: 'download', label: t('DOWNLOAD', 'MODEL'), iconName: 'download' },
+                      { id: 'permalink', label: t('PERMALINK'), iconName: 'link' },
                       { id: 'delete', label: t('DELETE_MODEL', 'btn'), iconName: 'delete' },
                     ],
                     onSelect: (action) => {
@@ -237,6 +305,8 @@ export const HomePage: MeiosisComponent = () => {
                         llmScenarioWizardOpen = true;
                       } else if (action === 'delete') {
                         deleteScenarioModalOpen = true;
+                      } else if (action === 'permalink') {
+                        copyPermalink(model.scenario);
                       } else {
                         const version =
                           typeof model.version === 'undefined' ? 1 : model.version + 1;
@@ -384,39 +454,8 @@ export const HomePage: MeiosisComponent = () => {
                     reader.onerror = () => {
                       toast({ html: t('IMPORT_READ_ERROR') });
                     };
-                    reader.onload = async () => {
-                      let imported: ReturnType<typeof parseImportedModel>;
-                      try {
-                        imported = parseImportedModel(reader.result as string);
-                      } catch (error) {
-                        if (!(error instanceof Error)) throw error;
-                        toast({ html: t('JSON_NOT_VALID') });
-                        return;
-                      }
-                      if (imported.kind === 'scenario') {
-                        const scenario = imported.value;
-                        if (
-                          model.scenario.id === scenario.id ||
-                          model.scenarios?.some((s) => s.id === scenario.id)
-                        ) {
-                          pendingScenario = scenario;
-                          importConflictModal = true;
-                          m.redraw();
-                        } else {
-                          model.scenarios = [model.scenario, ...model.scenarios];
-                          model.scenario = scenario;
-                          await saveModel(attrs, model, true);
-                          toast({ html: t('SCENARIO_LOADED_MSG') });
-                        }
-                      } else {
-                        pendingCollection =
-                          imported.kind === 'legacy'
-                            ? convertFromOld(imported.value)
-                            : imported.value;
-                        confirmCollectionImport = true;
-                        m.redraw();
-                      }
-                    };
+                    reader.onload = () =>
+                      importModelText(attrs, reader.result as string);
                     reader.readAsText(data);
                   });
                 },
