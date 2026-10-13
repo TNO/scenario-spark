@@ -1,6 +1,7 @@
 import m from 'mithril';
 import { padLeft, uniqueId } from 'mithril-materialized';
 import { render } from 'mithril-ui-form';
+import { diagnoseGeneration, generateCombination } from 'morphological-box';
 import {
   Color,
   ContextType,
@@ -375,222 +376,24 @@ export const modelToSaveName = (
   )}_${formatDate()}`.toLowerCase();
 };
 
-/** Diagnostic result for morphological box dead-end */
-export type GenerationDiagnostic = {
-  /** Components that have severely constrained values (< 2 available) */
-  blockedComponents: Array<{
-    componentId: ID;
-    componentLabel: string;
-    totalValues: number;
-    availableValues: number;
-    blockedValueIds: ID[];
-  }>;
-  /** Total inconsistency constraints */
-  totalConstraints: number;
-};
+export type { GenerationDiagnostic } from 'morphological-box';
+export { diagnoseGeneration };
 
 /**
- * Diagnose why morphological box generation is failing.
- * Analyzes which components have all values blocked by inconsistency constraints.
+ * Generate a narrative without impossible combinations and with as few
+ * unlikely combinations as possible, keeping the locked values.
  */
-export const diagnoseGeneration = (
-  scenario: Scenario,
-): GenerationDiagnostic => {
-  const { categories, components, inconsistencies } = scenario;
-
-  // Count how many values are blocked for each component
-  const blockedMap = new Map<ID, ID[]>(); // componentId -> blocked value ids
-
-  for (const category of categories) {
-    const catComps = components.filter(
-      (c) => category.componentIds && category.componentIds.includes(c.id),
-    );
-    for (const comp of catComps) {
-      if (!comp.values) continue;
-      const blocked = comp.values
-        .filter(
-          (v) =>
-            inconsistencies[v.id] &&
-            Object.keys(inconsistencies[v.id]).length > 0,
-        )
-        .map((v) => v.id);
-      if (blocked.length > 0) {
-        blockedMap.set(comp.id, blocked);
-      }
-    }
-  }
-
-  const blockedComponents = Array.from(blockedMap.entries())
-    .map(([compId, blockedIds]) => {
-      const comp = components.find((c) => c.id === compId);
-      return {
-        componentId: compId,
-        componentLabel: comp?.label || compId,
-        totalValues: comp?.values?.length || 0,
-        availableValues: (comp?.values?.length || 0) - blockedIds.length,
-        blockedValueIds: blockedIds,
-      };
-    })
-    .filter((c) => c.availableValues < 2)
-    .sort((a, b) => a.availableValues - b.availableValues);
-
-  const totalConstraints = Object.values(inconsistencies).reduce(
-    (sum, row) => sum + Object.values(row).filter(Boolean).length,
-    0,
-  );
-
-  return { blockedComponents, totalConstraints };
-};
-
-const getInconsistency = (
-  inconsistencies: Inconsistencies,
-  from: ID,
-  to: ID,
-) => {
-  const fromValue = inconsistencies[from]?.[to];
-  if (typeof fromValue !== 'undefined') return fromValue;
-  return inconsistencies[to]?.[from];
-};
-
-const countConstraints = (inconsistencies: Inconsistencies, id: ID) =>
-  Object.values(inconsistencies[id] || {}).reduce(
-    (count, value) => count + (value ? 2 : 1),
-    0,
-  );
-
-const getScenarioComponents = (
-  categories: Scenario['categories'],
-  components: ScenarioComponent[],
-) => {
-  const seen = new Set<ID>();
-  const byId = new Map(components.map((component) => [component.id, component]));
-  return categories
-    .flatMap((category) => category.componentIds || [])
-    .map((id) => byId.get(id))
-    .filter((component): component is ScenarioComponent => {
-      if (!component || seen.has(component.id)) return false;
-      seen.add(component.id);
-      return true;
-    });
-};
-
-const getSelectedValueIds = (chosen: Record<ID, ID[]>) =>
-  Object.values(chosen).flatMap((ids) => ids || []);
-
-const getPairScore = (
-  inconsistencies: Inconsistencies,
-  id: ID,
-  selectedIds: ID[],
-) => {
-  let unlikely = 0;
-  for (const selectedId of selectedIds) {
-    const state = getInconsistency(inconsistencies, id, selectedId);
-    if (state === true) return undefined;
-    if (state === false) unlikely++;
-  }
-  return unlikely;
-};
-
-const shuffle = <T>(array: T[]) =>
-  array
-    .map((value) => ({ value, rank: Math.random() }))
-    .sort((a, b) => a.rank - b.rank)
-    .map(({ value }) => value);
-
 export const generateNarrative = (
   scenario: Scenario,
   locked: Record<ID, ID[]> = {},
 ) => {
-  const { categories, components, inconsistencies } = scenario;
-
-  const orderedComponents = getScenarioComponents(categories, components).sort(
-    (a, b) =>
-      (b.values || []).reduce(
-        (sum, value) => sum + countConstraints(inconsistencies, value.id),
-        0,
-      ) -
-      (a.values || []).reduce(
-        (sum, value) => sum + countConstraints(inconsistencies, value.id),
-        0,
-      ),
-  );
-  const chosen = Object.fromEntries(
-    Object.entries(locked).map(([id, valueIds]) => [id, valueIds || []]),
-  ) as Record<ID, ID[]>;
-  const lockedValueIds = getSelectedValueIds(chosen);
-  let lockedUnlikelyCount = 0;
-
-  for (let i = 0; i < lockedValueIds.length; i++) {
-    const score = getPairScore(
-      inconsistencies,
-      lockedValueIds[i],
-      lockedValueIds.slice(i + 1),
-    );
-    if (typeof score === 'undefined') {
-      return { error: true, diagnostic: diagnoseGeneration(scenario) } as const;
-    }
-    lockedUnlikelyCount += score;
-  }
-
-  let best:
-    | {
-        chosen: Record<ID, ID[]>;
-        unlikelyCount: number;
-      }
-    | undefined;
-
-  const search = (
-    componentIndex: number,
-    current: Record<ID, ID[]>,
-    selectedValueIds: ID[],
-    unlikelyCount: number,
-  ) => {
-    if (best && unlikelyCount >= best.unlikelyCount) return;
-    if (componentIndex >= orderedComponents.length) {
-      best = { chosen: current, unlikelyCount };
-      return;
-    }
-
-    const component = orderedComponents[componentIndex];
-    if (Object.prototype.hasOwnProperty.call(current, component.id)) {
-      search(componentIndex + 1, current, selectedValueIds, unlikelyCount);
-      return;
-    }
-
-    const candidates = shuffle(component.values || [])
-      .map(({ id }) => ({
-        id,
-        score: getPairScore(inconsistencies, id, selectedValueIds),
-      }))
-      .filter(
-        (candidate): candidate is { id: ID; score: number } =>
-          typeof candidate.score !== 'undefined',
-      )
-      .sort((a, b) => a.score - b.score);
-
-    for (const candidate of candidates) {
-      search(
-        componentIndex + 1,
-        { ...current, [component.id]: [candidate.id] },
-        selectedValueIds.concat(candidate.id),
-        unlikelyCount + candidate.score,
-      );
-    }
-  };
-
-  search(0, chosen, lockedValueIds, lockedUnlikelyCount);
-
-  if (best) {
-    const narrative = {
-      id: uniqueId(),
-      components: best.chosen,
-      included: false,
-    } as Narrative;
-    return narrative;
-  }
-
-  // Return diagnostic info so caller can report why generation failed
-  return { error: true, diagnostic: diagnoseGeneration(scenario) } as const;
+  const result = generateCombination(scenario, { locked });
+  if (!result.ok) return { error: true, diagnostic: result.diagnostic } as const;
+  return {
+    id: uniqueId(),
+    components: result.selection,
+    included: false,
+  } as Narrative;
 };
 
 export const scrollToSection = (id: string, e?: MouseEvent): void => {

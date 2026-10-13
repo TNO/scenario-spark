@@ -31,6 +31,8 @@ export default defineConfig({
     extensions: ['.ts', '.js', '.wasm', '.csv', '.json'],
     alias: {
       'osm-polygon-features': resolve(__dirname, 'src/utils/osm-polygon-features.js'),
+      // Use the workspace library source directly, so changes are picked up without a rebuild
+      'morphological-box': resolve(__dirname, 'packages/morphological-box/src/index.ts'),
     },
   },
 

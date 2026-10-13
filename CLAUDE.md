@@ -16,6 +16,8 @@ This is **Scenario Spark**, a TypeScript web application for generating threat s
 - `pnpm build` - Build for production (outputs to ./docs directory)
 - `pnpm start` - Alias for dev command
 - `pnpm clean` - Clean build artifacts and cache directories
+- `pnpm test` - Run app tests (`tests/`) and the `morphological-box` package tests
+- `pnpm typecheck` - Type-check the app
 
 ## Architecture
 
@@ -43,6 +45,11 @@ This is **Scenario Spark**, a TypeScript web application for generating threat s
 - **Page Components**: `home-page`, `create-box-page`, `create-scenario-page`, `show-scenario-page`, `settings-page`
 - **UI Components**: Rich text editing with Quill, drag-n-drop, inconsistency editor
 
+### Morphological box library
+- Narrative generation (`generateNarrative` in `src/utils`) delegates to the workspace package `morphological-box` (`packages/morphological-box`).
+- Vite aliases the package to its TypeScript source; `pnpm install`/`pnpm build` also build its `dist` for type resolution.
+- Change generation, validation or inconsistency logic in the package, not in the app.
+
 ### Key Features
 - Morphological analysis for scenario generation
 - Multi-language support (Dutch/English) via `translate.js`
@@ -54,6 +61,7 @@ This is **Scenario Spark**, a TypeScript web application for generating threat s
 ### File Structure
 ```
 ├── index.html                # Entry point (Vite auto-detects)
+├── packages/morphological-box # Standalone npm package: box validation, generation, morph-box CLI, agent skill
 ├── vite.config.ts            # Vite configuration
 src/
 ├── app.ts                    # Application entry point

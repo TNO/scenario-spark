@@ -24,10 +24,18 @@ In the box's LLM settings, choose **Narrative prompt** or **Persona prompt** in 
 
 ## Development
 
+This is a pnpm workspace: the app lives in the repository root, reusable packages in `packages/`.
+
 ```bash
-pnpm i
-npm start
+pnpm i        # also builds packages/morphological-box
+pnpm start    # dev server on http://localhost:8339
+pnpm test     # app and package tests
+pnpm build    # production build into ./docs
 ```
+
+## Morphological box library, CLI and agent skill
+
+The scenario generation engine is published separately as [`morphological-box`](packages/morphological-box/README.md): a zero-dependency library to validate boxes and generate consistent combinations, plus a `morph-box` CLI to build a Scenario Spark JSON incrementally. The bundled [agent skill](packages/morphological-box/skills/morphological-box/SKILL.md) lets any LLM agent create a box (categories, key drivers, values, impossible and unlikely combinations) from user input or documents, which you can then load via **Load box or collection**.
 
 ## Creating templates
 
