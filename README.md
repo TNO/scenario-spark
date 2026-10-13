@@ -12,11 +12,13 @@ For an overview, see the [5 minute video introduction](https://www.youtube.com/w
 - Items can have a location on the map, optionally including radii.
 - Supports modelling inconsistencies, e.g. a small research reactor can only produce modest radiation levels during an incident.
 - Can integrate with LLM-service, or by using copy-paste.
-- First-time visitors receive ten public-safety and continuity boxes in the selected app language, each with four categories, described key drivers, impossible combinations, an example scenario, a prose template covering every driver, and a tailored LLM prompt addressing short- and medium-term effects and conditional game changers. Each language's kit is loaded on demand from its own JSON file; the current language is cached for offline use once online. Existing browser collections are not translated or replaced when the app language changes. Use **Add starter kit** to append only missing boxes in the current app language without changing existing ones. To get an updated version of a starter box already in your collection, remove that old box first; **New collection** replaces the entire collection (download it first if needed).
+- First-time visitors receive 45 public-safety and continuity boxes in the selected app language, each with at least four categories, described key drivers, impossible combinations, an example scenario, a prose template covering every driver, and a tailored LLM prompt addressing short- and medium-term effects and conditional game changers. Each language's kit is loaded on demand from its own JSON file; the current language is cached for offline use once online. Existing browser collections are not translated or replaced when the app language changes. Use **Add starter kit** to append only missing boxes in the current app language without changing existing ones. To get an updated version of a starter box already in your collection, remove that old box first; **New collection** replaces the entire collection (download it first if needed).
+- **Crisis-management starter kit.** Besides event safety, public buildings, religious centres and port and airport continuity, the kit covers natural hazards (earthquake, tsunami, volcanic eruption, landslide/avalanche, high water, flash flood, storm, wildfire, extreme temperature, drought, epidemic/pandemic, animal disease, insect infestation), technological hazards (CBRN industrial accident, nuclear/radiological incident, air, rail, road and maritime accidents, pipeline/gas explosion, structure collapse, dam/levee failure, power outage, telecom failure, water contamination, hazardous spill) and man-made threats (explosive and CBRN terrorism, active shooter, sabotage, hostage taking/kidnapping, demonstrations including student, farmer and embassy protests, civil unrest, maritime piracy, drone attack, hybrid threat, disinformation, cyber attack, deliberate supply-chain disruption, arson). Each box describes the incident in its first categories and the solution space in manual measure categories, such as protection and rescue, coordination and public information, and, for man-made threats, investigation and apprehension. Generating a scenario never fills in measures. Instead, describe the current situation and pick measures yourself: with *Hide inconsistent combinations* on, measures that do not fit the situation are hidden, so the box doubles as a decision-support aid.
 
 ## Persona feedback
 
 Personas are reusable audience profiles. Select the relevant personas for each morphological box independently of decision support. For each saved scenario, their feedback captures a **hypothetical perspective**: how they might perceive the situation, respond to proposed measures, and need to be informed or involved. It is not evidence from real people. Each persona has a separate feedback field so their perspectives stay distinct.
+
 
 New starter collections include translated profiles for an event visitor, a nearby resident and an event organiser. Event safety selects all three; high water and levee breach select the resident. Adding missing starter boxes also adds only their missing profiles without replacing existing personas or box selections.
 
@@ -37,7 +39,64 @@ GitHub Pages serves committed files from `main/docs`; building locally does not 
 
 ## Morphological box library, CLI and agent skill
 
-The scenario generation engine is published separately as [`morphological-box`](packages/morphological-box/README.md): a zero-dependency library to validate boxes and generate consistent combinations, plus a `morph-box` CLI to build a Scenario Spark JSON incrementally. The bundled [agent skill](packages/morphological-box/skills/morphological-box/SKILL.md) lets any LLM agent create a box (categories, key drivers, values, impossible and unlikely combinations) from user input or documents, which you can then load via **Load box or collection**.
+The scenario generation engine is published separately as the npm package [`morphological-box`](packages/morphological-box/README.md): a zero-dependency library to validate boxes, generate consistent combinations and assess which options remain for a given situation, plus the `morph-box` CLI to build a Scenario Spark JSON incrementally. Its agent skill, [`morphological-box`](packages/morphological-box/skills/morphological-box/SKILL.md), teaches any LLM agent (GitHub Copilot, Claude Code, Codex, …) to create a box from user input or documents: categories, key drivers and values, manual measure categories for decision support, impossible and unlikely combinations, a narrative template and an LLM prompt, in one of the app languages. Load the result in Scenario Spark via **Load box or collection**.
+
+### Standalone use
+
+You do not need this repository; Node.js 18 or newer is enough.
+
+```bash
+# Run the CLI without installing
+npx -y -p morphological-box morph-box --help
+
+# Or install it in a project (library + CLI + skill)
+npm install morphological-box
+npx morph-box --help
+```
+
+The easiest way to install the agent skill is with the [`skills`](https://www.npmjs.com/package/skills) CLI, which fetches it from this GitHub repository and links it into the skills folder of your agent(s):
+
+```bash
+npx skills add TNO/scenario-spark --skill morphological-box            # current project, choose agents interactively
+npx skills add TNO/scenario-spark --skill morphological-box -g -y      # user level (all projects), no prompts
+npx skills add TNO/scenario-spark --skill morphological-box -a claude-code   # a specific agent only
+npx skills add TNO/scenario-spark --list                               # list the skills in the repository
+npx skills update                                                      # later: update installed skills
+```
+
+Use `--copy` to copy the files instead of symlinking them.
+
+Alternatively, copy the skill manually from the installed package to your agent's skills folder (for example `~/.agents/skills`, `~/.claude/skills` or `.github/skills` in a repository), and ask the agent to create a morphological box:
+
+```bash
+cp -r node_modules/morphological-box/skills/morphological-box ~/.agents/skills/
+```
+
+The skill calls the CLI via `npx -y -p morphological-box morph-box`, so it also works without a local install. To use the latest unpublished version instead, check out this repository and build the package (`pnpm i`), then use `node packages/morphological-box/dist/cli.js` as the CLI and copy `packages/morphological-box/skills/morphological-box` as the skill.
+
+### CLI
+
+Each write command validates its input and rewrites the box file, so ids stay unique and constraints symmetric.
+
+```bash
+morph-box init box.json --language en --label "Flooding" --desc "Exercise and decision-support box"
+morph-box add-category box.json --data '{"label":"Water","components":[{"label":"Water depth","values":["Below 20 cm","20-100 cm","Above 1 m"]}]}'
+morph-box add-category box.json --data '{"label":"Rescue measures","manual":true,"components":[{"label":"Rescue","values":["Boat rescue","Wading teams","Helicopter hoist"]}]}'
+morph-box matrix box.json water rescue-measures       # cross-consistency worksheet
+morph-box set-inconsistencies box.json --data '[{"a":"water-depth-below-20-cm","b":"rescue-boat-rescue","type":"impossible"}]'
+morph-box template-prompt box.json                    # how to write the narrative template
+morph-box set-template box.json --data $'Water depth: {1}.\nRescue: {2}.'
+morph-box set-llm-prompt box.json --data 'You are a crisis-management trainer. Write a realistic incident scenario based on the following elements.'
+morph-box validate box.json                           # exit code 1 on errors
+morph-box generate box.json -n 5 --seed 1             # manual measures stay empty (--include-manual fills them)
+morph-box options box.json --select water-depth-below-20-cm   # which measures remain for this situation?
+```
+
+Other commands: `details` (box label, description, id, language), `remove-category`, `set-manual <id> [--off]`, `outline` and `stats`; add `--json` for machine-readable output. Run `morph-box --help` for all options.
+
+### Manual measures and decision support
+
+A factor in **manual mode** (the *Manual mode* switch of a key driver in the box settings, or `"manual": true` in the JSON) is chosen by the user and is never filled in when generating a scenario. Use it for the solution space, e.g. response measures. When *Hide inconsistent combinations* is on (the default for starter boxes), selecting the current situation removes the measures that are impossible in that situation, so the same box supports both scenario generation and decision making.
 
 ## Creating templates
 

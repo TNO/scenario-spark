@@ -14,6 +14,8 @@ type FactorSpec = {
   id: string;
   label: string;
   desc: string;
+  /** Chosen by a person (e.g. a measure), not generated; overrides the category */
+  manual?: boolean;
   values: string[][];
 };
 
@@ -21,10 +23,12 @@ type CategorySpec = {
   id: string;
   label: string;
   desc: string;
+  /** All factors are chosen by a person, e.g. measures for decision support */
+  manual?: boolean;
   factors: FactorSpec[];
 };
 
-type BoxSpec = {
+export type BoxSpec = {
   id: string;
   label: string;
   desc: string;
@@ -69,7 +73,7 @@ const files: Record<Languages, () => Promise<{ default: StarterKitData }>> = {
     : import('./starter-kits/pl.json', { with: { type: 'json' } }),
 };
 
-const createScenario = (
+export const createScenario = (
   box: BoxSpec,
   effectsPrompt: string,
   thresholdColors: ThresholdColor[]
@@ -89,6 +93,7 @@ const createScenario = (
       id: `${id}-${factor.id}`,
       label: factor.label,
       desc: factor.desc,
+      ...((factor.manual ?? category.manual) ? { manual: true } : {}),
       values: factor.values.map(([value, label]) => {
         const valueId = `${id}-${factor.id}-${value}`;
         valueIds.set(`${factor.id}.${value}`, valueId);

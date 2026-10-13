@@ -7,12 +7,13 @@ import {
   createBox,
   removeCategory,
   setBoxDetails,
+  setManual,
   toScenarioSpark,
   upsertCategory,
   type CategoryInput,
   type InconsistencyInput,
 } from './builder.ts';
-import { countCombinations, createRandom, generateCombinations, getBoxComponents } from './generate.ts';
+import { assessOptions, countCombinations, createRandom, generateCombinations, getBoxComponents } from './generate.ts';
 import { getInconsistency, listInconsistencies } from './inconsistencies.ts';
 import {
   createTemplatePrompt,
@@ -39,7 +40,12 @@ Build incrementally (each step rewrites <file>):
   add-category <file> [--data <json> | --input <path> | < stdin]
       Add or replace a category with its components and values:
       {"label":"Actor","components":[{"label":"Motive","values":["Money","Ideology"]}]}
+      Add "manual": true to a category or component for measures that a person
+      chooses (not generated).
   remove-category <file> <categoryId>
+  set-manual <file> <id>[,<id>...] [--off]
+      Mark categories or components as manual (chosen by a person, e.g.
+      measures; never generated unless locked) or, with --off, automatic.
   set-inconsistencies <file> [--data <json> | --input <path> | < stdin]
       Mark value pairs: [{"a":"<valueId>","b":"<valueId>","type":"impossible|unlikely|possible"}]
       a/b may also be a component id to address all its values.
@@ -61,9 +67,15 @@ Inspect:
   validate <file> [--json] [--strict]
                                    Exit code 1 on errors (or warnings with --strict).
   stats <file> [--json]            Size and constraint statistics.
-  generate <file> [-n <count>] [--seed <n>] [--json]
+  generate <file> [-n <count>] [--seed <n>] [--include-manual] [--json]
                                    Sample consistent combinations (rendered with
-                                   the template, if any).
+                                   the template, if any). Manual components stay
+                                   empty unless --include-manual is given.
+  options <file> --select <valueId>[,<valueId>...] [--json]
+                                   Decision support: given the selected values
+                                   (e.g. the current situation), list for every
+                                   other component which values are available,
+                                   unlikely or excluded (and why).
 
 Options:
   -h, --help                       Show this help.
@@ -87,6 +99,9 @@ const parse = (argv: string[]) =>
       force: { type: 'boolean' },
       strict: { type: 'boolean' },
       seed: { type: 'string' },
+      select: { type: 'string' },
+      off: { type: 'boolean' },
+      'include-manual': { type: 'boolean' },
       n: { type: 'string', short: 'n' },
       help: { type: 'boolean', short: 'h' },
     },
@@ -161,7 +176,7 @@ const outline = (box: MorphologicalBox) => {
     for (const cid of cat.componentIds || []) {
       const comp = byId.get(cid);
       if (!comp) continue;
-      lines.push(`- ${comp.label} [component: ${comp.id}]`);
+      lines.push(`- ${comp.label} [component: ${comp.id}]${comp.manual ? ' (manual)' : ''}`);
       for (const v of comp.values || []) lines.push(`  - ${v.label} [${v.id}]`);
     }
   }
@@ -214,6 +229,7 @@ const stats = (box: MorphologicalBox) => {
   return {
     categories: box.categories.length,
     components: comps.length,
+    manualComponents: comps.filter((c) => c.manual).length,
     values,
     combinations: countCombinations(box),
     impossiblePairs: impossible,
@@ -261,6 +277,40 @@ export const run = (argv: string[]): number => {
       const categoryId = args.positionals[2] || fail('Missing <categoryId>.');
       writeBox(file, removeCategory(readBox(file), categoryId));
       console.log(`Removed category ${categoryId}.`);
+      return 0;
+    }
+    case 'set-manual': {
+      const file = fileArg(args);
+      const ids = (args.positionals[2] || fail('Missing category or component id(s).')).split(',').map((i) => i.trim()).filter(Boolean);
+      const box = setManual(readBox(file), ids, !args.values.off);
+      writeBox(file, box);
+      const manual = getBoxComponents(box).filter((c) => c.manual).map((c) => c.id);
+      console.log(`Manual components: ${manual.length ? manual.join(', ') : 'none'}.`);
+      return 0;
+    }
+    case 'options': {
+      const box = readBox(fileArg(args), true);
+      const ids = (args.values.select || '').split(',').map((i) => i.trim()).filter(Boolean);
+      const owner = new Map(box.components.flatMap((c) => (c.values || []).map((v) => [v.id, c.id] as const)));
+      const selection: Record<string, string[]> = {};
+      for (const vid of ids) {
+        const cid = owner.get(vid) || fail(`Unknown value id "${vid}".`);
+        (selection[cid] ||= []).push(vid);
+      }
+      const result = assessOptions(box, selection);
+      if (asJson) {
+        console.log(JSON.stringify(result, null, 2));
+        return 0;
+      }
+      const marks = { selected: '*', available: '+', unlikely: '~', excluded: 'X' } as const;
+      const lines = ['Legend: * selected, + available, ~ unlikely, X excluded (impossible with a selected value).'];
+      for (const comp of result) {
+        lines.push('', `${comp.label} [${comp.componentId}]${comp.manual ? ' (manual)' : ''}`);
+        for (const v of comp.values) {
+          lines.push(`  ${marks[v.status]} ${v.label} [${v.id}]${v.conflicts.length ? ` <- ${v.conflicts.join(', ')}` : ''}`);
+        }
+      }
+      console.log(lines.join('\n'));
       return 0;
     }
     case 'set-inconsistencies': {
@@ -326,7 +376,7 @@ export const run = (argv: string[]): number => {
       const box = readBox(fileArg(args), true);
       const count = Number(args.values.n || 5);
       const random = args.values.seed !== undefined ? createRandom(Number(args.values.seed)) : undefined;
-      const results = generateCombinations(box, count, { random });
+      const results = generateCombinations(box, count, { random, includeManual: !!args.values['include-manual'] });
       if (results.length === 0) fail('No consistent combination exists.');
       if (asJson) {
         console.log(JSON.stringify(results, null, 2));
@@ -337,9 +387,9 @@ export const run = (argv: string[]): number => {
         console.log(`\nScenario ${i + 1}${unlikelyCount ? ` (${unlikelyCount} unlikely pair(s))` : ''}`);
         for (const comp of getBoxComponents(box)) {
           const ids = selection[comp.id] || [];
-          console.log(`- ${comp.label}: ${ids.map((v) => labels.get(v) || v).join(', ')}`);
+          console.log(`- ${comp.label}: ${ids.length ? ids.map((v) => labels.get(v) || v).join(', ') : comp.manual ? '(manual, to be chosen)' : ''}`);
         }
-        if (box.template) console.log(`\n${renderTemplate(box, box.template, selection)}`);
+        if (box.template) console.log(`\n${renderTemplate(box, box.template, selection, (labels) => labels.join(', ') || '…')}`);
       });
       return 0;
     }

@@ -1,6 +1,6 @@
 ---
 name: morphological-box
-description: Builds a morphological box (Zwicky box) for scenario planning as a validated Scenario Spark JSON file - key factors grouped in categories, their values, impossible or unlikely value combinations (cross-consistency assessment), a narrative template and an LLM narrative prompt, in a chosen language - from user input or external documents, using the morph-box CLI step by step. Use when asked to create, extend or check a morphological box, morphological analysis, scenario framework, key drivers/factors, or a Scenario Spark JSON.
+description: Builds a morphological box (Zwicky box) for scenario planning and decision support as a validated Scenario Spark JSON file - key factors grouped in categories, their values, optional manual measure categories (the solution space), impossible or unlikely value combinations (cross-consistency assessment), a narrative template and an LLM narrative prompt, in a chosen language - from user input or external documents, using the morph-box CLI step by step. Use when asked to create, extend or check a morphological box, morphological analysis, scenario framework, key drivers/factors, response measures/options, or a Scenario Spark JSON.
 ---
 
 # Morphological box
@@ -24,7 +24,7 @@ Copy this checklist and tick it off:
 - [ ] 0. Language agreed
 - [ ] 1. Scope: question, system boundary, time horizon, sources
 - [ ] 2. init the box
-- [ ] 3. One add-category per category
+- [ ] 3. One add-category per category (measure categories: "manual": true)
 - [ ] 4. Inconsistencies within each category
 - [ ] 5. Inconsistencies between each pair of categories
 - [ ] 6. Narrative template
@@ -43,6 +43,8 @@ Copy this checklist and tick it off:
      {"label":"Motive","values":["Financial","Political","Revenge"]}]}'
    ```
    The output lists the generated ids (`actor-type-insider`). Re-running with the same label (or `"id"`) replaces that category. Quality rules are in [REFERENCE.md](REFERENCE.md#modelling-rules).
+
+   **Decision support (solution space).** When the box should also help decide what to do, e.g. for crisis management, add the possible measures as separate categories with `"manual": true` (see [Decision-support boxes](#decision-support-boxes)). `set-manual box.json <categoryId>` marks an existing category.
 4. **Within-category constraints.** For each category run `$MB matrix box.json <categoryId>` and mark pairs that cannot (`impossible`) or rarely (`unlikely`) co-occur:
    ```bash
    $MB set-inconsistencies box.json --data '[
@@ -61,7 +63,7 @@ Copy this checklist and tick it off:
    $MB set-llm-prompt box.json --data 'You are a port security trainer. Write a realistic, 300-word incident scenario for an exercise, based on the following elements. …'
    ```
 8. **Validate.** `$MB validate box.json` must print `OK`. Fix every error; for each warning decide whether it is intended (see [REFERENCE.md](REFERENCE.md#validation-codes)).
-9. **Sample.** `$MB generate box.json -n 5` and read the scenarios and rendered template. If one is implausible, add the missing constraint; if generation fails or values never appear, relax constraints; if the text reads badly, revise the template.
+9. **Sample.** `$MB generate box.json -n 5` and read the scenarios and rendered template. If one is implausible, add the missing constraint; if generation fails or values never appear, relax constraints; if the text reads badly, revise the template. For decision-support boxes also run `$MB options box.json --select <situation value ids>` for a few realistic situations and check that the excluded measures (`X`) are exactly the ones that make no sense.
 
 Deliver `box.json` with a short summary: categories, factor counts, number of impossible/unlikely pairs (`$MB stats box.json`) and any assumptions.
 
@@ -70,6 +72,17 @@ Deliver `box.json` with a short summary: categories, factor counts, number of im
 - `impossible`: the combination is logically or physically excluded. Use sparingly; over-constraining kills variety.
 - `unlikely`: plausible but improbable; generators avoid it when an alternative exists.
 - Leave everything else possible. Only constrain pairs of values from different components.
+
+## Decision-support boxes
+
+A box can describe both the problem (scenario/incident) and the solution space (measures), so a professional can specify the current situation and immediately see which measures remain sensible.
+
+- **Situation categories** first (e.g. *Hazard*, *Location and exposure*, *Impact and capacity*): normal, generated factors.
+- **Measure categories** last, each with `"manual": true`, e.g. *Protection and rescue*, *Containment and recovery*, *Coordination and public information*. Every value is a concrete action that can be combined with other measures (users may select several values of one measure factor). Generators leave manual factors empty, so generating a scenario never generates its solution; the user picks measures, or locks them.
+- **Man-made threats** (attacks, sabotage, arson, unrest, cyber, piracy, …): add a manual category for investigation and apprehension of those responsible (e.g. securing evidence, tracing suspects, arrest or intervention, prosecution support), next to containment measures.
+- **Constraints** must cover situation × situation, situation × measure (measures that make no sense or cannot be applied in that situation) and measure × measure (incompatible measures). Use `impossible` for measures that must disappear from the options; Scenario Spark hides them when *hide inconsistent values* is on.
+- **Template**: give each measure category its own paragraph; write it so it still reads well when the measures are not yet chosen (shown as "...").
+- **LLM prompt**: ask the model to assess the selected measures (suitability, timing, side effects, gaps) and, when no measures are given, not to invent a solution.
 
 ## Using the result
 

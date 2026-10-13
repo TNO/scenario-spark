@@ -80,8 +80,9 @@ const withComponents = <B extends MorphologicalBox>(box: B, changes: Partial<Mor
 };
 
 export type ValueInput = string | { id?: ID; label: string; desc?: string };
-export type ComponentInput = { id?: ID; label: string; desc?: string; values: ValueInput[] };
-export type CategoryInput = { id?: ID; label: string; desc?: string; components: ComponentInput[] };
+export type ComponentInput = { id?: ID; label: string; desc?: string; manual?: boolean; values: ValueInput[] };
+/** `manual` applies to all components of the category, unless a component overrides it. */
+export type CategoryInput = { id?: ID; label: string; desc?: string; manual?: boolean; components: ComponentInput[] };
 
 const collectIds = (box: MorphologicalBox, skipCategory?: Category) => {
   const skipComponents = new Set(skipCategory?.componentIds || []);
@@ -136,7 +137,16 @@ export const upsertCategory = <B extends MorphologicalBox>(box: B, input: Catego
       };
     });
     const previous = box.components.find((c) => c.id === componentId && oldComponentIds.has(c.id));
-    return { ...(previous || {}), id: componentId, label: ci.label, ...(ci.desc ? { desc: ci.desc } : {}), values };
+    const { manual: previousManual, ...rest } = previous || ({} as Partial<Component>);
+    const manual = ci.manual ?? input.manual ?? previousManual;
+    return {
+      ...rest,
+      id: componentId,
+      label: ci.label,
+      ...(ci.desc ? { desc: ci.desc } : {}),
+      ...(manual ? { manual: true } : {}),
+      values,
+    };
   });
 
   const category: Category = {
@@ -227,4 +237,26 @@ export const applyInconsistencies = <B extends MorphologicalBox>(box: B, entries
     }
   });
   return { ...box, inconsistencies };
+};
+
+/**
+ * Mark components as manual (chosen by a person, not generated) or automatic.
+ * Each id may be a component or category id (all its components).
+ */
+export const setManual = <B extends MorphologicalBox>(box: B, ids: ID[], manual = true): B => {
+  const targets = new Set<ID>();
+  for (const id of ids) {
+    const category = box.categories.find((c) => c.id === id);
+    if (category) (category.componentIds || []).forEach((cid) => targets.add(cid));
+    else if (box.components.some((c) => c.id === id)) targets.add(id);
+    else throw new Error(`Unknown category or component id "${id}".`);
+  }
+  return {
+    ...box,
+    components: box.components.map((c) => {
+      if (!targets.has(c.id)) return c;
+      const { manual: _old, ...rest } = c;
+      return (manual ? { ...rest, manual: true } : rest) as typeof c;
+    }),
+  };
 };

@@ -43,6 +43,11 @@ export type GenerateOptions = {
    * If false, return the first combination without impossible pairs.
    */
   optimize?: boolean;
+  /**
+   * If true, also fill manual components (e.g. measures) that are not locked.
+   * By default they are left out of the selection, so a person can choose them.
+   */
+  includeManual?: boolean;
 };
 
 /** Components that are part of a category, in category order, without duplicates. */
@@ -116,11 +121,12 @@ const shuffle = <T>(array: T[], random: RandomFn) =>
  * impossible pairs and, by default, as few unlikely pairs as possible.
  */
 export const generateCombination = (box: MorphologicalBox, options: GenerateOptions = {}): GenerationResult => {
-  const { locked = {}, random = Math.random, optimize = true } = options;
+  const { locked = {}, random = Math.random, optimize = true, includeManual = false } = options;
   const { inconsistencies } = box;
   const valueWeight = (component: Component) =>
     (component.values || []).reduce((sum, value) => sum + countConstraints(inconsistencies, value.id), 0);
   const orderedComponents = getBoxComponents(box)
+    .filter((component) => Object.hasOwn(locked, component.id) || (includeManual || !component.manual))
     .filter((component) => (component.values || []).length > 0 || Object.hasOwn(locked, component.id))
     .sort((a, b) => valueWeight(b) - valueWeight(a));
 
@@ -233,3 +239,45 @@ export const countCombinations = (box: MorphologicalBox): number =>
     const n = (component.values || []).length;
     return n > 0 ? product * n : product;
   }, 1);
+
+export type OptionStatus = 'selected' | 'available' | 'unlikely' | 'excluded';
+
+export type ComponentOptions = {
+  componentId: ID;
+  label: string;
+  manual: boolean;
+  values: Array<{
+    id: ID;
+    label: string;
+    status: OptionStatus;
+    /** Selected value IDs that make this value impossible (excluded) or unlikely */
+    conflicts: ID[];
+  }>;
+};
+
+/**
+ * Decision support: given a (partial) selection, e.g. the current situation,
+ * classify every value of every component as selected, available, unlikely or
+ * excluded (impossible with a selected value of another component).
+ */
+export const assessOptions = (box: MorphologicalBox, selection: Selection): ComponentOptions[] => {
+  const selected = Object.entries(selection).flatMap(([componentId, ids]) =>
+    (ids || []).map((id) => ({ componentId, id })),
+  );
+  return getBoxComponents(box).map((component) => ({
+    componentId: component.id,
+    label: component.label,
+    manual: !!component.manual,
+    values: (component.values || []).map(({ id, label }) => {
+      if ((selection[component.id] || []).includes(id)) return { id, label, status: 'selected' as const, conflicts: [] };
+      const others = selected.filter((s) => s.componentId !== component.id);
+      const impossible = others.filter((s) => getInconsistency(box.inconsistencies, id, s.id) === true).map((s) => s.id);
+      const unlikely = others.filter((s) => getInconsistency(box.inconsistencies, id, s.id) === false).map((s) => s.id);
+      return impossible.length
+        ? { id, label, status: 'excluded' as const, conflicts: impossible }
+        : unlikely.length
+          ? { id, label, status: 'unlikely' as const, conflicts: unlikely }
+          : { id, label, status: 'available' as const, conflicts: [] };
+    }),
+  }));
+};

@@ -15,7 +15,11 @@ export type Value = Item;
 export type Component<V extends Value = Value> = Item & {
   /** Optional sort order */
   order?: number;
-  /** Manual mode: the value is chosen by a person (generators still fill it unless locked) */
+  /**
+   * Manual mode: the value is chosen by a person, e.g. response measures in a
+   * decision-support box. Generators leave it empty unless it is locked or
+   * `includeManual` is set; constraints still exclude inconsistent values.
+   */
   manual?: boolean;
   values?: V[];
 };

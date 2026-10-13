@@ -2,6 +2,9 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { addStarterKitToModel, loadStarterKit } from '../src/models/starter-kit.ts';
 import { parseImportedModel } from '../src/utils/import-model.ts';
+import { assessOptions, createRandom, generateCombination } from 'morphological-box';
+
+const BOX_COUNT = 45;
 
 const scenarios = (model) => [model.scenario, ...model.scenarios];
 const createStarterKitNl = (colors) => loadStarterKit('nl', colors);
@@ -24,11 +27,11 @@ const canComplete = (scenario, requiredId) => {
   return search(0, []);
 };
 
-test('provides ten importable, distinct Dutch starter boxes', async () => {
+test('provides importable, distinct Dutch starter boxes', async () => {
   const model = await createStarterKitNl([{ threshold: 0, color: '#123456' }]);
   const boxes = scenarios(model);
-  assert.equal(boxes.length, 10);
-  assert.equal(new Set(boxes.map((box) => box.id)).size, 10);
+  assert.equal(boxes.length, BOX_COUNT);
+  assert.equal(new Set(boxes.map((box) => box.id)).size, BOX_COUNT);
   assert.equal(parseImportedModel(JSON.stringify(model)).kind, 'collection');
   for (const box of boxes) {
     assert.ok(box.label.trim());
@@ -143,12 +146,12 @@ test('creating a new starter kit does not reuse mutable scenario data', async ()
   first.scenarios.length = 0;
   const second = await createStarterKitNl([]);
   assert.notEqual(second.scenario.label, 'Changed by user');
-  assert.equal(second.scenarios.length, 9);
+  assert.equal(second.scenarios.length, BOX_COUNT - 1);
 });
 
 test('the safety-region examples cite public background sources', async () => {
   const boxes = scenarios(await createStarterKitNl([]));
-  for (const label of ['Hoogwater en wateroverlast', 'Dijkdoorbraak', 'Natuurbrand']) {
+  for (const label of ['Hoogwater en wateroverlast', 'Dijk- en damdoorbraak', 'Natuurbrand']) {
     const box = boxes.find((item) => item.label === label);
     assert.ok(box, label);
     assert.match(box.desc, /\[[^\]]+\]\(https:\/\/[^)]+\)/, label);
@@ -162,7 +165,7 @@ test('adding the kit is non-destructive, idempotent and preserves edited starter
     scenarios: [],
   };
   const appended = addStarterKitToModel(standalone, kit);
-  assert.equal(appended.added, 10);
+  assert.equal(appended.added, BOX_COUNT);
   assert.equal(appended.model.scenario, standalone.scenario);
   assert.equal(standalone.scenarios.length, 0);
   assert.equal(parseImportedModel(JSON.stringify(appended.model)).kind, 'collection');
@@ -171,13 +174,84 @@ test('adding the kit is non-destructive, idempotent and preserves edited starter
     scenarios: [{ ...kit.scenario, label: 'Eigen aanpassing' }],
   };
   const first = addStarterKitToModel(personal, kit);
-  assert.equal(first.added, 9);
+  assert.equal(first.added, BOX_COUNT - 1);
   assert.equal(first.model.scenario, personal.scenario);
   assert.equal(first.model.scenarios[0], personal.scenarios[0]);
   assert.equal(first.model.scenarios[0].label, 'Eigen aanpassing');
   assert.equal(personal.scenarios.length, 1);
-  assert.equal(first.model.scenarios.length, 10);
+  assert.equal(first.model.scenarios.length, BOX_COUNT);
   const second = addStarterKitToModel(first.model, kit);
   assert.equal(second.added, 0);
   assert.equal(second.model, first.model);
+});
+
+const hazardBoxes = [
+  'hoogwater', 'dijkdoorbraak', 'natuurbrand', 'cybercontinuiteit', 'demonstraties',
+  'earthquake', 'tsunami', 'volcanic-eruption', 'landslide-avalanche', 'flash-flood', 'storm',
+  'extreme-temperature', 'drought', 'epidemic-pandemic', 'animal-disease', 'insect-infestation',
+  'industrial-cbrn-accident', 'nuclear-radiological', 'air-accident', 'rail-accident', 'road-accident',
+  'maritime-accident', 'pipeline-gas-explosion', 'structure-collapse', 'power-outage', 'telecom-failure',
+  'water-contamination', 'hazmat-spill', 'terrorist-explosive', 'terrorist-cbrn', 'active-shooter',
+  'sabotage-infrastructure', 'hostage-kidnapping', 'civil-unrest', 'maritime-piracy', 'drone-attack',
+  'hybrid-threat', 'disinformation', 'supply-chain-disruption', 'arson',
+];
+const manMade = [
+  'cybercontinuiteit', 'demonstraties', 'water-contamination', 'animal-disease', 'terrorist-explosive',
+  'terrorist-cbrn', 'active-shooter', 'sabotage-infrastructure', 'hostage-kidnapping', 'civil-unrest',
+  'maritime-piracy', 'drone-attack', 'hybrid-threat', 'disinformation', 'supply-chain-disruption', 'arson',
+];
+
+test('crisis-management boxes separate the situation from manual measure categories', async () => {
+  const boxes = scenarios(await createStarterKitNl([]));
+  for (const id of hazardBoxes) {
+    const box = boxes.find((item) => item.id === `starter-nl-${id}`);
+    assert.ok(box, id);
+    const manual = box.components.filter((component) => component.manual);
+    assert.ok(manual.length >= 3, id);
+    assert.ok(manual.length < box.components.length, id);
+    for (const category of box.categories) {
+      const flags = category.componentIds.map(
+        (cid) => !!box.components.find((component) => component.id === cid).manual
+      );
+      assert.ok(flags.every((flag) => flag === flags[0]), `${id}: ${category.label}`);
+    }
+    const manualIds = new Set(manual.map(({ id: cid }) => cid));
+    const valueOwner = new Map(
+      box.components.flatMap((c) => c.values.map((v) => [v.id, c.id]))
+    );
+    const situationToMeasure = Object.entries(box.inconsistencies).some(([a, row]) =>
+      Object.keys(row).some((b) => manualIds.has(valueOwner.get(a)) !== manualIds.has(valueOwner.get(b)))
+    );
+    assert.ok(situationToMeasure, `${id}: measures excluded by the situation`);
+    const generated = generateCombination(box, { random: createRandom(1) });
+    assert.ok(generated.ok, id);
+    for (const cid of manualIds) assert.ok(!generated.selection[cid]?.length, `${id}: ${cid}`);
+  }
+});
+
+test('man-made hazards include investigation and apprehension measures', async () => {
+  const boxes = scenarios(await createStarterKitNl([]));
+  for (const id of manMade) {
+    const box = boxes.find((item) => item.id === `starter-nl-${id}`);
+    const category = box.categories.find((c) => /opsporing|aanhouding|onderzoek/i.test(c.label));
+    assert.ok(category, id);
+    assert.ok(
+      category.componentIds.every((cid) => box.components.find((c) => c.id === cid).manual),
+      id
+    );
+  }
+});
+
+test('selecting the situation excludes measures that do not fit', async () => {
+  const boxes = scenarios(await createStarterKitNl([]));
+  const box = boxes.find((item) => item.id === 'starter-nl-water-contamination');
+  const valueOwner = new Map(box.components.flatMap((c) => c.values.map((v) => [v.id, c])));
+  const [situationValue, measureValue] = Object.entries(box.inconsistencies)
+    .flatMap(([a, row]) => Object.keys(row).map((b) => [a, b]))
+    .find(([a, b]) => !valueOwner.get(a).manual && valueOwner.get(b).manual);
+  const options = assessOptions(box, { [valueOwner.get(situationValue).id]: [situationValue] });
+  const measure = options
+    .find((option) => option.componentId === valueOwner.get(measureValue).id)
+    .values.find((value) => value.id === measureValue);
+  assert.equal(measure.status, 'excluded');
 });
