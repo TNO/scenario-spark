@@ -145,6 +145,10 @@ nav .title {
 .leaflet-bottom {
   z-index: 950;
 }
+/* Keep Leaflet panes and controls in their own stacking context, below the fixed navbar */
+.leaflet-container {
+  isolation: isolate;
+}
 
 /* styles for '...' */
 .block-with-text {
@@ -985,6 +989,10 @@ ul.kanban > li {
   justify-content: right;
   align-items: flex-start;
   padding: 0;
+}
+/* Keep a value's lock next to its own select instead of the next column */
+.scenario-table > .col.s1.icons {
+  justify-content: flex-start;
 }
 .scenario-table > .col.s2.icons .material-icons {
   margin-top: 10px;
