@@ -90,7 +90,7 @@ pnpm --filter morphological-box build
 pnpm --filter morphological-box test
 ```
 
-Publishing: bump the version in `package.json` and push a tag `morphological-box-v<version>`; the GitHub workflow publishes to npm (requires the `NPM_TOKEN` secret). Manually: `cd packages/morphological-box && npm publish --access public`.
+Publishing: bump the version in `package.json` and push a tag `morphological-box-v<version>`; the GitHub workflow publishes to npm via npm Trusted Publishing (configure `TNO/scenario-spark` + `publish-morphological-box.yml` under the package's Settings → Trusted Publisher on npmjs.com; no token needed). Manually: `cd packages/morphological-box && npm publish --access public`.
 
 ## License
 

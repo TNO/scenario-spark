@@ -22,9 +22,9 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
+      - run: npm install -g npm@latest
       - run: npm install --no-package-lock --no-audit --no-fund
       - run: npm run build
       - run: npm test
-      - run: npm publish --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # Authenticates via npm Trusted Publishing (OIDC, needs id-token: write); no NPM_TOKEN secret required.
+      - run: npm publish --access public
