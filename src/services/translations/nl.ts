@@ -18,6 +18,7 @@ export const messages: typeof messagesEN = {
     COLLECTION: 'Lees collectie',
     MODEL: 'Laad boxbestand',
   },
+  OPEN_MENU: 'Menu openen',
   UPLOAD_FILE: 'Laad box of collectie',
   IMPORT_READ_ERROR: 'Het geselecteerde bestand kon niet worden gelezen.',
   COLLECTION_LOAD_FAILED: 'De collectie kon niet worden geladen. Controleer je verbinding en laad de pagina opnieuw.',

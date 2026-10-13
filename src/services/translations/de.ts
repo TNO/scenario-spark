@@ -18,6 +18,7 @@ export const messages: typeof messagesEN = {
     COLLECTION: 'Sammlung laden',
     MODEL: 'Box-Datei laden',
   },
+  OPEN_MENU: 'Menü öffnen',
   UPLOAD_FILE: 'Box oder Sammlung laden',
   IMPORT_READ_ERROR: 'Die ausgewählte Datei konnte nicht gelesen werden.',
   COLLECTION_LOAD_FAILED: 'Die Sammlung konnte nicht geladen werden. Prüfen Sie Ihre Verbindung und laden Sie die Seite neu.',

@@ -16,6 +16,7 @@ export const messages = {
     COLLECTION: 'Load collection',
     MODEL: 'Load box file',
   },
+  OPEN_MENU: 'Open menu',
   UPLOAD_FILE: 'Load box or collection',
   IMPORT_READ_ERROR: 'Could not read the selected file.',
   COLLECTION_LOAD_FAILED: 'Could not load the collection. Check your connection and reload the page.',

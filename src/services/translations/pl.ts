@@ -18,6 +18,7 @@ export const messages: typeof messagesEN = {
     COLLECTION: 'Wczytaj kolekcję',
     MODEL: 'Wczytaj plik tabeli',
   },
+  OPEN_MENU: 'Otwórz menu',
   UPLOAD_FILE: 'Wczytaj tabelę lub kolekcję',
   IMPORT_READ_ERROR: 'Nie można odczytać wybranego pliku.',
   COLLECTION_LOAD_FAILED: 'Nie udało się wczytać kolekcji. Sprawdź połączenie i odśwież stronę.',

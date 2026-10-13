@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { Icon, Menu, ThemeToggle } from 'mithril-materialized';
+import { Icon, Menu, Sidenav, SidenavItem, ThemeToggle } from 'mithril-materialized';
 import logo_white from '../assets/tno_white.svg';
 import { IDashboard } from '../models';
 import { routingSvc } from '../services/routing-service';
@@ -12,7 +12,9 @@ const DesktopLanguageMenu = Menu<Languages>();
 const MobileLanguageMenu = Menu<Languages>();
 const languages: Languages[] = ['nl', 'en', 'fr', 'de', 'es', 'pl'];
 
-export const Layout: MeiosisComponent = () => ({
+export const Layout: MeiosisComponent = () => {
+  let isMenuOpen = false;
+  return {
   view: ({ children, attrs }) => {
     const isActive = (d: IDashboard) =>
       attrs.state.page === d.id ? '.active' : '';
@@ -53,6 +55,33 @@ export const Layout: MeiosisComponent = () => ({
 
     return m('.main', { style: 'overflow-x: hidden' }, [
       m(
+        Sidenav,
+        {
+          id: 'mobile-nav',
+          className: 'app-mobile-nav',
+          isOpen: isMenuOpen,
+          onToggle: (open: boolean) => {
+            isMenuOpen = open;
+          },
+          showBackdrop: true,
+          closeOnBackdropClick: true,
+          closeOnEscape: true,
+        },
+        routes.map((d) =>
+          m(SidenavItem, {
+            text: (typeof d.title === 'string' ? d.title : d.title()).toUpperCase(),
+            icon: typeof d.icon === 'string' ? d.icon : d.icon(),
+            active: attrs.state.page === d.id,
+            className: d.iconClass,
+            onclick: (e: Event) => {
+              e.preventDefault();
+              isMenuOpen = false;
+              changePage(attrs, d.id);
+            },
+          }),
+        ),
+      ),
+      m(
         '.navbar-fixed',
         // { style: 'z-index: 1001' },
         m(
@@ -88,38 +117,19 @@ export const Layout: MeiosisComponent = () => ({
               ],
             ),
             m(
-              // 'a.sidenav-trigger[href=#!/home][data-target=slide-out]',
-              // { onclick: (e: UIEvent) => e.preventDefault() },
-              m.route.Link,
+              'a.sidenav-trigger.hide-on-large-and-up',
               {
-                className: 'sidenav-trigger',
-                'data-target': 'slide-out',
-                href: m.route.get(),
+                href: '#',
+                role: 'button',
+                title: t('OPEN_MENU'),
+                'aria-label': t('OPEN_MENU'),
+                'aria-expanded': String(isMenuOpen),
+                onclick: (e: MouseEvent) => {
+                  e.preventDefault();
+                  isMenuOpen = !isMenuOpen;
+                },
               },
-              m(Icon, {
-                iconName: 'menu',
-                className: 'hide-on-large-and-up',
-                style: 'margin-left: 5px;',
-              }),
-            ),
-            m(
-              'ul#slide-out.sidenav.hide-on-large-and-up',
-              ...routes.map((d) =>
-                m(`li.tooltip${isActive(d)}.unselectable`, [
-                  m(
-                    'a',
-                    { href: routingSvc.href(d.id) },
-                    m(Icon, {
-                      className: d.iconClass ? ` ${d.iconClass}` : '',
-                      iconName: typeof d.icon === 'string' ? d.icon : d.icon(),
-                    }),
-                    (typeof d.title === 'string'
-                      ? d.title
-                      : d.title()
-                    ).toUpperCase(),
-                  ),
-                ]),
-              ),
+              m(Icon, { iconName: 'menu', style: 'margin-left: 5px;' }),
             ),
             m(
               'ul.right.hide-on-med-and-down',
@@ -157,4 +167,5 @@ export const Layout: MeiosisComponent = () => ({
       ),
     ]);
   },
-});
+  };
+};

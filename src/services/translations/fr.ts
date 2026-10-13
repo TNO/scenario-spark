@@ -18,6 +18,7 @@ export const messages: typeof messagesEN = {
     COLLECTION: 'Charger la collection',
     MODEL: 'Charger le fichier de boîte',
   },
+  OPEN_MENU: 'Ouvrir le menu',
   UPLOAD_FILE: 'Charger une boîte ou une collection',
   IMPORT_READ_ERROR: 'Impossible de lire le fichier sélectionné.',
   COLLECTION_LOAD_FAILED: 'Impossible de charger la collection. Vérifiez votre connexion et actualisez la page.',
