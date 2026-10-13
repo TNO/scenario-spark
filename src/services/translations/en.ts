@@ -432,6 +432,7 @@ export const messages = {
   LLM_OPENAI_MODEL_HELP: 'Model name, e.g., gpt-4o-mini, gpt-4o',
   LLM_COPY_PROMPT: 'Copy Prompt to Clipboard',
   TEMPLATE_PROMPT_COPIED: 'Template prompt copied to clipboard',
+  TEMPLATE_PROMPT_COPY: 'Copy LLM prompt to clipboard',
   LLM_PROMPT_COPIED: 'Prompt copied to clipboard!',
   LLM_PASTE_OUTPUT: 'Paste the LLM output below:',
   LLM_GENERATE: 'Generate with LLM',

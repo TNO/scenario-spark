@@ -455,6 +455,7 @@ export const messages: typeof messagesEN = {
   LLM_OPENAI_MODEL_HELP: 'Modelnaam, bijv. gpt-4o-mini, gpt-4o',
   LLM_COPY_PROMPT: 'Kopieer Prompt naar Klembord',
   TEMPLATE_PROMPT_COPIED: 'Sjabloonprompt gekopieerd naar klembord',
+  TEMPLATE_PROMPT_COPY: 'Kopieer LLM-prompt naar klembord',
   LLM_PROMPT_COPIED: 'Prompt gekopieerd naar klembord!',
   LLM_PASTE_OUTPUT: 'Plak de LLM output hieronder:',
   LLM_GENERATE: 'Genereer met LLM',

@@ -443,6 +443,7 @@ export const messages: typeof messagesEN = {
   LLM_OPENAI_MODEL_HELP: 'Modellname, z.B. gpt-4o-mini, gpt-4o',
   LLM_COPY_PROMPT: 'Prompt in Zwischenablage kopieren',
   TEMPLATE_PROMPT_COPIED: 'Vorlagenprompt in Zwischenablage kopiert',
+  TEMPLATE_PROMPT_COPY: 'LLM-Prompt in die Zwischenablage kopieren',
   LLM_PROMPT_COPIED: 'Prompt in Zwischenablage kopiert!',
   LLM_PASTE_OUTPUT: 'Fügen Sie die LLM-Ausgabe unten ein:',
   LLM_GENERATE: 'Mit LLM generieren',

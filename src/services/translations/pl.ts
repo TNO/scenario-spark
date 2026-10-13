@@ -439,6 +439,7 @@ export const messages: typeof messagesEN = {
   LLM_OPENAI_MODEL_HELP: 'Nazwa modelu, np. gpt-4o-mini, gpt-4o',
   LLM_COPY_PROMPT: 'Kopiuj prompt do schowka',
   TEMPLATE_PROMPT_COPIED: 'Prompt szablonu skopiowany do schowka',
+  TEMPLATE_PROMPT_COPY: 'Kopiuj prompt LLM do schowka',
   LLM_PROMPT_COPIED: 'Prompt skopiowany do schowka!',
   LLM_PASTE_OUTPUT: 'Wklej wynik LLM poniżej:',
   LLM_GENERATE: 'Generuj za pomocą LLM',

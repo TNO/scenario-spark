@@ -1,4 +1,5 @@
 import { normalizeInconsistencies, setInconsistency } from './inconsistencies.ts';
+import { remapTemplate, type NarrativeSettings } from './narrative.ts';
 import type { Category, Component, ID, InconsistencyType, MorphologicalBox, Value } from './types.ts';
 
 /** Turn a label into a lowercase, dash-separated id. */
@@ -31,14 +32,21 @@ export const scenarioSparkDefaults = () => ({
   ],
 });
 
-export type BoxDetails = { id?: ID; label: string; desc?: string };
+export type BoxDetails = {
+  id?: ID;
+  label: string;
+  desc?: string;
+  /** ISO 639-1 code of the language used for labels, template and prompts */
+  language?: string;
+};
 
 /** Create an empty box (including Scenario Spark defaults). */
-export const createBox = ({ id, label, desc }: BoxDetails): MorphologicalBox =>
+export const createBox = ({ id, label, desc, language }: BoxDetails): MorphologicalBox & NarrativeSettings =>
   ({
     id: id || slugify(label),
     label,
     ...(desc ? { desc } : {}),
+    ...(language ? { language } : {}),
     ...scenarioSparkDefaults(),
     categories: [],
     components: [],
@@ -60,7 +68,16 @@ export const setBoxDetails = <B extends MorphologicalBox>(box: B, details: Parti
   ...(details.id ? { id: details.id } : {}),
   ...(details.label ? { label: details.label } : {}),
   ...(details.desc !== undefined ? { desc: details.desc } : {}),
+  ...(details.language ? { language: details.language } : {}),
 });
+
+/** Keep `{n}` template placeholders on the same components after a structural change. */
+const withComponents = <B extends MorphologicalBox>(box: B, changes: Partial<MorphologicalBox>): B => {
+  const next = { ...box, ...changes } as B & NarrativeSettings;
+  const { template } = box as B & NarrativeSettings;
+  if (template && changes.components) next.template = remapTemplate(template, box.components, changes.components);
+  return next;
+};
 
 export type ValueInput = string | { id?: ID; label: string; desc?: string };
 export type ComponentInput = { id?: ID; label: string; desc?: string; values: ValueInput[] };
@@ -129,17 +146,20 @@ export const upsertCategory = <B extends MorphologicalBox>(box: B, input: Catego
     ...(input.desc ? { desc: input.desc } : {}),
     componentIds: newComponents.map((c) => c.id),
   };
-  const components = [...box.components.filter((c) => !oldComponentIds.has(c.id)), ...newComponents];
+  // Replace in place so the position (and template numbering) of other components is kept.
+  const firstOld = box.components.findIndex((c) => oldComponentIds.has(c.id));
+  const kept = box.components.filter((c) => !oldComponentIds.has(c.id));
+  const insertAt = firstOld < 0 ? kept.length : box.components.slice(0, firstOld).filter((c) => !oldComponentIds.has(c.id)).length;
+  const components = [...kept.slice(0, insertAt), ...newComponents, ...kept.slice(insertAt)];
   const categories = existing
     ? box.categories.map((c) => (c === existing ? category : c))
     : [...box.categories, category];
   const valueIds = new Set(components.flatMap((c) => (c.values || []).map((v) => v.id)));
-  return {
-    ...box,
+  return withComponents(box, {
     categories,
     components,
     inconsistencies: normalizeInconsistencies(box.inconsistencies || {}, valueIds),
-  };
+  });
 };
 
 /** Remove a category, its components, and their inconsistencies. */
@@ -149,12 +169,18 @@ export const removeCategory = <B extends MorphologicalBox>(box: B, categoryId: I
   const removed = new Set(category.componentIds || []);
   const components = box.components.filter((c) => !removed.has(c.id));
   const valueIds = new Set(components.flatMap((c) => (c.values || []).map((v) => v.id)));
-  return {
-    ...box,
+  const next = withComponents(box, {
     categories: box.categories.filter((c) => c !== category),
     components,
     inconsistencies: normalizeInconsistencies(box.inconsistencies || {}, valueIds),
-  };
+  }) as B & NarrativeSettings;
+  if (next.llm?.prompts) {
+    next.llm = {
+      ...next.llm,
+      prompts: next.llm.prompts.map((p) => ({ ...p, categories: (p.categories || []).filter((id) => id !== categoryId) })),
+    };
+  }
+  return next;
 };
 
 export type InconsistencyInput = {

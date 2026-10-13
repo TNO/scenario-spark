@@ -143,6 +143,8 @@ export type Color = string;
 export type ThresholdColor = { threshold: number; color: Color };
 
 export type Scenario = Item & {
+  /** ISO 639-1 code of the language the box is written in */
+  language?: string;
   /** Template string to convert the scenario items to a fluid text. */
   template?: string;
   /** Optional LLM configuration */

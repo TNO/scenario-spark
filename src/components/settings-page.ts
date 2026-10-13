@@ -259,7 +259,7 @@ export const SettingsPage: MeiosisComponent = () => {
                           osmtypes: OsmOptions,
                           categories,
                           components,
-                          language: i18n.currentLocale,
+                          language: model.scenario.language || i18n.currentLocale,
                         },
                       ] as any,
                       onchange: async () => {

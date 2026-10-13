@@ -17,6 +17,10 @@ The file is a Scenario Spark scenario. The CLI adds the Scenario Spark defaults 
   "id": "port-attack",
   "label": "Cyber attack on a port",
   "desc": "Scenarios for 2030 exercises",
+  "language": "en",
+  "template": "A {1} with a {2} motive attacks the port.",
+  "llm": { "id": "clipboard", "url": "", "model": "gemma3", "temperature": 0.7, "prompts": [
+    { "type": "narrative", "prompt": "Write a realistic scenario based on the following elements.", "categories": ["threat-actor"] } ] },
   "categories": [{ "id": "threat-actor", "label": "Threat actor", "componentIds": ["actor-type", "motive"] }],
   "components": [
     { "id": "actor-type", "label": "Actor type", "values": [
@@ -36,6 +40,9 @@ The file is a Scenario Spark scenario. The CLI adds the Scenario Spark defaults 
 - All ids (box, categories, components, values) are unique.
 - `inconsistencies[a][b]`: `true` = impossible, `false` = unlikely, absent = possible. Always stored in both directions.
 - A component belongs to exactly one category; uncategorized components are ignored.
+- `language`: ISO 639-1 code; Scenario Spark supports `en`, `nl`, `fr`, `de`, `es`, `pl`.
+- `template`: `{n}` is the n-th entry of `components` (1-based; the numbers `template-prompt` shows), `{componentId}` also works. `add-category` and `remove-category` renumber `{n}` when components move; placeholders of removed components become `{oldId}` and fail validation.
+- `llm.prompts[]`: `type` is `narrative`, `persona`, `effect` or `communications`; `categories` selects whose key drivers follow the prompt. Scenario Spark adds missing default prompts on import.
 
 ## CLI fragments
 
@@ -55,6 +62,8 @@ Missing ids are derived from labels: category/component `slug(label)`, value `<c
 [{ "a": "valueOrComponentId", "b": "valueOrComponentId", "type": "impossible | unlikely | possible", "reason": "optional, not stored" }]
 ```
 
+`set-template` and `set-llm-prompt` take plain text, not JSON.
+
 Fragments may also be passed with `--input file.json` or on stdin. Read-only commands (`outline`, `matrix`, `stats`, `validate`, `generate`) also accept a Scenario Spark collection export and use its current scenario. Add `--json` for machine-readable output.
 
 ## Modelling rules
@@ -63,14 +72,14 @@ Fragments may also be passed with `--input file.json` or on stdin. Read-only com
 - Values of one component are mutually exclusive and together cover the realistic range (include a neutral or "none" value when relevant).
 - Components are independent dimensions: if two factors always move together, merge them; if one value determines another, model that as constraints.
 - Labels are short (1–4 words); put explanation, examples and sources in `desc` (markdown allowed).
-- Use the user's language for labels and descriptions.
+- Use the box language for all labels, descriptions, the template and the prompts.
 - Order categories from context/cause to effect, e.g. context → actor → modus operandi → target → impact.
 
 ## Validation codes
 
-Errors (must fix): `not-an-object`, `missing-id`, `missing-label`, `invalid-desc`, `missing-categories`, `missing-components`, `invalid-inconsistencies`, `duplicate-id`, `no-values`, `invalid-values`, `invalid-component-ids`, `unknown-component`, `unknown-value`, `invalid-inconsistency-state`, `conflicting-inconsistency`, `no-components`, `infeasible` (no combination without impossible pairs).
+Errors (must fix): `not-an-object`, `missing-id`, `missing-label`, `invalid-desc`, `missing-categories`, `missing-components`, `invalid-inconsistencies`, `duplicate-id`, `no-values`, `invalid-values`, `invalid-component-ids`, `unknown-component`, `unknown-value`, `invalid-inconsistency-state`, `conflicting-inconsistency`, `no-components`, `infeasible` (no combination without impossible pairs), `invalid-language`, `invalid-template`, `invalid-template-placeholder` (unknown or out-of-range placeholder), `invalid-llm`, `invalid-llm-prompt`.
 
-Warnings (review): `too-few-values`, `duplicate-label`, `empty-category`, `component-in-multiple-categories`, `uncategorized-component`, `self-inconsistency`, `same-component-inconsistency`, `asymmetric-inconsistency`, `dead-value` (a value is impossible with every value of another component, so it is never generated).
+Warnings (review): `too-few-values`, `duplicate-label`, `empty-category`, `component-in-multiple-categories`, `uncategorized-component`, `self-inconsistency`, `same-component-inconsistency`, `asymmetric-inconsistency`, `dead-value` (a value is impossible with every value of another component, so it is never generated), `unsupported-language`, `invalid-template-placeholder` (placeholder of an uncategorized component), `empty-llm-prompt`, `unknown-prompt-category`.
 
 ## Library
 
@@ -83,6 +92,7 @@ const { valid, errors } = validateBox(box);
 const result = generateCombination(box, { locked: { 'actor-type': ['actor-type-insider'] } });
 if (result.ok) console.log(result.selection, result.unlikelyCount); // { componentId: [valueId] }
 const samples = generateCombinations(box, 10, { random: createRandom(42) });
+if (box.template) console.log(renderTemplate(box, box.template, samples[0].selection));
 ```
 
-Other exports: `checkSelection`, `countCombinations`, `diagnoseGeneration`, `getBoxComponents`, `createBox`, `upsertCategory`, `removeCategory`, `applyInconsistencies`, `setInconsistency`, `getInconsistencyType`, `listInconsistencies`, `normalizeInconsistencies`, `toScenarioSpark`.
+Other exports: `checkSelection`, `countCombinations`, `diagnoseGeneration`, `getBoxComponents`, `createBox`, `upsertCategory`, `removeCategory`, `applyInconsistencies`, `setInconsistency`, `getInconsistencyType`, `listInconsistencies`, `normalizeInconsistencies`, `toScenarioSpark`, `createTemplatePrompt`, `setTemplate`, `parseTemplate`, `renderTemplate`, `setLlmPrompt`.

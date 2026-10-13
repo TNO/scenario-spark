@@ -54,6 +54,7 @@ const loadHomePage = (saveModel, locale, onStarterLanguage, onToast = () => {}, 
     './llm-scenario-wizard': { LLMScenarioWizard: () => ({}) },
     '../utils/import-model': { parseImportedModel: () => ({}) },
     '../utils/json-filename': { jsonFilename: () => '' },
+    '../utils/permalink': { PERMALINK_PARAM: 'box', createPermalink: async () => '', decodePermalinkData: async () => '' },
   };
   const module = { exports: {} };
   globalThis.window = { File: true, FileReader: true, FileList: true, Blob: true };
@@ -194,7 +195,7 @@ test('saved scenarios are browsable without an expanded factor table or unnecess
   primary.attrs.onclick();
   assert.equal(destination, 'create');
   const boxActions = find(screen, (node) => node.attrs?.ariaLabel === 'BOX_ACTIONS');
-  assert.deepEqual(boxActions.attrs.items.map(({ id }) => id), ['new', 'llm', 'download', 'delete']);
+  assert.deepEqual(boxActions.attrs.items.map(({ id }) => id), ['new', 'llm', 'download', 'permalink', 'delete']);
   model.scenario.narratives.push({
     id: 'second', label: 'The service recovers', included: true, components: { service: ['local'] },
   });

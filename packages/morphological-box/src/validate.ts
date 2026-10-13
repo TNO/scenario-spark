@@ -1,5 +1,6 @@
 import { generateCombination, getBoxComponents } from './generate.ts';
 import { getInconsistency } from './inconsistencies.ts';
+import { LLM_PROMPT_TYPES, SCENARIO_SPARK_LANGUAGES, parseTemplate } from './narrative.ts';
 import type { ID, MorphologicalBox } from './types.ts';
 
 export type IssueLevel = 'error' | 'warning';
@@ -74,6 +75,18 @@ export const validateBox = (input: unknown, options: ValidateOptions = {}): Vali
   if (!Array.isArray(input.components)) add('error', 'missing-components', '$.components', 'components must be an array.');
   if (input.inconsistencies !== undefined && !isRecord(input.inconsistencies)) {
     add('error', 'invalid-inconsistencies', '$.inconsistencies', 'inconsistencies must be an object.');
+  }
+  if (input.language !== undefined) {
+    if (!isNonEmptyString(input.language)) add('error', 'invalid-language', '$.language', 'language must be a language code such as "en".');
+    else if (!(SCENARIO_SPARK_LANGUAGES as readonly string[]).includes(input.language)) {
+      add('warning', 'unsupported-language', '$.language', `Scenario Spark supports ${SCENARIO_SPARK_LANGUAGES.join(', ')}; "${input.language}" is kept but not used by its interface.`);
+    }
+  }
+  if (input.template !== undefined && typeof input.template !== 'string') {
+    add('error', 'invalid-template', '$.template', 'template must be a string.');
+  }
+  if (input.llm !== undefined && (!isRecord(input.llm) || !Array.isArray(input.llm.prompts))) {
+    add('error', 'invalid-llm', '$.llm', 'llm must be an object with a prompts array.');
   }
   if (issues.some((i) => i.level === 'error' && i.path !== '$.id' && i.path !== '$.label')) return done();
 
@@ -194,6 +207,31 @@ export const validateBox = (input: unknown, options: ValidateOptions = {}): Vali
   if (boxComponents.length === 0) {
     add('error', 'no-components', '$.categories', 'No categorized components: nothing to combine.');
     return done();
+  }
+
+  if (typeof input.template === 'string') {
+    for (const p of parseTemplate(box, input.template)) {
+      if (p.problem) add(p.component ? 'warning' : 'error', 'invalid-template-placeholder', '$.template', p.problem);
+    }
+  }
+  if (isRecord(input.llm)) {
+    const categoryIds = new Set(box.categories.map((c) => c.id));
+    (input.llm.prompts as unknown[]).forEach((prompt, i) => {
+      const path = `$.llm.prompts[${i}]`;
+      if (!isRecord(prompt) || typeof prompt.prompt !== 'string' || !Array.isArray(prompt.categories)) {
+        add('error', 'invalid-llm-prompt', path, 'Expected {type, prompt, categories}.');
+        return;
+      }
+      if (!LLM_PROMPT_TYPES.includes(prompt.type as never)) {
+        add('error', 'invalid-llm-prompt', `${path}.type`, `type must be one of: ${LLM_PROMPT_TYPES.join(', ')}.`);
+      }
+      if (!prompt.prompt.trim()) add('warning', 'empty-llm-prompt', `${path}.prompt`, 'The prompt is empty; Scenario Spark uses its default.');
+      for (const id of prompt.categories as unknown[]) {
+        if (typeof id !== 'string' || !categoryIds.has(id)) {
+          add('warning', 'unknown-prompt-category', `${path}.categories`, `Prompt refers to unknown category "${String(id)}".`);
+        }
+      }
+    });
   }
 
   // A value that is impossible with every value of another component can never be used.

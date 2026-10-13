@@ -14,7 +14,16 @@ import {
 } from './builder.ts';
 import { countCombinations, createRandom, generateCombinations, getBoxComponents } from './generate.ts';
 import { getInconsistency, listInconsistencies } from './inconsistencies.ts';
-import type { Component, MorphologicalBox } from './types.ts';
+import {
+  createTemplatePrompt,
+  parseTemplate,
+  renderTemplate,
+  setLlmPrompt,
+  setTemplate,
+  type LlmPromptType,
+  type NarrativeSettings,
+} from './narrative.ts';
+import type { Component, MorphologicalBox as BaseBox } from './types.ts';
 import { validateBox } from './validate.ts';
 
 const HELP = `morph-box - build, validate and sample morphological boxes (Scenario Spark JSON)
@@ -22,10 +31,11 @@ const HELP = `morph-box - build, validate and sample morphological boxes (Scenar
 Usage: morph-box <command> <file> [options]
 
 Build incrementally (each step rewrites <file>):
-  init <file> --label <text> [--desc <text>] [--id <id>] [--force]
-      Create an empty box.
-  details <file> [--label <text>] [--desc <text>] [--id <id>]
-      Update the box (scenario) label, description or id.
+  init <file> --label <text> [--language <code>] [--desc <text>] [--id <id>] [--force]
+      Create an empty box. --language (en, nl, fr, de, es, pl) is the language
+      of all labels, the template and the prompts.
+  details <file> [--label <text>] [--desc <text>] [--id <id>] [--language <code>]
+      Update the box (scenario) label, description, id or language.
   add-category <file> [--data <json> | --input <path> | < stdin]
       Add or replace a category with its components and values:
       {"label":"Actor","components":[{"label":"Motive","values":["Money","Ideology"]}]}
@@ -33,16 +43,27 @@ Build incrementally (each step rewrites <file>):
   set-inconsistencies <file> [--data <json> | --input <path> | < stdin]
       Mark value pairs: [{"a":"<valueId>","b":"<valueId>","type":"impossible|unlikely|possible"}]
       a/b may also be a component id to address all its values.
+  set-template <file> [--data <text> | --input <path> | < stdin]
+      Set the narrative template (plain text). {n} is the n-th key driver as
+      numbered by template-prompt; {componentId} also works.
+  set-llm-prompt <file> [--type narrative|persona|effect|communications]
+                 [--categories <id,id>] [--data <text> | --input <path> | < stdin]
+      Set the LLM prompt (plain text) for the type (default narrative), applied
+      to the given categories (default all).
 
 Inspect:
   outline <file> [--json]          Categories, components and value ids.
+  template-prompt <file> [--language <code>]
+                                   Instructions and numbered key drivers for
+                                   writing the template.
   matrix <file> <id> [<id2>]       Cross-consistency worksheet for a category or
                                    component (with itself, or against id2).
   validate <file> [--json] [--strict]
                                    Exit code 1 on errors (or warnings with --strict).
   stats <file> [--json]            Size and constraint statistics.
   generate <file> [-n <count>] [--seed <n>] [--json]
-                                   Sample consistent combinations.
+                                   Sample consistent combinations (rendered with
+                                   the template, if any).
 
 Options:
   -h, --help                       Show this help.
@@ -57,6 +78,9 @@ const parse = (argv: string[]) =>
       label: { type: 'string' },
       desc: { type: 'string' },
       id: { type: 'string' },
+      language: { type: 'string' },
+      type: { type: 'string' },
+      categories: { type: 'string' },
       json: { type: 'boolean' },
       data: { type: 'string' },
       input: { type: 'string' },
@@ -99,13 +123,17 @@ const writeBox = (path: string, box: MorphologicalBox) => {
   renameSync(tmp, path);
 };
 
-const readFragment = (args: Args): unknown => {
+const readText = (args: Args, what: string): string => {
   const { data, input } = args.values;
   let text: string | undefined;
   if (data !== undefined) text = data;
   else if (input !== undefined) text = existsSync(input) ? readFileSync(input, 'utf8') : fail(`File not found: ${input}`);
   else if (!process.stdin.isTTY) text = readFileSync(0, 'utf8');
-  if (!text || !text.trim()) return fail('Provide JSON via --data, --input or stdin.');
+  return text && text.trim() ? text : fail(`Provide ${what} via --data, --input or stdin.`);
+};
+
+const readFragment = (args: Args): unknown => {
+  const text = readText(args, 'JSON');
   try {
     return JSON.parse(text);
   } catch (e) {
@@ -200,20 +228,20 @@ export const run = (argv: string[]): number => {
     console.log(HELP);
     return 0;
   }
-  const { label, desc, id, force, strict } = args.values;
+  const { label, desc, id, force, strict, language } = args.values;
   const asJson = !!args.values.json;
   switch (command) {
     case 'init': {
       const file = fileArg(args);
       if (existsSync(file) && !force) fail(`${file} already exists (use --force to overwrite).`);
       if (!label) fail('init requires --label.');
-      writeBox(file, createBox({ id, label: label as string, desc }));
-      console.log(`Created ${file}. Next: add-category.`);
+      writeBox(file, createBox({ id, label: label as string, desc, language }));
+      console.log(`Created ${file}${language ? ` (language: ${language})` : ''}. Next: add-category.`);
       return 0;
     }
     case 'details': {
       const file = fileArg(args);
-      writeBox(file, setBoxDetails(readBox(file), { id, label, desc }));
+      writeBox(file, setBoxDetails(readBox(file), { id, label, desc, language }));
       console.log(`Updated ${file}.`);
       return 0;
     }
@@ -244,6 +272,32 @@ export const run = (argv: string[]): number => {
       const s = stats(box);
       console.log(`Applied ${entries.length} entr${entries.length === 1 ? 'y' : 'ies'}: ${s.impossiblePairs} impossible, ${s.unlikelyPairs} unlikely pairs in total.`);
       reportValidation(box, true).errors.forEach((e) => console.log(`ERROR ${e.code}: ${e.message}`));
+      return 0;
+    }
+    case 'template-prompt': {
+      const box = readBox(fileArg(args), true);
+      console.log(createTemplatePrompt(box, language));
+      return 0;
+    }
+    case 'set-template': {
+      const file = fileArg(args);
+      const box = setTemplate(readBox(file), readText(args, 'the template text'));
+      writeBox(file, box);
+      const used = parseTemplate(box, box.template!);
+      console.log(`Template set with ${used.length} placeholder(s):`);
+      used.forEach((p) => console.log(`  {${p.token}} -> ${p.component!.label} [${p.component!.id}]`));
+      const unused = getBoxComponents(box).filter((c) => !used.some((p) => p.component?.id === c.id));
+      if (unused.length) console.log(`Not in template: ${unused.map((c) => `${c.label} [${box.components.indexOf(c) + 1}]`).join(', ')}`);
+      return 0;
+    }
+    case 'set-llm-prompt': {
+      const file = fileArg(args);
+      const categories = args.values.categories?.split(',').map((c) => c.trim()).filter(Boolean);
+      const type = (args.values.type || 'narrative') as LlmPromptType;
+      const box = setLlmPrompt(readBox(file), { type, categories, prompt: readText(args, 'the prompt text') });
+      writeBox(file, box);
+      const prompt = box.llm!.prompts.find((p) => p.type === type)!;
+      console.log(`Set ${type} prompt for categories: ${prompt.categories.join(', ')}.`);
       return 0;
     }
     case 'outline': {
@@ -285,6 +339,7 @@ export const run = (argv: string[]): number => {
           const ids = selection[comp.id] || [];
           console.log(`- ${comp.label}: ${ids.map((v) => labels.get(v) || v).join(', ')}`);
         }
+        if (box.template) console.log(`\n${renderTemplate(box, box.template, selection)}`);
       });
       return 0;
     }
@@ -292,6 +347,8 @@ export const run = (argv: string[]): number => {
       return fail(`Unknown command "${command}". Run morph-box --help.`);
   }
 };
+
+type MorphologicalBox = BaseBox & NarrativeSettings;
 
 const isMain = () => {
   try {
