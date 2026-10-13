@@ -39,17 +39,13 @@ const replacePlaceholders = (
       const id = s.substring(1, s.length - 1);
       const c = keyDrivers[lookup[id]];
       if (!c) return id;
-      const resolvedLabel =
-        c.values && components[c.id]
-          ? `${joinListWithAnd(
-              c.values
-                .filter((v) => components[c.id].includes(v.id))
-                .map((v) => v.label),
-              t('AND'),
-              '',
-              false
-            )}`
-          : ' ... ';
+      const labels = (c.values || [])
+        .filter((v) => (components[c.id] || []).includes(v.id))
+        .map((v) => v.label);
+      // Manual components (e.g. measures) may still be empty
+      const resolvedLabel = labels.length
+        ? joinListWithAnd(labels, t('AND'), '', false)
+        : ' ... ';
       return m('strong', resolvedLabel);
     } else {
       return s;

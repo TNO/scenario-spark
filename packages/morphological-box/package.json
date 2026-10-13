@@ -1,6 +1,6 @@
 {
   "name": "morphological-box",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Morphological box (Zwicky box) library and CLI: define key factors, values and (in)consistencies, validate them, and generate consistent scenarios.",
   "keywords": [
     "morphological-analysis",

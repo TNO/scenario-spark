@@ -110,6 +110,9 @@ export const validateBox = (input: unknown, options: ValidateOptions = {}): Vali
     const comp = component as Record<string, unknown> & { id: string; label: string };
     registerId(comp.id, `${path}.id`);
     componentIds.set(comp.id, ci);
+    if (comp.manual !== undefined && typeof comp.manual !== 'boolean') {
+      add('error', 'invalid-manual', `${path}.manual`, 'manual must be a boolean.');
+    }
     if (comp.values === undefined || (Array.isArray(comp.values) && comp.values.length === 0)) {
       add('error', 'no-values', `${path}.values`, `Component "${comp.label}" has no values.`);
       return;
@@ -250,7 +253,7 @@ export const validateBox = (input: unknown, options: ValidateOptions = {}): Vali
   }
 
   if (checkFeasibility && !inconsistencyErrors) {
-    const result = generateCombination(box, { optimize: false, random: () => 0.5 });
+    const result = generateCombination(box, { optimize: false, random: () => 0.5, includeManual: true });
     if (!result.ok) {
       add('error', 'infeasible', '$.inconsistencies', 'No combination exists without impossible pairs; relax some constraints.');
     }

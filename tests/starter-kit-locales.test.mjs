@@ -8,12 +8,16 @@ const readKit = (language) => JSON.parse(
   readFileSync(new URL(`../src/models/starter-kits/${language}.json`, import.meta.url), 'utf8')
 );
 const reference = readKit('nl');
+// Hazard names that are identical in several languages.
+const loanwordLabels = new Set(['Tsunami', 'Storm']);
 const boxStructure = (box) => ({
   id: box.id,
   categories: box.categories.map((category) => ({
     id: category.id,
+    manual: !!category.manual,
     factors: category.factors.map((factor) => ({
       id: factor.id,
+      manual: !!factor.manual,
       valueIds: factor.values.map(([id]) => id),
     })),
   })),
@@ -26,7 +30,7 @@ test('each translated starter kit preserves every factor, constraint and templat
     const data = readKit(language);
     assert.ok(data.effectsPrompt.length > 100, language);
     assert.deepEqual(data.boxes.map(boxStructure), reference.boxes.map(boxStructure), language);
-    assert.equal(data.boxes.length, 10, language);
+    assert.equal(data.boxes.length, 45, language);
     for (const [index, box] of data.boxes.entries()) {
       const original = reference.boxes[index];
       assert.deepEqual(
@@ -53,7 +57,7 @@ test('each translated starter kit preserves every factor, constraint and templat
           label && desc && values.every(([, choice]) => choice))
       ), `${language}: ${box.id}`);
       if (language !== 'nl') {
-        assert.notEqual(box.label, original.label, `${language}: ${box.id}`);
+        if (!loanwordLabels.has(box.label)) assert.notEqual(box.label, original.label, `${language}: ${box.id}`);
         assert.notEqual(box.desc, original.desc, `${language}: ${box.id}`);
         assert.notEqual(box.template, original.template, `${language}: ${box.id}`);
         assert.notEqual(box.prompt, original.prompt, `${language}: ${box.id}`);
@@ -73,7 +77,7 @@ test('each translated starter kit preserves every factor, constraint and templat
       }
     }
     const model = await loadStarterKit(language, []);
-    assert.equal(model.scenarios.length, 9, language);
+    assert.equal(model.scenarios.length, 44, language);
     assert.equal(model.scenario.label, data.boxes[0].label, language);
     assert.equal(model.scenario.components.length, data.boxes[0].categories.flatMap(({ factors }) => factors).length);
     assert.ok(model.scenario.llm.prompts[0].prompt.includes(data.effectsPrompt), language);
@@ -120,7 +124,7 @@ test('adding missing starter boxes also adds only their missing personas', async
     personas: [resident, { id: 'own-persona', label: 'Mine' }],
   };
   const merged = addStarterKitToModel(existing, starter);
-  assert.equal(merged.added, 9);
+  assert.equal(merged.added, 44);
   assert.equal(merged.model.scenarios[0], existing.scenarios[0]);
   assert.equal(merged.model.personas[0], resident);
   assert.deepEqual(
