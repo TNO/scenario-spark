@@ -990,8 +990,8 @@ ul.kanban > li {
   align-items: flex-start;
   padding: 0;
 }
-/* Keep a value's lock next to its own select instead of the next column */
-.scenario-table > .col.s1.icons {
+/* Keep locks next to their own category title or select instead of the next column */
+.scenario-table > .col.icons {
   justify-content: flex-start;
 }
 .scenario-table > .col.s2.icons .material-icons {
