@@ -1,5 +1,6 @@
 import m, { FactoryComponent } from 'mithril';
 import { Icon, Select } from 'mithril-materialized';
+import { getInconsistency, setInconsistency } from 'morphological-box';
 import { ID, Inconsistencies } from '../../models/data-model';
 import { MeiosisComponent, saveModel, t } from '../../services';
 
@@ -86,8 +87,7 @@ const InconsistencyCell: FactoryComponent<{
         colValue,
       },
     }) => {
-      const row = inconsistencies[rowId];
-      const v = typeof row !== 'undefined' ? row[colId] : undefined;
+      const v = getInconsistency(inconsistencies, rowId, colId);
 
       // Simplified icon selection
       const iconName =
@@ -130,28 +130,7 @@ const InconsistencyCell: FactoryComponent<{
 
               onactivate?.();
 
-              switch (v) {
-                case true:
-                  inconsistencies[rowId][colId] = inconsistencies[colId][
-                    rowId
-                  ] = false;
-                  break;
-                case false:
-                  delete inconsistencies[rowId][colId];
-                  delete inconsistencies[colId][rowId];
-                  break;
-                default:
-                  if (!inconsistencies[rowId]) {
-                    inconsistencies[rowId] = {};
-                  }
-                  if (!inconsistencies[colId]) {
-                    inconsistencies[colId] = {};
-                  }
-                  inconsistencies[rowId][colId] = inconsistencies[colId][
-                    rowId
-                  ] = true;
-                  break;
-              }
+              cycleInconsistencyValue(inconsistencies, rowId, colId);
               await callback();
             },
           }),
@@ -267,40 +246,19 @@ const groupComponentsByCategory = (
   return Object.values(categoryMap).filter((cat) => cat.components.length > 0);
 };
 
-const getInconsistencyValue = (
-  inconsistencies: Inconsistencies,
-  rowId: ID,
-  colId: ID
-) => {
-  const row = inconsistencies[rowId];
-  return typeof row !== 'undefined' ? row[colId] : undefined;
-};
-
+/** Cycle possible → impossible → unlikely → possible. */
 const cycleInconsistencyValue = (
   inconsistencies: Inconsistencies,
   rowId: ID,
   colId: ID
 ) => {
-  const v = getInconsistencyValue(inconsistencies, rowId, colId);
-
-  switch (v) {
-    case true:
-      inconsistencies[rowId][colId] = inconsistencies[colId][rowId] = false;
-      break;
-    case false:
-      delete inconsistencies[rowId][colId];
-      delete inconsistencies[colId][rowId];
-      break;
-    default:
-      if (!inconsistencies[rowId]) {
-        inconsistencies[rowId] = {};
-      }
-      if (!inconsistencies[colId]) {
-        inconsistencies[colId] = {};
-      }
-      inconsistencies[rowId][colId] = inconsistencies[colId][rowId] = true;
-      break;
-  }
+  const v = getInconsistency(inconsistencies, rowId, colId);
+  setInconsistency(
+    inconsistencies,
+    rowId,
+    colId,
+    v === true ? 'unlikely' : v === false ? 'possible' : 'impossible'
+  );
 };
 
 const hasValues = (comp: ScenarioComponent) =>

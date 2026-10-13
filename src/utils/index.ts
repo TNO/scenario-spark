@@ -1,7 +1,7 @@
 import m from 'mithril';
 import { padLeft, uniqueId } from 'mithril-materialized';
 import { render } from 'mithril-ui-form';
-import { diagnoseGeneration, generateCombination } from 'morphological-box';
+import { diagnoseGeneration, generateCombination, setInconsistency } from 'morphological-box';
 import {
   Color,
   ContextType,
@@ -220,12 +220,12 @@ export const convertFromOld = (old: OldDataModel): DataModel => {
               ids: [from, to],
               type,
             } = cur;
-            if (!acc[from]) acc[from] = {};
-            if (!acc[to]) acc[to] = {};
-            const value = type === 'totally' ? true : false;
-            acc[from][to] = value;
-            acc[to][from] = value;
-            return acc;
+            return setInconsistency(
+              acc,
+              from,
+              to,
+              type === 'totally' ? 'impossible' : 'unlikely',
+            );
           },
           {} as Inconsistencies,
         );

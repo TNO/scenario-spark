@@ -22,6 +22,7 @@ import {
 } from 'meiosis-setup/types';
 import { LANGUAGE, SAVED, scrollToTop, validateNarrative } from '../utils';
 import { uniqueId } from 'mithril-materialized';
+import { normalizeInconsistencies } from 'morphological-box';
 
 const MODEL_KEY = 'SG_MODEL';
 const FONT_KEY = 'SPARK_FONT_SIZE';
@@ -82,7 +83,10 @@ export const setFontSize = (cell: MeiosisCell<State>, size: number) => {
 
 const validateScenario = (scenario?: Scenario) => {
   if (!scenario) return false;
-  if (!scenario.inconsistencies) scenario.inconsistencies = {};
+  // Repairs one-directional entries, e.g. from older starter kits
+  scenario.inconsistencies = normalizeInconsistencies(
+    scenario.inconsistencies || {}
+  );
   if (!scenario.categories) scenario.categories = [];
   if (!scenario.components) scenario.components = [];
   if (!scenario.narratives) scenario.narratives = [];

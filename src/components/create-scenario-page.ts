@@ -31,6 +31,7 @@ import {
   narrativesToOptions,
 } from '../utils';
 import { range, render } from 'mithril-ui-form';
+import { listInconsistencies } from 'morphological-box';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
 import {
   CircularSpinner,
@@ -226,21 +227,19 @@ export const CreateScenarioPage: MeiosisComponent = () => {
       const curPersonas = allPersonas.filter((p) => personas.includes(p.id));
       // console.log(curPersonas);
       const narratives = model.scenario && model.scenario.narratives;
-      const excluded =
-        curNarrative.components && hideInconsistentValues
-          ? Object.keys(curNarrative.components)
-              .filter((cur) => Array.isArray(curNarrative.components[cur]))
-              .reduce((acc, cur) => {
-                curNarrative.components[cur].forEach(
-                  (v) =>
-                    inconsistencies[v] &&
-                    Object.keys(inconsistencies[v]).forEach(
-                      (id) => inconsistencies[v][id] && acc.add(id),
-                    ),
-                );
-                return acc;
-              }, new Set<string>())
-          : new Set<string>();
+      const excluded = new Set<string>();
+      if (curNarrative.components && hideInconsistentValues) {
+        const selected = new Set(
+          Object.values(curNarrative.components)
+            .filter(Array.isArray)
+            .flat(),
+        );
+        for (const { a, b, type } of listInconsistencies(inconsistencies)) {
+          if (type !== 'impossible') continue;
+          if (selected.has(a)) excluded.add(b);
+          if (selected.has(b)) excluded.add(a);
+        }
+      }
       const selectOptions = narrativesToOptions(model.scenario.narratives);
       // const count = llm?.autoLLMCount || 10;
       const markdown: string =

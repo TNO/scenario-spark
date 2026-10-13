@@ -1,3 +1,4 @@
+import { setInconsistency } from 'morphological-box';
 import type { Languages } from '../services/translations';
 import type {
   Category,
@@ -77,7 +78,8 @@ const createScenario = (
   const id = `starter-nl-${box.id}`;
   const valueIds = new Map<string, string>();
   const categories: Category[] = box.categories.map((category) => ({
-    id: `${id}-${category.id}`,
+    // Separate namespace: a category may share its spec id with a factor
+    id: `${id}-cat-${category.id}`,
     label: category.label,
     desc: category.desc,
     componentIds: category.factors.map((factor) => `${id}-${factor.id}`),
@@ -101,9 +103,7 @@ const createScenario = (
   };
   const inconsistencies: Inconsistencies = {};
   for (const [from, to] of box.exclusions) {
-    const fromId = getValueId(from);
-    inconsistencies[fromId] ??= {};
-    inconsistencies[fromId][getValueId(to)] = true;
+    setInconsistency(inconsistencies, getValueId(from), getValueId(to), 'impossible');
   }
   const selected = Object.fromEntries(
     box.example.choices.map((ref) => {

@@ -29,3 +29,16 @@ test('a box built with the morphological-box library imports as a Scenario Spark
   assert.deepEqual(imported.value.narratives, []);
   assert.equal(imported.value.inconsistencies['asset-ship']['motive-revenge'], true);
 });
+
+test('starter kit boxes store constraints symmetrically and pass library validation', async () => {
+  const { loadStarterKit } = await import('../src/models/starter-kit.ts');
+  const model = await loadStarterKit('en', []);
+  for (const box of [model.scenario, ...model.scenarios]) {
+    for (const [a, row] of Object.entries(box.inconsistencies)) {
+      for (const [b, state] of Object.entries(row)) {
+        assert.equal(box.inconsistencies[b]?.[a], state, `${box.id}: ${b} -> ${a}`);
+      }
+    }
+    assert.deepEqual(validateBox(box).errors, [], box.id);
+  }
+});
