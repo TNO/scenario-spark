@@ -8,7 +8,7 @@
     "dev": "vite",
     "start": "npm run dev",
     "build:lib": "pnpm --filter morphological-box build",
-    "build": "pnpm build:lib && vite build",
+    "build": "pnpm build:lib && vite build && node scripts/version-service-worker.mjs",
     "build:domain": "npm run clean && npm run build",
     "postinstall": "pnpm build:lib",
     "test": "node --test \"tests/*.test.mjs\" && pnpm --filter morphological-box test",
