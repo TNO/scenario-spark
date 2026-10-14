@@ -30,8 +30,6 @@
 // ```
 //  */
 
-const MAX_DB_RETRIES = 20;
-
 const dbFact = () => {
   {
     const win = typeof window !== 'undefined' ? window : undefined;
@@ -46,43 +44,25 @@ const dbFact = () => {
     if (typeof window !== 'undefined' && !indexedDB) {
       throw new Error('indexDB not supported');
     }
-    let db: IDBDatabase | null;
+    let db: IDBDatabase | null = null;
     const request = indexedDB.open('ldb', 1);
-    request.onsuccess = function () {
-      db = this.result;
+    request.onupgradeneeded = () => {
+      request.result.createObjectStore('s', { keyPath: 'k' });
     };
-    request.onerror = (event: Event) => {
-      console.error('indexedDB request error');
-      console.error(event);
-    };
-
-    request.onupgradeneeded = function (event: IDBVersionChangeEvent) {
-      db = null;
-      const store =
-        event &&
-        event.target &&
-        (event.target as any).result.createObjectStore('s', {
-          keyPath: 'k',
-        });
-
-      store.transaction.oncomplete = function (e: Event) {
-        db = (e.target as any).db as IDBDatabase;
+    // Settles once the database is open (after any upgrade), however long that takes.
+    const opened = new Promise<void>((resolve, reject) => {
+      request.onsuccess = () => {
+        db = request.result;
+        resolve();
       };
-    };
+      request.onerror = () => {
+        console.error('indexedDB request error', request.error);
+        reject(request.error ?? new Error('IndexedDB failed to open'));
+      };
+      request.onblocked = () => console.warn('indexedDB open is blocked by another connection');
+    });
 
-    const waitForDb = (retries: number = 0): Promise<void> => {
-      return new Promise((resolve, reject) => {
-        if (db || retries >= MAX_DB_RETRIES) {
-          if (!db && retries >= MAX_DB_RETRIES) {
-            reject(new Error('IndexedDB failed to initialize after ' + MAX_DB_RETRIES + ' retries'));
-          } else {
-            resolve();
-          }
-          return;
-        }
-        setTimeout(() => waitForDb(retries + 1).then(resolve), 50);
-      });
-    };
+    const waitForDb = () => opened;
 
     const localDb = {
       get: (key: string) =>
