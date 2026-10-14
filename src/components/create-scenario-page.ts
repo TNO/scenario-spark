@@ -41,7 +41,7 @@ import {
 } from './ui';
 import { PersonaImages } from '../models/persona-images';
 import { MarkdownEditor } from 'mithril-markdown-wysiwyg';
-import { quillToMarkdown } from '../utils/index';
+import { narrativeToMarkdown } from '../utils/index';
 
 const ToggleIcon: FactoryComponent<{
   on: string;
@@ -242,12 +242,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
       }
       const selectOptions = narrativesToOptions(model.scenario.narratives);
       // const count = llm?.autoLLMCount || 10;
-      const markdown: string =
-        curNarrative && curNarrative.desc
-          ? curNarrative.desc.startsWith('{')
-            ? quillToMarkdown(JSON.parse(curNarrative.desc))
-            : curNarrative.desc
-          : '';
+      const markdown = narrativeToMarkdown(curNarrative?.desc);
       const personaPromptReady =
         !!llm?.prompts?.some((p) => p.type === 'persona' && p.prompt?.trim());
 

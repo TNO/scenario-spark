@@ -22,8 +22,8 @@ import {
   DocxBoxTable,
   DocxNarrative,
   modelToSaveName,
+  narrativeToMarkdown,
   narrativesToOptions,
-  quillToMarkdown,
   svgToDataURI,
   trafficLight,
 } from '../utils';
@@ -52,11 +52,7 @@ const CategoryTable: FactoryComponent<{
           return acc;
         }, {} as Record<string, string>);
       return [
-        m('table.highlight', { id }, [
-          m(
-            'thead',
-            m('tr', [m('th', t('DIMENSION')), m('th', t('KEY_VALUE'))])
-          ),
+        m('table.highlight.category-table', { id }, [
           m(
             'tbody',
             components &&
@@ -78,7 +74,7 @@ const CategoryTable: FactoryComponent<{
 
         m(FlatButton, {
           label: t('COPY_TO_CLIPBOARD'),
-          className: 'right',
+          className: 'copy-table-btn',
           iconName: 'content_copy',
           onclick: () => {
             function listener(e: ClipboardEvent) {
@@ -141,18 +137,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
   const exportToWord = async (model: DataModel, narratives: Narrative[]) => {
     const narrData: DocxNarrative[] = [];
     for (const curNarrative of narratives) {
-      let content = '';
-      if (curNarrative.desc) {
-        try {
-          content =
-            curNarrative.desc.startsWith('{') ||
-            curNarrative.desc.startsWith('[')
-              ? quillToMarkdown(JSON.parse(curNarrative.desc))
-              : curNarrative.desc;
-        } catch (e: any) {
-          console.error(e);
-        }
-      }
+      const content = narrativeToMarkdown(curNarrative.desc);
       narrData.push({
         label: curNarrative.label,
         content,
@@ -230,13 +215,10 @@ export const ShowScenarioPage: MeiosisComponent = () => {
       const narrativeIdx = curNarrative
         ? narratives.findIndex((n) => n.id === curNarrative.id)
         : -1;
-      const markdown: string = (
-        curNarrative && curNarrative.desc
-          ? curNarrative.desc.startsWith('{')
-            ? quillToMarkdown(JSON.parse(curNarrative.desc))
-            : curNarrative.desc
-          : ''
-      ).toString().replace(/</g, '&lt;');
+      const markdown = narrativeToMarkdown(curNarrative?.desc).replace(
+        /</g,
+        '&lt;'
+      );
 
       return m(
         '.show-scenario.row',
@@ -430,23 +412,20 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                 : '',
             ],
             m(
-                '.col.s12',
-                m('.row', [
-                  categories.map((category) => {
-                    const componentIds = category && category.componentIds;
-                    const comps =
-                      componentIds &&
-                      modelComps.filter((c) => componentIds.indexOf(c.id) >= 0);
-                    return m(
-                      '.col',
-                      {
-                        className: `s${12 / categories.length}`,
-                      },
-                      multipleCategories && m('h5', category.label),
-                      m(CategoryTable, { curNarrative, comps })
-                    );
-                  }),
-                ])
+              '.col.s12',
+              m(
+                '.category-tables',
+                categories.map((category) => {
+                  const componentIds = category && category.componentIds;
+                  const comps =
+                    componentIds &&
+                    modelComps.filter((c) => componentIds.indexOf(c.id) >= 0);
+                  return m('.category-tables-item', [
+                    multipleCategories ? m('h5', category.label) : m('div'),
+                    m(CategoryTable, { curNarrative, comps }),
+                  ]);
+                })
+              )
             ),
           ]
       );

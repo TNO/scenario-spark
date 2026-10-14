@@ -17,6 +17,9 @@ import {
   thresholdColors,
 } from '../models';
 import { t } from '../services';
+import { htmlToMarkdown, looksLikeHtml } from './html-to-markdown';
+
+export { htmlToMarkdown, looksLikeHtml };
 
 export const LANGUAGE = 'SG_LANGUAGE';
 export const SAVED = 'SG_MODEL_SAVED';
@@ -506,6 +509,20 @@ type QuillOp = {
     link?: string;
     blockquote?: boolean;
   };
+};
+
+/** Convert a stored narrative description (Quill JSON, HTML or Markdown) to Markdown. */
+export const narrativeToMarkdown = (desc?: string): string => {
+  if (!desc) return '';
+  const text = desc.toString();
+  if (text.startsWith('{') || text.startsWith('[')) {
+    try {
+      return quillToMarkdown(JSON.parse(text));
+    } catch {
+      return text;
+    }
+  }
+  return looksLikeHtml(text) ? htmlToMarkdown(text) : text;
 };
 
 export const quillToMarkdown = (quillDelta: { ops: QuillOp[] }): string => {

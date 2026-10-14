@@ -814,63 +814,40 @@ export const CreateBoxPage: MeiosisComponent = () => {
 
       return [
         m(".create-box-page", [
-          m(FlatButton, {
-            style: {
-              marginTop: "20px",
-              marginBottom: "-40px",
-            },
-            className: "right",
-            label: t("COPY_BOX", "LABEL"),
-            iconName: "content_copy",
-            title: t("COPY_BOX", "TITLE"),
-            onclick: () => {
-              copyMarkdownTable(scenario, categories);
-              toast({ html: t("COPY_BOX", "TOAST") });
-            },
-          }),
-          m(IconButton, {
-            style: {
-              marginTop: "20px",
-              marginBottom: "-40px",
-            },
-            className: "right",
-            iconName: boxTransposed ? "view_column" : "table_rows",
-            title: t("TRANSPOSE_BOX", boxTransposed ? "COLUMNS" : "ROWS"),
-            onclick: () => setBoxTransposed(attrs, !boxTransposed),
-          }),
-          m(IconButton, {
-            style: {
-              marginTop: "20px",
-              marginBottom: "-40px",
-            },
-            className: "right",
-            iconName: "text_increase",
-            onclick: () => {
-              setFontSize(attrs, fontSize + 1);
-            },
-          }),
-          m(IconButton, {
-            style: {
-              marginTop: "20px",
-              marginBottom: "-40px",
-            },
-            className: "right",
-            iconName: "text_decrease",
-            onclick: () => {
-              setFontSize(attrs, fontSize - 1);
-            },
-          }),
-          includeMapSupport &&
-            m(FlatButton, {
-              style: {
-                marginTop: "20px",
-                marginBottom: "-40px",
+          m(".box-toolbar", [
+            includeMapSupport &&
+              m(FlatButton, {
+                label: t("TOGGLE", showMap ? "HIDE" : "SHOW"),
+                iconName: "map",
+                onclick: () => (showMap = !showMap),
+              }),
+            m(IconButton, {
+              iconName: "text_decrease",
+              onclick: () => {
+                setFontSize(attrs, fontSize - 1);
               },
-              className: "right",
-              label: t("TOGGLE", showMap ? "HIDE" : "SHOW"),
-              iconName: "map",
-              onclick: () => (showMap = !showMap),
             }),
+            m(IconButton, {
+              iconName: "text_increase",
+              onclick: () => {
+                setFontSize(attrs, fontSize + 1);
+              },
+            }),
+            m(IconButton, {
+              iconName: boxTransposed ? "view_column" : "table_rows",
+              title: t("TRANSPOSE_BOX", boxTransposed ? "COLUMNS" : "ROWS"),
+              onclick: () => setBoxTransposed(attrs, !boxTransposed),
+            }),
+            m(FlatButton, {
+              label: t("COPY_BOX", "LABEL"),
+              iconName: "content_copy",
+              title: t("COPY_BOX", "TITLE"),
+              onclick: () => {
+                copyMarkdownTable(scenario, categories);
+                toast({ html: t("COPY_BOX", "TOAST") });
+              },
+            }),
+          ]),
           m(LegendComponent, { items: themeThresholdColors }),
           includeMapSupport &&
             showMap &&
