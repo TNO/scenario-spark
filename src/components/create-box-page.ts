@@ -508,7 +508,15 @@ const BoxView: MeiosisComponent<{
         .map((componentId) => componentLookup.get(componentId))
         .filter((component): component is ScenarioComponent => !!component);
 
-      return m("ul.kanban", { className: attrs.state.boxTransposed ? "transposed" : undefined }, [
+      const transposed = attrs.state.boxTransposed;
+      const maxValues = Math.max(1, ...scs.map((sc) => sc.values?.length || 0));
+      return m(
+        "ul.kanban",
+        {
+          className: transposed ? "transposed" : undefined,
+          style: transposed ? `--box-cols: ${maxValues}` : undefined,
+        },
+        [
         ...scs.map((sc) =>
           m(BoxRow, {
             key: sc.id,
@@ -566,7 +574,8 @@ const BoxView: MeiosisComponent<{
             ),
           ],
         ),
-      ]);
+      ],
+      );
     },
   };
 };
