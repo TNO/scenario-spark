@@ -238,7 +238,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
               m(FlatButton, {
                 label: t('EXPORT2WORD', 'TITLE'),
                 iconName: 'download',
-                className: 'right',
+                className: 'right export-word-btn',
                 disabled: !curNarrative.desc,
                 onclick: () => {
                   wordModalOpen = true;

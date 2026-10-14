@@ -1309,6 +1309,10 @@ ul.kanban > li {
 
 .show-scenario #editor {
   font-size: 24px;
+  padding-top: 0;
+}
+.show-scenario #editor .markdown > :first-child {
+  margin-top: 0.5rem;
 }
 
 .show-scenario div.input-field.select-space.mb0.mw30 input {
@@ -2346,4 +2350,15 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   margin-top: 0.5rem;
   display: inline-flex;
   align-items: center;
+}
+
+.show-scenario .export-word-btn {
+  margin-left: 1rem;
+}
+.show-scenario .export-word-btn:focus,
+.show-scenario .export-word-btn:focus-visible {
+  outline: none;
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
 }
