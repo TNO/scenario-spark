@@ -1,7 +1,7 @@
 import m from 'mithril';
 import { MeiosisComponent, t } from '../../services';
 import { ID, Narrative, ScenarioComponent } from '../../models';
-import { effectiveSelection, joinListWithAnd } from '../../utils';
+import { effectiveSelection, joinListWithAnd, visibleTemplateLines } from '../../utils';
 
 // Define interfaces for our data structure
 export type KeyDriver = {
@@ -82,10 +82,11 @@ export const ScenarioParagraph: MeiosisComponent<
           )
         )
         .join('');
-      return idBasedTemplate
+      const lines = idBasedTemplate
         .split(/\n/g)
         .map((t) => t.trim())
-        .filter(Boolean)
+        .filter(Boolean);
+      return visibleTemplateLines(model.scenario, lines, components)
         .map((t) =>
           m('.scenario-paragraph', { className }, [
             replacePlaceholders(t, modelComps, components),

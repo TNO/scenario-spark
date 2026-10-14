@@ -60,6 +60,26 @@ export const decisionSupportActive = (box: Box) =>
   !!box.includeDecisionSupport && splitDecisionComponents(box).decisions.length > 0;
 
 /**
+ * Template lines to render. Lines use `{componentId}` placeholders. A line that only
+ * references decision factors is dropped when decision support is off, or when none
+ * of its decisions has been chosen: decisions are listed in their own section.
+ */
+export const visibleTemplateLines = (
+  box: Box,
+  lines: string[],
+  selection: Record<ID, ID[]> = {},
+) => {
+  const decisionIds = new Set(splitDecisionComponents(box).decisions.map((c) => c.id));
+  if (decisionIds.size === 0) return lines;
+  const active = decisionSupportActive(box);
+  return lines.filter((line) => {
+    const ids = [...line.matchAll(/\{([^{}]+)\}/g)].map(([, id]) => id);
+    if (ids.length === 0 || !ids.every((id) => decisionIds.has(id))) return true;
+    return active && ids.some((id) => (selection[id] || []).length > 0);
+  });
+};
+
+/**
  * Values to lock when generating a narrative: the locked components, the manual
  * situation components, and the decisions (never generated: the user's choice when
  * decision support is on, empty when it is off).
