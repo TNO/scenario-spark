@@ -278,6 +278,7 @@ export const messages: typeof messagesEN = {
   INCLUDE_DECISION_SUPPORT: 'Activar apoyo a la decisión',
   IS_DECISION_CATEGORY: 'Para apoyo a la decisión',
   DECISION_CATEGORY_HINT: "Los factores de una categoría de decisión son manuales: no se generan, usted los elige después de describir la situación. Las categorías de decisión solo se muestran cuando el apoyo a la decisión está activado.",
+  DECISION_CATEGORIES_HIDDEN: "Las categorías de decisión ({count}) están ocultas. Active el apoyo a la decisión en Configuración para mostrarlas.",
   DECISIONS: "Decisiones",
   DECISIONS_HINT: "Elija las medidas que se ajustan a la situación anterior. Las opciones incompatibles con la situación aparecen en gris.",
   EXCLUDED_BY: "excluido por {situation}",

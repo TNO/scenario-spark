@@ -45,6 +45,7 @@ import {
 import {
   capitalize,
   computeCompColor,
+  getDecisionCategoryIds,
   toDarkThemeColor,
   validateNarrative,
 } from "../utils";
@@ -785,6 +786,9 @@ export const CreateBoxPage: MeiosisComponent = () => {
         hideTooltip();
       }
       const { categories, thresholdColors = [], narratives = [] } = scenario;
+      const hiddenCategoryIds = scenario.includeDecisionSupport
+        ? new Set<string>()
+        : getDecisionCategoryIds(scenario);
       setThresholdColors(thresholdColors);
       const theme = ThemeManager.getEffectiveTheme();
       if (
@@ -867,19 +871,31 @@ export const CreateBoxPage: MeiosisComponent = () => {
               ),
             ),
           categories.length >= 1 && categories[0].componentIds
-            ? m(Tabs, {
-                tabs: categories.map((c, categoryId) => ({
-                  id: c.id,
-                  title: c.label,
-                  vnode: m(BoxView, {
-                    ...attrs,
-                    compColor,
-                    categoryId,
-                    form: myForm,
-                    onAddKeyDriver: (id) => addKeyDriver(attrs, id),
-                  }),
-                })),
-              })
+            ? [
+                hiddenCategoryIds.size > 0 &&
+                  m(
+                    "p.grey-text.decision-categories-hidden",
+                    t("DECISION_CATEGORIES_HIDDEN", {
+                      count: hiddenCategoryIds.size,
+                    }),
+                  ),
+                m(Tabs, {
+                  tabs: categories
+                    .map((c, categoryId) => ({ c, categoryId }))
+                    .filter(({ c }) => !hiddenCategoryIds.has(c.id))
+                    .map(({ c, categoryId }) => ({
+                      id: c.id,
+                      title: c.label,
+                      vnode: m(BoxView, {
+                        ...attrs,
+                        compColor,
+                        categoryId,
+                        form: myForm,
+                        onAddKeyDriver: (id) => addKeyDriver(attrs, id),
+                      }),
+                    })),
+                }),
+              ]
             : m(".row.mt10", m(".col.s12", t("SPEC_CATS"))),
           tooltip &&
             m(

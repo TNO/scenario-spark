@@ -277,6 +277,7 @@ export const messages: typeof messagesEN = {
   INCLUDE_DECISION_SUPPORT: 'Aktywuj wsparcie decyzji',
   IS_DECISION_CATEGORY: 'Do wsparcia decyzji',
   DECISION_CATEGORY_HINT: "Czynniki w kategorii decyzji są ręczne: nie są generowane, wybierasz je po opisaniu sytuacji. Kategorie decyzji są widoczne tylko wtedy, gdy wsparcie decyzji jest aktywne.",
+  DECISION_CATEGORIES_HIDDEN: "Kategorie decyzji ({count}) są ukryte. Włącz wsparcie decyzji w Ustawieniach, aby je pokazać.",
   DECISIONS: "Decyzje",
   DECISIONS_HINT: "Wybierz działania pasujące do powyższej sytuacji. Opcje sprzeczne z sytuacją są wyszarzone.",
   EXCLUDED_BY: "wykluczone przez {situation}",

@@ -288,6 +288,7 @@ export const messages = {
   ORIENTATION_DESC: 'Angle in degrees (0 = North) or reference ID',
   IS_DECISION_CATEGORY: 'For decision support',
   DECISION_CATEGORY_HINT: "Factors in a decision category are manual: they are not generated, you choose them after describing the situation. Decision categories are only shown when decision support is activated.",
+  DECISION_CATEGORIES_HIDDEN: "Decision categories ({count}) are hidden. Activate decision support in Settings to show them.",
   DECISIONS: "Decisions",
   DECISIONS_HINT: "Choose the measures that fit the situation above. Options that conflict with the situation are greyed out.",
   EXCLUDED_BY: "excluded by {situation}",
