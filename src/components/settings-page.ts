@@ -27,6 +27,10 @@ import {
   morphBoxToMarkdown,
   KeyDriver,
 } from '../utils/morp-box-to-markdown';
+import {
+  applyDecisionCategoryManual,
+  getDecisionCategoryIds,
+} from '../utils/decision';
 
 export const SettingsPage: MeiosisComponent = () => {
   const form = [
@@ -134,7 +138,11 @@ export const SettingsPage: MeiosisComponent = () => {
           type: 'checkbox',
           className: 'col s6 m3 l3',
           label: t('IS_DECISION_CATEGORY'),
-          // show: ['includeDecisionSupport=true'],
+        },
+        {
+          type: 'md',
+          className: 'col s12 grey-text',
+          value: t('DECISION_CATEGORY_HINT'),
         },
         {
           id: 'componentIds',
@@ -215,6 +223,9 @@ export const SettingsPage: MeiosisComponent = () => {
   ] as UIForm<Scenario>;
   let edit = false;
   let mdEditor = false;
+  /** Decision categories at the last change, to detect newly ticked ones */
+  let decisionCategoryIds: Set<string> | undefined;
+  let scenarioId: string | undefined;
 
   return {
     oninit: ({ attrs }) => setPage(attrs, Dashboards.SETTINGS),
@@ -222,6 +233,12 @@ export const SettingsPage: MeiosisComponent = () => {
       const { model } = attrs.state;
       const { personas = [] } = model;
       const { categories = [], components = [] } = model.scenario ?? {};
+      if (!decisionCategoryIds || scenarioId !== model.scenario?.id) {
+        scenarioId = model.scenario?.id;
+        decisionCategoryIds = getDecisionCategoryIds(
+          model.scenario ?? { categories: [] },
+        );
+      }
       // console.log(model.scenario?.personas);
       return [
         m('.settings-page.row', { key: model.version }, [
@@ -263,6 +280,13 @@ export const SettingsPage: MeiosisComponent = () => {
                         },
                       ] as any,
                       onchange: async () => {
+                        applyDecisionCategoryManual(
+                          model.scenario,
+                          decisionCategoryIds ?? new Set(),
+                        );
+                        decisionCategoryIds = getDecisionCategoryIds(
+                          model.scenario,
+                        );
                         await saveModel(attrs, model);
                       },
                     } as FormAttributes<Scenario>),

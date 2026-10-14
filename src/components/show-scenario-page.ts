@@ -20,8 +20,10 @@ import {
   createCircleSVG,
   downloadAsDocx,
   modelToSaveName,
+  narrativeDecisionRows,
   narrativesToOptions,
   quillToMarkdown,
+  splitDecisionComponents,
   svgToDataURI,
   trafficLight,
 } from '../utils';
@@ -108,7 +110,11 @@ export const ShowScenarioPage: MeiosisComponent = () => {
   let wordModalOpen = false;
 
   const exportToWord = async (model: DataModel, narratives: Narrative[]) => {
-    const narrData: Array<{ label: string; content: string }> = [];
+    const narrData: Array<{
+      label: string;
+      content: string;
+      decisions?: Array<{ label: string; values: string[] }>;
+    }> = [];
     for (const curNarrative of narratives) {
       let content = '';
       if (curNarrative.desc) {
@@ -122,14 +128,18 @@ export const ShowScenarioPage: MeiosisComponent = () => {
           console.error(e);
         }
       }
-      narrData.push({ label: curNarrative.label, content });
+      narrData.push({
+        label: curNarrative.label,
+        content,
+        decisions: narrativeDecisionRows(model.scenario, curNarrative),
+      });
     }
     const title = model?.scenario?.label || 'Scenario';
     const filename = `${modelToSaveName(
       model,
       narratives.length === 1 ? narratives[0].label : undefined
     )}.docx`;
-    await downloadAsDocx(title, narrData, filename);
+    await downloadAsDocx(title, narrData, filename, t('DECISIONS'));
   };
 
   const updateCurNarrative = (
@@ -165,8 +175,13 @@ export const ShowScenarioPage: MeiosisComponent = () => {
           categories = [],
           components: modelComps = [],
           narratives = [],
+          includeDecisionSupport,
         },
       } = model;
+      const { situationCategories, decisionCategories } =
+        splitDecisionComponents(model.scenario);
+      const showDecisions =
+        !!includeDecisionSupport && decisionCategories.length > 0;
       
       const selectedItems: ContextualItem[] = [];
       if (includeMapSupport && curNarrative && curNarrative.components) {
@@ -387,7 +402,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
             m(
                 '.col.s12',
                 m('.row', [
-                  categories.map((category) => {
+                  situationCategories.map((category) => {
                     const componentIds = category && category.componentIds;
                     const comps =
                       componentIds &&
@@ -395,7 +410,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                     return m(
                       '.col',
                       {
-                        className: `s${12 / categories.length}`,
+                        className: `s${12 / situationCategories.length}`,
                       },
                       multipleCategories && m('h5', category.label),
                       m(CategoryTable, { curNarrative, comps })
@@ -403,6 +418,25 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                   }),
                 ])
             ),
+            showDecisions &&
+              m(
+                '.col.s12',
+                m('.row', [
+                  m('.col.s12', m('h4', t('DECISIONS'))),
+                  decisionCategories.map((category) => {
+                    const componentIds = category.componentIds || [];
+                    const comps = modelComps.filter((c) =>
+                      componentIds.includes(c.id)
+                    );
+                    return m(
+                      '.col',
+                      { className: `s${12 / decisionCategories.length}` },
+                      m('h5', category.label),
+                      m(CategoryTable, { curNarrative, comps })
+                    );
+                  }),
+                ])
+              ),
           ]
       );
     },

@@ -96,7 +96,14 @@ Other commands: `details` (box label, description, id, language), `remove-catego
 
 ### Manual measures and decision support
 
-A factor in **manual mode** (the *Manual mode* switch of a key driver in the box settings, or `"manual": true` in the JSON) is chosen by the user and is never filled in when generating a scenario. Use it for the solution space, e.g. response measures. When *Hide inconsistent combinations* is on (the default for starter boxes), selecting the current situation removes the measures that are impossible in that situation, so the same box supports both scenario generation and decision making.
+A factor in **manual mode** (the *Manual mode* switch of a key driver in the box settings, or `"manual": true` in the JSON) is chosen by the user and is never filled in when generating a scenario, e.g. a location you always pick yourself. Manual factors are always shown.
+
+A **decision category** (*For decision support* in the category settings, or `"decisionSupport": true` in the JSON) holds decisions such as response measures; ticking it makes its factors manual. The box setting *Activate decision support* controls these categories:
+
+- **Off:** decision categories are hidden on the create page, in the scenario view and in the Word export, and generating a scenario leaves them empty.
+- **On:** the create page shows them in a separate *Decisions* section below the situation. Generation never fills them. Measures that are impossible in the selected situation are greyed out with the conflicting situation value, or hidden when *Hide inconsistent combinations* is on. The scenario view and Word export list the chosen decisions in their own section, and the decision-support page compares them.
+
+Manual factors outside decision categories behave like the situation: with *Hide inconsistent combinations* on, selecting the current situation removes the values that are impossible in it.
 
 ## Creating templates
 

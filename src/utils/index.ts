@@ -18,6 +18,8 @@ import {
 } from '../models';
 import { t } from '../services';
 
+export * from './decision';
+
 export const LANGUAGE = 'SG_LANGUAGE';
 export const SAVED = 'SG_MODEL_SAVED';
 
@@ -853,8 +855,14 @@ export const downloadAsWord = (
  */
 export const downloadAsDocx = async (
   title: string,
-  narratives: Array<{ label: string; content: string }>,
+  narratives: Array<{
+    label: string;
+    content: string;
+    /** Selected decisions, listed in their own section when present */
+    decisions?: Array<{ label: string; values: string[] }>;
+  }>,
   filename = 'scenario.docx',
+  decisionsTitle = 'Decisions',
 ): Promise<void> => {
   const sanitizeDocxText = (input: string): string =>
     input.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '');
@@ -1087,6 +1095,30 @@ export const downloadAsDocx = async (
           }
 
           flushParagraph();
+
+          if (n.decisions && n.decisions.length > 0) {
+            children.push(
+              new Paragraph({
+                text: sanitizeDocxText(decisionsTitle),
+                heading: HeadingLevel.HEADING_3,
+                spacing: { before: 200, after: 80 },
+              }),
+              ...n.decisions.map(
+                (d) =>
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: `${sanitizeDocxText(d.label)}: `,
+                        bold: true,
+                      }),
+                      new TextRun(sanitizeDocxText(d.values.join(', '))),
+                    ],
+                    bullet: { level: 0 },
+                    spacing: { after: 60 },
+                  }),
+              ),
+            );
+          }
 
           return children;
         }),

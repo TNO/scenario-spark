@@ -1,6 +1,6 @@
 # 0003 Decision categories drive the decision-support setting
 
-Status: open
+Status: done
 Priority: high
 Subsystem: frontend
 Depends on: 0002
@@ -39,3 +39,30 @@ user always chooses) stay visible regardless of the setting.
   selection before delegating to the package.
 
 ## Agent Notes
+- 2026-10-14: Done. Pure helpers in `src/utils/decision.ts` (re-exported from
+  `src/utils`): `splitDecisionComponents(box)` (situation/decision categories and
+  components; a component in several categories belongs to the first, as in the package),
+  `decisionSupportActive`, `getDecisionCategoryIds`, `generationLocks(box, selection,
+  lockedComps)` (locked + manual situation values; decisions locked to the user's choice
+  when on, to `[]` when off, so generation never fills them even if `manual: false`),
+  `decisionExclusions(box, selection)` (decision value -> selected situation values that
+  make it *impossible*; unlikely pairs do not exclude), `applyDecisionCategoryManual(box,
+  previousIds)` (newly ticked categories set `manual: true`; unticking leaves it) and
+  `narrativeDecisionRows(box, narrative)` (show/Word export). Settings: checkbox stays
+  visible with an `md` hint (`DECISION_CATEGORY_HINT`); the nested `show` rule cannot see
+  the scenario-level flag reliably, and keeping it visible lets users prepare categories
+  before switching on. The form `onchange` applies `applyDecisionCategoryManual` against a
+  snapshot of decision category ids. Create page: situation tables use only situation
+  categories; when on, a `DECISIONS` section with `DECISIONS_HINT`; `CategoryTable` gets a
+  `decision` attr (no lock icons; excluded values disabled with label suffix and `title`
+  `EXCLUDED_BY`, hidden with `hideInconsistentValues`; selected excluded values stay
+  enabled so they can be deselected). The mithril-materialized Select dropdown does not
+  render option `title`, so the conflicting situation value is shown in the option label.
+  Hiding of situation values (`hideInconsistentValues`) now only considers situation
+  selections. "All locked" check ignores manual and decision components. Show page and
+  `downloadAsDocx` (new optional `decisions` per narrative and `decisionsTitle` arg) list
+  decisions in their own section when on. Decision-support page: `NO_DECISION_CATEGORIES`
+  empty-state hint. Tests: `tests/decision.test.mjs`, `tests/create-page-decisions.test.mjs`;
+  `tests/persona-feedback-page.test.mjs` mock of `../utils` now spreads the real decision
+  helpers. Root README section "Manual measures and decision support" rewritten. Build
+  output (`docs/`) not committed.

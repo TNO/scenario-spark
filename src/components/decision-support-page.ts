@@ -129,7 +129,13 @@ export const DecisionSupportPage: MeiosisComponent = () => {
 
       selectedNarratives.push(suggestedApproach);
 
+      const hasDecisionCategories = model.scenario.categories?.some(
+        (c) => c.decisionSupport,
+      );
+
       return m('.row.decision-support', [
+        !hasDecisionCategories &&
+          m('.col.s12', m('p.grey-text', t('NO_DECISION_CATEGORIES'))),
         // categories.map((c) =>
         m(TableView, {
           ...attrs,

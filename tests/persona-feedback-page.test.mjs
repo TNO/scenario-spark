@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { test } from 'node:test';
+import * as decision from '../src/utils/decision.ts';
 
 const require = createRequire(import.meta.url);
 const esbuild = createRequire(require.resolve('vite/package.json'))('esbuild');
@@ -71,6 +72,7 @@ const setup = (provider, withSecondPersona = false, themePreference = 'auto') =>
       updateNarrative: async (_, value) => { saved.push(value.personaEffects[persona.id]?.story); },
     },
     '../utils': {
+      ...decision,
       narrativesToOptions: () => [], generateUniqueTitle: () => '',
       deepCopy: (value) => structuredClone(value),
     },

@@ -13,7 +13,13 @@ import {
   toast,
   uniqueId,
 } from 'mithril-materialized';
-import { ContextualItem, Dashboards, ID, Narrative } from '../models';
+import {
+  ContextualItem,
+  Dashboards,
+  ID,
+  Narrative,
+  ScenarioComponent,
+} from '../models';
 import {
   MeiosisComponent,
   saveModel,
@@ -24,11 +30,15 @@ import {
   setMapHeight,
 } from '../services';
 import {
+  ExclusionCause,
   GenerationDiagnostic,
+  decisionExclusions,
   deepCopy,
   generateNarrative,
   generateUniqueTitle,
+  generationLocks,
   narrativesToOptions,
+  splitDecisionComponents,
 } from '../utils';
 import { range, render } from 'mithril-ui-form';
 import { listInconsistencies } from 'morphological-box';
@@ -84,6 +94,8 @@ const calculateRisk = (narrative: Narrative) => {
 export const CategoryTable: MeiosisComponent<{
   catId: ID;
   excluded: Set<string>;
+  /** Decision table: excluded values (with their cause) are greyed out, no lock icons */
+  decision?: { exclusions: Record<ID, ExclusionCause[]>; hide: boolean };
 }> = () => {
   let lockState = false;
 
@@ -92,6 +104,7 @@ export const CategoryTable: MeiosisComponent<{
       const {
         catId,
         excluded,
+        decision,
         state: {
           model,
           excludedComps = {},
@@ -111,6 +124,32 @@ export const CategoryTable: MeiosisComponent<{
 
       const { components = {} } = curNarrative;
 
+      const toOptions = (comp: ScenarioComponent) => {
+        const values = comp.values || [];
+        if (!decision) return values.filter((v) => !excluded.has(v.id));
+        const selected = components[comp.id] || [];
+        return values
+          .filter(
+            (v) =>
+              !decision.hide ||
+              !decision.exclusions[v.id] ||
+              selected.includes(v.id),
+          )
+          .map((v) => {
+            const causes = decision.exclusions[v.id];
+            if (!causes) return v;
+            const reason = t('EXCLUDED_BY', {
+              situation: causes.map((c) => c.label).join(', '),
+            });
+            return {
+              ...v,
+              label: `${v.label} (${reason})`,
+              title: reason,
+              disabled: !selected.includes(v.id),
+            };
+          });
+      };
+
       return (
         category &&
         comps &&
@@ -120,22 +159,23 @@ export const CategoryTable: MeiosisComponent<{
             multipleCategories && m('h5.truncate', category.label),
           ),
           m('.col.s2.m1.icons', [
-            m(ToggleIcon, {
-              on: 'lock_open',
-              off: 'lock',
-              value: lockState,
-              callback: (v) => {
-                lockState = v;
-                attrs.update({
-                  lockedComps: (l = {}) => {
-                    category?.componentIds?.forEach(
-                      (id) => (l[id] = lockState),
-                    );
-                    return l;
-                  },
-                });
-              },
-            }),
+            !decision &&
+              m(ToggleIcon, {
+                on: 'lock_open',
+                off: 'lock',
+                value: lockState,
+                callback: (v) => {
+                  lockState = v;
+                  attrs.update({
+                    lockedComps: (l = {}) => {
+                      category?.componentIds?.forEach(
+                        (id) => (l[id] = lockState),
+                      );
+                      return l;
+                    },
+                  });
+                },
+              }),
           ]),
           comps.map((c) => [
             m(Select, {
@@ -146,7 +186,7 @@ export const CategoryTable: MeiosisComponent<{
                 typeof excludedComps[c.id] !== 'undefined' &&
                 excludedComps[c.id],
               checkedId: components[c.id],
-              options: c.values?.filter((c) => !excluded.has(c.id)),
+              options: toOptions(c),
               placeholder: t('i18n', 'pick'),
               onchange: (ids) => {
                 if (!curNarrative.components) {
@@ -158,20 +198,21 @@ export const CategoryTable: MeiosisComponent<{
             } as SelectAttrs<string>),
             ,
             m('.col.s1.icons', [
-              m(ToggleIcon, {
-                on: 'lock_open',
-                off: 'lock',
-                disabled: c.manual,
-                value: c.manual || lockedComps[c.id] ? false : true,
-                callback: (v) => {
-                  attrs.update({
-                    lockedComps: (e = {}) => {
-                      e[c.id] = !v;
-                      return e;
-                    },
-                  });
-                },
-              }),
+              !decision &&
+                m(ToggleIcon, {
+                  on: 'lock_open',
+                  off: 'lock',
+                  disabled: c.manual,
+                  value: c.manual || lockedComps[c.id] ? false : true,
+                  callback: (v) => {
+                    attrs.update({
+                      lockedComps: (e = {}) => {
+                        e[c.id] = !v;
+                        return e;
+                      },
+                    });
+                  },
+                }),
             ]),
           ]),
         ])
@@ -227,12 +268,17 @@ export const CreateScenarioPage: MeiosisComponent = () => {
       const curPersonas = allPersonas.filter((p) => personas.includes(p.id));
       // console.log(curPersonas);
       const narratives = model.scenario && model.scenario.narratives;
+      const { situationCategories, decisionCategories, decisionIds } =
+        splitDecisionComponents(model.scenario);
+      const showDecisions =
+        !!includeDecisionSupport && decisionCategories.length > 0;
       const excluded = new Set<string>();
       if (curNarrative.components && hideInconsistentValues) {
+        // Only the situation constrains the visible options; decisions follow it
         const selected = new Set(
-          Object.values(curNarrative.components)
-            .filter(Array.isArray)
-            .flat(),
+          Object.entries(curNarrative.components)
+            .filter(([id, v]) => !decisionIds.has(id) && Array.isArray(v))
+            .flatMap(([, v]) => v),
         );
         for (const { a, b, type } of listInconsistencies(inconsistencies)) {
           if (type !== 'impossible') continue;
@@ -281,7 +327,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             onclick: () => {
               const { components = {} } = curNarrative;
               const nonManualComps = model.scenario.components.filter(
-                (c) => !c.manual,
+                (c) => !c.manual && !decisionIds.has(c.id),
               );
               const allLocked =
                 nonManualComps.length > 0 &&
@@ -290,22 +336,11 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 toast({ html: t('ALL_LOCKED_WARNING') });
                 return;
               }
-              const locked = components
-                ? Object.keys(lockedComps).reduce(
-                    (acc, cur) => {
-                      if (lockedComps[cur]) {
-                        acc[cur] = components[cur];
-                      }
-                      return acc;
-                    },
-                    {} as Record<ID, ID[]>,
-                  )
-                : ({} as Record<ID, ID[]>);
-              model.scenario.components
-                .filter((c) => c.manual)
-                .forEach((c) => {
-                  locked[c.id] = components[c.id];
-                });
+              const locked = generationLocks(
+                model.scenario,
+                components,
+                lockedComps,
+              );
               const narrative = generateNarrative(model.scenario, locked);
               if (!narrative || (narrative as { error?: boolean }).error) {
                 const diag = (
@@ -576,11 +611,11 @@ export const CreateScenarioPage: MeiosisComponent = () => {
         askLlm === false && m(CircularSpinner),
 
         showTables &&
-          categories.map((c, i) =>
+          situationCategories.map((c, i) =>
             m(
               '.col.s12',
               {
-                className: `m${Math.round(12 / categories.length)}`,
+                className: `m${Math.round(12 / situationCategories.length)}`,
                 key: 10000 * version + i,
               },
               m(CategoryTable, {
@@ -590,6 +625,34 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               }),
             ),
           ),
+        showTables &&
+          showDecisions && [
+            m('.col.s12', [
+              m('h5', t('DECISIONS')),
+              m('p.grey-text', t('DECISIONS_HINT')),
+            ]),
+            decisionCategories.map((c, i) =>
+              m(
+                '.col.s12',
+                {
+                  className: `m${Math.round(12 / decisionCategories.length)}`,
+                  key: 10000 * version + situationCategories.length + i,
+                },
+                m(CategoryTable, {
+                  ...attrs,
+                  catId: c.id,
+                  excluded,
+                  decision: {
+                    exclusions: decisionExclusions(
+                      model.scenario,
+                      curNarrative.components,
+                    ),
+                    hide: hideInconsistentValues,
+                  },
+                }),
+              ),
+            ),
+          ],
         m(
           '.col.s12',
           m(
