@@ -304,6 +304,7 @@ export const messages: typeof messagesEN = {
   COA_REFLECTION: "Reflectie op deze handelingsoptie",
   DECISION_PROMPT_COPIED: "Beslissingsprompt gekopieerd. Plak het antwoord in het reflectieveld.",
   DECISION_REFLECTION_ERROR: "De reflectie kon niet worden gegenereerd of gekopieerd. Probeer het opnieuw.",
+  DECISION_REFLECTION_DISCARDED: "De reflectie is niet opgeslagen: het scenario of de handelingsoptie is gewijzigd tijdens het genereren.",
   NO_DECISION_CATEGORIES: "Deze box heeft geen beslissingscategorieën. Markeer een categorie in Instellingen als \"Voor beslissingsondersteuning\" om hier maatregelen te vergelijken.",
   DECISION_VIEW: "Weergave",
   DECISION_VIEW_OVERVIEW: "Overzicht",

@@ -301,6 +301,7 @@ export const messages = {
   COA_REFLECTION: "Reflection on this course of action",
   DECISION_PROMPT_COPIED: "Decision prompt copied. Paste the response into the reflection field.",
   DECISION_REFLECTION_ERROR: "Could not generate or copy the reflection. Try again.",
+  DECISION_REFLECTION_DISCARDED: "The reflection was not saved: the scenario or course of action changed while it was generated.",
   NO_DECISION_CATEGORIES: "This box has no decision categories. Mark a category as \"For decision support\" in Settings to compare measures here.",
   DECISION_VIEW: "View",
   DECISION_VIEW_OVERVIEW: "Overview",

@@ -251,7 +251,7 @@ export const HomePage: MeiosisComponent = () => {
       // Tables show the situation plus the decisions of the active course of action
       const tableNarratives = filteredNarratives.map((n) => ({
         ...n,
-        components: effectiveSelection(n),
+        components: effectiveSelection(model.scenario, n),
       }));
       const valueLabels = new Map(
         components.flatMap((component) =>

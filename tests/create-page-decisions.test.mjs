@@ -179,6 +179,7 @@ test('"Reflect on decisions" stores the LLM reflection on the active course of a
     activeCoaId: 'a',
   };
   const attrs = { state: { model: { personas: [], scenario: box }, curNarrative }, update: () => {} };
+  attrs.getState = () => attrs.state;
   const tree = CreateScenarioPage().view({ attrs });
   const [button] = findAll(tree, (node) => node.attrs?.label === 'REFLECT_ON_DECISIONS');
   assert.ok(button);
@@ -191,6 +192,57 @@ test('"Reflect on decisions" stores the LLM reflection on the active course of a
   assert.equal(field.attrs.value, 'Evacuation comes too late.');
   field.attrs.oninput('Edited');
   assert.equal(curNarrative.coas[0].reflection, 'Edited');
+});
+
+const reflectSetup = (answer) => {
+  let resolve;
+  const pending = new Promise((r) => (resolve = r));
+  const { CreateScenarioPage } = load({ generateStory: () => pending });
+  const box = scenario(true);
+  box.llm = { id: 'ollama', url: 'x', prompts: [{ type: 'decision', prompt: 'Assess', categories: ['sit', 'dec'] }] };
+  const curNarrative = {
+    id: 'n',
+    components: { threat: ['fire'] },
+    coas: [{ id: 'a', label: 'A', components: { measure: ['evacuate'] }, reflection: 'My own notes' }],
+    activeCoaId: 'a',
+  };
+  const attrs = { state: { model: { personas: [], scenario: box }, curNarrative }, update: () => {} };
+  attrs.getState = () => attrs.state;
+  const [button] = findAll(CreateScenarioPage().view({ attrs }), (node) => node.attrs?.label === 'REFLECT_ON_DECISIONS');
+  const click = button.attrs.onclick();
+  return { attrs, curNarrative, finish: async () => (resolve(answer), click) };
+};
+
+test('"Reflect on decisions" appends to the reflection the user already wrote', async () => {
+  const { curNarrative, finish } = reflectSetup('LLM view');
+  await finish();
+  assert.equal(curNarrative.coas[0].reflection, 'My own notes\n\nLLM view');
+});
+
+test('"Reflect on decisions" stores the result in the latest copy of the narrative', async () => {
+  const { attrs, curNarrative, finish } = reflectSetup('LLM view');
+  // Saved meanwhile: the state holds a new copy with the user's latest edits
+  const latest = structuredClone(curNarrative);
+  latest.coas[0].reflection = 'Typed while waiting';
+  attrs.state = { ...attrs.state, curNarrative: latest };
+  await finish();
+  assert.equal(latest.coas[0].reflection, 'Typed while waiting\n\nLLM view');
+  assert.equal(curNarrative.coas[0].reflection, 'My own notes');
+});
+
+test('"Reflect on decisions" discards the result when the narrative or COA is gone', async () => {
+  const switched = reflectSetup('LLM view');
+  const other = { id: 'other', components: {}, coas: [{ id: 'a', label: 'A', components: {} }] };
+  switched.attrs.state = { ...switched.attrs.state, curNarrative: other };
+  await switched.finish();
+  assert.equal(other.coas[0].reflection, undefined);
+  assert.equal(switched.curNarrative.coas[0].reflection, 'My own notes');
+
+  const removed = reflectSetup('LLM view');
+  const latest = { ...removed.curNarrative, coas: [] };
+  removed.attrs.state = { ...removed.attrs.state, curNarrative: latest };
+  await removed.finish();
+  assert.equal(removed.curNarrative.coas[0].reflection, 'My own notes');
 });
 
 test('"Reflect on decisions" is hidden without a decision prompt', () => {

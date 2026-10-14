@@ -220,7 +220,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
 
       const selectedItems: ContextualItem[] = [];
       if (includeMapSupport && curNarrative && curNarrative.components) {
-        const selection = effectiveSelection(curNarrative);
+        const selection = effectiveSelection(model.scenario, curNarrative);
         modelComps.forEach((comp) => {
           const selectedIds = selection[comp.id];
           if (selectedIds) {
@@ -503,7 +503,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                             m(CategoryTable, {
                               curNarrative: {
                                 components: coa.id
-                                  ? effectiveSelection(curNarrative!, coa.id)
+                                  ? effectiveSelection(model.scenario, curNarrative!, coa.id)
                                   : curNarrative!.components,
                               } as Narrative,
                               comps,

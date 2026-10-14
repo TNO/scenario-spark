@@ -144,7 +144,7 @@ type CoaNarrative = Pick<Narrative, 'components'> & Partial<Pick<Narrative, 'coa
 /** Selected decisions of a narrative's active (or given) COA (factor label and value labels), empty when decision support is not active. */
 export const narrativeDecisionRows = (box: Box, narrative?: CoaNarrative, coaId?: ID) => {
   if (!box.includeDecisionSupport || !narrative?.components) return [];
-  const components = effectiveSelection(narrative, coaId);
+  const components = effectiveSelection(box, narrative, coaId);
   return splitDecisionComponents(box)
     .decisions.map((c) => ({
       label: c.label,
@@ -212,7 +212,7 @@ export const buildStoryInput = ({
   storyType = 'narrative',
   tr,
 }: StoryInputOptions) => {
-  const selection = effectiveSelection(narrative);
+  const selection = effectiveSelection(box, narrative);
   const included = new Set(
     (box.categories || [])
       .filter((c) => includedCategories.includes(c.id))
@@ -286,7 +286,7 @@ export const buildDecisionInput = ({
   const coa = activeCoa(narrative, coaId);
   const label = coa?.label ?? nextCoaLabel([]);
   const situationLines = factorLines(situation, narrative.components || {});
-  const decisionLines = factorLines(split.decisions, effectiveSelection(narrative, coa?.id));
+  const decisionLines = factorLines(split.decisions, effectiveSelection(box, narrative, coa?.id));
   const others = (narrative.coas || [])
     .filter((c) => c !== coa)
     .map((c) => `- ${c.label}${c.desc ? `: ${c.desc}` : ''}`)
@@ -327,10 +327,23 @@ export const activeCoa = (narrative: Partial<Pick<Narrative, 'coas' | 'activeCoa
   return coas.find((c) => c.id === activeCoaId) || coas[0];
 };
 
-/** Situation plus the decisions of the active (or given) COA. */
-export const effectiveSelection = (narrative: CoaNarrative, coaId?: ID): Narrative['components'] => {
+/**
+ * Situation plus the decisions of the active (or given) COA. Only values of the box's
+ * current decision factors are taken from the COA, so stale COA values (e.g. after a
+ * category is no longer a decision category) never override the situation.
+ */
+export const effectiveSelection = (
+  box: Pick<Scenario, 'categories' | 'components'>,
+  narrative: CoaNarrative,
+  coaId?: ID,
+): Narrative['components'] => {
   const coa = activeCoa(narrative, coaId);
-  return { ...(narrative.components || {}), ...(coa?.components || {}) };
+  const { decisionIds } = splitDecisionComponents(box);
+  const selection = { ...(narrative.components || {}) };
+  for (const [id, values] of Object.entries(coa?.components || {})) {
+    if (decisionIds.has(id)) selection[id] = values;
+  }
+  return selection;
 };
 
 /** Add an empty COA and make it active. */
@@ -408,6 +421,70 @@ export const moveDecisionsToCoas = (
     narrative.activeCoaId = active ?? target.id;
   }
   return true;
+};
+
+/**
+ * Move COA selections of factors that are no longer decisions back to the situation: the
+ * values of the active COA are used when the situation has no value for the factor (an
+ * existing situation value is never overwritten); the factor is removed from every COA.
+ * Returns true when the narrative changed.
+ */
+export const moveNonDecisionsToSituation = (
+  box: Pick<Scenario, 'categories' | 'components'>,
+  narrative: Pick<Narrative, 'components'> & Partial<Pick<Narrative, 'coas' | 'activeCoaId'>>,
+) => {
+  const { decisionIds } = splitDecisionComponents(box);
+  const active = activeCoa(narrative);
+  const components = (narrative.components ||= {});
+  let changed = false;
+  for (const id of Object.keys(active?.components || {})) {
+    const values = active!.components[id];
+    if (decisionIds.has(id) || !Array.isArray(values) || values.length === 0) continue;
+    if (!(components[id]?.length > 0)) components[id] = [...values];
+  }
+  for (const coa of narrative.coas || []) {
+    for (const id of Object.keys(coa.components || {})) {
+      if (decisionIds.has(id)) continue;
+      delete coa.components[id];
+      changed = true;
+    }
+  }
+  return changed;
+};
+
+/**
+ * Bring a narrative in line with the box's decision categories: decision values in the
+ * situation move to a COA, COA values of non-decision factors move back to the situation.
+ * Idempotent; returns true when the narrative changed.
+ */
+export const syncNarrativeDecisions = (
+  box: Pick<Scenario, 'categories' | 'components'>,
+  narrative: Pick<Narrative, 'components'> & Partial<Pick<Narrative, 'coas' | 'activeCoaId'>>,
+  makeId = randomId,
+) => {
+  const back = moveNonDecisionsToSituation(box, narrative);
+  const forward = moveDecisionsToCoas(box, narrative, makeId);
+  return back || forward;
+};
+
+/** Append an LLM reflection to the user's text, separated by a blank line. */
+export const appendReflection = (existing: string | undefined, addition: string) => {
+  const current = (existing || '').trimEnd();
+  return current.trim() ? `${current}\n\n${addition}` : addition;
+};
+
+/**
+ * The COA to store a reflection in, looked up in the latest narrative after an async
+ * call: undefined when the narrative was switched or the COA was removed meanwhile.
+ */
+export const reflectionTarget = (
+  latest: Partial<Pick<Narrative, 'id' | 'coas'>> | undefined,
+  original: Partial<Pick<Narrative, 'id'>>,
+  coaId: ID,
+) => {
+  if (!latest) return undefined;
+  const same = latest === original || (!!original.id && latest.id === original.id);
+  return same ? latest.coas?.find((c) => c.id === coaId) : undefined;
 };
 
 /**
@@ -613,7 +690,7 @@ export type RobustnessGrid = {
  */
 export const robustnessGrid = (box: Box, narratives: Array<CoaNarrative & Pick<Narrative, 'id' | 'label'>>): RobustnessGrid => {
   const columns = narratives.map((n) => ({
-    selection: effectiveSelection(n),
+    selection: effectiveSelection(box, n),
     exclusions: decisionExclusions(box, n.components),
   }));
   const total = narratives.length;
@@ -716,7 +793,7 @@ export const suggestApproach = (
   const weightOf = (n: (typeof narratives)[number], i: number) =>
     Array.isArray(weights) ? weights[i] ?? riskWeight(n) : weights ? weights(n, i) : riskWeight(n);
   const columns = narratives.map((n, i) => ({
-    selection: effectiveSelection(n),
+    selection: effectiveSelection(box, n),
     exclusions: decisionExclusions(box, n.components),
     weight: weightOf(n, i),
   }));
@@ -1202,7 +1279,7 @@ export const buildComparisonExport = (
       rows: [
         ...narratives.map((n) => {
           const coa = activeCoa(n);
-          const selection = effectiveSelection(n);
+          const selection = effectiveSelection(box, n);
           return {
             cells: [
               coa ? `${n.label} – ${coaName(coa.label)}` : n.label,

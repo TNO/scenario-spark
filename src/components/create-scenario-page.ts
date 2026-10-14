@@ -34,6 +34,7 @@ import {
   GenerationDiagnostic,
   activeCoa,
   addCoa,
+  appendReflection,
   coaConflicts,
   decisionExclusions,
   deepCopy,
@@ -42,6 +43,7 @@ import {
   ensureActiveCoa,
   nextCoaLabel,
   removeCoa,
+  reflectionTarget,
   generateNarrative,
   generateUniqueTitle,
   generationLocks,
@@ -437,7 +439,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
       } = model.scenario;
       const selectedItems: ContextualItem[] = [];
       if (includeMapSupport && curNarrative.components) {
-        const selection = effectiveSelection(curNarrative);
+        const selection = effectiveSelection(model.scenario, curNarrative);
         model.scenario.components.forEach((comp) => {
           const selectedIds = selection[comp.id];
           if (selectedIds) {
@@ -884,21 +886,33 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                     onclick: async () => {
                       askLlm = false;
                       m.redraw();
+                      const original = curNarrative;
+                      const coaId = coa.id;
                       try {
                         const reflection = await generateStory(
                           llm!,
-                          curNarrative,
+                          original,
                           model.scenario,
                           'decision',
                           undefined,
-                          { coaId: coa.id, narrativeText: markdown },
+                          { coaId, narrativeText: markdown },
                         );
                         if (llm?.id === 'clipboard') {
                           await navigator.clipboard.writeText(reflection);
                           toast({ html: t('DECISION_PROMPT_COPIED') });
                         } else {
-                          coa.reflection = reflection;
-                          await updateNarrative(attrs, curNarrative);
+                          // The narrative may have been edited or switched meanwhile
+                          const latest = attrs.getState().curNarrative;
+                          const target = reflectionTarget(latest, original, coaId);
+                          if (!latest || !target) {
+                            toast({ html: t('DECISION_REFLECTION_DISCARDED') });
+                          } else {
+                            target.reflection = appendReflection(
+                              target.reflection,
+                              reflection,
+                            );
+                            await updateNarrative(attrs, latest);
+                          }
                         }
                       } catch (error) {
                         console.error(error);

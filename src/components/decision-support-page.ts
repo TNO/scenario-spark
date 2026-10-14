@@ -132,7 +132,7 @@ export const DecisionSupportPage: MeiosisComponent = () => {
           label: coa
             ? `${n.label} – ${t('COURSE_OF_ACTION')} ${coa.label}`
             : n.label,
-          components: effectiveSelection(n),
+          components: effectiveSelection(model.scenario, n),
         };
       });
 

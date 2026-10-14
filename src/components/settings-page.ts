@@ -29,7 +29,7 @@ import {
 } from '../utils/morp-box-to-markdown';
 import {
   applyDecisionCategoryManual,
-  moveDecisionsToCoas,
+  syncNarrativeDecisions,
   getDecisionCategoryIds,
 } from '../utils/decision';
 
@@ -285,13 +285,22 @@ export const SettingsPage: MeiosisComponent = () => {
                           model.scenario,
                           decisionCategoryIds ?? new Set(),
                         );
-                        // Selections of new decision factors move to courses of action
+                        // Selections of new decision factors move to courses of action,
+                        // those of former decision factors back to the situation
                         (model.scenario.narratives || []).forEach((n) =>
-                          moveDecisionsToCoas(model.scenario, n),
+                          syncNarrativeDecisions(model.scenario, n),
                         );
                         decisionCategoryIds = getDecisionCategoryIds(
                           model.scenario,
                         );
+                        // The narrative being edited is a separate copy: sync it too
+                        const { curNarrative } = attrs.getState();
+                        if (
+                          curNarrative &&
+                          syncNarrativeDecisions(model.scenario, curNarrative)
+                        ) {
+                          attrs.update({ curNarrative: () => curNarrative });
+                        }
                         await saveModel(attrs, model);
                       },
                     } as FormAttributes<Scenario>),

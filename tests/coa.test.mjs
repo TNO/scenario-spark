@@ -11,6 +11,9 @@ import {
   ensureActiveCoa,
   migrateModel,
   moveDecisionsToCoas,
+  syncNarrativeDecisions,
+  appendReflection,
+  reflectionTarget,
   narrativeCoaRows,
   nextCoaLabel,
   removeCoa,
@@ -130,12 +133,13 @@ test('effectiveSelection merges the situation with the active or the given COA',
     ],
     activeCoaId: 'b',
   };
-  assert.deepEqual(effectiveSelection(narrative), { threat: ['fire'], measure: ['water'], comms: ['sms'] });
-  assert.deepEqual(effectiveSelection(narrative, 'a'), { threat: ['fire'], measure: ['evacuate'] });
-  assert.deepEqual(effectiveSelection(narrative, 'unknown'), { threat: ['fire'], measure: [] });
+  const box = makeScenario();
+  assert.deepEqual(effectiveSelection(box, narrative), { threat: ['fire'], measure: ['water'], comms: ['sms'] });
+  assert.deepEqual(effectiveSelection(box, narrative, 'a'), { threat: ['fire'], measure: ['evacuate'] });
+  assert.deepEqual(effectiveSelection(box, narrative, 'unknown'), { threat: ['fire'], measure: [] });
   // Without an active id, the first COA is used
-  assert.deepEqual(effectiveSelection({ ...narrative, activeCoaId: undefined }).measure, ['evacuate']);
-  assert.deepEqual(effectiveSelection({ components: { threat: ['fire'] } }), { threat: ['fire'] });
+  assert.deepEqual(effectiveSelection(box, { ...narrative, activeCoaId: undefined }).measure, ['evacuate']);
+  assert.deepEqual(effectiveSelection(box, { components: { threat: ['fire'] } }), { threat: ['fire'] });
   // Does not mutate the narrative
   assert.deepEqual(narrative.components, { threat: ['fire'], measure: [] });
 });
@@ -249,4 +253,86 @@ test('the narrative prompt uses the active COA as suggested actions', () => {
     tr: (key) => key,
   });
   assert.equal(input, 'LLM_SITUATION\n- Threat: Fire\n\nLLM_SUGGESTED_ACTIONS\n- Measure: Use water');
+});
+
+test('effectiveSelection only overlays COA values of current decision factors', () => {
+  const box = makeScenario();
+  // "threat" is no longer a decision factor: a stale COA value must not win
+  const narrative = {
+    components: { threat: ['fire'] },
+    coas: [{ id: 'a', label: 'A', components: { threat: ['flood'], measure: ['evacuate'] } }],
+  };
+  assert.deepEqual(effectiveSelection(box, narrative), { threat: ['fire'], measure: ['evacuate'] });
+  // After unticking the decision category, nothing is overlaid
+  const unticked = makeScenario();
+  unticked.categories[1].decisionSupport = false;
+  assert.deepEqual(effectiveSelection(unticked, narrative), { threat: ['fire'] });
+});
+
+test('syncNarrativeDecisions moves new decision values to a COA (idempotent)', () => {
+  const narrative = { id: 'n', components: { threat: ['fire'], measure: ['water'] } };
+  assert.equal(syncNarrativeDecisions(makeScenario(), narrative, makeId), true);
+  assert.deepEqual(narrative.components, { threat: ['fire'] });
+  assert.deepEqual(narrative.coas[0].components, { measure: ['water'] });
+  const snapshot = JSON.stringify(narrative);
+  assert.equal(syncNarrativeDecisions(makeScenario(), narrative, makeId), false);
+  assert.equal(JSON.stringify(narrative), snapshot);
+});
+
+test('syncNarrativeDecisions moves values of unticked decision factors back to the situation', () => {
+  const box = makeScenario();
+  box.categories[1].decisionSupport = false;
+  const narrative = {
+    id: 'n',
+    components: { threat: ['fire'], comms: ['situation-sms'] },
+    coas: [
+      { id: 'a', label: 'A', components: { measure: ['water'], comms: ['sms'] }, notes: 'keep' },
+      { id: 'b', label: 'B', components: { measure: ['evacuate'] } },
+    ],
+    activeCoaId: 'b',
+  };
+  assert.equal(syncNarrativeDecisions(box, narrative, makeId), true);
+  // Active COA values move back; an existing situation value is never overwritten
+  assert.deepEqual(narrative.components, { threat: ['fire'], comms: ['situation-sms'], measure: ['evacuate'] });
+  assert.deepEqual(narrative.coas[0].components, {});
+  assert.deepEqual(narrative.coas[1].components, {});
+  assert.equal(narrative.coas[0].notes, 'keep');
+  assert.equal(syncNarrativeDecisions(box, narrative, makeId), false);
+});
+
+test('a stale current narrative is repaired before it replaces the migrated one', () => {
+  // Settings: the "dec" category becomes a decision category
+  const box = makeScenario();
+  box.categories[1].decisionSupport = false;
+  const stored = { id: 'n', saved: true, components: { threat: ['fire'], measure: ['water'] } };
+  const current = JSON.parse(JSON.stringify(stored));
+  box.categories[1].decisionSupport = true;
+  syncNarrativeDecisions(box, stored, makeId);
+  // Create page edit of the stale copy: saveNarrative syncs it first
+  current.label = 'Edited';
+  syncNarrativeDecisions(box, current, makeId);
+  assert.deepEqual(current.components, { threat: ['fire'] });
+  assert.deepEqual(current.coas[0].components, { measure: ['water'] });
+  assert.deepEqual(effectiveSelection(box, current), effectiveSelection(box, stored));
+});
+
+test('appendReflection keeps the existing text', () => {
+  assert.equal(appendReflection(undefined, 'New'), 'New');
+  assert.equal(appendReflection('  ', 'New'), 'New');
+  assert.equal(appendReflection('Mine', 'New'), 'Mine\n\nNew');
+  assert.equal(appendReflection('Mine\n', 'New'), 'Mine\n\nNew');
+});
+
+test('reflectionTarget finds the COA in the latest narrative, or nothing when it changed', () => {
+  const coa = { id: 'a', label: 'A', components: {} };
+  const narrative = { id: 'n', components: {}, coas: [coa] };
+  // Same id, other copy (e.g. after a save)
+  assert.equal(reflectionTarget(narrative, { id: 'n' }, 'a'), coa);
+  assert.equal(reflectionTarget(narrative, { id: 'other' }, 'a'), undefined);
+  assert.equal(reflectionTarget(narrative, { id: 'n' }, 'gone'), undefined);
+  assert.equal(reflectionTarget(undefined, { id: 'n' }, 'a'), undefined);
+  // Without ids, only the same narrative object matches
+  const unsaved = { components: {}, coas: [coa] };
+  assert.equal(reflectionTarget(unsaved, unsaved, 'a'), coa);
+  assert.equal(reflectionTarget({ components: {}, coas: [coa] }, unsaved, 'a'), undefined);
 });

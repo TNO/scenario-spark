@@ -267,7 +267,7 @@ export const createLlmInput = (box: MorphologicalBox & NarrativeSettings, option
   if (type === 'decision') {
     const coa = activeCoa(narrative, coaId);
     const label = coa?.label ?? nextCoaLabel([]);
-    const selection = effectiveSelection(narrative, coa?.id);
+    const selection = effectiveSelection(box, narrative, coa?.id);
     const situationLines = renderFactorLines(situation.filter(isIncluded), selection);
     const decisionLines = renderFactorLines(decisions, selection);
     const others = (narrative.coas || [])
@@ -284,7 +284,7 @@ export const createLlmInput = (box: MorphologicalBox & NarrativeSettings, option
       .join('\n\n');
   }
 
-  const selection = effectiveSelection(narrative, coaId);
+  const selection = effectiveSelection(box, narrative, coaId);
   const active = options.decisionSupport ?? decisionIds.size > 0;
   if (decisionIds.size === 0 || (type !== 'narrative' && type !== 'persona')) {
     // Components that are in no category keep their place in the plain list

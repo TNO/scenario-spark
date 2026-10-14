@@ -31,10 +31,19 @@ export const activeCoa = <C extends CoaInput>(narrative: Pick<CoaNarrative<C>, '
   return coas.find((c) => c.id === activeCoaId) || coas[0];
 };
 
-/** Situation plus the decisions of the active (or given) COA; the COA wins per component. */
-export const effectiveSelection = (narrative: CoaNarrative, coaId?: ID): Selection => {
+/**
+ * Situation plus the decisions of the active (or given) COA; the COA wins per decision
+ * component. COA values of components that are not (or no longer) in a decision
+ * category of the box are ignored, so they never override the situation.
+ */
+export const effectiveSelection = (box: Pick<MorphologicalBox, 'categories'>, narrative: CoaNarrative, coaId?: ID): Selection => {
   const coa = activeCoa(narrative, coaId);
-  return { ...(narrative.components || {}), ...(coa?.components || {}) };
+  const decisions = getDecisionComponentIds(box);
+  const selection: Selection = { ...(narrative.components || {}) };
+  for (const [id, values] of Object.entries(coa?.components || {})) {
+    if (decisions.has(id)) selection[id] = values;
+  }
+  return selection;
 };
 
 export type CoaValueAssessment = {

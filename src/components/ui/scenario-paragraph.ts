@@ -70,7 +70,7 @@ export const ScenarioParagraph: MeiosisComponent<
         scenario: { components: modelComps = [] },
       } = model;
 
-      const components = effectiveSelection(curNarrative);
+      const components = effectiveSelection(model.scenario, curNarrative);
       const extractIds = /\{(\d+)\}/g;
       const idBasedTemplate = template
         .split(extractIds)

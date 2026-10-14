@@ -57,13 +57,22 @@ const withDecisions = (): MorphologicalBox & NarrativeSettings => {
 const coaA: CourseOfAction = { id: 'a', label: 'A', components: { response: ['evacuate'], comms: ['alert', 'press'] } };
 const coaB: CourseOfAction = { id: 'b', label: 'B', desc: 'Stay inside', components: { response: ['shelter'], comms: ['press'] } };
 
+test('effectiveSelection only takes decision factors from the COA', () => {
+  const box = withDecisions();
+  const narrative = { components: { motive: ['money'] }, coas: [{ id: 'a', label: 'A', components: { motive: ['ideology'], response: ['evacuate'] } }] };
+  assert.deepEqual(effectiveSelection(box, narrative), { motive: ['money'], response: ['evacuate'] });
+  box.categories.find((c) => c.id === 'measures')!.decisionSupport = false;
+  assert.deepEqual(effectiveSelection(box, narrative), { motive: ['money'] });
+});
+
 test('CourseOfAction helpers mirror the app: active COA, effective selection, labels', () => {
   const narrative = { components: { motive: ['money'] }, coas: [coaA, coaB], activeCoaId: 'b' };
   assert.equal(activeCoa(narrative)?.id, 'b');
   assert.equal(activeCoa(narrative, 'a')?.id, 'a');
   assert.equal(activeCoa({ coas: [coaA, coaB] })?.id, 'a');
   assert.equal(activeCoa({}), undefined);
-  assert.deepEqual(effectiveSelection(narrative), { motive: ['money'], response: ['shelter'], comms: ['press'] });
+  const box = withDecisions();
+  assert.deepEqual(effectiveSelection(box, narrative), { motive: ['money'], response: ['shelter'], comms: ['press'] });
   assert.equal(nextCoaLabel([]), 'A');
   assert.equal(nextCoaLabel([coaA, coaB]), 'C');
   assert.equal(nextCoaLabel(Array.from({ length: 26 }, (_, i) => ({ label: String.fromCharCode(65 + i) }))), 'AA');
@@ -245,7 +254,7 @@ test('CourseOfAction accepts residual risk and criteria scores without affecting
   const withScores = assessCoa(box, situation, scored);
   assert.deepEqual(withScores.values, plain.values);
   assert.equal(withScores.consistent, plain.consistent);
-  assert.deepEqual(effectiveSelection({ components: situation, coas: [scored] }), effectiveSelection({ components: situation, coas: [coaA] }));
+  assert.deepEqual(effectiveSelection(box, { components: situation, coas: [scored] }), effectiveSelection(box, { components: situation, coas: [coaA] }));
   const roundTrip: CourseOfAction = JSON.parse(JSON.stringify(scored));
   assert.deepEqual(roundTrip.scores, { effect: 4, speed: 2, safety: 5 });
 });

@@ -176,6 +176,7 @@ test('decision prompt texts and reflection labels exist in all locales', () => {
       'COA_REFLECTION',
       'DECISION_PROMPT_COPIED',
       'DECISION_REFLECTION_ERROR',
+      'DECISION_REFLECTION_DISCARDED',
     ]) {
       assert.ok(new RegExp(`^\\s+${key}:`, 'm').test(source), `${lang}: ${key}`);
     }

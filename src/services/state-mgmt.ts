@@ -24,6 +24,7 @@ import {
   LANGUAGE,
   SAVED,
   migrateModel,
+  syncNarrativeDecisions,
   scrollToTop,
   validateNarrative,
 } from '../utils';
@@ -185,6 +186,8 @@ export const saveNarrative = async (
 ) => {
   const { model } = cell.getState();
   if (!curNarrative.id) curNarrative.id = uniqueId();
+  // A copy made before the decision categories changed must not undo their migration
+  syncNarrativeDecisions(model.scenario, curNarrative);
   if (!model.scenario.narratives) {
     curNarrative.saved = true;
     model.scenario.narratives = [curNarrative];
