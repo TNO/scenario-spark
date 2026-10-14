@@ -19,13 +19,15 @@ import { deepCopy, SlimdownView } from 'mithril-ui-form';
 import {
   createCircleSVG,
   downloadAsDocx,
+  DocxBoxTable,
+  DocxNarrative,
   modelToSaveName,
   CoaRow,
   effectiveSelection,
   levelIndex,
   narrativeCoaRows,
+  narrativeToMarkdown,
   narrativesToOptions,
-  quillToMarkdown,
   splitDecisionComponents,
   svgToDataURI,
   trafficLight,
@@ -55,11 +57,7 @@ const CategoryTable: FactoryComponent<{
           return acc;
         }, {} as Record<string, string>);
       return [
-        m('table.highlight', { id }, [
-          m(
-            'thead',
-            m('tr', [m('th', t('DIMENSION')), m('th', t('KEY_VALUE'))])
-          ),
+        m('table.highlight.category-table', { id }, [
           m(
             'tbody',
             components &&
@@ -81,7 +79,7 @@ const CategoryTable: FactoryComponent<{
 
         m(FlatButton, {
           label: t('COPY_TO_CLIPBOARD'),
-          className: 'right',
+          className: 'copy-table-btn',
           iconName: 'content_copy',
           onclick: () => {
             function listener(e: ClipboardEvent) {
@@ -126,33 +124,40 @@ const conflictWarnings = (coa: CoaRow) =>
 
 export const ShowScenarioPage: MeiosisComponent = () => {
   let wordModalOpen = false;
+  let includeBox = false;
+
+  const narrativeToBox = (
+    model: DataModel,
+    narrative: Narrative
+  ): DocxBoxTable[] => {
+    const { categories = [], components = [] } = model.scenario;
+    const selection = effectiveSelection(model.scenario, narrative);
+    const toRows = (comps: ScenarioComponent[]) =>
+      comps.map((c) => {
+        const sel = selection[c.id];
+        const selectedIds = Array.isArray(sel) ? sel : sel ? [sel] : [];
+        return {
+          label: c.label,
+          values: (c.values || []).map((v) => ({
+            label: v.label,
+            selected: selectedIds.indexOf(v.id) >= 0,
+          })),
+        };
+      });
+    if (categories.length === 0) return [{ rows: toRows(components) }];
+    return categories.map((category) => {
+      const ids = category.componentIds || [];
+      return {
+        label: categories.length > 1 ? category.label : undefined,
+        rows: toRows(components.filter((c) => ids.indexOf(c.id) >= 0)),
+      };
+    });
+  };
 
   const exportToWord = async (model: DataModel, narratives: Narrative[]) => {
-    const narrData: Array<{
-      label: string;
-      content: string;
-      coas?: Array<{
-        label: string;
-        desc?: string;
-        notes?: string;
-        decisions: Array<{ label: string; values: string[] }>;
-        warnings?: string[];
-        risk?: string;
-      }>;
-    }> = [];
+    const narrData: DocxNarrative[] = [];
     for (const curNarrative of narratives) {
-      let content = '';
-      if (curNarrative.desc) {
-        try {
-          content =
-            curNarrative.desc.startsWith('{') ||
-            curNarrative.desc.startsWith('[')
-              ? quillToMarkdown(JSON.parse(curNarrative.desc))
-              : curNarrative.desc;
-        } catch (e: any) {
-          console.error(e);
-        }
-      }
+      const content = narrativeToMarkdown(curNarrative.desc);
       narrData.push({
         label: curNarrative.label,
         content,
@@ -164,6 +169,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
           warnings: conflictWarnings(coa),
           risk: coaRiskText(coa),
         })),
+        box: includeBox ? narrativeToBox(model, curNarrative) : undefined,
       });
     }
     const title = model?.scenario?.label || 'Scenario';
@@ -246,13 +252,10 @@ export const ShowScenarioPage: MeiosisComponent = () => {
       const narrativeIdx = curNarrative
         ? narratives.findIndex((n) => n.id === curNarrative.id)
         : -1;
-      const markdown: string = (
-        curNarrative && curNarrative.desc
-          ? curNarrative.desc.startsWith('{')
-            ? quillToMarkdown(JSON.parse(curNarrative.desc))
-            : curNarrative.desc
-          : ''
-      ).toString().replace(/</g, '&lt;');
+      const markdown = narrativeToMarkdown(curNarrative?.desc).replace(
+        /</g,
+        '&lt;'
+      );
 
       return m(
         '.show-scenario.row',
@@ -272,7 +275,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
               m(FlatButton, {
                 label: t('EXPORT2WORD', 'TITLE'),
                 iconName: 'download',
-                className: 'right',
+                className: 'right export-word-btn',
                 disabled: !curNarrative.desc,
                 onclick: () => {
                   wordModalOpen = true;
@@ -308,7 +311,17 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                 closeOnButtonClick: true,
                 description: m(
                   '.export-modal',
-                  m('.row', m('.col.s12', t('EXPORT2WORD', 'DESC')))
+                  m('.row', [
+                    m('.col.s12', t('EXPORT2WORD', 'DESC')),
+                    m(InputCheckbox, {
+                      className: 'col s12 mt3',
+                      checked: includeBox,
+                      label: t('EXPORT2WORD', 'INCLUDE_BOX'),
+                      onchange: (checked: boolean) => {
+                        includeBox = checked;
+                      },
+                    }),
+                  ])
                 ),
                 options: { opacity: 0.7 },
                 buttons: [
@@ -436,23 +449,20 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                 : '',
             ],
             m(
-                '.col.s12',
-                m('.row', [
-                  situationCategories.map((category) => {
-                    const componentIds = category && category.componentIds;
-                    const comps =
-                      componentIds &&
-                      modelComps.filter((c) => componentIds.indexOf(c.id) >= 0);
-                    return m(
-                      '.col',
-                      {
-                        className: `s${12 / situationCategories.length}`,
-                      },
-                      multipleCategories && m('h5', category.label),
-                      m(CategoryTable, { curNarrative, comps })
-                    );
-                  }),
-                ])
+              '.col.s12',
+              m(
+                '.category-tables',
+                situationCategories.map((category) => {
+                  const componentIds = category && category.componentIds;
+                  const comps =
+                    componentIds &&
+                    modelComps.filter((c) => componentIds.indexOf(c.id) >= 0);
+                  return m('.category-tables-item', [
+                    multipleCategories ? m('h5', category.label) : m('div'),
+                    m(CategoryTable, { curNarrative, comps }),
+                  ]);
+                })
+              )
             ),
             showDecisions &&
               coaRows.length > 0 &&

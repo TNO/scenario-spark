@@ -230,12 +230,17 @@ export const messages: typeof messagesEN = {
     'Wszystkie komponenty są zablokowane — nie można wygenerować nowego scenariusza. Najpierw wyczyść bieżący scenariusz.',
   SPEC_CATS:
     'Najpierw określ kategorie, gdzie każda kategoria zawiera kluczowe czynniki.',
+  TRANSPOSE_BOX: {
+    COLUMNS: 'Pokaż kluczowe czynniki jako kolumny',
+    ROWS: 'Pokaż kluczowe czynniki jako wiersze',
+  },
   EXPORT2WORD: {
     TITLE: 'Eksportuj do Worda',
     DESC: 'Który scenariusz chcesz wyeksportować?',
     CURRENT: 'Bieżący',
     SELECTED: 'Wybrane',
     ALL: 'Wszystkie',
+    INCLUDE_BOX: 'Dołącz skrzynkę morfologiczną (jedna tabela na kategorię, wybrane wartości wyróżnione)',
   },
   HIDE_INCONSISTENT: 'Ukryj niespójne kombinacje',
   GOAL: {

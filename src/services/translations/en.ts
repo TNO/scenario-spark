@@ -227,12 +227,17 @@ export const messages = {
     'All components are locked — no new scenario can be generated. Clear the current scenario first.',
   SPEC_CATS:
     'First specify some categories, where each category contains some key drivers.',
+  TRANSPOSE_BOX: {
+    COLUMNS: 'Show key drivers as columns',
+    ROWS: 'Show key drivers as rows',
+  },
   EXPORT2WORD: {
     TITLE: 'Export to Word',
     DESC: 'Which scenario do you want to export?',
     CURRENT: 'Current',
     SELECTED: 'Selected',
     ALL: 'All',
+    INCLUDE_BOX: 'Include the morphological box (one table per category, selected values highlighted)',
   },
   HIDE_INCONSISTENT: 'Hide inconsistent combinations',
   GOAL: {

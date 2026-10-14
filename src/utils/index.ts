@@ -18,8 +18,10 @@ import {
 } from '../models';
 import { t } from '../services';
 import type { ComparisonExport } from './decision';
+import { htmlToMarkdown, looksLikeHtml } from './html-to-markdown';
 
 export * from './decision';
+export { htmlToMarkdown, looksLikeHtml };
 
 export const LANGUAGE = 'SG_LANGUAGE';
 export const SAVED = 'SG_MODEL_SAVED';
@@ -525,6 +527,20 @@ type QuillOp = {
   };
 };
 
+/** Convert a stored narrative description (Quill JSON, HTML or Markdown) to Markdown. */
+export const narrativeToMarkdown = (desc?: string): string => {
+  if (!desc) return '';
+  const text = desc.toString();
+  if (text.startsWith('{') || text.startsWith('[')) {
+    try {
+      return quillToMarkdown(JSON.parse(text));
+    } catch {
+      return text;
+    }
+  }
+  return looksLikeHtml(text) ? htmlToMarkdown(text) : text;
+};
+
 export const quillToMarkdown = (quillDelta: { ops: QuillOp[] }): string => {
   let md = '';
   let buffer = ''; // collect inline text until newline
@@ -864,27 +880,40 @@ export const downloadAsWord = (
   URL.revokeObjectURL(url);
 };
 
+export type DocxBoxTable = {
+  /** Category label, shown as a heading when present */
+  label?: string;
+  rows: Array<{
+    label: string;
+    values: Array<{ label: string; selected: boolean }>;
+  }>;
+};
+
+export type DocxNarrative = {
+  label: string;
+  content: string;
+  /** Optional morphological box tables (one per category) with the selected values highlighted */
+  box?: DocxBoxTable[];
+  /** Courses of action (selected decisions per COA), listed in their own section when present */
+  coas?: Array<{
+    label: string;
+    desc?: string;
+    notes?: string;
+    decisions: Array<{ label: string; values: string[] }>;
+    /** Already translated warnings, e.g. decisions that conflict with the situation */
+    warnings?: string[];
+    /** Already translated residual risk, e.g. "Residual risk: Low (situation: High)" */
+    risk?: string;
+  }>;
+};
+
 /**
  * Generate a real .docx Word document from scenario narratives.
  * Creates headings, paragraphs, and a summary table.
  */
 export const downloadAsDocx = async (
   title: string,
-  narratives: Array<{
-    label: string;
-    content: string;
-    /** Courses of action (selected decisions per COA), listed in their own section when present */
-    coas?: Array<{
-      label: string;
-      desc?: string;
-      notes?: string;
-      decisions: Array<{ label: string; values: string[] }>;
-      /** Already translated warnings, e.g. decisions that conflict with the situation */
-      warnings?: string[];
-      /** Already translated residual risk, e.g. "Residual risk: Low (situation: High)" */
-      risk?: string;
-    }>;
-  }>,
+  narratives: DocxNarrative[],
   filename = 'scenario.docx',
   decisionsTitle = 'Decisions',
 ): Promise<void> => {
@@ -1184,7 +1213,80 @@ export const downloadAsDocx = async (
             }
           }
 
-          return children;
+          const boxChildren: Array<
+            import('docx').Paragraph | import('docx').Table
+          > = [];
+          for (const boxTable of n.box || []) {
+            if (boxTable.rows.length === 0) continue;
+            if (boxTable.label) {
+              boxChildren.push(
+                new Paragraph({
+                  text: sanitizeDocxText(boxTable.label),
+                  heading: HeadingLevel.HEADING_3,
+                  spacing: { before: 200, after: 80 },
+                }),
+              );
+            } else {
+              boxChildren.push(new Paragraph({ spacing: { before: 200 } }));
+            }
+            const maxValues = Math.max(
+              1,
+              ...boxTable.rows.map((r) => r.values.length),
+            );
+            boxChildren.push(
+              new Table({
+                width: { size: 100, type: WidthType.PERCENTAGE },
+                rows: boxTable.rows.map((row) => {
+                  const valueCells = row.values.map(
+                    (v) =>
+                      new TableCell({
+                        children: [
+                          new Paragraph({
+                            children: [
+                              new TextRun({
+                                text: sanitizeDocxText(v.label),
+                                bold: v.selected,
+                                color: v.selected ? 'FFFFFF' : undefined,
+                              }),
+                            ],
+                          }),
+                        ],
+                        shading: v.selected ? { fill: 'FF7800' } : undefined,
+                      }),
+                  );
+                  const padding = maxValues - row.values.length;
+                  if (padding > 0) {
+                    valueCells.push(
+                      new TableCell({
+                        children: [new Paragraph('')],
+                        columnSpan: padding,
+                      }),
+                    );
+                  }
+                  return new TableRow({
+                    children: [
+                      new TableCell({
+                        children: [
+                          new Paragraph({
+                            children: [
+                              new TextRun({
+                                text: sanitizeDocxText(row.label),
+                                bold: true,
+                              }),
+                            ],
+                          }),
+                        ],
+                        shading: { fill: 'F2F2F2' },
+                      }),
+                      ...valueCells,
+                    ],
+                  });
+                }),
+              }),
+            );
+          }
+
+          return [...children, ...boxChildren];
         }),
       ],
     },

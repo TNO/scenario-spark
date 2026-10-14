@@ -38,7 +38,7 @@ const load = (ui = {}) => {
     './ui': { ensureDefaultLLMConfig: () => false, ...ui },
     '../models/persona-images': { PersonaImages: [] },
     'mithril-markdown-wysiwyg': { MarkdownEditor: () => {} },
-    '../utils/index': { quillToMarkdown: (value) => value },
+    '../utils/index': { narrativeToMarkdown: (value) => value || '' },
     './ui/scenario-paragraph': { ScenarioParagraph: () => {} },
   };
   new Function('require', 'module', 'exports', code)((name) => mocks[name] || require(name), module, module.exports);

@@ -231,12 +231,17 @@ export const messages: typeof messagesEN = {
     'Todos los componentes están bloqueados — no se puede generar un nuevo escenario. Borre primero el escenario actual.',
   SPEC_CATS:
     'Primero especifique algunas categorías, donde cada categoría contiene algunos factores clave.',
+  TRANSPOSE_BOX: {
+    COLUMNS: 'Mostrar los factores clave como columnas',
+    ROWS: 'Mostrar los factores clave como filas',
+  },
   EXPORT2WORD: {
     TITLE: 'Exportar a Word',
     DESC: '¿Qué escenario desea exportar?',
     CURRENT: 'Actual',
     SELECTED: 'Seleccionado',
     ALL: 'Todos',
+    INCLUDE_BOX: 'Incluir la caja morfológica (una tabla por categoría, con los valores seleccionados resaltados)',
   },
   HIDE_INCONSISTENT: 'Ocultar combinaciones inconsistentes',
   GOAL: {
