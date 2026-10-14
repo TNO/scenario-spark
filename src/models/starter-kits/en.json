@@ -1081,7 +1081,7 @@
           "cyber-enforcement.3"
         ]
       ],
-      "template": "The operational impact is {1}, {2}, {3} and {4}.\nInvestigation and apprehension measures under consideration are {5}, {6} and {7}.\nThe service context is {8}, {9}, {10} and {11}.\nThe incident picture is {12}, {13}, {14} and {15}.\nContinuity measures under consideration are {16}, {17} and {18}.\nCommand and public information measures under consideration are {19}, {20} and {21}.",
+      "template": "The operational impact is {1}, {2}, {3} and {4}.\nThe service context is {8}, {9}, {10} and {11}.\nThe incident picture is {12}, {13}, {14} and {15}.",
       "prompt": "You are an experienced crisis-management and cyber-continuity trainer for fire, police, health, municipal and essential-service organisations. Write a realistic exercise or decision-support briefing of about 400 words for incident commanders and continuity leads, using selected situation values as evidence rather than assumptions. Describe the incident, affected services, dependencies, operational impacts, uncertainty, escalation and near-term pressures in a clear chronological structure. Distinguish confirmed facts from working hypotheses and avoid technical attack instructions. If continuity, containment, command, communication, recovery or investigation measures are listed, assess their suitability, timing, dependencies and side effects, and name important gaps or safeguards. If no measures are listed, describe only the incident and do not invent a solution. Conclude with exactly two reflection or exercise questions about service priorities, coordination, evidence or public confidence.",
       "example": {
         "label": "Cyber incident and continuity exercise",
@@ -1519,7 +1519,7 @@
           "service-continuity.service-comms"
         ]
       ],
-      "template": "Flooding is driven by {1}; the water is {2} and {3}.\nThe affected area is {4}; {5} people and {6} care needs shape exposure.\nAccess is {7}, responders arrive by {8}, and essential services are {9}.\nCoordination uses {10}; reception is provided through {11}, while public warnings use {12}.\nProtection measures are {13}; rescue options are {14}, alongside service continuity actions {15}.",
+      "template": "Flooding is driven by {1}; the water is {2} and {3}.\nThe affected area is {4}; {5} people and {6} care needs shape exposure.\nAccess is {7}, responders arrive by {8}, and essential services are {9}.",
       "prompt": "You are an experienced European crisis-management trainer for fire, police, medical, water-authority and municipal services. Write an approximately 400-word, realistic exercise scenario and decision-support briefing about river, coastal or pluvial flooding, using all selected situation values without inventing precise forecasts. Establish what is observed, what remains uncertain, who and which essential services are exposed, and how access may change. If measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps; if no measures are listed, describe only the incident and do not invent a solution. Distinguish immediate life safety from stabilisation and recovery. End with exactly two reflection or exercise questions for the multi-agency team.",
       "example": {
         "label": "Rising water reaches the village",
@@ -1955,7 +1955,7 @@
           "bericht.waakzaam"
         ]
       ],
-      "template": "The flood defence is {1}, with breach status {2} under {3}.\nThe area behind it is {4}; {5} warning time remains for {6}.\nRoutes are {7}, essential services are {8}, and the evidence consists of {9}.\nPartners use {10} coordination and {11} public warning, with shelter through {12}.\nSelected protection includes {13}, {14} and {15}.",
+      "template": "The flood defence is {1}, with breach status {2} under {3}.\nThe area behind it is {4}; {5} warning time remains for {6}.\nRoutes are {7}, essential services are {8}, and the evidence consists of {9}.",
       "prompt": "You are an experienced European crisis-management trainer for fire, police, medical, water-authority and municipal services. Write an approximately 400-word, realistic exercise scenario and decision-support briefing about dam or levee damage or failure. Use every selected situation value, distinguish verified evidence from reports, and make the warning time and exposed communities clear without giving engineering instructions. If measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps; if no measures are listed, describe only the incident and do not invent a solution. Address life safety, coordination, public information and continuity in a proportionate way. End with exactly two reflection or exercise questions for decision-makers.",
       "example": {
         "label": "Damage reported beside the polder",
@@ -2403,7 +2403,7 @@
           "nazorg.gezondheid"
         ]
       ],
-      "template": "The natural area is {1}, the fire status is {2}, and conditions are {3}.\nSmoke is {4}; {5} people are present near {6}.\nThe observed fire extent is {7}, with {8} confidence and {9}.\nCommunity support uses {10}, partners coordinate through {11}, and recovery includes {12}.\nAccess measures are {13} and {14}, supported by {15}.",
+      "template": "The natural area is {1}, the fire status is {2}, and conditions are {3}.\nSmoke is {4}; {5} people are present near {6}.\nThe observed fire extent is {7}, with {8} confidence and {9}.",
       "prompt": "You are an experienced European fire-service and crisis-management exercise designer addressing incident commanders, land managers, police, health services and municipalities. Write an approximately 400-word realistic wildfire exercise scenario using every selected situation value, including the observed fire extent, smoke, people exposed and information gaps. Do not predict fire spread or prescribe tactical firefighting. If measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps; if no measures are listed, describe only the incident and do not invent a solution. Consider public access, health advice, coordination and recovery as appropriate. End with exactly two reflection or exercise questions for the multi-agency team.",
       "example": {
         "label": "Smoke near the heathland",
@@ -2938,7 +2938,7 @@
           "dialogue.independent-mediator-available"
         ]
       ],
-      "template": "The demonstration concerns {1}, takes the format {2}, occurs at the stage {3}, and has the notification status {4}.\nThe setting is {5}, movement is {6}, surrounding access is {7}, and expected attendance is {8}.\nOrganiser contact is {9}; the operational priority is {10}; residents receive {11}; the observed atmosphere is {12}.\nFacilitation arrangements: {13}; dialogue and de-escalation: {14}; participant welfare: {15}.\nTraffic and access management: {16}; public-order response: {17}; communication and coordination: {18}.\nInvestigation and apprehension measures, where specific offences occur: evidence {19}; suspect tracing {20}; lawful intervention {21}.",
+      "template": "The demonstration concerns {1}, takes the format {2}, occurs at the stage {3}, and has the notification status {4}.\nThe setting is {5}, movement is {6}, surrounding access is {7}, and expected attendance is {8}.\nOrganiser contact is {9}; the operational priority is {10}; residents receive {11}; the observed atmosphere is {12}.",
       "prompt": "You are an experienced crisis-management trainer for police, fire, medical, municipal and diplomatic-protection partners. Write an approximately 400-word professional British-English exercise scenario for incident commanders and civil-protection planners. Describe the demonstration context, format, route, attendance and observed atmosphere, distinguishing verified facts from uncertainty. Respect the right to peaceful assembly and make facilitation, dialogue and proportionate safeguards the starting point; do not infer threat from whether participants are students, farmers or another group, and account for diplomatic premises where relevant. If public-order or investigation measures are listed, assess their suitability, timing, dependencies, side effects and important gaps. Investigation must concern specific alleged offences and distinguish individuals from peaceful participants. If no measures are listed, describe only the incident and do not invent a solution. Use a concise situation overview, developing impacts and decision points, then an assessment. End with exactly two reflection or exercise questions.",
       "example": {
         "label": "A tense but peaceful embassy demonstration",
@@ -4556,7 +4556,7 @@
           "eq-capacity.available"
         ]
       ],
-      "template": "Earthquake situation: shaking {1}; aftershocks {2}; ground failure {3}.\nLocation and exposure: built environment {4}; occupancy {5}; access {6}.\nImpact and capacity: structural damage {7}; casualty burden {8}; response capacity {9}.\nProtection and rescue measures under consideration: evacuation or shelter {10}; search and rescue {11}; medical response {12}.\nHazard control and coordination measures under consideration: utility safety {13}; command and resources {14}; public information {15}.",
+      "template": "Earthquake situation: shaking {1}; aftershocks {2}; ground failure {3}.\nLocation and exposure: built environment {4}; occupancy {5}; access {6}.\nImpact and capacity: structural damage {7}; casualty burden {8}; response capacity {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical and municipal services. Write an approximately 400-word realistic earthquake incident narrative for professional exercise and decision-support use, based only on the situation details supplied. Structure it with a concise incident overview, evolving hazards and exposure, effects on people and infrastructure, response capacity and uncertainties, then the operational picture. If measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps; do not imply that a selected action has succeeded unless the scenario says so. If no measures are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions for participants. Use clear international British English and avoid unsupported technical certainty.",
       "example": {
         "label": "Aftershock rescue in a dense district",
@@ -4964,7 +4964,7 @@
           "ts-command.regional"
         ]
       ],
-      "template": "Tsunami characteristics: source mechanism {1}; warning lead time {2}; inundation extent {3}.\nLocation and exposure: coastal setting {4}; occupancy {5}; evacuation routes {6}.\nImpact and capacity: water impact {7}; casualty burden {8}; response capacity {9}.\nEvacuation and rescue measures under consideration: protective movement {10}; water rescue {11}; medical response {12}.\nCoordination and public information measures under consideration: warning and alerts {13}; access control {14}; command and support {15}.",
+      "template": "Tsunami characteristics: source mechanism {1}; warning lead time {2}; inundation extent {3}.\nLocation and exposure: coastal setting {4}; occupancy {5}; evacuation routes {6}.\nImpact and capacity: water impact {7}; casualty burden {8}; response capacity {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical and municipal services. Write an approximately 400-word realistic tsunami incident narrative for professional exercise and decision-support use, based only on the supplied situation. Structure it with the source and warning timeline, exposed coastal population and routes, wave and infrastructure impacts, response capacity and uncertainties, then the operational picture. If measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps; explicitly account for evacuation completion, successive waves and safe responder access. If no measures are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions. Use clear international British English and avoid treating a small first wave as an all-clear.",
       "example": {
         "label": "Tsunami warning at a coastal harbour",
@@ -5392,7 +5392,7 @@
           "ve-information.regional"
         ]
       ],
-      "template": "Eruption characteristics: dominant hazard {1}; activity trend {2}; hazard footprint {3}.\nLocation and exposure: wind direction {4}; settlement setting {5}; route access {6}.\nImpact and capacity: ash loading {7}; casualty burden {8}; response capacity {9}.\nProtection and rescue measures under consideration: evacuation or shelter {10}; responder protection {11}; medical response {12}.\nCoordination and public-information measures under consideration: monitoring and control {13}; infrastructure protection {14}; warnings and coordination {15}.",
+      "template": "Eruption characteristics: dominant hazard {1}; activity trend {2}; hazard footprint {3}.\nLocation and exposure: wind direction {4}; settlement setting {5}; route access {6}.\nImpact and capacity: ash loading {7}; casualty burden {8}; response capacity {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical and municipal services. Write an approximately 400-word realistic volcanic-eruption incident narrative for professional exercise and decision-support use, based only on the supplied situation. Structure it with activity and hazard footprint, exposed settlements and wind or access conditions, effects on people and infrastructure, response capacity and uncertainty, then the operational picture. If measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps; distinguish ash, lava and pyroclastic hazards and consider responder exposure. If no measures are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions. Use clear international British English.",
       "example": {
         "label": "Ashfall and evacuation from an active volcano",
@@ -5820,7 +5820,7 @@
           "la-evacuation.slope"
         ]
       ],
-      "template": "Slope-failure characteristics: failure type {1}; movement status {2}; trigger conditions {3}.\nLocation and exposure: exposed setting {4}; occupancy {5}; access conditions {6}.\nImpact and capacity: burial and damage {7}; casualty burden {8}; response capacity {9}.\nProtection and rescue measures under consideration: evacuation or cordons {10}; search and rescue {11}; medical response {12}.\nCoordination and public-information measures under consideration: slope monitoring {13}; command and resources {14}; warnings and access {15}.",
+      "template": "Slope-failure characteristics: failure type {1}; movement status {2}; trigger conditions {3}.\nLocation and exposure: exposed setting {4}; occupancy {5}; access conditions {6}.\nImpact and capacity: burial and damage {7}; casualty burden {8}; response capacity {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical and municipal services. Write an approximately 400-word realistic landslide or avalanche incident narrative for professional exercise and decision-support use, based only on the supplied situation. Structure it with failure type and trigger, exposed terrain and access, burial or infrastructure effects, response capacity and uncertainty, then the operational picture. If measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps; account for secondary movement and responder safety, and distinguish avalanche-specific equipment from debris-search methods. If no measures are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions. Use clear international British English.",
       "example": {
         "label": "Avalanche search above a mountain road",
@@ -6232,7 +6232,7 @@
           "ff-control.barriers"
         ]
       ],
-      "template": "Flash-flood characteristics: rainfall trigger {1}; water rise {2}; water depth {3}.\nLocation and exposure: flood setting {4}; occupancy {5}; route access {6}.\nImpact and capacity: flood impact {7}; casualty burden {8}; response capacity {9}.\nProtection and rescue measures under consideration: evacuation or shelter {10}; water rescue {11}; medical response {12}.\nCoordination and public-information measures under consideration: warnings and alerts {13}; road and utility control {14}; command and resources {15}.",
+      "template": "Flash-flood characteristics: rainfall trigger {1}; water rise {2}; water depth {3}.\nLocation and exposure: flood setting {4}; occupancy {5}; route access {6}.\nImpact and capacity: flood impact {7}; casualty burden {8}; response capacity {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical and municipal services. Write an approximately 400-word realistic flash-flood incident narrative for professional exercise and decision-support use, based only on the supplied situation. Structure it with rainfall and water-level timeline, exposed people and routes, impacts on buildings and essential services, response capacity and uncertainty, then the operational picture. If measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps; prioritise responder safety, rapidly changing flow, vulnerable people and the risk of a second runoff pulse. If no measures are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions. Use clear international British English.",
       "example": {
         "label": "Flash flood in an urban catchment",
@@ -6676,7 +6676,7 @@
           "storm-rescue.preposition"
         ]
       ],
-      "template": "The storm is {1}; its phase is {2}, with {3}.\nThe affected setting is {4}, exposing {5} and critical assets such as {6}.\nObserved damage is {7}; essential services are {8}, and access is {9}.\nRescue and protective actions include {10} and {11}, with medical support through {12}.\nCommand uses {13}, public information uses {14}, and continuity measures include {15}.",
+      "template": "The storm is {1}; its phase is {2}, with {3}.\nThe affected setting is {4}, exposing {5} and critical assets such as {6}.\nObserved damage is {7}; essential services are {8}, and access is {9}.",
       "prompt": "You are an experienced European crisis-management trainer for fire, police, medical, utility and municipal services. Write an approximately 400-word realistic exercise scenario and decision-support briefing about a severe windstorm, tropical cyclone, tornado or convective storm. Use every selected situation value and distinguish forecast information from observed damage and service disruption. If measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps; if no measures are listed, describe only the incident and do not invent a solution. Address warning, life safety, rescue access, vulnerable people and recovery without giving unsafe operational instructions. End with exactly two reflection or exercise questions.",
       "example": {
         "label": "Wind damage across an urban district",
@@ -7112,7 +7112,7 @@
           "temp-access.severe"
         ]
       ],
-      "template": "The event involves {1}, expected to last {2}, with {3}.\nThe affected area is {4}, where {5} people and facilities such as {6} face exposure.\nHealth effects include {7}; essential services are {8}, and access is {9}.\nProtection includes {10}, welfare checks through {11}, and medical response with {12}.\nPublic advice uses {13}, coordination uses {14}, and continuity actions include {15}.",
+      "template": "The event involves {1}, expected to last {2}, with {3}.\nThe affected area is {4}, where {5} people and facilities such as {6} face exposure.\nHealth effects include {7}; essential services are {8}, and access is {9}.",
       "prompt": "You are an experienced European crisis-management trainer for fire, health, care, utility and municipal services. Write an approximately 400-word realistic exercise scenario and decision-support briefing about dangerous heat or cold. Use every selected situation value, explain forecast confidence and the local health and service impacts, and avoid unsupported clinical claims. If measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps; if no measures are listed, describe only the incident and do not invent a solution. Consider outreach, safe refuge, continuity of care, public health advice and multi-agency coordination. End with exactly two reflection or exercise questions.",
       "example": {
         "label": "A prolonged heat episode",
@@ -7544,7 +7544,7 @@
           "agricultural-response.maintain-full-irrigation-allocations"
         ]
       ],
-      "template": "Drought drivers: {1}; {2}; {3}.\nExposure and context: {4}; {5}; {6}.\nImpacts and capacity: {7}; {8}; {9}.\nDrinking water and public protection measures under consideration: {10}; {11}; {12}.\nResource management and recovery measures under consideration: {13}; {14}; {15}.",
+      "template": "Drought drivers: {1}; {2}; {3}.\nExposure and context: {4}; {5}; {6}.\nImpacts and capacity: {7}; {8}; {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical, environmental and municipal services. Write an approximately 400-word, realistic drought incident narrative for a professional exercise and decision-support briefing, using only the selected situation factors as facts. Establish the timeline, location, affected people and critical services, uncertainty, operational conditions, capacity pressures and likely near-term developments in a clear, calm, evidence-aware tone. Distinguish confirmed information from assumptions and avoid sensationalism. If response measures are listed, assess their suitability, timing, dependencies, coordination needs, side effects and important gaps; do not treat a listed measure as already successful. If no measures are listed, describe only the incident and its effects and do not invent or recommend a solution. Structure the response with a concise incident overview, operational picture, key uncertainties and implications. End with exactly two useful reflection or exercise questions for the participants.",
       "example": {
         "label": "Drought incident example",
@@ -7952,7 +7952,7 @@
           "coordination.maintain-routine-attendance"
         ]
       ],
-      "template": "Disease and transmission: {1}; {2}; {3}.\nPopulation and setting: {4}; {5}; {6}.\nHealth and services: {7}; {8}; {9}.\nProtection and care: {10}; {11}; {12}.\nCoordination and information: {13}; {14}; {15}.",
+      "template": "Disease and transmission: {1}; {2}; {3}.\nPopulation and setting: {4}; {5}; {6}.\nHealth and services: {7}; {8}; {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical, environmental and municipal services. Write an approximately 400-word, realistic Epidemic / Pandemic incident narrative for a professional exercise and decision-support briefing, using only the selected situation factors as facts. Establish timeline, location, affected people and critical services, uncertainty, operational conditions, capacity pressures and likely developments in a calm, evidence-aware tone. Distinguish confirmed information from assumptions. If response or investigation measures are listed, assess their suitability, timing, dependencies, coordination needs, side effects and important gaps; do not treat a measure as successful. If no measures are listed, describe only the incident and its effects and do not invent or recommend a solution. Structure the response with an incident overview, operational picture, uncertainties and implications. End with exactly two useful reflection or exercise questions.",
       "example": {
         "label": "Epidemic / pandemic incident example",
@@ -8506,7 +8506,7 @@
           "public-advice.keeper-biosecurity-advice"
         ]
       ],
-      "template": "Agent and origin: {1}; {2}; {3}.\nAnimals and exposure: {4}; {5}; {6}.\nImpacts and capacity: {7}; {8}; {9}.\nAnimal protection and containment: {10}; {11}; {12}.\nCoordination and information: {13}; {14}; {15}.\nInvestigation and apprehension: {16}; {17}; {18}.",
+      "template": "Agent and origin: {1}; {2}; {3}.\nAnimals and exposure: {4}; {5}; {6}.\nImpacts and capacity: {7}; {8}; {9}.",
       "prompt": "You are an experienced crisis-management trainer for veterinary, police, fire, public-health, food-safety and municipal services. Write an approximately 400-word realistic animal-disease incident for a professional exercise and decision-support briefing. Describe the timeline, locations, affected species, spread pathways, animal welfare, food-chain and public-health implications, response capacity, uncertainty and likely developments. Separate confirmed findings from hypotheses. If response or investigation measures are listed, assess suitability, timing, dependencies, coordination, side effects and important gaps; if none are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions.",
       "example": {
         "label": "Animal disease outbreak incident example",
@@ -8925,7 +8925,7 @@
           "recovery.replanting-and-habitat-recovery"
         ]
       ],
-      "template": "Pest and outbreak: {1}; {2}; {3}.\nArea and exposure: {4}; {5}; {6}.\nImpacts and capacity: {7}; {8}; {9}.\nProtection and public health: {10}; {11}; {12}.\nContainment and coordination: {13}; {14}; {15}.",
+      "template": "Pest and outbreak: {1}; {2}; {3}.\nArea and exposure: {4}; {5}; {6}.\nImpacts and capacity: {7}; {8}; {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical, environmental and municipal services. Write an approximately 400-word realistic insect-infestation incident for a professional exercise and decision-support briefing. Establish timeline, location, exposed people and critical assets, operational capacity, uncertainty and likely developments in a calm, evidence-aware tone. Separate confirmed findings from assumptions. If response measures are listed, assess their suitability, timing, dependencies, coordination, side effects and important gaps; if none are listed, describe only the incident and effects and do not invent or recommend a solution. Structure the response with an incident overview, operational picture, uncertainties and implications. End with exactly two reflection or exercise questions.",
       "example": {
         "label": "Insect infestation incident example",
@@ -9349,7 +9349,7 @@
           "command-information.measure-alert"
         ]
       ],
-      "template": "The incident involves {1} in {2} form, and the release is {3}.\nThe event is at a {4}; the main exposure route is {5}, threatening {6}.\nThe health impact is {7}, response capacity is {8}, and escalation is {9}.\nProtection and rescue measures under consideration: public protection {10}; casualty care {11}; responder protection {12}.\nContainment and coordination measures under consideration: source control {13}; environmental monitoring {14}; command and information {15}.",
+      "template": "The incident involves {1} in {2} form, and the release is {3}.\nThe event is at a {4}; the main exposure route is {5}, threatening {6}.\nThe health impact is {7}, response capacity is {8}, and escalation is {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, medical, environmental and municipal services. Write a realistic incident narrative of about 400 words for a multi-agency exercise and decision-support briefing, based only on the selected facts about an accidental industrial CBRN release. Use a clear, calm, international British English style. Structure the response with a concise incident overview, a chronological account of release and exposure, the evolving operational picture, and implications for affected people and essential services. Distinguish confirmed information from uncertainty and avoid unsupported technical claims about agent behaviour. If any response measures (including investigation measures, if present) are listed, assess their suitability, timing, dependencies and side effects, and name important gaps or conflicting priorities. If no measures are listed, describe only the incident and do not invent a solution or imply that a response has been selected. End with exactly two reflection or exercise questions for the participants, focused on decisions, information needs or coordination.",
       "example": {
         "label": "Uncontained solvent vapour release",
@@ -9765,7 +9765,7 @@
           "public-protection.measure-shelter"
         ]
       ],
-      "template": "The event involves a {1} with {2}, and the source condition is {3}.\nThe incident is at a {4}; exposure is mainly by {5}, affecting {6}.\nReadings indicate {7}, the health impact is {8}, and response capacity is {9}.\nProtection and medical measures under consideration: public protection {10}; medical response {11}; responder safety {12}.\nSource-control and coordination measures under consideration: source stabilisation {13}; environmental monitoring {14}; command and information {15}.",
+      "template": "The event involves a {1} with {2}, and the source condition is {3}.\nThe incident is at a {4}; exposure is mainly by {5}, affecting {6}.\nReadings indicate {7}, the health impact is {8}, and response capacity is {9}.",
       "prompt": "You are an experienced radiological emergency adviser and crisis-management trainer for fire, medical, nuclear-regulatory and municipal services. Write a realistic incident narrative of about 400 words for an exercise and decision-support briefing, based only on the selected facts about an accidental nuclear or radiological incident. Use international British English and a calm, precise tone. Structure it as an incident overview, a timeline, the radiological and public-health picture, and the decisions facing responders and authorities. Keep contamination, external irradiation and confirmed measurements distinct; do not invent dose values or health outcomes. If any response measures (including investigation measures, if present) are listed, assess their suitability, timing, dependencies and side effects, and name important gaps. If no measures are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions about protective decisions, uncertainty or coordination.",
       "example": {
         "label": "Reactor-site release and downwind monitoring",
@@ -10245,7 +10245,7 @@
           "air-coordination.scale-up-to-regional-command"
         ]
       ],
-      "template": "An air accident involving {1}, aircraft class {2}, has the status {3}.\nThe crash is in {4}, with {5} and {6}.\nThe impact includes {7}, hazards are {8}, and response capacity is {9}.\nProtection and rescue measures: {10}; medical response: {11}; protective action: {12}.\nFire and hazard control: {13}; coordination: {14}; public information: {15}.",
+      "template": "An air accident involving {1}, aircraft class {2}, has the status {3}.\nThe crash is in {4}, with {5} and {6}.\nThe impact includes {7}, hazards are {8}, and response capacity is {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical, transport and municipal services. Write for incident commanders and crisis-management professionals. Create a realistic, approximately 400-word air-transport accident incident scenario for an exercise or decision-support briefing, based only on the selected situation details and any measures listed. Structure it as: initial situation and timeline; operational challenges and uncertainty; likely short-term developments and dependencies; coordination and communications; and a concise assessment. If measures are listed, including investigation measures if applicable, assess their suitability, timing, dependencies and side effects, and name important gaps without assuming they have already succeeded. If no measures are listed, describe only the incident and do not invent a solution or response plan. Keep the account plausible, neutral and suitable for an international European audience. End with exactly two reflection or exercise questions for participants.",
       "example": {
         "label": "Airliner runway excursion",
@@ -10717,7 +10717,7 @@
           "rail-stabilise.stop-trains-on-adjacent-tracks"
         ]
       ],
-      "template": "A rail incident involving {1} affects a {2}; the train is {3}.\nThe scene is {4}, under {5}, with {6}.\nThe impact includes {7}, cargo status is {8}, and response capacity is {9}.\nRescue measures: {10}; medical response: {11}; protective action: {12}.\nRailway stabilisation: {13}; coordination: {14}; public information: {15}.",
+      "template": "A rail incident involving {1} affects a {2}; the train is {3}.\nThe scene is {4}, under {5}, with {6}.\nThe impact includes {7}, cargo status is {8}, and response capacity is {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical, transport and municipal services. Write for incident commanders and crisis-management professionals. Create a realistic, approximately 400-word rail transport accident incident scenario for an exercise or decision-support briefing, based only on the selected situation details and any measures listed. Structure it as: initial situation and timeline; operational challenges and uncertainty; likely short-term developments and dependencies; coordination and communications; and a concise assessment. If measures are listed, including investigation measures if applicable, assess their suitability, timing, dependencies and side effects, and name important gaps without assuming they have already succeeded. If no measures are listed, describe only the incident and do not invent a solution or response plan. Keep the account plausible, neutral and suitable for an international European audience. End with exactly two reflection or exercise questions for participants.",
       "example": {
         "label": "Passenger train derailment",
@@ -11189,7 +11189,7 @@
           "road-coordination.coordinate-road-authority-and-police"
         ]
       ],
-      "template": "A road incident involving {1} affects {2}; vehicles are {3}.\nThe location is {4}, under {5}, with {6}.\nThe impact includes {7}, secondary hazards are {8}, and response capacity is {9}.\nRescue measures: {10}; medical response: {11}; protective action: {12}.\nHazard control: {13}; coordination: {14}; public information: {15}.",
+      "template": "A road incident involving {1} affects {2}; vehicles are {3}.\nThe location is {4}, under {5}, with {6}.\nThe impact includes {7}, secondary hazards are {8}, and response capacity is {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical, transport and municipal services. Write for incident commanders and crisis-management professionals. Create a realistic, approximately 400-word road transport accident incident scenario for an exercise or decision-support briefing, based only on the selected situation details and any measures listed. Structure it as: initial situation and timeline; operational challenges and uncertainty; likely short-term developments and dependencies; coordination and communications; and a concise assessment. If measures are listed, including investigation measures if applicable, assess their suitability, timing, dependencies and side effects, and name important gaps without assuming they have already succeeded. If no measures are listed, describe only the incident and do not invent a solution or response plan. Keep the account plausible, neutral and suitable for an international European audience. End with exactly two reflection or exercise questions for participants.",
       "example": {
         "label": "Coach and car collision",
@@ -11665,7 +11665,7 @@
           "marine-protective.warn-shoreline-communities"
         ]
       ],
-      "template": "A maritime incident involving {1} affects a {2}; the vessel is {3}.\nThe water setting is {4}, with {5}, at {6}.\nPeople at risk include {7}, cargo or pollution concerns are {8}, and response capacity is {9}.\nRescue measures: {10}; medical response: {11}; protective action: {12}.\nVessel control: {13}; coordination: {14}; public information: {15}.",
+      "template": "A maritime incident involving {1} affects a {2}; the vessel is {3}.\nThe water setting is {4}, with {5}, at {6}.\nPeople at risk include {7}, cargo or pollution concerns are {8}, and response capacity is {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical, transport and municipal services. Write for incident commanders and crisis-management professionals. Create a realistic, approximately 400-word maritime transport accident incident scenario for an exercise or decision-support briefing, based only on the selected situation details and any measures listed. Structure it as: initial situation and timeline; operational challenges and uncertainty; likely short-term developments and dependencies; coordination and communications; and a concise assessment. If measures are listed, including investigation measures if applicable, assess their suitability, timing, dependencies and side effects, and name important gaps without assuming they have already succeeded. If no measures are listed, describe only the incident and do not invent a solution or response plan. Keep the account plausible, neutral and suitable for an international European audience. End with exactly two reflection or exercise questions for participants.",
       "example": {
         "label": "Ferry engine-room fire",
@@ -12069,7 +12069,7 @@
           "pipeline-setting.setting-transmission"
         ]
       ],
-      "template": "The pipeline event is a {1}; gas flow is {2}, with {3} as the main escalation hazard.\nThe incident affects a {4}; gas is dispersing by {5}, near {6}.\nThe casualty impact is {7}, infrastructure impact is {8}, and response capacity is {9}.\nPublic-protection and rescue measures under consideration: protect people {10}; fire and ignition control {11}; casualty care {12}.\nContainment and coordination measures under consideration: gas isolation {13}; hazard monitoring {14}; command and information {15}.",
+      "template": "The pipeline event is a {1}; gas flow is {2}, with {3} as the main escalation hazard.\nThe incident affects a {4}; gas is dispersing by {5}, near {6}.\nThe casualty impact is {7}, infrastructure impact is {8}, and response capacity is {9}.",
       "prompt": "You are an experienced fire-service incident commander and crisis-management trainer working with gas-network operators, police, ambulance and local authorities. Write a realistic incident narrative of about 400 words for an exercise and decision-support briefing about an accidental pipeline or gas explosion. Use international British English, a calm operational tone and no unsupported technical detail. Structure the narrative as an initial call and incident picture, a short timeline, the risks to people and infrastructure, and the operational decisions that follow. Distinguish a leak, a sustained fire and an explosion, and make clear what is known about gas isolation and dispersion. If any response measures (including investigation measures, if present) are listed, assess their suitability, timing, dependencies and side effects, and name important gaps. If no measures are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions for participants.",
       "example": {
         "label": "Gas accumulation in a residential building",
@@ -12504,7 +12504,7 @@
           "utility-safety.measure-monitor"
         ]
       ],
-      "template": "A {1} followed {2}, and the remaining structure is {3}.\nThe affected structure is a {4}; access is {5}, and occupancy is {6}.\nThe casualty picture is {7}, community impact is {8}, rescue capacity is {9}, and secondary hazards are {10}.\nRescue and protection measures under consideration: search and rescue {11}; casualty care {12}; public protection {13}.\nStabilisation and coordination measures under consideration: site stabilisation {14}; utility and access safety {15}; command and information {16}.",
+      "template": "A {1} followed {2}, and the remaining structure is {3}.\nThe affected structure is a {4}; access is {5}, and occupancy is {6}.\nThe casualty picture is {7}, community impact is {8}, rescue capacity is {9}, and secondary hazards are {10}.",
       "prompt": "You are an experienced urban search-and-rescue commander and crisis-management trainer for fire, ambulance, police, engineering and municipal services. Write a realistic incident narrative of about 400 words for an exercise and decision-support briefing about an accidental building or structure collapse. Use international British English and a measured operational tone. Structure the response as an initial situation report, a concise timeline, the rescue and secondary-hazard picture, and the coordination decisions ahead. Do not assume people are trapped unless the selected facts say so; distinguish confirmed information from reports and uncertainty. If any response measures (including investigation measures, if present) are listed, assess their suitability, timing, dependencies and side effects, and name important gaps. If no measures are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions about prioritisation, safety or coordination.",
       "example": {
         "label": "Residents trapped after a partial collapse",
@@ -12981,7 +12981,7 @@
           "grid-safety.protect-cold-chain-medicines"
         ]
       ],
-      "template": "A grid failure caused by {1} affects {2}; restoration is {3}.\nThe affected area is {4}, with {5} and {6}.\nEssential services affected include {7}, community impact is {8}, and restoration capacity is {9}.\nWelfare support: {10}; backup power: {11}; public safety: {12}.\nGrid operations: {13}; coordination: {14}; public information: {15}.",
+      "template": "A grid failure caused by {1} affects {2}; restoration is {3}.\nThe affected area is {4}, with {5} and {6}.\nEssential services affected include {7}, community impact is {8}, and restoration capacity is {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical, transport and municipal services. Write for incident commanders and crisis-management professionals. Create a realistic, approximately 400-word electricity network failure incident scenario for an exercise or decision-support briefing, based only on the selected situation details and any measures listed. Structure it as: initial situation and timeline; operational challenges and uncertainty; likely short-term developments and dependencies; coordination and communications; and a concise assessment. If measures are listed, including investigation measures if applicable, assess their suitability, timing, dependencies and side effects, and name important gaps without assuming they have already succeeded. If no measures are listed, describe only the incident and do not invent a solution or response plan. Keep the account plausible, neutral and suitable for an international European audience. End with exactly two reflection or exercise questions for participants.",
       "example": {
         "label": "Regional winter outage",
@@ -13465,7 +13465,7 @@
           "telecom-public-access.deploy-mobile-communications-unit"
         ]
       ],
-      "template": "A telecommunications failure caused by {1} affects {2}; the outage trajectory is {3}.\nThe affected area is {4}, with {5} and {6}.\nEmergency communications are {7}, dependent services include {8}, and response capacity is {9}.\nPublic access measures: {10}; service continuity: {11}; community support: {12}.\nNetwork restoration: {13}; coordination: {14}; public information: {15}.",
+      "template": "A telecommunications failure caused by {1} affects {2}; the outage trajectory is {3}.\nThe affected area is {4}, with {5} and {6}.\nEmergency communications are {7}, dependent services include {8}, and response capacity is {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical, transport and municipal services. Write for incident commanders and crisis-management professionals. Create a realistic, approximately 400-word telecommunications network failure incident scenario for an exercise or decision-support briefing, based only on the selected situation details and any measures listed. Structure it as: initial situation and timeline; operational challenges and uncertainty; likely short-term developments and dependencies; coordination and communications; and a concise assessment. If measures are listed, including investigation measures if applicable, assess their suitability, timing, dependencies and side effects, and name important gaps without assuming they have already succeeded. If no measures are listed, describe only the incident and do not invent a solution or response plan. Keep the account plausible, neutral and suitable for an international European audience. End with exactly two reflection or exercise questions for participants.",
       "example": {
         "label": "Regional mobile and fixed network outage",
@@ -14011,7 +14011,7 @@
           "public-updates.service-restoration-notice"
         ]
       ],
-      "template": "Source and cause: {1}; {2}; {3}.\nSupply area and exposure: {4}; {5}; {6}.\nHealth and operational impact: {7}; {8}; {9}.\nPublic protection and water operations: {10}; {11}; {12}.\nCoordination and information: {13}; {14}; {15}.\nInvestigation and apprehension: {16}; {17}; {18}.",
+      "template": "Source and cause: {1}; {2}; {3}.\nSupply area and exposure: {4}; {5}; {6}.\nHealth and operational impact: {7}; {8}; {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, water operators, public-health, environmental and municipal services. Write an approximately 400-word realistic drinking-water contamination incident for a professional exercise and decision-support briefing. Establish timeline, affected zones and users, operational capacity, uncertainty, health implications and likely developments in a calm, evidence-aware tone. Separate confirmed results from hypotheses. If response or investigation measures are listed, assess suitability, timing, dependencies, coordination, side effects and important gaps; if no measures are listed, describe only the incident and effects and do not invent a solution. Structure the response with an incident overview, operational picture, uncertainties and implications. End with exactly two reflection or exercise questions.",
       "example": {
         "label": "Water supply contamination incident example",
@@ -14426,7 +14426,7 @@
           "source-control.measure-stop"
         ]
       ],
-      "template": "The release involves a {1}; the spill is {2} and the source is {3}.\nThe incident is at a {4}; the material is spreading by {5}, threatening {6}.\nThe health impact is {7}, environmental impact is {8}, and response capacity is {9}.\nPublic-protection and care measures under consideration: protect people {10}; casualty care {11}; responder safety {12}.\nContainment and coordination measures under consideration: source control {13}; environmental protection {14}; command and information {15}.",
+      "template": "The release involves a {1}; the spill is {2} and the source is {3}.\nThe incident is at a {4}; the material is spreading by {5}, threatening {6}.\nThe health impact is {7}, environmental impact is {8}, and response capacity is {9}.",
       "prompt": "You are an experienced hazardous-materials officer and crisis-management trainer for fire, ambulance, environmental, police and local-authority services. Write a realistic incident narrative of about 400 words for an exercise and decision-support briefing about an accidental hazardous-material spill. Use international British English, a clear operational tone and avoid inventing chemical properties not supplied by the selected facts. Structure it as an incident overview, a short timeline, the exposure and environmental pathways, and the decisions facing responders and authorities. Keep confirmed impacts distinct from risks and uncertainties. If any response measures (including investigation measures, if present) are listed, assess their suitability, timing, dependencies and side effects, and name important gaps. If no measures are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions about containment, public protection or coordination.",
       "example": {
         "label": "Toxic vapour leak from a road tanker",
@@ -14964,7 +14964,7 @@
           "observed-effects.no-physical-damage-confirmed"
         ]
       ],
-      "template": "Incident profile: {1}; {2}; {3}.\nLocation and exposure: {4}; {5}; {6}.\nImpact and capacity: {7}; {8}; {9}.\nProtection and rescue measures under consideration: {10}; {11}; {12}.\nContainment and coordination measures under consideration: {13}; {14}; {15}.\nInvestigation and apprehension measures under consideration: {16}; {17}; {18}.",
+      "template": "Incident profile: {1}; {2}; {3}.\nLocation and exposure: {4}; {5}; {6}.\nImpact and capacity: {7}; {8}; {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical, public-health and municipal services. Write a realistic incident scenario or decision-support briefing of about 400 words for professional European emergency responders, using only the situation information below. Structure it with a concise incident overview, developing impacts and uncertainty, multi-agency response considerations, and consequences for affected people and essential services. Stay at the level of professional response, protection, investigation and lawful apprehension; do not describe operational attack methods. If response or investigation measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps without treating selections as a guaranteed plan. If no measures are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions for the team.",
       "example": {
         "label": "Terrorist attack (explosive) — exercise briefing",
@@ -15505,7 +15505,7 @@
           "exposure-evidence.exposure-confirmed"
         ]
       ],
-      "template": "Incident profile: {1}; {2}; {3}.\nLocation and exposure: {4}; {5}; {6}.\nImpact and capacity: {7}; {8}; {9}.\nProtection and rescue measures under consideration: {10}; {11}; {12}.\nContainment and coordination measures under consideration: {13}; {14}; {15}.\nInvestigation and apprehension measures under consideration: {16}; {17}; {18}.",
+      "template": "Incident profile: {1}; {2}; {3}.\nLocation and exposure: {4}; {5}; {6}.\nImpact and capacity: {7}; {8}; {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical, public-health and municipal services. Write a realistic incident scenario or decision-support briefing of about 400 words for professional European emergency responders, using only the situation information below. Structure it with a concise incident overview, developing impacts and uncertainty, multi-agency response considerations, and consequences for affected people and essential services. Stay at the level of professional response, protection, investigation and lawful apprehension; do not describe operational attack methods. If response or investigation measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps without treating selections as a guaranteed plan. If no measures are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions for the team.",
       "example": {
         "label": "Terrorist attack (CBRN) — exercise briefing",
@@ -16050,7 +16050,7 @@
           "apprehension.plan-safe-controlled-arrest"
         ]
       ],
-      "template": "Incident profile: {1}; {2}; {3}.\nLocation and exposure: {4}; {5}; {6}.\nImpact and capacity: {7}; {8}; {9}.\nProtection and rescue measures under consideration: {10}; {11}; {12}.\nContainment and coordination measures under consideration: {13}; {14}; {15}.\nInvestigation and apprehension measures under consideration: {16}; {17}; {18}.",
+      "template": "Incident profile: {1}; {2}; {3}.\nLocation and exposure: {4}; {5}; {6}.\nImpact and capacity: {7}; {8}; {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical, public-health and municipal services. Write a realistic incident scenario or decision-support briefing of about 400 words for professional European emergency responders, using only the situation information below. Structure it with a concise incident overview, developing impacts and uncertainty, multi-agency response considerations, and consequences for affected people and essential services. Stay at the level of professional response, protection, investigation and lawful apprehension; do not describe operational attack methods. If response or investigation measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps without treating selections as a guaranteed plan. If no measures are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions for the team.",
       "example": {
         "label": "Active shooter / Armed assault — exercise briefing",
@@ -16535,7 +16535,7 @@
           "sab-continuity.3"
         ]
       ],
-      "template": "The incident context is {1}, {2} and {3}.\nThe location and exposure are {4}, {5} and {6}.\nThe operational impact is {7}, {8} and {9}.\nProtection, containment and continuity measures under consideration are {10}, {11} and {12}.\nCommand, coordination and public information measures under consideration are {13}, {14} and {15}.\nInvestigation and apprehension measures under consideration are {16}, {17} and {18}.",
+      "template": "The incident context is {1}, {2} and {3}.\nThe location and exposure are {4}, {5} and {6}.\nThe operational impact is {7}, {8} and {9}.",
       "prompt": "You are an experienced crisis-management trainer for emergency services, infrastructure operators and public authorities. Write a realistic exercise or decision-support briefing of about 400 words for incident commanders and relevant partner leads. Use the selected situation values as the factual frame, distinguish confirmed information from uncertainty, and structure the account as incident onset, context and exposure, effects on people and services, response pressures, and near-term outlook. Keep the account at professional response-planning level and do not provide instructions that would enable harm. If measures (including investigation measures) are listed, assess their suitability, timing, dependencies and side effects and identify important gaps. If no measures are listed, describe only the incident and do not invent a solution. End with two reflection or exercise questions.",
       "example": {
         "label": "Critical infrastructure sabotage exercise",
@@ -17052,7 +17052,7 @@
           "apprehension.plan-safe-controlled-arrest"
         ]
       ],
-      "template": "Incident profile: {1}; {2}; {3}.\nLocation and exposure: {4}; {5}; {6}.\nImpact and capacity: {7}; {8}; {9}.\nProtection and rescue measures under consideration: {10}; {11}; {12}.\nContainment and coordination measures under consideration: {13}; {14}; {15}.\nInvestigation and apprehension measures under consideration: {16}; {17}; {18}.",
+      "template": "Incident profile: {1}; {2}; {3}.\nLocation and exposure: {4}; {5}; {6}.\nImpact and capacity: {7}; {8}; {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical, public-health and municipal services. Write a realistic incident scenario or decision-support briefing of about 400 words for professional European emergency responders, using only the situation information below. Structure it with a concise incident overview, developing impacts and uncertainty, multi-agency response considerations, and consequences for affected people and essential services. Stay at the level of professional response, protection, investigation and lawful apprehension; do not describe operational attack methods. If response or investigation measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps without treating selections as a guaranteed plan. If no measures are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions for the team.",
       "example": {
         "label": "Hostage / Kidnapping situation — exercise briefing",
@@ -17541,7 +17541,7 @@
           "public-information.use-coordinated-multi-agency-briefings"
         ]
       ],
-      "template": "The unrest follows {1}, with a pattern of {2} and observed intensity of {3}.\nThe affected setting is {4}; people are {5} and the incident is expected to last {6}.\nThe known injury impact is {7}, services are {8}, and response capacity is {9}.\nProtection measures: {10}; medical response: {11}; site management: {12}.\nPublic-order posture: {13}; traffic management: {14}; public information: {15}.\nInvestigation measures: evidence {16}; identification {17}; lawful intervention and case handling {18}.",
+      "template": "The unrest follows {1}, with a pattern of {2} and observed intensity of {3}.\nThe affected setting is {4}; people are {5} and the incident is expected to last {6}.\nThe known injury impact is {7}, services are {8}, and response capacity is {9}.",
       "prompt": "You are an experienced crisis-management trainer for emergency services, police, health authorities and municipal partners. Write an approximately 400-word professional British-English scenario for an exercise and decision-support briefing, using all selected situation values without contradicting them. Describe chronology, location and exposure, affected people, impacts, uncertainty and response capacity; distinguish verified facts from reports. If response or investigation measures are listed, assess suitability, timing, dependencies and side effects, and identify important gaps. Respect applicable law, proportionality, life safety and the distinction between affected communities and people suspected of specific offences. If no measures are listed, describe only the incident and do not invent a solution. Structure the account as a situation overview, developing impacts and decision points, then an assessment. End with exactly two reflection or exercise questions.",
       "example": {
         "label": "Disorder after a contested local decision",
@@ -18046,7 +18046,7 @@
           "vessel-safety.plan-controlled-port-reception"
         ]
       ],
-      "template": "The {1} has reported {2} in {3}.\nThose at risk are {4}, nearby traffic is {5}, and sea conditions are {6}.\nThe crew are {7}; the vessel is {8}, and response capacity is {9}.\nCrew protection: {10}; medical support: {11}; vessel-safety measures: {12}.\nMaritime coordination: {13}; traffic safety: {14}; public communications: {15}.\nInvestigation measures: evidence {16}; suspect identification {17}; lawful apprehension and case handling {18}.",
+      "template": "The {1} has reported {2} in {3}.\nThose at risk are {4}, nearby traffic is {5}, and sea conditions are {6}.\nThe crew are {7}; the vessel is {8}, and response capacity is {9}.",
       "prompt": "You are an experienced maritime crisis-management trainer for coastguard, port, police, medical and shipping partners. Write an approximately 400-word professional British-English incident narrative for an exercise and decision-support briefing, using all selected situation values without contradicting them. Describe chronology, operating area, people at risk, vessel condition, uncertainty, jurisdictional considerations and response capacity; distinguish verified information from reports. If protection, maritime-coordination or investigation measures are listed, assess suitability, timing, dependencies and side effects, and identify important gaps. Prioritise life safety, safe navigation, applicable maritime law and proportionate cross-agency coordination. If no measures are listed, describe only the incident and do not invent a solution. Structure the account as a situation overview, developing impacts and decision points, then an assessment. End with exactly two reflection or exercise questions.",
       "example": {
         "label": "Hijacking report in coastal waters",
@@ -18591,7 +18591,7 @@
           "activity-status.unusual-activity-reported-not-confirmed"
         ]
       ],
-      "template": "Incident profile: {1}; {2}; {3}.\nLocation and exposure: {4}; {5}; {6}.\nImpact and capacity: {7}; {8}; {9}.\nProtection and rescue measures under consideration: {10}; {11}; {12}.\nContainment and coordination measures under consideration: {13}; {14}; {15}.\nInvestigation and apprehension measures under consideration: {16}; {17}; {18}.",
+      "template": "Incident profile: {1}; {2}; {3}.\nLocation and exposure: {4}; {5}; {6}.\nImpact and capacity: {7}; {8}; {9}.",
       "prompt": "You are an experienced crisis-management trainer for fire, police, medical, public-health and municipal services. Write a realistic incident scenario or decision-support briefing of about 400 words for professional European emergency responders, using only the situation information below. Structure it with a concise incident overview, developing impacts and uncertainty, multi-agency response considerations, and consequences for affected people and essential services. Stay at the level of professional response, protection, investigation and lawful apprehension; do not describe operational attack methods. If response or investigation measures are listed, assess their suitability, timing, dependencies and side effects, and identify important gaps without treating selections as a guaranteed plan. If no measures are listed, describe only the incident and do not invent a solution. End with exactly two reflection or exercise questions for the team.",
       "example": {
         "label": "Drone attack — exercise briefing",
@@ -19076,7 +19076,7 @@
           "hyb-setting.3"
         ]
       ],
-      "template": "The incident context is {1}, {2} and {3}.\nThe location and exposure are {4}, {5} and {6}.\nThe operational impact is {7}, {8} and {9}.\nProtection, containment and continuity measures under consideration are {10}, {11} and {12}.\nCommand, coordination and public information measures under consideration are {13}, {14} and {15}.\nInvestigation and apprehension measures under consideration are {16}, {17} and {18}.",
+      "template": "The incident context is {1}, {2} and {3}.\nThe location and exposure are {4}, {5} and {6}.\nThe operational impact is {7}, {8} and {9}.",
       "prompt": "You are an experienced crisis-management trainer for emergency services, infrastructure operators and public authorities. Write a realistic exercise or decision-support briefing of about 400 words for incident commanders and relevant partner leads. Use the selected situation values as the factual frame, distinguish confirmed information from uncertainty, and structure the account as incident onset, context and exposure, effects on people and services, response pressures, and near-term outlook. Keep the account at professional response-planning level and do not provide instructions that would enable harm. If measures (including investigation measures) are listed, assess their suitability, timing, dependencies and side effects and identify important gaps. If no measures are listed, describe only the incident and do not invent a solution. End with two reflection or exercise questions.",
       "example": {
         "label": "Hybrid threat exercise",
@@ -19561,7 +19561,7 @@
           "dis-setting.3"
         ]
       ],
-      "template": "The incident context is {1}, {2} and {3}.\nThe location and exposure are {4}, {5} and {6}.\nThe operational impact is {7}, {8} and {9}.\nProtection, containment and continuity measures under consideration are {10}, {11} and {12}.\nCommand, coordination and public information measures under consideration are {13}, {14} and {15}.\nInvestigation and apprehension measures under consideration are {16}, {17} and {18}.",
+      "template": "The incident context is {1}, {2} and {3}.\nThe location and exposure are {4}, {5} and {6}.\nThe operational impact is {7}, {8} and {9}.",
       "prompt": "You are an experienced crisis-management trainer for emergency services, infrastructure operators and public authorities. Write a realistic exercise or decision-support briefing of about 400 words for incident commanders and relevant partner leads. Use the selected situation values as the factual frame, distinguish confirmed information from uncertainty, and structure the account as incident onset, context and exposure, effects on people and services, response pressures, and near-term outlook. Keep the account at professional response-planning level and do not provide instructions that would enable harm. If measures (including investigation measures) are listed, assess their suitability, timing, dependencies and side effects and identify important gaps. If no measures are listed, describe only the incident and do not invent a solution. End with two reflection or exercise questions.",
       "example": {
         "label": "Disinformation campaign exercise",
@@ -20046,7 +20046,7 @@
           "sup-command.1"
         ]
       ],
-      "template": "The incident context is {1}, {2} and {3}.\nThe location and exposure are {4}, {5} and {6}.\nThe operational impact is {7}, {8} and {9}.\nProtection, containment and continuity measures under consideration are {10}, {11} and {12}.\nCommand, coordination and public information measures under consideration are {13}, {14} and {15}.\nInvestigation and apprehension measures under consideration are {16}, {17} and {18}.",
+      "template": "The incident context is {1}, {2} and {3}.\nThe location and exposure are {4}, {5} and {6}.\nThe operational impact is {7}, {8} and {9}.",
       "prompt": "You are an experienced crisis-management trainer for emergency services, infrastructure operators and public authorities. Write a realistic exercise or decision-support briefing of about 400 words for incident commanders and relevant partner leads. Use the selected situation values as the factual frame, distinguish confirmed information from uncertainty, and structure the account as incident onset, context and exposure, effects on people and services, response pressures, and near-term outlook. Keep the account at professional response-planning level and do not provide instructions that would enable harm. If measures (including investigation measures) are listed, assess their suitability, timing, dependencies and side effects and identify important gaps. If no measures are listed, describe only the incident and do not invent a solution. End with two reflection or exercise questions.",
       "example": {
         "label": "Intentional supply-chain disruption exercise",
@@ -20531,7 +20531,7 @@
           "fire-evidence.protect-scene-for-examination"
         ]
       ],
-      "template": "A {1} is reported at a {2}, with a pattern of {3}.\nOccupancy is {4}; nearby exposure is {5}, and spread conditions are {6}.\nThe life-safety impact is {7}; services are {8}, and fire response capacity is {9}.\nRescue and evacuation: {10}; suppression: {11}; utilities and recovery: {12}.\nFire-service coordination: {13}; access management: {14}; public warning: {15}.\nInvestigation measures: scene evidence {16}; suspect identification {17}; lawful apprehension and prosecution {18}.",
+      "template": "A {1} is reported at a {2}, with a pattern of {3}.\nOccupancy is {4}; nearby exposure is {5}, and spread conditions are {6}.\nThe life-safety impact is {7}; services are {8}, and fire response capacity is {9}.",
       "prompt": "You are an experienced fire-service and crisis-management trainer for fire, police, medical, utility and municipal partners. Write an approximately 400-word professional British-English incident narrative for an exercise and decision-support briefing, using all selected situation values without contradicting them. Describe chronology, site and exposure, people affected, fire conditions, service impacts, uncertainty and response capacity; distinguish verified facts from reports and avoid prejudging attribution. If containment or investigation measures are listed, assess suitability, timing, dependencies and side effects, and identify important gaps. Prioritise life safety, proportionate fire control, continuity of essential services, scene safety and evidence-led lawful investigation. If no measures are listed, describe only the incident and do not invent a solution. Structure the account as a situation overview, developing impacts and decision points, then an assessment. End with exactly two reflection or exercise questions.",
       "example": {
         "label": "Deliberate fire at a public building",

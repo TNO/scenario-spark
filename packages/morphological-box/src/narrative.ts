@@ -89,13 +89,14 @@ export const createTemplatePrompt = (box: MorphologicalBox & NarrativeSettings, 
     'Please generate a template string for scenario narratives.',
     'Use {n} placeholders (where n is the number shown next to each key driver below) to reference key driver values.',
     'Write one paragraph per category. The text should flow naturally and professionally.',
+    'Decision categories (measures) are listed separately with the scenario, so they are not part of this box structure.',
     'Return only the template string, no explanation.',
     `The template should be written in ${languageName(language)}.`,
     '',
     'Morphological box structure:',
     '',
   ];
-  for (const cat of box.categories) {
+  for (const cat of box.categories.filter((c) => !c.decisionSupport)) {
     lines.push(`## ${cat.label}`);
     if (cat.desc) lines.push(cat.desc);
     lines.push('');
@@ -139,13 +140,27 @@ export const renderTemplate = (
   template: string,
   selection: Selection,
   joinValues = (labels: string[]) => labels.join(', '),
-) =>
-  template.replace(PLACEHOLDER, (match, token: string) => {
-    const comp = /^\d+$/.test(token) ? box.components[Number(token) - 1] : box.components.find((c) => c.id === token);
-    if (!comp) return match;
-    const ids = selection[comp.id] || [];
-    return joinValues((comp.values || []).filter((v) => ids.includes(v.id)).map((v) => v.label));
-  });
+) => {
+  const decisionIds = getDecisionComponentIds(box);
+  const resolve = (token: string) =>
+    /^\d+$/.test(token) ? box.components[Number(token) - 1] : box.components.find((c) => c.id === token);
+  // Lines that only reference decisions, none of which is chosen, are dropped: decisions are listed separately.
+  const visible = (line: string) => {
+    const comps = [...line.matchAll(PLACEHOLDER)].map(([, token]) => resolve(token));
+    if (comps.length === 0 || !comps.every((c) => c && decisionIds.has(c.id))) return true;
+    return comps.some((c) => (selection[c!.id] || []).length > 0);
+  };
+  return template
+    .split('\n')
+    .filter(visible)
+    .join('\n')
+    .replace(PLACEHOLDER, (match, token: string) => {
+      const comp = resolve(token);
+      if (!comp) return match;
+      const ids = selection[comp.id] || [];
+      return joinValues((comp.values || []).filter((v) => ids.includes(v.id)).map((v) => v.label));
+    });
+};
 
 export type LlmPromptInput = { type?: LlmPromptType; prompt: string; categories?: ID[] };
 

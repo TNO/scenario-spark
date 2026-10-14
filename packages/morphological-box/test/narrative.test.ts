@@ -102,3 +102,24 @@ test('CLI sets language, template and LLM prompt', () => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+const withDecisions = () => {
+  const box = build();
+  return { ...box, categories: box.categories.map((c) => (c.label === 'Impact' ? { ...c, decisionSupport: true } : c)) };
+};
+
+test('template prompt leaves out decision categories', () => {
+  const prompt = createTemplatePrompt(withDecisions());
+  assert.match(prompt, /^1\. Regen$/m);
+  assert.doesNotMatch(prompt, /Schade/);
+});
+
+test('renderTemplate drops decision-only lines until a decision is chosen', () => {
+  const box = withDecisions();
+  const template = 'Er valt {1} regen.\nMaatregel: {2}.';
+  assert.equal(renderTemplate(box, template, { regen: ['regen-zwaar'] }), 'Er valt Zwaar regen.');
+  assert.equal(
+    renderTemplate(box, template, { regen: ['regen-zwaar'], schade: ['schade-geen'] }),
+    'Er valt Zwaar regen.\nMaatregel: Geen.',
+  );
+});

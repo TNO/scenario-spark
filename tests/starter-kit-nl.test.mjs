@@ -49,12 +49,20 @@ test('provides importable, distinct Dutch starter boxes', async () => {
 test('every starter box has a complete prose template and an effects-focused LLM prompt', async () => {
   for (const box of scenarios(await createStarterKitNl([]))) {
     const placeholders = [...box.template.matchAll(/\{(\d+)\}/g)].map(([, number]) => Number(number));
+    // Decision factors are listed separately, so the template only covers the situation.
+    const decisionIds = new Set(
+      box.categories.filter((c) => c.decisionSupport).flatMap((c) => c.componentIds)
+    );
     assert.deepEqual(
       placeholders.slice().sort((a, b) => a - b),
-      box.components.map((_, index) => index + 1),
+      box.components.flatMap((c, index) => (decisionIds.has(c.id) ? [] : [index + 1])),
       box.label
     );
-    assert.equal(box.template.trim().split(/\n+/).length, box.categories.length, box.label);
+    assert.equal(
+      box.template.trim().split(/\n+/).length,
+      box.categories.filter((c) => !c.decisionSupport).length,
+      box.label
+    );
     assert.ok(box.template.split(/\n+/).every((paragraph) => paragraph.trim().endsWith('.')), box.label);
     const prompt = box.llm.prompts[0].prompt;
     assert.match(prompt, /korte termijn/i, box.label);

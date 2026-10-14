@@ -163,10 +163,13 @@ const checkSpecs = (specs, effectsPrompt = '') => {
     }
     const { errors, warnings } = validateBox(box);
     for (const issue of [...errors, ...warnings]) report(spec.id, `${issue.level} ${issue.code}: ${issue.message}`);
+    // Decision factors are listed in their own section, so the template only describes the situation.
+    const factorIsDecision = spec.categories.flatMap((c) => c.factors.map(() => !!c.decision));
+    const situationNumbers = factorIsDecision.flatMap((dec, i) => (dec ? [] : [i + 1]));
     const numbers = [...spec.template.matchAll(/\{(\d+)\}/g)].map(([, n]) => Number(n)).sort((a, b) => a - b);
-    if (numbers.join() !== box.components.map((_, i) => i + 1).join()) report(spec.id, 'template must use every {n} exactly once');
+    if (numbers.join() !== situationNumbers.join()) report(spec.id, 'template must use every non-decision {n} exactly once and no decision factors');
     const paragraphs = spec.template.trim().split('\n');
-    if (paragraphs.length !== spec.categories.length) report(spec.id, 'template needs one paragraph (line) per category');
+    if (paragraphs.length !== spec.categories.filter((c) => !c.decision).length) report(spec.id, 'template needs one paragraph (line) per non-decision category');
     if (!paragraphs.every((p) => p.trim().endsWith('.'))) report(spec.id, 'every template paragraph must end with "."');
     for (const c of box.components) {
       for (const v of c.values) {

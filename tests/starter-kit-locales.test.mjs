@@ -45,13 +45,16 @@ test('each translated starter kit preserves every factor, constraint and templat
         `${language}: ${box.id} example markup`
       );
       const numbers = [...box.template.matchAll(/\{(\d+)\}/g)].map(([, value]) => Number(value));
-      const count = box.categories.flatMap(({ factors }) => factors).length;
-      assert.deepEqual(
-        numbers.slice().sort((a, b) => a - b),
-        Array.from({ length: count }, (_, i) => i + 1),
+      // Decision factors are listed separately, so the template only covers the situation.
+      const situationNumbers = box.categories
+        .flatMap(({ decision, factors }) => factors.map(() => !!decision))
+        .flatMap((isDecision, i) => (isDecision ? [] : [i + 1]));
+      assert.deepEqual(numbers.slice().sort((a, b) => a - b), situationNumbers, `${language}: ${box.id}`);
+      assert.equal(
+        box.template.trim().split('\n').length,
+        box.categories.filter(({ decision }) => !decision).length,
         `${language}: ${box.id}`
       );
-      assert.equal(box.template.trim().split('\n').length, box.categories.length, `${language}: ${box.id}`);
       assert.ok(box.prompt.length > 100 && box.example.desc.includes('<p>'), `${language}: ${box.id}`);
       assert.ok(box.categories.every(({ desc, factors }) =>
         desc && factors.every(({ label, desc, values }) =>

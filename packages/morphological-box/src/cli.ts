@@ -500,7 +500,8 @@ export const run = (argv: string[]): number => {
       const used = parseTemplate(box, box.template!);
       console.log(`Template set with ${used.length} placeholder(s):`);
       used.forEach((p) => console.log(`  {${p.token}} -> ${p.component!.label} [${p.component!.id}]`));
-      const unused = getBoxComponents(box).filter((c) => !used.some((p) => p.component?.id === c.id));
+      const decisionIds = getDecisionComponentIds(box);
+      const unused = getBoxComponents(box).filter((c) => !decisionIds.has(c.id) && !used.some((p) => p.component?.id === c.id));
       if (unused.length) console.log(`Not in template: ${unused.map((c) => `${c.label} [${box.components.indexOf(c) + 1}]`).join(', ')}`);
       return 0;
     }
