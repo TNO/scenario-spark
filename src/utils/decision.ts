@@ -240,6 +240,68 @@ export const buildStoryInput = ({
     .join('\n\n');
 };
 
+export type DecisionInputKey =
+  | 'LLM_DECISION_SITUATION'
+  | 'LLM_SCENARIO_TEXT'
+  | 'LLM_COA_DECISIONS'
+  | 'LLM_COA_NO_DECISIONS'
+  | 'LLM_OTHER_COAS';
+
+export type DecisionInputOptions = {
+  box: Pick<Scenario, 'categories' | 'components'>;
+  narrative: CoaNarrative;
+  /** COA to assess; default the active COA */
+  coaId?: ID;
+  /** Ids of the categories included by the prompt; they filter the situation only. Default: all. */
+  includedCategories?: ID[];
+  /** Current narrative text */
+  narrativeText?: string;
+  /** Translation function for the section headings */
+  tr: (key: DecisionInputKey, params?: Record<string, string>) => string;
+};
+
+/**
+ * LLM input to reflect on one course of action: the situation (non-decision values and
+ * the narrative text), the decisions of the COA factor by factor with all selected
+ * values, and the labels of the other COAs for contrast.
+ */
+export const buildDecisionInput = ({
+  box,
+  narrative,
+  coaId,
+  includedCategories,
+  narrativeText,
+  tr,
+}: DecisionInputOptions) => {
+  const split = splitDecisionComponents(box);
+  const included = includedCategories
+    ? new Set(
+        (box.categories || [])
+          .filter((c) => includedCategories.includes(c.id))
+          .flatMap((c) => c.componentIds || []),
+      )
+    : undefined;
+  const situation = split.situation.filter((c) => !included || included.has(c.id));
+  const coa = activeCoa(narrative, coaId);
+  const label = coa?.label ?? nextCoaLabel([]);
+  const situationLines = factorLines(situation, narrative.components || {});
+  const decisionLines = factorLines(split.decisions, effectiveSelection(narrative, coa?.id));
+  const others = (narrative.coas || [])
+    .filter((c) => c !== coa)
+    .map((c) => `- ${c.label}${c.desc ? `: ${c.desc}` : ''}`)
+    .join('\n');
+  return [
+    situationLines && `${tr('LLM_DECISION_SITUATION')}\n${situationLines}`,
+    narrativeText?.trim() && tr('LLM_SCENARIO_TEXT', { narrative: narrativeText.trim() }),
+    decisionLines
+      ? `${tr('LLM_COA_DECISIONS', { coa: label })}\n${decisionLines}`
+      : tr('LLM_COA_NO_DECISIONS', { coa: label }),
+    others && `${tr('LLM_OTHER_COAS')}\n${others}`,
+  ]
+    .filter(Boolean)
+    .join('\n\n');
+};
+
 /** Version of the scenario data format: 2 = decisions are stored in courses of action. */
 export const SCENARIO_DATA_VERSION = 2;
 

@@ -13,7 +13,7 @@ prompt (0005) and courses of action (0006) can run in parallel after 0003.
 - [x] 0004 Starter kit: decision categories and opt-in dialog *(needs 0002, 0003)*
 - [x] 0005 Narrative LLM prompt: situation versus suggested actions *(needs 0003)*
 - [x] 0006 Courses of action for one situation *(needs 0003)*
-- [ ] 0007 Decision-reflection LLM prompt *(needs 0005, 0006)*
+- [x] 0007 Decision-reflection LLM prompt *(needs 0005, 0006)*
 - [ ] 0008 Library, CLI and skill: decision prompt and courses of action *(needs 0002, 0006)*
 
 ## Later

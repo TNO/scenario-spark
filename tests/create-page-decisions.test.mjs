@@ -17,7 +17,7 @@ const findAll = (node, predicate) => {
   return [...(predicate(node) ? [node] : []), ...findAll(node.children, predicate)];
 };
 
-const load = () => {
+const load = (ui = {}) => {
   const module = { exports: {} };
   const mocks = {
     'mithril-materialized': { ...materialized, ThemeManager: { getTheme: () => 'light' }, toast: () => {} },
@@ -35,7 +35,7 @@ const load = () => {
       generateUniqueTitle: () => '',
       deepCopy: (value) => structuredClone(value),
     },
-    './ui': { ensureDefaultLLMConfig: () => false },
+    './ui': { ensureDefaultLLMConfig: () => false, ...ui },
     '../models/persona-images': { PersonaImages: [] },
     'mithril-markdown-wysiwyg': { MarkdownEditor: () => {} },
     '../utils/index': { quillToMarkdown: (value) => value },
@@ -157,4 +157,49 @@ test('values of the active course of action that conflict with the situation are
   assert.ok(list, 'conflict list is shown');
   assert.equal(list.children.length, 1);
   assert.deepEqual(curNarrative.coas[0].components.measure, ['water']);
+});
+
+test('"Reflect on decisions" stores the LLM reflection on the active course of action', async () => {
+  const calls = [];
+  const { CreateScenarioPage } = load({
+    generateStory: async (...args) => {
+      calls.push(args);
+      return 'Evacuation comes too late.';
+    },
+  });
+  const box = scenario(true);
+  box.llm = { id: 'ollama', url: 'x', prompts: [{ type: 'decision', prompt: 'Assess', categories: ['sit', 'dec'] }] };
+  const curNarrative = {
+    id: 'n',
+    components: { threat: ['fire'] },
+    coas: [
+      { id: 'a', label: 'A', components: { measure: ['evacuate'] } },
+      { id: 'b', label: 'B', components: { measure: ['water'] } },
+    ],
+    activeCoaId: 'a',
+  };
+  const attrs = { state: { model: { personas: [], scenario: box }, curNarrative }, update: () => {} };
+  const tree = CreateScenarioPage().view({ attrs });
+  const [button] = findAll(tree, (node) => node.attrs?.label === 'REFLECT_ON_DECISIONS');
+  assert.ok(button);
+  await button.attrs.onclick();
+  assert.equal(calls[0][3], 'decision');
+  assert.deepEqual(calls[0][5], { coaId: 'a', narrativeText: '' });
+  assert.equal(curNarrative.coas[0].reflection, 'Evacuation comes too late.');
+  assert.equal(curNarrative.coas[1].reflection, undefined);
+  const [field] = findAll(CreateScenarioPage().view({ attrs }), (node) => node.attrs?.label === 'COA_REFLECTION');
+  assert.equal(field.attrs.value, 'Evacuation comes too late.');
+  field.attrs.oninput('Edited');
+  assert.equal(curNarrative.coas[0].reflection, 'Edited');
+});
+
+test('"Reflect on decisions" is hidden without a decision prompt', () => {
+  const { CreateScenarioPage } = load();
+  const box = scenario(true);
+  box.llm = { id: 'clipboard', prompts: [{ type: 'narrative', prompt: 'Write', categories: ['sit'] }] };
+  const curNarrative = { id: 'n', components: { threat: ['fire'] }, coas: [{ id: 'a', label: 'A', components: {} }] };
+  const attrs = { state: { model: { personas: [], scenario: box }, curNarrative }, update: () => {} };
+  const tree = CreateScenarioPage().view({ attrs });
+  assert.equal(findAll(tree, (node) => node.attrs?.label === 'REFLECT_ON_DECISIONS').length, 0);
+  assert.equal(findAll(tree, (node) => node.attrs?.label === 'COA_REFLECTION').length, 1);
 });

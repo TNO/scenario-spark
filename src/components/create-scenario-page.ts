@@ -443,6 +443,8 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           : '';
       const personaPromptReady =
         !!llm?.prompts?.some((p) => p.type === 'persona' && p.prompt?.trim());
+      const decisionPromptReady =
+        !!llm?.prompts?.some((p) => p.type === 'decision' && p.prompt?.trim());
 
       const {
         includeMapSupport = false,
@@ -830,6 +832,50 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   },
                 }),
               ),
+            coa &&
+              m('.col.s12.coa-reflection', [
+                m(TextArea, {
+                  label: t('COA_REFLECTION'),
+                  value: coa.reflection || '',
+                  oninput: (reflection: string) => {
+                    coa.reflection = reflection;
+                    updateNarrative(attrs, curNarrative);
+                  },
+                }),
+                decisionPromptReady &&
+                  m(FlatButton, {
+                    label: t('REFLECT_ON_DECISIONS'),
+                    iconName: llm?.id === 'clipboard' ? 'content_copy' : 'psychology',
+                    disabled: !askLlm,
+                    onclick: async () => {
+                      askLlm = false;
+                      m.redraw();
+                      try {
+                        const reflection = await generateStory(
+                          llm!,
+                          curNarrative,
+                          model.scenario,
+                          'decision',
+                          undefined,
+                          { coaId: coa.id, narrativeText: markdown },
+                        );
+                        if (llm?.id === 'clipboard') {
+                          await navigator.clipboard.writeText(reflection);
+                          toast({ html: t('DECISION_PROMPT_COPIED') });
+                        } else {
+                          coa.reflection = reflection;
+                          await updateNarrative(attrs, curNarrative);
+                        }
+                      } catch (error) {
+                        console.error(error);
+                        toast({ html: t('DECISION_REFLECTION_ERROR') });
+                      } finally {
+                        askLlm = true;
+                        m.redraw();
+                      }
+                    },
+                  }),
+              ]),
           ],
         m(
           '.col.s12',

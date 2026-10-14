@@ -127,6 +127,8 @@ export type CourseOfAction = {
   /** Decision componentID => selected valueIds */
   components: { [key: ID]: ID[] };
   notes?: string;
+  /** Reflection on the decisions (LLM decision prompt or typed), editable */
+  reflection?: string;
   /** Residual risk after the course of action */
   risk?: ID;
   probability?: ID;

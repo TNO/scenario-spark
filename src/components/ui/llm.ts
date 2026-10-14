@@ -9,9 +9,9 @@ import {
   Scenario,
 } from '../../models/data-model';
 import { LLMClient } from '../../utils/llm-client';
-import { buildStoryInput } from '../../utils/decision';
+import { buildDecisionInput, buildStoryInput } from '../../utils/decision';
 
-export type PromptType = 'narrative' | 'effect' | 'persona' | 'communications';
+export type PromptType = 'narrative' | 'effect' | 'persona' | 'communications' | 'decision';
 
 export type Prompt = {
   type: PromptType;
@@ -39,6 +39,7 @@ const LEGACY_MULTILINGUAL_DEFAULT_NARRATIVE_PROMPT = [
 
 const getDefaultNarrativePrompt = () => t('LLM_DEFAULT_NARRATIVE_PROMPT');
 const getDefaultPersonaPrompt = () => t('LLM_DEFAULT_PERSONA_PROMPT');
+const getDefaultDecisionPrompt = () => t('LLM_DEFAULT_DECISION_PROMPT');
 
 export const ensureDefaultLLMConfig = (
   scenario: Partial<Scenario>,
@@ -66,6 +67,7 @@ export const ensureDefaultLLMConfig = (
       temperature: 0.7,
       prompts: [defaultNarrativePrompt, defaultPersonaPrompt],
     };
+    ensureDecisionPrompt(scenario, allCategoryIds);
     return true;
   }
 
@@ -120,13 +122,35 @@ export const ensureDefaultLLMConfig = (
     }
   }
 
+  return ensureDecisionPrompt(scenario, allCategoryIds) || changed;
+};
+
+/** Add the decision-reflection prompt when decision support is on; user text is kept. */
+const ensureDecisionPrompt = (scenario: Partial<Scenario>, allCategoryIds: ID[]) => {
+  const prompts = scenario.llm?.prompts;
+  if (!scenario.includeDecisionSupport || !prompts) return false;
+  const decisionPrompt = prompts.find((p) => p.type === 'decision');
+  if (!decisionPrompt) {
+    prompts.push({ type: 'decision', categories: allCategoryIds, prompt: getDefaultDecisionPrompt() });
+    return true;
+  }
+  let changed = false;
+  if (!Array.isArray(decisionPrompt.categories) || decisionPrompt.categories.length === 0) {
+    decisionPrompt.categories = allCategoryIds;
+    changed = true;
+  }
+  if (!decisionPrompt.prompt?.trim()) {
+    decisionPrompt.prompt = getDefaultDecisionPrompt();
+    changed = true;
+  }
   return changed;
 };
 
 export const LLMSelector: MeiosisComponent = () => {
-  let selectedType: 'narrative' | 'persona' = 'narrative';
+  type EditablePromptType = 'narrative' | 'persona' | 'decision';
+  let selectedType: EditablePromptType = 'narrative';
   let configuredScenario: Scenario | undefined;
-  const PromptTypeSelect = Select<'narrative' | 'persona'>();
+  const PromptTypeSelect = Select<EditablePromptType>();
   const CategorySelect = Select<ID>();
   const form = () =>
     [
@@ -222,9 +246,10 @@ export const LLMSelector: MeiosisComponent = () => {
         state: { model },
       } = attrs;
       const { categories = [] } = model.scenario || {};
-      const selectedPrompt = model.scenario.llm?.prompts.find(
-        (p) => p.type === selectedType,
-      );
+      const prompts = model.scenario.llm?.prompts || [];
+      if (!prompts.some((p) => p.type === selectedType)) selectedType = 'narrative';
+      const selectedPrompt = prompts.find((p) => p.type === selectedType);
+      const hasDecisionPrompt = prompts.some((p) => p.type === 'decision');
       return m('div', [
         m(LayoutForm<Partial<Scenario>>, {
           i18n: i18n.i18n,
@@ -243,9 +268,12 @@ export const LLMSelector: MeiosisComponent = () => {
               options: [
                 { id: 'narrative', label: t('PROMPT_TYPE', 'NARRATIVE') },
                 { id: 'persona', label: t('PROMPT_TYPE', 'PERSONA') },
+                ...(hasDecisionPrompt
+                  ? [{ id: 'decision' as const, label: t('PROMPT_TYPE', 'DECISION') }]
+                  : []),
               ],
               onchange: (ids) => {
-                if (ids[0] === 'narrative' || ids[0] === 'persona') {
+                if (ids[0] === 'narrative' || ids[0] === 'persona' || ids[0] === 'decision') {
                   selectedType = ids[0];
                 }
               },
@@ -293,6 +321,11 @@ export const generateStory = async (
     selected: Persona[];
     narrativeText: string;
   },
+  decisionContext?: {
+    /** COA to assess; default the active COA */
+    coaId?: ID;
+    narrativeText?: string;
+  },
 ) => {
   const { id, apiKey, prompts = [] } = config;
   let storyPrompt = prompts.filter((p) => p.type === storyType).shift();
@@ -302,8 +335,8 @@ export const generateStory = async (
     !storyPrompt.categories ||
     storyPrompt.categories.length === 0
   ) {
-    if (storyType === 'persona') {
-      throw new Error('Configure a persona prompt with at least one category.');
+    if (storyType === 'persona' || storyType === 'decision') {
+      throw new Error(`Configure a ${storyType} prompt with at least one category.`);
     }
     return '';
   }
@@ -322,6 +355,28 @@ export const generateStory = async (
       break;
     default:
       throw new Error(`Unknown service: ${id}`);
+  }
+
+  if (storyType === 'decision') {
+    const userPrompt = [
+      prompt,
+      buildDecisionInput({
+        box,
+        narrative,
+        coaId: decisionContext?.coaId,
+        includedCategories,
+        narrativeText: decisionContext?.narrativeText,
+        tr: (key, params) => (params ? t(key, params) : t(key)),
+      }),
+    ].join('\n\n');
+    if (id === 'clipboard') return userPrompt;
+    const result = await LLMClient.chatRaw(
+      { provider: id as 'ollama' | 'openai', url, model, apiKey, temperature: config.temperature },
+      userPrompt,
+    );
+    if (typeof result !== 'string') throw new Error(result.message);
+    if (!result.trim()) throw new Error('Empty response from LLM');
+    return result.trim();
   }
 
   // Situation and suggested actions (decision categories) as separate sections
