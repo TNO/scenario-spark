@@ -231,6 +231,10 @@ export const messages: typeof messagesEN = {
     "Tous les composants sont verrouillés — aucun nouveau scénario ne peut être généré. Effacez d'abord le scénario actuel.",
   SPEC_CATS:
     "Spécifiez d'abord quelques catégories, où chaque catégorie contient des facteurs clés.",
+  TRANSPOSE_BOX: {
+    COLUMNS: 'Afficher les facteurs clés en colonnes',
+    ROWS: 'Afficher les facteurs clés en lignes',
+  },
   EXPORT2WORD: {
     TITLE: 'Exporter vers Word',
     DESC: 'Quel scénario voulez-vous exporter ?',

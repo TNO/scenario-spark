@@ -21,6 +21,7 @@ import {
   t,
   moveScenarioComponent,
   setFontSize,
+  setBoxTransposed,
   setMapHeight,
   State,
 } from "../services";
@@ -110,9 +111,10 @@ const BoxItem: MeiosisComponent<{
             const dropTarget = ev.currentTarget as HTMLDataListElement;
             if (!itemId || !dropTarget || itemId === item.id) return;
             if (!dropTarget) return;
-            const dropY = ev.clientY - dropTarget.getBoundingClientRect().top;
-            const dropHeight = dropTarget.clientHeight;
-            const moveBefore = dropY <= dropHeight / 2;
+            const rect = dropTarget.getBoundingClientRect();
+            const moveBefore = attrs.state.boxTransposed
+              ? ev.clientX - rect.left <= rect.width / 2
+              : ev.clientY - rect.top <= rect.height / 2;
             moveScenarioComponent(attrs, id, itemId, item.id, moveBefore);
           },
         },
@@ -506,7 +508,7 @@ const BoxView: MeiosisComponent<{
         .map((componentId) => componentLookup.get(componentId))
         .filter((component): component is ScenarioComponent => !!component);
 
-      return m("ul.kanban", [
+      return m("ul.kanban", { className: attrs.state.boxTransposed ? "transposed" : undefined }, [
         ...scs.map((sc) =>
           m(BoxRow, {
             key: sc.id,
@@ -759,6 +761,7 @@ export const CreateBoxPage: MeiosisComponent = () => {
       const {
         activeTooltip,
         fontSize,
+        boxTransposed,
         model: { scenario },
       } = attrs.state;
 
@@ -815,6 +818,16 @@ export const CreateBoxPage: MeiosisComponent = () => {
               copyMarkdownTable(scenario, categories);
               toast({ html: t("COPY_BOX", "TOAST") });
             },
+          }),
+          m(IconButton, {
+            style: {
+              marginTop: "20px",
+              marginBottom: "-40px",
+            },
+            className: "right",
+            iconName: boxTransposed ? "view_column" : "table_rows",
+            title: t("TRANSPOSE_BOX", boxTransposed ? "COLUMNS" : "ROWS"),
+            onclick: () => setBoxTransposed(attrs, !boxTransposed),
           }),
           m(IconButton, {
             style: {

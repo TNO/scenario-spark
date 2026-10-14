@@ -962,6 +962,36 @@ input[type='checkbox']:disabled ~ span {
 ul.kanban > li {
   margin-bottom: 10px;
 }
+/* Transposed box: key drivers as rows, values horizontally */
+.kanban.transposed {
+  flex-flow: column nowrap;
+}
+.kanban.transposed > li {
+  margin-bottom: 0;
+}
+.kanban.transposed .kanban-row {
+  flex-flow: row nowrap;
+  align-items: stretch;
+  gap: 0.7rem;
+  width: auto;
+  height: auto;
+  margin-top: 0;
+  padding-bottom: 0.7rem;
+  overflow-x: auto;
+}
+.kanban.transposed .kanban-header {
+  flex: 0 0 210px;
+  width: 210px;
+  height: auto;
+  min-height: 60px;
+}
+.kanban.transposed .kanban-item {
+  flex: 0 0 200px;
+  margin: 0;
+}
+.kanban.transposed .kanban-row-add-driver .kanban-header-add-driver {
+  flex: 0 0 40px;
+}
 .inconsistencies-settings {
   height: 90vh;
 }

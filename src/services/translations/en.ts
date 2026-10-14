@@ -227,6 +227,10 @@ export const messages = {
     'All components are locked — no new scenario can be generated. Clear the current scenario first.',
   SPEC_CATS:
     'First specify some categories, where each category contains some key drivers.',
+  TRANSPOSE_BOX: {
+    COLUMNS: 'Show key drivers as columns',
+    ROWS: 'Show key drivers as rows',
+  },
   EXPORT2WORD: {
     TITLE: 'Export to Word',
     DESC: 'Which scenario do you want to export?',

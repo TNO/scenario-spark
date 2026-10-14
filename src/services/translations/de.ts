@@ -231,6 +231,10 @@ export const messages: typeof messagesEN = {
     'Alle Komponenten sind gesperrt — kein neues Szenario kann generiert werden. Löschen Sie zunächst das aktuelle Szenario.',
   SPEC_CATS:
     'Spezifizieren Sie zunächst einige Kategorien, wobei jede Kategorie einige Schlüsseltreiber enthält.',
+  TRANSPOSE_BOX: {
+    COLUMNS: 'Schlüsseltreiber als Spalten anzeigen',
+    ROWS: 'Schlüsseltreiber als Zeilen anzeigen',
+  },
   EXPORT2WORD: {
     TITLE: 'Nach Word exportieren',
     DESC: 'Welches Szenario möchten Sie exportieren?',

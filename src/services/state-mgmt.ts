@@ -27,6 +27,7 @@ import { normalizeInconsistencies } from 'morphological-box';
 const MODEL_KEY = 'SG_MODEL';
 const FONT_KEY = 'SPARK_FONT_SIZE';
 const MAP_HEIGHT_KEY = 'SG_MAP_HEIGHT';
+const BOX_TRANSPOSED_KEY = 'SG_BOX_TRANSPOSED';
 const DEFAULT_FONT_SIZE = 16;
 const DEFAULT_MAP_HEIGHT = 400;
 
@@ -46,6 +47,8 @@ export type State = {
   /** Components that have been given a fixed value in the narrative */
   lockedComps?: Record<ID, boolean>;
   mapHeight: number;
+  /** Show the morphological box with key drivers as rows and values horizontally */
+  boxTransposed: boolean;
 };
 
 export type MeiosisComponent<T = {}> = FactoryComponent<MeiosisCell<State> & T>;
@@ -79,6 +82,14 @@ export const setFontSize = (cell: MeiosisCell<State>, size: number) => {
   );
   localStorage.setItem(FONT_KEY, String(fontSize));
   cell.update({ fontSize });
+};
+
+export const setBoxTransposed = (
+  cell: MeiosisCell<State>,
+  boxTransposed: boolean
+) => {
+  localStorage.setItem(BOX_TRANSPOSED_KEY, String(boxTransposed));
+  cell.update({ boxTransposed });
 };
 
 const validateScenario = (scenario?: Scenario) => {
@@ -332,6 +343,7 @@ const app: MComp<State> = {
     mapHeight:
       parseInt(localStorage.getItem(MAP_HEIGHT_KEY) || '') ||
       DEFAULT_MAP_HEIGHT,
+    boxTransposed: localStorage.getItem(BOX_TRANSPOSED_KEY) === 'true',
   },
 };
 

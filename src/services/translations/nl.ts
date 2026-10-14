@@ -230,6 +230,10 @@ export const messages: typeof messagesEN = {
     'Alle componenten zijn vergrendeld — er kan geen nieuw scenario gegenereerd worden. Wis het huidige scenario eerst.',
   SPEC_CATS:
     'Definieer eerst 1 of 2 categorieën, met in iedere categorie enkele hoofdfactoren.',
+  TRANSPOSE_BOX: {
+    COLUMNS: 'Toon hoofdfactoren als kolommen',
+    ROWS: 'Toon hoofdfactoren als rijen',
+  },
   EXPORT2WORD: {
     TITLE: 'Exporteer naar Word',
     DESC: "Welke scenario's wilt u exporteren?",
