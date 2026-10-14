@@ -762,7 +762,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
         showTables &&
           showDecisions && [
             m('.col.s12', [
-              m('h5', t('DECISIONS')),
+              m('h5.decisions-title', t('DECISIONS')),
               m('p.grey-text', t('DECISIONS_HINT')),
             ]),
             m(

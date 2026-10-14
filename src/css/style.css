@@ -2561,3 +2561,7 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   font-size: 24px;
   margin: 8px -7.5px 0 0;
 }
+
+.create-scenario h5.decisions-title {
+  margin-top: 32px;
+}
