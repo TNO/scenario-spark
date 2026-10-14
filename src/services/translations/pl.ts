@@ -236,6 +236,7 @@ export const messages: typeof messagesEN = {
     CURRENT: 'Bieżący',
     SELECTED: 'Wybrane',
     ALL: 'Wszystkie',
+    INCLUDE_BOX: 'Dołącz skrzynkę morfologiczną (jedna tabela na kategorię, wybrane wartości wyróżnione)',
   },
   HIDE_INCONSISTENT: 'Ukryj niespójne kombinacje',
   GOAL: {

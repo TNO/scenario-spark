@@ -237,6 +237,7 @@ export const messages: typeof messagesEN = {
     CURRENT: 'Aktuelles',
     SELECTED: 'Ausgewählte',
     ALL: 'Alle',
+    INCLUDE_BOX: 'Morphologischen Kasten einfügen (eine Tabelle pro Kategorie, ausgewählte Werte hervorgehoben)',
   },
   HIDE_INCONSISTENT: 'Inkonsistente Kombinationen ausblenden',
   GOAL: {

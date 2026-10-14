@@ -236,6 +236,7 @@ export const messages: typeof messagesEN = {
     CURRENT: 'Huidige',
     SELECTED: 'Selectie',
     ALL: 'Allemaal',
+    INCLUDE_BOX: 'Voeg de morfologische box toe (één tabel per categorie, met geselecteerde waarden gemarkeerd)',
   },
   HIDE_INCONSISTENT: 'Verberg inconsistente combinaties',
   GOAL: {

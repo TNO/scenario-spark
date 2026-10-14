@@ -233,6 +233,7 @@ export const messages = {
     CURRENT: 'Current',
     SELECTED: 'Selected',
     ALL: 'All',
+    INCLUDE_BOX: 'Include the morphological box (one table per category, selected values highlighted)',
   },
   HIDE_INCONSISTENT: 'Hide inconsistent combinations',
   GOAL: {

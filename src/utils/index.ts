@@ -847,13 +847,29 @@ export const downloadAsWord = (
   URL.revokeObjectURL(url);
 };
 
+export type DocxBoxTable = {
+  /** Category label, shown as a heading when present */
+  label?: string;
+  rows: Array<{
+    label: string;
+    values: Array<{ label: string; selected: boolean }>;
+  }>;
+};
+
+export type DocxNarrative = {
+  label: string;
+  content: string;
+  /** Optional morphological box tables (one per category) with the selected values highlighted */
+  box?: DocxBoxTable[];
+};
+
 /**
  * Generate a real .docx Word document from scenario narratives.
  * Creates headings, paragraphs, and a summary table.
  */
 export const downloadAsDocx = async (
   title: string,
-  narratives: Array<{ label: string; content: string }>,
+  narratives: DocxNarrative[],
   filename = 'scenario.docx',
 ): Promise<void> => {
   const sanitizeDocxText = (input: string): string =>
@@ -1088,7 +1104,80 @@ export const downloadAsDocx = async (
 
           flushParagraph();
 
-          return children;
+          const boxChildren: Array<
+            import('docx').Paragraph | import('docx').Table
+          > = [];
+          for (const boxTable of n.box || []) {
+            if (boxTable.rows.length === 0) continue;
+            if (boxTable.label) {
+              boxChildren.push(
+                new Paragraph({
+                  text: sanitizeDocxText(boxTable.label),
+                  heading: HeadingLevel.HEADING_3,
+                  spacing: { before: 200, after: 80 },
+                }),
+              );
+            } else {
+              boxChildren.push(new Paragraph({ spacing: { before: 200 } }));
+            }
+            const maxValues = Math.max(
+              1,
+              ...boxTable.rows.map((r) => r.values.length),
+            );
+            boxChildren.push(
+              new Table({
+                width: { size: 100, type: WidthType.PERCENTAGE },
+                rows: boxTable.rows.map((row) => {
+                  const valueCells = row.values.map(
+                    (v) =>
+                      new TableCell({
+                        children: [
+                          new Paragraph({
+                            children: [
+                              new TextRun({
+                                text: sanitizeDocxText(v.label),
+                                bold: v.selected,
+                                color: v.selected ? 'FFFFFF' : undefined,
+                              }),
+                            ],
+                          }),
+                        ],
+                        shading: v.selected ? { fill: 'FF7800' } : undefined,
+                      }),
+                  );
+                  const padding = maxValues - row.values.length;
+                  if (padding > 0) {
+                    valueCells.push(
+                      new TableCell({
+                        children: [new Paragraph('')],
+                        columnSpan: padding,
+                      }),
+                    );
+                  }
+                  return new TableRow({
+                    children: [
+                      new TableCell({
+                        children: [
+                          new Paragraph({
+                            children: [
+                              new TextRun({
+                                text: sanitizeDocxText(row.label),
+                                bold: true,
+                              }),
+                            ],
+                          }),
+                        ],
+                        shading: { fill: 'F2F2F2' },
+                      }),
+                      ...valueCells,
+                    ],
+                  });
+                }),
+              }),
+            );
+          }
+
+          return [...children, ...boxChildren];
         }),
       ],
     },

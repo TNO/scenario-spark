@@ -19,6 +19,8 @@ import { deepCopy, SlimdownView } from 'mithril-ui-form';
 import {
   createCircleSVG,
   downloadAsDocx,
+  DocxBoxTable,
+  DocxNarrative,
   modelToSaveName,
   narrativesToOptions,
   quillToMarkdown,
@@ -106,9 +108,38 @@ const CategoryTable: FactoryComponent<{
 
 export const ShowScenarioPage: MeiosisComponent = () => {
   let wordModalOpen = false;
+  let includeBox = false;
+
+  const narrativeToBox = (
+    model: DataModel,
+    narrative: Narrative
+  ): DocxBoxTable[] => {
+    const { categories = [], components = [] } = model.scenario;
+    const selection = narrative.components || {};
+    const toRows = (comps: ScenarioComponent[]) =>
+      comps.map((c) => {
+        const sel = selection[c.id];
+        const selectedIds = Array.isArray(sel) ? sel : sel ? [sel] : [];
+        return {
+          label: c.label,
+          values: (c.values || []).map((v) => ({
+            label: v.label,
+            selected: selectedIds.indexOf(v.id) >= 0,
+          })),
+        };
+      });
+    if (categories.length === 0) return [{ rows: toRows(components) }];
+    return categories.map((category) => {
+      const ids = category.componentIds || [];
+      return {
+        label: categories.length > 1 ? category.label : undefined,
+        rows: toRows(components.filter((c) => ids.indexOf(c.id) >= 0)),
+      };
+    });
+  };
 
   const exportToWord = async (model: DataModel, narratives: Narrative[]) => {
-    const narrData: Array<{ label: string; content: string }> = [];
+    const narrData: DocxNarrative[] = [];
     for (const curNarrative of narratives) {
       let content = '';
       if (curNarrative.desc) {
@@ -122,7 +153,11 @@ export const ShowScenarioPage: MeiosisComponent = () => {
           console.error(e);
         }
       }
-      narrData.push({ label: curNarrative.label, content });
+      narrData.push({
+        label: curNarrative.label,
+        content,
+        box: includeBox ? narrativeToBox(model, curNarrative) : undefined,
+      });
     }
     const title = model?.scenario?.label || 'Scenario';
     const filename = `${modelToSaveName(
@@ -257,7 +292,17 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                 closeOnButtonClick: true,
                 description: m(
                   '.export-modal',
-                  m('.row', m('.col.s12', t('EXPORT2WORD', 'DESC')))
+                  m('.row', [
+                    m('.col.s12', t('EXPORT2WORD', 'DESC')),
+                    m(InputCheckbox, {
+                      className: 'col s12 mt3',
+                      checked: includeBox,
+                      label: t('EXPORT2WORD', 'INCLUDE_BOX'),
+                      onchange: (checked: boolean) => {
+                        includeBox = checked;
+                      },
+                    }),
+                  ])
                 ),
                 options: { opacity: 0.7 },
                 buttons: [
