@@ -648,3 +648,137 @@ export const robustnessGrid = (box: Box, narratives: Array<CoaNarrative & Pick<N
     robustCount,
   };
 };
+
+/** Default weight of a narrative in the suggested approach: its risk level, 1 (very low) to 5 (very high). */
+export const riskWeight = (narrative: Partial<Pick<Narrative, 'risk'>>) => {
+  const level = +String(narrative.risk || '0').replace('risk_', '');
+  return (Number.isFinite(level) ? level : 0) + 1;
+};
+
+export type SuggestedExplanation = {
+  valueId: ID;
+  label: string;
+  /** Number of scenarios whose active COA chose the value */
+  chosenIn: number;
+  /** Number of compared scenarios */
+  total: number;
+  /** Sum of the weights of the scenarios that chose the value */
+  weight: number;
+};
+export type SuggestedSkip = {
+  valueId: ID;
+  label: string;
+  /** `excluded`: impossible in every compared situation; `conflict`: impossible together with a stronger pick */
+  reason: 'excluded' | 'conflict';
+  causes: string[];
+};
+export type SuggestedComponent = {
+  componentId: ID;
+  label: string;
+  valueIds: ID[];
+  explanations: SuggestedExplanation[];
+  /** Values that scored at least as high as the pick (or any value when nothing was picked) but were skipped */
+  skipped: SuggestedSkip[];
+  /** Why nothing was picked: no scenario chose a value, or every candidate was excluded / conflicting */
+  reason?: 'none' | 'excluded' | 'conflict';
+};
+export type SuggestedApproach = {
+  total: number;
+  components: SuggestedComponent[];
+  selection: Record<ID, ID[]>;
+};
+export type SuggestApproachOptions = {
+  /** Weight per narrative (same order) or a function; default `riskWeight` */
+  weights?: number[] | ((narrative: CoaNarrative & Partial<Pick<Narrative, 'risk'>>, index: number) => number);
+};
+
+/**
+ * Suggested approach over the included narratives: per decision component, the values
+ * with the highest weighted count over the narratives' active COAs (weight: risk level
+ * 1–5 by default), all tied values included. The suggestion stays consistent:
+ * - values that are impossible in every compared situation are skipped;
+ * - values that are impossible together with a picked value are skipped; candidates are
+ *   processed by weight (desc), then component order, then value order in the box, so the
+ *   stronger value wins and the component falls back to its next best consistent value.
+ * Unlikely pairs neither block nor change the order: they are a judgement call for the user.
+ * Value ids that are not in the box are ignored.
+ */
+export const suggestApproach = (
+  box: Box,
+  narratives: Array<CoaNarrative & Partial<Pick<Narrative, 'risk'>>>,
+  { weights }: SuggestApproachOptions = {},
+): SuggestedApproach => {
+  const total = narratives.length;
+  const weightOf = (n: (typeof narratives)[number], i: number) =>
+    Array.isArray(weights) ? weights[i] ?? riskWeight(n) : weights ? weights(n, i) : riskWeight(n);
+  const columns = narratives.map((n, i) => ({
+    selection: effectiveSelection(n),
+    exclusions: decisionExclusions(box, n.components),
+    weight: weightOf(n, i),
+  }));
+  const inconsistencies = box.inconsistencies || {};
+  const isImpossible = (a: ID, b: ID) =>
+    inconsistencies[a]?.[b] === true || inconsistencies[b]?.[a] === true;
+
+  const { decisions } = splitDecisionComponents(box);
+  const results: SuggestedComponent[] = decisions.map((c) => ({
+    componentId: c.id,
+    label: c.label,
+    valueIds: [],
+    explanations: [],
+    skipped: [],
+  }));
+  type Candidate = SuggestedExplanation & { comp: number; order: number };
+  const candidates: Candidate[] = decisions.flatMap((component, comp) =>
+    (component.values || []).flatMap((value, order) => {
+      let chosenIn = 0;
+      let weight = 0;
+      for (const col of columns) {
+        if ((col.selection[component.id] || []).includes(value.id)) {
+          chosenIn++;
+          weight += col.weight;
+        }
+      }
+      return chosenIn > 0 ? [{ valueId: value.id, label: value.label, chosenIn, total, weight, comp, order }] : [];
+    }),
+  );
+  candidates.sort((a, b) => b.weight - a.weight || a.comp - b.comp || a.order - b.order);
+
+  const pickWeight = new Map<number, number>();
+  const picked: Candidate[] = [];
+  for (const candidate of candidates) {
+    const { comp, valueId, label, weight } = candidate;
+    const tier = pickWeight.get(comp);
+    if (tier !== undefined && weight < tier) continue;
+    const result = results[comp];
+    if (total > 0 && columns.every((col) => col.exclusions[valueId])) {
+      const causes = [...new Set(columns.flatMap((col) => col.exclusions[valueId].map((e) => e.label)))];
+      result.skipped.push({ valueId, label, reason: 'excluded', causes });
+      continue;
+    }
+    const conflicts = picked.filter((p) => isImpossible(p.valueId, valueId));
+    if (conflicts.length > 0) {
+      result.skipped.push({ valueId, label, reason: 'conflict', causes: conflicts.map((p) => p.label) });
+      continue;
+    }
+    pickWeight.set(comp, weight);
+    picked.push(candidate);
+    result.valueIds.push(valueId);
+    result.explanations.push({ valueId, label, chosenIn: candidate.chosenIn, total, weight });
+  }
+
+  for (const result of results) {
+    if (result.valueIds.length > 0) continue;
+    result.reason =
+      result.skipped.length === 0
+        ? 'none'
+        : result.skipped.every((s) => s.reason === 'excluded')
+        ? 'excluded'
+        : 'conflict';
+  }
+  return {
+    total,
+    components: results,
+    selection: Object.fromEntries(results.map((r) => [r.componentId, r.valueIds])),
+  };
+};

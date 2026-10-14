@@ -7,6 +7,9 @@ import {
   robustnessGrid,
   RobustnessCell,
   RobustnessRow,
+  SuggestedApproach,
+  SuggestedComponent,
+  SuggestedSkip,
 } from '../utils';
 
 const icon = (name: string, className: string, title: string) => [
@@ -177,4 +180,50 @@ export const RobustnessView: FactoryComponent<{ box: Scenario; narratives: Narra
       ]),
     ]);
   },
+});
+
+const pickText = (e: SuggestedComponent['explanations'][number]) =>
+  t('SUGGESTED_PICK', { count: e.chosenIn, total: e.total, weight: e.weight });
+
+const skipText = (s: SuggestedSkip) =>
+  t(s.reason === 'excluded' ? 'SUGGESTED_SKIPPED_EXCLUDED' : 'SUGGESTED_SKIPPED_CONFLICT', {
+    value: s.label,
+    causes: s.causes.join(', '),
+  });
+
+const noPickText = (c: SuggestedComponent) =>
+  t(c.reason === 'excluded' ? 'SUGGESTED_NONE_EXCLUDED' : c.reason === 'conflict' ? 'SUGGESTED_NONE_CONFLICT' : 'SUGGESTED_NONE');
+
+/** Tooltips for the suggested-approach row of the overview table, per component. */
+export const suggestionTitles = (suggestion: SuggestedApproach) =>
+  Object.fromEntries(
+    suggestion.components.map((c) => [
+      c.componentId,
+      [
+        ...(c.valueIds.length > 0 ? c.explanations.map((e) => `${e.label}: ${pickText(e)}`) : [noPickText(c)]),
+        ...c.skipped.map(skipText),
+      ].join('\n'),
+    ]),
+  );
+
+/** Why each value of the suggested approach was picked, and why factors have no pick. */
+export const SuggestedApproachExplanation: FactoryComponent<{ suggestion: SuggestedApproach }> = () => ({
+  view: ({ attrs: { suggestion } }) =>
+    suggestion.components.length > 0 &&
+    m('.col.s12.suggested-approach-explanation', [
+      m('h5', t('SUGGESTED_WHY')),
+      m('p.grey-text', t('SUGGESTED_HINT')),
+      m(
+        'dl',
+        suggestion.components.map((c) => [
+          m('dt', c.label),
+          c.valueIds.length > 0
+            ? c.explanations.map((e) => m('dd', [m('strong', e.label), m('span.grey-text', ` – ${pickText(e)}`)]))
+            : m('dd.grey-text', noPickText(c)),
+          c.skipped.map((s) =>
+            m('dd.skipped', [icon(s.reason === 'excluded' ? 'block' : 'warning', 'orange-text', s.reason === 'excluded' ? t('ROBUSTNESS_EXCLUDED') : t('COA_HAS_CONFLICTS')), ' ', skipText(s)]),
+          ),
+        ]),
+      ),
+    ]),
 });

@@ -11,8 +11,13 @@ import { MeiosisComponent, setPage, t } from '../services';
 import { TableView } from './home-page';
 import { range } from 'mithril-ui-form';
 import { ToggleGroup } from 'mithril-materialized';
-import { activeCoa, comparisonNarrativeId, effectiveSelection } from '../utils';
-import { CoaComparisonView, RobustnessView } from './decision-comparison';
+import { activeCoa, comparisonNarrativeId, effectiveSelection, suggestApproach } from '../utils';
+import {
+  CoaComparisonView,
+  RobustnessView,
+  SuggestedApproachExplanation,
+  suggestionTitles,
+} from './decision-comparison';
 
 type DecisionView = 'overview' | 'coa' | 'robustness';
 
@@ -35,8 +40,6 @@ export const DecisionSupportPage: MeiosisComponent = () => {
 
     return comp;
   };
-
-  const riskComponentIds = ['probability', 'impact', 'risk'];
 
   const setupComponents = (model: DataModel) => {
     const {
@@ -115,10 +118,7 @@ export const DecisionSupportPage: MeiosisComponent = () => {
         };
       });
 
-      /** Weights is a value between 1 (very low risk) and 5 (very high risk) */
-      const weights = selectedNarratives
-        .map((n) => n.risk || '0')
-        .map((s) => +(s?.toString().replace('risk_', '') || 0) + 1);
+      const suggestion = suggestApproach(model.scenario, includedNarratives);
 
       const suggestedApproach: Narrative = {
         id: 'suggested_approach',
@@ -127,24 +127,7 @@ export const DecisionSupportPage: MeiosisComponent = () => {
         label: t('SUGGESTED_APPROACH', 'TITLE'),
         desc: t('SUGGESTED_APPROACH', 'DESC'),
         personaEffects: {},
-        components: comps
-          .filter((c) => !riskComponentIds.includes(c.id))
-          .reduce((acc, c) => {
-            const measures = selectedNarratives
-              .map((n) => n.components && n.components[c.id])
-              .reduce((acc, c, i) => {
-                if (!c || c.length === 0) return acc;
-                c.filter((c) => c).forEach((id) =>
-                  acc.set(id, (acc.get(id) || 0) + weights[i])
-                );
-                return acc;
-              }, new Map<ID, number>());
-            const highScore = Math.max(...Array.from(measures.values()));
-            acc[c.id] = Array.from(measures.entries())
-              .filter(([_, count]) => count === highScore)
-              .map(([id, _]) => id);
-            return acc;
-          }, {} as { [key: ID]: ID[] }),
+        components: suggestion.selection,
       };
 
       selectedNarratives.push(suggestedApproach);
@@ -188,14 +171,18 @@ export const DecisionSupportPage: MeiosisComponent = () => {
             })
         : view === 'robustness'
         ? m(RobustnessView, { box: model.scenario, narratives: includedNarratives })
-        : m(
-            '.decision-support',
-            m(TableView, {
-              ...attrs,
-              narratives: selectedNarratives,
-              components: comps,
-            }),
-          );
+        : [
+            m(
+              '.decision-support',
+              m(TableView, {
+                ...attrs,
+                narratives: selectedNarratives,
+                components: comps,
+                cellTitles: { [suggestedApproach.id]: suggestionTitles(suggestion) },
+              }),
+            ),
+            hasDecisionCategories && m(SuggestedApproachExplanation, { suggestion }),
+          ];
 
       return m('.row', [
         m('.col.s12.decision-view-switcher', { role: 'group', 'aria-label': t('DECISION_VIEW') }, viewSwitcher),

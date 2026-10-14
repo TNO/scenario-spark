@@ -54,9 +54,11 @@ const MAX_SAFE_LINK_LENGTH = 8000;
 export const TableView: MeiosisComponent<{
   narratives: Narrative[];
   components: ScenarioComponent[];
+  /** Optional tooltips per narrative id and component id */
+  cellTitles?: Record<string, Record<string, string>>;
 }> = () => {
   return {
-    view: ({ attrs: { components, narratives = [], ...restAttrs } }) => {
+    view: ({ attrs: { components, narratives = [], cellTitles = {}, ...restAttrs } }) => {
       const lookup = components.reduce((acc, cur) => {
         cur.values &&
           cur.values.forEach((v) => {
@@ -120,7 +122,7 @@ export const TableView: MeiosisComponent<{
                       ? m(
                           'td.truncate',
                           {
-                            title: compVal,
+                            title: cellTitles[n.id]?.[c.id] || compVal,
                           },
                           m.trust(compVal)
                         )
@@ -131,6 +133,7 @@ export const TableView: MeiosisComponent<{
                         )
                       : m(
                           'td.center-align.missing',
+                          { title: cellTitles[n.id]?.[c.id] },
                           m(Icon, { iconName: 'clear', className: 'red-text' })
                         );
                   })

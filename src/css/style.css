@@ -2252,3 +2252,17 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
 .coa-comparison .differences-only {
   margin-top: 1.5rem;
 }
+
+.suggested-approach-explanation dl {
+  margin: 0.5rem 0 1rem;
+}
+.suggested-approach-explanation dt {
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+.suggested-approach-explanation dd {
+  margin-left: 1rem;
+}
+.suggested-approach-explanation dd.skipped i.material-icons {
+  vertical-align: middle;
+}
