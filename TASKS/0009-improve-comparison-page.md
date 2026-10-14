@@ -1,6 +1,6 @@
 # 0009 Improve the decision comparison page
 
-Status: open
+Status: split into 0010–0013
 Priority: low
 Subsystem: frontend
 Depends on: 0006
@@ -25,7 +25,17 @@ That suggestion ignores inconsistencies and can be self-contradictory.
 - Decision log (rationale + timestamp per decision) and Word export of the comparison.
 - Strings translated in six locales.
 
+## Subtasks
+Implement in order; each is self-contained.
+- 0010 COA comparison and robustness views (view switcher)
+- 0011 Suggested approach respects inconsistencies and explains picks
+- 0012 Risk before vs. after a COA, risk matrix and criteria scoring
+- 0013 Decision log and Word export of the comparison
+
 ## Implementation Notes
-- Split into smaller tasks before starting; do this after 0006 settles the COA model.
+- Split into 0010–0013 after 0006 settled the COA model. Close this task when all
+  subtasks are done.
 
 ## Agent Notes
+- 2026-10-14: Split into 0010 (comparison + robustness views), 0011 (suggested approach),
+  0012 (risk before/after, matrix, scoring) and 0013 (decision log, Word export).
