@@ -138,7 +138,7 @@ export const applyDecisionCategoryManual = (
   return changed;
 };
 
-type CoaNarrative = Pick<Narrative, 'components'> & Partial<Pick<Narrative, 'coas' | 'activeCoaId'>>;
+type CoaNarrative = Pick<Narrative, 'components'> & Partial<Pick<Narrative, 'coas' | 'activeCoaId' | 'risk'>>;
 
 /** Selected decisions of a narrative's active (or given) COA (factor label and value labels), empty when decision support is not active. */
 export const narrativeDecisionRows = (box: Box, narrative?: CoaNarrative, coaId?: ID) => {
@@ -463,6 +463,8 @@ export type CoaRow = {
   active: boolean;
   decisions: Array<{ label: string; values: string[] }>;
   conflicts: Array<{ label: string; situation: string }>;
+  /** Situation risk (before) and residual risk (after) ids, only when the COA has a residual risk */
+  risk?: { before?: ID; after: ID };
 };
 
 /**
@@ -490,6 +492,7 @@ export const narrativeCoaRows = (box: Box, narrative?: CoaNarrative): CoaRow[] =
         label: c.label,
         situation: c.causes.map((s) => s.label).join(', '),
       })),
+      ...(coa.risk ? { risk: { before: narrative.risk, after: coa.risk } } : {}),
     }))
     .filter((row) => row.decisions.length > 0 || row.notes || row.desc);
 };
@@ -781,4 +784,198 @@ export const suggestApproach = (
     components: results,
     selection: Object.fromEntries(results.map((r) => [r.componentId, r.valueIds])),
   };
+};
+
+/** Risk level per probability (row) and impact (column), both 0 (very low) to 4 (very high). */
+export const RISK_MATRIX: readonly (readonly number[])[] = [
+  [0, 0, 1, 2, 3],
+  [0, 1, 2, 3, 4],
+  [1, 2, 3, 4, 4],
+  [2, 3, 4, 4, 4],
+  [3, 4, 4, 4, 4],
+];
+
+/** Level 0-4 of a `probability_N`, `impact_N` or `risk_N` id; undefined when missing or invalid. */
+export const levelIndex = (id?: ID) => {
+  if (typeof id !== 'string') return undefined;
+  const match = /^[a-zA-Z_]*(\d+)$/.exec(id);
+  const level = match ? +match[1] : NaN;
+  return level >= 0 && level <= 4 ? level : undefined;
+};
+
+/** Risk id (`risk_N`) for a probability and impact id, or undefined when one is missing. */
+export const riskLevel = (probability?: ID, impact?: ID): ID | undefined => {
+  const p = levelIndex(probability);
+  const i = levelIndex(impact);
+  return p === undefined || i === undefined ? undefined : `risk_${RISK_MATRIX[p][i]}`;
+};
+
+/** Set `risk` from `probability` and `impact` (narrative or course of action); unchanged when one is missing. */
+export const updateRisk = (item: { probability?: ID; impact?: ID; risk?: ID }) => {
+  const risk = riskLevel(item.probability, item.impact);
+  if (risk) item.risk = risk;
+  return item;
+};
+
+export type RiskChange = 'lower' | 'same' | 'higher';
+
+export type CoaRiskRow = {
+  id: ID;
+  label: string;
+  active: boolean;
+  /** Situation risk level 0-4 */
+  before?: number;
+  /** Residual risk level 0-4 after the course of action */
+  after?: number;
+  /** Only when both levels are known */
+  change?: RiskChange;
+};
+
+/** Risk before (situation) and after (residual) for each course of action of a narrative. */
+export const coaRiskRows = (narrative: CoaNarrative): CoaRiskRow[] => {
+  const coas = narrative.coas || [];
+  const active = activeCoa(narrative);
+  const before = levelIndex(narrative.risk);
+  return coas.map((coa) => {
+    const after = levelIndex(coa.risk);
+    return {
+      id: coa.id,
+      label: coa.label,
+      active: coa === active,
+      before,
+      after,
+      change:
+        before === undefined || after === undefined
+          ? undefined
+          : after < before
+          ? 'lower'
+          : after > before
+          ? 'higher'
+          : 'same',
+    };
+  });
+};
+
+export type RiskMarker = {
+  kind: 'situation' | 'coa';
+  /** Short text on the matrix: scenario number (1-based) or COA label */
+  marker: string;
+  label: string;
+  narrativeId: ID;
+  coaId?: ID;
+  probability: number;
+  impact: number;
+  risk: number;
+};
+
+export type RiskMatrixCell = { probability: number; impact: number; risk: number; markers: RiskMarker[] };
+
+export type RiskMatrixData = {
+  /** cells[probability][impact], both 0-4 */
+  cells: RiskMatrixCell[][];
+  markers: RiskMarker[];
+  /** Scenarios and COAs without probability or impact */
+  unplaced: Array<Pick<RiskMarker, 'kind' | 'marker' | 'label' | 'narrativeId' | 'coaId'>>;
+};
+
+type RiskNarrative = CoaNarrative & Pick<Narrative, 'id' | 'label'> & Partial<Pick<Narrative, 'probability' | 'impact'>>;
+
+/**
+ * 5x5 risk matrix with the scenarios (situation risk, numbered in the given order) and,
+ * for the selected scenario, its courses of action (residual risk, by COA label).
+ */
+export const riskMatrix = (narratives: RiskNarrative[], selectedId?: ID): RiskMatrixData => {
+  const cells: RiskMatrixCell[][] = RISK_MATRIX.map((row, probability) =>
+    row.map((risk, impact) => ({ probability, impact, risk, markers: [] })),
+  );
+  const markers: RiskMarker[] = [];
+  const unplaced: RiskMatrixData['unplaced'] = [];
+  const place = (
+    item: { probability?: ID; impact?: ID },
+    base: Pick<RiskMarker, 'kind' | 'marker' | 'label' | 'narrativeId' | 'coaId'>,
+  ) => {
+    const probability = levelIndex(item.probability);
+    const impact = levelIndex(item.impact);
+    if (probability === undefined || impact === undefined) {
+      unplaced.push(base);
+      return;
+    }
+    const marker: RiskMarker = { ...base, probability, impact, risk: RISK_MATRIX[probability][impact] };
+    markers.push(marker);
+    cells[probability][impact].markers.push(marker);
+  };
+  narratives.forEach((n, index) =>
+    place(n, { kind: 'situation', marker: String(index + 1), label: n.label, narrativeId: n.id }),
+  );
+  const selected = narratives.find((n) => n.id === selectedId);
+  for (const coa of selected?.coas || []) {
+    place(coa, { kind: 'coa', marker: coa.label, label: coa.label, narrativeId: selected!.id, coaId: coa.id });
+  }
+  return { cells, markers, unplaced };
+};
+
+/** Criteria to score courses of action (translation keys `CRITERIA.<id>`). */
+export const COA_CRITERIA = ['effect', 'speed', 'capacity', 'safety', 'legality', 'acceptance'] as const;
+export type CoaCriterion = (typeof COA_CRITERIA)[number];
+
+/** Highest score per criterion; scores run from 1 (poor) to 5 (good). */
+export const MAX_CRITERION_SCORE = 5;
+
+export type CoaScoreRow = {
+  id: ID;
+  label: string;
+  /** Weighted sum of the scores; undefined when the COA has no scored criterion with weight > 0 */
+  total?: number;
+  /** Highest possible total with the current weights */
+  max: number;
+  /** Number of criteria with weight > 0 that are not scored */
+  missing: number;
+  /** 1 = best; ties share a rank; undefined without a total */
+  rank?: number;
+};
+
+export type CoaScores = {
+  /** Effective weight per criterion (missing = 1) */
+  weights: Record<CoaCriterion, number>;
+  rows: CoaScoreRow[];
+  /** True when weights are set or any COA has a score */
+  used: boolean;
+};
+
+const validNumber = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value);
+
+/** Weighted criteria score per course of action: sum of weight x score, ranked high to low. */
+export const coaScores = (
+  coas: Array<Pick<CourseOfAction, 'id' | 'label' | 'scores'>>,
+  criteriaWeights?: { [criterion: string]: number },
+): CoaScores => {
+  const weights = Object.fromEntries(
+    COA_CRITERIA.map((c) => {
+      const w = criteriaWeights?.[c];
+      return [c, validNumber(w) && w > 0 ? w : validNumber(w) ? 0 : 1];
+    }),
+  ) as Record<CoaCriterion, number>;
+  const max = COA_CRITERIA.reduce((acc, c) => acc + weights[c] * MAX_CRITERION_SCORE, 0);
+  const rows: CoaScoreRow[] = coas.map((coa) => {
+    let total: number | undefined;
+    let missing = 0;
+    for (const c of COA_CRITERIA) {
+      if (weights[c] === 0) continue;
+      const score = coa.scores?.[c];
+      if (!validNumber(score)) {
+        missing++;
+        continue;
+      }
+      total = (total || 0) + weights[c] * score;
+    }
+    return { id: coa.id, label: coa.label, total, max, missing };
+  });
+  for (const row of rows) {
+    if (row.total === undefined) continue;
+    row.rank = 1 + rows.filter((r) => r.total !== undefined && r.total > row.total!).length;
+  }
+  const used =
+    (!!criteriaWeights && Object.keys(criteriaWeights).length > 0) ||
+    coas.some((coa) => coa.scores && Object.values(coa.scores).some(validNumber));
+  return { weights, rows, used };
 };

@@ -2266,3 +2266,72 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
 .suggested-approach-explanation dd.skipped i.material-icons {
   vertical-align: middle;
 }
+
+.criteria-scoring {
+  margin: 1rem 0;
+}
+.criteria-scoring > summary {
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+.criteria-scoring td.criteria-weight {
+  white-space: nowrap;
+}
+.criteria-scoring td.criteria-weight input[type='range'] {
+  width: 8rem;
+  vertical-align: middle;
+  margin: 0 0.5rem 0 0;
+}
+.criteria-scoring select.criteria-score {
+  width: auto;
+  height: 2rem;
+  padding: 0 4px;
+  display: inline-block;
+}
+.criteria-scoring td.best-rank {
+  background: rgba(76, 175, 80, 0.12);
+}
+.coa-risk-summary img {
+  vertical-align: middle;
+}
+.risk-matrix {
+  width: auto;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+.risk-matrix caption {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.5rem 0;
+}
+.risk-matrix th,
+.risk-matrix td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 4px 8px;
+}
+.risk-matrix td.risk-cell {
+  width: 6rem;
+  height: 4rem;
+  vertical-align: middle;
+  text-align: center;
+}
+.risk-marker {
+  display: inline-block;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  line-height: 1.6rem;
+  margin: 2px;
+  padding: 0 4px;
+  text-align: center;
+  font-weight: 700;
+  color: #000;
+  background: #fff;
+  border: 2px solid #000;
+}
+.risk-marker.situation {
+  border-radius: 50%;
+}
+.risk-marker.coa {
+  border-radius: 2px;
+  border-style: dashed;
+}

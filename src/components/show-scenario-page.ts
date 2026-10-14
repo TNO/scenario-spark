@@ -22,6 +22,7 @@ import {
   modelToSaveName,
   CoaRow,
   effectiveSelection,
+  levelIndex,
   narrativeCoaRows,
   narrativesToOptions,
   quillToMarkdown,
@@ -108,6 +109,16 @@ const CategoryTable: FactoryComponent<{
   };
 };
 
+/** "Residual risk: Low (situation: High)", or undefined when the COA has no residual risk */
+const coaRiskText = (coa: CoaRow) => {
+  if (!coa.risk) return undefined;
+  const after = t('RISK5', levelIndex(coa.risk.after) ?? 0);
+  const before = levelIndex(coa.risk.before);
+  return before === undefined
+    ? t('COA_RISK_SUMMARY_SHORT', { after })
+    : t('COA_RISK_SUMMARY', { after, before: t('RISK5', before) });
+};
+
 const conflictWarnings = (coa: CoaRow) =>
   coa.conflicts.map((c) =>
     t('COA_CONFLICT', { value: c.label, situation: c.situation })
@@ -126,6 +137,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
         notes?: string;
         decisions: Array<{ label: string; values: string[] }>;
         warnings?: string[];
+        risk?: string;
       }>;
     }> = [];
     for (const curNarrative of narratives) {
@@ -150,6 +162,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
           notes: coa.notes,
           decisions: coa.decisions,
           warnings: conflictWarnings(coa),
+          risk: coaRiskText(coa),
         })),
       });
     }
@@ -454,6 +467,18 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                           `${t('COURSE_OF_ACTION')} ${coa.label}`,
                           coa.active &&
                             m('span.grey-text', ` (${t('COA_ACTIVE')})`),
+                        ]),
+                      coa.risk &&
+                        m('p.coa-risk-summary', [
+                          m('img', {
+                            src: svgToDataURI(
+                              createCircleSVG(trafficLight[levelIndex(coa.risk.after) ?? 0], 16)
+                            ),
+                            alt: '',
+                            'aria-hidden': 'true',
+                          }),
+                          ' ',
+                          coaRiskText(coa),
                         ]),
                       coa.desc && m('p', coa.desc),
                       coa.notes && m('p', coa.notes),

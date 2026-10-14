@@ -47,6 +47,7 @@ import {
   generationLocks,
   narrativesToOptions,
   splitDecisionComponents,
+  updateRisk,
 } from '../utils';
 import { range, render } from 'mithril-ui-form';
 import type { MeiosisCell } from 'meiosis-setup/types';
@@ -81,24 +82,6 @@ const ToggleIcon: FactoryComponent<{
       });
     },
   };
-};
-
-const calculateRisk = (narrative: Narrative) => {
-  const { probability, impact } = narrative;
-  if (typeof probability !== 'string' || typeof impact !== 'string') return;
-  const p = +probability.toString().replace(/[a-zA-Z_]/g, '');
-  const i = +impact.toString().replace(/[a-zA-Z_]/g, '');
-  const riskMatrix: number[][] = [
-    [0, 0, 1, 2, 3],
-    [0, 1, 2, 3, 4],
-    [1, 2, 3, 4, 4],
-    [2, 3, 4, 4, 4],
-    [3, 4, 4, 4, 4],
-  ];
-  narrative.risk = 'risk_' + riskMatrix[p][i];
-  // console.log(
-  //   `Risk = probability x impact: ${probability} x ${impact} = ${narrative.risk}`
-  // );
 };
 
 export const CategoryTable: MeiosisComponent<{
@@ -819,6 +802,57 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 }),
               ),
             ),
+            m('.col.s12.coa-risk', [
+              m('p.grey-text', t('COA_RISK_HINT')),
+              m('.row', [
+                m(Select, {
+                  key: `coa-prob-${coa?.id || ''}`,
+                  placeholder: t('i18n', 'pick'),
+                  className: 'col s12 m4',
+                  label: t('RESIDUAL_PROBABILITY'),
+                  checkedId: coa?.probability,
+                  options: range(0, 4).map((id) => ({
+                    id: `probability_${id}`,
+                    label: t('PROB5', id),
+                  })),
+                  onchange: (n) => {
+                    const target = ensureActiveCoa(curNarrative);
+                    target.probability = n[0];
+                    updateRisk(target);
+                    updateNarrative(attrs, curNarrative);
+                  },
+                } as SelectAttrs<string>),
+                m(Select, {
+                  key: `coa-imp-${coa?.id || ''}`,
+                  placeholder: t('i18n', 'pick'),
+                  className: 'col s12 m4',
+                  label: t('RESIDUAL_IMPACT'),
+                  checkedId: coa?.impact,
+                  options: range(0, 4).map((id) => ({
+                    id: `impact_${id}`,
+                    label: t('IMP5', id),
+                  })),
+                  onchange: (n) => {
+                    const target = ensureActiveCoa(curNarrative);
+                    target.impact = n[0];
+                    updateRisk(target);
+                    updateNarrative(attrs, curNarrative);
+                  },
+                } as SelectAttrs<string>),
+                m(Select, {
+                  key: `coa-risk-${coa?.id || ''}-${coa?.probability}-${coa?.impact}`,
+                  placeholder: t('RISK_PLACEHOLDER'),
+                  className: 'col s12 m4',
+                  label: t('RESIDUAL_RISK'),
+                  checkedId: coa?.risk,
+                  options: range(0, 4).map((id) => ({
+                    id: `risk_${id}`,
+                    label: t('RISK5', id),
+                  })),
+                  disabled: true,
+                } as SelectAttrs<string>),
+              ]),
+            ]),
             coa &&
               m(
                 '.col.s12',
@@ -917,7 +951,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 })),
                 onchange: (n) => {
                   curNarrative.probability = n[0];
-                  calculateRisk(curNarrative);
+                  updateRisk(curNarrative);
                   updateNarrative(attrs, curNarrative);
                 },
               } as SelectAttrs<string>),
@@ -933,7 +967,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 })),
                 onchange: (n) => {
                   curNarrative.impact = n[0];
-                  calculateRisk(curNarrative);
+                  updateRisk(curNarrative);
                   updateNarrative(attrs, curNarrative);
                 },
               } as SelectAttrs<string>),

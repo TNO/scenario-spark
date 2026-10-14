@@ -880,6 +880,8 @@ export const downloadAsDocx = async (
       decisions: Array<{ label: string; values: string[] }>;
       /** Already translated warnings, e.g. decisions that conflict with the situation */
       warnings?: string[];
+      /** Already translated residual risk, e.g. "Residual risk: Low (situation: High)" */
+      risk?: string;
     }>;
   }>,
   filename = 'scenario.docx',
@@ -1132,6 +1134,14 @@ export const downloadAsDocx = async (
                     text: sanitizeDocxText(coa.label),
                     heading: HeadingLevel.HEADING_4,
                     spacing: { before: 160, after: 60 },
+                  }),
+                );
+              }
+              if (coa.risk) {
+                children.push(
+                  new Paragraph({
+                    children: [new TextRun({ text: sanitizeDocxText(coa.risk), bold: true })],
+                    spacing: { after: 60 },
                   }),
                 );
               }

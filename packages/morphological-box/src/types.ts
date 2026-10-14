@@ -74,4 +74,10 @@ export type CourseOfAction = {
   risk?: ID;
   probability?: ID;
   impact?: ID;
+  /**
+   * Optional criteria scores (1 poor - 5 good), keyed by criterion. Scenario Spark
+   * uses `effect`, `speed`, `capacity`, `safety` (responder safety), `legality` and
+   * `acceptance` (public acceptance).
+   */
+  scores?: { [criterion: string]: number };
 };

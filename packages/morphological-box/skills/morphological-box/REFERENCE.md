@@ -45,7 +45,7 @@ The file is a Scenario Spark scenario. The CLI adds the Scenario Spark defaults 
 - `language`: ISO 639-1 code; Scenario Spark supports `en`, `nl`, `fr`, `de`, `es`, `pl`.
 - `template`: `{n}` is the n-th entry of `components` (1-based; the numbers `template-prompt` shows), `{componentId}` also works. `add-category` and `remove-category` renumber `{n}` when components move; placeholders of removed components become `{oldId}` and fail validation.
 - `llm.prompts[]`: `type` is `narrative`, `persona`, `effect`, `communications` or `decision`; `categories` selects whose key drivers follow the prompt (for `decision` prompts it only filters the situation; the decisions are always listed). Scenario Spark adds missing default prompts on import.
-- `narratives[]` (written by Scenario Spark): `components` holds the situation; `coas` holds the courses of action (`{ id, label, desc?, components: { decisionComponentId: [valueId] }, notes?, reflection?, risk?, probability?, impact? }`, the `CourseOfAction` type) and `activeCoaId` the one in use.
+- `narratives[]` (written by Scenario Spark): `components` holds the situation; `coas` holds the courses of action (`{ id, label, desc?, components: { decisionComponentId: [valueId] }, notes?, reflection?, risk?, probability?, impact?, scores? }`, the `CourseOfAction` type; `probability`/`impact`/`risk` are the residual risk after the COA, `scores` optional 1–5 criteria scores written by the app) and `activeCoaId` the one in use.
 
 ## CLI fragments
 

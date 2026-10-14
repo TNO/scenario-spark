@@ -1,6 +1,6 @@
 # 0012 Risk before vs. after a COA, risk matrix and criteria scoring
 
-Status: open
+Status: done
 Priority: medium
 Subsystem: frontend
 Depends on: 0006, 0010 (parent 0009)
@@ -43,3 +43,31 @@ for them and the comparison does not use them.
 - Run `pnpm test` and `pnpm typecheck`; after `pnpm build`, revert `docs/`.
 
 ## Agent Notes
+- Pure helpers in `src/utils/decision.ts`: `RISK_MATRIX`, `levelIndex`, `riskLevel`,
+  `updateRisk` (replaces `calculateRisk` in the create page with identical behaviour:
+  risk only set when both probability and impact are valid), `coaRiskRows`,
+  `riskMatrix(narratives, selectedId)` (cells[p][i] with numbered scenario markers,
+  lettered COA markers of the selected scenario, `unplaced` list), `COA_CRITERIA`,
+  `MAX_CRITERION_SCORE` (5) and `coaScores(coas, weights)` (weighted totals, missing
+  weight = 1, weight ≤ 0 ignores the criterion, missing scores counted, competition
+  ranking, `used` flag). `narrativeCoaRows` adds `risk: { before, after }` only when a
+  COA has a residual risk (keeps existing row shape).
+- Model: `CourseOfAction.scores?` (app + package type, package test added, package
+  README/REFERENCE updated), `Scenario.criteriaWeights?`. No migration needed.
+- UI: create page has residual probability/impact/risk selectors per active COA;
+  show page and Word export print "Residual risk: X (situation: Y)" per COA; COA
+  comparison has a risk before→after row (arrow when lower/higher) and a collapsible
+  *Criteria scoring* section (`details`, open once used) with 0–5 weight sliders and
+  1–5 score selects (empty = not scored), weighted total and rank in the footer; new 4th decision view
+  *Risk matrix* (5×5 grid coloured with `trafficLight`, sr-only cell text, marker
+  chips, list-table fallback, unplaced note). Scenario selection is shared between
+  the comparison and risk views. Keys in all six locales.
+- Tests: `tests/coa-risk.test.mjs` (7 tests) + 1 package test; `pnpm test` 123 app +
+  37 package pass; typecheck and build pass; docs/ reverted. Browser-checked the
+  comparison (risk row, scoring, weights), risk matrix, show and create pages.
+- Deviations/open points: weights are 0–5 (default 1); scores and
+  weights are edited only in the COA comparison view; the risk view is available
+  even when the box has no decision categories (situation risks only); scores never
+  influence `suggestApproach`. Pre-existing (also without these changes): navigating
+  from the show page to the create page can raise a Mithril `removeChild` /
+  mixed-keys error until reload.

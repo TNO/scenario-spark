@@ -230,3 +230,22 @@ test('CLI: decision prompt, options --coa, compare-coas and llm-prompt', () => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test('CourseOfAction accepts residual risk and criteria scores without affecting assessments', () => {
+  const box = withDecisions();
+  const scored: CourseOfAction = {
+    ...coaA,
+    probability: 'probability_1',
+    impact: 'impact_2',
+    risk: 'risk_2',
+    scores: { effect: 4, speed: 2, safety: 5 },
+  };
+  const situation = { motive: ['ideology'], asset: ['bank'] };
+  const plain = assessCoa(box, situation, coaA);
+  const withScores = assessCoa(box, situation, scored);
+  assert.deepEqual(withScores.values, plain.values);
+  assert.equal(withScores.consistent, plain.consistent);
+  assert.deepEqual(effectiveSelection({ components: situation, coas: [scored] }), effectiveSelection({ components: situation, coas: [coaA] }));
+  const roundTrip: CourseOfAction = JSON.parse(JSON.stringify(scored));
+  assert.deepEqual(roundTrip.scores, { effect: 4, speed: 2, safety: 5 });
+});

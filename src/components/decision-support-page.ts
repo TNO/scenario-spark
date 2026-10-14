@@ -7,19 +7,20 @@ import {
   Narrative,
   ScenarioComponent,
 } from '../models';
-import { MeiosisComponent, setPage, t } from '../services';
+import { MeiosisComponent, saveModel, setPage, t } from '../services';
 import { TableView } from './home-page';
 import { range } from 'mithril-ui-form';
 import { ToggleGroup } from 'mithril-materialized';
-import { activeCoa, comparisonNarrativeId, effectiveSelection, suggestApproach } from '../utils';
+import { CoaCriterion, activeCoa, comparisonNarrativeId, effectiveSelection, suggestApproach } from '../utils';
 import {
   CoaComparisonView,
+  RiskMatrixView,
   RobustnessView,
   SuggestedApproachExplanation,
   suggestionTitles,
 } from './decision-comparison';
 
-type DecisionView = 'overview' | 'coa' | 'robustness';
+type DecisionView = 'overview' | 'coa' | 'robustness' | 'risk';
 
 export const DecisionSupportPage: MeiosisComponent = () => {
   let comps: ScenarioComponent[];
@@ -145,10 +146,49 @@ export const DecisionSupportPage: MeiosisComponent = () => {
           { value: 'overview', iconName: 'table_chart', label: t('DECISION_VIEW_OVERVIEW') },
           { value: 'coa', iconName: 'compare_arrows', label: t('DECISION_VIEW_COA') },
           { value: 'robustness', iconName: 'grid_on', label: t('DECISION_VIEW_ROBUSTNESS') },
+          { value: 'risk', iconName: 'warning_amber', label: t('DECISION_VIEW_RISK') },
         ],
       });
 
-      const content = !hasDecisionCategories && view !== 'overview'
+      const selectedComparisonId = comparisonNarrativeId(
+        includedNarratives,
+        attrs.state.curNarrative?.id,
+        comparisonId,
+      );
+
+      /** Score a COA in the stored narrative and in the narrative being edited (if the same) */
+      const setScore = (narrativeId: ID, coaId: ID, criterion: CoaCriterion, score?: number) => {
+        const { curNarrative } = attrs.state;
+        const targets = [
+          narratives.find((n) => n.id === narrativeId),
+          curNarrative?.id === narrativeId ? curNarrative : undefined,
+        ];
+        for (const n of new Set(targets)) {
+          const coa = n?.coas?.find((c) => c.id === coaId);
+          if (!coa) continue;
+          const scores = { ...coa.scores };
+          if (score === undefined) delete scores[criterion];
+          else scores[criterion] = score;
+          if (Object.keys(scores).length > 0) coa.scores = scores;
+          else delete coa.scores;
+        }
+        saveModel(attrs, model);
+      };
+
+      const setWeight = (criterion: CoaCriterion, weight: number) => {
+        model.scenario.criteriaWeights = { ...model.scenario.criteriaWeights, [criterion]: weight };
+        saveModel(attrs, model);
+      };
+
+      const content = view === 'risk'
+        ? m(RiskMatrixView, {
+            narratives: includedNarratives,
+            narrativeId: selectedComparisonId,
+            onselect: (id) => {
+              comparisonId = id;
+            },
+          })
+        : !hasDecisionCategories && view !== 'overview'
         ? null
         : view === 'coa'
         ? includedNarratives.length === 0
@@ -156,11 +196,7 @@ export const DecisionSupportPage: MeiosisComponent = () => {
           : m(CoaComparisonView, {
               box: model.scenario,
               narratives: includedNarratives,
-              narrativeId: comparisonNarrativeId(
-                includedNarratives,
-                attrs.state.curNarrative?.id,
-                comparisonId,
-              ),
+              narrativeId: selectedComparisonId,
               differencesOnly,
               onselect: (id) => {
                 comparisonId = id;
@@ -168,6 +204,8 @@ export const DecisionSupportPage: MeiosisComponent = () => {
               ontoggle: (value) => {
                 differencesOnly = value;
               },
+              onscore: setScore,
+              onweight: setWeight,
             })
         : view === 'robustness'
         ? m(RobustnessView, { box: model.scenario, narratives: includedNarratives })

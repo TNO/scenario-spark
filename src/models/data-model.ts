@@ -133,6 +133,8 @@ export type CourseOfAction = {
   risk?: ID;
   probability?: ID;
   impact?: ID;
+  /** Optional criteria scores (1 poor - 5 good), keyed by criterion, e.g. `effect` */
+  scores?: { [criterion: string]: number };
 };
 
 export type Narrative = Item & {
@@ -203,6 +205,8 @@ export type Scenario = Item & {
   // components: ScenarioComponent[];
   /** Selected personas, relevant for current scenario */
   personas?: ID[];
+  /** Optional weights (0-5) of the criteria used to score courses of action; missing = 1 */
+  criteriaWeights?: { [criterion: string]: number };
 };
 
 /** Category of components, e.g. to separate context from narrative */
