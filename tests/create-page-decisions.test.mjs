@@ -106,3 +106,55 @@ test('excluded decisions are hidden when inconsistent values are hidden', () => 
   const [select] = selectsOf(CategoryTable, tables[1]);
   assert.deepEqual(select.attrs.options.map((o) => o.id), ['evacuate']);
 });
+
+test('decision tables edit the active course of action, not the situation', () => {
+  const { CreateScenarioPage, CategoryTable } = load();
+  const curNarrative = {
+    id: 'n',
+    components: { threat: ['fire'] },
+    coas: [
+      { id: 'a', label: 'A', components: { measure: ['evacuate'] } },
+      { id: 'b', label: 'B', components: { measure: ['water'] } },
+    ],
+    activeCoaId: 'b',
+  };
+  const attrs = { state: { model: { personas: [], scenario: scenario(true) }, curNarrative }, update: () => {} };
+  const tree = CreateScenarioPage().view({ attrs });
+  const decisionTable = findAll(tree, (node) => node.tag === CategoryTable)[1];
+  const [select] = selectsOf(CategoryTable, decisionTable);
+  assert.deepEqual(select.attrs.checkedId, ['water']);
+  select.attrs.onchange(['evacuate', 'water']);
+  assert.deepEqual(curNarrative.coas[1].components.measure, ['evacuate', 'water']);
+  assert.deepEqual(curNarrative.coas[0].components.measure, ['evacuate']);
+  assert.deepEqual(curNarrative.components, { threat: ['fire'] });
+  const chips = findAll(tree, (node) => node.tag === 'div' && /\bchip\b/.test(node.attrs?.className || ''));
+  assert.equal(chips.length, 2);
+});
+
+test('the first decision creates course of action "A"', () => {
+  const { CreateScenarioPage, CategoryTable } = load();
+  const curNarrative = { id: 'n', components: { threat: ['fire'] } };
+  const attrs = { state: { model: { personas: [], scenario: scenario(true) }, curNarrative }, update: () => {} };
+  const tree = CreateScenarioPage().view({ attrs });
+  const [select] = selectsOf(CategoryTable, findAll(tree, (node) => node.tag === CategoryTable)[1]);
+  select.attrs.onchange(['evacuate']);
+  assert.equal(curNarrative.coas.length, 1);
+  assert.equal(curNarrative.coas[0].label, 'A');
+  assert.equal(curNarrative.activeCoaId, curNarrative.coas[0].id);
+  assert.deepEqual(curNarrative.coas[0].components, { measure: ['evacuate'] });
+});
+
+test('values of the active course of action that conflict with the situation are flagged', () => {
+  const { CreateScenarioPage } = load();
+  const curNarrative = {
+    id: 'n',
+    components: { threat: ['flood'] },
+    coas: [{ id: 'a', label: 'A', components: { measure: ['water'] } }],
+  };
+  const attrs = { state: { model: { personas: [], scenario: scenario(true) }, curNarrative }, update: () => {} };
+  const tree = CreateScenarioPage().view({ attrs });
+  const [list] = findAll(tree, (node) => node.tag === 'ul' && /coa-conflicts/.test(node.attrs?.className || ''));
+  assert.ok(list, 'conflict list is shown');
+  assert.equal(list.children.length, 1);
+  assert.deepEqual(curNarrative.coas[0].components.measure, ['water']);
+});

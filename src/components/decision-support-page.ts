@@ -10,6 +10,7 @@ import {
 import { MeiosisComponent, setPage, t } from '../services';
 import { TableView } from './home-page';
 import { range } from 'mithril-ui-form';
+import { activeCoa, effectiveSelection } from '../utils';
 
 export const DecisionSupportPage: MeiosisComponent = () => {
   let comps: ScenarioComponent[];
@@ -91,9 +92,20 @@ export const DecisionSupportPage: MeiosisComponent = () => {
       } = model;
       setupComponents(model);
 
-      const selectedNarratives = narratives
+      // Compare the active course of action of each included narrative
+      const selectedNarratives: Narrative[] = narratives
         .filter((n) => n.included)
-        .sort((a, b) => (a.label || '').localeCompare(b.label));
+        .sort((a, b) => (a.label || '').localeCompare(b.label))
+        .map((n) => {
+          const coa = activeCoa(n);
+          return {
+            ...n,
+            label: coa
+              ? `${n.label} – ${t('COURSE_OF_ACTION')} ${coa.label}`
+              : n.label,
+            components: effectiveSelection(n),
+          };
+        });
 
       /** Weights is a value between 1 (very low risk) and 5 (very high risk) */
       const weights = selectedNarratives

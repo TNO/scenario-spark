@@ -29,6 +29,7 @@ import {
 } from '../utils/morp-box-to-markdown';
 import {
   applyDecisionCategoryManual,
+  moveDecisionsToCoas,
   getDecisionCategoryIds,
 } from '../utils/decision';
 
@@ -283,6 +284,10 @@ export const SettingsPage: MeiosisComponent = () => {
                         applyDecisionCategoryManual(
                           model.scenario,
                           decisionCategoryIds ?? new Set(),
+                        );
+                        // Selections of new decision factors move to courses of action
+                        (model.scenario.narratives || []).forEach((n) =>
+                          moveDecisionsToCoas(model.scenario, n),
                         );
                         decisionCategoryIds = getDecisionCategoryIds(
                           model.scenario,

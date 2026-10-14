@@ -119,9 +119,27 @@ export type ContextualItem = Item & {
   value?: string;
 };
 
-export type Narrative = Item & {
-  /** componentID => a component's valueId */
+/** An alternative set of decisions (measures) for the situation of a narrative */
+export type CourseOfAction = {
+  id: ID;
+  label: string;
+  desc?: string;
+  /** Decision componentID => selected valueIds */
   components: { [key: ID]: ID[] };
+  notes?: string;
+  /** Residual risk after the course of action */
+  risk?: ID;
+  probability?: ID;
+  impact?: ID;
+};
+
+export type Narrative = Item & {
+  /** componentID => a component's valueId. Holds the situation; decisions live in `coas`. */
+  components: { [key: ID]: ID[] };
+  /** Courses of action: alternative decisions for this situation */
+  coas?: CourseOfAction[];
+  /** Id of the course of action that is being edited and used in prompts and comparisons */
+  activeCoaId?: ID;
   /** Is the narrative included in the final set of narratives or a temporary scenario, just in case */
   included: boolean;
   /** Is the narrative saved in the set of narratives (so we should be able to delete or replace it) */
@@ -143,6 +161,8 @@ export type Color = string;
 export type ThresholdColor = { threshold: number; color: Color };
 
 export type Scenario = Item & {
+  /** Version of the scenario data format, used for migrations (missing = 1) */
+  dataVersion?: number;
   /** ISO 639-1 code of the language the box is written in */
   language?: string;
   /** Template string to convert the scenario items to a fluid text. */

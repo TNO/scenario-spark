@@ -20,7 +20,9 @@ import {
   createCircleSVG,
   downloadAsDocx,
   modelToSaveName,
-  narrativeDecisionRows,
+  CoaRow,
+  effectiveSelection,
+  narrativeCoaRows,
   narrativesToOptions,
   quillToMarkdown,
   splitDecisionComponents,
@@ -106,6 +108,11 @@ const CategoryTable: FactoryComponent<{
   };
 };
 
+const conflictWarnings = (coa: CoaRow) =>
+  coa.conflicts.map((c) =>
+    t('COA_CONFLICT', { value: c.label, situation: c.situation })
+  );
+
 export const ShowScenarioPage: MeiosisComponent = () => {
   let wordModalOpen = false;
 
@@ -113,7 +120,13 @@ export const ShowScenarioPage: MeiosisComponent = () => {
     const narrData: Array<{
       label: string;
       content: string;
-      decisions?: Array<{ label: string; values: string[] }>;
+      coas?: Array<{
+        label: string;
+        desc?: string;
+        notes?: string;
+        decisions: Array<{ label: string; values: string[] }>;
+        warnings?: string[];
+      }>;
     }> = [];
     for (const curNarrative of narratives) {
       let content = '';
@@ -131,7 +144,13 @@ export const ShowScenarioPage: MeiosisComponent = () => {
       narrData.push({
         label: curNarrative.label,
         content,
-        decisions: narrativeDecisionRows(model.scenario, curNarrative),
+        coas: narrativeCoaRows(model.scenario, curNarrative).map((coa) => ({
+          label: coa.label,
+          desc: coa.desc,
+          notes: coa.notes,
+          decisions: coa.decisions,
+          warnings: conflictWarnings(coa),
+        })),
       });
     }
     const title = model?.scenario?.label || 'Scenario';
@@ -182,11 +201,15 @@ export const ShowScenarioPage: MeiosisComponent = () => {
         splitDecisionComponents(model.scenario);
       const showDecisions =
         !!includeDecisionSupport && decisionCategories.length > 0;
-      
+      const coaRows = showDecisions
+        ? narrativeCoaRows(model.scenario, curNarrative)
+        : [];
+
       const selectedItems: ContextualItem[] = [];
       if (includeMapSupport && curNarrative && curNarrative.components) {
+        const selection = effectiveSelection(curNarrative);
         modelComps.forEach((comp) => {
-          const selectedIds = curNarrative.components![comp.id];
+          const selectedIds = selection[comp.id];
           if (selectedIds) {
             const ids = Array.isArray(selectedIds) ? selectedIds : [selectedIds];
             ids.forEach((id) => {
@@ -419,22 +442,52 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                 ])
             ),
             showDecisions &&
+              coaRows.length > 0 &&
               m(
                 '.col.s12',
                 m('.row', [
                   m('.col.s12', m('h4', t('DECISIONS'))),
-                  decisionCategories.map((category) => {
-                    const componentIds = category.componentIds || [];
-                    const comps = modelComps.filter((c) =>
-                      componentIds.includes(c.id)
-                    );
-                    return m(
-                      '.col',
-                      { className: `s${12 / decisionCategories.length}` },
-                      m('h5', category.label),
-                      m(CategoryTable, { curNarrative, comps })
-                    );
-                  }),
+                  coaRows.map((coa) =>
+                    m('.col.s12.coa', [
+                      coa.label &&
+                        m('h5', [
+                          `${t('COURSE_OF_ACTION')} ${coa.label}`,
+                          coa.active &&
+                            m('span.grey-text', ` (${t('COA_ACTIVE')})`),
+                        ]),
+                      coa.desc && m('p', coa.desc),
+                      coa.notes && m('p', coa.notes),
+                      coa.conflicts.length > 0 &&
+                        m(
+                          'p.orange-text',
+                          conflictWarnings(coa).join('; ')
+                        ),
+                      m(
+                        '.row',
+                        decisionCategories.map((category) => {
+                          const componentIds = category.componentIds || [];
+                          const comps = modelComps.filter((c) =>
+                            componentIds.includes(c.id)
+                          );
+                          return m(
+                            '.col',
+                            {
+                              className: `s${Math.round(12 / decisionCategories.length)}`,
+                            },
+                            m('h6', category.label),
+                            m(CategoryTable, {
+                              curNarrative: {
+                                components: coa.id
+                                  ? effectiveSelection(curNarrative!, coa.id)
+                                  : curNarrative!.components,
+                              } as Narrative,
+                              comps,
+                            })
+                          );
+                        })
+                      ),
+                    ])
+                  ),
                 ])
               ),
           ]

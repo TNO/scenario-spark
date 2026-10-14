@@ -32,8 +32,16 @@ import {
 import {
   ExclusionCause,
   GenerationDiagnostic,
+  activeCoa,
+  addCoa,
+  coaConflicts,
   decisionExclusions,
   deepCopy,
+  duplicateCoa,
+  effectiveSelection,
+  ensureActiveCoa,
+  nextCoaLabel,
+  removeCoa,
   generateNarrative,
   generateUniqueTitle,
   generationLocks,
@@ -41,6 +49,8 @@ import {
   splitDecisionComponents,
 } from '../utils';
 import { range, render } from 'mithril-ui-form';
+import type { MeiosisCell } from 'meiosis-setup/types';
+import type { State } from '../services';
 import { listInconsistencies } from 'morphological-box';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
 import {
@@ -95,7 +105,13 @@ export const CategoryTable: MeiosisComponent<{
   catId: ID;
   excluded: Set<string>;
   /** Decision table: excluded values (with their cause) are greyed out, no lock icons */
-  decision?: { exclusions: Record<ID, ExclusionCause[]>; hide: boolean };
+  decision?: {
+    exclusions: Record<ID, ExclusionCause[]>;
+    hide: boolean;
+    /** Decisions of the active course of action */
+    selection: Record<ID, ID[]>;
+    onchange: (componentId: ID, ids: ID[]) => void;
+  };
 }> = () => {
   let lockState = false;
 
@@ -122,7 +138,9 @@ export const CategoryTable: MeiosisComponent<{
         componentIds &&
         modelComps.filter((c) => componentIds.indexOf(c.id) >= 0);
 
-      const { components = {} } = curNarrative;
+      const components = decision
+        ? decision.selection
+        : curNarrative.components || {};
 
       const toOptions = (comp: ScenarioComponent) => {
         const values = comp.values || [];
@@ -189,6 +207,10 @@ export const CategoryTable: MeiosisComponent<{
               options: toOptions(c),
               placeholder: t('i18n', 'pick'),
               onchange: (ids) => {
+                if (decision) {
+                  decision.onchange(c.id, Array.isArray(ids) ? ids : []);
+                  return;
+                }
                 if (!curNarrative.components) {
                   curNarrative.components = {};
                 }
@@ -229,6 +251,131 @@ export const CreateScenarioPage: MeiosisComponent = () => {
   let showMap = true; // Default to showing the map
   let editingNarrativeTitle = false;
   let narrativeTitleDraft = '';
+  let editingCoaName = false;
+  let coaNameDraft = '';
+
+  /** Chips per course of action, with add, duplicate, rename, delete and conflict warnings */
+  const coaBar = (
+    attrs: MeiosisCell<State>,
+    narrative: Narrative,
+    onSwitch: () => void,
+  ) => {
+    const { scenario } = attrs.state.model;
+    const coas = narrative.coas || [];
+    const current = activeCoa(narrative);
+    const save = () => updateNarrative(attrs, narrative);
+    const conflicts = coaConflicts(scenario, narrative, current);
+    const commitName = () => {
+      const label = coaNameDraft.trim();
+      if (!label || !current) return;
+      current.label = label;
+      editingCoaName = false;
+      save();
+    };
+    return [
+      m('.coa-chips', [
+        m('span.coa-title', `${t('COURSES_OF_ACTION')}: `),
+        coas.length === 0
+          ? m('.chip.blue.white-text', nextCoaLabel([]))
+          : coas.map((c) => {
+              const hasConflicts =
+                coaConflicts(scenario, narrative, c).length > 0;
+              return m(
+                '.chip.clickable',
+                {
+                  className: c === current ? 'blue white-text' : '',
+                  onclick: () => {
+                    if (c === current) return;
+                    narrative.activeCoaId = c.id;
+                    onSwitch();
+                    save();
+                  },
+                },
+                [
+                  c.label,
+                  hasConflicts &&
+                    m(
+                      'i.material-icons.tiny.orange-text',
+                      {
+                        title: t('COA_HAS_CONFLICTS'),
+                        style: 'margin-left: 4px; vertical-align: middle;',
+                      },
+                      'warning',
+                    ),
+                ],
+              );
+            }),
+        m(FlatButton, {
+          label: t('ADD_COA'),
+          iconName: 'add',
+          onclick: () => {
+            ensureActiveCoa(narrative);
+            addCoa(narrative);
+            onSwitch();
+            save();
+          },
+        }),
+        m(FlatButton, {
+          label: t('DUPLICATE_COA'),
+          iconName: 'content_copy',
+          onclick: () => {
+            duplicateCoa(narrative);
+            onSwitch();
+            save();
+          },
+        }),
+        current &&
+          !editingCoaName &&
+          m(IconButton, {
+            iconName: 'edit',
+            title: t('RENAME_COA'),
+            onclick: () => {
+              editingCoaName = true;
+              coaNameDraft = current.label;
+            },
+          }),
+        current &&
+          m(ConfirmButton, {
+            title: t('DELETE_COA'),
+            onclick: () => {
+              removeCoa(narrative, current.id);
+              onSwitch();
+              save();
+            },
+          }),
+      ]),
+      editingCoaName &&
+        current &&
+        m(TextInput, {
+          className: 'coa-name',
+          value: coaNameDraft,
+          label: t('COA_NAME'),
+          required: true,
+          oninput: (v: string) => {
+            coaNameDraft = v;
+          },
+          onkeypress: (e: KeyboardEvent) => {
+            if (e.key !== 'Enter') return;
+            e.preventDefault();
+            commitName();
+          },
+          onblur: commitName,
+        }),
+      conflicts.length > 0 &&
+        m(
+          'ul.orange-text.coa-conflicts',
+          conflicts.map((c) =>
+            m(
+              'li',
+              t('COA_CONFLICT', {
+                value: c.label,
+                situation: c.causes.map((s) => s.label).join(', '),
+              }),
+            ),
+          ),
+        ),
+    ];
+  };
 
   return {
     oninit: ({ attrs }) => {
@@ -271,6 +418,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
         splitDecisionComponents(model.scenario);
       const showDecisions =
         !!includeDecisionSupport && decisionCategories.length > 0;
+      const coa = activeCoa(curNarrative);
       const excluded = new Set<string>();
       if (curNarrative.components && hideInconsistentValues) {
         // Only the situation constrains the visible options; decisions follow it
@@ -304,8 +452,9 @@ export const CreateScenarioPage: MeiosisComponent = () => {
       } = model.scenario;
       const selectedItems: ContextualItem[] = [];
       if (includeMapSupport && curNarrative.components) {
+        const selection = effectiveSelection(curNarrative);
         model.scenario.components.forEach((comp) => {
-          const selectedIds = curNarrative.components![comp.id];
+          const selectedIds = selection[comp.id];
           if (selectedIds) {
             const ids = Array.isArray(selectedIds)
               ? selectedIds
@@ -356,7 +505,13 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 alert(msg);
               } else {
                 version++;
-                attrs.update({ curNarrative: () => narrative as Narrative });
+                const generated = narrative as Narrative;
+                // Keep the courses of action: conflicts with the new situation are flagged
+                if (curNarrative.coas) {
+                  generated.coas = deepCopy(curNarrative.coas);
+                  generated.activeCoaId = curNarrative.activeCoaId;
+                }
+                attrs.update({ curNarrative: () => generated });
               }
             },
           }),
@@ -628,12 +783,19 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               m('h5', t('DECISIONS')),
               m('p.grey-text', t('DECISIONS_HINT')),
             ]),
+            m(
+              '.col.s12.coa-bar',
+              coaBar(attrs, curNarrative, () => {
+                version++;
+                editingCoaName = false;
+              }),
+            ),
             decisionCategories.map((c, i) =>
               m(
                 '.col.s12',
                 {
                   className: `m${Math.round(12 / decisionCategories.length)}`,
-                  key: 10000 * version + situationCategories.length + i,
+                  key: `${10000 * version + situationCategories.length + i}-${coa?.id || ''}`,
                 },
                 m(CategoryTable, {
                   ...attrs,
@@ -645,10 +807,29 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                       curNarrative.components,
                     ),
                     hide: hideInconsistentValues,
+                    selection: coa?.components || {},
+                    onchange: (componentId, ids) => {
+                      ensureActiveCoa(curNarrative).components[componentId] =
+                        ids;
+                      updateNarrative(attrs, curNarrative);
+                    },
                   },
                 }),
               ),
             ),
+            coa &&
+              m(
+                '.col.s12',
+                m(TextArea, {
+                  key: coa.id,
+                  label: t('COA_NOTES'),
+                  value: coa.notes,
+                  oninput: (notes: string) => {
+                    coa.notes = notes;
+                    updateNarrative(attrs, curNarrative);
+                  },
+                }),
+              ),
           ],
         m(
           '.col.s12',

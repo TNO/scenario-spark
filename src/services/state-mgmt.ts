@@ -20,7 +20,13 @@ import {
   Update,
   MeiosisComponent as MComp,
 } from 'meiosis-setup/types';
-import { LANGUAGE, SAVED, scrollToTop, validateNarrative } from '../utils';
+import {
+  LANGUAGE,
+  SAVED,
+  migrateModel,
+  scrollToTop,
+  validateNarrative,
+} from '../utils';
 import { uniqueId } from 'mithril-materialized';
 import { normalizeInconsistencies } from 'morphological-box';
 
@@ -124,6 +130,8 @@ export const saveModel = async (
   if (!model.scenarios) {
     model.scenarios = [];
   }
+  // Imported or older scenarios store decisions in narratives: move them to courses of action
+  migrateModel(model);
   // console.log(JSON.stringify(model, null, 2));
   if (reset) {
     if (!validateScenario(model.scenario)) {
@@ -299,6 +307,7 @@ const initialize = async (update: Update<State>) => {
         (localStorage.getItem(LANGUAGE) || 'nl') as Languages,
         thresholdColors
       );
+  if (migrateModel(model) && ds) await ldb.set(MODEL_KEY, JSON.stringify(model));
   const title = model.scenario?.label || '';
   setTitle(title);
 

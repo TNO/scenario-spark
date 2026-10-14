@@ -1,7 +1,7 @@
 import m from 'mithril';
 import { MeiosisComponent, t } from '../../services';
 import { ID, Narrative, ScenarioComponent } from '../../models';
-import { joinListWithAnd } from '../../utils';
+import { effectiveSelection, joinListWithAnd } from '../../utils';
 
 // Define interfaces for our data structure
 export type KeyDriver = {
@@ -70,7 +70,7 @@ export const ScenarioParagraph: MeiosisComponent<
         scenario: { components: modelComps = [] },
       } = model;
 
-      const { components = {} } = curNarrative;
+      const components = effectiveSelection(curNarrative);
       const extractIds = /\{(\d+)\}/g;
       const idBasedTemplate = template
         .split(extractIds)

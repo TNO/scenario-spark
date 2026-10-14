@@ -1,5 +1,7 @@
 import type {
   Category,
+  CourseOfAction,
+  DataModel,
   ID,
   Narrative,
   Scenario,
@@ -136,10 +138,12 @@ export const applyDecisionCategoryManual = (
   return changed;
 };
 
-/** Selected decisions of a narrative (factor label and value labels), empty when decision support is not active. */
-export const narrativeDecisionRows = (box: Box, narrative?: Pick<Narrative, 'components'>) => {
+type CoaNarrative = Pick<Narrative, 'components'> & Partial<Pick<Narrative, 'coas' | 'activeCoaId'>>;
+
+/** Selected decisions of a narrative's active (or given) COA (factor label and value labels), empty when decision support is not active. */
+export const narrativeDecisionRows = (box: Box, narrative?: CoaNarrative, coaId?: ID) => {
   if (!box.includeDecisionSupport || !narrative?.components) return [];
-  const { components } = narrative;
+  const components = effectiveSelection(narrative, coaId);
   return splitDecisionComponents(box)
     .decisions.map((c) => ({
       label: c.label,
@@ -172,7 +176,7 @@ export type StoryInputKey = 'LLM_SITUATION' | 'LLM_SUGGESTED_ACTIONS' | 'LLM_NO_
 
 export type StoryInputOptions = {
   box: Pick<Scenario, 'categories' | 'components'> & Partial<Pick<Scenario, 'includeDecisionSupport'>>;
-  narrative: Pick<Narrative, 'components'>;
+  narrative: CoaNarrative;
   /** Ids of the categories included by the prompt */
   includedCategories: ID[];
   storyType?: 'narrative' | 'effect' | 'persona' | 'communications';
@@ -207,7 +211,7 @@ export const buildStoryInput = ({
   storyType = 'narrative',
   tr,
 }: StoryInputOptions) => {
-  const selection = narrative.components || {};
+  const selection = effectiveSelection(narrative);
   const included = new Set(
     (box.categories || [])
       .filter((c) => includedCategories.includes(c.id))
@@ -234,4 +238,196 @@ export const buildStoryInput = ({
   ]
     .filter(Boolean)
     .join('\n\n');
+};
+
+/** Version of the scenario data format: 2 = decisions are stored in courses of action. */
+export const SCENARIO_DATA_VERSION = 2;
+
+const randomId = () => Math.random().toString(36).slice(2, 10);
+
+const coaLetters = (n: number): string =>
+  (n >= 26 ? coaLetters(Math.floor(n / 26) - 1) : '') + String.fromCharCode(65 + (n % 26));
+
+/** First free default COA label: A, B, ..., Z, AA, AB, ... */
+export const nextCoaLabel = (coas: Pick<CourseOfAction, 'label'>[] = []) => {
+  const used = new Set(coas.map((c) => c.label));
+  for (let i = 0; ; i++) {
+    const label = coaLetters(i);
+    if (!used.has(label)) return label;
+  }
+};
+
+/** The given COA (when `coaId` is set), else the active COA, else the first one. */
+export const activeCoa = (narrative: Partial<Pick<Narrative, 'coas' | 'activeCoaId'>>, coaId?: ID) => {
+  const { coas = [], activeCoaId } = narrative;
+  if (coaId) return coas.find((c) => c.id === coaId);
+  return coas.find((c) => c.id === activeCoaId) || coas[0];
+};
+
+/** Situation plus the decisions of the active (or given) COA. */
+export const effectiveSelection = (narrative: CoaNarrative, coaId?: ID): Narrative['components'] => {
+  const coa = activeCoa(narrative, coaId);
+  return { ...(narrative.components || {}), ...(coa?.components || {}) };
+};
+
+/** Add an empty COA and make it active. */
+export const addCoa = (narrative: Partial<Pick<Narrative, 'coas' | 'activeCoaId'>>, makeId = randomId) => {
+  const coas = (narrative.coas ||= []);
+  const coa: CourseOfAction = { id: makeId(), label: nextCoaLabel(coas), components: {} };
+  coas.push(coa);
+  narrative.activeCoaId = coa.id;
+  return coa;
+};
+
+/** The active COA, creating COA "A" when the narrative has none. */
+export const ensureActiveCoa = (narrative: Partial<Pick<Narrative, 'coas' | 'activeCoaId'>>, makeId = randomId) => {
+  const coa = activeCoa(narrative);
+  if (coa) {
+    narrative.activeCoaId = coa.id;
+    return coa;
+  }
+  return addCoa(narrative, makeId);
+};
+
+/** Copy the active COA (decisions and metadata) under a new label and make the copy active. */
+export const duplicateCoa = (narrative: Partial<Pick<Narrative, 'coas' | 'activeCoaId'>>, makeId = randomId) => {
+  const source = ensureActiveCoa(narrative, makeId);
+  const coas = narrative.coas!;
+  const copy: CourseOfAction = {
+    ...JSON.parse(JSON.stringify(source)),
+    id: makeId(),
+    label: nextCoaLabel(coas),
+  };
+  coas.push(copy);
+  narrative.activeCoaId = copy.id;
+  return copy;
+};
+
+/** Remove a COA; the first remaining COA becomes active when the active one was removed. */
+export const removeCoa = (narrative: Partial<Pick<Narrative, 'coas' | 'activeCoaId'>>, coaId: ID) => {
+  narrative.coas = (narrative.coas || []).filter((c) => c.id !== coaId);
+  if (!narrative.coas.some((c) => c.id === narrative.activeCoaId)) {
+    narrative.activeCoaId = narrative.coas[0]?.id;
+  }
+};
+
+/**
+ * Move the decision selections in `narrative.components` into a COA: COA "A" when the
+ * narrative has none, the active COA when it has no selection for these factors yet,
+ * otherwise a new COA, so no selection is lost or overwritten.
+ * Returns true when the narrative changed.
+ */
+export const moveDecisionsToCoas = (
+  box: Pick<Scenario, 'categories' | 'components'>,
+  narrative: Pick<Narrative, 'components'> & Partial<Pick<Narrative, 'coas' | 'activeCoaId'>>,
+  makeId = randomId,
+) => {
+  const { decisionIds } = splitDecisionComponents(box);
+  const components = narrative.components || {};
+  const moved: Narrative['components'] = {};
+  let changed = false;
+  for (const id of Object.keys(components)) {
+    if (!decisionIds.has(id)) continue;
+    const values = components[id];
+    if (Array.isArray(values) && values.length > 0) moved[id] = [...values];
+    delete components[id];
+    changed = true;
+  }
+  if (Object.keys(moved).length === 0) return changed;
+  const target = activeCoa(narrative);
+  if (!target) {
+    addCoa(narrative, makeId).components = moved;
+  } else if (Object.keys(moved).every((id) => !(target.components?.[id]?.length > 0))) {
+    target.components = { ...(target.components || {}), ...moved };
+  } else {
+    const active = narrative.activeCoaId;
+    addCoa(narrative, makeId).components = moved;
+    narrative.activeCoaId = active ?? target.id;
+  }
+  return true;
+};
+
+/**
+ * Migrate all scenarios of a model to the current data version: decisions selected in
+ * narratives move into courses of action. Returns true when something changed.
+ */
+export const migrateModel = (model: Partial<Pick<DataModel, 'scenario' | 'scenarios'>>, makeId = randomId) => {
+  let changed = false;
+  for (const scenario of [model.scenario, ...(model.scenarios || [])]) {
+    if (!scenario || (scenario.dataVersion || 1) >= SCENARIO_DATA_VERSION) continue;
+    for (const narrative of scenario.narratives || []) {
+      if (narrative?.components) moveDecisionsToCoas(scenario, narrative, makeId);
+    }
+    scenario.dataVersion = SCENARIO_DATA_VERSION;
+    changed = true;
+  }
+  return changed;
+};
+
+export type CoaConflict = {
+  componentId: ID;
+  componentLabel: string;
+  valueId: ID;
+  label: string;
+  causes: ExclusionCause[];
+};
+
+/** Selected decision values of a COA that are impossible given the situation of the narrative. */
+export const coaConflicts = (
+  box: Box,
+  narrative: Pick<Narrative, 'components'>,
+  coa?: Pick<CourseOfAction, 'components'>,
+): CoaConflict[] => {
+  if (!coa) return [];
+  const exclusions = decisionExclusions(box, narrative.components);
+  return splitDecisionComponents(box).decisions.flatMap((c) =>
+    (coa.components?.[c.id] || [])
+      .filter((valueId) => exclusions[valueId])
+      .map((valueId) => ({
+        componentId: c.id,
+        componentLabel: c.label,
+        valueId,
+        label: c.values?.find((v) => v.id === valueId)?.label || valueId,
+        causes: exclusions[valueId],
+      })),
+  );
+};
+
+export type CoaRow = {
+  id?: ID;
+  label: string;
+  desc?: string;
+  notes?: string;
+  active: boolean;
+  decisions: Array<{ label: string; values: string[] }>;
+  conflicts: Array<{ label: string; situation: string }>;
+};
+
+/**
+ * Every course of action of a narrative with its decisions and the values that conflict
+ * with the situation (show page, Word export). COAs without decisions and notes are
+ * skipped; empty when decision support is off.
+ */
+export const narrativeCoaRows = (box: Box, narrative?: CoaNarrative): CoaRow[] => {
+  if (!box.includeDecisionSupport || !narrative?.components) return [];
+  const coas = narrative.coas || [];
+  if (coas.length === 0) {
+    const decisions = narrativeDecisionRows(box, narrative);
+    return decisions.length > 0 ? [{ label: '', active: true, decisions, conflicts: [] }] : [];
+  }
+  const active = activeCoa(narrative);
+  return coas
+    .map((coa) => ({
+      id: coa.id,
+      label: coa.label,
+      desc: coa.desc,
+      notes: coa.notes,
+      active: coa === active,
+      decisions: narrativeDecisionRows(box, narrative, coa.id),
+      conflicts: coaConflicts(box, narrative, coa).map((c) => ({
+        label: c.label,
+        situation: c.causes.map((s) => s.label).join(', '),
+      })),
+    }))
+    .filter((row) => row.decisions.length > 0 || row.notes || row.desc);
 };

@@ -420,15 +420,29 @@ export const validateNarrative = (
   n: Narrative,
   components: ScenarioComponent[],
 ) => {
-  const { components: narrativeComps, ...attrs } = n;
-  const newNarrative = { components: {}, ...attrs } as Narrative;
-  components
-    .filter((c) => narrativeComps.hasOwnProperty(c.id))
-    .forEach((c) => {
-      newNarrative.components[c.id] = narrativeComps[c.id].filter((id) =>
-        c.values?.find((v) => v.id === id),
+  const validSelection = (selection: Narrative['components'] = {}) =>
+    components
+      .filter((c) => selection.hasOwnProperty(c.id))
+      .reduce(
+        (acc, c) => {
+          acc[c.id] = (selection[c.id] || []).filter((id) =>
+            c.values?.find((v) => v.id === id),
+          );
+          return acc;
+        },
+        {} as Narrative['components'],
       );
-    });
+  const { components: narrativeComps, ...attrs } = n;
+  const newNarrative = {
+    ...attrs,
+    components: validSelection(narrativeComps),
+  } as Narrative;
+  if (n.coas) {
+    newNarrative.coas = n.coas.map((coa) => ({
+      ...coa,
+      components: validSelection(coa.components),
+    }));
+  }
   return newNarrative;
 };
 
@@ -858,8 +872,15 @@ export const downloadAsDocx = async (
   narratives: Array<{
     label: string;
     content: string;
-    /** Selected decisions, listed in their own section when present */
-    decisions?: Array<{ label: string; values: string[] }>;
+    /** Courses of action (selected decisions per COA), listed in their own section when present */
+    coas?: Array<{
+      label: string;
+      desc?: string;
+      notes?: string;
+      decisions: Array<{ label: string; values: string[] }>;
+      /** Already translated warnings, e.g. decisions that conflict with the situation */
+      warnings?: string[];
+    }>;
   }>,
   filename = 'scenario.docx',
   decisionsTitle = 'Decisions',
@@ -1096,28 +1117,60 @@ export const downloadAsDocx = async (
 
           flushParagraph();
 
-          if (n.decisions && n.decisions.length > 0) {
+          if (n.coas && n.coas.length > 0) {
             children.push(
               new Paragraph({
                 text: sanitizeDocxText(decisionsTitle),
                 heading: HeadingLevel.HEADING_3,
                 spacing: { before: 200, after: 80 },
               }),
-              ...n.decisions.map(
-                (d) =>
-                  new Paragraph({
-                    children: [
-                      new TextRun({
-                        text: `${sanitizeDocxText(d.label)}: `,
-                        bold: true,
-                      }),
-                      new TextRun(sanitizeDocxText(d.values.join(', '))),
-                    ],
-                    bullet: { level: 0 },
-                    spacing: { after: 60 },
-                  }),
-              ),
             );
+            for (const coa of n.coas) {
+              if (coa.label) {
+                children.push(
+                  new Paragraph({
+                    text: sanitizeDocxText(coa.label),
+                    heading: HeadingLevel.HEADING_4,
+                    spacing: { before: 160, after: 60 },
+                  }),
+                );
+              }
+              for (const text of [coa.desc, coa.notes]) {
+                if (text) {
+                  children.push(
+                    new Paragraph({
+                      children: parseInlineRuns(sanitizeDocxText(text)),
+                      spacing: { after: 60 },
+                    }),
+                  );
+                }
+              }
+              children.push(
+                ...coa.decisions.map(
+                  (d) =>
+                    new Paragraph({
+                      children: [
+                        new TextRun({
+                          text: `${sanitizeDocxText(d.label)}: `,
+                          bold: true,
+                        }),
+                        new TextRun(sanitizeDocxText(d.values.join(', '))),
+                      ],
+                      bullet: { level: 0 },
+                      spacing: { after: 60 },
+                    }),
+                ),
+                ...(coa.warnings || []).map(
+                  (w) =>
+                    new Paragraph({
+                      children: [
+                        new TextRun({ text: sanitizeDocxText(w), italics: true }),
+                      ],
+                      spacing: { after: 60 },
+                    }),
+                ),
+              );
+            }
           }
 
           return children;

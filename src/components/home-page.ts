@@ -38,6 +38,7 @@ import {
   SAVED,
   capitalize,
   convertFromOld,
+  effectiveSelection,
   modelToSaveName,
   uploadFile,
 } from '../utils';
@@ -91,8 +92,13 @@ export const TableView: MeiosisComponent<{
                         href: routingSvc.href(Dashboards.SHOW_SCENARIO),
                         title: n.label,
                         onclick: () => {
+                          // Rows may be display copies (e.g. a course of action): select the stored narrative
+                          const stored =
+                            restAttrs.state.model.scenario.narratives?.find(
+                              (x) => x.id === n.id
+                            ) || n;
                           restAttrs.update({
-                            curNarrative: () => n,
+                            curNarrative: () => stored,
                           });
                         },
                       },
@@ -239,6 +245,11 @@ export const HomePage: MeiosisComponent = () => {
           return (n.label || '').toLowerCase().includes(term);
         })
         .sort((a, b) => (a.label || '').localeCompare(b.label));
+      // Tables show the situation plus the decisions of the active course of action
+      const tableNarratives = filteredNarratives.map((n) => ({
+        ...n,
+        components: effectiveSelection(n),
+      }));
       const valueLabels = new Map(
         components.flatMap((component) =>
           (component.values || []).map((value) => [value.id, value.label] as const)
@@ -375,14 +386,14 @@ export const HomePage: MeiosisComponent = () => {
                         title: c.label,
                         vnode: m(TableView, {
                           ...attrs,
-                          narratives: filteredNarratives,
+                          narratives: tableNarratives,
                           components: components.filter((comp) => c.componentIds?.includes(comp.id)),
                         }),
                       })),
                     })
                   : m(TableView, {
                       ...attrs,
-                      narratives: filteredNarratives,
+                      narratives: tableNarratives,
                       components: components.filter((comp) => categories[0].componentIds?.includes(comp.id)),
                     })),
             ]),
