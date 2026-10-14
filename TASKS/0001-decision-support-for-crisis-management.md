@@ -1,6 +1,6 @@
 # 0001 Decision support for crisis management
 
-Status: open
+Status: done
 Priority: high
 Subsystem: frontend
 Depends on: none
@@ -57,3 +57,7 @@ User decisions (2026-10-14):
 - 2026-10-14: Created from the review of the decision-support page
   (`src/components/decision-support-page.ts`), settings (`src/components/settings-page.ts`)
   and create page (`src/components/create-scenario-page.ts`).
+
+### 2026-05-23 — closed
+All children (0002–0008, plus 0009 split into 0010–0013) are done; see their Agent Notes.
+Package `morphological-box` is at 0.5.0 (unpublished; tag `morphological-box-v0.5.0` after merge).
