@@ -144,6 +144,24 @@ test('the first decision creates course of action "A"', () => {
   assert.deepEqual(curNarrative.coas[0].components, { measure: ['evacuate'] });
 });
 
+test('course-of-action text areas render without mixing keyed and unkeyed vnodes', () => {
+  const { CreateScenarioPage } = load();
+  const curNarrative = {
+    id: 'n',
+    components: { threat: ['fire'] },
+    coas: [{ id: 'a', label: 'A', components: { measure: ['evacuate'] }, notes: 'Note' }],
+    activeCoaId: 'a',
+  };
+  const attrs = { state: { model: { personas: [], scenario: scenario(true) }, curNarrative }, update: () => {} };
+  const tree = CreateScenarioPage().view({ attrs });
+  const textAreas = findAll(tree, (node) => node.tag === materialized.TextArea);
+  assert.ok(textAreas.length >= 2, 'notes and reflection text areas are rendered');
+  for (const vnode of textAreas) {
+    // TextArea passes its attrs on to the inner <textarea>, so a `key` would sit next to unkeyed siblings.
+    assert.doesNotThrow(() => materialized.TextArea({ attrs: vnode.attrs }).view({ attrs: vnode.attrs }));
+  }
+});
+
 test('values of the active course of action that conflict with the situation are flagged', () => {
   const { CreateScenarioPage } = load();
   const curNarrative = {

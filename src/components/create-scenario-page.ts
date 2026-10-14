@@ -858,15 +858,17 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             coa &&
               m(
                 '.col.s12',
-                m(TextArea, {
-                  key: coa.id,
-                  label: t('COA_NOTES'),
-                  value: coa.notes,
-                  oninput: (notes: string) => {
-                    coa.notes = notes;
-                    updateNarrative(attrs, curNarrative);
-                  },
-                }),
+                // TextArea forwards `key` to its inner <textarea>, so key a wrapping fragment instead.
+                m.fragment({ key: coa.id }, [
+                  m(TextArea, {
+                    label: t('COA_NOTES'),
+                    value: coa.notes,
+                    oninput: (notes: string) => {
+                      coa.notes = notes;
+                      updateNarrative(attrs, curNarrative);
+                    },
+                  }),
+                ]),
               ),
             coa &&
               m('.col.s12.coa-reflection', [
