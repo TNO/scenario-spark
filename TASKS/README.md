@@ -18,8 +18,8 @@ prompt (0005) and courses of action (0006) can run in parallel after 0003.
 
 ## Later
 
-- [ ] 0009 Improve the decision comparison page *(needs 0006; split into 0010–0013)*
+- [x] 0009 Improve the decision comparison page *(needs 0006; split into 0010–0013)*
   - [x] 0010 COA comparison and robustness views *(needs 0006)*
   - [x] 0011 Suggested approach respects inconsistencies and explains picks *(needs 0010)*
   - [x] 0012 Risk before vs. after a COA, risk matrix and criteria scoring *(needs 0010)*
-  - [ ] 0013 Decision log and Word export of the comparison *(needs 0010–0012)*
+  - [x] 0013 Decision log and Word export of the comparison *(needs 0010–0012)*

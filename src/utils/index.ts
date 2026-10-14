@@ -17,6 +17,7 @@ import {
   thresholdColors,
 } from '../models';
 import { t } from '../services';
+import type { ComparisonExport } from './decision';
 
 export * from './decision';
 
@@ -1214,6 +1215,20 @@ export const downloadAsDocx = async (
   });
 
   const blob = await Packer.toBlob(doc);
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
+/** Download the decision-support comparison (see `buildComparisonExport`) as a Word document. */
+export const downloadComparisonDocx = async (data: ComparisonExport, filename = 'comparison.docx') => {
+  const [{ Packer }, { comparisonDocument }] = await Promise.all([import('docx'), import('./comparison-docx')]);
+  const blob = await Packer.toBlob(await comparisonDocument(data, trafficLight));
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;

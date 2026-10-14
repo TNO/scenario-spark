@@ -1,6 +1,6 @@
 # 0009 Improve the decision comparison page
 
-Status: split into 0010–0013
+Status: done
 Priority: low
 Subsystem: frontend
 Depends on: 0006
@@ -39,3 +39,4 @@ Implement in order; each is self-contained.
 ## Agent Notes
 - 2026-10-14: Split into 0010 (comparison + robustness views), 0011 (suggested approach),
   0012 (risk before/after, matrix, scoring) and 0013 (decision log, Word export).
+- 2026-10-14: All subtasks 0010–0013 done; closed.

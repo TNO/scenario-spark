@@ -7,13 +7,30 @@ import {
   Narrative,
   ScenarioComponent,
 } from '../models';
-import { MeiosisComponent, saveModel, setPage, t } from '../services';
+import { MeiosisComponent, i18n, saveModel, setPage, t } from '../services';
 import { TableView } from './home-page';
 import { range } from 'mithril-ui-form';
-import { ToggleGroup } from 'mithril-materialized';
-import { CoaCriterion, activeCoa, comparisonNarrativeId, effectiveSelection, suggestApproach } from '../utils';
+import { FlatButton, ToggleGroup } from 'mithril-materialized';
+import {
+  CoaCriterion,
+  DecisionLogInput,
+  Translator,
+  activeCoa,
+  addDecisionLogEntry,
+  buildComparisonExport,
+  comparisonNarrativeId,
+  decisionLogRows,
+  downloadComparisonDocx,
+  effectiveSelection,
+  formatLogTimestamp,
+  modelToSaveName,
+  removeDecisionLogEntry,
+  suggestApproach,
+  updateDecisionLogEntry,
+} from '../utils';
 import {
   CoaComparisonView,
+  DecisionLogView,
   RiskMatrixView,
   RobustnessView,
   SuggestedApproachExplanation,
@@ -222,11 +239,47 @@ export const DecisionSupportPage: MeiosisComponent = () => {
             hasDecisionCategories && m(SuggestedApproachExplanation, { suggestion }),
           ];
 
+      const locale = i18n.currentLocale;
+
+      const saveLogEntry = (input: DecisionLogInput, id?: ID) => {
+        if (id) updateDecisionLogEntry(model.scenario, id, input);
+        else addDecisionLogEntry(model.scenario, input);
+        saveModel(attrs, model);
+      };
+
+      const deleteLogEntry = (id: ID) => {
+        if (removeDecisionLogEntry(model.scenario, id)) saveModel(attrs, model);
+      };
+
+      const exportToWord = async () => {
+        const data = buildComparisonExport(model.scenario, includedNarratives, {
+          narrativeId: selectedComparisonId,
+          tr: t as Translator,
+          formatDate: (ts) => formatLogTimestamp(ts, locale),
+        });
+        await downloadComparisonDocx(data, `${modelToSaveName(model, t('DECISION_EXPORT_TITLE'), false)}.docx`);
+      };
+
       return m('.row', [
-        m('.col.s12.decision-view-switcher', { role: 'group', 'aria-label': t('DECISION_VIEW') }, viewSwitcher),
+        m('.col.s12.decision-view-switcher', { role: 'group', 'aria-label': t('DECISION_VIEW') }, [
+          viewSwitcher,
+          m(FlatButton, {
+            className: 'decision-export',
+            label: t('DECISION_EXPORT'),
+            iconName: 'description',
+            onclick: exportToWord,
+          }),
+        ]),
         !hasDecisionCategories &&
           m('.col.s12', m('p.grey-text', t('NO_DECISION_CATEGORIES'))),
         content,
+        m(DecisionLogView, {
+          narratives,
+          rows: decisionLogRows(model.scenario),
+          locale,
+          onsave: saveLogEntry,
+          ondelete: deleteLogEntry,
+        }),
       ]);
     },
   };

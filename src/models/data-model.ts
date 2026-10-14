@@ -207,6 +207,24 @@ export type Scenario = Item & {
   personas?: ID[];
   /** Optional weights (0-5) of the criteria used to score courses of action; missing = 1 */
   criteriaWeights?: { [criterion: string]: number };
+  /** Decisions taken on the decision-support page, with rationale and timestamp */
+  decisionLog?: DecisionLogEntry[];
+};
+
+/** A recorded decision; scenario and COA labels are stored so removed references stay readable */
+export type DecisionLogEntry = {
+  id: ID;
+  /** Time the decision was recorded (ms since epoch) */
+  timestamp: number;
+  /** Time of the last edit (ms since epoch) */
+  edited?: number;
+  narrativeId?: ID;
+  narrativeLabel?: string;
+  coaId?: ID;
+  coaLabel?: string;
+  decision: string;
+  rationale?: string;
+  author?: string;
 };
 
 /** Category of components, e.g. to separate context from narrative */

@@ -2,6 +2,7 @@ import type {
   Category,
   CourseOfAction,
   DataModel,
+  DecisionLogEntry,
   ID,
   Narrative,
   Scenario,
@@ -978,4 +979,469 @@ export const coaScores = (
     (!!criteriaWeights && Object.keys(criteriaWeights).length > 0) ||
     coas.some((coa) => coa.scores && Object.values(coa.scores).some(validNumber));
   return { weights, rows, used };
+};
+
+/** Translate a key with an optional sub-key, count or parameters (the app's `t`). */
+export type Translator = (key: string, arg?: unknown) => string;
+
+/** Plain-text explanation of a suggested value (`SUGGESTED_PICK`). */
+export const suggestedPickText = (e: SuggestedExplanation, tr: Translator) =>
+  tr('SUGGESTED_PICK', { count: e.chosenIn, total: e.total, weight: e.weight });
+
+/** Plain-text reason why a value was skipped in the suggested approach. */
+export const suggestedSkipText = (s: SuggestedSkip, tr: Translator) =>
+  tr(s.reason === 'excluded' ? 'SUGGESTED_SKIPPED_EXCLUDED' : 'SUGGESTED_SKIPPED_CONFLICT', {
+    value: s.label,
+    causes: s.causes.join(', '),
+  });
+
+/** Plain-text reason why a factor has no suggested value. */
+export const suggestedNoneText = (c: Pick<SuggestedComponent, 'reason'>, tr: Translator) =>
+  tr(c.reason === 'excluded' ? 'SUGGESTED_NONE_EXCLUDED' : c.reason === 'conflict' ? 'SUGGESTED_NONE_CONFLICT' : 'SUGGESTED_NONE');
+
+// Decision log
+
+type LogNarrative = Pick<Narrative, 'id' | 'label'> & Partial<Pick<Narrative, 'coas'>>;
+type LogBox = { narratives?: LogNarrative[]; decisionLog?: DecisionLogEntry[] };
+
+/** User input for a decision log entry; blank optional text is not stored. */
+export type DecisionLogInput = Pick<DecisionLogEntry, 'decision'> &
+  Partial<Pick<DecisionLogEntry, 'narrativeId' | 'coaId' | 'rationale' | 'author'>>;
+
+const isBlank = (s?: string) => !s || s.trim().length === 0;
+
+/** Set the references (with their current labels) and the text of an entry from user input. */
+const applyLogInput = (box: LogBox, entry: DecisionLogEntry, input: DecisionLogInput, keepRemoved: boolean) => {
+  const storedNarrativeId = entry.narrativeId;
+  const storedCoaId = entry.coaId;
+  const narrative = (box.narratives || []).find((n) => n.id === input.narrativeId);
+  const coa = narrative?.coas?.find((c) => c.id === input.coaId);
+  // A reference to a removed scenario or COA is kept (with its stored label) while unchanged
+  const keepNarrative = keepRemoved && !narrative && !!input.narrativeId && input.narrativeId === storedNarrativeId;
+  const keepCoa =
+    keepRemoved &&
+    !coa &&
+    !!input.coaId &&
+    input.coaId === storedCoaId &&
+    input.narrativeId === storedNarrativeId;
+  if (narrative) {
+    entry.narrativeId = narrative.id;
+    entry.narrativeLabel = narrative.label;
+  } else if (!keepNarrative) {
+    delete entry.narrativeId;
+    delete entry.narrativeLabel;
+  }
+  if (coa) {
+    entry.coaId = coa.id;
+    entry.coaLabel = coa.label;
+  } else if (!keepCoa) {
+    delete entry.coaId;
+    delete entry.coaLabel;
+  }
+  entry.decision = input.decision;
+  for (const key of ['rationale', 'author'] as const) {
+    if (isBlank(input[key])) delete entry[key];
+    else entry[key] = input[key];
+  }
+  return entry;
+};
+
+/**
+ * Record a decision in the box's log (created when missing). The labels of the referenced
+ * scenario and COA are stored, so the entry still makes sense after they are deleted.
+ * Returns undefined (and changes nothing) when the decision text is blank.
+ */
+export const addDecisionLogEntry = (
+  box: LogBox,
+  input: DecisionLogInput,
+  { now = Date.now(), makeId = randomId }: { now?: number; makeId?: () => ID } = {},
+): DecisionLogEntry | undefined => {
+  if (isBlank(input.decision)) return undefined;
+  const entry = applyLogInput(box, { id: makeId(), timestamp: now, decision: '' }, input, false);
+  (box.decisionLog ||= []).push(entry);
+  return entry;
+};
+
+/**
+ * Edit a log entry; the original timestamp is kept and `edited` is set. References to a
+ * removed scenario or COA are kept (with their stored labels) as long as they are unchanged.
+ */
+export const updateDecisionLogEntry = (
+  box: LogBox,
+  id: ID,
+  input: DecisionLogInput,
+  { now = Date.now() }: { now?: number } = {},
+): DecisionLogEntry | undefined => {
+  const entry = box.decisionLog?.find((e) => e.id === id);
+  if (!entry || isBlank(input.decision)) return undefined;
+  applyLogInput(box, entry, input, true);
+  entry.edited = now;
+  return entry;
+};
+
+/** Remove a log entry; returns true when it existed. */
+export const removeDecisionLogEntry = (box: LogBox, id: ID) => {
+  const log = box.decisionLog || [];
+  const index = log.findIndex((e) => e.id === id);
+  if (index < 0) return false;
+  log.splice(index, 1);
+  return true;
+};
+
+/** Copy of the log, newest first (equal timestamps: last recorded first). */
+export const sortDecisionLog = (log: DecisionLogEntry[] = []) =>
+  log
+    .map((entry, index) => ({ entry, index }))
+    .sort((a, b) => b.entry.timestamp - a.entry.timestamp || b.index - a.index)
+    .map(({ entry }) => entry);
+
+export type DecisionLogRow = {
+  entry: DecisionLogEntry;
+  /** Current label of the scenario, else the stored one */
+  narrativeLabel?: string;
+  narrativeRemoved: boolean;
+  coaLabel?: string;
+  coaRemoved: boolean;
+};
+
+/** Log entries, newest first, with current labels and removed scenarios/COAs marked. */
+export const decisionLogRows = (box: LogBox): DecisionLogRow[] =>
+  sortDecisionLog(box.decisionLog).map((entry) => {
+    const narrative = entry.narrativeId ? (box.narratives || []).find((n) => n.id === entry.narrativeId) : undefined;
+    const coa = entry.coaId ? narrative?.coas?.find((c) => c.id === entry.coaId) : undefined;
+    return {
+      entry,
+      narrativeLabel: narrative?.label ?? entry.narrativeLabel,
+      narrativeRemoved: !!entry.narrativeId && !narrative,
+      coaLabel: coa?.label ?? entry.coaLabel,
+      coaRemoved: !!entry.coaId && !coa,
+    };
+  });
+
+/** Locale-aware date and time of a log entry (falls back to English for unknown locales). */
+export const formatLogTimestamp = (timestamp: number, locale?: string) => {
+  const options: Intl.DateTimeFormatOptions = { dateStyle: 'medium', timeStyle: 'short' };
+  try {
+    return new Intl.DateTimeFormat(locale, options).format(timestamp);
+  } catch {
+    return new Intl.DateTimeFormat('en', options).format(timestamp);
+  }
+};
+
+// Export of the comparison
+
+/** Table cell: text, optionally with a risk level 0-4 (cell colour) */
+export type ExportCell = string | { text: string; risk?: number };
+export type ExportBlock =
+  | { kind: 'heading'; level: 1 | 2; text: string }
+  | { kind: 'paragraph'; text: string; italic?: boolean }
+  | { kind: 'list'; items: string[] }
+  | {
+      kind: 'table';
+      header: string[];
+      /** `group` rows span the table (category or factor headers) */
+      rows: Array<{ cells: ExportCell[]; group?: boolean }>;
+    };
+export type ComparisonExport = { title: string; blocks: ExportBlock[] };
+
+export type ComparisonExportOptions = {
+  /** Scenario whose COAs are compared and plotted (default: the first) */
+  narrativeId?: ID;
+  tr: Translator;
+  formatDate: (timestamp: number) => string;
+  now?: number;
+};
+
+type ExportBox = Box &
+  Pick<Scenario, 'label'> &
+  Partial<Pick<Scenario, 'criteriaWeights' | 'decisionLog'>> & { narratives?: LogNarrative[] };
+type ExportNarrative = CoaNarrative &
+  Pick<Narrative, 'id' | 'label'> &
+  Partial<Pick<Narrative, 'risk' | 'probability' | 'impact'>>;
+
+/**
+ * Content of the Word export of the decision-support page as plain blocks (rendering is
+ * separate): overview with suggested approach and its explanation, COA comparison of the
+ * selected scenario with criteria scores, robustness grid, risk matrix and decision log.
+ * Views that need decision categories are left out when the box has none, as on the page.
+ */
+export const buildComparisonExport = (
+  box: ExportBox,
+  narratives: ExportNarrative[],
+  { narrativeId, tr, formatDate, now = Date.now() }: ComparisonExportOptions,
+): ComparisonExport => {
+  const blocks: ExportBlock[] = [];
+  const heading = (text: string, level: 1 | 2 = 1) => blocks.push({ kind: 'heading', level, text });
+  const paragraph = (text: string, italic?: boolean) =>
+    blocks.push(italic ? { kind: 'paragraph', text, italic } : { kind: 'paragraph', text });
+  const coaName = (label: string) => `${tr('COURSE_OF_ACTION')} ${label}`;
+  const levelText = (key: string, id?: ID) => {
+    const level = levelIndex(id);
+    return level === undefined ? '' : tr(key, level);
+  };
+  const riskName = (level?: number) => (level === undefined ? tr('RISK_NOT_SET') : tr('RISK5', level));
+
+  paragraph(tr('DECISION_EXPORT_DATE', { date: formatDate(now) }));
+
+  const { decisions } = splitDecisionComponents(box);
+  const hasDecisions = decisions.length > 0;
+  const selectedId = comparisonNarrativeId(narratives, undefined, narrativeId);
+  const selected = narratives.find((n) => n.id === selectedId);
+
+  if (narratives.length === 0) {
+    paragraph(tr('NO_INCLUDED_NARRATIVES'));
+  } else {
+    // Overview
+    const suggestion = suggestApproach(box, narratives);
+    const valueLabels = (component: ScenarioComponent, ids: ID[] = []) =>
+      ids.map((id) => component.values?.find((v) => v.id === id)?.label || id).join(', ');
+    heading(tr('DECISION_VIEW_OVERVIEW'));
+    blocks.push({
+      kind: 'table',
+      header: [tr('NAME'), tr('PROBABILITY'), tr('IMPACT'), tr('RISK'), ...decisions.map((c) => c.label)],
+      rows: [
+        ...narratives.map((n) => {
+          const coa = activeCoa(n);
+          const selection = effectiveSelection(n);
+          return {
+            cells: [
+              coa ? `${n.label} – ${coaName(coa.label)}` : n.label,
+              levelText('PROB5', n.probability),
+              levelText('IMP5', n.impact),
+              levelText('RISK5', n.risk),
+              ...decisions.map((c) => valueLabels(c, selection[c.id])),
+            ],
+          };
+        }),
+        {
+          cells: [
+            tr('SUGGESTED_APPROACH', 'TITLE'),
+            '',
+            '',
+            '',
+            ...decisions.map((c) => valueLabels(c, suggestion.selection[c.id])),
+          ],
+        },
+      ],
+    });
+
+    if (hasDecisions) {
+      heading(tr('SUGGESTED_WHY'), 2);
+      paragraph(tr('SUGGESTED_HINT'), true);
+      blocks.push({
+        kind: 'list',
+        items: suggestion.components.flatMap((c) => [
+          ...(c.valueIds.length > 0
+            ? c.explanations.map((e) => `${c.label}: ${e.label} – ${suggestedPickText(e, tr)}`)
+            : [`${c.label}: ${suggestedNoneText(c, tr)}`]),
+          ...c.skipped.map((s) => `${c.label}: ${suggestedSkipText(s, tr)}`),
+        ]),
+      });
+
+      // COA comparison of the selected scenario
+      heading(tr('DECISION_VIEW_COA'));
+      if (selected) paragraph(`${tr('COMPARE_SCENARIO')}: ${selected.label}`);
+      const { coas, groups } = coaComparisonRows(box, selected);
+      if (!selected || coas.length === 0) {
+        paragraph(tr('NO_COAS'));
+      } else {
+        const riskRows = coaRiskRows(selected);
+        const showRisk = !!selected.risk || riskRows.some((r) => r.after !== undefined);
+        const arrow = { lower: ' ↓', higher: ' ↑', same: ' →' };
+        blocks.push({
+          kind: 'table',
+          header: [
+            tr('DECISIONS'),
+            ...coas.map((coa) => coaName(coa.label) + (coa.active ? ` (${tr('COA_ACTIVE')})` : '')),
+          ],
+          rows: [
+            ...(showRisk
+              ? [
+                  { cells: [tr('RISK')], group: true },
+                  {
+                    cells: [
+                      tr('RISK_BEFORE_AFTER'),
+                      ...riskRows.map(
+                        (row) =>
+                          tr('RISK_TRANSITION', { before: riskName(row.before), after: riskName(row.after) }) +
+                          (row.change ? arrow[row.change] : ''),
+                      ),
+                    ],
+                  },
+                ]
+              : []),
+            ...groups.flatMap((group) => [
+              { cells: [group.label], group: true },
+              ...group.rows.map((row) => ({
+                cells: [
+                  row.label,
+                  ...row.cells.map((cell) =>
+                    cell.values.length === 0
+                      ? tr('NO_DECISION_SELECTED')
+                      : cell.values.map((v) => (v.conflict ? `${v.label} ⚠` : v.label)).join(', '),
+                  ),
+                ],
+              })),
+            ]),
+          ],
+        });
+        const conflicts = groups.flatMap((group) =>
+          group.rows.flatMap((row) =>
+            row.cells.flatMap((cell, i) =>
+              cell.values
+                .filter((v) => v.conflict)
+                .map((v) => `${coaName(coas[i].label)}: ${tr('COA_CONFLICT', { value: v.label, situation: v.causes || '' })}`),
+            ),
+          ),
+        );
+        if (conflicts.length > 0) blocks.push({ kind: 'list', items: conflicts });
+
+        const scores = coaScores(selected.coas || [], box.criteriaWeights);
+        if (scores.used) {
+          const byId = new Map((selected.coas || []).map((coa) => [coa.id, coa]));
+          heading(tr('CRITERIA_SCORING'), 2);
+          blocks.push({
+            kind: 'table',
+            header: [tr('CRITERIA_CRITERION'), tr('CRITERIA_WEIGHT'), ...scores.rows.map((row) => coaName(row.label))],
+            rows: [
+              ...COA_CRITERIA.map((criterion) => ({
+                cells: [
+                  tr('CRITERIA', criterion),
+                  String(scores.weights[criterion]),
+                  ...scores.rows.map((row) => {
+                    const score = byId.get(row.id)?.scores?.[criterion];
+                    return validNumber(score) ? String(score) : '–';
+                  }),
+                ],
+              })),
+              {
+                cells: [
+                  tr('CRITERIA_TOTAL'),
+                  '',
+                  ...scores.rows.map((row) =>
+                    row.total === undefined
+                      ? tr('CRITERIA_NOT_SCORED')
+                      : tr('CRITERIA_TOTAL_OF', { total: row.total, max: row.max }) +
+                        (row.missing > 0 ? ` (${tr('CRITERIA_MISSING', { count: row.missing })})` : ''),
+                  ),
+                ],
+              },
+              {
+                cells: [
+                  tr('CRITERIA_RANK'),
+                  '',
+                  ...scores.rows.map((row) => (row.rank === undefined ? '–' : String(row.rank))),
+                ],
+              },
+            ],
+          });
+        }
+      }
+
+      // Robustness
+      const grid = robustnessGrid(box, narratives);
+      const total = grid.narratives.length;
+      const symbol = (cell: RobustnessCell) =>
+        cell.status === 'chosen' ? (cell.conflict ? '✓ ⚠' : '✓') : cell.status === 'excluded' ? '✗' : '–';
+      heading(tr('DECISION_VIEW_ROBUSTNESS'));
+      paragraph(tr('ROBUSTNESS_HINT'), true);
+      paragraph(
+        [
+          `✓ ${tr('ROBUSTNESS_CHOSEN')}`,
+          `✗ ${tr('ROBUSTNESS_EXCLUDED')}`,
+          `– ${tr('ROBUSTNESS_UNUSED')}`,
+          `⚠ ${tr('COA_HAS_CONFLICTS')}`,
+          `★ ${tr('ROBUSTNESS_ROBUST')}`,
+          `① ${tr('ROBUSTNESS_SPECIFIC')}`,
+        ].join(' · '),
+      );
+      blocks.push({
+        kind: 'table',
+        header: [
+          tr('ROBUSTNESS_MEASURE'),
+          ...grid.narratives.map((n) => (n.coaLabel ? `${n.label} (${n.coaLabel})` : n.label)),
+          tr('ROBUSTNESS_CHOSEN_IN'),
+        ],
+        rows: grid.groups.flatMap((group) => [
+          { cells: [group.label], group: true },
+          ...group.components.flatMap((component) => [
+            { cells: [component.label], group: true },
+            ...component.rows.map((row) => ({
+              cells: [
+                row.label,
+                ...row.cells.map(symbol),
+                tr('ROBUSTNESS_COUNT', { count: row.chosenCount, total }) +
+                  (row.robust ? ' ★' : row.scenarioSpecific ? ' ①' : ''),
+              ],
+            })),
+          ]),
+        ]),
+      });
+    }
+
+    // Risk matrix
+    const matrix = riskMatrix(narratives, selectedId);
+    const itemLabel = (mk: { kind: 'situation' | 'coa'; label: string }) =>
+      mk.kind === 'coa' ? `${coaName(mk.label)}${selected ? ` (${selected.label})` : ''}` : mk.label;
+    const levels = [0, 1, 2, 3, 4];
+    heading(tr('DECISION_VIEW_RISK'));
+    paragraph(tr('RISK_MATRIX_HINT'), true);
+    blocks.push({
+      kind: 'table',
+      header: [`${tr('PROBABILITY')} / ${tr('IMPACT')}`, ...levels.map((i) => tr('IMP5', i))],
+      rows: [...levels].reverse().map((p) => ({
+        cells: [
+          tr('PROB5', p),
+          ...matrix.cells[p].map((cell) => ({ text: cell.markers.map((mk) => mk.marker).join(', '), risk: cell.risk })),
+        ],
+      })),
+    });
+    if (matrix.markers.length === 0) {
+      paragraph(tr('RISK_MATRIX_EMPTY'));
+    } else {
+      blocks.push({
+        kind: 'table',
+        header: [tr('RISK_MATRIX_MARKER'), tr('RISK_MATRIX_ITEM'), tr('PROBABILITY'), tr('IMPACT'), tr('RISK')],
+        rows: matrix.markers.map((mk) => ({
+          cells: [mk.marker, itemLabel(mk), tr('PROB5', mk.probability), tr('IMP5', mk.impact), tr('RISK5', mk.risk)],
+        })),
+      });
+    }
+    if (matrix.unplaced.length > 0) {
+      paragraph(tr('RISK_MATRIX_UNPLACED', { items: matrix.unplaced.map(itemLabel).join(', ') }));
+    }
+  }
+
+  // Decision log
+  heading(tr('DECISION_LOG'));
+  const logRows = decisionLogRows(box);
+  const removed = (label: string | undefined, isRemoved: boolean) =>
+    label === undefined ? '' : isRemoved ? `${label} (${tr('DECISION_LOG_REMOVED')})` : label;
+  if (logRows.length === 0) {
+    paragraph(tr('DECISION_LOG_EMPTY'));
+  } else {
+    blocks.push({
+      kind: 'table',
+      header: [
+        tr('DECISION_LOG_DATE'),
+        tr('DECISION_LOG_SCENARIO'),
+        tr('COURSE_OF_ACTION'),
+        tr('DECISION_LOG_DECISION'),
+        tr('DECISION_LOG_RATIONALE'),
+        tr('DECISION_LOG_AUTHOR'),
+      ],
+      rows: logRows.map((row) => ({
+        cells: [
+          formatDate(row.entry.timestamp),
+          removed(row.narrativeLabel, row.narrativeRemoved),
+          removed(row.coaLabel, row.coaRemoved),
+          row.entry.decision,
+          row.entry.rationale || '',
+          row.entry.author || '',
+        ],
+      })),
+    });
+  }
+
+  return { title: `${tr('DECISION_EXPORT_TITLE')}: ${box.label}`, blocks };
 };

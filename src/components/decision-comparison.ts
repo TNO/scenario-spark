@@ -1,5 +1,5 @@
 import m, { FactoryComponent } from 'mithril';
-import { InputCheckbox, Select } from 'mithril-materialized';
+import { Button, ConfirmButton, FlatButton, IconButton, InputCheckbox, Select, TextArea, TextInput } from 'mithril-materialized';
 import type { ID, Narrative, Scenario } from '../models';
 import { t } from '../services';
 import {
@@ -18,6 +18,14 @@ import {
   SuggestedApproach,
   SuggestedComponent,
   SuggestedSkip,
+  Translator,
+  DecisionLogInput,
+  DecisionLogRow,
+  activeCoa,
+  formatLogTimestamp,
+  suggestedNoneText,
+  suggestedPickText,
+  suggestedSkipText,
 } from '../utils';
 
 const icon = (name: string, className: string, title: string) => [
@@ -416,17 +424,11 @@ export const RobustnessView: FactoryComponent<{ box: Scenario; narratives: Narra
   },
 });
 
-const pickText = (e: SuggestedComponent['explanations'][number]) =>
-  t('SUGGESTED_PICK', { count: e.chosenIn, total: e.total, weight: e.weight });
+const pickText = (e: SuggestedComponent['explanations'][number]) => suggestedPickText(e, t as Translator);
 
-const skipText = (s: SuggestedSkip) =>
-  t(s.reason === 'excluded' ? 'SUGGESTED_SKIPPED_EXCLUDED' : 'SUGGESTED_SKIPPED_CONFLICT', {
-    value: s.label,
-    causes: s.causes.join(', '),
-  });
+const skipText = (s: SuggestedSkip) => suggestedSkipText(s, t as Translator);
 
-const noPickText = (c: SuggestedComponent) =>
-  t(c.reason === 'excluded' ? 'SUGGESTED_NONE_EXCLUDED' : c.reason === 'conflict' ? 'SUGGESTED_NONE_CONFLICT' : 'SUGGESTED_NONE');
+const noPickText = (c: SuggestedComponent) => suggestedNoneText(c, t as Translator);
 
 /** Tooltips for the suggested-approach row of the overview table, per component. */
 export const suggestionTitles = (suggestion: SuggestedApproach) =>
@@ -461,3 +463,199 @@ export const SuggestedApproachExplanation: FactoryComponent<{ suggestion: Sugges
       ),
     ]),
 });
+
+/**
+ * Decision log of the box: record a decision (scenario, course of action, decision text,
+ * rationale, author), list entries newest first, edit and delete (with confirmation).
+ * Entries of deleted scenarios or COAs show the stored label, marked as removed.
+ */
+export const DecisionLogView: FactoryComponent<{
+  narratives: Narrative[];
+  rows: DecisionLogRow[];
+  locale?: string;
+  onsave: (input: DecisionLogInput, id?: ID) => void;
+  ondelete: (id: ID) => void;
+}> = () => {
+  /** `new` while recording, the entry id while editing */
+  let editing: ID | undefined;
+  let draft: DecisionLogInput = { decision: '' };
+
+  const start = (id: ID, input: DecisionLogInput) => {
+    editing = id;
+    draft = { ...input };
+  };
+  const stop = () => {
+    editing = undefined;
+    draft = { decision: '' };
+  };
+
+  const labelled = (id: string, label: string, control: m.Children) =>
+    m('.col.s12.m6', [m('label', { for: id }, label), control]);
+
+  const form = (narratives: Narrative[], row: DecisionLogRow | undefined, onsave: (input: DecisionLogInput, id?: ID) => void) => {
+    const removed = ` (${t('DECISION_LOG_REMOVED')})`;
+    const narrative = narratives.find((n) => n.id === draft.narrativeId);
+    const narrativeOptions = narratives.map((n) => ({ id: n.id, label: n.label }));
+    if (row?.narrativeRemoved && row.entry.narrativeId) {
+      narrativeOptions.push({ id: row.entry.narrativeId, label: (row.narrativeLabel || '') + removed });
+    }
+    const coaOptions = (narrative?.coas || []).map((c) => ({ id: c.id, label: `${t('COURSE_OF_ACTION')} ${c.label}` }));
+    if (row?.coaRemoved && row.entry.coaId && draft.narrativeId === row.entry.narrativeId) {
+      coaOptions.push({ id: row.entry.coaId, label: `${t('COURSE_OF_ACTION')} ${row.coaLabel || ''}${removed}` });
+    }
+    const canSave = !!draft.decision && draft.decision.trim().length > 0;
+    return m('.card-panel.decision-log-form', [
+      m('h6', row ? t('EDIT_DECISION') : t('RECORD_DECISION')),
+      m('.row', [
+        labelled(
+          'decision-log-scenario',
+          t('DECISION_LOG_SCENARIO'),
+          m(
+            'select.browser-default#decision-log-scenario',
+            {
+              value: draft.narrativeId || '',
+              onchange: (e: Event) => {
+                const value = (e.target as HTMLSelectElement).value;
+                draft.narrativeId = value || undefined;
+                const next = narratives.find((n) => n.id === value);
+                draft.coaId = next ? (activeCoa(next)?.id) : undefined;
+              },
+            },
+            [
+              m('option', { value: '' }, t('DECISION_LOG_NO_SCENARIO')),
+              narrativeOptions.map((o) => m('option', { value: o.id }, o.label)),
+            ],
+          ),
+        ),
+        labelled(
+          'decision-log-coa',
+          t('COURSE_OF_ACTION'),
+          m(
+            'select.browser-default#decision-log-coa',
+            {
+              value: draft.coaId || '',
+              disabled: coaOptions.length === 0,
+              onchange: (e: Event) => {
+                draft.coaId = (e.target as HTMLSelectElement).value || undefined;
+              },
+            },
+            [
+              m('option', { value: '' }, t('DECISION_LOG_NO_COA')),
+              coaOptions.map((o) => m('option', { value: o.id }, o.label)),
+            ],
+          ),
+        ),
+      ]),
+      m(TextArea, {
+        label: t('DECISION_LOG_DECISION'),
+        value: draft.decision,
+        isMandatory: true,
+        oninput: (value: string) => {
+          draft.decision = value;
+        },
+      }),
+      m(TextArea, {
+        label: t('DECISION_LOG_RATIONALE'),
+        value: draft.rationale || '',
+        oninput: (value: string) => {
+          draft.rationale = value;
+        },
+      }),
+      m(TextInput, {
+        label: t('DECISION_LOG_AUTHOR'),
+        value: draft.author || '',
+        oninput: (value: string) => {
+          draft.author = value;
+        },
+      }),
+      m('.decision-log-actions', [
+        m(Button, {
+          label: t('SAVE'),
+          iconName: 'save',
+          disabled: !canSave,
+          onclick: () => {
+            if (!canSave) return;
+            onsave(draft, row?.entry.id);
+            stop();
+          },
+        }),
+        m(FlatButton, { label: t('CANCEL'), onclick: stop }),
+      ]),
+    ]);
+  };
+
+  return {
+    view: ({ attrs: { narratives, rows, locale, onsave, ondelete } }) => {
+      const removedText = (label: string | undefined, isRemoved: boolean) =>
+        label !== undefined && [label, isRemoved && m('span.grey-text', ` (${t('DECISION_LOG_REMOVED')})`)];
+      return m('.col.s12.decision-log', [
+        m('h5', t('DECISION_LOG')),
+        m('p.grey-text', t('DECISION_LOG_HINT')),
+        editing === 'new'
+          ? form(narratives, undefined, onsave)
+          : m(Button, {
+              label: t('RECORD_DECISION'),
+              iconName: 'add',
+              disabled: editing !== undefined,
+              onclick: () => {
+                const narrative = narratives[0];
+                start('new', { decision: '' });
+                if (narrative) {
+                  draft.narrativeId = narrative.id;
+                  draft.coaId = activeCoa(narrative)?.id;
+                }
+              },
+            }),
+        rows.length === 0
+          ? m('p.grey-text', t('DECISION_LOG_EMPTY'))
+          : m(
+              'ol.decision-log-list',
+              rows.map((row) => {
+                const { entry } = row;
+                if (editing === entry.id) return m('li', form(narratives, row, onsave));
+                return m('li.decision-log-entry', [
+                  m('.decision-log-meta.grey-text', [
+                    m('time', { datetime: new Date(entry.timestamp).toISOString() }, formatLogTimestamp(entry.timestamp, locale)),
+                    entry.edited && ` · ${t('DECISION_LOG_EDITED', { date: formatLogTimestamp(entry.edited, locale) })}`,
+                    entry.author && ` · ${t('DECISION_LOG_AUTHOR')}: ${entry.author}`,
+                  ]),
+                  (row.narrativeLabel !== undefined || row.coaLabel !== undefined) &&
+                    m('.decision-log-ref', [
+                      removedText(row.narrativeLabel, row.narrativeRemoved),
+                      row.coaLabel !== undefined && [
+                        row.narrativeLabel !== undefined && ' – ',
+                        `${t('COURSE_OF_ACTION')} `,
+                        removedText(row.coaLabel, row.coaRemoved),
+                      ],
+                    ]),
+                  m('p.decision-log-decision', m('strong', entry.decision)),
+                  entry.rationale && m('p.decision-log-rationale', [m('em', `${t('DECISION_LOG_RATIONALE')}: `), entry.rationale]),
+                  m('.decision-log-actions', [
+                    m(IconButton, {
+                      iconName: 'edit',
+                      title: t('EDIT_DECISION'),
+                      'aria-label': t('EDIT_DECISION'),
+                      disabled: editing !== undefined,
+                      onclick: () =>
+                        start(entry.id, {
+                          narrativeId: entry.narrativeId,
+                          coaId: entry.coaId,
+                          decision: entry.decision,
+                          rationale: entry.rationale,
+                          author: entry.author,
+                        }),
+                    }),
+                    m(ConfirmButton, {
+                      title: t('DELETE_DECISION'),
+                      'aria-label': t('DELETE_DECISION'),
+                      disabled: editing !== undefined,
+                      onclick: () => ondelete(entry.id),
+                    }),
+                  ]),
+                ]);
+              }),
+            ),
+      ]);
+    },
+  };
+};

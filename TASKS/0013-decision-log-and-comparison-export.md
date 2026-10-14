@@ -1,6 +1,6 @@
 # 0013 Decision log and Word export of the comparison
 
-Status: open
+Status: done
 Priority: low
 Subsystem: frontend
 Depends on: 0010 (0011, 0012 when available; parent 0009)
@@ -34,3 +34,25 @@ narratives (`downloadAsDocx` in `src/utils/index.ts`, called from
 - Run `pnpm test` and `pnpm typecheck`; after `pnpm build`, revert `docs/`.
 
 ## Agent Notes
+- 2026-10-14: Done. Model: optional `Scenario.decisionLog?: DecisionLogEntry[]`
+  (`id, timestamp, edited?, narrativeId?, narrativeLabel?, coaId?, coaLabel?, decision,
+  rationale?, author?`); no migration needed. Pure helpers in `src/utils/decision.ts`:
+  `addDecisionLogEntry`/`updateDecisionLogEntry`/`removeDecisionLogEntry`,
+  `sortDecisionLog`, `decisionLogRows` (current labels preferred, removed references
+  flagged, newest first), `formatLogTimestamp` (Intl, falls back to `en`), and
+  `buildComparisonExport` (format-neutral blocks: headings, paragraphs, lists, tables
+  with group rows and risk cells) reusing `suggestApproach`, `coaComparisonRows`,
+  `coaRiskRows`, `coaScores`, `robustnessGrid`, `riskMatrix`. Suggestion explanation
+  texts moved to `suggestedPickText`/`suggestedSkipText`/`suggestedNoneText` (shared
+  by UI and export; translator injected so decision.ts stays Node-loadable).
+  `src/utils/comparison-docx.ts` renders the blocks with docx (landscape, orange header
+  rows, risk-coloured cells via `trafficLight`); `downloadComparisonDocx` in utils
+  lazily loads it. UI: `DecisionLogView` in decision-comparison.ts, export button in
+  the view switcher. 18 keys in all six locales.
+  Tests: `tests/decision-log.test.mjs` (8), `tests/comparison-export.test.mjs` (8,
+  including rendering the docx and checking document.xml). Totals: 139 app + 37 package.
+  Deviations: added `edited` timestamp on update; the export always contains the full
+  COA comparison (ignores *Show differences only*); Word uses Unicode symbols (✓ ✗ ⚠ ★
+  ↓ ↑) instead of Material icons; the log is shown below every view, not a separate view.
+  Not browser-tested in this session; the pre-existing Mithril issue noted in 0012
+  remains.

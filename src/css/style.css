@@ -2220,6 +2220,13 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
 }
 .decision-view-switcher {
   margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+.decision-view-switcher .decision-export {
+  margin-left: auto;
 }
 .decision-matrix i.material-icons {
   vertical-align: middle;
@@ -2334,4 +2341,32 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
 .risk-marker.coa {
   border-radius: 2px;
   border-style: dashed;
+}
+
+.decision-log {
+  margin-top: 2rem;
+}
+.decision-log-list {
+  padding-left: 0;
+  list-style: none;
+}
+.decision-log-entry {
+  border-left: 3px solid var(--mm-primary-color, #26a69a);
+  padding: 0.25rem 0 0.25rem 0.75rem;
+  margin: 0.75rem 0;
+}
+.decision-log-entry p {
+  margin: 0.25rem 0;
+  white-space: pre-wrap;
+}
+.decision-log-meta {
+  font-size: 0.9rem;
+}
+.decision-log-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.decision-log-form label {
+  display: block;
 }
