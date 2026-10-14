@@ -925,11 +925,9 @@ export const CreateScenarioPage: MeiosisComponent = () => {
         m(
           '.col.s12',
           m(
-            'i.right.material-icons.small.clickable',
+            'i.right.material-icons.clickable.map-toggle',
             {
               title: t('TOGGLE', showTables ? 'HIDE' : 'SHOW'),
-              className: 'right',
-              // style: { marginBottom: '-14px' },
               onclick: () => {
                 showTables = !showTables;
               },

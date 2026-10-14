@@ -1101,6 +1101,8 @@ ul.kanban > li {
   bottom: 0;
   left: 0;
   width: 100%;
+  /* Above the fixed legend (1000) and the decision-categories hint (999) */
+  z-index: 1001;
   background-color: var(--mm-popup-background, #fcffa5);
   font-size: 2rem;
   box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.3);
@@ -2525,4 +2527,37 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   border: none;
   box-shadow: none;
   background-color: transparent;
+}
+
+/* Fixed at the bottom left of the window; the right offset keeps it clear of the fixed legend */
+.decision-categories-hidden {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 240px;
+  z-index: 999;
+  margin: 10px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background-color: var(--mm-surface-color, #fff);
+  border: 1px solid var(--mm-border-color, rgba(0, 0, 0, 0.12));
+  width: fit-content;
+}
+
+/* Marks decision (measure) categories in the define-box tabs */
+.tabs .tab.decision-tab a::before {
+  content: 'task_alt';
+  font-family: 'Material Icons';
+  font-size: 18px;
+  line-height: 1;
+  vertical-align: -4px;
+  margin-right: 6px;
+  text-transform: none;
+  color: var(--mm-secondary-color, #f59e0b);
+}
+
+/* Map toggle on the create-scenario page, aligned with the lock icons above it */
+.create-scenario .map-toggle {
+  font-size: 24px;
+  margin: 8px -7.5px 0 0;
 }

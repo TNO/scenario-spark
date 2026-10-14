@@ -24,6 +24,7 @@ import {
   setBoxTransposed,
   setMapHeight,
   State,
+  routingSvc,
 } from "../services";
 import {
   ConfirmButton,
@@ -43,6 +44,7 @@ import {
   UIForm,
 } from "mithril-ui-form";
 import {
+  answerDecisionSupportPrompt,
   capitalize,
   computeCompColor,
   getDecisionCategoryIds,
@@ -872,13 +874,6 @@ export const CreateBoxPage: MeiosisComponent = () => {
             ),
           categories.length >= 1 && categories[0].componentIds
             ? [
-                hiddenCategoryIds.size > 0 &&
-                  m(
-                    "p.grey-text.decision-categories-hidden",
-                    t("DECISION_CATEGORIES_HIDDEN", {
-                      count: hiddenCategoryIds.size,
-                    }),
-                  ),
                 m(Tabs, {
                   tabs: categories
                     .map((c, categoryId) => ({ c, categoryId }))
@@ -886,6 +881,7 @@ export const CreateBoxPage: MeiosisComponent = () => {
                     .map(({ c, categoryId }) => ({
                       id: c.id,
                       title: c.label,
+                      className: c.decisionSupport ? "decision-tab" : undefined,
                       vnode: m(BoxView, {
                         ...attrs,
                         compColor,
@@ -895,6 +891,32 @@ export const CreateBoxPage: MeiosisComponent = () => {
                       }),
                     })),
                 }),
+                hiddenCategoryIds.size > 0 &&
+                  m("p.grey-text.decision-categories-hidden", [
+                    t("DECISION_CATEGORIES_HIDDEN", {
+                      count: hiddenCategoryIds.size,
+                    }),
+                    " ",
+                    m(
+                      "a",
+                      {
+                        href: "#",
+                        onclick: (e: Event) => {
+                          e.preventDefault();
+                          const { model } = attrs.state;
+                          answerDecisionSupportPrompt(model.scenario, true);
+                          saveModel(attrs, model);
+                        },
+                      },
+                      t("DECISION_PROMPT_ENABLE"),
+                    ),
+                    " · ",
+                    m(
+                      "a",
+                      { href: routingSvc.href(Dashboards.SETTINGS) },
+                      t("DECISION_CATEGORIES_OPEN_SETTINGS"),
+                    ),
+                  ]),
               ]
             : m(".row.mt10", m(".col.s12", t("SPEC_CATS"))),
           tooltip &&
