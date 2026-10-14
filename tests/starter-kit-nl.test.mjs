@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { addStarterKitToModel, loadStarterKit } from '../src/models/starter-kit.ts';
+import { addStarterKitToModel, createScenario, loadStarterKit } from '../src/models/starter-kit.ts';
 import { parseImportedModel } from '../src/utils/import-model.ts';
 import { assessOptions, createRandom, generateCombination } from 'morphological-box';
 
@@ -254,4 +254,42 @@ test('selecting the situation excludes measures that do not fit', async () => {
     .find((option) => option.componentId === valueOwner.get(measureValue).id)
     .values.find((value) => value.id === measureValue);
   assert.equal(measure.status, 'excluded');
+});
+
+test('hazard boxes mark their manual measure categories as decision categories', async () => {
+  const boxes = scenarios(await createStarterKitNl([]));
+  for (const box of boxes) {
+    assert.equal(box.includeDecisionSupport, false, box.id);
+    for (const category of box.categories) {
+      const manual = category.componentIds.every(
+        (cid) => box.components.find((component) => component.id === cid).manual
+      );
+      assert.equal(!!category.decisionSupport, manual, `${box.id}: ${category.label}`);
+    }
+  }
+  for (const id of hazardBoxes) {
+    const box = boxes.find((item) => item.id === `starter-nl-${id}`);
+    assert.ok(box.categories.some((category) => category.decisionSupport), id);
+  }
+});
+
+test('the loader maps decision categories and makes their components manual', () => {
+  const values = [['a', 'A'], ['b', 'B'], ['c', 'C']];
+  const spec = {
+    id: 'demo',
+    label: 'Demo',
+    desc: 'Demo box',
+    categories: [
+      { id: 'sit', label: 'Situation', desc: 'S', factors: [{ id: 'threat', label: 'T', desc: 'T', values }] },
+      { id: 'dec', label: 'Measures', desc: 'M', decision: true, factors: [{ id: 'measure', label: 'M', desc: 'M', values }] },
+    ],
+    exclusions: [],
+    template: '{1}.\n{2}.',
+    prompt: 'Prompt',
+    example: { label: 'Example', desc: '<p>Example</p>', choices: ['threat.a', 'measure.b'] },
+  };
+  const scenario = createScenario(spec, '', []);
+  assert.equal(scenario.includeDecisionSupport, false);
+  assert.deepEqual(scenario.categories.map((c) => !!c.decisionSupport), [false, true]);
+  assert.deepEqual(scenario.components.map((c) => !!c.manual), [false, true]);
 });

@@ -651,6 +651,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Deze handmatige acties ondersteunen rechtmatige toeschrijving, het veiligstellen van bewijs, het opsporen van betrokkenen en mogelijkheden om verantwoordelijke actoren te verstoren of te vervolgen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "cyber-evidence",
@@ -882,6 +883,7 @@
           "label": "Continuïteitsmaatregelen",
           "desc": "Deze handmatig gekozen acties houden essentiële diensten die door het cyberincident zijn getroffen in stand en beperken het incident.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "noodproces",
@@ -947,6 +949,7 @@
           "label": "Aansturing en communicatie",
           "desc": "Deze handmatig gekozen acties stemmen leiding, partners en tijdige publieksinformatie op elkaar af.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "regie",
@@ -1314,6 +1317,7 @@
           "label": "Coördinatie en waarschuwing",
           "desc": "Deze handmatig gekozen acties organiseren publieksinformatie, samenwerking tussen diensten en opvang.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "opvang",
@@ -1383,6 +1387,7 @@
           "label": "Bescherming en redding",
           "desc": "Deze handmatig gekozen maatregelen beschermen mensen, ondersteunen reddingsacties en houden essentiële diensten in stand.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evacuation",
@@ -1740,6 +1745,7 @@
           "label": "Coördinatie en waarschuwing",
           "desc": "Deze handmatig gekozen acties coördineren verantwoordelijke organisaties en communiceren informatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "afstemming",
@@ -1805,6 +1811,7 @@
           "label": "Bescherming en redding",
           "desc": "Deze handmatig gekozen maatregelen beschermen mensen, ondersteunen reddingsacties en voorzien in de behoeften rond de waterkering.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "verplaatsing",
@@ -2178,6 +2185,7 @@
           "label": "Coördinatie en ondersteuning van de gemeenschap",
           "desc": "Deze handmatig gekozen maatregelen coördineren partners, ondersteunen getroffenen en plannen het herstel.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "opvang",
@@ -2243,6 +2251,7 @@
           "label": "Bescherming en toegang",
           "desc": "Deze handmatig gekozen maatregelen beheren de brandperimeter, publieke toegang en ondersteuning van de brandweer.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "afsluiting",
@@ -2677,6 +2686,7 @@
           "label": "Faciliteren en de-escaleren",
           "desc": "Gebruik evenredige maatregelen die vreedzame vergadering mogelijk maken, de dialoog in stand houden en spanningen verminderen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "assembly-facilitation",
@@ -2742,6 +2752,7 @@
           "label": "Openbare orde, verkeer en communicatie",
           "desc": "Coördineer evenredige afspraken voor openbare orde, verkeer, toegang voor hulpdiensten en publieksinformatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "traffic",
@@ -2807,6 +2818,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Als specifieke strafbare feiten plaatsvinden, stel dan bewijs veilig en ondersteun rechtmatig en controleerbaar onderzoek en aanhouding.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -4366,6 +4378,7 @@
           "label": "Bescherming en redding",
           "desc": "Selecteer maatregelen voor levensredding, zoek- en reddingsacties en medische hulp die passen bij de bekende omstandigheden.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "eq-evacuation",
@@ -4431,6 +4444,7 @@
           "label": "Gevarenbeheersing en coördinatie",
           "desc": "Selecteer maatregelen voor nutsvoorzieningen, aansturing en publieksinformatie ten behoeve van een gecoördineerde respons.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "eq-utilities",
@@ -4768,6 +4782,7 @@
           "label": "Evacuatie en redding",
           "desc": "Selecteer beschermende verplaatsing, reddings- en medische maatregelen die passen bij de aankomsttijd van golven en bereikbaarheid.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ts-protection",
@@ -4833,6 +4848,7 @@
           "label": "Coördinatie en publieksinformatie",
           "desc": "Selecteer maatregelen voor waarschuwingen, toegangscontrole en gecoördineerd herstel.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ts-warning",
@@ -5174,6 +5190,7 @@
           "label": "Bescherming en redding",
           "desc": "Selecteer maatregelen voor evacuatie, bescherming van hulpverleners en medische zorg die passen bij het eruptiegevaar.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ve-evacuation",
@@ -5239,6 +5256,7 @@
           "label": "Coördinatie en publieksinformatie",
           "desc": "Selecteer maatregelen voor monitoring, bescherming van infrastructuur en officiële waarschuwingen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ve-monitoring",
@@ -5600,6 +5618,7 @@
           "label": "Bescherming en redding",
           "desc": "Selecteer maatregelen voor gebiedsbescherming, specialistische zoekacties en medische hulp die passen bij het type instorting.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "la-evacuation",
@@ -5665,6 +5684,7 @@
           "label": "Coördinatie en publieksinformatie",
           "desc": "Selecteer maatregelen voor specialistische gevarenmonitoring, routebeheer en gecoördineerde waarschuwingen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "la-monitoring",
@@ -6026,6 +6046,7 @@
           "label": "Bescherming en redding",
           "desc": "Selecteer maatregelen voor verplaatsing, waterredding en medische hulp die passen bij de actuele wateromstandigheden.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ff-protection",
@@ -6091,6 +6112,7 @@
           "label": "Coördinatie en publieksinformatie",
           "desc": "Selecteer maatregelen voor waarschuwingen, toegangsbeheer en gecoördineerde respons op overstromingen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ff-warning",
@@ -6440,6 +6462,7 @@
           "label": "Bescherming en redding",
           "desc": "Deze handmatig gekozen maatregelen beschermen mensen en ondersteunen reddingsacties en medische respons.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "storm-rescue",
@@ -6513,6 +6536,7 @@
           "label": "Coördinatie en continuïteit",
           "desc": "Deze handmatig gekozen acties coördineren aansturing, waarschuwingen en herstel van essentiële voorzieningen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "storm-command",
@@ -6878,6 +6902,7 @@
           "label": "Bescherming en zorg",
           "desc": "Deze handmatig gekozen maatregelen verminderen blootstelling en bieden directe ondersteuning voor gezondheid en welzijn.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "temp-centres",
@@ -6951,6 +6976,7 @@
           "label": "Coördinatie en continuïteit",
           "desc": "Deze handmatig gekozen acties coördineren waarschuwingen, voorzieningen en incidentmanagement.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "temp-warning",
@@ -7312,6 +7338,7 @@
           "label": "Drinkwater en bescherming van de bevolking",
           "desc": "Somt handmatig geselecteerde maatregelen op voor veilig drinkwater en de bescherming van mensen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "emergency-supply",
@@ -7381,6 +7408,7 @@
           "label": "Beheer van hulpbronnen en herstel",
           "desc": "Somt handmatig geselecteerde maatregelen op voor het beheer van schaarse hulpbronnen en het beperken van aanhoudende gevolgen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "agricultural-response",
@@ -7742,6 +7770,7 @@
           "label": "Bescherming en zorg",
           "desc": "Somt maatregelen op om mensen te beschermen en de gezondheidszorg in stand te houden.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "case-control",
@@ -7807,6 +7836,7 @@
           "label": "Coördinatie en informatie",
           "desc": "Somt maatregelen op voor surveillance, coördinatie en publiekscommunicatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-advice",
@@ -8148,6 +8178,7 @@
           "label": "Bescherming van dieren en indamming",
           "desc": "Somt maatregelen op om dierenwelzijn te beschermen en verspreiding te voorkomen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "movement-control",
@@ -8213,6 +8244,7 @@
           "label": "Coördinatie en informatie",
           "desc": "Somt maatregelen op voor traceerbaarheid, veterinaire coördinatie en publieksinformatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "traceability",
@@ -8278,6 +8310,7 @@
           "label": "Onderzoek en aanhouding",
           "desc": "Somt handmatig geselecteerde onderzoeksmaatregelen op bij een vermoeden van opzettelijke introductie; neutrale opties geven aan dat strafrechtelijk onderzoek niet aan de orde is.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -8702,6 +8735,7 @@
           "label": "Bescherming en volksgezondheid",
           "desc": "Somt maatregelen op om mensen, werknemers en kwetsbare gebieden te beschermen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "treatment",
@@ -8771,6 +8805,7 @@
           "label": "Indamming en coördinatie",
           "desc": "Somt maatregelen op om verspreiding te beperken en herstel te ondersteunen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "movement-control",
@@ -9132,6 +9167,7 @@
           "label": "Bescherming en redding",
           "desc": "Somt handmatig geselecteerde acties op om mensen te beschermen, slachtoffers te redden en passende medische zorg te bieden.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -9197,6 +9233,7 @@
           "label": "Indamming en coördinatie",
           "desc": "Somt handmatig geselecteerde acties op voor bronbeheersing, milieubescherming, commandovoering en publieksinformatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-control",
@@ -9558,6 +9595,7 @@
           "label": "Bescherming en medische zorg",
           "desc": "Somt handmatig geselecteerde beschermingsmaatregelen, slachtofferzorg en blootstellingsbeheersing op.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -9623,6 +9661,7 @@
           "label": "Bronbeheersing en coördinatie",
           "desc": "Somt handmatig geselecteerde maatregelen op voor bronstabilisatie, monitoring, leiding en publieksinformatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-stabilisation",
@@ -9984,6 +10023,7 @@
           "label": "Bescherming en redding",
           "desc": "Omvat directe levensreddende acties die de incidentleiding kan inzetten.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "air-rescue",
@@ -10061,6 +10101,7 @@
           "label": "Beheersing en coördinatie",
           "desc": "Omvat maatregelen voor brandbestrijding, multidisciplinaire coördinatie en publiekscommunicatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "air-fire-control",
@@ -10462,6 +10503,7 @@
           "label": "Bescherming en redding",
           "desc": "Omvat directe levensreddende acties voor reizigers, personeel en omstanders.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rail-rescue",
@@ -10539,6 +10581,7 @@
           "label": "Beheersing en coördinatie",
           "desc": "Omvat maatregelen voor stillegging van treinen, leiding, publieksinformatie en herstel.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rail-stabilise",
@@ -10932,6 +10975,7 @@
           "label": "Bescherming en redding",
           "desc": "Omvat directe levensreddende acties voor weggebruikers en omstanders.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "road-rescue",
@@ -11009,6 +11053,7 @@
           "label": "Beheersing en coördinatie",
           "desc": "Omvat maatregelen voor gevarenbeheersing, multidisciplinaire coördinatie en publieksinformatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "road-stabilise",
@@ -11402,6 +11447,7 @@
           "label": "Bescherming en redding",
           "desc": "Omvat directe levensreddende acties voor mensen aan boord of in de omgeving van het vaartuig.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "marine-rescue",
@@ -11479,6 +11525,7 @@
           "label": "Beheersing en coördinatie",
           "desc": "Omvat maatregelen voor stabilisatie van het vaartuig, maritieme coördinatie en publieksinformatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "marine-stabilise",
@@ -11852,6 +11899,7 @@
           "label": "Bescherming van de bevolking en redding",
           "desc": "Somt handmatig geselecteerde maatregelen op voor ontruiming, redding en brandweeroptreden bij een gasincident.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protect-people",
@@ -11917,6 +11965,7 @@
           "label": "Indamming en coördinatie",
           "desc": "Somt handmatig geselecteerde maatregelen op voor gasafsluiting, monitoring, leiding en publieksinformatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "gas-isolation",
@@ -12273,6 +12322,7 @@
           "label": "Redding en bescherming",
           "desc": "Somt handmatig gekozen maatregelen op voor zoeken, slachtofferredding en bescherming van de bevolking.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "search-rescue",
@@ -12346,6 +12396,7 @@
           "label": "Stabilisatie en coördinatie",
           "desc": "Somt handmatig gekozen maatregelen op voor stabilisatie van de locatie, afstemming met infrastructuurbeheerders, leiding en publiekscommunicatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "site-stabilisation",
@@ -12716,6 +12767,7 @@
           "label": "Bescherming van de gemeenschap",
           "desc": "Bevat directe maatregelen om mensen te beschermen en in essentiële behoeften te voorzien.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "grid-welfare",
@@ -12793,6 +12845,7 @@
           "label": "Coördinatie en herstel",
           "desc": "Bevat maatregelen voor netcoördinatie, publieksinformatie en gefaseerd herstel.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "grid-operations",
@@ -13190,6 +13243,7 @@
           "label": "Continuïteit en publieke toegang",
           "desc": "Bevat maatregelen om toegang tot noodhulp te behouden en getroffen mensen te ondersteunen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "telecom-public-access",
@@ -13267,6 +13321,7 @@
           "label": "Coördinatie en herstel",
           "desc": "Bevat maatregelen voor netwerkherstel, coördinatie tussen aanbieders en publieksupdates.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "telecom-repair",
@@ -13636,6 +13691,7 @@
           "label": "Bescherming van de bevolking en waterbeheer",
           "desc": "Somt maatregelen op om gebruikers te beschermen en veilige toegang tot water te waarborgen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "water-advice",
@@ -13701,6 +13757,7 @@
           "label": "Coördinatie en informatie",
           "desc": "Somt maatregelen op voor coördinatie, bemonstering en publiekscommunicatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "incident-command",
@@ -13770,6 +13827,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Somt maatregelen op om opzettelijke besmetting te onderzoeken en verantwoordelijken aan te houden; neutrale opties geven aan dat er geen aanwijzing is voor strafrechtelijk optreden.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -14198,6 +14256,7 @@
           "label": "Bescherming van bevolking en zorg",
           "desc": "Somt handmatig gekozen beschermingsmaatregelen, slachtofferzorg en veiligheidsmaatregelen voor hulpverleners op.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protect-people",
@@ -14263,6 +14322,7 @@
           "label": "Beheersing en coördinatie",
           "desc": "Somt handmatig gekozen maatregelen op voor bronbestrijding, milieubescherming, leiding en publieksinformatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-control",
@@ -14612,6 +14672,7 @@
           "label": "Bescherming en redding",
           "desc": "Selecteer proportionele maatregelen voor levensredding, bescherming van de bevolking en specialistische inzet.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -14689,6 +14750,7 @@
           "label": "Beheersing en coördinatie",
           "desc": "Selecteer maatregelen voor locatiebeheer, leiding en publieksinformatie om de respons te coördineren.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -14766,6 +14828,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Selecteer rechtmatige maatregelen voor veiligstelling van bewijs, opsporing van verdachten en aanhouding, onder leiding van de bevoegde autoriteiten.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -15150,6 +15213,7 @@
           "label": "Bescherming en redding",
           "desc": "Selecteer proportionele maatregelen voor levensredding, bescherming van de bevolking en specialistische inzet.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -15227,6 +15291,7 @@
           "label": "Beheersing en coördinatie",
           "desc": "Selecteer maatregelen voor locatiebeheer, leiding en publieksinformatie om de respons te coördineren.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -15304,6 +15369,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Selecteer rechtmatige maatregelen voor veiligstelling van bewijs, opsporing van verdachten en aanhouding, onder leiding van de bevoegde autoriteiten.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -15688,6 +15754,7 @@
           "label": "Bescherming en redding",
           "desc": "Selecteer proportionele maatregelen voor levensredding, bescherming van de bevolking en specialistische inzet.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -15765,6 +15832,7 @@
           "label": "Beheersing en coördinatie",
           "desc": "Selecteer maatregelen voor locatiebeheer, leiding en publieksinformatie om de respons te coördineren.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -15842,6 +15910,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Selecteer rechtmatige maatregelen voor veiligstelling van bewijs, opsporing van verdachten en aanhouding, onder leiding van de bevoegde autoriteiten.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -16210,6 +16279,7 @@
           "label": "Bescherming en continuïteit",
           "desc": "Deze handmatig gekozen acties beschermen mensen, beperken de gevolgen en houden essentiële functies in stand.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-life-safety",
@@ -16275,6 +16345,7 @@
           "label": "Coördinatie en informatie",
           "desc": "Deze handmatig gekozen acties zorgen voor leiding, partnercoördinatie en betrouwbare publieksinformatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-command",
@@ -16340,6 +16411,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Deze handmatig gekozen maatregelen ondersteunen toeschrijving, bewijsvergaring, opsporing en rechtmatige aanhouding, verstoring of vervolging van verantwoordelijken.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-evidence",
@@ -16716,6 +16788,7 @@
           "label": "Bescherming en redding",
           "desc": "Selecteer proportionele maatregelen op het gebied van de levensveiligheid, de publieke bescherming en specialistische respons.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -16793,6 +16866,7 @@
           "label": "Afzetting en coördinatie",
           "desc": "Selecteer scènecontrole-, commando- en publieksinformatiemaatregelen voor een gecoördineerde reactie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -16870,6 +16944,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Selecteer wettig bewijsmateriaal, opsporing van verdachten en aanhoudingsmaatregelen onder leiding van de bevoegde autoriteiten.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -17206,6 +17281,7 @@
           "label": "Bescherming en beheersing",
           "desc": "Selecteer onmiddellijke beschermende, medische en gebiedsbeheersmaatregelen die geschikt zijn voor de waargenomen situatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -17271,6 +17347,7 @@
           "label": "Openbare orde en coördinatie",
           "desc": "Coördineren van proportioneel politiewerk, verkeersmanagement en geverifieerde openbare informatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "policing-posture",
@@ -17336,6 +17413,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Ondersteun op bewijs gebaseerd onderzoek naar specifieke overtredingen en wettige aansprakelijkheid.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence-preservation",
@@ -17692,6 +17770,7 @@
           "label": "Levensreddende inzet en beheersing",
           "desc": "Kies maatregelen die mensen beschermen en secundaire maritieme gevaren verminderen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "crew-protection",
@@ -17757,6 +17836,7 @@
           "label": "Maritieme coördinatie",
           "desc": "Coördineren van wettig maritiem toezicht, verkeersveiligheid, publieksvoorlichting en herstel.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "authority-coordination",
@@ -17822,6 +17902,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Bewaar bewijsmateriaal en coördineer wettige identificatie en aanhouding in de relevante rechtsgebieden.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "maritime-evidence",
@@ -18214,6 +18295,7 @@
           "label": "Bescherming en redding",
           "desc": "Selecteer proportionele maatregelen op het gebied van de levensveiligheid, de publieke bescherming en specialistische respons.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -18291,6 +18373,7 @@
           "label": "Afzetting en coördinatie",
           "desc": "Selecteer scènecontrole-, commando- en publieksinformatiemaatregelen voor een gecoördineerde reactie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -18368,6 +18451,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Selecteer wettig bewijsmateriaal, opsporing van verdachten en aanhoudingsmaatregelen onder leiding van de bevoegde autoriteiten.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -18736,6 +18820,7 @@
           "label": "Bescherming en continuïteit",
           "desc": "Deze handmatig geselecteerde acties beschermen mensen, beperken de gevolgen en ondersteunen essentiële functies.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-life-safety",
@@ -18801,6 +18886,7 @@
           "label": "Coördinatie en informatie",
           "desc": "Deze handmatig geselecteerde acties zorgen voor commandovoering, partnercoördinatie en betrouwbare publieke informatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-command",
@@ -18866,6 +18952,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Deze handmatige maatregelen ondersteunen de toewijzing, het bewijsmateriaal, de opsporing en de rechtmatige aanhouding, verstoring of vervolging van verantwoordelijke actoren.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-evidence",
@@ -19218,6 +19305,7 @@
           "label": "Bescherming en continuïteit",
           "desc": "Deze handmatig geselecteerde acties beschermen mensen, beperken de gevolgen en ondersteunen essentiële functies.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-life-safety",
@@ -19283,6 +19371,7 @@
           "label": "Coördinatie en informatie",
           "desc": "Deze handmatig geselecteerde acties zorgen voor commandovoering, partnercoördinatie en betrouwbare publieke informatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-command",
@@ -19348,6 +19437,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Deze handmatige maatregelen ondersteunen de toewijzing, het bewijsmateriaal, de opsporing en de rechtmatige aanhouding, verstoring of vervolging van verantwoordelijke actoren.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-evidence",
@@ -19700,6 +19790,7 @@
           "label": "Bescherming en continuïteit",
           "desc": "Deze handmatig geselecteerde acties beschermen mensen, beperken de gevolgen en ondersteunen essentiële functies.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-life-safety",
@@ -19765,6 +19856,7 @@
           "label": "Coördinatie en informatie",
           "desc": "Deze handmatig geselecteerde acties zorgen voor commandovoering, partnercoördinatie en betrouwbare publieke informatie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-command",
@@ -19830,6 +19922,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Deze handmatige maatregelen ondersteunen de toewijzing, het bewijsmateriaal, de opsporing en de rechtmatige aanhouding, verstoring of vervolging van verantwoordelijke actoren.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-evidence",
@@ -20182,6 +20275,7 @@
           "label": "Brandbestrijding en beheersing",
           "desc": "Selecteer reddings-, onderdrukkings- en beschermingsmaatregelen die geschikt zijn voor de brandtoestand en de blootstelling.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rescue-and-evacuation",
@@ -20247,6 +20341,7 @@
           "label": "Brandweercoördinatie en publieksinformatie",
           "desc": "Coördineer het brandweercommando, de toegang, publieke waarschuwingen en de continuïteit van de respons.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "fire-service-coordination",
@@ -20312,6 +20407,7 @@
           "label": "Opsporing en aanhouding",
           "desc": "Bewaar bewijsmateriaal op de brandscène en ondersteun op bewijs gebaseerde identificatie en rechtmatige aanhouding.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "fire-evidence",

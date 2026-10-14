@@ -13,6 +13,7 @@ import { MeiosisComponent, changePage, i18n, setLanguage, t } from '../services'
 // import { LANGUAGE } from '../utils';
 import type { Languages } from '../services/translations';
 import { CircularSpinner } from './ui/preloader';
+import { DecisionSupportPrompt } from './ui/decision-support-prompt';
 
 const DesktopLanguageMenu = Menu<Languages>();
 const MobileLanguageMenu = Menu<Languages>();
@@ -202,6 +203,7 @@ export const Layout: MeiosisComponent = () => {
             ? m('p[role=alert]', t('COLLECTION_LOAD_FAILED'))
             : m(CircularSpinner),
       ),
+      attrs.state.modelReady && m(DecisionSupportPrompt, attrs),
     ]);
   },
   };

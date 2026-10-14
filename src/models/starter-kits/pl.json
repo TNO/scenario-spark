@@ -651,6 +651,7 @@
           "label": "Śledztwo i zatrzymanie",
           "desc": "Te ręcznie wybierane działania wspierają zgodne z prawem ustalanie sprawców, zabezpieczanie dowodów, śledzenie ich działań oraz podejmowanie kroków mających na celu przerwanie szkodliwej aktywności lub pociągnięcie sprawców do odpowiedzialności.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "cyber-evidence",
@@ -882,6 +883,7 @@
           "label": "Środki ciągłości",
           "desc": "Te ręcznie wybrane działania pomagają utrzymać kluczowe usługi dotknięte incydentem cybernetycznym i ograniczyć jego skutki.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "noodproces",
@@ -947,6 +949,7 @@
           "label": "Kierownictwo i komunikacja",
           "desc": "Te ręcznie wybrane działania zapewniają współpracę kierownictwa, partnerów oraz terminowe przekazywanie informacji publicznych.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "regie",
@@ -1314,6 +1317,7 @@
           "label": "Koordynacja i ostrzeganie",
           "desc": "Te ręcznie wybrane działania organizują informowanie publiczne, koordynację międzyagendową i przyjmowanie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "opvang",
@@ -1383,6 +1387,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Te ręcznie wybrane środki chronią ludzi, prowadzą ratownictwo i utrzymują usługi podstawowe.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evacuation",
@@ -1740,6 +1745,7 @@
           "label": "Koordynacja i ostrzeganie",
           "desc": "Ręcznie wybrane działania koordynują właściwe służby i zapewniają przekazywanie informacji.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "afstemming",
@@ -1805,6 +1811,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Te ręcznie wybrane środki chronią ludzi, wspierają ratownictwo i adresują potrzeby obrony.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "verplaatsing",
@@ -2178,6 +2185,7 @@
           "label": "Koordynacja i wsparcie społeczności",
           "desc": "Te ręcznie wybrane środki koordynują partnerów, wspierają poszkodowanych i planują odbudowę.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "opvang",
@@ -2243,6 +2251,7 @@
           "label": "Ochrona i dostęp",
           "desc": "Te ręcznie wybrane środki zarządzają obwodem pożaru, dostępem publicznym i wsparciem straży pożarnej.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "afsluiting",
@@ -2677,6 +2686,7 @@
           "label": "Ułatwianie i deeskalacja",
           "desc": "Stosuj środki proporcjonalne, które umożliwiają pokojowe zgromadzenie, podtrzymują dialog i zmniejszają napięcie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "assembly-facilitation",
@@ -2742,6 +2752,7 @@
           "label": "Porządek publiczny, ruch i komunikacja",
           "desc": "Koordynuj proporcjonalne ustalenia dotyczące porządku publicznego, ruchu, dostępu awaryjnego i informacji publicznej.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "traffic",
@@ -2807,6 +2818,7 @@
           "label": "Śledztwo i zatrzymanie",
           "desc": "W przypadku konkretnych przestępstw zabezpieczaj dowody i wspieraj zgodne z prawem, podlegające odpowiedzialności śledztwo i zatrzymanie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -4366,6 +4378,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Wybierz działania z zakresu ochrony życia, ratownictwa i medycyny, odpowiednie dla znanych warunków.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "eq-evacuation",
@@ -4431,6 +4444,7 @@
           "label": "Kontrola zagrożeń i koordynacja",
           "desc": "Wybierz działania z zakresu bezpieczeństwa mediów, dowodzenia i informacji publicznej dla skoordynowanego reagowania.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "eq-utilities",
@@ -4768,6 +4782,7 @@
           "label": "Ewakuacja i ratownictwo",
           "desc": "Wybierz działania ochronne, ratownicze i medyczne odpowiednie do czasu nadejścia fali i warunków dostępu.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ts-protection",
@@ -4833,6 +4848,7 @@
           "label": "Koordynacja i informacja publiczna",
           "desc": "Wybierz środki ostrzegawcze, kontroli dostępu i skoordynowanego odbudowywania.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ts-warning",
@@ -5174,6 +5190,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Wybierz środki ewakuacji, ochrony ratowników i medyczne dopasowane do zagrożeń erupcyjnych.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ve-evacuation",
@@ -5239,6 +5256,7 @@
           "label": "Koordynacja i informacja publiczna",
           "desc": "Wybierz działania dotyczące monitorowania zagrożenia, ochrony infrastruktury i oficjalnych ostrzeżeń.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ve-monitoring",
@@ -5600,6 +5618,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Wybierz środki ochrony terenu, specjalistyczne poszukiwania i działania medyczne odpowiednie dla typu osunięcia.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "la-evacuation",
@@ -5665,6 +5684,7 @@
           "label": "Koordynacja i informacja publiczna",
           "desc": "Wybierz specjalistyczne monitorowanie zagrożenia, kontrolę tras i skoordynowane ostrzeżenia.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "la-monitoring",
@@ -6026,6 +6046,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Wybierz działania dotyczące przemieszczania się, ratownictwa wodnego i medycznego odpowiednie do bieżących warunków wodnych.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ff-protection",
@@ -6091,6 +6112,7 @@
           "label": "Koordynacja i informacja publiczna",
           "desc": "Wybierz ostrzeżenia, kontrole dostępu i skoordynowane środki reagowania na powódź.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ff-warning",
@@ -6440,6 +6462,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Te ręcznie wybrane środki chronią ludzi i wspierają reakcję ratunkową i medyczną.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "storm-rescue",
@@ -6513,6 +6536,7 @@
           "label": "Koordynacja i ciągłość",
           "desc": "Te ręcznie wybrane działania koordynują dowodzenie, ostrzeżenia i przywracanie usług podstawowych.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "storm-command",
@@ -6878,6 +6902,7 @@
           "label": "Ochrona i opieka",
           "desc": "Te ręcznie wybrane środki zmniejszają narażenie i zapewniają bezpośrednie wsparcie zdrowotne i socjalne.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "temp-centres",
@@ -6951,6 +6976,7 @@
           "label": "Koordynacja i ciągłość",
           "desc": "Te ręcznie wybrane działania koordynują ostrzeżenia, usługi i zarządzanie incydentem.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "temp-warning",
@@ -7312,6 +7338,7 @@
           "label": "Woda pitna i ochrona ludności",
           "desc": "Zawiera ręcznie wybrane działania zapewniające bezpieczną wodę pitną i ochronę ludności.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "emergency-supply",
@@ -7381,6 +7408,7 @@
           "label": "Zarządzanie zasobami i odbudowa",
           "desc": "Zawiera ręcznie wybrane działania służące zarządzaniu ograniczonymi zasobami i ograniczaniu dalszych skutków.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "agricultural-response",
@@ -7742,6 +7770,7 @@
           "label": "Ochrona i opieka",
           "desc": "Zawiera działania chroniące ludność i podtrzymujące funkcjonowanie ochrony zdrowia.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "case-control",
@@ -7807,6 +7836,7 @@
           "label": "Koordynacja i informacja",
           "desc": "Zawiera działania dotyczące nadzoru, koordynacji i komunikacji z ludnością.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-advice",
@@ -8148,6 +8178,7 @@
           "label": "Ochrona zwierząt i powstrzymywanie choroby",
           "desc": "Zawiera działania chroniące dobrostan zwierząt i zapobiegające szerzeniu się choroby.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "movement-control",
@@ -8213,6 +8244,7 @@
           "label": "Koordynacja i informacja",
           "desc": "Zawiera działania dotyczące identyfikowalności, koordynacji weterynaryjnej i informacji publicznej.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "traceability",
@@ -8278,6 +8310,7 @@
           "label": "Dochodzenie i zatrzymanie sprawców",
           "desc": "Zawiera ręcznie wybrane działania dochodzeniowe w przypadku podejrzenia celowego wprowadzenia choroby; opcje neutralne oznaczają, że nie wskazano potrzeby działań w ramach postępowania karnego.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -8702,6 +8735,7 @@
           "label": "Ochrona i zdrowie publiczne",
           "desc": "Zawiera działania chroniące ludność, pracowników i obszary wrażliwe.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "treatment",
@@ -8771,6 +8805,7 @@
           "label": "Powstrzymywanie i koordynacja",
           "desc": "Zawiera działania ograniczające rozprzestrzenianie i wspierające odbudowę.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "movement-control",
@@ -9132,6 +9167,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Zawiera ręcznie wybrane działania chroniące ludność, ratujące poszkodowanych i zapewniające właściwą opiekę kliniczną.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -9197,6 +9233,7 @@
           "label": "Ograniczanie skutków i koordynacja",
           "desc": "Zawiera ręcznie wybrane działania kontroli źródła, ochrony środowiska, kierowania i informacji publicznej.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-control",
@@ -9558,6 +9595,7 @@
           "label": "Ochrona i opieka medyczna",
           "desc": "Zawiera ręcznie wybrane działania ochronne, postępowanie z poszkodowanymi i kontrolę narażenia.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -9623,6 +9661,7 @@
           "label": "Kontrola źródła i koordynacja",
           "desc": "Zawiera ręcznie wybrane działania stabilizacji źródła, monitorowania, kierowania i informacji publicznej.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-stabilisation",
@@ -9984,6 +10023,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Zawiera natychmiastowe działania ratowania życia dostępne dla kierującego działaniami.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "air-rescue",
@@ -10061,6 +10101,7 @@
           "label": "Kontrola i koordynacja",
           "desc": "Zawiera działania gaśnicze, koordynację wielu służb i komunikację z ludnością.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "air-fire-control",
@@ -10462,6 +10503,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Zawiera natychmiastowe działania ratujące życie pasażerów, załogi i osób w pobliżu.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rail-rescue",
@@ -10539,6 +10581,7 @@
           "label": "Kontrola i koordynacja",
           "desc": "Zawiera działania odizolowania pociągów, kierowania, informacji publicznej i przywracania usług.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rail-stabilise",
@@ -10932,6 +10975,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Zawiera natychmiastowe działania ratujące życie użytkowników dróg i osób w pobliżu.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "road-rescue",
@@ -11009,6 +11053,7 @@
           "label": "Kontrola i koordynacja",
           "desc": "Zawiera kontrolę zagrożeń, koordynację wielu służb i informacje dla ludności.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "road-stabilise",
@@ -11402,6 +11447,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Zawiera natychmiastowe działania ratujące życie osób na statku lub w jego pobliżu.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "marine-rescue",
@@ -11479,6 +11525,7 @@
           "label": "Kontrola i koordynacja",
           "desc": "Zawiera stabilizację statku, koordynację morską i informację publiczną.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "marine-stabilise",
@@ -11852,6 +11899,7 @@
           "label": "Ochrona ludności i ratownictwo",
           "desc": "Zawiera ręcznie wybrane działania ewakuacyjne, ratownicze i straży pożarnej odpowiednie do zdarzenia gazowego.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protect-people",
@@ -11917,6 +11965,7 @@
           "label": "Ograniczanie skutków i koordynacja",
           "desc": "Zawiera ręcznie wybrane działania odcięcia gazu, monitorowania zagrożeń, kierowania i informacji publicznej.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "gas-isolation",
@@ -12273,6 +12322,7 @@
           "label": "Ratownictwo i ochrona",
           "desc": "Wymienia ręcznie wybrane działania dotyczące poszukiwań, ratowania poszkodowanych i ochrony ludności.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "search-rescue",
@@ -12346,6 +12396,7 @@
           "label": "Stabilizacja i koordynacja",
           "desc": "Wymienia ręcznie wybrane działania dotyczące zabezpieczenia miejsca zdarzenia, infrastruktury technicznej, dowodzenia i komunikacji z ludnością.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "site-stabilisation",
@@ -12716,6 +12767,7 @@
           "label": "Ochrona społeczności",
           "desc": "Obejmuje pilne działania służące ochronie ludności i zaspokojeniu podstawowych potrzeb.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "grid-welfare",
@@ -12793,6 +12845,7 @@
           "label": "Koordynacja i przywracanie usług",
           "desc": "Obejmuje koordynację działań operatora sieci, informowanie ludności i etapowe przywracanie zasilania.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "grid-operations",
@@ -13190,6 +13243,7 @@
           "label": "Ciągłość działania i dostęp publiczny",
           "desc": "Obejmuje działania zapewniające dostęp do pomocy w sytuacjach nagłych i wsparcie osób dotkniętych awarią.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "telecom-public-access",
@@ -13267,6 +13321,7 @@
           "label": "Koordynacja i przywracanie usług",
           "desc": "Obejmuje przywracanie sieci, koordynację między operatorami i informowanie ludności.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "telecom-repair",
@@ -13636,6 +13691,7 @@
           "label": "Ochrona ludności i działania wodociągowe",
           "desc": "Wymienia działania chroniące użytkowników i zapewniające dostęp do bezpiecznej wody.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "water-advice",
@@ -13701,6 +13757,7 @@
           "label": "Koordynacja i informowanie",
           "desc": "Wymienia działania związane z koordynacją, pobieraniem próbek i komunikacją z ludnością.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "incident-command",
@@ -13770,6 +13827,7 @@
           "label": "Dochodzenie i zatrzymanie sprawców",
           "desc": "Wymienia działania służące zbadaniu celowego zanieczyszczenia i zatrzymaniu sprawców; neutralne opcje oznaczają brak przesłanek do działań karnych.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -14198,6 +14256,7 @@
           "label": "Ochrona ludności i opieka",
           "desc": "Wymienia ręcznie wybrane działania ochronne, wsparcie dla poszkodowanych i zabezpieczenia dla ratowników.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protect-people",
@@ -14263,6 +14322,7 @@
           "label": "Ograniczanie wycieku i koordynacja",
           "desc": "Wymienia ręcznie wybrane działania dotyczące opanowania źródła, ochrony środowiska, dowodzenia i informowania ludności.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-control",
@@ -14612,6 +14672,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Wybierz proporcjonalne działania służące ratowaniu życia, ochronie ludności i specjalistycznemu reagowaniu.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -14689,6 +14750,7 @@
           "label": "Ograniczanie skutków i koordynacja",
           "desc": "Wybierz działania dotyczące kontroli miejsca zdarzenia, dowodzenia i informowania ludności w ramach skoordynowanego reagowania.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -14766,6 +14828,7 @@
           "label": "Dochodzenie i zatrzymanie sprawców",
           "desc": "Wybierz zgodne z prawem działania dotyczące dowodów, ustalania podejrzanych i zatrzymania, prowadzone przez właściwe organy.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -15150,6 +15213,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Wybierz proporcjonalne działania służące ratowaniu życia, ochronie ludności i specjalistycznemu reagowaniu.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -15227,6 +15291,7 @@
           "label": "Ograniczanie skutków i koordynacja",
           "desc": "Wybierz działania dotyczące kontroli miejsca zdarzenia, dowodzenia i informowania ludności w ramach skoordynowanego reagowania.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -15304,6 +15369,7 @@
           "label": "Dochodzenie i zatrzymanie sprawców",
           "desc": "Wybierz zgodne z prawem działania dotyczące dowodów, ustalania podejrzanych i zatrzymania, prowadzone przez właściwe organy.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -15688,6 +15754,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Wybierz proporcjonalne działania służące ratowaniu życia, ochronie ludności i specjalistycznemu reagowaniu.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -15765,6 +15832,7 @@
           "label": "Ograniczanie skutków i koordynacja",
           "desc": "Wybierz działania dotyczące kontroli miejsca zdarzenia, dowodzenia i informowania ludności w ramach skoordynowanego reagowania.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -15842,6 +15910,7 @@
           "label": "Dochodzenie i zatrzymanie sprawców",
           "desc": "Wybierz zgodne z prawem działania dotyczące dowodów, ustalania podejrzanych i zatrzymania, prowadzone przez właściwe organy.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -16210,6 +16279,7 @@
           "label": "Ochrona i ciągłość działania",
           "desc": "Te ręcznie wybrane działania chronią ludność, ograniczają skutki i zapewniają ciągłość kluczowych funkcji.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-life-safety",
@@ -16275,6 +16345,7 @@
           "label": "Koordynacja i informowanie",
           "desc": "Te ręcznie wybrane działania ustanawiają dowodzenie, koordynację partnerów i rzetelne informowanie ludności.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-command",
@@ -16340,6 +16411,7 @@
           "label": "Dochodzenie i zatrzymanie sprawców",
           "desc": "Te ręcznie wybierane działania wspierają ustalanie sprawców, zabezpieczanie dowodów, identyfikację i zgodne z prawem zatrzymanie, przeciwdziałanie lub ściganie sprawców.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-evidence",
@@ -16716,6 +16788,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Wybierz proporcjonalne działania chroniące życie i ludność oraz specjalistyczne działania ratunkowe.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -16793,6 +16866,7 @@
           "label": "Izolacja i koordynacja",
           "desc": "Wybierz działania związane z kontrolą miejsca zdarzenia, dowodzeniem i informowaniem ludności w ramach skoordynowanej reakcji.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -16870,6 +16944,7 @@
           "label": "Dochodzenie i zatrzymanie",
           "desc": "Wybierz zgodne z prawem działania dotyczące dowodów, poszukiwania podejrzanego i zatrzymania, prowadzone przez właściwe organy.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -17206,6 +17281,7 @@
           "label": "Ochrona i opanowanie sytuacji",
           "desc": "Wybierz natychmiastowe działania ochronne, medyczne i związane z zarządzaniem obszarem, odpowiednie do zaobserwowanej sytuacji.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -17271,6 +17347,7 @@
           "label": "Porządek publiczny i koordynacja",
           "desc": "Skoordynuj proporcjonalne działania policji, zarządzanie ruchem i przekazywanie sprawdzonych informacji.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "policing-posture",
@@ -17336,6 +17413,7 @@
           "label": "Dochodzenie i zatrzymanie",
           "desc": "Wspieraj oparte na dowodach dochodzenia w sprawie konkretnych przestępstw oraz pociąganie do odpowiedzialności zgodnie z prawem.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence-preservation",
@@ -17692,6 +17770,7 @@
           "label": "Ochrona życia i izolacja",
           "desc": "Wybierz działania chroniące ludzi i ograniczające wtórne zagrożenia na morzu.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "crew-protection",
@@ -17757,6 +17836,7 @@
           "label": "Koordynacja morska",
           "desc": "Skoordynuj zgodny z prawem monitoring morski, bezpieczeństwo ruchu, informowanie ludności i działania po zdarzeniu.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "authority-coordination",
@@ -17822,6 +17902,7 @@
           "label": "Dochodzenie i zatrzymanie",
           "desc": "Zabezpiecz dowody oraz skoordynuj zgodną z prawem identyfikację i zatrzymanie, z uwzględnieniem właściwych jurysdykcji.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "maritime-evidence",
@@ -18214,6 +18295,7 @@
           "label": "Ochrona i ratownictwo",
           "desc": "Wybierz proporcjonalne działania chroniące życie i ludność oraz specjalistyczne działania ratunkowe.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -18291,6 +18373,7 @@
           "label": "Izolacja i koordynacja",
           "desc": "Wybierz działania związane z kontrolą miejsca zdarzenia, dowodzeniem i informowaniem ludności w ramach skoordynowanej reakcji.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -18368,6 +18451,7 @@
           "label": "Dochodzenie i zatrzymanie",
           "desc": "Wybierz zgodne z prawem działania dotyczące dowodów, poszukiwania podejrzanego i zatrzymania, prowadzone przez właściwe organy.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -18736,6 +18820,7 @@
           "label": "Ochrona i ciągłość działania",
           "desc": "Te ręcznie wybierane działania chronią ludzi, ograniczają skutki i podtrzymują podstawowe funkcje.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-life-safety",
@@ -18801,6 +18886,7 @@
           "label": "Koordynacja i informacja",
           "desc": "Te ręcznie wybierane działania zapewniają dowodzenie, koordynację partnerów i rzetelne informacje publiczne.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-command",
@@ -18866,6 +18952,7 @@
           "label": "Dochodzenie i zatrzymanie",
           "desc": "Te ręcznie wybierane działania wspierają ustalanie sprawców, zabezpieczanie dowodów, poszukiwanie i zgodne z prawem zatrzymanie, zakłócanie działań lub ściganie odpowiedzialnych podmiotów.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-evidence",
@@ -19218,6 +19305,7 @@
           "label": "Ochrona i ciągłość działania",
           "desc": "Te ręcznie wybierane działania chronią ludzi, ograniczają skutki i podtrzymują podstawowe funkcje.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-life-safety",
@@ -19283,6 +19371,7 @@
           "label": "Koordynacja i informacja",
           "desc": "Te ręcznie wybierane działania zapewniają dowodzenie, koordynację partnerów i rzetelne informacje publiczne.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-command",
@@ -19348,6 +19437,7 @@
           "label": "Dochodzenie i zatrzymanie",
           "desc": "Te ręcznie wybierane działania wspierają ustalanie sprawców, zabezpieczanie dowodów, poszukiwanie i zgodne z prawem zatrzymanie, zakłócanie działań lub ściganie odpowiedzialnych podmiotów.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-evidence",
@@ -19700,6 +19790,7 @@
           "label": "Ochrona i ciągłość działania",
           "desc": "Te ręcznie wybierane działania chronią ludzi, ograniczają skutki i podtrzymują podstawowe funkcje.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-life-safety",
@@ -19765,6 +19856,7 @@
           "label": "Koordynacja i informacja",
           "desc": "Te ręcznie wybierane działania zapewniają dowodzenie, koordynację partnerów i rzetelne informacje publiczne.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-command",
@@ -19830,6 +19922,7 @@
           "label": "Dochodzenie i zatrzymanie",
           "desc": "Te ręcznie wybierane działania wspierają ustalanie sprawców, zabezpieczanie dowodów, poszukiwanie i zgodne z prawem zatrzymanie, zakłócanie działań lub ściganie odpowiedzialnych podmiotów.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-evidence",
@@ -20182,6 +20275,7 @@
           "label": "Ochrona przeciwpożarowa i opanowanie pożaru",
           "desc": "Wybierz działania ratownicze, gaśnicze i ochronne odpowiednie do stanu pożaru i poziomu narażenia.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rescue-and-evacuation",
@@ -20247,6 +20341,7 @@
           "label": "Koordynacja działań gaśniczych i informowanie",
           "desc": "Skoordynuj dowodzenie straży pożarnej, dostęp do miejsca zdarzenia, ostrzeganie ludności i ciągłość reagowania.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "fire-service-coordination",
@@ -20312,6 +20407,7 @@
           "label": "Dochodzenie i zatrzymanie",
           "desc": "Zabezpiecz dowody z miejsca pożaru i wspieraj identyfikację opartą na dowodach oraz zgodne z prawem zatrzymanie.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "fire-evidence",

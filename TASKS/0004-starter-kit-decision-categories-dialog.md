@@ -1,6 +1,6 @@
 # 0004 Starter kit: decision categories and opt-in dialog
 
-Status: open
+Status: done
 Priority: high
 Subsystem: frontend
 Depends on: 0002, 0003
@@ -36,3 +36,24 @@ can explore incidents first, but they should be told the option exists.
 - Existing user data must not be overwritten (AGENTS.md checklist).
 
 ## Agent Notes
+- 2026-10-14: Done. Kit spec: category-level `decision: true` (written after `manual`)
+  on all 96 manual measure categories of the 40 hazard boxes in all six locales (added by
+  a node script; only `"decision": true` lines added). The five continuity/event boxes
+  (evenementenveiligheid, publieke-gebouwen, religieuze-centra, havencontinuiteit,
+  luchthavencontinuiteit) have no manual categories and are unchanged. Loader
+  (`src/models/starter-kit.ts`): `decision` -> `Category.decisionSupport`, its factors
+  `manual: true`; `includeDecisionSupport` stays false. `scripts/starter-kit-tools.mjs`:
+  `to-box` sets `decisionSupport` (and manual), `to-spec`/`check-box` emit `decision: true`,
+  `merge` copies it from en.json, `check` prints a warning (not counted as a problem) for
+  manual categories without `decision`. Round-trip verified (to-box/to-spec and empty merge
+  reproduce the files byte for byte). Dialog: `Scenario.decisionSupportPrompted?: boolean`;
+  pure helpers `shouldPromptDecisionSupport` / `answerDecisionSupportPrompt` in
+  `src/utils/decision.ts`; `src/components/ui/decision-support-prompt.ts` (ModalPanel)
+  rendered by `Layout`, so it triggers for any current scenario (starter kit, imports,
+  switching boxes) on every page except Home (avoids clashing with Home's import/kit
+  modals; the kit is added on Home). "Turn on" sets `includeDecisionSupport`; "Not now"
+  and closing the dialog only remember the answer; both persist via `saveModel`. New keys
+  `DECISION_PROMPT_*` in all six locales. Tests: `tests/decision-prompt.test.mjs`,
+  loader-mapping and decision-category tests in `tests/starter-kit-nl.test.mjs`, locale
+  consistency of `decision` in `tests/starter-kit-locales.test.mjs`. Root README updated.
+  Build output (`docs/`) not committed.

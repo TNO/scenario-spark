@@ -153,6 +153,8 @@ export type Scenario = Item & {
   hideInconsistentValues: boolean;
   /** If true, activate the decision support module */
   includeDecisionSupport: boolean;
+  /** If true, the user has been asked whether to turn on decision support for this scenario */
+  decisionSupportPrompted?: boolean;
   /** If true, activate the map support */
   includeMapSupport?: boolean;
   /** Default map configuration */

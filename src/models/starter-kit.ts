@@ -25,6 +25,8 @@ type CategorySpec = {
   desc: string;
   /** All factors are chosen by a person, e.g. measures for decision support */
   manual?: boolean;
+  /** Decision (measure) category: its factors are manual and used for decision support */
+  decision?: boolean;
   factors: FactorSpec[];
 };
 
@@ -86,6 +88,7 @@ export const createScenario = (
     id: `${id}-cat-${category.id}`,
     label: category.label,
     desc: category.desc,
+    ...(category.decision ? { decisionSupport: true } : {}),
     componentIds: category.factors.map((factor) => `${id}-${factor.id}`),
   }));
   const components: ScenarioComponent[] = box.categories.flatMap((category) =>
@@ -93,7 +96,7 @@ export const createScenario = (
       id: `${id}-${factor.id}`,
       label: factor.label,
       desc: factor.desc,
-      ...((factor.manual ?? category.manual) ? { manual: true } : {}),
+      ...((category.decision || (factor.manual ?? category.manual)) ? { manual: true } : {}),
       values: factor.values.map(([value, label]) => {
         const valueId = `${id}-${factor.id}-${value}`;
         valueIds.set(`${factor.id}.${value}`, valueId);

@@ -149,3 +149,21 @@ export const narrativeDecisionRows = (box: Box, narrative?: Pick<Narrative, 'com
     }))
     .filter((row) => row.values.length > 0);
 };
+
+/** Ask once per scenario whether to turn on decision support when it has decision categories. */
+export const shouldPromptDecisionSupport = (
+  scenario?: Pick<Scenario, 'categories' | 'includeDecisionSupport' | 'decisionSupportPrompted'>,
+) =>
+  !!scenario &&
+  !scenario.includeDecisionSupport &&
+  !scenario.decisionSupportPrompted &&
+  getDecisionCategoryIds(scenario).size > 0;
+
+/** Remember the answer to the decision-support prompt; `enable` turns decision support on. */
+export const answerDecisionSupportPrompt = (
+  scenario: Pick<Scenario, 'includeDecisionSupport' | 'decisionSupportPrompted'>,
+  enable: boolean,
+) => {
+  scenario.decisionSupportPrompted = true;
+  if (enable) scenario.includeDecisionSupport = true;
+};

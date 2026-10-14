@@ -651,6 +651,7 @@
           "label": "Ermittlung und Festnahme",
           "desc": "Diese manuell ausgewählten Maßnahmen unterstützen die rechtmäßige Zuordnung, Beweissicherung, Rückverfolgung und Wege zur Unterbindung oder strafrechtlichen Verfolgung der Verantwortlichen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "cyber-evidence",
@@ -882,6 +883,7 @@
           "label": "Maßnahmen zur Dienstkontinuität",
           "desc": "Diese manuell ausgewählten Maßnahmen erhalten wichtige, von einem Cybervorfall betroffene Dienste und begrenzen den Vorfall.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "noodproces",
@@ -947,6 +949,7 @@
           "label": "Führung und Kommunikation",
           "desc": "Diese manuell ausgewählten Maßnahmen stimmen Führung, Partner und zeitnahe Informationen für die Öffentlichkeit aufeinander ab.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "regie",
@@ -1314,6 +1317,7 @@
           "label": "Koordination und Warnung",
           "desc": "Diese manuell ausgewählten Maßnahmen organisieren Informationen für die Öffentlichkeit, die behördenübergreifende Koordination und die Aufnahme Betroffener.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "opvang",
@@ -1383,6 +1387,7 @@
           "label": "Schutz und Rettung",
           "desc": "Diese manuell ausgewählten Maßnahmen schützen Menschen, ermöglichen Rettung und sichern lebenswichtige Dienste.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evacuation",
@@ -1740,6 +1745,7 @@
           "label": "Koordination und Warnung",
           "desc": "Diese manuell ausgewählten Maßnahmen koordinieren die zuständigen Stellen und vermitteln Informationen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "afstemming",
@@ -1805,6 +1811,7 @@
           "label": "Schutz und Rettung",
           "desc": "Diese manuell ausgewählten Maßnahmen schützen Menschen, unterstützen Rettungseinsätze und berücksichtigen den Zustand der Schutzanlage.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "verplaatsing",
@@ -2178,6 +2185,7 @@
           "label": "Koordination und Unterstützung der Bevölkerung",
           "desc": "Diese manuell ausgewählten Maßnahmen koordinieren Partner, unterstützen Betroffene und planen die Wiederherstellung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "opvang",
@@ -2243,6 +2251,7 @@
           "label": "Schutz und Zugang",
           "desc": "Diese manuell ausgewählten Maßnahmen regeln die Brandabsperrung, den Zugang der Öffentlichkeit und die Unterstützung der Feuerwehr.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "afsluiting",
@@ -2677,6 +2686,7 @@
           "label": "Ermöglichung und Deeskalation",
           "desc": "Setzen Sie verhältnismäßige Maßnahmen ein, die friedliche Versammlungen ermöglichen, den Dialog fördern und Spannungen abbauen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "assembly-facilitation",
@@ -2742,6 +2752,7 @@
           "label": "Öffentliche Ordnung, Verkehr und Kommunikation",
           "desc": "Koordinieren Sie verhältnismäßige Maßnahmen für öffentliche Ordnung, Verkehr, Rettungszufahrt und Information der Öffentlichkeit.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "traffic",
@@ -2807,6 +2818,7 @@
           "label": "Ermittlung und Festnahme",
           "desc": "Wenn konkrete Straftaten begangen werden, sichern Sie Beweismittel und unterstützen Sie rechtmäßige, nachvollziehbare Ermittlungen und Festnahmen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -4366,6 +4378,7 @@
           "label": "Schutz und Rettung",
           "desc": "Wählen Sie Maßnahmen zum Lebensschutz, zur Suche und Rettung sowie zur medizinischen Versorgung passend zur bekannten Lage aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "eq-evacuation",
@@ -4431,6 +4444,7 @@
           "label": "Gefahrenabwehr und Koordination",
           "desc": "Wählen Sie Maßnahmen zur Sicherheit der Versorgungsleitungen, Führung und Information der Öffentlichkeit für einen abgestimmten Einsatz aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "eq-utilities",
@@ -4768,6 +4782,7 @@
           "label": "Evakuierung und Rettung",
           "desc": "Wählen Sie Schutzverlegung, Rettung und medizinische Maßnahmen passend zu Wellenzeitpunkt und Zugangsbedingungen aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ts-protection",
@@ -4833,6 +4848,7 @@
           "label": "Koordination und Information der Öffentlichkeit",
           "desc": "Wählen Sie Warnungen, Zugangsbeschränkungen und koordinierte Maßnahmen zur Wiederherstellung aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ts-warning",
@@ -5174,6 +5190,7 @@
           "label": "Schutz und Rettung",
           "desc": "Wählen Sie Evakuierung, Schutz der Einsatzkräfte und medizinische Maßnahmen passend zur Ausbruchsgefahr aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ve-evacuation",
@@ -5239,6 +5256,7 @@
           "label": "Koordination und Information der Öffentlichkeit",
           "desc": "Wählen Sie Überwachung, Schutz der Infrastruktur und maßgebliche Warnmaßnahmen aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ve-monitoring",
@@ -5600,6 +5618,7 @@
           "label": "Schutz und Rettung",
           "desc": "Wählen Sie Flächenschutz, spezialisierte Suche und medizinische Maßnahmen passend zur Art des Hangversagens aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "la-evacuation",
@@ -5665,6 +5684,7 @@
           "label": "Koordination und Information der Öffentlichkeit",
           "desc": "Wählen Sie spezialisierte Gefahrenüberwachung, Routenkontrollen und abgestimmte Warnungen aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "la-monitoring",
@@ -6026,6 +6046,7 @@
           "label": "Schutz und Rettung",
           "desc": "Wählen Sie Verlegung, Wasserrettung und medizinische Maßnahmen passend zur Wasserlage aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ff-protection",
@@ -6091,6 +6112,7 @@
           "label": "Koordination und Information der Öffentlichkeit",
           "desc": "Wählen Sie Warnungen, Zugangskontrollen und abgestimmte Maßnahmen zur Hochwasserbewältigung aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ff-warning",
@@ -6440,6 +6462,7 @@
           "label": "Schutz und Rettung",
           "desc": "Diese manuell ausgewählten Maßnahmen schützen Menschen und unterstützen Rettung sowie medizinische Versorgung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "storm-rescue",
@@ -6513,6 +6536,7 @@
           "label": "Koordination und Dienstkontinuität",
           "desc": "Diese manuell ausgewählten Maßnahmen koordinieren Führung, Warnungen und Wiederherstellung lebenswichtiger Dienste.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "storm-command",
@@ -6878,6 +6902,7 @@
           "label": "Schutz und Betreuung",
           "desc": "Diese manuell ausgewählten Maßnahmen verringern die Belastung und bieten direkte gesundheitliche und soziale Unterstützung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "temp-centres",
@@ -6951,6 +6976,7 @@
           "label": "Koordination und Dienstkontinuität",
           "desc": "Diese manuell ausgewählten Maßnahmen koordinieren Warnungen, Dienste und Einsatzführung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "temp-warning",
@@ -7312,6 +7338,7 @@
           "label": "Trinkwasser und Bevölkerungsschutz",
           "desc": "Listet manuell ausgewählte Maßnahmen für sicheres Trinkwasser und den Schutz der Bevölkerung auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "emergency-supply",
@@ -7381,6 +7408,7 @@
           "label": "Ressourcenmanagement und Erholung",
           "desc": "Listet manuell ausgewählte Maßnahmen zum Umgang mit knappen Ressourcen und zur Verringerung anhaltender Auswirkungen auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "agricultural-response",
@@ -7742,6 +7770,7 @@
           "label": "Schutz und Versorgung",
           "desc": "Listet Maßnahmen zum Schutz der Bevölkerung und zur Aufrechterhaltung der Gesundheitsversorgung auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "case-control",
@@ -7807,6 +7836,7 @@
           "label": "Koordination und Information",
           "desc": "Listet Maßnahmen zur Überwachung, Koordination und Kommunikation mit der Bevölkerung auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-advice",
@@ -8148,6 +8178,7 @@
           "label": "Tierschutz und Eindämmung",
           "desc": "Listet Maßnahmen zum Schutz des Tierwohls und zur Verhinderung der Ausbreitung auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "movement-control",
@@ -8213,6 +8244,7 @@
           "label": "Koordination und Information",
           "desc": "Listet Maßnahmen zur Rückverfolgbarkeit, tierärztlichen Koordination und Information der Öffentlichkeit auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "traceability",
@@ -8278,6 +8310,7 @@
           "label": "Ermittlung und Festnahme",
           "desc": "Listet manuell ausgewählte Ermittlungsmaßnahmen bei Verdacht auf gezielte Einbringung auf. Neutrale Optionen zeigen an, dass keine strafrechtlichen Ermittlungen angezeigt sind.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -8702,6 +8735,7 @@
           "label": "Schutz und öffentliche Gesundheit",
           "desc": "Listet Maßnahmen zum Schutz der Bevölkerung, der Beschäftigten und sensibler Bereiche auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "treatment",
@@ -8771,6 +8805,7 @@
           "label": "Eindämmung und Koordination",
           "desc": "Listet Maßnahmen zur Begrenzung der Ausbreitung und zur Unterstützung der Wiederherstellung auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "movement-control",
@@ -9132,6 +9167,7 @@
           "label": "Schutz und Rettung",
           "desc": "Listet manuell ausgewählte Maßnahmen zum Schutz der Bevölkerung, zur Rettung Verletzter und zur angemessenen medizinischen Versorgung auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -9197,6 +9233,7 @@
           "label": "Eindämmung und Koordination",
           "desc": "Listet manuell ausgewählte Maßnahmen zur Quellenkontrolle und zum Umweltschutz sowie zur Einsatzführung und Information der Öffentlichkeit auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-control",
@@ -9558,6 +9595,7 @@
           "label": "Schutz und medizinische Versorgung",
           "desc": "Listet manuell ausgewählte Schutzmaßnahmen, die Versorgung Verletzter und Expositionskontrollen auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -9623,6 +9661,7 @@
           "label": "Quellenkontrolle und Koordination",
           "desc": "Listet manuell ausgewählte Maßnahmen zur Stabilisierung der Quelle, zur Überwachung, Einsatzführung und Information der Öffentlichkeit auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-stabilisation",
@@ -9984,6 +10023,7 @@
           "label": "Schutz und Rettung",
           "desc": "Umfasst unmittelbar lebensrettende Maßnahmen, die der Einsatzleitung zur Verfügung stehen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "air-rescue",
@@ -10061,6 +10101,7 @@
           "label": "Gefahrenabwehr und Koordination",
           "desc": "Umfasst Maßnahmen zur Brandbekämpfung, behördenübergreifenden Koordination und Kommunikation mit der Öffentlichkeit.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "air-fire-control",
@@ -10462,6 +10503,7 @@
           "label": "Schutz und Rettung",
           "desc": "Umfasst unmittelbar lebensrettende Maßnahmen für Fahrgäste, Besatzung und Menschen in der Nähe.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rail-rescue",
@@ -10539,6 +10581,7 @@
           "label": "Gefahrenabwehr und Koordination",
           "desc": "Umfasst Maßnahmen zur Sicherung des Zuges, Einsatzführung, Information der Öffentlichkeit und Wiederherstellung des Betriebs.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rail-stabilise",
@@ -10932,6 +10975,7 @@
           "label": "Schutz und Rettung",
           "desc": "Umfasst unmittelbar lebensrettende Maßnahmen für Verkehrsteilnehmende und Menschen in der Nähe.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "road-rescue",
@@ -11009,6 +11053,7 @@
           "label": "Gefahrenabwehr und Koordination",
           "desc": "Umfasst Gefahrenabwehr, behördenübergreifende Koordination und Informationen für die Öffentlichkeit.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "road-stabilise",
@@ -11402,6 +11447,7 @@
           "label": "Schutz und Rettung",
           "desc": "Umfasst unmittelbar lebensrettende Maßnahmen für Menschen an Bord oder in der Nähe des Schiffs.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "marine-rescue",
@@ -11479,6 +11525,7 @@
           "label": "Gefahrenabwehr und Koordination",
           "desc": "Umfasst Maßnahmen zur Stabilisierung des Schiffs, maritimen Koordination und Information der Öffentlichkeit.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "marine-stabilise",
@@ -11852,6 +11899,7 @@
           "label": "Bevölkerungsschutz und Rettung",
           "desc": "Listet manuell ausgewählte, für einen Gasvorfall geeignete Maßnahmen der Evakuierung, Rettung und Feuerwehr auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protect-people",
@@ -11917,6 +11965,7 @@
           "label": "Eindämmung und Koordination",
           "desc": "Listet manuell ausgewählte Maßnahmen zur Gasabsperrung, Gefahrenüberwachung, Einsatzführung und Information der Öffentlichkeit auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "gas-isolation",
@@ -12273,6 +12322,7 @@
           "label": "Rettung und Bevölkerungsschutz",
           "desc": "Listet manuell ausgewählte Maßnahmen zur Suche, Rettung von Verletzten und zum Schutz der Bevölkerung auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "search-rescue",
@@ -12346,6 +12396,7 @@
           "label": "Stabilisierung und Koordination",
           "desc": "Listet manuell ausgewählte Maßnahmen zur Stabilisierung der Einsatzstelle, Abstimmung mit Infrastrukturbetreibern, Einsatzleitung und öffentlichen Information auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "site-stabilisation",
@@ -12716,6 +12767,7 @@
           "label": "Schutz der Bevölkerung",
           "desc": "Enthält Sofortmaßnahmen zum Schutz der Menschen und zur Sicherung wesentlicher Bedürfnisse.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "grid-welfare",
@@ -12793,6 +12845,7 @@
           "label": "Koordination und Wiederherstellung",
           "desc": "Enthält Maßnahmen zur Netzkoordination, öffentlichen Information und schrittweisen Wiederherstellung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "grid-operations",
@@ -13190,6 +13243,7 @@
           "label": "Aufrechterhaltung des Betriebs und öffentlicher Zugang",
           "desc": "Enthält Maßnahmen zur Sicherung des Notfallzugangs und zur Unterstützung betroffener Personen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "telecom-public-access",
@@ -13267,6 +13321,7 @@
           "label": "Koordination und Wiederherstellung",
           "desc": "Enthält Maßnahmen zur Netzwiederherstellung, betreiberübergreifenden Koordination und öffentlichen Information.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "telecom-repair",
@@ -13636,6 +13691,7 @@
           "label": "Bevölkerungsschutz und Wasserbetrieb",
           "desc": "Listet Maßnahmen zum Schutz der Nutzer und zur Sicherstellung des sicheren Wasserzugangs auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "water-advice",
@@ -13701,6 +13757,7 @@
           "label": "Koordination und Information",
           "desc": "Listet Maßnahmen zur Koordination, Probenahme und öffentlichen Information auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "incident-command",
@@ -13770,6 +13827,7 @@
           "label": "Ermittlungen und Festnahme",
           "desc": "Listet Maßnahmen zur Ermittlung und Festnahme der Verantwortlichen einer vorsätzlichen Verunreinigung auf; neutrale Optionen bedeuten, dass keine strafrechtlichen Maßnahmen angezeigt sind.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -14198,6 +14256,7 @@
           "label": "Bevölkerungsschutz und Versorgung",
           "desc": "Listet manuell ausgewählte Schutzmaßnahmen, Versorgung Verletzter und Schutzvorkehrungen für Einsatzkräfte auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protect-people",
@@ -14263,6 +14322,7 @@
           "label": "Eindämmung und Koordination",
           "desc": "Listet manuell ausgewählte Maßnahmen zur Quellenkontrolle, zum Umweltschutz, zur Einsatzleitung und öffentlichen Information auf.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-control",
@@ -14612,6 +14672,7 @@
           "label": "Schutz und Rettung",
           "desc": "Wählen Sie verhältnismäßige Maßnahmen zur Lebensrettung, zum Bevölkerungsschutz und für den Facheinsatz aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -14689,6 +14750,7 @@
           "label": "Eindämmung und Koordination",
           "desc": "Wählen Sie Maßnahmen zur Einsatzstellenkontrolle, Koordination und öffentlichen Information für einen abgestimmten Einsatz aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -14766,6 +14828,7 @@
           "label": "Ermittlungen und Festnahme",
           "desc": "Wählen Sie rechtmäßige Maßnahmen zur Beweissicherung, Ermittlung von Tatverdächtigen und Festnahme aus, die von den zuständigen Behörden geleitet werden.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -15150,6 +15213,7 @@
           "label": "Schutz und Rettung",
           "desc": "Wählen Sie verhältnismäßige Maßnahmen zur Lebensrettung, zum Bevölkerungsschutz und für den Facheinsatz aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -15227,6 +15291,7 @@
           "label": "Eindämmung und Koordination",
           "desc": "Wählen Sie Maßnahmen zur Einsatzstellenkontrolle, Koordination und öffentlichen Information für einen abgestimmten Einsatz aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -15304,6 +15369,7 @@
           "label": "Ermittlungen und Festnahme",
           "desc": "Wählen Sie rechtmäßige Maßnahmen zur Beweissicherung, Ermittlung von Tatverdächtigen und Festnahme aus, die von den zuständigen Behörden geleitet werden.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -15688,6 +15754,7 @@
           "label": "Schutz und Rettung",
           "desc": "Wählen Sie verhältnismäßige Maßnahmen zur Lebensrettung, zum Bevölkerungsschutz und für den Facheinsatz aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -15765,6 +15832,7 @@
           "label": "Eindämmung und Koordination",
           "desc": "Wählen Sie Maßnahmen zur Einsatzstellenkontrolle, Koordination und öffentlichen Information für einen abgestimmten Einsatz aus.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -15842,6 +15910,7 @@
           "label": "Ermittlungen und Festnahme",
           "desc": "Wählen Sie rechtmäßige Maßnahmen zur Beweissicherung, Ermittlung von Tatverdächtigen und Festnahme aus, die von den zuständigen Behörden geleitet werden.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -16210,6 +16279,7 @@
           "label": "Schutz und Aufrechterhaltung des Betriebs",
           "desc": "Diese manuell ausgewählten Maßnahmen schützen Personen, begrenzen Folgen und sichern wesentliche Funktionen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-life-safety",
@@ -16275,6 +16345,7 @@
           "label": "Koordination und Information",
           "desc": "Diese manuell ausgewählten Maßnahmen richten die Einsatzleitung ein, koordinieren Partner und sichern verlässliche öffentliche Informationen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-command",
@@ -16340,6 +16411,7 @@
           "label": "Ermittlungen und Festnahme",
           "desc": "Diese manuellen Maßnahmen unterstützen Zuordnung, Beweissicherung, Ermittlung und rechtmäßige Festnahme, Störung oder Strafverfolgung der Verantwortlichen.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-evidence",
@@ -16716,6 +16788,7 @@
           "label": "Schutz und Rettung",
           "desc": "Diese Kategorie umfasst „Schutz und Rettung“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -16793,6 +16866,7 @@
           "label": "Absicherung und Koordination",
           "desc": "Diese Kategorie umfasst „Absicherung und Koordination“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -16870,6 +16944,7 @@
           "label": "Ermittlung und Festnahme",
           "desc": "Diese Kategorie umfasst „Ermittlung und Festnahme“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -17206,6 +17281,7 @@
           "label": "Schutz und Eindämmung",
           "desc": "Diese Kategorie umfasst „Schutz und Eindämmung“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -17271,6 +17347,7 @@
           "label": "Öffentliche Ordnung und Koordination",
           "desc": "Diese Kategorie umfasst „Öffentliche Ordnung und Koordination“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "policing-posture",
@@ -17336,6 +17413,7 @@
           "label": "Ermittlung und Festnahme",
           "desc": "Diese Kategorie umfasst „Ermittlung und Festnahme“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence-preservation",
@@ -17692,6 +17770,7 @@
           "label": "Lebensschutz und Eindämmung",
           "desc": "Diese Kategorie umfasst „Lebensschutz und Eindämmung“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "crew-protection",
@@ -17757,6 +17836,7 @@
           "label": "Maritime Koordination",
           "desc": "Diese Kategorie umfasst „Maritime Koordination“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "authority-coordination",
@@ -17822,6 +17902,7 @@
           "label": "Ermittlung und Festnahme",
           "desc": "Diese Kategorie umfasst „Ermittlung und Festnahme“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "maritime-evidence",
@@ -18214,6 +18295,7 @@
           "label": "Schutz und Rettung",
           "desc": "Diese Kategorie umfasst „Schutz und Rettung“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -18291,6 +18373,7 @@
           "label": "Absicherung und Koordination",
           "desc": "Diese Kategorie umfasst „Absicherung und Koordination“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -18368,6 +18451,7 @@
           "label": "Ermittlung und Festnahme",
           "desc": "Diese Kategorie umfasst „Ermittlung und Festnahme“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -18736,6 +18820,7 @@
           "label": "Schutz und Aufrechterhaltung",
           "desc": "Diese Kategorie umfasst „Schutz und Aufrechterhaltung“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-life-safety",
@@ -18801,6 +18886,7 @@
           "label": "Koordination und Information",
           "desc": "Diese Kategorie umfasst „Koordination und Information“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-command",
@@ -18866,6 +18952,7 @@
           "label": "Ermittlung und Festnahme",
           "desc": "Diese Kategorie umfasst „Ermittlung und Festnahme“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-evidence",
@@ -19218,6 +19305,7 @@
           "label": "Schutz und Aufrechterhaltung",
           "desc": "Diese Kategorie umfasst „Schutz und Aufrechterhaltung“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-life-safety",
@@ -19283,6 +19371,7 @@
           "label": "Koordination und Information",
           "desc": "Diese Kategorie umfasst „Koordination und Information“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-command",
@@ -19348,6 +19437,7 @@
           "label": "Ermittlung und Festnahme",
           "desc": "Diese Kategorie umfasst „Ermittlung und Festnahme“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-evidence",
@@ -19700,6 +19790,7 @@
           "label": "Schutz und Aufrechterhaltung",
           "desc": "Diese Kategorie umfasst „Schutz und Aufrechterhaltung“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-life-safety",
@@ -19765,6 +19856,7 @@
           "label": "Koordination und Information",
           "desc": "Diese Kategorie umfasst „Koordination und Information“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-command",
@@ -19830,6 +19922,7 @@
           "label": "Ermittlung und Festnahme",
           "desc": "Diese Kategorie umfasst „Ermittlung und Festnahme“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-evidence",
@@ -20182,6 +20275,7 @@
           "label": "Brandschutz und Eindämmung",
           "desc": "Diese Kategorie umfasst „Brandschutz und Eindämmung“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rescue-and-evacuation",
@@ -20247,6 +20341,7 @@
           "label": "Brandbekämpfung, Koordination und Information",
           "desc": "Diese Kategorie umfasst „Brandbekämpfung, Koordination und Information“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "fire-service-coordination",
@@ -20312,6 +20407,7 @@
           "label": "Ermittlung und Festnahme",
           "desc": "Diese Kategorie umfasst „Ermittlung und Festnahme“ und die dafür relevanten Aspekte der Lagebewältigung.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "fire-evidence",

@@ -15,6 +15,7 @@ const boxStructure = (box) => ({
   categories: box.categories.map((category) => ({
     id: category.id,
     manual: !!category.manual,
+    decision: !!category.decision,
     factors: category.factors.map((factor) => ({
       id: factor.id,
       manual: !!factor.manual,
@@ -144,4 +145,11 @@ test('switching languages never overwrites existing starter boxes', async () => 
   const merged = addStarterKitToModel(dutch, english);
   assert.equal(merged.added, 0);
   assert.equal(merged.model.scenario.label, 'Custom box');
+});
+
+test('decision categories are identical across locales', () => {
+  const decisions = (kit) => kit.boxes.flatMap((box) =>
+    box.categories.filter((category) => category.decision).map((category) => `${box.id}/${category.id}`));
+  assert.ok(decisions(reference).length >= 40);
+  for (const language of languages) assert.deepEqual(decisions(readKit(language)), decisions(reference), language);
 });

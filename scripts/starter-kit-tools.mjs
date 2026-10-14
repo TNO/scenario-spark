@@ -31,6 +31,7 @@ const toBox = (lang, boxId, file) => {
     specId: c.id,
     label: c.label,
     desc: c.desc,
+    ...(c.decision ? { decisionSupport: true } : {}),
     componentIds: c.factors.map(({ id }) => id),
   }));
   const components = spec.categories.flatMap((c) =>
@@ -38,7 +39,7 @@ const toBox = (lang, boxId, file) => {
       id: f.id,
       label: f.label,
       desc: f.desc,
-      ...((f.manual ?? c.manual) ? { manual: true } : {}),
+      ...((c.decision || (f.manual ?? c.manual)) ? { manual: true } : {}),
       values: f.values.map(([v, label]) => ({ id: `${f.id}-${v}`, label })),
     })),
   );
@@ -83,6 +84,7 @@ const boxToSpec = (file) => {
       label: c.label,
       desc: c.desc || fail(`Category ${c.id} needs a desc`),
       ...(allManual ? { manual: true } : {}),
+      ...(c.decisionSupport ? { decision: true } : {}),
       factors: comps.map((f) => {
         ordered.push(f.id);
         return {
@@ -174,6 +176,11 @@ const checkSpecs = (specs, effectsPrompt = '') => {
     }
     if (!checkSelection(box, box.narratives[0].components).consistent) report(spec.id, 'example contains an excluded pair');
     if (!box.components.some((c) => c.manual)) console.log(`${spec.id}: note, no manual (measure) factors`);
+    for (const c of spec.categories) {
+      if (!c.decision && c.factors.length && c.factors.every((f) => f.manual ?? c.manual)) {
+        console.log(`${spec.id}: warning, manual category ${c.id} is not a decision category (add "decision": true)`);
+      }
+    }
     if (spec.prompt.length < 100) report(spec.id, 'prompt too short');
     if (!spec.example.desc.includes('<p>') || spec.example.desc.length < 100) report(spec.id, 'example desc needs <p> paragraphs');
     if (spec.example.choices.length !== box.components.length) report(spec.id, 'example needs one choice per factor');
@@ -255,6 +262,7 @@ const merge = (lang, file) => {
         label: get(`cat.${c.id}.label`, c.label),
         desc: get(`cat.${c.id}.desc`, c.desc),
         ...(c.manual ? { manual: true } : {}),
+        ...(c.decision ? { decision: true } : {}),
         factors: c.factors.map((f) => ({
           id: f.id,
           label: get(`factor.${f.id}.label`, f.label),

@@ -651,6 +651,7 @@
           "label": "Investigación y detención",
           "desc": "Estas acciones manuales respaldan la atribución conforme a la ley, la preservación de pruebas, el rastreo y las vías para interrumpir la actividad o procesar a sus responsables.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "cyber-evidence",
@@ -882,6 +883,7 @@
           "label": "Medidas de continuidad",
           "desc": "Estas acciones seleccionadas manualmente mantienen los servicios esenciales afectados por el incidente cibernético y contienen el incidente.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "noodproces",
@@ -947,6 +949,7 @@
           "label": "Dirección y comunicación",
           "desc": "Estas acciones seleccionadas manualmente coordinan a la dirección y a los colaboradores, y facilitan información pública oportuna.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "regie",
@@ -1314,6 +1317,7 @@
           "label": "Coordinación y avisos",
           "desc": "Estas acciones seleccionadas manualmente organizan la información pública, la coordinación interinstitucional y la acogida.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "opvang",
@@ -1383,6 +1387,7 @@
           "label": "Protección y rescate",
           "desc": "Estas medidas seleccionadas manualmente protegen a las personas, facilitan el rescate y mantienen los servicios esenciales.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evacuation",
@@ -1740,6 +1745,7 @@
           "label": "Coordinación y avisos",
           "desc": "Estas acciones seleccionadas manualmente coordinan a los organismos responsables y comunican información.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "afstemming",
@@ -1805,6 +1811,7 @@
           "label": "Protección y rescate",
           "desc": "Estas medidas seleccionadas manualmente protegen a las personas, facilitan el rescate y atienden las necesidades de la defensa.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "verplaatsing",
@@ -2178,6 +2185,7 @@
           "label": "Coordinación y apoyo a la comunidad",
           "desc": "Estas medidas seleccionadas manualmente coordinan a los colaboradores, apoyan a las personas afectadas y planifican la recuperación.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "opvang",
@@ -2243,6 +2251,7 @@
           "label": "Protección y acceso",
           "desc": "Estas medidas seleccionadas manualmente gestionan el perímetro del incendio, el acceso público y el apoyo a los servicios de bomberos.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "afsluiting",
@@ -2677,6 +2686,7 @@
           "label": "Facilitación y desescalada",
           "desc": "Aplique medidas proporcionadas que permitan la reunión pacífica, mantengan el diálogo y reduzcan la tensión.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "assembly-facilitation",
@@ -2742,6 +2752,7 @@
           "label": "Orden público, tráfico y comunicación",
           "desc": "Coordine medidas proporcionadas de orden público, tráfico, acceso de emergencia e información pública.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "traffic",
@@ -2807,6 +2818,7 @@
           "label": "Investigación y detención",
           "desc": "Si se cometen delitos concretos, preserve las pruebas y respalde una investigación y detención legales y sujetas a rendición de cuentas.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -4366,6 +4378,7 @@
           "label": "Protección y rescate",
           "desc": "Seleccione acciones de seguridad vital, búsqueda y rescate y atención médica adecuadas a las condiciones conocidas.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "eq-evacuation",
@@ -4431,6 +4444,7 @@
           "label": "Control de peligros y coordinación",
           "desc": "Seleccione medidas de seguridad de servicios, dirección e información pública para una respuesta coordinada.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "eq-utilities",
@@ -4768,6 +4782,7 @@
           "label": "Evacuación y rescate",
           "desc": "Seleccione medidas de desplazamiento para proteger a la población, rescate y atención médica apropiadas al momento de llegada de las olas y al acceso.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ts-protection",
@@ -4833,6 +4848,7 @@
           "label": "Coordinación e información pública",
           "desc": "Seleccione medidas de aviso, control de acceso y recuperación coordinada.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ts-warning",
@@ -5174,6 +5190,7 @@
           "label": "Protección y rescate",
           "desc": "Seleccione medidas de evacuación, protección de los equipos de respuesta y atención médica adecuadas al peligro eruptivo.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ve-evacuation",
@@ -5239,6 +5256,7 @@
           "label": "Coordinación e información pública",
           "desc": "Seleccione medidas de vigilancia, protección de infraestructuras y avisos oficiales.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ve-monitoring",
@@ -5600,6 +5618,7 @@
           "label": "Protección y rescate",
           "desc": "Seleccione medidas de protección de la zona, búsqueda especializada y atención médica adecuadas al tipo de desprendimiento.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "la-evacuation",
@@ -5665,6 +5684,7 @@
           "label": "Coordinación e información pública",
           "desc": "Seleccione medidas especializadas de vigilancia del peligro, control de rutas y avisos coordinados.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "la-monitoring",
@@ -6026,6 +6046,7 @@
           "label": "Protección y rescate",
           "desc": "Seleccione medidas de desplazamiento, rescate acuático y atención médica adecuadas a las condiciones actuales del agua.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ff-protection",
@@ -6091,6 +6112,7 @@
           "label": "Coordinación e información pública",
           "desc": "Seleccione avisos, controles de acceso y medidas coordinadas de respuesta a la inundación.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ff-warning",
@@ -6440,6 +6462,7 @@
           "label": "Protección y rescate",
           "desc": "Estas medidas seleccionadas manualmente protegen a las personas y respaldan el rescate y la respuesta médica.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "storm-rescue",
@@ -6513,6 +6536,7 @@
           "label": "Coordinación y continuidad",
           "desc": "Estas acciones seleccionadas manualmente coordinan la dirección, los avisos y el restablecimiento de los servicios esenciales.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "storm-command",
@@ -6878,6 +6902,7 @@
           "label": "Protección y atención",
           "desc": "Estas medidas seleccionadas manualmente reducen la exposición y ofrecen apoyo directo de salud y bienestar.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "temp-centres",
@@ -6951,6 +6976,7 @@
           "label": "Coordinación y continuidad",
           "desc": "Estas acciones seleccionadas manualmente coordinan los avisos, los servicios y la gestión del incidente.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "temp-warning",
@@ -7312,6 +7338,7 @@
           "label": "Agua potable y protección de la población",
           "desc": "Enumera las medidas seleccionadas manualmente para garantizar la seguridad del agua potable y proteger a la población.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "emergency-supply",
@@ -7381,6 +7408,7 @@
           "label": "Gestión de recursos y recuperación",
           "desc": "Enumera las medidas seleccionadas manualmente para gestionar la escasez de recursos y reducir los efectos persistentes.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "agricultural-response",
@@ -7742,6 +7770,7 @@
           "label": "Protección y atención",
           "desc": "Enumera las medidas para proteger a la población y mantener los servicios sanitarios.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "case-control",
@@ -7807,6 +7836,7 @@
           "label": "Coordinación e información",
           "desc": "Enumera las medidas de vigilancia, coordinación y comunicación pública.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-advice",
@@ -8148,6 +8178,7 @@
           "label": "Protección y contención animal",
           "desc": "Enumera las medidas para proteger el bienestar animal y evitar la propagación.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "movement-control",
@@ -8213,6 +8244,7 @@
           "label": "Coordinación e información",
           "desc": "Enumera las medidas de trazabilidad, coordinación veterinaria e información pública.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "traceability",
@@ -8278,6 +8310,7 @@
           "label": "Investigación y detención",
           "desc": "Enumera las medidas de investigación seleccionadas manualmente ante la sospecha de introducción deliberada; las opciones neutrales indican que no se requiere una actuación de investigación penal.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -8702,6 +8735,7 @@
           "label": "Protección y salud pública",
           "desc": "Enumera las medidas para proteger a la población, al personal y a las zonas sensibles.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "treatment",
@@ -8771,6 +8805,7 @@
           "label": "Contención y coordinación",
           "desc": "Enumera las medidas para limitar la propagación y apoyar la recuperación.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "movement-control",
@@ -9132,6 +9167,7 @@
           "label": "Protección y rescate",
           "desc": "Enumera las medidas seleccionadas manualmente para proteger a las personas, rescatar a las víctimas y proporcionar atención clínica adecuada.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -9197,6 +9233,7 @@
           "label": "Contención y coordinación",
           "desc": "Enumera las medidas seleccionadas manualmente de control de la fuente, protección ambiental, mando e información pública.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-control",
@@ -9558,6 +9595,7 @@
           "label": "Protección y atención médica",
           "desc": "Enumera las medidas seleccionadas manualmente de protección, gestión de víctimas y control de la exposición.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -9623,6 +9661,7 @@
           "label": "Control de la fuente y coordinación",
           "desc": "Enumera las medidas seleccionadas manualmente para estabilizar la fuente, vigilar, dirigir e informar a la población.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-stabilisation",
@@ -9984,6 +10023,7 @@
           "label": "Protección y rescate",
           "desc": "Incluye las medidas inmediatas de salvamento disponibles para el mando del incidente.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "air-rescue",
@@ -10061,6 +10101,7 @@
           "label": "Control y coordinación",
           "desc": "Incluye medidas de extinción, coordinación interinstitucional y comunicación pública.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "air-fire-control",
@@ -10462,6 +10503,7 @@
           "label": "Protección y rescate",
           "desc": "Incluye las medidas inmediatas de salvamento para pasajeros, tripulación y personas cercanas.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rail-rescue",
@@ -10539,6 +10581,7 @@
           "label": "Control y coordinación",
           "desc": "Incluye medidas de aislamiento del tren, mando, información pública y recuperación.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rail-stabilise",
@@ -10932,6 +10975,7 @@
           "label": "Protección y rescate",
           "desc": "Incluye las medidas inmediatas de salvamento para los usuarios de la vía y las personas cercanas.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "road-rescue",
@@ -11009,6 +11053,7 @@
           "label": "Control y coordinación",
           "desc": "Incluye medidas de control de peligros, coordinación interinstitucional y actualizaciones públicas.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "road-stabilise",
@@ -11402,6 +11447,7 @@
           "label": "Protección y rescate",
           "desc": "Incluye las medidas inmediatas de salvamento para las personas a bordo o cerca del buque.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "marine-rescue",
@@ -11479,6 +11525,7 @@
           "label": "Control y coordinación",
           "desc": "Incluye medidas de estabilización del buque, coordinación marítima e información pública.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "marine-stabilise",
@@ -11852,6 +11899,7 @@
           "label": "Protección y rescate de la población",
           "desc": "Enumera las medidas seleccionadas manualmente de evacuación, rescate e intervención de bomberos adecuadas para un incidente de gas.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protect-people",
@@ -11917,6 +11965,7 @@
           "label": "Contención y coordinación",
           "desc": "Enumera las medidas seleccionadas manualmente de aislamiento del gas, vigilancia de peligros, mando e información pública.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "gas-isolation",
@@ -12273,6 +12322,7 @@
           "label": "Rescate y protección",
           "desc": "Enumera las medidas de búsqueda, rescate de víctimas y protección pública seleccionadas manualmente.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "search-rescue",
@@ -12346,6 +12396,7 @@
           "label": "Estabilización y coordinación",
           "desc": "Enumera las medidas seleccionadas manualmente para estabilizar el lugar, coordinarse con los servicios de infraestructura, dirigir la respuesta y comunicar al público.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "site-stabilisation",
@@ -12716,6 +12767,7 @@
           "label": "Protección comunitaria",
           "desc": "Incluye medidas inmediatas para proteger a las personas y cubrir necesidades esenciales.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "grid-welfare",
@@ -12793,6 +12845,7 @@
           "label": "Coordinación y recuperación",
           "desc": "Incluye la coordinación de la red, la información pública y las medidas de restablecimiento por fases.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "grid-operations",
@@ -13190,6 +13243,7 @@
           "label": "Continuidad y acceso público",
           "desc": "Incluye medidas para mantener el acceso a los servicios de emergencia y apoyar a las personas afectadas.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "telecom-public-access",
@@ -13267,6 +13321,7 @@
           "label": "Coordinación y restablecimiento",
           "desc": "Incluye la recuperación de la red, la coordinación entre operadores y las actualizaciones públicas.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "telecom-repair",
@@ -13636,6 +13691,7 @@
           "label": "Protección pública y operaciones de agua",
           "desc": "Enumera medidas para proteger a los usuarios y mantener un acceso seguro al agua.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "water-advice",
@@ -13701,6 +13757,7 @@
           "label": "Coordinación e información",
           "desc": "Enumera medidas de coordinación, muestreo y comunicación pública.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "incident-command",
@@ -13770,6 +13827,7 @@
           "label": "Investigación y detención",
           "desc": "Enumera medidas para investigar y detener a los responsables de una contaminación deliberada; las opciones neutrales indican que no procede una actuación penal.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -14198,6 +14256,7 @@
           "label": "Protección pública y atención",
           "desc": "Enumera las medidas seleccionadas manualmente de protección, atención a víctimas y control de los equipos de respuesta.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protect-people",
@@ -14263,6 +14322,7 @@
           "label": "Contención y coordinación",
           "desc": "Enumera medidas seleccionadas manualmente de control del origen, protección ambiental, mando e información pública.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-control",
@@ -14612,6 +14672,7 @@
           "label": "Protección y rescate",
           "desc": "Seleccione medidas proporcionadas para proteger la vida, a la población y para la respuesta especializada.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -14689,6 +14750,7 @@
           "label": "Contención y coordinación",
           "desc": "Seleccione medidas de control del lugar, mando e información pública para una respuesta coordinada.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -14766,6 +14828,7 @@
           "label": "Investigación y detención",
           "desc": "Seleccione medidas legales de recogida de pruebas, rastreo de sospechosos y detención, bajo la dirección de las autoridades competentes.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -15150,6 +15213,7 @@
           "label": "Protección y rescate",
           "desc": "Seleccione medidas proporcionadas para proteger la vida, a la población y para la respuesta especializada.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -15227,6 +15291,7 @@
           "label": "Contención y coordinación",
           "desc": "Seleccione medidas de control del lugar, mando e información pública para una respuesta coordinada.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -15304,6 +15369,7 @@
           "label": "Investigación y detención",
           "desc": "Seleccione medidas legales de recogida de pruebas, rastreo de sospechosos y detención, bajo la dirección de las autoridades competentes.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -15688,6 +15754,7 @@
           "label": "Protección y rescate",
           "desc": "Seleccione medidas proporcionadas para proteger la vida, a la población y para la respuesta especializada.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -15765,6 +15832,7 @@
           "label": "Contención y coordinación",
           "desc": "Seleccione medidas de control del lugar, mando e información pública para una respuesta coordinada.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -15842,6 +15910,7 @@
           "label": "Investigación y detención",
           "desc": "Seleccione medidas legales de recogida de pruebas, rastreo de sospechosos y detención, bajo la dirección de las autoridades competentes.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -16210,6 +16279,7 @@
           "label": "Protección y continuidad",
           "desc": "Estas acciones, seleccionadas manualmente, protegen a las personas, contienen las consecuencias y mantienen las funciones esenciales.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-life-safety",
@@ -16275,6 +16345,7 @@
           "label": "Coordinación e información",
           "desc": "Estas acciones, seleccionadas manualmente, establecen el mando, la coordinación con socios y la información pública fiable.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-command",
@@ -16340,6 +16411,7 @@
           "label": "Investigación y detención",
           "desc": "Estas medidas manuales apoyan la atribución, la conservación de pruebas, el rastreo y la detención, interrupción o procesamiento legal de los responsables.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-evidence",
@@ -16716,6 +16788,7 @@
           "label": "Protección y rescate",
           "desc": "Seleccione medidas proporcionadas para proteger la vida y a la población, y para organizar una respuesta especializada.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -16793,6 +16866,7 @@
           "label": "Contención y coordinación",
           "desc": "Seleccione medidas de control del lugar, mando e información pública para coordinar la respuesta.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -16870,6 +16944,7 @@
           "label": "Investigación y detención",
           "desc": "Seleccione medidas legales de obtención de pruebas, localización y detención de sospechosos, bajo la dirección de las autoridades competentes.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -17206,6 +17281,7 @@
           "label": "Protección y contención",
           "desc": "Seleccione medidas inmediatas de protección, atención sanitaria y gestión de la zona adecuadas a la situación observada.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -17271,6 +17347,7 @@
           "label": "Orden público y coordinación",
           "desc": "Coordine una actuación policial proporcionada, la gestión del tráfico y la difusión de información pública verificada.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "policing-posture",
@@ -17336,6 +17413,7 @@
           "label": "Investigación y detención",
           "desc": "Apoye la investigación basada en pruebas de delitos concretos y la exigencia legal de responsabilidades.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence-preservation",
@@ -17692,6 +17770,7 @@
           "label": "Seguridad de las personas y contención",
           "desc": "Seleccione medidas que protejan a las personas y reduzcan los peligros marítimos secundarios.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "crew-protection",
@@ -17757,6 +17836,7 @@
           "label": "Coordinación marítima",
           "desc": "Coordine la vigilancia marítima conforme a la ley, la seguridad del tráfico, la información pública y la recuperación.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "authority-coordination",
@@ -17822,6 +17902,7 @@
           "label": "Investigación y detención",
           "desc": "Preserve las pruebas y coordine la identificación y detención legal en las jurisdicciones pertinentes.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "maritime-evidence",
@@ -18214,6 +18295,7 @@
           "label": "Protección y rescate",
           "desc": "Seleccione medidas proporcionadas para proteger la vida y a la población, y para organizar una respuesta especializada.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -18291,6 +18373,7 @@
           "label": "Contención y coordinación",
           "desc": "Seleccione medidas de control del lugar, mando e información pública para coordinar la respuesta.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -18368,6 +18451,7 @@
           "label": "Investigación y detención",
           "desc": "Seleccione medidas legales de obtención de pruebas, localización y detención de sospechosos, bajo la dirección de las autoridades competentes.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -18736,6 +18820,7 @@
           "label": "Protección y continuidad",
           "desc": "Estas acciones, seleccionadas manualmente, protegen a las personas, contienen las consecuencias y mantienen las funciones esenciales.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-life-safety",
@@ -18801,6 +18886,7 @@
           "label": "Coordinación e información",
           "desc": "Estas acciones, seleccionadas manualmente, establecen el mando, coordinan a los socios y garantizan información pública fiable.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-command",
@@ -18866,6 +18952,7 @@
           "label": "Investigación y detención",
           "desc": "Estas medidas manuales respaldan la atribución, la obtención de pruebas y la localización, detención, neutralización o procesamiento legal de los responsables.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-evidence",
@@ -19218,6 +19305,7 @@
           "label": "Protección y continuidad",
           "desc": "Estas acciones, seleccionadas manualmente, protegen a las personas, contienen las consecuencias y mantienen las funciones esenciales.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-life-safety",
@@ -19283,6 +19371,7 @@
           "label": "Coordinación e información",
           "desc": "Estas acciones, seleccionadas manualmente, establecen el mando, coordinan a los socios y garantizan información pública fiable.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-command",
@@ -19348,6 +19437,7 @@
           "label": "Investigación y detención",
           "desc": "Estas medidas manuales respaldan la atribución, la obtención de pruebas y la localización, detención, neutralización o procesamiento legal de los responsables.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-evidence",
@@ -19700,6 +19790,7 @@
           "label": "Protección y continuidad",
           "desc": "Estas acciones, seleccionadas manualmente, protegen a las personas, contienen las consecuencias y mantienen las funciones esenciales.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-life-safety",
@@ -19765,6 +19856,7 @@
           "label": "Coordinación e información",
           "desc": "Estas acciones, seleccionadas manualmente, establecen el mando, coordinan a los socios y garantizan información pública fiable.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-command",
@@ -19830,6 +19922,7 @@
           "label": "Investigación y detención",
           "desc": "Estas medidas manuales respaldan la atribución, la obtención de pruebas y la localización, detención, neutralización o procesamiento legal de los responsables.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-evidence",
@@ -20182,6 +20275,7 @@
           "label": "Protección y contención del incendio",
           "desc": "Seleccione medidas de rescate, extinción y protección adecuadas al estado del incendio y al nivel de exposición.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rescue-and-evacuation",
@@ -20247,6 +20341,7 @@
           "label": "Coordinación e información sobre el incendio",
           "desc": "Coordine el mando de los bomberos, el acceso, los avisos a la población y la continuidad de la respuesta.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "fire-service-coordination",
@@ -20312,6 +20407,7 @@
           "label": "Investigación y detención",
           "desc": "Preserve las pruebas del lugar del incendio y respalde la identificación basada en pruebas y la detención legal.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "fire-evidence",

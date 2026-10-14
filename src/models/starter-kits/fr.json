@@ -651,6 +651,7 @@
           "label": "Enquête et interpellation",
           "desc": "Ces actions manuelles favorisent l’attribution dans le respect de la loi, la préservation des preuves, le traçage et les voies permettant de perturber les activités des responsables ou de les poursuivre.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "cyber-evidence",
@@ -882,6 +883,7 @@
           "label": "Mesures de continuité",
           "desc": "Ces actions choisies manuellement maintiennent les services essentiels touchés par l’incident cyber et en contiennent les effets.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "noodproces",
@@ -947,6 +949,7 @@
           "label": "Commandement et communication",
           "desc": "Ces actions choisies manuellement harmonisent la direction, les partenaires et la communication publique en temps utile.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "regie",
@@ -1314,6 +1317,7 @@
           "label": "Coordination et alerte",
           "desc": "Ces mesures sélectionnées manuellement organisent l’information du public, la coordination entre organismes et l’accueil.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "opvang",
@@ -1383,6 +1387,7 @@
           "label": "Protection et sauvetage",
           "desc": "Ces mesures sélectionnées manuellement protègent les personnes, permettent les sauvetages et maintiennent les services essentiels.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evacuation",
@@ -1740,6 +1745,7 @@
           "label": "Coordination et alerte",
           "desc": "Ces mesures sélectionnées manuellement coordonnent les organismes responsables et la communication d’informations.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "afstemming",
@@ -1805,6 +1811,7 @@
           "label": "Protection et sauvetage",
           "desc": "Ces mesures sélectionnées manuellement protègent les personnes, facilitent les sauvetages et répondent aux besoins liés à l’ouvrage.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "verplaatsing",
@@ -2178,6 +2185,7 @@
           "label": "Coordination et soutien aux collectivités",
           "desc": "Ces mesures sélectionnées manuellement coordonnent les partenaires, soutiennent les personnes touchées et planifient le rétablissement.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "opvang",
@@ -2243,6 +2251,7 @@
           "label": "Protection et accès",
           "desc": "Ces mesures sélectionnées manuellement gèrent le périmètre de l’incendie, l’accès du public et le soutien aux sapeurs-pompiers.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "afsluiting",
@@ -2677,6 +2686,7 @@
           "label": "Accompagnement et désescalade",
           "desc": "Utilisez des mesures proportionnées permettant les rassemblements pacifiques, maintenant le dialogue et réduisant les tensions.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "assembly-facilitation",
@@ -2742,6 +2752,7 @@
           "label": "Ordre public, circulation et communication",
           "desc": "Coordonnez des dispositions proportionnées en matière d’ordre public, de circulation, d’accès des secours et d’information du public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "traffic",
@@ -2807,6 +2818,7 @@
           "label": "Enquête et interpellation",
           "desc": "En cas d’infractions précises, préservez les preuves et contribuez à une enquête et à des interpellations légales et responsables.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -4366,6 +4378,7 @@
           "label": "Protection et sauvetage",
           "desc": "Sélectionnez des mesures de sécurité des personnes, de recherche et sauvetage et de soins médicaux adaptées aux conditions connues.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "eq-evacuation",
@@ -4431,6 +4444,7 @@
           "label": "Maîtrise des risques et coordination",
           "desc": "Sélectionnez des mesures de sécurité des réseaux, de commandement et d’information du public pour une réponse coordonnée.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "eq-utilities",
@@ -4768,6 +4782,7 @@
           "label": "Évacuation et sauvetage",
           "desc": "Sélectionnez les mesures de déplacement protecteur, de sauvetage et de soins médicaux adaptées au délai d’arrivée des vagues et à l’accès.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ts-protection",
@@ -4833,6 +4848,7 @@
           "label": "Coordination et information du public",
           "desc": "Sélectionnez les mesures d’alerte, de contrôle des accès et de coordination du rétablissement.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ts-warning",
@@ -5174,6 +5190,7 @@
           "label": "Protection et sauvetage",
           "desc": "Sélectionnez des mesures d’évacuation, de protection des intervenants et de soins médicaux adaptées au danger éruptif.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ve-evacuation",
@@ -5239,6 +5256,7 @@
           "label": "Coordination et information du public",
           "desc": "Sélectionnez des mesures de surveillance, de protection des infrastructures et d’alerte faisant autorité.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ve-monitoring",
@@ -5600,6 +5618,7 @@
           "label": "Protection et sauvetage",
           "desc": "Sélectionnez des mesures de protection de zone, de recherche spécialisée et d’intervention médicale adaptées au type de mouvement.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "la-evacuation",
@@ -5665,6 +5684,7 @@
           "label": "Coordination et information du public",
           "desc": "Sélectionnez des mesures spécialisées de surveillance du danger, de contrôle des itinéraires et de coordination des alertes.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "la-monitoring",
@@ -6026,6 +6046,7 @@
           "label": "Protection et sauvetage",
           "desc": "Sélectionnez des mesures de déplacement, de sauvetage aquatique et d’intervention médicale adaptées aux conditions actuelles de l’eau.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ff-protection",
@@ -6091,6 +6112,7 @@
           "label": "Coordination et information du public",
           "desc": "Sélectionnez des mesures d’alerte, de contrôle des accès et de coordination de l’intervention en cas d’inondation.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "ff-warning",
@@ -6440,6 +6462,7 @@
           "label": "Protection et sauvetage",
           "desc": "Ces mesures sélectionnées manuellement protègent les personnes et soutiennent les opérations de sauvetage et les soins médicaux.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "storm-rescue",
@@ -6513,6 +6536,7 @@
           "label": "Coordination et continuité",
           "desc": "Ces actions sélectionnées manuellement coordonnent le commandement, les alertes et le rétablissement des services essentiels.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "storm-command",
@@ -6878,6 +6902,7 @@
           "label": "Protection et soins",
           "desc": "Ces mesures sélectionnées manuellement réduisent l’exposition et apportent une aide sanitaire et sociale directe.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "temp-centres",
@@ -6951,6 +6976,7 @@
           "label": "Coordination et continuité",
           "desc": "Ces actions sélectionnées manuellement coordonnent les alertes, les services et la gestion de l’incident.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "temp-warning",
@@ -7312,6 +7338,7 @@
           "label": "Eau potable et protection de la population",
           "desc": "Répertorie les mesures choisies manuellement pour garantir une eau potable sûre et protéger la population.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "emergency-supply",
@@ -7381,6 +7408,7 @@
           "label": "Gestion des ressources et rétablissement",
           "desc": "Répertorie les mesures choisies manuellement pour gérer les ressources rares et réduire les effets persistants.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "agricultural-response",
@@ -7742,6 +7770,7 @@
           "label": "Protection et prise en charge",
           "desc": "Répertorie les mesures visant à protéger la population et à assurer la continuité des soins.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "case-control",
@@ -7807,6 +7836,7 @@
           "label": "Coordination et information",
           "desc": "Répertorie les mesures de surveillance, de coordination et de communication avec le public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-advice",
@@ -8148,6 +8178,7 @@
           "label": "Protection des animaux et confinement",
           "desc": "Répertorie les mesures visant à protéger le bien-être animal et à prévenir la propagation.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "movement-control",
@@ -8213,6 +8244,7 @@
           "label": "Coordination et information",
           "desc": "Répertorie les mesures de traçabilité, de coordination vétérinaire et d’information du public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "traceability",
@@ -8278,6 +8310,7 @@
           "label": "Enquête et interpellation",
           "desc": "Répertorie les mesures d’enquête choisies manuellement en cas d’introduction délibérée suspectée ; les options neutres indiquent qu’aucune mesure d’enquête pénale n’est préconisée.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -8702,6 +8735,7 @@
           "label": "Protection et santé publique",
           "desc": "Répertorie les mesures visant à protéger la population, les travailleurs et les zones sensibles.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "treatment",
@@ -8771,6 +8805,7 @@
           "label": "Confinement et coordination",
           "desc": "Répertorie les mesures visant à limiter la propagation et à faciliter le rétablissement.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "movement-control",
@@ -9132,6 +9167,7 @@
           "label": "Protection et secours",
           "desc": "Répertorie les mesures choisies manuellement pour protéger la population, secourir les victimes et assurer des soins adaptés.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -9197,6 +9233,7 @@
           "label": "Confinement et coordination",
           "desc": "Répertorie les mesures choisies manuellement de maîtrise de la source, de protection de l’environnement, de commandement et d’information du public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-control",
@@ -9558,6 +9595,7 @@
           "label": "Protection et soins médicaux",
           "desc": "Répertorie les mesures choisies manuellement de protection, de prise en charge des victimes et de maîtrise de l’exposition.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -9623,6 +9661,7 @@
           "label": "Maîtrise de la source et coordination",
           "desc": "Répertorie les mesures choisies manuellement de stabilisation de la source, de surveillance, de commandement et d’information du public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-stabilisation",
@@ -9984,6 +10023,7 @@
           "label": "Protection et secours",
           "desc": "Regroupe les mesures immédiates de sauvetage à la disposition du commandant des opérations.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "air-rescue",
@@ -10061,6 +10101,7 @@
           "label": "Maîtrise de la situation et coordination",
           "desc": "Regroupe la lutte contre les incendies, la coordination interservices et les mesures d’information du public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "air-fire-control",
@@ -10462,6 +10503,7 @@
           "label": "Protection et secours",
           "desc": "Regroupe les mesures immédiates de sauvetage destinées aux voyageurs, à l’équipage et aux personnes à proximité.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rail-rescue",
@@ -10539,6 +10581,7 @@
           "label": "Maîtrise de la situation et coordination",
           "desc": "Regroupe les mesures d’isolement du train, de commandement, d’information du public et de rétablissement.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rail-stabilise",
@@ -10932,6 +10975,7 @@
           "label": "Protection et secours",
           "desc": "Regroupe les mesures immédiates de sauvetage destinées aux usagers de la route et aux personnes à proximité.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "road-rescue",
@@ -11009,6 +11053,7 @@
           "label": "Maîtrise de la situation et coordination",
           "desc": "Regroupe la maîtrise des risques, la coordination interservices et les informations au public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "road-stabilise",
@@ -11402,6 +11447,7 @@
           "label": "Protection et secours",
           "desc": "Regroupe les mesures immédiates de sauvetage destinées aux personnes à bord ou à proximité du navire.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "marine-rescue",
@@ -11479,6 +11525,7 @@
           "label": "Maîtrise de la situation et coordination",
           "desc": "Regroupe les mesures de stabilisation du navire, de coordination maritime et d’information du public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "marine-stabilise",
@@ -11852,6 +11899,7 @@
           "label": "Protection de la population et secours",
           "desc": "Répertorie les mesures d’évacuation, de secours et d’intervention des sapeurs-pompiers adaptées à un incident gazier.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protect-people",
@@ -11917,6 +11965,7 @@
           "label": "Confinement et coordination",
           "desc": "Répertorie les mesures choisies manuellement d’isolement du gaz, de surveillance des risques, de commandement et d’information du public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "gas-isolation",
@@ -12273,6 +12322,7 @@
           "label": "Sauvetage et protection",
           "desc": "Répertorie les mesures de recherche, de sauvetage des victimes et de protection du public sélectionnées manuellement.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "search-rescue",
@@ -12346,6 +12396,7 @@
           "label": "Stabilisation et coordination",
           "desc": "Répertorie les mesures sélectionnées manuellement pour stabiliser le site, coordonner les infrastructures, assurer le commandement et informer le public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "site-stabilisation",
@@ -12716,6 +12767,7 @@
           "label": "Protection de la communauté",
           "desc": "Regroupe les mesures immédiates visant à protéger les personnes et à répondre aux besoins essentiels.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "grid-welfare",
@@ -12793,6 +12845,7 @@
           "label": "Coordination et rétablissement",
           "desc": "Regroupe la coordination du réseau, l’information du public et les mesures de rétablissement progressif.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "grid-operations",
@@ -13190,6 +13243,7 @@
           "label": "Continuité et accès du public",
           "desc": "Regroupe les mesures visant à préserver l’accès aux services d’urgence et à aider les personnes touchées.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "telecom-public-access",
@@ -13267,6 +13321,7 @@
           "label": "Coordination et rétablissement",
           "desc": "Regroupe le rétablissement du réseau, la coordination entre opérateurs et l’information du public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "telecom-repair",
@@ -13636,6 +13691,7 @@
           "label": "Protection du public et gestion de l’eau",
           "desc": "Répertorie les mesures visant à protéger les usagers et à maintenir un accès sûr à l’eau.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "water-advice",
@@ -13701,6 +13757,7 @@
           "label": "Coordination et information",
           "desc": "Répertorie les mesures de coordination, d’échantillonnage et de communication publique.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "incident-command",
@@ -13770,6 +13827,7 @@
           "label": "Enquête et interpellation",
           "desc": "Répertorie les mesures d’enquête et d’interpellation des responsables d’une contamination délibérée ; les options neutres indiquent qu’aucune action pénale n’est justifiée.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -14198,6 +14256,7 @@
           "label": "Protection du public et prise en charge",
           "desc": "Répertorie les mesures sélectionnées manuellement de protection, d’aide aux victimes et de contrôle des risques pour les intervenants.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protect-people",
@@ -14263,6 +14322,7 @@
           "label": "Confinement et coordination",
           "desc": "Répertorie les mesures sélectionnées manuellement de maîtrise de la source, de protection de l’environnement, de commandement et d’information du public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "source-control",
@@ -14612,6 +14672,7 @@
           "label": "Protection et sauvetage",
           "desc": "Sélectionnez des mesures proportionnées de sauvegarde des vies, de protection du public et d’intervention spécialisée.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -14689,6 +14750,7 @@
           "label": "Confinement et coordination",
           "desc": "Sélectionnez des mesures de contrôle du site, de commandement et d’information du public pour une intervention coordonnée.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -14766,6 +14828,7 @@
           "label": "Enquête et interpellation",
           "desc": "Sélectionnez des mesures légales de préservation des preuves, de recherche des suspects et d’interpellation, dirigées par les autorités compétentes.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -15150,6 +15213,7 @@
           "label": "Protection et sauvetage",
           "desc": "Sélectionnez des mesures proportionnées de sauvegarde des vies, de protection du public et d’intervention spécialisée.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -15227,6 +15291,7 @@
           "label": "Confinement et coordination",
           "desc": "Sélectionnez des mesures de contrôle du site, de commandement et d’information du public pour une intervention coordonnée.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -15304,6 +15369,7 @@
           "label": "Enquête et interpellation",
           "desc": "Sélectionnez des mesures légales de préservation des preuves, de recherche des suspects et d’interpellation, dirigées par les autorités compétentes.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -15688,6 +15754,7 @@
           "label": "Protection et sauvetage",
           "desc": "Sélectionnez des mesures proportionnées de sauvegarde des vies, de protection du public et d’intervention spécialisée.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -15765,6 +15832,7 @@
           "label": "Confinement et coordination",
           "desc": "Sélectionnez des mesures de contrôle du site, de commandement et d’information du public pour une intervention coordonnée.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -15842,6 +15910,7 @@
           "label": "Enquête et interpellation",
           "desc": "Sélectionnez des mesures légales de préservation des preuves, de recherche des suspects et d’interpellation, dirigées par les autorités compétentes.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -16210,6 +16279,7 @@
           "label": "Protection et continuité",
           "desc": "Ces actions sélectionnées manuellement protègent les personnes, limitent les conséquences et maintiennent les fonctions essentielles.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-life-safety",
@@ -16275,6 +16345,7 @@
           "label": "Coordination et information",
           "desc": "Ces actions sélectionnées manuellement établissent le commandement, la coordination des partenaires et une information publique fiable.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-command",
@@ -16340,6 +16411,7 @@
           "label": "Enquête et interpellation",
           "desc": "Ces mesures sélectionnées manuellement appuient l’attribution, la collecte des preuves, la recherche et l’interpellation légale, la neutralisation ou les poursuites contre les responsables.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sab-evidence",
@@ -16716,6 +16788,7 @@
           "label": "Protection et secours",
           "desc": "Sélectionnez des mesures proportionnées de protection de la vie, du public et d’intervention spécialisée.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -16793,6 +16866,7 @@
           "label": "Confinement et coordination",
           "desc": "Sélectionnez des mesures de contrôle des lieux, de commandement et d’information du public pour coordonner la réponse.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -16870,6 +16944,7 @@
           "label": "Enquête et interpellation",
           "desc": "Sélectionnez des mesures légales de collecte des preuves, de recherche des suspects et d’interpellation sous la conduite des autorités compétentes.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -17206,6 +17281,7 @@
           "label": "Protection et confinement",
           "desc": "Sélectionnez des mesures immédiates de protection, de prise en charge médicale et de gestion de la zone adaptées à la situation observée.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "public-protection",
@@ -17271,6 +17347,7 @@
           "label": "Ordre public et coordination",
           "desc": "Coordonnez une action policière proportionnée, la gestion du trafic et une information vérifiée du public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "policing-posture",
@@ -17336,6 +17413,7 @@
           "label": "Enquête et interpellation",
           "desc": "Appuyez les enquêtes fondées sur les preuves concernant des infractions précises et la mise en cause légale de leurs auteurs.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence-preservation",
@@ -17692,6 +17770,7 @@
           "label": "Protection de la vie et confinement",
           "desc": "Choisissez des mesures qui protègent les personnes et réduisent les risques maritimes secondaires.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "crew-protection",
@@ -17757,6 +17836,7 @@
           "label": "Coordination maritime",
           "desc": "Coordonnez la surveillance maritime légale, la sécurité du trafic, l’information du public et le rétablissement.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "authority-coordination",
@@ -17822,6 +17902,7 @@
           "label": "Enquête et interpellation",
           "desc": "Préservez les preuves et coordonnez l’identification et l’interpellation légales dans les juridictions concernées.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "maritime-evidence",
@@ -18214,6 +18295,7 @@
           "label": "Protection et secours",
           "desc": "Sélectionnez des mesures proportionnées de protection de la vie, du public et d’intervention spécialisée.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "protective-action",
@@ -18291,6 +18373,7 @@
           "label": "Confinement et coordination",
           "desc": "Sélectionnez des mesures de contrôle des lieux, de commandement et d’information du public pour coordonner la réponse.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "scene-control",
@@ -18368,6 +18451,7 @@
           "label": "Enquête et interpellation",
           "desc": "Sélectionnez des mesures légales de collecte des preuves, de recherche des suspects et d’interpellation sous la conduite des autorités compétentes.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "evidence",
@@ -18736,6 +18820,7 @@
           "label": "Protection et continuité",
           "desc": "Ces mesures sélectionnées manuellement protègent les personnes, limitent les conséquences et maintiennent les fonctions essentielles.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-life-safety",
@@ -18801,6 +18886,7 @@
           "label": "Coordination et information",
           "desc": "Ces mesures sélectionnées manuellement mettent en place le commandement, la coordination des partenaires et une information fiable du public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-command",
@@ -18866,6 +18952,7 @@
           "label": "Enquête et interpellation",
           "desc": "Ces mesures choisies manuellement facilitent l’attribution, la collecte des preuves, la recherche et l’interpellation légale des responsables, ainsi que la neutralisation de leurs activités ou leur poursuite.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "hyb-evidence",
@@ -19218,6 +19305,7 @@
           "label": "Protection et continuité",
           "desc": "Ces mesures sélectionnées manuellement protègent les personnes, limitent les conséquences et maintiennent les fonctions essentielles.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-life-safety",
@@ -19283,6 +19371,7 @@
           "label": "Coordination et information",
           "desc": "Ces mesures sélectionnées manuellement mettent en place le commandement, la coordination des partenaires et une information fiable du public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-command",
@@ -19348,6 +19437,7 @@
           "label": "Enquête et interpellation",
           "desc": "Ces mesures choisies manuellement facilitent l’attribution, la collecte des preuves, la recherche et l’interpellation légale des responsables, ainsi que la neutralisation de leurs activités ou leur poursuite.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "dis-evidence",
@@ -19700,6 +19790,7 @@
           "label": "Protection et continuité",
           "desc": "Ces mesures sélectionnées manuellement protègent les personnes, limitent les conséquences et maintiennent les fonctions essentielles.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-life-safety",
@@ -19765,6 +19856,7 @@
           "label": "Coordination et information",
           "desc": "Ces mesures sélectionnées manuellement mettent en place le commandement, la coordination des partenaires et une information fiable du public.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-command",
@@ -19830,6 +19922,7 @@
           "label": "Enquête et interpellation",
           "desc": "Ces mesures choisies manuellement facilitent l’attribution, la collecte des preuves, la recherche et l’interpellation légale des responsables, ainsi que la neutralisation de leurs activités ou leur poursuite.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "sup-evidence",
@@ -20182,6 +20275,7 @@
           "label": "Protection et confinement de l’incendie",
           "desc": "Sélectionnez des mesures de secours, d’extinction et de protection adaptées à l’état de l’incendie et à l’exposition.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "rescue-and-evacuation",
@@ -20247,6 +20341,7 @@
           "label": "Coordination incendie et information",
           "desc": "Coordonnez le commandement des sapeurs-pompiers, les accès, les alertes au public et la continuité de l’intervention.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "fire-service-coordination",
@@ -20312,6 +20407,7 @@
           "label": "Enquête et interpellation",
           "desc": "Préservez les preuves sur les lieux de l’incendie et facilitez l’identification fondée sur les preuves et l’interpellation légale.",
           "manual": true,
+          "decision": true,
           "factors": [
             {
               "id": "fire-evidence",
