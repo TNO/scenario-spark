@@ -1,4 +1,4 @@
-import { generateCombination, getBoxComponents } from './generate.ts';
+import { generateCombination, getBoxComponents, getDecisionComponentIds } from './generate.ts';
 import { getInconsistency } from './inconsistencies.ts';
 import { LLM_PROMPT_TYPES, SCENARIO_SPARK_LANGUAGES, parseTemplate } from './narrative.ts';
 import type { ID, MorphologicalBox } from './types.ts';
@@ -143,6 +143,9 @@ export const validateBox = (input: unknown, options: ValidateOptions = {}): Vali
     if (!checkItem(category, path)) return;
     const cat = category as Record<string, unknown> & { id: string; label: string };
     registerId(cat.id, `${path}.id`);
+    if (cat.decisionSupport !== undefined && typeof cat.decisionSupport !== 'boolean') {
+      add('error', 'invalid-decision-support', `${path}.decisionSupport`, 'decisionSupport must be a boolean.');
+    }
     if (cat.componentIds === undefined || (Array.isArray(cat.componentIds) && cat.componentIds.length === 0)) {
       add('warning', 'empty-category', `${path}.componentIds`, `Category "${cat.label}" has no components.`);
       return;
@@ -235,6 +238,21 @@ export const validateBox = (input: unknown, options: ValidateOptions = {}): Vali
         }
       }
     });
+  }
+
+  const decisionIds = getDecisionComponentIds(box);
+  if (decisionIds.size > 0) {
+    for (const comp of boxComponents) {
+      if (decisionIds.has(comp.id) && !comp.manual) {
+        add('warning', 'decision-component-not-manual', `$.components[${componentIds.get(comp.id)}].manual`, `Component "${comp.id}" is in a decision category but not manual, so it is generated.`);
+      }
+    }
+    const decisionValues = boxComponents.filter((c) => decisionIds.has(c.id)).flatMap((c) => (c.values || []).map((v) => v.id));
+    const situationValues = boxComponents.filter((c) => !decisionIds.has(c.id)).flatMap((c) => (c.values || []).map((v) => v.id));
+    const linked = situationValues.some((s) => decisionValues.some((d) => getInconsistency(box.inconsistencies, s, d) === true));
+    if (!linked) {
+      add('warning', 'decision-unlinked', '$.inconsistencies', 'The box has decision categories, but no impossible pair excludes a decision value for any situation value.');
+    }
   }
 
   // A value that is impossible with every value of another component can never be used.

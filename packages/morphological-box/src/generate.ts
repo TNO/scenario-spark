@@ -65,6 +65,23 @@ export const getBoxComponents = <C extends Component>(box: Pick<MorphologicalBox
 };
 
 /**
+ * IDs of components that belong to a decision category (`decisionSupport`).
+ * A component listed in several categories belongs to the first one only.
+ */
+export const getDecisionComponentIds = (box: Pick<MorphologicalBox, 'categories'>): Set<ID> => {
+  const seen = new Set<ID>();
+  const decisions = new Set<ID>();
+  for (const category of box.categories) {
+    for (const id of category.componentIds || []) {
+      if (seen.has(id)) continue;
+      seen.add(id);
+      if (category.decisionSupport === true) decisions.add(id);
+    }
+  }
+  return decisions;
+};
+
+/**
  * Explain why generation may fail: lists components with fewer than two
  * unconstrained values.
  */
@@ -246,6 +263,8 @@ export type ComponentOptions = {
   componentId: ID;
   label: string;
   manual: boolean;
+  /** True if the component belongs to a decision category */
+  decision: boolean;
   values: Array<{
     id: ID;
     label: string;
@@ -264,10 +283,12 @@ export const assessOptions = (box: MorphologicalBox, selection: Selection): Comp
   const selected = Object.entries(selection).flatMap(([componentId, ids]) =>
     (ids || []).map((id) => ({ componentId, id })),
   );
+  const decisions = getDecisionComponentIds(box);
   return getBoxComponents(box).map((component) => ({
     componentId: component.id,
     label: component.label,
     manual: !!component.manual,
+    decision: decisions.has(component.id),
     values: (component.values || []).map(({ id, label }) => {
       if ((selection[component.id] || []).includes(id)) return { id, label, status: 'selected' as const, conflicts: [] };
       const others = selected.filter((s) => s.componentId !== component.id);

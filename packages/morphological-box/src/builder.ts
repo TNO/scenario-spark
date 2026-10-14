@@ -81,8 +81,21 @@ const withComponents = <B extends MorphologicalBox>(box: B, changes: Partial<Mor
 
 export type ValueInput = string | { id?: ID; label: string; desc?: string };
 export type ComponentInput = { id?: ID; label: string; desc?: string; manual?: boolean; values: ValueInput[] };
-/** `manual` applies to all components of the category, unless a component overrides it. */
-export type CategoryInput = { id?: ID; label: string; desc?: string; manual?: boolean; components: ComponentInput[] };
+/**
+ * `manual` applies to all components of the category, unless a component overrides it.
+ * `decision` (alias `decisionSupport`) marks a decision category: its components
+ * default to manual unless `manual: false` is set. When replacing a category,
+ * omitting it keeps the current flag; `false` clears it.
+ */
+export type CategoryInput = {
+  id?: ID;
+  label: string;
+  desc?: string;
+  manual?: boolean;
+  decision?: boolean;
+  decisionSupport?: boolean;
+  components: ComponentInput[];
+};
 
 const collectIds = (box: MorphologicalBox, skipCategory?: Category) => {
   const skipComponents = new Set(skipCategory?.componentIds || []);
@@ -123,6 +136,7 @@ export const upsertCategory = <B extends MorphologicalBox>(box: B, input: Catego
 
   const categoryId = existing ? existing.id : takeId(input.id, slugify(input.label), 'Category');
   if (existing) used.add(existing.id);
+  const decision = input.decision ?? input.decisionSupport ?? existing?.decisionSupport === true;
   const newComponents: Component[] = input.components.map((ci) => {
     if (!ci || typeof ci.label !== 'string' || !ci.label.trim()) throw new Error(`Component in "${input.label}" needs a label.`);
     if (!Array.isArray(ci.values) || ci.values.length === 0) throw new Error(`Component "${ci.label}" needs values.`);
@@ -138,7 +152,7 @@ export const upsertCategory = <B extends MorphologicalBox>(box: B, input: Catego
     });
     const previous = box.components.find((c) => c.id === componentId && oldComponentIds.has(c.id));
     const { manual: previousManual, ...rest } = previous || ({} as Partial<Component>);
-    const manual = ci.manual ?? input.manual ?? previousManual;
+    const manual = ci.manual ?? input.manual ?? (decision || previousManual);
     return {
       ...rest,
       id: componentId,
@@ -149,11 +163,13 @@ export const upsertCategory = <B extends MorphologicalBox>(box: B, input: Catego
     };
   });
 
+  const { decisionSupport: _old, ...previousCategory } = existing || ({} as Partial<Category>);
   const category: Category = {
-    ...(existing || {}),
+    ...previousCategory,
     id: categoryId,
     label: input.label,
     ...(input.desc ? { desc: input.desc } : {}),
+    ...(decision ? { decisionSupport: true } : {}),
     componentIds: newComponents.map((c) => c.id),
   };
   // Replace in place so the position (and template numbering) of other components is kept.
@@ -259,4 +275,26 @@ export const setManual = <B extends MorphologicalBox>(box: B, ids: ID[], manual 
       return (manual ? { ...rest, manual: true } : rest) as typeof c;
     }),
   };
+};
+
+/**
+ * Mark categories as decision categories (measures or decisions a person
+ * chooses). Turning it on also makes their components manual; turning it off
+ * only clears the flag and leaves `manual` untouched (use `setManual`).
+ */
+export const setDecision = <B extends MorphologicalBox>(box: B, categoryIds: ID[], on = true): B => {
+  const targets = new Set<ID>();
+  for (const id of categoryIds) {
+    if (!box.categories.some((c) => c.id === id)) throw new Error(`Unknown category id "${id}".`);
+    targets.add(id);
+  }
+  const categories = box.categories.map((c) => {
+    if (!targets.has(c.id)) return c;
+    const { decisionSupport: _old, ...rest } = c;
+    return on ? { ...rest, decisionSupport: true } : rest;
+  });
+  const next = { ...box, categories };
+  if (!on) return next;
+  const componentIds = box.categories.filter((c) => targets.has(c.id)).flatMap((c) => c.componentIds || []);
+  return componentIds.length ? setManual(next, componentIds.filter((id) => box.components.some((c) => c.id === id))) : next;
 };

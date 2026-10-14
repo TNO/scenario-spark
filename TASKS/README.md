@@ -8,7 +8,7 @@ Library first (0002), then the app setting (0003); the starter kit (0004), narra
 prompt (0005) and courses of action (0006) can run in parallel after 0003.
 
 - [ ] 0001 Decision support for crisis management
-- [ ] 0002 Library, CLI and skill: decision categories
+- [x] 0002 Library, CLI and skill: decision categories
 - [ ] 0003 Decision categories drive the decision-support setting *(needs 0002)*
 - [ ] 0004 Starter kit: decision categories and opt-in dialog *(needs 0002, 0003)*
 - [ ] 0005 Narrative LLM prompt: situation versus suggested actions *(needs 0003)*

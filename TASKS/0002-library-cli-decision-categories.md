@@ -1,6 +1,6 @@
 # 0002 Library, CLI and skill: decision categories
 
-Status: open
+Status: done
 Priority: high
 Subsystem: morphological-box
 Depends on: none
@@ -40,3 +40,20 @@ Parent task: 0001. See 0001 for the distinction between `manual` and decision ca
   see package README).
 
 ## Agent Notes
+- 2026-10-14: Done. `Category.decisionSupport?: boolean` (`src/types.ts`).
+  Builder (`src/builder.ts`): `CategoryInput.decision` with alias `decisionSupport`;
+  components default to manual via `ci.manual ?? input.manual ?? (decision || previous)`;
+  replacing a category without the flag keeps it, `false` clears it. New
+  `setDecision(box, categoryIds, on = true)` (category ids only; unknown id throws; off
+  clears the flag only). `getDecisionComponentIds(box)` in `src/generate.ts` (first
+  category wins, like `getBoxComponents`); `assessOptions` results gain `decision: boolean`.
+  Validation (`src/validate.ts`): error `invalid-decision-support` (non-boolean flag);
+  warnings `decision-component-not-manual` (path `$.components[i].manual`) and
+  `decision-unlinked` (no *impossible* situation×decision pair; unlikely pairs do not
+  count as exclusions). CLI (`src/cli.ts`): `set-decision <file> <ids> [--off]`; `outline`
+  marks `(decision)`; `stats` adds `decisionCategories`; `options` text output groups into
+  `## Situation` / `## Decisions` only when the box has decision categories (JSON order
+  unchanged). Generation unchanged: decision components are empty because they are manual
+  (an explicit `manual: false` is generated, and warned about). Tests in
+  `test/decision.test.ts`. Docs: package README, skill SKILL.md/REFERENCE.md, root README
+  CLI section. Version 0.4.0.

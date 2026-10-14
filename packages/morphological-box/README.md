@@ -27,7 +27,7 @@ const samples = generateCombinations(box, 10, { random: createRandom(42) });
 
 // Decision support: given the situation, which measures remain?
 const options = assessOptions(box, { motive: ['motive-revenge'] });
-// [{ componentId, label, manual, values: [{ id, label, status: 'selected'|'available'|'unlikely'|'excluded', conflicts }] }]
+// [{ componentId, label, manual, decision, values: [{ id, label, status: 'selected'|'available'|'unlikely'|'excluded', conflicts }] }]
 
 // Optional narrative template: {n} is the n-th component, {componentId} also works
 if (box.template) console.log(renderTemplate(box, box.template, samples[0].selection));
@@ -49,9 +49,11 @@ A box looks like:
 
 Set `"manual": true` on a component for values a person chooses, such as measures: `generateCombination` leaves manual components empty unless they are locked or `includeManual: true` is passed.
 
+Set `"decisionSupport": true` on a category to make it a **decision category**: its factors are decisions or measures a person chooses (the solution space), not part of the situation. Scenario Spark uses this flag for decision support. Components of a decision category should be manual: `upsertCategory` with `decision: true` (or `decisionSupport: true`) makes them manual unless a component sets `manual: false`, and `setDecision(box, categoryIds)` marks existing categories and makes their components manual. `setDecision(box, categoryIds, false)` only clears the flag; the components stay manual (use `setManual(box, ids, false)` to generate them again). Use `manual` *without* a decision category for factors that a person sets but that describe the situation, e.g. the location of an exercise. `validateBox` warns (`decision-component-not-manual`) when a decision category has non-manual components, and (`decision-unlinked`) when no impossible pair links a situation value to a decision value. `getDecisionComponentIds(box)` returns the components of decision categories.
+
 `inconsistencies[a][b]` is `true` for impossible, `false` for unlikely, and absent for possible pairs; entries are symmetric. Optional Scenario Spark fields: `language` (e.g. `"nl"`), `template` (narrative text with placeholders) and `llm` (prompts for LLM-written narratives).
 
-Builders for incremental construction: `createBox`, `upsertCategory`, `removeCategory`, `setManual`, `applyInconsistencies`, `setBoxDetails`, `setTemplate`, `setLlmPrompt`, `toScenarioSpark`. Narrative helpers: `createTemplatePrompt`, `parseTemplate`, `renderTemplate`. Helpers: `assessOptions`, `checkSelection`, `countCombinations`, `diagnoseGeneration`, `getBoxComponents`, `getInconsistencyType`, `setInconsistency`, `listInconsistencies`, `normalizeInconsistencies`.
+Builders for incremental construction: `createBox`, `upsertCategory`, `removeCategory`, `setManual`, `setDecision`, `applyInconsistencies`, `setBoxDetails`, `setTemplate`, `setLlmPrompt`, `toScenarioSpark`. Narrative helpers: `createTemplatePrompt`, `parseTemplate`, `renderTemplate`. Helpers: `assessOptions`, `checkSelection`, `countCombinations`, `diagnoseGeneration`, `getBoxComponents`, `getDecisionComponentIds`, `getInconsistencyType`, `setInconsistency`, `listInconsistencies`, `normalizeInconsistencies`.
 
 ## CLI
 
@@ -61,7 +63,7 @@ npx -p morphological-box morph-box --help
 morph-box init box.json --language en --label "Cyber attack on a port"
 morph-box add-category box.json --data '{"label":"Actor","components":[{"label":"Motive","values":["Money","Revenge"]}]}'
 morph-box add-category box.json --data '{"label":"Target","components":[{"label":"Asset","values":["Cranes","Ship"]}]}'
-morph-box add-category box.json --data '{"label":"Measures","manual":true,"components":[{"label":"Port measures","values":["Isolate network","Stop cranes","Inform shipping"]}]}'
+morph-box add-category box.json --data '{"label":"Measures","decision":true,"components":[{"label":"Port measures","values":["Isolate network","Stop cranes","Inform shipping"]}]}'
 morph-box matrix box.json actor target
 morph-box set-inconsistencies box.json --data '[{"a":"motive-revenge","b":"asset-ship","type":"impossible"}]'
 morph-box template-prompt box.json   # instructions for writing the template
@@ -69,7 +71,9 @@ morph-box set-template box.json --data 'A {1} attacker targets the {2}.'
 morph-box set-llm-prompt box.json --data 'Write a realistic scenario based on the following elements.'
 morph-box validate box.json      # exit code 1 on errors
 morph-box generate box.json -n 5 --seed 1   # manual measures stay empty; add --include-manual to fill them
-morph-box options box.json --select motive-revenge   # decision support: available/excluded measures
+morph-box options box.json --select motive-revenge   # decision support: available/excluded measures, grouped into situation and decisions
+morph-box set-decision box.json measures        # mark an existing category as a decision category (its components become manual)
+morph-box set-decision box.json measures --off  # clear the decision flag only; components stay manual
 morph-box set-manual box.json measures --off  # make a category or component automatic again
 ```
 

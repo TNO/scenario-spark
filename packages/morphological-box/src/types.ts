@@ -27,6 +27,12 @@ export type Component<V extends Value = Value> = Item & {
 /** Group of strongly related key factors. */
 export type Category = Item & {
   componentIds?: ID[];
+  /**
+   * Decision category: its key factors are decisions or measures that a person
+   * chooses (e.g. crisis response measures), not part of the situation. Its
+   * components are manual by default.
+   */
+  decisionSupport?: boolean;
 };
 
 /**

@@ -40,6 +40,7 @@ The file is a Scenario Spark scenario. The CLI adds the Scenario Spark defaults 
 - All ids (box, categories, components, values) are unique.
 - `inconsistencies[a][b]`: `true` = impossible, `false` = unlikely, absent = possible. Always stored in both directions.
 - A component belongs to exactly one category; uncategorized components are ignored.
+- `decisionSupport: true` on a category marks a *decision category*: its factors are decisions or measures a person chooses (the solution space). Its components should be `manual: true`; the builder and `set-decision` set that, and validation warns otherwise. Scenario Spark's decision support reads this flag.
 - `manual: true` marks a component whose value a person chooses, e.g. a measure. Generators leave it empty unless it is locked (or `includeManual` / `--include-manual` is used); constraints still apply, so impossible values disappear once related values are selected.
 - `language`: ISO 639-1 code; Scenario Spark supports `en`, `nl`, `fr`, `de`, `es`, `pl`.
 - `template`: `{n}` is the n-th entry of `components` (1-based; the numbers `template-prompt` shows), `{componentId}` also works. `add-category` and `remove-category` renumber `{n}` when components move; placeholders of removed components become `{oldId}` and fail validation.
@@ -50,10 +51,12 @@ The file is a Scenario Spark scenario. The CLI adds the Scenario Spark defaults 
 `add-category` (object, or an array of objects):
 
 ```json
-{ "id": "optional", "label": "Category", "desc": "optional", "manual": false,
+{ "id": "optional", "label": "Category", "desc": "optional", "manual": false, "decision": false,
   "components": [{ "id": "optional", "label": "Factor", "desc": "optional", "manual": false,
     "values": ["Short label", { "id": "optional", "label": "Value", "desc": "optional" }] }] }
 ```
+
+`"decision": true` (alias `"decisionSupport": true`) makes a decision category; its components default to manual unless a component sets `"manual": false`. When replacing a category, omitting `decision` keeps its current flag; `false` clears it.
 
 Missing ids are derived from labels: category/component `slug(label)`, value `<componentId>-slug(label)`; a numeric suffix is added on collisions. Replacing a category (same id or label) keeps constraints of value ids that still exist and drops the rest.
 
@@ -65,7 +68,7 @@ Missing ids are derived from labels: category/component `slug(label)`, value `<c
 
 `set-template` and `set-llm-prompt` take plain text, not JSON.
 
-`set-manual <file> <id>[,<id>]` marks categories or components as manual, `--off` reverts. `options <file> --select <valueId>,…` lists, for every component, which values are selected (`*`), available (`+`), unlikely (`~`) or excluded (`X`, with the selected values that exclude them).
+`set-manual <file> <id>[,<id>]` marks categories or components as manual, `--off` reverts. `set-decision <file> <categoryId>[,<categoryId>]` marks categories as decision categories and makes their components manual; `--off` clears only the decision flag and leaves `manual` untouched. `options <file> --select <valueId>,…` lists, for every component, which values are selected (`*`), available (`+`), unlikely (`~`) or excluded (`X`, with the selected values that exclude them); with decision categories, the output is grouped into `## Situation` and `## Decisions` (`--json` adds `decision: true|false` per component). `outline` marks decision categories with `(decision)`; `stats` reports `decisionCategories`.
 
 Fragments may also be passed with `--input file.json` or on stdin. Read-only commands (`outline`, `matrix`, `stats`, `validate`, `generate`) also accept a Scenario Spark collection export and use its current scenario. Add `--json` for machine-readable output.
 
@@ -80,9 +83,9 @@ Fragments may also be passed with `--input file.json` or on stdin. Read-only com
 
 ## Validation codes
 
-Errors (must fix): `invalid-manual`, `not-an-object`, `missing-id`, `missing-label`, `invalid-desc`, `missing-categories`, `missing-components`, `invalid-inconsistencies`, `duplicate-id`, `no-values`, `invalid-values`, `invalid-component-ids`, `unknown-component`, `unknown-value`, `invalid-inconsistency-state`, `conflicting-inconsistency`, `no-components`, `infeasible` (no combination without impossible pairs), `invalid-language`, `invalid-template`, `invalid-template-placeholder` (unknown or out-of-range placeholder), `invalid-llm`, `invalid-llm-prompt`.
+Errors (must fix): `invalid-manual`, `invalid-decision-support`, `not-an-object`, `missing-id`, `missing-label`, `invalid-desc`, `missing-categories`, `missing-components`, `invalid-inconsistencies`, `duplicate-id`, `no-values`, `invalid-values`, `invalid-component-ids`, `unknown-component`, `unknown-value`, `invalid-inconsistency-state`, `conflicting-inconsistency`, `no-components`, `infeasible` (no combination without impossible pairs), `invalid-language`, `invalid-template`, `invalid-template-placeholder` (unknown or out-of-range placeholder), `invalid-llm`, `invalid-llm-prompt`.
 
-Warnings (review): `too-few-values`, `duplicate-label`, `empty-category`, `component-in-multiple-categories`, `uncategorized-component`, `self-inconsistency`, `same-component-inconsistency`, `asymmetric-inconsistency`, `dead-value` (a value is impossible with every value of another component, so it is never generated), `unsupported-language`, `invalid-template-placeholder` (placeholder of an uncategorized component), `empty-llm-prompt`, `unknown-prompt-category`.
+Warnings (review): `too-few-values`, `duplicate-label`, `empty-category`, `component-in-multiple-categories`, `uncategorized-component`, `self-inconsistency`, `same-component-inconsistency`, `asymmetric-inconsistency`, `dead-value` (a value is impossible with every value of another component, so it is never generated), `unsupported-language`, `invalid-template-placeholder` (placeholder of an uncategorized component), `empty-llm-prompt`, `unknown-prompt-category`, `decision-component-not-manual` (a component of a decision category is generated), `decision-unlinked` (the box has decision categories, but no impossible pair links a situation value to a decision value, so no measure is ever excluded).
 
 ## Library
 
@@ -96,8 +99,8 @@ const result = generateCombination(box, { locked: { 'actor-type': ['actor-type-i
 if (result.ok) console.log(result.selection, result.unlikelyCount); // { componentId: [valueId] }
 const samples = generateCombinations(box, 10, { random: createRandom(42) });
 // Decision support: which measures remain once the situation is known?
-const options = assessOptions(box, { 'actor-type': ['actor-type-insider'] }); // [{ componentId, manual, values: [{ id, status, conflicts }] }]
+const options = assessOptions(box, { 'actor-type': ['actor-type-insider'] }); // [{ componentId, manual, decision, values: [{ id, status, conflicts }] }]
 if (box.template) console.log(renderTemplate(box, box.template, samples[0].selection));
 ```
 
-Other exports: `assessOptions`, `setManual`, `checkSelection`, `countCombinations`, `diagnoseGeneration`, `getBoxComponents`, `createBox`, `upsertCategory`, `removeCategory`, `applyInconsistencies`, `setInconsistency`, `getInconsistencyType`, `listInconsistencies`, `normalizeInconsistencies`, `toScenarioSpark`, `createTemplatePrompt`, `setTemplate`, `parseTemplate`, `renderTemplate`, `setLlmPrompt`.
+Other exports: `assessOptions`, `setManual`, `setDecision`, `getDecisionComponentIds`, `checkSelection`, `countCombinations`, `diagnoseGeneration`, `getBoxComponents`, `createBox`, `upsertCategory`, `removeCategory`, `applyInconsistencies`, `setInconsistency`, `getInconsistencyType`, `listInconsistencies`, `normalizeInconsistencies`, `toScenarioSpark`, `createTemplatePrompt`, `setTemplate`, `parseTemplate`, `renderTemplate`, `setLlmPrompt`.

@@ -81,7 +81,7 @@ Each write command validates its input and rewrites the box file, so ids stay un
 ```bash
 morph-box init box.json --language en --label "Flooding" --desc "Exercise and decision-support box"
 morph-box add-category box.json --data '{"label":"Water","components":[{"label":"Water depth","values":["Below 20 cm","20-100 cm","Above 1 m"]}]}'
-morph-box add-category box.json --data '{"label":"Rescue measures","manual":true,"components":[{"label":"Rescue","values":["Boat rescue","Wading teams","Helicopter hoist"]}]}'
+morph-box add-category box.json --data '{"label":"Rescue measures","decision":true,"components":[{"label":"Rescue","values":["Boat rescue","Wading teams","Helicopter hoist"]}]}'
 morph-box matrix box.json water rescue-measures       # cross-consistency worksheet
 morph-box set-inconsistencies box.json --data '[{"a":"water-depth-below-20-cm","b":"rescue-boat-rescue","type":"impossible"}]'
 morph-box template-prompt box.json                    # how to write the narrative template
@@ -92,7 +92,7 @@ morph-box generate box.json -n 5 --seed 1             # manual measures stay emp
 morph-box options box.json --select water-depth-below-20-cm   # which measures remain for this situation?
 ```
 
-Other commands: `details` (box label, description, id, language), `remove-category`, `set-manual <id> [--off]`, `outline` and `stats`; add `--json` for machine-readable output. Run `morph-box --help` for all options.
+Other commands: `details` (box label, description, id, language), `remove-category`, `set-manual <id> [--off]`, `set-decision <categoryId> [--off]` (mark decision categories; their factors become manual, `--off` only clears the flag), `outline` and `stats`; add `--json` for machine-readable output. Run `morph-box --help` for all options.
 
 ### Manual measures and decision support
 

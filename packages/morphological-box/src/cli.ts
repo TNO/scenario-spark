@@ -7,13 +7,21 @@ import {
   createBox,
   removeCategory,
   setBoxDetails,
+  setDecision,
   setManual,
   toScenarioSpark,
   upsertCategory,
   type CategoryInput,
   type InconsistencyInput,
 } from './builder.ts';
-import { assessOptions, countCombinations, createRandom, generateCombinations, getBoxComponents } from './generate.ts';
+import {
+  assessOptions,
+  countCombinations,
+  createRandom,
+  generateCombinations,
+  getBoxComponents,
+  type ComponentOptions,
+} from './generate.ts';
 import { getInconsistency, listInconsistencies } from './inconsistencies.ts';
 import {
   createTemplatePrompt,
@@ -40,12 +48,17 @@ Build incrementally (each step rewrites <file>):
   add-category <file> [--data <json> | --input <path> | < stdin]
       Add or replace a category with its components and values:
       {"label":"Actor","components":[{"label":"Motive","values":["Money","Ideology"]}]}
-      Add "manual": true to a category or component for measures that a person
-      chooses (not generated).
+      Add "decision": true to a category of decisions or measures that a person
+      chooses (its components become manual), or "manual": true to a category or
+      component that is chosen by a person but is not a decision.
   remove-category <file> <categoryId>
   set-manual <file> <id>[,<id>...] [--off]
       Mark categories or components as manual (chosen by a person, e.g.
       measures; never generated unless locked) or, with --off, automatic.
+  set-decision <file> <categoryId>[,<categoryId>...] [--off]
+      Mark categories as decision categories (decisions or measures a person
+      chooses) and make their components manual. --off only clears the
+      decision flag; the components stay manual (use set-manual --off).
   set-inconsistencies <file> [--data <json> | --input <path> | < stdin]
       Mark value pairs: [{"a":"<valueId>","b":"<valueId>","type":"impossible|unlikely|possible"}]
       a/b may also be a component id to address all its values.
@@ -58,7 +71,8 @@ Build incrementally (each step rewrites <file>):
       to the given categories (default all).
 
 Inspect:
-  outline <file> [--json]          Categories, components and value ids.
+  outline <file> [--json]          Categories (decision categories are marked),
+                                   components and value ids.
   template-prompt <file> [--language <code>]
                                    Instructions and numbered key drivers for
                                    writing the template.
@@ -75,7 +89,9 @@ Inspect:
                                    Decision support: given the selected values
                                    (e.g. the current situation), list for every
                                    other component which values are available,
-                                   unlikely or excluded (and why).
+                                   unlikely or excluded (and why), grouped into
+                                   situation and decisions if the box has
+                                   decision categories.
 
 Options:
   -h, --help                       Show this help.
@@ -172,7 +188,7 @@ const outline = (box: MorphologicalBox) => {
   const lines = [`# ${box.label} (${box.id})`];
   if (box.desc) lines.push(box.desc);
   for (const cat of box.categories) {
-    lines.push('', `## ${cat.label} [category: ${cat.id}]`);
+    lines.push('', `## ${cat.label} [category: ${cat.id}]${cat.decisionSupport ? ' (decision)' : ''}`);
     for (const cid of cat.componentIds || []) {
       const comp = byId.get(cid);
       if (!comp) continue;
@@ -228,6 +244,7 @@ const stats = (box: MorphologicalBox) => {
   const impossible = pairs.filter((p) => p.type === 'impossible').length;
   return {
     categories: box.categories.length,
+    decisionCategories: box.categories.filter((c) => c.decisionSupport === true).length,
     components: comps.length,
     manualComponents: comps.filter((c) => c.manual).length,
     values,
@@ -288,6 +305,15 @@ export const run = (argv: string[]): number => {
       console.log(`Manual components: ${manual.length ? manual.join(', ') : 'none'}.`);
       return 0;
     }
+    case 'set-decision': {
+      const file = fileArg(args);
+      const ids = (args.positionals[2] || fail('Missing category id(s).')).split(',').map((i) => i.trim()).filter(Boolean);
+      const box = setDecision(readBox(file), ids, !args.values.off);
+      writeBox(file, box);
+      const decisions = box.categories.filter((c) => c.decisionSupport).map((c) => c.id);
+      console.log(`Decision categories: ${decisions.length ? decisions.join(', ') : 'none'}.`);
+      return 0;
+    }
     case 'options': {
       const box = readBox(fileArg(args), true);
       const ids = (args.values.select || '').split(',').map((i) => i.trim()).filter(Boolean);
@@ -304,12 +330,20 @@ export const run = (argv: string[]): number => {
       }
       const marks = { selected: '*', available: '+', unlikely: '~', excluded: 'X' } as const;
       const lines = ['Legend: * selected, + available, ~ unlikely, X excluded (impossible with a selected value).'];
-      for (const comp of result) {
-        lines.push('', `${comp.label} [${comp.componentId}]${comp.manual ? ' (manual)' : ''}`);
-        for (const v of comp.values) {
-          lines.push(`  ${marks[v.status]} ${v.label} [${v.id}]${v.conflicts.length ? ` <- ${v.conflicts.join(', ')}` : ''}`);
+      const print = (comps: ComponentOptions[]) => {
+        for (const comp of comps) {
+          lines.push('', `${comp.label} [${comp.componentId}]${comp.manual ? ' (manual)' : ''}`);
+          for (const v of comp.values) {
+            lines.push(`  ${marks[v.status]} ${v.label} [${v.id}]${v.conflicts.length ? ` <- ${v.conflicts.join(', ')}` : ''}`);
+          }
         }
-      }
+      };
+      if (result.some((c) => c.decision)) {
+        lines.push('', '## Situation');
+        print(result.filter((c) => !c.decision));
+        lines.push('', '## Decisions');
+        print(result.filter((c) => c.decision));
+      } else print(result);
       console.log(lines.join('\n'));
       return 0;
     }
