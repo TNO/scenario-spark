@@ -1,14 +1,23 @@
-import { getBoxComponents } from './generate.ts';
+import { activeCoa, effectiveSelection, nextCoaLabel, type CoaInput, type CoaNarrative } from './coa.ts';
+import { getBoxComponents, getDecisionComponentIds } from './generate.ts';
 import type { Component, ID, MorphologicalBox, Selection } from './types.ts';
 
 /** Languages that the Scenario Spark user interface supports. */
 export const SCENARIO_SPARK_LANGUAGES = ['en', 'nl', 'fr', 'de', 'es', 'pl'] as const;
 
-export type LlmPromptType = 'narrative' | 'effect' | 'persona' | 'communications';
+/**
+ * Prompt types of Scenario Spark. `decision` reflects on one course of action
+ * (the decisions of a decision category) for a given situation.
+ */
+export type LlmPromptType = 'narrative' | 'effect' | 'persona' | 'communications' | 'decision';
 
-export const LLM_PROMPT_TYPES: readonly LlmPromptType[] = ['narrative', 'effect', 'persona', 'communications'];
+export const LLM_PROMPT_TYPES: readonly LlmPromptType[] = ['narrative', 'effect', 'persona', 'communications', 'decision'];
 
-/** Instruction sent to an LLM, followed by "component: value" lines of the selected categories. */
+/**
+ * Instruction sent to an LLM, followed by "component: value" lines of the
+ * selected categories (see `createLlmInput`). For `decision` prompts the
+ * categories only filter the situation; the decisions are always listed.
+ */
 export type LlmPrompt = { type: LlmPromptType; prompt: string; categories: ID[] };
 
 export type LlmConfig = {
@@ -160,4 +169,137 @@ export const setLlmPrompt = <B extends MorphologicalBox & NarrativeSettings>(box
   if (index >= 0) llm.prompts[index] = prompt;
   else llm.prompts.push(prompt);
   return { ...box, llm };
+};
+
+/** Section headings of the LLM input; defaults are the English texts of Scenario Spark. */
+export type LlmInputLabels = {
+  /** Narrative/persona prompts: heading of the situation values */
+  situation: string;
+  /** Narrative/persona prompts: heading of the selected decision values */
+  suggestedActions: string;
+  /** Narrative/persona prompts: line used when no decision values are selected */
+  noMeasures: string;
+  /** Decision prompt: heading of the situation values */
+  decisionSituation: string;
+  /** Decision prompt: narrative text section; `{narrative}` is the text */
+  scenarioText: string;
+  /** Decision prompt: heading of the decisions; `{coa}` is the COA label */
+  coaDecisions: string;
+  /** Decision prompt: line used when the COA has no decisions; `{coa}` is the COA label */
+  coaNoDecisions: string;
+  /** Decision prompt: heading of the other COAs (labels only) */
+  otherCoas: string;
+};
+
+export const DEFAULT_LLM_INPUT_LABELS: LlmInputLabels = {
+  situation: 'Situation (use these elements to describe the incident):',
+  suggestedActions: 'Suggested actions (measures to describe and assess):',
+  noMeasures: 'No measures were selected: describe only the incident and do not invent measures or a solution.',
+  decisionSituation: 'Situation (the incident the decisions respond to):',
+  scenarioText: 'Scenario narrative:\n{narrative}',
+  coaDecisions: 'Course of action {coa}: decisions to assess:',
+  coaNoDecisions: 'Course of action {coa} has no decisions selected yet: point out which decisions are needed.',
+  otherCoas: 'Other courses of action considered (for contrast only; do not assess them):',
+};
+
+export type LlmInputOptions = {
+  /** Prompt type, default 'narrative' */
+  type?: LlmPromptType;
+  /** Situation in `components`, decisions in `coas` (or, without COAs, also in `components`) */
+  narrative: CoaNarrative;
+  /** COA to use; default the active COA, else the first */
+  coaId?: ID;
+  /** Included category IDs; default the categories of the box prompt of this type, else all */
+  categories?: ID[];
+  /** Current narrative text (decision prompt) */
+  narrativeText?: string;
+  /**
+   * Whether decision values are used (narrative/persona/effect/communications
+   * prompts). Default: true when the box has decision categories. Scenario
+   * Spark also requires its decision-support setting.
+   */
+  decisionSupport?: boolean;
+  /** Translated section headings */
+  labels?: Partial<LlmInputLabels>;
+};
+
+const fill = (text: string, params: Record<string, string>) =>
+  text.replace(/\{(\w+)\}/g, (match, key: string) => (key in params ? params[key] : match));
+
+/**
+ * One line per component with selected values: `- Label (desc): value (desc), value`.
+ * Components without (known) selected values are skipped.
+ */
+export const renderFactorLines = (components: Component[], selection: Selection) =>
+  components
+    .map((c) => {
+      const values = (selection[c.id] || [])
+        .map((id) => c.values?.find((v) => v.id === id))
+        .filter((v) => v !== undefined)
+        .map((v) => `${v.label}${v.desc ? ` (${v.desc})` : ''}`);
+      return values.length ? `- ${c.label}${c.desc ? ` (${c.desc})` : ''}: ${values.join(', ')}` : '';
+    })
+    .filter(Boolean)
+    .join('\n');
+
+/**
+ * The selected factors of a narrative as LLM input, as Scenario Spark builds it.
+ * - Narrative and persona prompts of a box with decision categories get a
+ *   situation section and a suggested-actions section (all selected values per
+ *   factor); without decisions, a line says that no measures were selected, so
+ *   the LLM does not invent them.
+ * - Decision prompts get the situation, the narrative text, the decisions of
+ *   one course of action and the labels of the other COAs.
+ * - Other prompt types, and boxes without decision categories, get a plain list.
+ */
+export const createLlmInput = (box: MorphologicalBox & NarrativeSettings, options: LlmInputOptions) => {
+  const { type = 'narrative', narrative, coaId, narrativeText } = options;
+  const labels = { ...DEFAULT_LLM_INPUT_LABELS, ...options.labels };
+  const promptCategories = box.llm?.prompts?.find((p) => p.type === type)?.categories;
+  const categoryIds = options.categories || (promptCategories?.length ? promptCategories : box.categories.map((c) => c.id));
+  const included = new Set(box.categories.filter((c) => categoryIds.includes(c.id)).flatMap((c) => c.componentIds || []));
+  const decisionIds = getDecisionComponentIds(box);
+  const components = getBoxComponents(box);
+  const situation = components.filter((c) => !decisionIds.has(c.id));
+  const decisions = components.filter((c) => decisionIds.has(c.id));
+  const isIncluded = (c: Component) => included.has(c.id);
+
+  if (type === 'decision') {
+    const coa = activeCoa(narrative, coaId);
+    const label = coa?.label ?? nextCoaLabel([]);
+    const selection = effectiveSelection(narrative, coa?.id);
+    const situationLines = renderFactorLines(situation.filter(isIncluded), selection);
+    const decisionLines = renderFactorLines(decisions, selection);
+    const others = (narrative.coas || [])
+      .filter((c) => c !== coa)
+      .map((c: CoaInput) => `- ${c.label}${c.desc ? `: ${c.desc}` : ''}`)
+      .join('\n');
+    return [
+      situationLines && `${labels.decisionSituation}\n${situationLines}`,
+      narrativeText?.trim() && fill(labels.scenarioText, { narrative: narrativeText.trim() }),
+      decisionLines ? `${fill(labels.coaDecisions, { coa: label })}\n${decisionLines}` : fill(labels.coaNoDecisions, { coa: label }),
+      others && `${labels.otherCoas}\n${others}`,
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  const selection = effectiveSelection(narrative, coaId);
+  const active = options.decisionSupport ?? decisionIds.size > 0;
+  if (decisionIds.size === 0 || (type !== 'narrative' && type !== 'persona')) {
+    // Components that are in no category keep their place in the plain list
+    const ordered = box.components.filter((c) => isIncluded(c) && (!decisionIds.has(c.id) || active));
+    return renderFactorLines(ordered, selection);
+  }
+  const situationLines = renderFactorLines(situation.filter(isIncluded), selection);
+  const actionLines = active ? renderFactorLines(decisions.filter(isIncluded), selection) : '';
+  return [situationLines && `${labels.situation}\n${situationLines}`, actionLines ? `${labels.suggestedActions}\n${actionLines}` : labels.noMeasures]
+    .filter(Boolean)
+    .join('\n\n');
+};
+
+/** The box prompt of the type (if any), followed by `createLlmInput`. */
+export const createLlmPrompt = (box: MorphologicalBox & NarrativeSettings, options: LlmInputOptions) => {
+  const prompt = box.llm?.prompts?.find((p) => p.type === (options.type || 'narrative'))?.prompt?.trim();
+  return [prompt, createLlmInput(box, options)].filter(Boolean).join('\n\n');
 };

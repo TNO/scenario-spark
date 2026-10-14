@@ -90,9 +90,12 @@ morph-box set-llm-prompt box.json --data 'You are a crisis-management trainer. W
 morph-box validate box.json                           # exit code 1 on errors
 morph-box generate box.json -n 5 --seed 1             # manual measures stay empty (--include-manual fills them)
 morph-box options box.json --select water-depth-below-20-cm   # which measures remain for this situation?
+morph-box set-llm-prompt box.json --type decision --data 'Assess the course of action for the given situation; stay grounded in it and do not invent facts.'
+morph-box compare-coas box.json --select water-depth-below-20-cm --coa A=rescue-boat-rescue --coa B=rescue-wading-teams   # courses of action side by side
+morph-box llm-prompt box.json --type decision --select water-depth-below-20-cm --coa A=rescue-wading-teams   # what the LLM receives
 ```
 
-Other commands: `details` (box label, description, id, language), `remove-category`, `set-manual <id> [--off]`, `set-decision <categoryId> [--off]` (mark decision categories; their factors become manual, `--off` only clears the flag), `outline` and `stats`; add `--json` for machine-readable output. Run `morph-box --help` for all options.
+Other commands: `details` (box label, description, id, language), `remove-category`, `set-manual <id> [--off]`, `set-decision <categoryId> [--off]` (mark decision categories; their factors become manual, `--off` only clears the flag), `options … --coa [<label>=]<valueIds>` (which values of a course of action the situation excludes), `outline` and `stats`; add `--json` for machine-readable output. Run `morph-box --help` for all options.
 
 ### Manual measures and decision support
 

@@ -232,6 +232,9 @@ export const validateBox = (input: unknown, options: ValidateOptions = {}): Vali
         add('error', 'invalid-llm-prompt', `${path}.type`, `type must be one of: ${LLM_PROMPT_TYPES.join(', ')}.`);
       }
       if (!prompt.prompt.trim()) add('warning', 'empty-llm-prompt', `${path}.prompt`, 'The prompt is empty; Scenario Spark uses its default.');
+      if (prompt.type === 'decision' && !box.categories.some((c) => c.decisionSupport === true)) {
+        add('warning', 'decision-prompt-without-decisions', `${path}.type`, 'A decision prompt assesses decisions, but the box has no decision categories (see set-decision).');
+      }
       for (const id of prompt.categories as unknown[]) {
         if (typeof id !== 'string' || !categoryIds.has(id)) {
           add('warning', 'unknown-prompt-category', `${path}.categories`, `Prompt refers to unknown category "${String(id)}".`);

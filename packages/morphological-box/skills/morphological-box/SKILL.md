@@ -1,6 +1,6 @@
 ---
 name: morphological-box
-description: Builds a morphological box (Zwicky box) for scenario planning and decision support as a validated Scenario Spark JSON file - key factors grouped in categories, their values, optional decision categories of measures (the solution space), impossible or unlikely value combinations (cross-consistency assessment), a narrative template and an LLM narrative prompt, in a chosen language - from user input or external documents, using the morph-box CLI step by step. Use when asked to create, extend or check a morphological box, morphological analysis, scenario framework, key drivers/factors, response measures/options, or a Scenario Spark JSON.
+description: Builds a morphological box (Zwicky box) for scenario planning and decision support as a validated Scenario Spark JSON file - key factors grouped in categories, their values, optional decision categories of measures (the solution space), impossible or unlikely value combinations (cross-consistency assessment), a narrative template, an LLM narrative prompt and, for decision support, an LLM decision prompt that assesses courses of action, in a chosen language - from user input or external documents, using the morph-box CLI step by step. Use when asked to create, extend or check a morphological box, morphological analysis, scenario framework, key drivers/factors, response measures/options, courses of action (COAs), or a Scenario Spark JSON.
 ---
 
 # Morphological box
@@ -28,7 +28,7 @@ Copy this checklist and tick it off:
 - [ ] 4. Inconsistencies within each category
 - [ ] 5. Inconsistencies between each pair of categories
 - [ ] 6. Narrative template
-- [ ] 7. LLM narrative prompt
+- [ ] 7. LLM narrative prompt (decision-support boxes: also a decision prompt)
 - [ ] 8. validate (no errors), review warnings
 - [ ] 9. generate samples and sanity-check them
 ```
@@ -62,8 +62,9 @@ Copy this checklist and tick it off:
    ```bash
    $MB set-llm-prompt box.json --data 'You are a port security trainer. Write a realistic, 300-word incident scenario for an exercise, based on the following elements. …'
    ```
+   For decision-support boxes, also set a **decision prompt** (`--type decision`) that assesses one course of action; see [Decision-support boxes](#decision-support-boxes). Check what the LLM will receive with `$MB llm-prompt box.json [--type decision] --select <situation value ids> --coa <decision value ids>`.
 8. **Validate.** `$MB validate box.json` must print `OK`. Fix every error; for each warning decide whether it is intended (see [REFERENCE.md](REFERENCE.md#validation-codes)). In decision-support boxes, `decision-component-not-manual` and `decision-unlinked` almost always need fixing.
-9. **Sample.** `$MB generate box.json -n 5` and read the scenarios and rendered template. If one is implausible, add the missing constraint; if generation fails or values never appear, relax constraints; if the text reads badly, revise the template. For decision-support boxes also run `$MB options box.json --select <situation value ids>` for a few realistic situations and check that the excluded measures (`X`, under *Decisions*) are exactly the ones that make no sense.
+9. **Sample.** `$MB generate box.json -n 5` and read the scenarios and rendered template. If one is implausible, add the missing constraint; if generation fails or values never appear, relax constraints; if the text reads badly, revise the template. For decision-support boxes also run `$MB options box.json --select <situation value ids>` for a few realistic situations and check that the excluded measures (`X`, under *Decisions*) are exactly the ones that make no sense. Then compare two or three plausible courses of action for one situation with `$MB compare-coas box.json --select <situation> --coa A=<measures> --coa B=<measures>`: every conflict it lists should be a real one, and a sensible COA should have none.
 
 Deliver `box.json` with a short summary: categories, factor counts, number of impossible/unlikely pairs (`$MB stats box.json`) and any assumptions.
 
@@ -83,7 +84,9 @@ A box can describe both the problem (scenario/incident) and the solution space (
 - **`manual` vs. decision category**: a decision category says *what* the factors are (decisions; Scenario Spark's decision support reads it); `manual` only says *don't generate this factor*. Measures belong in decision categories; use `manual` alone for situation factors a person sets.
 - **Constraints** must cover situation × situation, situation × measure (measures that make no sense or cannot be applied in that situation) and measure × measure (incompatible measures). Use `impossible` for measures that must disappear from the options; Scenario Spark hides them when *hide inconsistent values* is on.
 - **Template**: give each measure category its own paragraph; write it so it still reads well when the measures are not yet chosen (shown as "...").
-- **LLM prompt**: ask the model to assess the selected measures (suitability, timing, side effects, gaps) and, when no measures are given, not to invent a solution.
+- **LLM narrative prompt**: Scenario Spark sends the situation and the selected measures in separate sections (*Situation* and *Suggested actions*), with all selected values per factor; without measures it adds a line saying none were selected. Ask the model to describe the incident from the situation, to assess the listed measures and, when no measures are given, not to invent a solution.
+- **LLM decision prompt** (`set-llm-prompt --type decision`): reflects on *one* course of action. Its input lists the situation, the scenario narrative text, the decisions of that COA (factor by factor) and only the labels of the other COAs. Write it so the model grounds every statement in the given situation and narrative; assesses suitability, timing and sequence, dependencies, side effects and risks, gaps and safeguards; and does not invent missing facts (it should name the missing information instead). Restricting `--categories` only filters the situation; the decisions are always included. Example: `$MB set-llm-prompt box.json --type decision --data 'You are an experienced crisis-management advisor. Assess the course of action below for the given situation: suitability, timing and sequence, dependencies, side effects and risks, gaps, and safeguards. Stay grounded in the situation and narrative; do not invent facts, name missing information instead.'`
+- **Courses of action (COAs)**: one situation can have several alternative COAs, each a set of decision values (Scenario Spark stores them as `narratives[].coas`, the `CourseOfAction` type). `options --select <situation> --coa <decision values>` reports which COA values the situation excludes; `compare-coas` puts several COAs side by side with their conflicts.
 
 ## Using the result
 

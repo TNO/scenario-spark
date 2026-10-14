@@ -20,15 +20,19 @@ import {
   createRandom,
   generateCombinations,
   getBoxComponents,
+  getDecisionComponentIds,
   type ComponentOptions,
 } from './generate.ts';
+import { assessCoa, compareCoas, nextCoaLabel, type CoaAssessment, type CoaInput } from './coa.ts';
 import { getInconsistency, listInconsistencies } from './inconsistencies.ts';
 import {
+  createLlmPrompt,
   createTemplatePrompt,
   parseTemplate,
   renderTemplate,
   setLlmPrompt,
   setTemplate,
+  LLM_PROMPT_TYPES,
   type LlmPromptType,
   type NarrativeSettings,
 } from './narrative.ts';
@@ -65,10 +69,11 @@ Build incrementally (each step rewrites <file>):
   set-template <file> [--data <text> | --input <path> | < stdin]
       Set the narrative template (plain text). {n} is the n-th key driver as
       numbered by template-prompt; {componentId} also works.
-  set-llm-prompt <file> [--type narrative|persona|effect|communications]
+  set-llm-prompt <file> [--type narrative|persona|effect|communications|decision]
                  [--categories <id,id>] [--data <text> | --input <path> | < stdin]
       Set the LLM prompt (plain text) for the type (default narrative), applied
-      to the given categories (default all).
+      to the given categories (default all). A decision prompt assesses one
+      course of action; its categories only filter the situation.
 
 Inspect:
   outline <file> [--json]          Categories (decision categories are marked),
@@ -92,6 +97,23 @@ Inspect:
                                    unlikely or excluded (and why), grouped into
                                    situation and decisions if the box has
                                    decision categories.
+          [--coa [<label>=]<valueId>[,<valueId>...]]...
+                                   Also assess courses of action (decision
+                                   values): which are excluded or unlikely
+                                   given the situation, or conflict with each
+                                   other.
+  compare-coas <file> --select <valueIds> --coa [<label>=]<valueIds>
+               --coa [<label>=]<valueIds> [...] [--json]
+                                   Side-by-side table of courses of action for
+                                   one situation, with their conflicts.
+  llm-prompt <file> [--type narrative|persona|effect|communications|decision]
+             [--select <valueIds>] [--coa [<label>=]<valueIds>]...
+             [--active <label>] [--text <narrative text>] [--categories <id,id>]
+                                   Print the LLM prompt as Scenario Spark builds
+                                   it: the box prompt of the type, then the
+                                   situation and the decisions (of the --active
+                                   or first COA for decision prompts; the other
+                                   COAs are listed for contrast).
 
 Options:
   -h, --help                       Show this help.
@@ -116,6 +138,9 @@ const parse = (argv: string[]) =>
       strict: { type: 'boolean' },
       seed: { type: 'string' },
       select: { type: 'string' },
+      coa: { type: 'string', multiple: true },
+      active: { type: 'string' },
+      text: { type: 'string' },
       off: { type: 'boolean' },
       'include-manual': { type: 'boolean' },
       n: { type: 'string', short: 'n' },
@@ -181,6 +206,58 @@ const reportValidation = (box: MorphologicalBox, quiet = false) => {
     console.log(errors.length === 0 ? `OK (${warnings.length} warning(s))` : `${errors.length} error(s), ${warnings.length} warning(s)`);
   }
   return { errors, warnings };
+};
+
+const valueOwners = (box: MorphologicalBox) =>
+  new Map(box.components.flatMap((c) => (c.values || []).map((v) => [v.id, c.id] as const)));
+
+const parseIds = (text = '') => text.split(',').map((i) => i.trim()).filter(Boolean);
+
+const toSelection = (box: MorphologicalBox, ids: string[]) => {
+  const owner = valueOwners(box);
+  const selection: Record<string, string[]> = {};
+  for (const vid of ids) {
+    const cid = owner.get(vid) || fail(`Unknown value id "${vid}".`);
+    (selection[cid] ||= []).push(vid);
+  }
+  return selection;
+};
+
+/** Parse `--coa [<label>=]<valueId>,...` options; default labels A, B, ... */
+const parseCoas = (box: MorphologicalBox, specs: string[] = []): CoaInput[] => {
+  const decisions = getDecisionComponentIds(box);
+  if (specs.length && decisions.size === 0) fail('The box has no decision categories (see set-decision), so it has no courses of action.');
+  const owner = valueOwners(box);
+  const coas: CoaInput[] = [];
+  for (const spec of specs) {
+    const eq = spec.indexOf('=');
+    const label = eq >= 0 ? spec.slice(0, eq).trim() : '';
+    const ids = parseIds(eq >= 0 ? spec.slice(eq + 1) : spec);
+    for (const vid of ids) {
+      const cid = owner.get(vid) || fail(`Unknown value id "${vid}".`);
+      if (!decisions.has(cid)) fail(`"${vid}" is not a value of a decision category; use --select for the situation.`);
+    }
+    if (label && coas.some((c) => c.label === label)) fail(`Duplicate course of action label "${label}".`);
+    const coaLabel = label || nextCoaLabel(coas);
+    coas.push({ id: coaLabel, label: coaLabel, components: toSelection(box, ids) });
+  }
+  return coas;
+};
+
+const valueLabel = (box: MorphologicalBox, id: string) => {
+  for (const c of box.components) {
+    const v = (c.values || []).find((value) => value.id === id);
+    if (v) return `${v.label} [${id}]`;
+  }
+  return id;
+};
+
+const coaConflictLines = (box: MorphologicalBox, coa: CoaAssessment) => {
+  const lines = coa.values
+    .filter((v) => v.status === 'excluded')
+    .map((v) => `${coa.label}: ${v.label} [${v.id}] is excluded by ${v.conflicts.map((id) => valueLabel(box, id)).join(', ')}.`);
+  for (const [a, b] of coa.internalConflicts) lines.push(`${coa.label}: ${valueLabel(box, a)} conflicts with ${valueLabel(box, b)}.`);
+  return lines;
 };
 
 const outline = (box: MorphologicalBox) => {
@@ -316,16 +393,11 @@ export const run = (argv: string[]): number => {
     }
     case 'options': {
       const box = readBox(fileArg(args), true);
-      const ids = (args.values.select || '').split(',').map((i) => i.trim()).filter(Boolean);
-      const owner = new Map(box.components.flatMap((c) => (c.values || []).map((v) => [v.id, c.id] as const)));
-      const selection: Record<string, string[]> = {};
-      for (const vid of ids) {
-        const cid = owner.get(vid) || fail(`Unknown value id "${vid}".`);
-        (selection[cid] ||= []).push(vid);
-      }
+      const selection = toSelection(box, parseIds(args.values.select));
+      const coas = parseCoas(box, args.values.coa).map((coa) => assessCoa(box, selection, coa));
       const result = assessOptions(box, selection);
       if (asJson) {
-        console.log(JSON.stringify(result, null, 2));
+        console.log(JSON.stringify(args.values.coa?.length ? { options: result, coas } : result, null, 2));
         return 0;
       }
       const marks = { selected: '*', available: '+', unlikely: '~', excluded: 'X' } as const;
@@ -344,7 +416,65 @@ export const run = (argv: string[]): number => {
         lines.push('', '## Decisions');
         print(result.filter((c) => c.decision));
       } else print(result);
+      for (const coa of coas) {
+        lines.push('', `## Course of action ${coa.label}`);
+        for (const v of coa.values) {
+          lines.push(`  ${marks[v.status]} ${v.label} [${v.id}]${v.conflicts.length ? ` <- ${v.conflicts.join(', ')}` : ''}`);
+        }
+        if (coa.values.length === 0) lines.push('  (no decisions)');
+        if (coa.excluded.length) lines.push(`Excluded by the situation: ${coa.excluded.join(', ')}.`);
+        if (coa.unlikely.length) lines.push(`Unlikely in the situation: ${coa.unlikely.join(', ')}.`);
+        for (const [a, b] of coa.internalConflicts) lines.push(`Conflicting decisions: ${a} x ${b}.`);
+        if (coa.consistent && !coa.unlikely.length) lines.push('All decisions are possible in this situation.');
+      }
       console.log(lines.join('\n'));
+      return 0;
+    }
+    case 'compare-coas': {
+      const box = readBox(fileArg(args), true);
+      const situation = toSelection(box, parseIds(args.values.select));
+      const coas = parseCoas(box, args.values.coa);
+      if (coas.length === 0) fail('Provide at least one --coa [<label>=]<valueIds>.');
+      const result = compareCoas(box, situation, coas);
+      if (asJson) {
+        console.log(JSON.stringify({ situation, ...result }, null, 2));
+        return 0;
+      }
+      const marks = { available: '+', unlikely: '~', excluded: 'X' } as const;
+      const cell = (text: string) => text.replace(/\|/g, '\\|');
+      const situationIds = Object.values(situation).flat();
+      const lines = [
+        `Situation: ${situationIds.length ? situationIds.map((id) => valueLabel(box, id)).join(', ') : '(none)'}`,
+        'Legend: + possible, ~ unlikely, X excluded by the situation.',
+        '',
+        `| Decision | ${result.coas.map((c) => cell(c.label)).join(' | ')} |`,
+        `|---|${result.coas.map(() => '---').join('|')}|`,
+      ];
+      for (const comp of result.components) {
+        const cells = result.coas.map((coa) => {
+          const values = coa.values.filter((v) => v.componentId === comp.componentId);
+          return values.length ? values.map((v) => cell(`${marks[v.status]} ${v.label}`)).join(', ') : '-';
+        });
+        lines.push(`| ${cell(comp.label)} | ${cells.join(' | ')} |`);
+      }
+      const conflicts = result.coas.flatMap((coa) => coaConflictLines(box, coa));
+      lines.push('', 'Conflicts:', ...(conflicts.length ? conflicts.map((c) => `- ${c}`) : ['- none']));
+      console.log(lines.join('\n'));
+      return 0;
+    }
+    case 'llm-prompt': {
+      const box = readBox(fileArg(args), true);
+      const type = (args.values.type || 'narrative') as LlmPromptType;
+      if (!LLM_PROMPT_TYPES.includes(type)) fail(`Prompt type must be one of: ${LLM_PROMPT_TYPES.join(', ')}.`);
+      const coas = parseCoas(box, args.values.coa);
+      const { active } = args.values;
+      if (active && !coas.some((c) => c.label === active)) fail(`Unknown course of action "${active}".`);
+      const categories = args.values.categories ? parseIds(args.values.categories) : undefined;
+      const unknown = (categories || []).filter((cid) => !box.categories.some((c) => c.id === cid));
+      if (unknown.length) fail(`Unknown category id(s): ${unknown.join(', ')}.`);
+      if (!box.llm?.prompts?.some((p) => p.type === type && p.prompt.trim())) console.error(`Note: the box has no ${type} prompt; printing the input only.`);
+      const narrative = { components: toSelection(box, parseIds(args.values.select)), coas, activeCoaId: active };
+      console.log(createLlmPrompt(box, { type, narrative, categories, narrativeText: args.values.text }));
       return 0;
     }
     case 'set-inconsistencies': {

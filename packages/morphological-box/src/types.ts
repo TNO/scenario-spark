@@ -55,3 +55,23 @@ export type MorphologicalBox<C extends Component = Component> = Item & {
 export type Selection = Record<ID, ID[]>;
 
 export type InconsistencyType = 'possible' | 'unlikely' | 'impossible';
+
+/**
+ * Course of action (COA): one alternative set of decisions for a situation
+ * (a narrative). It holds only selections of decision components, plus
+ * metadata. Same shape as in Scenario Spark.
+ */
+export type CourseOfAction = {
+  id: ID;
+  label: string;
+  desc?: string;
+  /** Decision component ID => selected value IDs */
+  components: { [componentId: ID]: ID[] };
+  notes?: string;
+  /** Reflection on the decisions (e.g. written with the LLM decision prompt) */
+  reflection?: string;
+  /** Residual risk after the course of action */
+  risk?: ID;
+  probability?: ID;
+  impact?: ID;
+};
