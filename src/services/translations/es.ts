@@ -368,6 +368,9 @@ export const messages: typeof messagesEN = {
   LLM_PERSONA_CONTEXT: 'Personas seleccionadas y descripciones:\n{personas}',
   LLM_PERSONA_TARGET: 'Escriba comentarios solo para: {persona}',
   LLM_SCENARIO_TEXT: 'Narrativa del escenario:\n{narrative}',
+  LLM_SITUATION: "Situación (use estos elementos para describir el incidente):",
+  LLM_SUGGESTED_ACTIONS: "Acciones sugeridas (medidas que describir y evaluar):",
+  LLM_NO_MEASURES_SELECTED: "No se seleccionaron medidas: describa solo el incidente y no invente medidas ni una solución.",
   RESPONSE_INSTRUCTIONS:
     'Comience su respuesta con un título breve y descriptivo en su propia línea, luego una línea en blanco, luego el contenido principal.',
   WIZARD_STEP1_TITLE: 'Información de la caja',

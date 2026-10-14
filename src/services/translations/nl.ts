@@ -399,6 +399,9 @@ export const messages: typeof messagesEN = {
   LLM_PERSONA_CONTEXT: 'Geselecteerde persona’s en beschrijvingen:\n{personas}',
   LLM_PERSONA_TARGET: 'Schrijf alleen feedback voor: {persona}',
   LLM_SCENARIO_TEXT: 'Scenariobeschrijving:\n{narrative}',
+  LLM_SITUATION: "Situatie (gebruik deze elementen om het incident te beschrijven):",
+  LLM_SUGGESTED_ACTIONS: "Voorgestelde acties (maatregelen om te beschrijven en te beoordelen):",
+  LLM_NO_MEASURES_SELECTED: "Er zijn geen maatregelen geselecteerd: beschrijf alleen het incident en verzin geen maatregelen of oplossing.",
   RESPONSE_INSTRUCTIONS:
     'Start je antwoord met een korte beschrijvende titel op een eigen regel, gevolgd door een lege regel en dan de rest van de inhoud.',
   WIZARD_STEP1_TITLE: 'Boxgegevens',

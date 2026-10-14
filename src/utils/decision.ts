@@ -167,3 +167,71 @@ export const answerDecisionSupportPrompt = (
   scenario.decisionSupportPrompted = true;
   if (enable) scenario.includeDecisionSupport = true;
 };
+
+export type StoryInputKey = 'LLM_SITUATION' | 'LLM_SUGGESTED_ACTIONS' | 'LLM_NO_MEASURES_SELECTED';
+
+export type StoryInputOptions = {
+  box: Pick<Scenario, 'categories' | 'components'> & Partial<Pick<Scenario, 'includeDecisionSupport'>>;
+  narrative: Pick<Narrative, 'components'>;
+  /** Ids of the categories included by the prompt */
+  includedCategories: ID[];
+  storyType?: 'narrative' | 'effect' | 'persona' | 'communications';
+  /** Translation function for the section headings */
+  tr: (key: StoryInputKey) => string;
+};
+
+const factorLines = (components: ScenarioComponent[], selection: Narrative['components']) =>
+  components
+    .filter((c) => Array.isArray(selection[c.id]) && selection[c.id].length > 0)
+    .map((c) => {
+      const values = selection[c.id]
+        .map((id) => c.values?.find((v) => v.id === id))
+        .filter((v) => v !== undefined)
+        .map((v) => `${v.label}${v.desc ? ` (${v.desc})` : ''}`)
+        .join(', ');
+      return `- ${c.label}${c.desc ? ` (${c.desc})` : ''}: ${values}`;
+    })
+    .join('\n');
+
+/**
+ * The selected factors of a narrative as LLM input. Only categories included by the
+ * prompt are used. When the box has decision categories, narrative and persona prompts
+ * get a situation section and a suggested-actions section; without selected (or active)
+ * decisions the actions section is replaced by a line saying no measures were selected.
+ * Other prompt types get a plain list, without decisions when decision support is off.
+ */
+export const buildStoryInput = ({
+  box,
+  narrative,
+  includedCategories,
+  storyType = 'narrative',
+  tr,
+}: StoryInputOptions) => {
+  const selection = narrative.components || {};
+  const included = new Set(
+    (box.categories || [])
+      .filter((c) => includedCategories.includes(c.id))
+      .flatMap((c) => c.componentIds || []),
+  );
+  const split = splitDecisionComponents(box);
+  const active = decisionSupportActive(box);
+  const situation = split.situation.filter((c) => included.has(c.id));
+  const decisions = active ? split.decisions.filter((c) => included.has(c.id)) : [];
+  // Components that are not part of any category keep their place in the plain list
+  const ordered = (box.components || []).filter(
+    (c) => included.has(c.id) && (!split.decisionIds.has(c.id) || active),
+  );
+
+  if (split.decisionCategories.length === 0 || (storyType !== 'narrative' && storyType !== 'persona')) {
+    return factorLines(ordered, selection);
+  }
+
+  const situationLines = factorLines(situation, selection);
+  const actionLines = factorLines(decisions, selection);
+  return [
+    situationLines && `${tr('LLM_SITUATION')}\n${situationLines}`,
+    actionLines ? `${tr('LLM_SUGGESTED_ACTIONS')}\n${actionLines}` : tr('LLM_NO_MEASURES_SELECTED'),
+  ]
+    .filter(Boolean)
+    .join('\n\n');
+};

@@ -248,7 +248,6 @@ export const CreateScenarioPage: MeiosisComponent = () => {
       const { personas: allPersonas = [] } = model;
       const {
         template,
-        categories = [],
         inconsistencies = {},
         hideInconsistentValues = false,
         llm,
@@ -401,8 +400,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 const story = await generateStory(
                   model.scenario.llm!,
                   curNarrative,
-                  model.scenario.categories,
-                  model.scenario.components,
+                  model.scenario,
                 ).catch((e) => {
                   console.error(e);
                   toast({ html: e });
@@ -455,8 +453,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             //         const story = await generateStory(
             //           model.scenario.llm!,
             //           narrative,
-            //           model.scenario.categories,
-            //           model.scenario.components
+            //           model.scenario
             //         ).catch((e) => {
             //           console.error(e);
             //           toast({ html: e });
@@ -797,8 +794,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                           const feedback = await generateStory(
                             llm!,
                             curNarrative,
-                            categories,
-                            model.scenario.components,
+                            model.scenario,
                             'persona',
                             {
                               target: p,

@@ -1,6 +1,6 @@
 # 0005 Narrative LLM prompt: situation versus suggested actions
 
-Status: open
+Status: done
 Priority: medium
 Subsystem: frontend
 Depends on: 0003
@@ -32,3 +32,23 @@ no measures are listed, describe only the incident and do not invent a solution"
 - Keep box-specific prompt texts unchanged; only the structured input changes.
 
 ## Agent Notes
+- 2026-10-14: Done. Pure builder `buildStoryInput({ box, narrative, includedCategories,
+  storyType, tr })` in `src/utils/decision.ts` (not a separate file: tests import TS
+  sources directly with Node type stripping, which cannot resolve extensionless relative
+  imports). It uses `splitDecisionComponents`/`decisionSupportActive`; only components of
+  the prompt's included categories are listed, each factor with all selected values
+  (comma-separated, `label (desc)` as before). Narrative **and persona** prompts (the
+  default persona prompt already asks about proposed measures) get a `LLM_SITUATION`
+  section and a `LLM_SUGGESTED_ACTIONS` section; when decision support is off, or no
+  included decision values are selected (also when the prompt excludes the decision
+  categories), the actions section is replaced by `LLM_NO_MEASURES_SELECTED`. Boxes
+  without decision categories keep the previous plain list (no headings, no
+  no-measures line) so ordinary boxes are unchanged. Effect/communications prompts (no UI
+  callers) keep the plain list, minus decision values when decision support is off.
+  `generateStory(config, narrative, box, storyType, personaContext)` now takes the
+  scenario (categories, components, includeDecisionSupport) instead of
+  categories+components; callers in `create-scenario-page.ts` pass `model.scenario`.
+  Clipboard mode returns the same input. Keys in all six locales. Tests:
+  `tests/story-input.test.mjs` (8); `tests/persona-feedback.test.mjs` and
+  `tests/persona-feedback-page.test.mjs` updated to the new signature. Root README
+  (decision support section) updated. Box prompt texts unchanged; `docs/` not committed.

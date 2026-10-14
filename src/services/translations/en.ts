@@ -378,6 +378,9 @@ export const messages = {
   LLM_PERSONA_CONTEXT: 'Selected personas and descriptions:\n{personas}',
   LLM_PERSONA_TARGET: 'Write feedback only for: {persona}',
   LLM_SCENARIO_TEXT: 'Scenario narrative:\n{narrative}',
+  LLM_SITUATION: "Situation (use these elements to describe the incident):",
+  LLM_SUGGESTED_ACTIONS: "Suggested actions (measures to describe and assess):",
+  LLM_NO_MEASURES_SELECTED: "No measures were selected: describe only the incident and do not invent measures or a solution.",
   RESPONSE_INSTRUCTIONS:
     'Start your response with a short, descriptive title on its own line, then a blank line, then the main content.',
   WIZARD_STEP1_TITLE: 'Box details',

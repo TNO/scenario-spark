@@ -7,9 +7,9 @@ import {
   Category,
   ID,
   Scenario,
-  ScenarioComponent,
 } from '../../models/data-model';
 import { LLMClient } from '../../utils/llm-client';
+import { buildStoryInput } from '../../utils/decision';
 
 export type PromptType = 'narrative' | 'effect' | 'persona' | 'communications';
 
@@ -286,8 +286,7 @@ export const LLMSelector: MeiosisComponent = () => {
 export const generateStory = async (
   config: LLMConfig,
   narrative: Narrative,
-  categories: Category[],
-  components: ScenarioComponent[],
+  box: Pick<Scenario, 'categories' | 'components' | 'includeDecisionSupport'>,
   storyType: PromptType = 'narrative',
   personaContext?: {
     target: Persona;
@@ -325,46 +324,14 @@ export const generateStory = async (
       throw new Error(`Unknown service: ${id}`);
   }
 
-  const includedComponents = categories
-    .filter((c) => includedCategories.includes(c.id))
-    .reduce((acc, cur) => {
-      cur.componentIds?.forEach((id) => acc.add(id));
-      return acc;
-    }, new Set<string>());
-
-  const lookup =
-    components &&
-    components
-      .filter((c) => includedComponents.has(c.id))
-      .reduce(
-        (acc, cur) => {
-          cur.values &&
-            cur.values.forEach((v) => {
-              acc.set(
-                cur.id + v.id,
-                `${v.label}${v.desc ? ` (${v.desc})` : ''}`,
-              );
-            });
-          return acc;
-        },
-        new Map() as Map<string, string>,
-      );
-
-  // Translate narrative ids to labels
-  const translatedNarrative = components
-    .filter(
-      (c) =>
-        includedComponents.has(c.id) &&
-        Array.isArray(narrative.components[c.id]) &&
-        narrative.components[c.id].length > 0,
-    )
-    .map((c) => {
-      const values = narrative.components[c.id]
-        .map((id) => lookup.get(c.id + id))
-        .join(', ');
-      return `- ${c.label}${c.desc ? ` (${c.desc})` : ''}: ${values}`;
-    })
-    .join('\n');
+  // Situation and suggested actions (decision categories) as separate sections
+  const translatedNarrative = buildStoryInput({
+    box,
+    narrative,
+    includedCategories,
+    storyType,
+    tr: (key) => t(key),
+  });
 
   if (storyType === 'persona' && !personaContext) {
     throw new Error('Persona context is required for feedback generation.');

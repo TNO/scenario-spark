@@ -103,6 +103,8 @@ A **decision category** (*For decision support* in the category settings, or `"d
 - **Off:** decision categories are hidden on the create page, in the scenario view and in the Word export, and generating a scenario leaves them empty. When a box with decision categories is opened while decision support is off, a dialog asks once (per box) whether to turn it on.
 - **On:** the create page shows them in a separate *Decisions* section below the situation. Generation never fills them. Measures that are impossible in the selected situation are greyed out with the conflicting situation value, or hidden when *Hide inconsistent combinations* is on. The scenario view and Word export list the chosen decisions in their own section, and the decision-support page compares them.
 
+In boxes with decision categories, the narrative and persona LLM prompts (also when copied to the clipboard) list the selected values of the prompt's included categories in two sections: the **situation** (used to describe the incident) and the **suggested actions** (the chosen decisions, every selected value per factor). When decision support is off, or no decisions are selected, the actions section is left out and the prompt states that no measures were selected, so the LLM does not invent them. Boxes without decision categories keep a single list of factors.
+
 Manual factors outside decision categories behave like the situation: with *Hide inconsistent combinations* on, selecting the current situation removes the values that are impossible in it.
 
 ## Creating templates

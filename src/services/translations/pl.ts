@@ -385,6 +385,9 @@ export const messages: typeof messagesEN = {
   LLM_PERSONA_CONTEXT: 'Wybrane persony i opisy:\n{personas}',
   LLM_PERSONA_TARGET: 'Napisz opinię tylko dla: {persona}',
   LLM_SCENARIO_TEXT: 'Opis scenariusza:\n{narrative}',
+  LLM_SITUATION: "Sytuacja (użyj tych elementów, aby opisać incydent):",
+  LLM_SUGGESTED_ACTIONS: "Proponowane działania (środki do opisania i oceny):",
+  LLM_NO_MEASURES_SELECTED: "Nie wybrano żadnych środków: opisz tylko incydent i nie wymyślaj środków ani rozwiązania.",
   RESPONSE_INSTRUCTIONS:
     'Rozpocznij odpowiedź krótkim, opisowym tytułem w osobnej linii, następnie pustą linią, a potem główną treścią.',
   WIZARD_STEP1_TITLE: 'Informacje o tabeli',

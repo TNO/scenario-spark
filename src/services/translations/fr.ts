@@ -386,6 +386,9 @@ export const messages: typeof messagesEN = {
   LLM_PERSONA_CONTEXT: 'Personas sélectionnés et descriptions :\n{personas}',
   LLM_PERSONA_TARGET: 'Rédigez un retour uniquement pour : {persona}',
   LLM_SCENARIO_TEXT: 'Récit du scénario :\n{narrative}',
+  LLM_SITUATION: "Situation (utilisez ces éléments pour décrire l’incident) :",
+  LLM_SUGGESTED_ACTIONS: "Actions proposées (mesures à décrire et à évaluer) :",
+  LLM_NO_MEASURES_SELECTED: "Aucune mesure n’a été sélectionnée : décrivez uniquement l’incident et n’inventez ni mesures ni solution.",
   RESPONSE_INSTRUCTIONS:
     'Commencez votre réponse par un titre court et descriptif sur sa propre ligne, puis une ligne vide, puis le contenu principal.',
   WIZARD_STEP1_TITLE: 'Informations sur la boîte',

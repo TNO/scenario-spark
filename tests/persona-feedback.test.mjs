@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { test } from 'node:test';
+import * as decision from '../src/utils/decision.ts';
 
 const require = createRequire(import.meta.url);
 const esbuild = createRequire(require.resolve('vite/package.json'))('esbuild');
@@ -20,6 +21,7 @@ const loadLLM = (client = {}, onSave = () => {}) => {
     'mithril-materialized': { ...materialized, toast: () => {} },
     '../../services': { t: translate, i18n: {}, saveModel: async (...args) => onSave(...args) },
     '../../utils/llm-client': { LLMClient: client },
+    '../../utils/decision': decision,
   };
   new Function('require', 'module', 'exports', code)(
     (name) => mocks[name] || require(name),
@@ -121,7 +123,7 @@ test('clipboard persona prompt includes selected descriptions and scenario, targ
   const { generateStory } = loadLLM();
   const result = await generateStory(
     { id: 'clipboard', prompts: [{ type: 'persona', categories: ['context'], prompt: 'Custom feedback instructions' }] },
-    narrative, categories, components, 'persona', context,
+    narrative, { categories, components }, 'persona', context,
   );
   for (const expected of [
     'Custom feedback instructions', 'Station', 'Temporary closure',
@@ -140,7 +142,7 @@ test('API persona response is preserved verbatim as paste-ready field text', asy
   });
   const result = await generateStory(
     { id: 'openai', apiKey: 'test-key', prompts: [{ type: 'persona', categories: ['context'], prompt: 'Feedback' }] },
-    narrative, categories, components, 'persona', context,
+    narrative, { categories, components }, 'persona', context,
   );
   assert.equal(result, 'The closure worries me.\nI need a delivery update.');
   assert.equal(sent.settings.provider, 'openai');
@@ -152,7 +154,7 @@ test('API failures do not produce feedback to save', async () => {
   await assert.rejects(
     generateStory(
       { id: 'ollama', prompts: [{ type: 'persona', categories: ['context'], prompt: 'Feedback' }] },
-      narrative, categories, components, 'persona', context,
+      narrative, { categories, components }, 'persona', context,
     ),
     /API unavailable/,
   );

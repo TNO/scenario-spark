@@ -80,7 +80,7 @@ const setup = (provider, withSecondPersona = false, themePreference = 'auto') =>
       ensureDefaultLLMConfig: () => false,
       generateStory: async (...args) => {
         calls.push(args);
-        return `${provider === 'clipboard' ? 'Prompt' : 'Feedback'} for ${args[5].target.label.toLowerCase()}`;
+        return `${provider === 'clipboard' ? 'Prompt' : 'Feedback'} for ${args[4].target.label.toLowerCase()}`;
       },
     },
     '../models/persona-images': { PersonaImages: [] },
@@ -126,9 +126,10 @@ test('provider feedback saves to the matching persona without replacing narrativ
   assert.deepEqual(saved, ['Feedback for resident']);
   assert.equal(narrative.personaEffects[persona.id].story, 'Feedback for resident');
   assert.equal(narrative.desc, 'An incident occurs.');
-  assert.equal(calls[0][4], 'persona');
-  assert.equal(calls[0][5].target, persona);
-  assert.equal(calls[0][5].narrativeText, narrative.desc);
+  assert.ok(Array.isArray(calls[0][2].components), "passes the scenario");
+  assert.equal(calls[0][3], 'persona');
+  assert.equal(calls[0][4].target, persona);
+  assert.equal(calls[0][4].narrativeText, narrative.desc);
 });
 
 test('clipboard feedback copies a prompt and leaves existing field text untouched', async () => {
@@ -181,7 +182,7 @@ test('provider feedback button is abbreviated only after the first persona', asy
   ]);
   assert.ok(actions().every(({ attrs }) => !attrs.title));
   await actions()[1].attrs.onclick();
-  assert.equal(calls[0][5].target.label, 'Visitor');
+  assert.equal(calls[0][4].target.label, 'Visitor');
   assert.equal(narrative.personaEffects.visitor.story, 'Feedback for visitor');
   assert.equal(narrative.personaEffects.resident, undefined);
 });
