@@ -10,10 +10,17 @@ import {
 import { MeiosisComponent, setPage, t } from '../services';
 import { TableView } from './home-page';
 import { range } from 'mithril-ui-form';
-import { activeCoa, effectiveSelection } from '../utils';
+import { ToggleGroup } from 'mithril-materialized';
+import { activeCoa, comparisonNarrativeId, effectiveSelection } from '../utils';
+import { CoaComparisonView, RobustnessView } from './decision-comparison';
+
+type DecisionView = 'overview' | 'coa' | 'robustness';
 
 export const DecisionSupportPage: MeiosisComponent = () => {
   let comps: ScenarioComponent[];
+  let view: DecisionView = 'overview';
+  let comparisonId: ID | undefined;
+  let differencesOnly = false;
 
   const toComponent = (
     id: string,
@@ -92,20 +99,21 @@ export const DecisionSupportPage: MeiosisComponent = () => {
       } = model;
       setupComponents(model);
 
-      // Compare the active course of action of each included narrative
-      const selectedNarratives: Narrative[] = narratives
+      const includedNarratives = narratives
         .filter((n) => n.included)
-        .sort((a, b) => (a.label || '').localeCompare(b.label))
-        .map((n) => {
-          const coa = activeCoa(n);
-          return {
-            ...n,
-            label: coa
-              ? `${n.label} – ${t('COURSE_OF_ACTION')} ${coa.label}`
-              : n.label,
-            components: effectiveSelection(n),
-          };
-        });
+        .sort((a, b) => (a.label || '').localeCompare(b.label));
+
+      // Compare the active course of action of each included narrative
+      const selectedNarratives: Narrative[] = includedNarratives.map((n) => {
+        const coa = activeCoa(n);
+        return {
+          ...n,
+          label: coa
+            ? `${n.label} – ${t('COURSE_OF_ACTION')} ${coa.label}`
+            : n.label,
+          components: effectiveSelection(n),
+        };
+      });
 
       /** Weights is a value between 1 (very low risk) and 5 (very high risk) */
       const weights = selectedNarratives
@@ -145,16 +153,55 @@ export const DecisionSupportPage: MeiosisComponent = () => {
         (c) => c.decisionSupport,
       );
 
-      return m('.row.decision-support', [
+      const viewSwitcher = m(ToggleGroup, {
+        value: view,
+        onchange: (v) => {
+          view = v as DecisionView;
+        },
+        items: [
+          { value: 'overview', iconName: 'table_chart', label: t('DECISION_VIEW_OVERVIEW') },
+          { value: 'coa', iconName: 'compare_arrows', label: t('DECISION_VIEW_COA') },
+          { value: 'robustness', iconName: 'grid_on', label: t('DECISION_VIEW_ROBUSTNESS') },
+        ],
+      });
+
+      const content = !hasDecisionCategories && view !== 'overview'
+        ? null
+        : view === 'coa'
+        ? includedNarratives.length === 0
+          ? m('p.col.s12.grey-text', t('NO_INCLUDED_NARRATIVES'))
+          : m(CoaComparisonView, {
+              box: model.scenario,
+              narratives: includedNarratives,
+              narrativeId: comparisonNarrativeId(
+                includedNarratives,
+                attrs.state.curNarrative?.id,
+                comparisonId,
+              ),
+              differencesOnly,
+              onselect: (id) => {
+                comparisonId = id;
+              },
+              ontoggle: (value) => {
+                differencesOnly = value;
+              },
+            })
+        : view === 'robustness'
+        ? m(RobustnessView, { box: model.scenario, narratives: includedNarratives })
+        : m(
+            '.decision-support',
+            m(TableView, {
+              ...attrs,
+              narratives: selectedNarratives,
+              components: comps,
+            }),
+          );
+
+      return m('.row', [
+        m('.col.s12.decision-view-switcher', { role: 'group', 'aria-label': t('DECISION_VIEW') }, viewSwitcher),
         !hasDecisionCategories &&
           m('.col.s12', m('p.grey-text', t('NO_DECISION_CATEGORIES'))),
-        // categories.map((c) =>
-        m(TableView, {
-          ...attrs,
-          narratives: selectedNarratives,
-          components: comps,
-        }),
-        // ),
+        content,
       ]);
     },
   };

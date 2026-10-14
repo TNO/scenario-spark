@@ -1,6 +1,6 @@
 # 0010 COA comparison and robustness views
 
-Status: open
+Status: done
 Priority: medium
 Subsystem: frontend
 Depends on: 0006 (parent 0009)
@@ -56,3 +56,28 @@ narrative, coa)`.
   (`git checkout -- docs/` / remove untracked build output) — it is not committed.
 
 ## Agent Notes
+- 2026-10-14: Done. Pure helpers in `src/utils/decision.ts` (Node test loader):
+  `coaComparisonRows(box, narrative, { differencesOnly })` → `{ coas, groups }` (COA
+  columns with `active` and conflict count; rows = decision components grouped by decision
+  category, a component in several categories belongs to the first; cells list value
+  labels with `conflict`/`causes` from `decisionExclusions`; `same` compares value sets
+  ignoring order, empty = unset; differences-only drops equal rows and empty groups),
+  `robustnessGrid(box, narratives)` → `{ narratives (with active COA label), groups →
+  components → rows, robustCount }` (cell `chosen` | `excluded` | `unused`; a chosen value
+  that is also excluded stays *chosen* with `conflict: true`; `robust` = chosen in all
+  (also with one scenario), `scenarioSpecific` = chosen in exactly one of ≥2) and
+  `comparisonNarrativeId(narratives, currentId, selectedId)`. Views in
+  `src/components/decision-comparison.ts` (`CoaComparisonView`, `RobustnessView`); the
+  page keeps `view`, the selected narrative and the differences toggle in closure state
+  (reset when leaving the page). Switcher: `ToggleGroup`; narrative `Select`; differences
+  `InputCheckbox` (the materialized `Switch` always shows Off/On labels). Robustness
+  icons: check_circle (green), block (red), remove (grey), plus warning for chosen-but-
+  conflicting, star (amber) for robust and looks_one (blue) for scenario-specific, each
+  with tooltip + `.sr-only` text and a legend; robust/scenario-specific rows are tinted.
+  The overview table is now wrapped in `.decision-support` so its column CSS does not
+  hit the new tables. New keys `DECISION_VIEW*`, `COMPARE_SCENARIO`,
+  `SHOW_DIFFERENCES_ONLY`, `NO_INCLUDED_NARRATIVES`, `NO_COAS`, `NO_COA_DIFFERENCES`,
+  `NO_DECISION_SELECTED`, `ROBUSTNESS_*` in six locales. Tests:
+  `tests/decision-comparison.test.mjs` (7); `pnpm test` 104 app + 36 package pass.
+  Checked in the browser (dev server) with a seeded box. README updated; `docs/` not
+  committed.

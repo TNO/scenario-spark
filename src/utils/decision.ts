@@ -493,3 +493,158 @@ export const narrativeCoaRows = (box: Box, narrative?: CoaNarrative): CoaRow[] =
     }))
     .filter((row) => row.decisions.length > 0 || row.notes || row.desc);
 };
+
+/**
+ * Decision categories with the decision components they own (a component listed in
+ * several categories belongs to the first one, as in `splitDecisionComponents`).
+ */
+const decisionGroups = (box: Box) => {
+  const { decisionCategories, decisions } = splitDecisionComponents(box);
+  const owner = new Map<ID, ID>();
+  for (const category of box.categories || []) {
+    for (const id of category.componentIds || []) if (!owner.has(id)) owner.set(id, category.id);
+  }
+  return decisionCategories
+    .map((category) => ({
+      category,
+      components: decisions.filter((c) => owner.get(c.id) === category.id),
+    }))
+    .filter((g) => g.components.length > 0);
+};
+
+const causeLabels = (causes?: ExclusionCause[]) =>
+  causes && causes.length > 0 ? causes.map((c) => c.label).join(', ') : undefined;
+
+/** Narrative to compare: the selected one, else the current one, else the first (only included narratives are passed). */
+export const comparisonNarrativeId = (narratives: Array<Pick<Narrative, 'id'>>, currentId?: ID, selectedId?: ID) =>
+  [selectedId, currentId].find((id) => id && narratives.some((n) => n.id === id)) || narratives[0]?.id;
+
+export type CoaComparisonValue = { id: ID; label: string; conflict: boolean; causes?: string };
+export type CoaComparisonCell = { values: CoaComparisonValue[]; conflict: boolean };
+export type CoaComparisonRow = { id: ID; label: string; cells: CoaComparisonCell[]; same: boolean };
+export type CoaComparison = {
+  coas: Array<{ id: ID; label: string; desc?: string; active: boolean; conflicts: number }>;
+  groups: Array<{ id: ID; label: string; rows: CoaComparisonRow[] }>;
+};
+
+/**
+ * Compare the courses of action of one situation: COAs as columns, decision components
+ * (grouped by decision category) as rows. Values that conflict with the situation are
+ * marked; `differencesOnly` hides rows where all COAs select the same values.
+ */
+export const coaComparisonRows = (
+  box: Box,
+  narrative?: CoaNarrative,
+  { differencesOnly = false }: { differencesOnly?: boolean } = {},
+): CoaComparison => {
+  const coas = narrative?.coas || [];
+  if (!narrative || coas.length === 0) return { coas: [], groups: [] };
+  const active = activeCoa(narrative);
+  const exclusions = decisionExclusions(box, narrative.components);
+  const key = (ids: ID[] = []) => [...ids].sort().join('\u0000');
+  const groups = decisionGroups(box)
+    .map(({ category, components }) => ({
+      id: category.id,
+      label: category.label,
+      rows: components
+        .map((component) => {
+          const cells = coas.map((coa) => {
+            const values = (coa.components?.[component.id] || []).map((id) => {
+              const causes = causeLabels(exclusions[id]);
+              const value: CoaComparisonValue = {
+                id,
+                label: component.values?.find((v) => v.id === id)?.label || id,
+                conflict: !!causes,
+              };
+              if (causes) value.causes = causes;
+              return value;
+            });
+            return { values, conflict: values.some((v) => v.conflict) };
+          });
+          const first = key(coas[0].components?.[component.id]);
+          const same = coas.every((coa) => key(coa.components?.[component.id]) === first);
+          return { id: component.id, label: component.label, cells, same };
+        })
+        .filter((row) => !differencesOnly || !row.same),
+    }))
+    .filter((group) => group.rows.length > 0);
+  return {
+    coas: coas.map((coa) => ({
+      id: coa.id,
+      label: coa.label,
+      desc: coa.desc,
+      active: coa === active,
+      conflicts: coaConflicts(box, narrative, coa).length,
+    })),
+    groups,
+  };
+};
+
+export type RobustnessStatus = 'chosen' | 'excluded' | 'unused';
+export type RobustnessCell = { status: RobustnessStatus; conflict?: boolean; causes?: string };
+export type RobustnessRow = {
+  id: ID;
+  label: string;
+  cells: RobustnessCell[];
+  chosenCount: number;
+  /** Chosen in every scenario */
+  robust: boolean;
+  /** Chosen in exactly one of several scenarios */
+  scenarioSpecific: boolean;
+};
+export type RobustnessGrid = {
+  narratives: Array<{ id: ID; label: string; coaLabel?: string }>;
+  groups: Array<{
+    id: ID;
+    label: string;
+    components: Array<{ id: ID; label: string; rows: RobustnessRow[] }>;
+  }>;
+  robustCount: number;
+};
+
+/**
+ * Which measures hold up across scenarios: per decision value and narrative, whether the
+ * active COA chooses it, the situation excludes it, or it is unused. A chosen value that
+ * is also excluded stays chosen and is flagged as a conflict.
+ */
+export const robustnessGrid = (box: Box, narratives: Array<CoaNarrative & Pick<Narrative, 'id' | 'label'>>): RobustnessGrid => {
+  const columns = narratives.map((n) => ({
+    selection: effectiveSelection(n),
+    exclusions: decisionExclusions(box, n.components),
+  }));
+  const total = narratives.length;
+  let robustCount = 0;
+  const groups = decisionGroups(box).map(({ category, components }) => ({
+    id: category.id,
+    label: category.label,
+    components: components.map((component) => ({
+      id: component.id,
+      label: component.label,
+      rows: (component.values || []).map((value) => {
+        const cells = columns.map(({ selection, exclusions }): RobustnessCell => {
+          const causes = causeLabels(exclusions[value.id]);
+          if ((selection[component.id] || []).includes(value.id)) {
+            return causes ? { status: 'chosen', conflict: true, causes } : { status: 'chosen' };
+          }
+          return causes ? { status: 'excluded', causes } : { status: 'unused' };
+        });
+        const chosenCount = cells.filter((c) => c.status === 'chosen').length;
+        const robust = total > 0 && chosenCount === total;
+        if (robust) robustCount++;
+        return {
+          id: value.id,
+          label: value.label,
+          cells,
+          chosenCount,
+          robust,
+          scenarioSpecific: total > 1 && chosenCount === 1,
+        };
+      }),
+    })),
+  }));
+  return {
+    narratives: narratives.map((n) => ({ id: n.id, label: n.label, coaLabel: activeCoa(n)?.label })),
+    groups,
+    robustCount,
+  };
+};
