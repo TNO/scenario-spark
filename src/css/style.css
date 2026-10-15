@@ -2762,3 +2762,8 @@ table.decision-matrix tbody th {
   vertical-align: middle;
   line-height: 1;
 }
+
+/* Reserve the scrollbar so the layout does not shift when content switches between short and long views */
+html {
+  scrollbar-gutter: stable;
+}
