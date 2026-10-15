@@ -2595,3 +2595,7 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   width: 220px;
   flex: 0 0 auto;
 }
+.narrative-picker > :not(.input-field) {
+  position: relative;
+  top: 5px;
+}
