@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
+  analysedNarratives,
   coaComparisonRows,
   coaTitle,
   comparedNarratives,
@@ -199,4 +200,17 @@ test('coaTitle prefixes short labels only', () => {
   assert.equal(coaTitle('Evacuate', 'Course of action'), 'Evacuate');
   assert.equal(coaTitle('  ', 'Course of action'), 'Course of action');
   assert.equal(coaTitle(undefined, 'Course of action'), 'Course of action');
+});
+
+test('analysedNarratives: current scenario first, then those selected for analysis', () => {
+  const ns = [
+    { id: 'b', label: 'B', included: true },
+    { id: 'c', label: 'C', included: false },
+    { id: 'a', label: 'A', included: true },
+  ];
+  assert.deepEqual(analysedNarratives(ns, ns[1]).map((n) => n.id), ['c', 'a', 'b']);
+  // Current already selected: not duplicated
+  assert.deepEqual(analysedNarratives(ns, ns[0]).map((n) => n.id), ['b', 'a']);
+  // No current scenario: only the selected ones
+  assert.deepEqual(analysedNarratives(ns).map((n) => n.id), ['a', 'b']);
 });

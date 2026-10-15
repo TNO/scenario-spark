@@ -2826,3 +2826,7 @@ table.decision-matrix thead th.active-coa,
   border-color: var(--mm-primary-color);
   box-shadow: 0 0 0 2px var(--mm-primary-color);
 }
+.coa-active-badge.current-badge {
+  color: var(--mm-text-primary);
+  background: color-mix(in srgb, var(--mm-text-primary) 12%, transparent);
+}

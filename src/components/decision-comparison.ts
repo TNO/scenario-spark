@@ -41,6 +41,13 @@ export const activeCoaBadge = () =>
     t('COA_ACTIVE'),
   ]);
 
+/** Marks the scenario that is open on the Create scenario page. */
+export const currentScenarioBadge = () =>
+  m('span.coa-active-badge.current-badge', { title: t('SCENARIO_CURRENT') }, [
+    m('i.material-icons', { 'aria-hidden': 'true' }, 'my_location'),
+    t('SCENARIO_CURRENT'),
+  ]);
+
 const riskName = (level?: number) => (level === undefined ? t('RISK_NOT_SET') : t('RISK5', level));
 
 const riskChangeIcon = (row: CoaRiskRow) =>
@@ -273,9 +280,10 @@ export const CoaComparisonView: FactoryComponent<{
 export const RiskMatrixView: FactoryComponent<{
   narratives: Narrative[];
   narrativeId?: ID;
+  currentId?: ID;
   onselect: (id: ID) => void;
 }> = () => ({
-  view: ({ attrs: { narratives, narrativeId, onselect } }) => {
+  view: ({ attrs: { narratives, narrativeId, currentId, onselect } }) => {
     if (narratives.length === 0) return m('p.col.s12.grey-text', t('NO_INCLUDED_NARRATIVES'));
     const matrix = riskMatrix(narratives, narrativeId);
     const selected = narratives.find((n) => n.id === narrativeId);
@@ -360,7 +368,11 @@ export const RiskMatrixView: FactoryComponent<{
               matrix.markers.map((mk) =>
                 m('tr', [
                   m('td', m(markerClass(mk), mk.marker)),
-                  m('th', { scope: 'row' }, [itemLabel(mk), mk.coaId && mk.coaId === activeId && activeCoaBadge()]),
+                  m('th', { scope: 'row' }, [
+                    itemLabel(mk),
+                    mk.coaId && mk.coaId === activeId && activeCoaBadge(),
+                    mk.kind === 'situation' && mk.narrativeId === currentId && currentScenarioBadge(),
+                  ]),
                   m('td', t('PROB5', mk.probability)),
                   m('td', t('IMP5', mk.impact)),
                   m('td', t('RISK5', mk.risk)),
@@ -403,9 +415,13 @@ const summary = (row: RobustnessRow, total: number) => [
   row.scenarioSpecific && icon('looks_one', 'blue-text', t('ROBUSTNESS_SPECIFIC')),
 ];
 
-export const RobustnessView: FactoryComponent<{ box: Scenario; narratives: Narrative[] }> = () => ({
-  view: ({ attrs: { box, narratives } }) => {
-    if (narratives.length === 0) return m('p.col.s12.grey-text', t('NO_INCLUDED_NARRATIVES'));
+export const RobustnessView: FactoryComponent<{ box: Scenario; narratives: Narrative[]; currentId?: ID }> = () => ({
+  view: ({ attrs: { box, narratives, currentId } }) => {
+    if (narratives.length < 2)
+      return m('.col.s12.robustness', [
+        m('p.grey-text', t('ROBUSTNESS_HINT')),
+        m('p.robustness-one', [m('i.material-icons.tiny', { 'aria-hidden': 'true' }, 'info'), ' ', t('ROBUSTNESS_ONE_SCENARIO')]),
+      ]);
     const grid = robustnessGrid(box, narratives);
     const total = grid.narratives.length;
     const columns = total + 2;
@@ -418,15 +434,15 @@ export const RobustnessView: FactoryComponent<{ box: Scenario; narratives: Narra
         m('span', [m('i.material-icons.tiny.amber-text', { 'aria-hidden': 'true' }, 'star'), ` ${t('ROBUSTNESS_ROBUST')}`]),
         m('span', [m('i.material-icons.tiny.blue-text', { 'aria-hidden': 'true' }, 'looks_one'), ` ${t('ROBUSTNESS_SPECIFIC')}`]),
       ]),
-      total === 1 && m('p.robustness-one', [m('i.material-icons.tiny', { 'aria-hidden': 'true' }, 'info'), ' ', t('ROBUSTNESS_ONE_SCENARIO')]),
       m('table.highlight.decision-matrix', [
         m(
           'thead',
           m('tr', [
             m('th', t('ROBUSTNESS_MEASURE')),
             grid.narratives.map((n) =>
-              m('th.center-align', [
+              m('th.center-align', { className: n.id === currentId ? 'current-scenario' : '' }, [
                 n.label,
+                n.id === currentId && currentScenarioBadge(),
                 n.coaLabel && m('.robustness-coa', [coaTitle(n.coaLabel, t('COURSE_OF_ACTION')), activeCoaBadge()]),
               ]),
             ),

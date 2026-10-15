@@ -17,7 +17,7 @@ import {
   Translator,
   addDecisionLogEntry,
   buildComparisonExport,
-  comparedNarratives,
+  analysedNarratives,
   comparisonNarrativeId,
   selectedNarratives,
   decisionLogRows,
@@ -134,6 +134,9 @@ export const DecisionSupportPage: MeiosisComponent = () => {
         narratives.find((n) => n.id === currentId && n.saved) ||
         (currentId ? undefined : includedNarratives[0]);
 
+      /** Scenarios compared by the robustness and risk views: the current one first, then those selected for analysis */
+      const analysed = analysedNarratives(narratives, current);
+
       // One column per course of action of the current scenario
       const coaColumns: Narrative[] = current
         ? (current.coas || []).map((coa) => ({
@@ -146,7 +149,7 @@ export const DecisionSupportPage: MeiosisComponent = () => {
           }))
         : [];
 
-      const suggestion = suggestApproach(model.scenario, includedNarratives);
+      const suggestion = suggestApproach(model.scenario, analysed);
 
       const hasDecisionCategories = model.scenario.categories?.some(
         (c) => c.decisionSupport,
@@ -166,7 +169,7 @@ export const DecisionSupportPage: MeiosisComponent = () => {
       });
 
       const selectedComparisonId = comparisonNarrativeId(
-        includedNarratives,
+        analysed,
         attrs.state.curNarrative?.id,
         comparisonId,
       );
@@ -199,8 +202,9 @@ export const DecisionSupportPage: MeiosisComponent = () => {
 
       const content = view === 'risk'
         ? m(RiskMatrixView, {
-            narratives: includedNarratives,
+            narratives: analysed,
             narrativeId: selectedComparisonId,
+            currentId: current?.id,
             onselect: (id) => {
               comparisonId = id;
             },
@@ -226,8 +230,8 @@ export const DecisionSupportPage: MeiosisComponent = () => {
             })]
         : view === 'robustness'
         ? [
-            m(RobustnessView, { box: model.scenario, narratives: includedNarratives }),
-            includedNarratives.length > 0 && m(SuggestedApproachExplanation, { suggestion }),
+            m(RobustnessView, { box: model.scenario, narratives: analysed, currentId: current?.id }),
+            analysed.length > 1 && m(SuggestedApproachExplanation, { suggestion }),
           ]
         : !current
         ? noCurrent
@@ -257,7 +261,7 @@ export const DecisionSupportPage: MeiosisComponent = () => {
       };
 
       const exportToWord = async () => {
-        const data = buildComparisonExport(model.scenario, comparedNarratives(narratives, current?.id), {
+        const data = buildComparisonExport(model.scenario, analysed, {
           narrativeId: current?.id || selectedComparisonId,
           tr: t as Translator,
           formatDate: (ts) => formatLogTimestamp(ts, locale),

@@ -635,6 +635,10 @@ export const comparedNarratives = <T extends Pick<Narrative, 'id' | 'label' | 'i
     .filter((n) => n.included || n.id === currentId)
     .sort((a, b) => (a.label || '').localeCompare(b.label || ''));
 
+/** Scenarios for the robustness and risk views: the current one first, then the others selected for analysis. */
+export const analysedNarratives = <T extends Pick<Narrative, 'id' | 'label' | 'included'>>(narratives: T[], current?: T) =>
+  current ? [current, ...comparedNarratives(narratives).filter((n) => n.id !== current.id)] : comparedNarratives(narratives);
+
 /** Narrative to compare: the selected one, else the current one, else the first (only compared narratives are passed). */
 export const comparisonNarrativeId = (narratives: Array<Pick<Narrative, 'id'>>, currentId?: ID, selectedId?: ID) =>
   [selectedId, currentId].find((id) => id && narratives.some((n) => n.id === id)) || narratives[0]?.id;
