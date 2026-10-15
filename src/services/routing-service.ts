@@ -52,7 +52,7 @@ class RoutingService {
         route: t('DECISION_SUPPORT', 'ROUTE'),
         visible: (scenario) =>
           !!scenario?.includeDecisionSupport &&
-          (scenario.narratives || []).some((n) => n.saved),
+          (scenario.narratives || []).some((n) => n.saved && n.included),
         component: DecisionSupportPage,
       },
       {
@@ -60,7 +60,8 @@ class RoutingService {
         icon: 'visibility',
         title: t('SHOW_SCENARIO', 'TITLE'),
         route: t('SHOW_SCENARIO', 'ROUTE'),
-        visible: true,
+        visible: (scenario) =>
+          !!scenario && (scenario.narratives || []).some((n) => n.saved),
         component: ShowScenarioPage,
       },
       {
