@@ -274,6 +274,7 @@ export const messages: typeof messagesEN = {
     SELECTED: 'Ausgewählte Szenarien',
     UNSELECTED: 'Nicht ausgewählte Szenarien',
   },
+  MORE_ACTIONS: 'Weitere Aktionen',
   CLONE_NARRATIVE: 'Klonen',
   INCLUDE_DECISION_SUPPORT: 'Entscheidungsunterstützung aktivieren',
   IS_DECISION_CATEGORY: 'Für Entscheidungsunterstützung',

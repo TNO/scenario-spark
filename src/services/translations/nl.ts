@@ -270,6 +270,7 @@ export const messages: typeof messagesEN = {
   SCENARIO_CREATED_MSG: 'Box aangemaakt',
   COPY_TO_CLIPBOARD: 'Kopieer tabel naar het plakbord',
   GROUP: { SELECTED: 'Geselecteerd', UNSELECTED: 'Niet geselecteerd' },
+  MORE_ACTIONS: 'Meer acties',
   CLONE_NARRATIVE: 'Kopieer',
   INCLUDE_DECISION_SUPPORT: 'Activeer beslissingsondersteuning',
   INCLUDE_MAP_SUPPORT: 'Activeer kaartondersteuning',

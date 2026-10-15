@@ -13,16 +13,10 @@ import {
   FlatButton,
   InputCheckbox,
   uniqueId,
-  ModalPanel,
 } from 'mithril-materialized';
 import { deepCopy, SlimdownView } from 'mithril-ui-form';
 import {
   createCircleSVG,
-  downloadAsDocx,
-  DocxBoxTable,
-  DocxNarrative,
-  modelToSaveName,
-  CoaRow,
   effectiveSelection,
   levelIndex,
   narrativeCoaRows,
@@ -36,6 +30,7 @@ import {
 import { htmlTemplate } from '../assets/html-styles';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
 import { MapView } from './ui';
+import { coaRiskText, conflictWarnings, ExportWordModal } from './ui/export-word';
 import { MeiosisCell } from 'meiosis-setup/types';
 import 'mithril-markdown-wysiwyg/css';
 
@@ -108,79 +103,8 @@ const CategoryTable: FactoryComponent<{
   };
 };
 
-/** "Residual risk: Low (situation: High)", or undefined when the COA has no residual risk */
-const coaRiskText = (coa: CoaRow) => {
-  if (!coa.risk) return undefined;
-  const after = t('RISK5', levelIndex(coa.risk.after) ?? 0);
-  const before = levelIndex(coa.risk.before);
-  return before === undefined
-    ? t('COA_RISK_SUMMARY_SHORT', { after })
-    : t('COA_RISK_SUMMARY', { after, before: t('RISK5', before) });
-};
-
-const conflictWarnings = (coa: CoaRow) =>
-  coa.conflicts.map((c) =>
-    t('COA_CONFLICT', { value: c.label, situation: c.situation })
-  );
-
 export const ShowScenarioPage: MeiosisComponent = () => {
   let wordModalOpen = false;
-  let includeBox = false;
-
-  const narrativeToBox = (
-    model: DataModel,
-    narrative: Narrative
-  ): DocxBoxTable[] => {
-    const { categories = [], components = [] } = model.scenario;
-    const selection = effectiveSelection(model.scenario, narrative);
-    const toRows = (comps: ScenarioComponent[]) =>
-      comps.map((c) => {
-        const sel = selection[c.id];
-        const selectedIds = Array.isArray(sel) ? sel : sel ? [sel] : [];
-        return {
-          label: c.label,
-          values: (c.values || []).map((v) => ({
-            label: v.label,
-            selected: selectedIds.indexOf(v.id) >= 0,
-          })),
-        };
-      });
-    if (categories.length === 0) return [{ rows: toRows(components) }];
-    return categories.map((category) => {
-      const ids = category.componentIds || [];
-      return {
-        label: categories.length > 1 ? category.label : undefined,
-        rows: toRows(components.filter((c) => ids.indexOf(c.id) >= 0)),
-      };
-    });
-  };
-
-  const exportToWord = async (model: DataModel, narratives: Narrative[]) => {
-    const narrData: DocxNarrative[] = [];
-    for (const curNarrative of narratives) {
-      const content = narrativeToMarkdown(curNarrative.desc);
-      narrData.push({
-        label: curNarrative.label,
-        content,
-        coas: narrativeCoaRows(model.scenario, curNarrative).map((coa) => ({
-          label: coa.label,
-          desc: coa.desc,
-          notes: coa.notes,
-          decisions: coa.decisions,
-          warnings: conflictWarnings(coa),
-          risk: coaRiskText(coa),
-        })),
-        box: includeBox ? narrativeToBox(model, curNarrative) : undefined,
-      });
-    }
-    const title = model?.scenario?.label || 'Scenario';
-    const filename = `${modelToSaveName(
-      model,
-      narratives.length === 1 ? narratives[0].label : undefined
-    )}.docx`;
-    await downloadAsDocx(title, narrData, filename, t('DECISIONS'));
-  };
-
   const updateCurNarrative = (
     newNarrative: Narrative | undefined,
     attrs: MeiosisCell<State>,
@@ -301,52 +225,13 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                       saveModel(attrs, model);
                   }
               }),
-              m(ModalPanel, {
-                id: 'exportToWord',
-                title: t('EXPORT2WORD', 'TITLE'),
+              m(ExportWordModal, {
+                model,
+                narrative: curNarrative,
                 isOpen: wordModalOpen,
                 onToggle: (open) => {
                   wordModalOpen = open;
                 },
-                fixedFooter: true,
-                closeOnButtonClick: true,
-                description: m(
-                  '.export-modal',
-                  m('.row', [
-                    m('.col.s12', t('EXPORT2WORD', 'DESC')),
-                    m(InputCheckbox, {
-                      className: 'col s12 mt3',
-                      checked: includeBox,
-                      label: t('EXPORT2WORD', 'INCLUDE_BOX'),
-                      onchange: (checked: boolean) => {
-                        includeBox = checked;
-                      },
-                    }),
-                  ])
-                ),
-                options: { opacity: 0.7 },
-                buttons: [
-                  {
-                    label: t('EXPORT2WORD', 'CURRENT'),
-                    onclick: () => exportToWord(model, [curNarrative]),
-                  },
-                  {
-                    label: t('EXPORT2WORD', 'SELECTED'),
-                    disabled: narratives.filter((n) => n.included).length === 0,
-                    onclick: () =>
-                      exportToWord(
-                        model,
-                        narratives.filter((n) => n.included)
-                      ),
-                  },
-                  {
-                    label: t('EXPORT2WORD', 'ALL'),
-                    onclick: () => exportToWord(model, narratives),
-                  },
-                  {
-                    label: t('CANCEL'),
-                  },
-                ],
               }),
             ]),
         ],

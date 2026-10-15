@@ -267,6 +267,7 @@ export const messages = {
   SCENARIO_CREATED_MSG: 'Box created',
   COPY_TO_CLIPBOARD: 'Copy table to clipboard',
   GROUP: { SELECTED: 'Selected scenarios', UNSELECTED: 'Unselected scenarios' },
+  MORE_ACTIONS: 'More actions',
   CLONE_NARRATIVE: 'Clone',
   INCLUDE_DECISION_SUPPORT: 'Activate decision support',
   INCLUDE_MAP_SUPPORT: 'Activate map support',

@@ -2606,3 +2606,15 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   font-weight: 600;
   box-shadow: inset 0 0 0 2px var(--mm-primary-color);
 }
+
+/* Copy-table buttons only appear when hovering or focusing their table (always visible on touch screens) */
+@media (hover: hover) {
+  .copy-table-btn {
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+  }
+  :hover > .copy-table-btn,
+  :focus-within > .copy-table-btn {
+    opacity: 1;
+  }
+}

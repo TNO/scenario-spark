@@ -5,6 +5,8 @@ import {
   Icon,
   IconButton,
   InputCheckbox,
+  Menu,
+  ModalPanel,
   Select,
   SelectAttrs,
   TextArea,
@@ -58,6 +60,7 @@ import type { MeiosisCell } from 'meiosis-setup/types';
 import type { State } from '../services';
 import { listInconsistencies } from 'morphological-box';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
+import { ExportWordModal } from './ui/export-word';
 import {
   CircularSpinner,
   ensureDefaultLLMConfig,
@@ -252,6 +255,8 @@ export const CategoryTable: MeiosisComponent<{
   };
 };
 
+type NarrativeAction = 'clone' | 'word' | 'delete';
+
 export const CreateScenarioPage: MeiosisComponent = () => {
   let version = 0;
   let askLlm = true;
@@ -262,6 +267,8 @@ export const CreateScenarioPage: MeiosisComponent = () => {
   let narrativeTitleDraft = '';
   let editingCoaName = false;
   let coaNameDraft = '';
+  let wordModalOpen = false;
+  let deleteModalOpen = false;
 
   /** Chips per course of action, with add, duplicate, rename, delete and conflict warnings */
   const coaBar = (
@@ -657,37 +664,79 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           narratives && [
             m('.right.valign-wrapper.narrative-picker', { key: curNarrative.id }, [
               curNarrative.saved &&
-                m(IconButton, {
-                  iconName: 'content_copy',
-                  title: `${t('CLONE_NARRATIVE')} ${t('NARRATIVE').toLowerCase()}`,
-                  style: 'margin-right: 8px;',
-                  onclick: () => {
-                    const newNarrative: Narrative = deepCopy(curNarrative);
-                    newNarrative.id = uniqueId();
-                    newNarrative.saved = false;
-                    newNarrative.label = generateUniqueTitle(
-                      curNarrative.label,
-                      model.scenario.narratives?.map((n) => n.label),
-                    );
-                    saveNarrative(attrs, newNarrative);
+                m(Menu<NarrativeAction>, {
+                  ariaLabel: t('MORE_ACTIONS'),
+                  items: [
+                    { id: 'clone', label: `${t('CLONE_NARRATIVE')} ${t('NARRATIVE')}`, iconName: 'content_copy' },
+                    { id: 'word', label: t('EXPORT2WORD', 'TITLE'), iconName: 'download' },
+                    { separator: true },
+                    {
+                      id: 'delete',
+                      label: t('DELETE_ITEM', 'title', { item: t('NARRATIVE') }),
+                      iconName: 'delete',
+                      className: 'red-text',
+                    },
+                  ],
+                  onSelect: (action) => {
+                    if (action === 'clone') {
+                      const newNarrative: Narrative = deepCopy(curNarrative);
+                      newNarrative.id = uniqueId();
+                      newNarrative.saved = false;
+                      newNarrative.label = generateUniqueTitle(
+                        curNarrative.label,
+                        model.scenario.narratives?.map((n) => n.label),
+                      );
+                      saveNarrative(attrs, newNarrative);
+                    } else if (action === 'word') {
+                      wordModalOpen = true;
+                    } else {
+                      deleteModalOpen = true;
+                    }
+                  },
+                  trigger: (triggerAttrs) =>
+                    m(
+                      'button.btn-flat.btn-icon.waves-effect.waves-teal.more-actions[type=button]',
+                      { ...triggerAttrs, title: t('MORE_ACTIONS'), 'aria-label': t('MORE_ACTIONS') },
+                      m('i.material-icons', { 'aria-hidden': 'true' }, 'more_vert'),
+                    ),
+                }),
+              curNarrative.saved &&
+                m(ExportWordModal, {
+                  model,
+                  narrative: curNarrative,
+                  isOpen: wordModalOpen,
+                  onToggle: (open) => {
+                    wordModalOpen = open;
                   },
                 }),
               curNarrative.saved &&
-                m(ConfirmButton, {
-                  title: `${t('DELETE')} ${t('NARRATIVE').toLowerCase()}`,
-                  onclick: () => {
-                    version = 0;
-                    model.scenario.narratives =
-                      model.scenario.narratives.filter(
-                        (n) => n.id !== curNarrative.id,
-                      );
-                    attrs.update({
-                      curNarrative: () =>
-                        ({ included: false, components: {} }) as Narrative,
-                      lockedComps: () => undefined,
-                    });
-                    saveModel(attrs, model);
+                m(ModalPanel, {
+                  id: 'deleteNarrative',
+                  title: t('DELETE_ITEM', 'title', { item: t('NARRATIVE') }),
+                  description: curNarrative.label,
+                  isOpen: deleteModalOpen,
+                  onToggle: (open) => {
+                    deleteModalOpen = open;
                   },
+                  closeOnButtonClick: true,
+                  buttons: [
+                    { label: t('CANCEL') },
+                    {
+                      label: t('DELETE'),
+                      className: 'red-text',
+                      onclick: () => {
+                        version = 0;
+                        model.scenario.narratives = model.scenario.narratives.filter(
+                          (n) => n.id !== curNarrative.id,
+                        );
+                        attrs.update({
+                          curNarrative: () => ({ included: false, components: {} }) as Narrative,
+                          lockedComps: () => undefined,
+                        });
+                        saveModel(attrs, model);
+                      },
+                    },
+                  ],
                 }),
               hasNarrative &&
                 !editingNarrativeTitle &&

@@ -40,6 +40,7 @@ const load = (ui = {}) => {
     'mithril-markdown-wysiwyg': { MarkdownEditor: () => {} },
     '../utils/index': { narrativeToMarkdown: (value) => value || '' },
     './ui/scenario-paragraph': { ScenarioParagraph: () => {} },
+    './ui/export-word': { ExportWordModal: () => ({ view: () => null }) },
   };
   new Function('require', 'module', 'exports', code)((name) => mocks[name] || require(name), module, module.exports);
   return module.exports;
