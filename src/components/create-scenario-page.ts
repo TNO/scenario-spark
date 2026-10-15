@@ -783,6 +783,45 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               }),
             ),
           ),
+        includeDecisionSupport &&
+          m('.col.s12.situation-risk', [
+            m('p.grey-text', t('SITUATION_RISK_HINT')),
+            m('.row', [
+              m(Select, {
+                key: `prob${curNarrative.id}`,
+                placeholder: t('i18n', 'pick'),
+                className: 'col s12 m4',
+                label: t('PROBABILITY'),
+                checkedId: curNarrative.probability,
+                options: range(0, 4).map((id) => ({
+                  id: `probability_${id}`,
+                  label: t('PROB5', id),
+                })),
+                onchange: (n) => {
+                  curNarrative.probability = n[0];
+                  updateRisk(curNarrative);
+                  updateNarrative(attrs, curNarrative);
+                },
+              } as SelectAttrs<string>),
+              m(Select, {
+                key: `imp${curNarrative.id}`,
+                placeholder: t('i18n', 'pick'),
+                className: 'col s12 m4',
+                label: t('IMPACT'),
+                checkedId: curNarrative.impact,
+                options: range(0, 4).map((id) => ({
+                  id: `impact_${id}`,
+                  label: t('IMP5', id),
+                })),
+                onchange: (n) => {
+                  curNarrative.impact = n[0];
+                  updateRisk(curNarrative);
+                  updateNarrative(attrs, curNarrative);
+                },
+              } as SelectAttrs<string>),
+              m.fragment({ key: 'risk' }, [RiskResult('col s12 m4', t('RISK'), curNarrative.risk)]),
+            ]),
+          ]),
         showTables &&
           showDecisions && [
             m('.col.s12', [
@@ -952,7 +991,6 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           ),
         ),
         m('.col.s12', [
-          includeDecisionSupport && m('p.grey-text', t('SITUATION_RISK_HINT')),
           m('.row', [
             curNarrative.saved &&
               m(InputCheckbox, {
@@ -964,41 +1002,6 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   updateNarrative(attrs, curNarrative);
                 },
               }),
-            includeDecisionSupport && [
-              m(Select, {
-                key: `prob${curNarrative.id}`,
-                placeholder: t('i18n', 'pick'),
-                className: 'col s6 m3',
-                label: t('PROBABILITY'),
-                checkedId: curNarrative.probability,
-                options: range(0, 4).map((id) => ({
-                  id: `probability_${id}`,
-                  label: t('PROB5', id),
-                })),
-                onchange: (n) => {
-                  curNarrative.probability = n[0];
-                  updateRisk(curNarrative);
-                  updateNarrative(attrs, curNarrative);
-                },
-              } as SelectAttrs<string>),
-              m(Select, {
-                key: `imp${curNarrative.id}`,
-                placeholder: t('i18n', 'pick'),
-                className: 'col s6 m3',
-                label: t('IMPACT'),
-                checkedId: curNarrative.impact,
-                options: range(0, 4).map((id) => ({
-                  id: `impact_${id}`,
-                  label: t('IMP5', id),
-                })),
-                onchange: (n) => {
-                  curNarrative.impact = n[0];
-                  updateRisk(curNarrative);
-                  updateNarrative(attrs, curNarrative);
-                },
-              } as SelectAttrs<string>),
-              m.fragment({ key: 'risk' }, [RiskResult('col s6 m3', t('RISK'), curNarrative.risk)]),
-            ],
           ]),
           // m('#toolbar'),
           curNarrative.saved && [
