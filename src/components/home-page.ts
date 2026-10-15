@@ -240,7 +240,7 @@ export const HomePage: MeiosisComponent = () => {
         scenario: { id, label, narratives = [], components, categories },
       } = model;
 
-      const savedNarratives = narratives.filter((n) => n.included);
+      const savedNarratives = narratives.filter((n) => n.saved);
       const filteredNarratives = savedNarratives
         .filter((n) => {
           if (!narrativeFilter.trim()) return true;

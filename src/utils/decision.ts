@@ -616,7 +616,13 @@ const decisionGroups = (box: Box) => {
 const causeLabels = (causes?: ExclusionCause[]) =>
   causes && causes.length > 0 ? causes.map((c) => c.label).join(', ') : undefined;
 
-/** Narrative to compare: the selected one, else the current one, else the first (only included narratives are passed). */
+/** Narratives to compare: those included in the comparison plus the current (stored) one, sorted by label. */
+export const comparedNarratives = <T extends Pick<Narrative, 'id' | 'label' | 'included'>>(narratives: T[], currentId?: ID) =>
+  narratives
+    .filter((n) => n.included || n.id === currentId)
+    .sort((a, b) => (a.label || '').localeCompare(b.label || ''));
+
+/** Narrative to compare: the selected one, else the current one, else the first (only compared narratives are passed). */
 export const comparisonNarrativeId = (narratives: Array<Pick<Narrative, 'id'>>, currentId?: ID, selectedId?: ID) =>
   [selectedId, currentId].find((id) => id && narratives.some((n) => n.id === id)) || narratives[0]?.id;
 

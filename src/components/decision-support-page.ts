@@ -18,6 +18,7 @@ import {
   activeCoa,
   addDecisionLogEntry,
   buildComparisonExport,
+  comparedNarratives,
   comparisonNarrativeId,
   decisionLogRows,
   downloadComparisonDocx,
@@ -120,9 +121,7 @@ export const DecisionSupportPage: MeiosisComponent = () => {
       } = model;
       setupComponents(model);
 
-      const includedNarratives = narratives
-        .filter((n) => n.included)
-        .sort((a, b) => (a.label || '').localeCompare(b.label));
+      const includedNarratives = comparedNarratives(narratives, attrs.state.curNarrative?.id);
 
       // Compare the active course of action of each included narrative
       const selectedNarratives: Narrative[] = includedNarratives.map((n) => {

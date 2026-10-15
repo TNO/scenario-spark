@@ -78,7 +78,7 @@ export const messages = {
   FILTER_NARRATIVES: 'Filter scenarios',
   FILTER_NARRATIVES_PLACEHOLDER: 'Type to filter by name...',
   NARRATIVE: 'scenario',
-  INCLUDE_NARRATIVE: 'Include scenario',
+  INCLUDE_NARRATIVE: 'Include in comparison',
   NARRATIVE_INCLUDED: 'Scenario is included',
   SELECT_NARRATIVE: 'Select scenario',
   SELECT_SCENARIO: 'Select box',

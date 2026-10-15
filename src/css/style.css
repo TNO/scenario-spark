@@ -1192,14 +1192,13 @@ ul.kanban > li {
 }
 
 @media only screen and (min-width: 993px) {
-  table.repoonsive-table td.missing {
-    height: 57px;
-  }
+  /* Flex instead of a floated thead: WebKit pushes the scrolling tbody beside a float out of view */
   table.responsive-table {
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
-    display: block;
+    display: flex;
+    align-items: flex-start;
     position: relative;
     /* sort out borders */
   }
@@ -1216,7 +1215,7 @@ ul.kanban > li {
   }
   table.responsive-table thead {
     display: block;
-    float: left;
+    flex: 0 0 auto;
   }
   table.responsive-table thead tr {
     display: block;
@@ -1227,6 +1226,8 @@ ul.kanban > li {
   }
   table.responsive-table tbody {
     display: block;
+    flex: 1 1 auto;
+    min-width: 0;
     width: auto;
     position: relative;
     overflow-x: auto;
@@ -1270,7 +1271,9 @@ ul.kanban > li {
 }
 
 .missing {
-  height: 57px;
+  height: calc(1.5em + 30px);
+  padding-top: 13px;
+  padding-bottom: 13px;
 }
 
 .decision-support table.responsive-table > tbody > tr:last-child {

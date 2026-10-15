@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
   coaComparisonRows,
+  comparedNarratives,
   comparisonNarrativeId,
   robustnessGrid,
 } from '../src/utils/decision.ts';
@@ -110,6 +111,19 @@ test('comparisonNarrativeId: selected, else current if included, else first', ()
   assert.equal(comparisonNarrativeId(narratives, 'n2'), 'n2');
   assert.equal(comparisonNarrativeId(narratives, 'other'), 'n1');
   assert.equal(comparisonNarrativeId([], 'n1'), undefined);
+});
+
+test('comparedNarratives: included ones plus the current saved one, sorted by label', () => {
+  const narratives = [
+    { id: 'n1', label: 'Beta', included: true, saved: true },
+    { id: 'n2', label: 'Alpha', saved: true },
+    { id: 'n3', label: 'Gamma', included: false, saved: true },
+  ];
+  assert.deepEqual(comparedNarratives(narratives).map((n) => n.id), ['n1']);
+  assert.deepEqual(comparedNarratives(narratives, 'n2').map((n) => n.id), ['n2', 'n1']);
+  assert.deepEqual(comparedNarratives(narratives, 'n1').map((n) => n.id), ['n1']);
+  assert.deepEqual(comparedNarratives(narratives, 'unsaved').map((n) => n.id), ['n1']);
+  assert.deepEqual(comparedNarratives([]), []);
 });
 
 test('robustnessGrid: chosen, excluded and unused per narrative using the active COA', () => {

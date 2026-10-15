@@ -80,7 +80,7 @@ export const messages: typeof messagesEN = {
   FILTER_NARRATIVES: 'Filtruj scenariusze',
   FILTER_NARRATIVES_PLACEHOLDER: 'Wpisz, aby filtrować po nazwie...',
   NARRATIVE: 'scenariusz',
-  INCLUDE_NARRATIVE: 'Uwzględnij scenariusz',
+  INCLUDE_NARRATIVE: 'Uwzględnij w porównaniu',
   NARRATIVE_INCLUDED: 'Scenariusz jest uwzględniony',
   SELECT_NARRATIVE: 'Wybierz scenariusz',
   SELECT_SCENARIO: 'Wybierz tabelę',
