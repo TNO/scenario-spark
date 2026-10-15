@@ -707,7 +707,7 @@ export type RobustnessRow = {
   label: string;
   cells: RobustnessCell[];
   chosenCount: number;
-  /** Chosen in every scenario */
+  /** Chosen in every one of several scenarios */
   robust: boolean;
   /** Chosen in exactly one of several scenarios */
   scenarioSpecific: boolean;
@@ -749,7 +749,7 @@ export const robustnessGrid = (box: Box, narratives: Array<CoaNarrative & Pick<N
           return causes ? { status: 'excluded', causes } : { status: 'unused' };
         });
         const chosenCount = cells.filter((c) => c.status === 'chosen').length;
-        const robust = total > 0 && chosenCount === total;
+        const robust = total > 1 && chosenCount === total;
         if (robust) robustCount++;
         return {
           id: value.id,

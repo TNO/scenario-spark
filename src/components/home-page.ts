@@ -56,9 +56,13 @@ export const TableView: MeiosisComponent<{
   components: ScenarioComponent[];
   /** Optional tooltips per narrative id and component id */
   cellTitles?: Record<string, Record<string, string>>;
+  /** Index of the row to mark as active (e.g. the active course of action) */
+  activeIndex?: number;
+  /** Rendered after the label of the active row */
+  activeBadge?: m.Children;
 }> = () => {
   return {
-    view: ({ attrs: { components, narratives = [], cellTitles = {}, ...restAttrs } }) => {
+    view: ({ attrs: { components, narratives = [], cellTitles = {}, activeIndex, activeBadge, ...restAttrs } }) => {
       const lookup = components.reduce((acc, cur) => {
         cur.values &&
           cur.values.forEach((v) => {
@@ -82,9 +86,10 @@ export const TableView: MeiosisComponent<{
             ),
             m(
               'tbody',
-              narratives.map((n) =>
+              narratives.map((n, index) =>
                 m(
                   'tr',
+                  { className: index === activeIndex ? 'active-row' : '' },
                   m(
                     'th.bold.truncate',
                     { style: 'text-align: left' },
@@ -105,7 +110,8 @@ export const TableView: MeiosisComponent<{
                         },
                       },
                       capitalize(n.label)
-                    )
+                    ),
+                    index === activeIndex && activeBadge
                   ),
                   components.map((c) => {
                     const compVal =

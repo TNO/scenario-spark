@@ -2789,3 +2789,40 @@ table.decision-matrix tbody th {
 html {
   scrollbar-gutter: stable;
 }
+
+/* Active course of action: same badge and column tint in every decision view */
+.coa-active-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 6px;
+  padding: 0 6px 0 3px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  color: var(--mm-primary-color);
+  background: color-mix(in srgb, var(--mm-primary-color) 15%, transparent);
+}
+.coa-active-badge i.material-icons {
+  font-size: 1rem;
+}
+table.decision-matrix th.active-coa,
+table.decision-matrix td.active-coa,
+.decision-support table.responsive-table tr.active-row > * {
+  background-color: color-mix(in srgb, var(--mm-primary-color) 10%, var(--mm-surface-color));
+}
+table.decision-matrix thead th.active-coa,
+.decision-support table.responsive-table tr.active-row > th {
+  box-shadow: inset 0 3px 0 var(--mm-primary-color);
+}
+.robustness-coa {
+  font-weight: 400;
+}
+.risk-marker.coa.active {
+  border-style: solid;
+  border-color: var(--mm-primary-color);
+  box-shadow: 0 0 0 2px var(--mm-primary-color);
+}

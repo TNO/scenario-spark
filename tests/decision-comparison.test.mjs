@@ -178,8 +178,8 @@ test('robustnessGrid: excluded when impossible and not chosen', () => {
   const water = robustnessGrid(box, [noWater]).groups[0].components[0].rows[1];
   assert.deepEqual(water.cells[0], { status: 'excluded', causes: 'Flood' });
   const evacuate = robustnessGrid(box, [noWater]).groups[0].components[0].rows[0];
-  // A single scenario: chosen everywhere is robust, never scenario-specific
-  assert.equal(evacuate.robust, true);
+  // A single scenario cannot show robustness: neither robust nor scenario-specific
+  assert.equal(evacuate.robust, false);
   assert.equal(evacuate.scenarioSpecific, false);
 });
 

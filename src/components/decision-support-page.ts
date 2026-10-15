@@ -29,8 +29,10 @@ import {
   suggestApproach,
   updateDecisionLogEntry,
   coaTitle,
+  activeCoa,
 } from '../utils';
 import {
+  activeCoaBadge,
   CoaComparisonView,
   DecisionLogView,
   RiskMatrixView,
@@ -233,7 +235,13 @@ export const DecisionSupportPage: MeiosisComponent = () => {
             m('h5.col.s12.decision-current', current.label),
             coaColumns.length === 0
               ? m('p.col.s12.grey-text', t('NO_COAS'))
-              : m('.decision-support', m(TableView, { ...attrs, narratives: coaColumns, components: comps })),
+              : m('.decision-support', m(TableView, {
+                  ...attrs,
+                  narratives: coaColumns,
+                  components: comps,
+                  activeIndex: (current.coas || []).findIndex((c) => c === activeCoa(current)),
+                  activeBadge: activeCoaBadge(),
+                })),
           ];
 
       const locale = i18n.currentLocale;

@@ -34,6 +34,13 @@ const icon = (name: string, className: string, title: string) => [
   m('span.sr-only', title),
 ];
 
+/** Marks the active course of action of a scenario, the same way in every decision view. */
+export const activeCoaBadge = () =>
+  m('span.coa-active-badge', { title: t('COA_ACTIVE') }, [
+    m('i.material-icons', { 'aria-hidden': 'true' }, 'check_circle'),
+    t('COA_ACTIVE'),
+  ]);
+
 const riskName = (level?: number) => (level === undefined ? t('RISK_NOT_SET') : t('RISK5', level));
 
 const riskChangeIcon = (row: CoaRiskRow) =>
@@ -56,6 +63,8 @@ const CriteriaScoring: FactoryComponent<{
   view: ({ attrs: { narrative, criteriaWeights, onscore, onweight } }) => {
     const coas = narrative.coas || [];
     const scores = coaScores(coas, criteriaWeights);
+    const active = activeCoa(narrative);
+    const activeClass = (coa: (typeof coas)[number]) => (coa === active ? 'active-coa' : '');
     return m('details.criteria-scoring', { open: scores.used }, [
       m('summary', m('strong', t('CRITERIA_SCORING'))),
       m('p.grey-text', t('CRITERIA_HINT')),
@@ -65,7 +74,12 @@ const CriteriaScoring: FactoryComponent<{
           m('tr', [
             m('th', t('CRITERIA_CRITERION')),
             m('th', t('CRITERIA_WEIGHT')),
-            coas.map((coa) => m('th.center-align', coaTitle(coa.label, t('COURSE_OF_ACTION')))),
+            coas.map((coa) =>
+              m('th.center-align', { className: activeClass(coa) }, [
+                coaTitle(coa.label, t('COURSE_OF_ACTION')),
+                coa === active && activeCoaBadge(),
+              ]),
+            ),
           ]),
         ),
         m(
@@ -86,6 +100,7 @@ const CriteriaScoring: FactoryComponent<{
               coas.map((coa) =>
                 m(
                   'td.center-align',
+                  { className: activeClass(coa) },
                   m(
                     'select.browser-default.criteria-score',
                     {
@@ -187,9 +202,9 @@ export const CoaComparisonView: FactoryComponent<{
                   m('tr', [
                     m('th', t('DECISIONS')),
                     coas.map((coa) =>
-                      m('th', { title: coa.desc }, [
+                      m('th', { title: coa.desc, className: coa.active ? 'active-coa' : '' }, [
                         coaTitle(coa.label, t('COURSE_OF_ACTION')),
-                        coa.active && m('span.grey-text', ` (${t('COA_ACTIVE')})`),
+                        coa.active && activeCoaBadge(),
                         coa.conflicts > 0 && icon('warning', 'orange-text', t('COA_HAS_CONFLICTS')),
                       ]),
                     ),
@@ -201,7 +216,7 @@ export const CoaComparisonView: FactoryComponent<{
                     m('tr.coa-risk-row', [
                       m('th', { scope: 'row' }, t('RISK_BEFORE_AFTER')),
                       riskRows.map((row) =>
-                        m('td', [
+                        m('td', { className: row.active ? 'active-coa' : '' }, [
                           t('RISK_TRANSITION', { before: riskName(row.before), after: riskName(row.after) }),
                           riskChangeIcon(row),
                         ]),
@@ -213,10 +228,10 @@ export const CoaComparisonView: FactoryComponent<{
                     group.rows.map((row) =>
                       m('tr', [
                         m('th', { scope: 'row' }, row.label),
-                        row.cells.map((cell) =>
+                        row.cells.map((cell, i) =>
                           m(
                             'td',
-                            { className: cell.conflict ? 'conflict' : '' },
+                            { className: [cell.conflict ? 'conflict' : '', coas[i]?.active ? 'active-coa' : ''].join(' ') },
                             cell.values.length === 0
                               ? m('span.grey-text', t('NO_DECISION_SELECTED'))
                               : cell.values.map((v, i) => [
@@ -267,6 +282,11 @@ export const RiskMatrixView: FactoryComponent<{
     const itemLabel = (mk: { kind: 'situation' | 'coa'; label: string }) =>
       mk.kind === 'coa' ? `${coaTitle(mk.label, t('COURSE_OF_ACTION'))}${selected ? ` (${selected.label})` : ''}` : mk.label;
     const levels = [0, 1, 2, 3, 4];
+    const activeId = selected && activeCoa(selected)?.id;
+    const markerClass = (mk: { kind: string; coaId?: ID }) =>
+      `span.risk-marker.${mk.kind}${mk.coaId && mk.coaId === activeId ? '.active' : ''}`;
+    const markerTitle = (mk: { kind: 'situation' | 'coa'; label: string; coaId?: ID }) =>
+      `${itemLabel(mk)}${mk.coaId && mk.coaId === activeId ? ` (${t('COA_ACTIVE')})` : ''}`;
     return m('.col.s12.risk-matrix-view', [
       m('.row', m(NarrativeSelect, { narratives, narrativeId, onselect })),
       m('p.grey-text', t('RISK_MATRIX_HINT')),
@@ -295,14 +315,14 @@ export const RiskMatrixView: FactoryComponent<{
                   {
                     className: `risk-${cell.risk}`,
                     style: { backgroundColor: trafficLight[cell.risk] },
-                    title: [riskText, ...cell.markers.map((mk) => `${mk.marker}: ${itemLabel(mk)}`)].join('\n'),
+                    title: [riskText, ...cell.markers.map((mk) => `${mk.marker}: ${markerTitle(mk)}`)].join('\n'),
                   },
                   [
                     m('span.sr-only', riskText),
                     cell.markers.map((mk) =>
-                      m(`span.risk-marker.${mk.kind}`, { title: itemLabel(mk) }, [
+                      m(markerClass(mk), { title: markerTitle(mk) }, [
                         m('span', { 'aria-hidden': 'true' }, mk.marker),
-                        m('span.sr-only', `${mk.marker}: ${itemLabel(mk)}`),
+                        m('span.sr-only', `${mk.marker}: ${markerTitle(mk)}`),
                       ]),
                     ),
                   ],
@@ -339,8 +359,8 @@ export const RiskMatrixView: FactoryComponent<{
               'tbody',
               matrix.markers.map((mk) =>
                 m('tr', [
-                  m('td', m(`span.risk-marker.${mk.kind}`, mk.marker)),
-                  m('th', { scope: 'row' }, itemLabel(mk)),
+                  m('td', m(markerClass(mk), mk.marker)),
+                  m('th', { scope: 'row' }, [itemLabel(mk), mk.coaId && mk.coaId === activeId && activeCoaBadge()]),
                   m('td', t('PROB5', mk.probability)),
                   m('td', t('IMP5', mk.impact)),
                   m('td', t('RISK5', mk.risk)),
@@ -390,22 +410,25 @@ export const RobustnessView: FactoryComponent<{ box: Scenario; narratives: Narra
     const total = grid.narratives.length;
     const columns = total + 2;
     return m('.col.s12.robustness', [
+      m('p.grey-text', t('ROBUSTNESS_HINT')),
       m('p.robustness-legend', [
-        t('ROBUSTNESS_HINT'),
-        ' ',
         m('span', [m('i.material-icons.tiny.green-text', { 'aria-hidden': 'true' }, 'check_circle'), ` ${t('ROBUSTNESS_CHOSEN')}`]),
         m('span', [m('i.material-icons.tiny.red-text', { 'aria-hidden': 'true' }, 'block'), ` ${t('ROBUSTNESS_EXCLUDED')}`]),
         m('span', [m('i.material-icons.tiny.grey-text', { 'aria-hidden': 'true' }, 'remove'), ` ${t('ROBUSTNESS_UNUSED')}`]),
         m('span', [m('i.material-icons.tiny.amber-text', { 'aria-hidden': 'true' }, 'star'), ` ${t('ROBUSTNESS_ROBUST')}`]),
         m('span', [m('i.material-icons.tiny.blue-text', { 'aria-hidden': 'true' }, 'looks_one'), ` ${t('ROBUSTNESS_SPECIFIC')}`]),
       ]),
+      total === 1 && m('p.robustness-one', [m('i.material-icons.tiny', { 'aria-hidden': 'true' }, 'info'), ' ', t('ROBUSTNESS_ONE_SCENARIO')]),
       m('table.highlight.decision-matrix', [
         m(
           'thead',
           m('tr', [
             m('th', t('ROBUSTNESS_MEASURE')),
             grid.narratives.map((n) =>
-              m('th.center-align', [n.label, n.coaLabel && m('span.grey-text', ` (${n.coaLabel})`)]),
+              m('th.center-align', [
+                n.label,
+                n.coaLabel && m('.robustness-coa', [coaTitle(n.coaLabel, t('COURSE_OF_ACTION')), activeCoaBadge()]),
+              ]),
             ),
             m('th.center-align', t('ROBUSTNESS_CHOSEN_IN')),
           ]),
