@@ -359,6 +359,8 @@ export const messages = {
   RISK_MATRIX_MARKER: "Marker",
   RISK_MATRIX_ITEM: "Scenario or course of action",
   RISK_MATRIX_CELL: "Probability {probability}, impact {impact}: risk {risk}",
+  RISK_MATRIX_LEGEND: "Risk level",
+  RISK_LEVEL_HINT: { 0: 'Acceptable; no extra measures needed.', 1: 'Acceptable; monitor the situation.', 2: 'Reduce the risk where reasonably possible.', 3: 'Not acceptable; measures needed with priority.', 4: 'Not acceptable; act immediately.' },
   RISK_MATRIX_UNPLACED: "Not plotted (probability or impact not set): {items}",
   RISK_MATRIX_EMPTY: "Set the probability and impact of the included scenarios to plot them.",
   CRITERIA_SCORING: "Criteria scoring (optional)",

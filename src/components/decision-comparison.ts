@@ -285,11 +285,11 @@ export const RiskMatrixView: FactoryComponent<{
             m('tr', [
               m('th', { scope: 'row' }, t('PROB5', p)),
               matrix.cells[p].map((cell) => {
-                const riskText = t('RISK_MATRIX_CELL', {
+                const riskText = `${t('RISK_MATRIX_CELL', {
                   probability: t('PROB5', p),
                   impact: t('IMP5', cell.impact),
                   risk: t('RISK5', cell.risk),
-                });
+                })}. ${t('RISK_LEVEL_HINT', cell.risk)}`;
                 return m(
                   'td.risk-cell',
                   {
@@ -310,6 +310,16 @@ export const RiskMatrixView: FactoryComponent<{
               }),
             ]),
           ),
+        ),
+      ]),
+      m('.risk-legend', { role: 'list', 'aria-label': t('RISK_MATRIX_LEGEND') }, [
+        m('span.risk-legend-title', `${t('RISK_MATRIX_LEGEND')}:`),
+        levels.map((r) =>
+          m('span.risk-legend-item', { role: 'listitem', title: t('RISK_LEVEL_HINT', r) }, [
+            m('span.risk-legend-swatch', { style: { backgroundColor: trafficLight[r] }, 'aria-hidden': 'true' }),
+            t('RISK5', r),
+            m('span.sr-only', `: ${t('RISK_LEVEL_HINT', r)}`),
+          ]),
         ),
       ]),
       matrix.markers.length === 0

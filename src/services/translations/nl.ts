@@ -362,6 +362,8 @@ export const messages: typeof messagesEN = {
   RISK_MATRIX_MARKER: "Markering",
   RISK_MATRIX_ITEM: "Scenario of handelingsoptie",
   RISK_MATRIX_CELL: "Kans {probability}, impact {impact}: risico {risk}",
+  RISK_MATRIX_LEGEND: "Risiconiveau",
+  RISK_LEVEL_HINT: { 0: 'Aanvaardbaar; geen extra maatregelen nodig.', 1: 'Aanvaardbaar; houd de situatie in de gaten.', 2: 'Verklein het risico waar redelijkerwijs mogelijk.', 3: 'Niet aanvaardbaar; maatregelen met voorrang nodig.', 4: 'Niet aanvaardbaar; direct ingrijpen.' },
   RISK_MATRIX_UNPLACED: "Niet getoond (kans of impact niet ingevuld): {items}",
   RISK_MATRIX_EMPTY: "Vul de kans en impact van de geselecteerde scenario's in om ze te tonen.",
   CRITERIA_SCORING: "Scoren op criteria (optioneel)",

@@ -349,6 +349,8 @@ export const messages: typeof messagesEN = {
   RISK_MATRIX_MARKER: "Markierung",
   RISK_MATRIX_ITEM: "Szenario oder Handlungsoption",
   RISK_MATRIX_CELL: "Wahrscheinlichkeit {probability}, Auswirkung {impact}: Risiko {risk}",
+  RISK_MATRIX_LEGEND: "Risikostufe",
+  RISK_LEVEL_HINT: { 0: 'Akzeptabel; keine zusätzlichen Maßnahmen nötig.', 1: 'Akzeptabel; Lage beobachten.', 2: 'Risiko verringern, soweit vernünftigerweise möglich.', 3: 'Nicht akzeptabel; Maßnahmen mit Vorrang nötig.', 4: 'Nicht akzeptabel; sofort handeln.' },
   RISK_MATRIX_UNPLACED: "Nicht eingetragen (Wahrscheinlichkeit oder Auswirkung fehlt): {items}",
   RISK_MATRIX_EMPTY: "Geben Sie Wahrscheinlichkeit und Auswirkung der einbezogenen Szenarien an, um sie einzutragen.",
   CRITERIA_SCORING: "Bewertung nach Kriterien (optional)",

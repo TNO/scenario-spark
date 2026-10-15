@@ -2421,6 +2421,28 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   vertical-align: middle;
   text-align: center;
 }
+.risk-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin: 0 0 1.5rem;
+}
+.risk-legend-title {
+  font-weight: 600;
+}
+.risk-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: help;
+}
+.risk-legend-swatch {
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
 .risk-marker {
   display: inline-block;
   min-width: 1.6rem;

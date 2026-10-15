@@ -270,7 +270,8 @@ export const DecisionSupportPage: MeiosisComponent = () => {
         !hasDecisionCategories &&
           m('.col.s12', m('p.grey-text', t('NO_DECISION_CATEGORIES'))),
         content,
-        m(DecisionLogView, {
+        view !== 'risk' &&
+          m(DecisionLogView, {
           narratives,
           rows: decisionLogRows(model.scenario),
           locale,

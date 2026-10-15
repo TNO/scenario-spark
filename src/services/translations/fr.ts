@@ -349,6 +349,8 @@ export const messages: typeof messagesEN = {
   RISK_MATRIX_MARKER: "Repère",
   RISK_MATRIX_ITEM: "Scénario ou mode d'action",
   RISK_MATRIX_CELL: "Probabilité {probability}, impact {impact} : risque {risk}",
+  RISK_MATRIX_LEGEND: "Niveau de risque",
+  RISK_LEVEL_HINT: { 0: 'Acceptable ; aucune mesure supplémentaire nécessaire.', 1: 'Acceptable ; surveiller la situation.', 2: 'Réduire le risque dans la mesure du raisonnable.', 3: 'Inacceptable ; mesures prioritaires nécessaires.', 4: 'Inacceptable ; agir immédiatement.' },
   RISK_MATRIX_UNPLACED: "Non placés (probabilité ou impact non renseigné) : {items}",
   RISK_MATRIX_EMPTY: "Renseignez la probabilité et l'impact des scénarios inclus pour les placer.",
   CRITERIA_SCORING: "Notation par critères (facultatif)",

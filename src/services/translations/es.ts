@@ -349,6 +349,8 @@ export const messages: typeof messagesEN = {
   RISK_MATRIX_MARKER: "Marcador",
   RISK_MATRIX_ITEM: "Escenario o línea de acción",
   RISK_MATRIX_CELL: "Probabilidad {probability}, impacto {impact}: riesgo {risk}",
+  RISK_MATRIX_LEGEND: "Nivel de riesgo",
+  RISK_LEVEL_HINT: { 0: 'Aceptable; no se necesitan medidas adicionales.', 1: 'Aceptable; vigilar la situación.', 2: 'Reducir el riesgo en la medida de lo razonable.', 3: 'Inaceptable; se necesitan medidas prioritarias.', 4: 'Inaceptable; actuar de inmediato.' },
   RISK_MATRIX_UNPLACED: "No representados (sin probabilidad o impacto): {items}",
   RISK_MATRIX_EMPTY: "Indique la probabilidad y el impacto de los escenarios incluidos para representarlos.",
   CRITERIA_SCORING: "Puntuación por criterios (opcional)",

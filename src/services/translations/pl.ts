@@ -348,6 +348,8 @@ export const messages: typeof messagesEN = {
   RISK_MATRIX_MARKER: "Znacznik",
   RISK_MATRIX_ITEM: "Scenariusz lub wariant działania",
   RISK_MATRIX_CELL: "Prawdopodobieństwo {probability}, skutki {impact}: ryzyko {risk}",
+  RISK_MATRIX_LEGEND: "Poziom ryzyka",
+  RISK_LEVEL_HINT: { 0: 'Akceptowalne; dodatkowe działania nie są potrzebne.', 1: 'Akceptowalne; monitoruj sytuację.', 2: 'Ogranicz ryzyko w rozsądnym zakresie.', 3: 'Nieakceptowalne; potrzebne działania priorytetowe.', 4: 'Nieakceptowalne; działaj natychmiast.' },
   RISK_MATRIX_UNPLACED: "Nie naniesiono (brak prawdopodobieństwa lub skutków): {items}",
   RISK_MATRIX_EMPTY: "Podaj prawdopodobieństwo i skutki uwzględnionych scenariuszy, aby je nanieść.",
   CRITERIA_SCORING: "Ocena według kryteriów (opcjonalnie)",
