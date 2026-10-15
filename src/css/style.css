@@ -2830,3 +2830,24 @@ table.decision-matrix thead th.active-coa,
   color: var(--mm-text-primary);
   background: color-mix(in srgb, var(--mm-text-primary) 12%, transparent);
 }
+
+.risk-matrix .risk-axis {
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: rgba(127, 127, 127, 0.08);
+}
+.risk-matrix .risk-axis-y {
+  width: 2.2em;
+  padding: 6px 2px;
+}
+.risk-matrix .risk-axis-y > span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  display: inline-block;
+}
+.risk-matrix td.risk-axis-corner {
+  border: none;
+  background: transparent;
+}

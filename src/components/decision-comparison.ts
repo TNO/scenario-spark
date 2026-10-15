@@ -303,15 +303,28 @@ export const RiskMatrixView: FactoryComponent<{
         m('caption', t('RISK_MATRIX_CAPTION')),
         m(
           'thead',
-          m('tr', [
-            m('th', { scope: 'col' }, `${t('PROBABILITY')} / ${t('IMPACT')}`),
-            levels.map((i) => m('th.center-align', { scope: 'col' }, t('IMP5', i))),
-          ]),
+          [
+            m('tr', [
+              m('td.risk-axis-corner', { colspan: 2, rowspan: 2 }),
+              m('th.risk-axis.risk-axis-x', { scope: 'colgroup', colspan: levels.length }, `${t('IMPACT')} →`),
+            ]),
+            m(
+              'tr',
+              levels.map((i) => m('th.center-align', { scope: 'col' }, t('IMP5', i))),
+            ),
+          ],
         ),
         m(
           'tbody',
-          [...levels].reverse().map((p) =>
+          // Highest probability on top, like a graph's y-axis: low risk bottom-left, high risk top-right
+          [...levels].reverse().map((p, idx) =>
             m('tr', [
+              idx === 0 &&
+                m(
+                  'th.risk-axis.risk-axis-y',
+                  { scope: 'rowgroup', rowspan: levels.length },
+                  m('span', `${t('PROBABILITY')} →`),
+                ),
               m('th', { scope: 'row' }, t('PROB5', p)),
               matrix.cells[p].map((cell) => {
                 const riskText = `${t('RISK_MATRIX_CELL', {
