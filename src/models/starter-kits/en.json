@@ -114,6 +114,18 @@
       "label": "Local official",
       "desc": "Senior civil servant at the municipality advising the mayor; balances public safety, public order, the economy and public trust, and must explain decisions to residents, media and council.",
       "url": "middleaged_man_suit1"
+    },
+    {
+      "id": "starter-taxi-driver",
+      "label": "Taxi driver",
+      "desc": "Taxi and ride-hailing driver who is on the road when the incident unfolds; sees disruption first-hand, is asked to transport stranded or evacuated people, and depends on open roads, fuel or charging and clear traffic information.",
+      "url": "taxi_driver1"
+    },
+    {
+      "id": "starter-student",
+      "label": "Student",
+      "desc": "University student living in student housing away from family; gets news mainly through social media, may join protests or volunteer, and has limited savings, supplies and local knowledge.",
+      "url": "female_student1"
     }
   ],
   "boxes": [

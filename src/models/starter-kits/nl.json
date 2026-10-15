@@ -114,6 +114,18 @@
       "label": "Gemeenteambtenaar",
       "desc": "Senior ambtenaar die de burgemeester adviseert; weegt veiligheid, openbare orde, economie en vertrouwen af en moet besluiten uitleggen aan inwoners, media en gemeenteraad.",
       "url": "middleaged_man_suit1"
+    },
+    {
+      "id": "starter-taxi-driver",
+      "label": "Taxichauffeur",
+      "desc": "Taxi- en ritdeelchauffeur die onderweg is wanneer het incident zich voltrekt; ziet de verstoring van dichtbij, wordt gevraagd gestrande of geëvacueerde mensen te vervoeren en is afhankelijk van open wegen, brandstof of laadpalen en duidelijke verkeersinformatie.",
+      "url": "taxi_driver1"
+    },
+    {
+      "id": "starter-student",
+      "label": "Studente",
+      "desc": "Student die in een studentenhuis woont, ver van familie; haalt nieuws vooral via sociale media, sluit zich mogelijk aan bij protesten of als vrijwilliger, en heeft weinig spaargeld, voorraden en lokale kennis.",
+      "url": "female_student1"
     }
   ],
   "boxes": [

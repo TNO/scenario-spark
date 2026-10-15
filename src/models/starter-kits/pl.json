@@ -114,6 +114,18 @@
       "label": "Urzędnik gminy",
       "desc": "Starszy urzędnik doradzający burmistrzowi; równoważy bezpieczeństwo, porządek publiczny, gospodarkę i zaufanie, musi tłumaczyć decyzje mieszkańcom, mediom i radzie.",
       "url": "middleaged_man_suit1"
+    },
+    {
+      "id": "starter-taxi-driver",
+      "label": "Taksówkarz",
+      "desc": "Kierowca taksówki i przewozów na aplikację, który jest w trasie, gdy dochodzi do zdarzenia; widzi zakłócenia z bliska, jest proszony o przewóz osób unieruchomionych lub ewakuowanych i zależy od przejezdnych dróg, paliwa lub ładowarek oraz jasnych informacji o ruchu.",
+      "url": "taxi_driver1"
+    },
+    {
+      "id": "starter-student",
+      "label": "Studentka",
+      "desc": "Studentka mieszkająca w akademiku z dala od rodziny; czerpie informacje głównie z mediów społecznościowych, może przyłączyć się do protestów lub wolontariatu i ma niewiele oszczędności, zapasów i znajomości okolicy.",
+      "url": "female_student1"
     }
   ],
   "boxes": [

@@ -114,6 +114,18 @@
       "label": "Kommunalbeamter",
       "desc": "Leitender Beamter der Gemeinde, der den Bürgermeister berät; wägt Sicherheit, öffentliche Ordnung, Wirtschaft und Vertrauen ab und muss Entscheidungen gegenüber Bürgern, Medien und Rat erklären.",
       "url": "middleaged_man_suit1"
+    },
+    {
+      "id": "starter-taxi-driver",
+      "label": "Taxifahrer",
+      "desc": "Taxi- und Fahrdienstfahrer, der unterwegs ist, wenn sich der Vorfall ereignet; erlebt die Störung aus nächster Nähe, wird gebeten, gestrandete oder evakuierte Menschen zu befördern, und ist auf offene Straßen, Kraftstoff oder Ladestationen und klare Verkehrsinformationen angewiesen.",
+      "url": "taxi_driver1"
+    },
+    {
+      "id": "starter-student",
+      "label": "Studentin",
+      "desc": "Studentin, die fern der Familie in einem Studentenwohnheim lebt; bezieht Nachrichten vor allem über soziale Medien, schließt sich möglicherweise Protesten an oder hilft freiwillig und hat wenig Ersparnisse, Vorräte und Ortskenntnis.",
+      "url": "female_student1"
     }
   ],
   "boxes": [

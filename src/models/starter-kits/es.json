@@ -114,6 +114,18 @@
       "label": "Funcionario municipal",
       "desc": "Alto funcionario del ayuntamiento que asesora al alcalde; equilibra seguridad, orden público, economía y confianza, y debe explicar las decisiones a vecinos, medios y pleno municipal.",
       "url": "middleaged_man_suit1"
+    },
+    {
+      "id": "starter-taxi-driver",
+      "label": "Taxista",
+      "desc": "Conductor de taxi y VTC que está en la carretera cuando se produce el incidente; ve la perturbación de primera mano, se le pide transportar a personas varadas o evacuadas y depende de carreteras abiertas, combustible o puntos de recarga e información de tráfico clara.",
+      "url": "taxi_driver1"
+    },
+    {
+      "id": "starter-student",
+      "label": "Estudiante",
+      "desc": "Estudiante universitaria que vive en una residencia lejos de su familia; se informa sobre todo por redes sociales, puede unirse a protestas o hacer voluntariado, y tiene pocos ahorros, provisiones y conocimiento local.",
+      "url": "female_student1"
     }
   ],
   "boxes": [

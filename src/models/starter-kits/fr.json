@@ -114,6 +114,18 @@
       "label": "Fonctionnaire municipal",
       "desc": "Cadre de la commune qui conseille le maire ; arbitre entre sécurité, ordre public, économie et confiance, et doit expliquer les décisions aux habitants, aux médias et au conseil municipal.",
       "url": "middleaged_man_suit1"
+    },
+    {
+      "id": "starter-taxi-driver",
+      "label": "Chauffeur de taxi",
+      "desc": "Chauffeur de taxi et de VTC qui est sur la route lorsque l'incident survient ; constate la perturbation de près, est sollicité pour transporter des personnes bloquées ou évacuées, et dépend de routes ouvertes, de carburant ou de bornes de recharge et d'informations routières claires.",
+      "url": "taxi_driver1"
+    },
+    {
+      "id": "starter-student",
+      "label": "Étudiante",
+      "desc": "Étudiante vivant en résidence universitaire loin de sa famille ; s'informe surtout via les réseaux sociaux, peut rejoindre des manifestations ou faire du bénévolat, et dispose de peu d'économies, de réserves et de connaissances locales.",
+      "url": "female_student1"
     }
   ],
   "boxes": [
