@@ -402,6 +402,13 @@ export const CreateScenarioPage: MeiosisComponent = () => {
         state: { model, curNarrative = {} as Narrative, lockedComps = {} },
       } = attrs;
       const { personas: allPersonas = [] } = model;
+      const saveNarrativeTitle = () => {
+        const title = (narrativeTitleDraft || '').trim();
+        if (!title) return;
+        curNarrative.label = title;
+        saveNarrative(attrs, curNarrative);
+        editingNarrativeTitle = false;
+      };
       const {
         template,
         inconsistencies = {},
@@ -691,33 +698,40 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   },
                 }),
               editingNarrativeTitle
-                ? m(TextInput, {
-                    value: narrativeTitleDraft,
-                    label: t('NAME_NARRATIVE'),
-                    required: true,
-                    autofocus: true,
-                    selectOnFocus: true,
-                    oninput: (n) => {
-                      narrativeTitleDraft = n;
-                    },
-                    onkeypress: (e: KeyboardEvent) => {
-                      if (e.key !== 'Enter') return;
-                      e.preventDefault();
-                      const title = (narrativeTitleDraft || '').trim();
-                      if (!title) return;
-                      curNarrative.label = title;
-                      saveNarrative(attrs, curNarrative);
-                      editingNarrativeTitle = false;
-                    },
-                    onblur: () => {
-                      if (!editingNarrativeTitle) return;
-                      const title = (narrativeTitleDraft || '').trim();
-                      if (!title) return;
-                      curNarrative.label = title;
-                      saveNarrative(attrs, curNarrative);
-                      editingNarrativeTitle = false;
-                    },
-                  })
+                ? [
+                    m(TextInput, {
+                      value: narrativeTitleDraft,
+                      label: t('NAME_NARRATIVE'),
+                      required: true,
+                      autofocus: true,
+                      selectOnFocus: true,
+                      oninput: (n) => {
+                        narrativeTitleDraft = n;
+                      },
+                      onkeydown: (e: KeyboardEvent) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          saveNarrativeTitle();
+                        } else if (e.key === 'Escape') {
+                          e.preventDefault();
+                          editingNarrativeTitle = false;
+                        }
+                      },
+                    }),
+                    m(IconButton, {
+                      iconName: 'check',
+                      title: t('SAVE_NARRATIVE'),
+                      disabled: !(narrativeTitleDraft || '').trim(),
+                      onclick: saveNarrativeTitle,
+                    }),
+                    m(IconButton, {
+                      iconName: 'close',
+                      title: t('CANCEL'),
+                      onclick: () => {
+                        editingNarrativeTitle = false;
+                      },
+                    }),
+                  ]
                 : m(Select, {
                     label: t('SELECT_NARRATIVE'),
                     checkedId: curNarrative.saved ? curNarrative.id : undefined,
