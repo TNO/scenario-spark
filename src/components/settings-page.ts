@@ -16,6 +16,7 @@ import {
   FlatButton,
   ModalPanel,
   Select,
+  Switch,
   Tabs,
   TextArea,
   uniqueId,
@@ -34,28 +35,12 @@ import {
 } from '../utils/decision';
 
 export const SettingsPage: MeiosisComponent = () => {
-  const form = [
+  const generalForm = [
     { id: 'id', autogenerate: 'id' },
-    { id: 'label', type: 'text', className: 'col s12 m6', label: t('NAME') },
-    {
-      id: 'hideInconsistentValues',
-      type: 'checkbox',
-      className: 'col s6 m3',
-      label: t('HIDE_INCONSISTENT'),
-    },
-    {
-      id: 'includeDecisionSupport',
-      type: 'checkbox',
-      className: 'col s6 m3',
-      label: t('INCLUDE_DECISION_SUPPORT'),
-    },
-    {
-      id: 'includeMapSupport',
-      type: 'checkbox',
-      className: 'col s6 m3',
-      label: t('INCLUDE_MAP_SUPPORT'),
-    },
+    { id: 'label', type: 'text', className: 'col s12', label: t('NAME') },
     { id: 'desc', type: 'textarea', label: t('DESCRIPTION') },
+  ] as UIForm<Scenario>;
+  const narrativeForm = [
     {
       id: 'template',
       type: 'template-with-llm',
@@ -70,11 +55,12 @@ export const SettingsPage: MeiosisComponent = () => {
       label: t('SELECT_PERSONA'),
       description: t('SELECT_PERSONA_HELP'),
     },
+  ] as UIForm<Scenario>;
+  const mapForm = [
     {
       id: 'mapConfig',
       className: 'col s12',
       label: t('MAP_CONFIG'),
-      show: ['includeMapSupport=true'],
       type: [
         {
           id: 'lat',
@@ -102,7 +88,6 @@ export const SettingsPage: MeiosisComponent = () => {
       type: 'select',
       className: 'col s12 m3',
       label: t('MAP_UNITS'),
-      show: ['includeMapSupport=true'],
       options: [
         { id: 'metric', label: t('METRIC') },
         { id: 'imperial', label: t('IMPERIAL') },
@@ -114,9 +99,10 @@ export const SettingsPage: MeiosisComponent = () => {
       multiple: true,
       className: 'col s12 m9',
       label: t('OSM_AMENITIES'),
-      show: ['includeMapSupport=true'],
       options: 'osmtypes',
     },
+  ] as UIForm<Scenario>;
+  const structureForm = [
     {
       id: 'categories',
       label: t('CATEGORIES'),
@@ -172,6 +158,10 @@ export const SettingsPage: MeiosisComponent = () => {
           type: 'switch',
           className: 'col s3 m2',
           label: t('MANUAL'),
+          options: [
+            { id: 'no', label: t('NO') },
+            { id: 'yes', label: t('YES') },
+          ],
         },
         {
           id: 'label',
@@ -221,7 +211,16 @@ export const SettingsPage: MeiosisComponent = () => {
         },
       ],
     },
-  ] as UIForm<Scenario>;
+  ] as unknown as UIForm<Scenario>;
+  const options: Array<{
+    id: 'hideInconsistentValues' | 'includeMapSupport' | 'includeDecisionSupport';
+    label: string;
+    hint: string;
+  }> = [
+    { id: 'hideInconsistentValues', label: t('HIDE_INCONSISTENT'), hint: t('HIDE_INCONSISTENT_HINT') },
+    { id: 'includeMapSupport', label: t('INCLUDE_MAP_SUPPORT'), hint: t('INCLUDE_MAP_SUPPORT_HINT') },
+    { id: 'includeDecisionSupport', label: t('INCLUDE_DECISION_SUPPORT'), hint: t('INCLUDE_DECISION_SUPPORT_HINT') },
+  ];
   let edit = false;
   let mdEditor = false;
   /** Decision categories at the last change, to detect newly ticked ones */
@@ -240,6 +239,41 @@ export const SettingsPage: MeiosisComponent = () => {
           model.scenario ?? { categories: [] },
         );
       }
+      const onFormChange = async () => {
+        applyDecisionCategoryManual(model.scenario, decisionCategoryIds ?? new Set());
+        // Selections of new decision factors move to courses of action,
+        // those of former decision factors back to the situation
+        (model.scenario.narratives || []).forEach((n) => syncNarrativeDecisions(model.scenario, n));
+        decisionCategoryIds = getDecisionCategoryIds(model.scenario);
+        // The narrative being edited is a separate copy: sync it too
+        const { curNarrative } = attrs.getState();
+        if (curNarrative && syncNarrativeDecisions(model.scenario, curNarrative)) {
+          attrs.update({ curNarrative: () => curNarrative });
+        }
+        await saveModel(attrs, model);
+      };
+      const context = [
+        {
+          personas,
+          osmtypes: OsmOptions,
+          categories,
+          components,
+          language: model.scenario.language || i18n.currentLocale,
+        },
+      ] as any;
+      const sectionForm = (form: UIForm<Scenario>) =>
+        m(
+          '.row',
+          m(LayoutForm, {
+            obj: model.scenario,
+            form,
+            i18n: i18n.i18n,
+            context,
+            onchange: onFormChange,
+          } as FormAttributes<Scenario>),
+        );
+      const section = (title: string, content: m.Children) =>
+        m('.settings-section', [m('h6.settings-section-title', title), content]);
       // console.log(model.scenario?.personas);
       return [
         m('.settings-page.row', { key: model.version }, [
@@ -265,46 +299,33 @@ export const SettingsPage: MeiosisComponent = () => {
                       onclick: () => (mdEditor = true),
                     }),
                   ),
-                  m(
-                    '.row',
-                    m(LayoutForm, {
-                      obj: model.scenario,
-                      form,
-                      i18n: i18n.i18n,
-                      context: [
-                        {
-                          personas,
-                          osmtypes: OsmOptions,
-                          categories,
-                          components,
-                          language: model.scenario.language || i18n.currentLocale,
-                        },
-                      ] as any,
-                      onchange: async () => {
-                        applyDecisionCategoryManual(
-                          model.scenario,
-                          decisionCategoryIds ?? new Set(),
-                        );
-                        // Selections of new decision factors move to courses of action,
-                        // those of former decision factors back to the situation
-                        (model.scenario.narratives || []).forEach((n) =>
-                          syncNarrativeDecisions(model.scenario, n),
-                        );
-                        decisionCategoryIds = getDecisionCategoryIds(
-                          model.scenario,
-                        );
-                        // The narrative being edited is a separate copy: sync it too
-                        const { curNarrative } = attrs.getState();
-                        if (
-                          curNarrative &&
-                          syncNarrativeDecisions(model.scenario, curNarrative)
-                        ) {
-                          attrs.update({ curNarrative: () => curNarrative });
-                        }
-                        await saveModel(attrs, model);
-                      },
-                    } as FormAttributes<Scenario>),
+                  section(t('SETTINGS_GENERAL'), sectionForm(generalForm)),
+                  section(
+                    t('SETTINGS_OPTIONS'),
+                    m(
+                      '.row.settings-options',
+                      options.map(({ id, label, hint }) =>
+                        m('.col.s12.m4.settings-option', [
+                          m(Switch, {
+                            className: '',
+                            label,
+                            left: t('NO'),
+                            right: t('YES'),
+                            checked: !!model.scenario[id],
+                            onchange: async (checked) => {
+                              model.scenario[id] = checked;
+                              await onFormChange();
+                            },
+                          }),
+                          m('span.helper-text', hint),
+                        ]),
+                      ),
+                    ),
                   ),
+                  section(t('SETTINGS_NARRATIVE'), sectionForm(narrativeForm)),
+                  model.scenario.includeMapSupport &&
+                    section(t('SETTINGS_MAP'), sectionForm(mapForm)),
+                  section(t('SETTINGS_STRUCTURE'), sectionForm(structureForm)),
                 ]),
               },
               {
@@ -384,18 +405,18 @@ export const SettingsPage: MeiosisComponent = () => {
                         } as FormAttributes<DataModel>),
                       )
                     : m(
-                        '.row',
+                        '.row.persona-cards',
                         personas?.map((p) =>
                           m(
                             '.col.s12.m6.l4',
-                            m('.card large', [
+                            m('.card.persona-card', [
                               m('.card-image', [
                                 m('img', {
                                   src: PersonaImages.find((i) => i.id === p.url)
                                     ?.img,
-                                  style: 'width: 100%',
+                                  alt: p.label,
                                 }),
-                                m('.span.card-title', p.label),
+                                m('span.card-title', p.label),
                               ]),
                               m('.card-content', m('p', p.desc)),
                             ]),

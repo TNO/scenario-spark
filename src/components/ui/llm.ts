@@ -156,18 +156,17 @@ export const LLMSelector: MeiosisComponent = () => {
     [
       {
         id: 'llm',
-        label: t('LLM'),
         type: [
           {
             id: 'id',
-            label: 'Service',
+            label: t('SERVICE'),
             type: 'select',
             value: 'clipboard',
             className: 'col s12 m3',
             options: [
               { id: 'ollama', label: 'Ollama' },
               { id: 'openai', label: 'OpenAI' },
-              { id: 'clipboard', label: 'Clipboard' },
+              { id: 'clipboard', label: t('LLM_CLIPBOARD') },
             ],
           },
           {
@@ -176,6 +175,7 @@ export const LLMSelector: MeiosisComponent = () => {
             value: 'gemma3',
             className: 'col s12 m3',
             type: 'text',
+            show: 'id!=clipboard',
           },
           {
             id: 'temperature',
@@ -187,6 +187,7 @@ export const LLMSelector: MeiosisComponent = () => {
             min: 0,
             max: 1,
             step: 0.1,
+            show: 'id!=clipboard',
           },
           // {
           //   id: 'autoLLMCount',
@@ -250,7 +251,7 @@ export const LLMSelector: MeiosisComponent = () => {
       if (!prompts.some((p) => p.type === selectedType)) selectedType = 'narrative';
       const selectedPrompt = prompts.find((p) => p.type === selectedType);
       const hasDecisionPrompt = prompts.some((p) => p.type === 'decision');
-      return m('div', [
+      return m('.llm-selector', [
         m(LayoutForm<Partial<Scenario>>, {
           i18n: i18n.i18n,
           form: form(),

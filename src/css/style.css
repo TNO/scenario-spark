@@ -2861,3 +2861,57 @@ table.decision-matrix thead th.active-coa,
   border: none;
   background: transparent;
 }
+
+/* Settings page */
+.settings-section {
+  margin-bottom: 1.5rem;
+}
+.settings-section-title {
+  margin: 1.5rem 0 0.25rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--mm-border-color, rgba(0, 0, 0, 0.12));
+  font-weight: 600;
+}
+.settings-options .settings-option {
+  margin-top: 0.75rem;
+}
+.settings-options .settings-option .helper-text {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  opacity: 0.75;
+  line-height: 1.35;
+}
+.persona-cards {
+  display: flex;
+  flex-wrap: wrap;
+}
+.persona-cards > .col {
+  display: flex;
+}
+.persona-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.persona-card .card-image img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.persona-card .card-image::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 45%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  pointer-events: none;
+}
+.persona-card .card-image .card-title {
+  z-index: 1;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+/* The settings tab already says LLM */
+.llm-selector .muf-form-header {
+  display: none;
+}
