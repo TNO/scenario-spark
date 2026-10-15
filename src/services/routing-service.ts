@@ -51,7 +51,8 @@ class RoutingService {
         title: t('DECISION_SUPPORT', 'TITLE'),
         route: t('DECISION_SUPPORT', 'ROUTE'),
         visible: (scenario) =>
-          scenario ? scenario.includeDecisionSupport : false,
+          !!scenario?.includeDecisionSupport &&
+          (scenario.narratives || []).some((n) => n.saved),
         component: DecisionSupportPage,
       },
       {
