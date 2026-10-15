@@ -301,7 +301,6 @@ export const messages: typeof messagesEN = {
   DECISION_REFLECTION_ERROR: "Impossible de générer ou de copier la réflexion. Réessayez.",
   DECISION_REFLECTION_DISCARDED: "La réflexion n'a pas été enregistrée : le scénario ou le mode d'action a changé pendant sa génération.",
   NO_DECISION_CATEGORIES: "Cette boîte n'a pas de catégorie de décision. Marquez une catégorie comme « Pour l'aide à la décision » dans les paramètres pour comparer des mesures ici.",
-  DECISION_VIEW: "Affichage",
   DECISION_VIEW_OVERVIEW: "Vue d'ensemble",
   DECISION_VIEW_COA: "Comparer les modes d'action",
   DECISION_VIEW_ROBUSTNESS: "Robustesse",

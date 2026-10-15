@@ -300,7 +300,6 @@ export const messages: typeof messagesEN = {
   DECISION_REFLECTION_ERROR: "Nie udało się wygenerować ani skopiować refleksji. Spróbuj ponownie.",
   DECISION_REFLECTION_DISCARDED: "Refleksja nie została zapisana: scenariusz lub wariant działania zmienił się podczas generowania.",
   NO_DECISION_CATEGORIES: "To pudełko nie ma kategorii decyzji. Oznacz kategorię jako „Do wsparcia decyzji” w Ustawieniach, aby porównać tutaj działania.",
-  DECISION_VIEW: "Widok",
   DECISION_VIEW_OVERVIEW: "Przegląd",
   DECISION_VIEW_COA: "Porównaj warianty działania",
   DECISION_VIEW_ROBUSTNESS: "Odporność",

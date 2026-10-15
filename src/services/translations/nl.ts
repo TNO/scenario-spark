@@ -314,7 +314,6 @@ export const messages: typeof messagesEN = {
   DECISION_REFLECTION_ERROR: "De reflectie kon niet worden gegenereerd of gekopieerd. Probeer het opnieuw.",
   DECISION_REFLECTION_DISCARDED: "De reflectie is niet opgeslagen: het scenario of de handelingsoptie is gewijzigd tijdens het genereren.",
   NO_DECISION_CATEGORIES: "Deze box heeft geen beslissingscategorieën. Markeer een categorie in Instellingen als \"Voor beslissingsondersteuning\" om hier maatregelen te vergelijken.",
-  DECISION_VIEW: "Weergave",
   DECISION_VIEW_OVERVIEW: "Overzicht",
   DECISION_VIEW_COA: "Handelingsopties vergelijken",
   DECISION_VIEW_ROBUSTNESS: "Robuustheid",

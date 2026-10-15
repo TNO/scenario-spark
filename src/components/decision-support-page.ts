@@ -10,7 +10,7 @@ import {
 import { MeiosisComponent, i18n, saveModel, setPage, t } from '../services';
 import { TableView } from './home-page';
 import { range } from 'mithril-ui-form';
-import { FlatButton, ToggleGroup } from 'mithril-materialized';
+import { FlatButton, Tabs } from 'mithril-materialized';
 import {
   CoaCriterion,
   DecisionLogInput,
@@ -155,18 +155,12 @@ export const DecisionSupportPage: MeiosisComponent = () => {
         (c) => c.decisionSupport,
       );
 
-      const viewSwitcher = m(ToggleGroup, {
-        value: view,
-        onchange: (v) => {
-          view = v as DecisionView;
-        },
-        items: [
-          { value: 'overview', iconName: 'table_chart', label: t('DECISION_VIEW_OVERVIEW') },
-          { value: 'coa', iconName: 'compare_arrows', label: t('DECISION_VIEW_COA') },
-          { value: 'robustness', iconName: 'grid_on', label: t('DECISION_VIEW_ROBUSTNESS') },
-          { value: 'risk', iconName: 'warning_amber', label: t('DECISION_VIEW_RISK') },
-        ],
-      });
+      const views: Array<{ id: DecisionView; title: string }> = [
+        { id: 'overview', title: t('DECISION_VIEW_OVERVIEW') },
+        { id: 'coa', title: t('DECISION_VIEW_COA') },
+        { id: 'robustness', title: t('DECISION_VIEW_ROBUSTNESS') },
+        { id: 'risk', title: t('DECISION_VIEW_RISK') },
+      ];
 
       const selectedComparisonId = comparisonNarrativeId(
         analysed,
@@ -269,16 +263,7 @@ export const DecisionSupportPage: MeiosisComponent = () => {
         await downloadComparisonDocx(data, `${modelToSaveName(model, t('DECISION_EXPORT_TITLE'), false)}.docx`);
       };
 
-      return m('.row', [
-        m('.col.s12.decision-view-switcher', { role: 'group', 'aria-label': t('DECISION_VIEW') }, [
-          viewSwitcher,
-          m(FlatButton, {
-            className: 'decision-export',
-            label: t('DECISION_EXPORT'),
-            iconName: 'description',
-            onclick: exportToWord,
-          }),
-        ]),
+      const body = m('.row', [
         !hasDecisionCategories &&
           m('.col.s12', m('p.grey-text', t('NO_DECISION_CATEGORIES'))),
         content,
@@ -287,11 +272,31 @@ export const DecisionSupportPage: MeiosisComponent = () => {
           !(view === 'robustness' && analysed.length < 2) &&
           !((view === 'overview' || view === 'coa') && !current) &&
           m(DecisionLogView, {
-          narratives,
-          rows: decisionLogRows(model.scenario),
-          locale,
-          onsave: saveLogEntry,
-          ondelete: deleteLogEntry,
+            narratives,
+            rows: decisionLogRows(model.scenario),
+            locale,
+            onsave: saveLogEntry,
+            ondelete: deleteLogEntry,
+          }),
+      ]);
+
+      return m('.decision-tabs', [
+        m(FlatButton, {
+          className: 'decision-export',
+          label: t('DECISION_EXPORT'),
+          iconName: 'description',
+          onclick: exportToWord,
+        }),
+        m(Tabs, {
+          selectedTabId: `decision-${view}`,
+          onTabChange: (id: string) => {
+            view = id.replace(/^decision-/, '') as DecisionView;
+          },
+          tabs: views.map(({ id, title }) => ({
+            id: `decision-${id}`,
+            title,
+            vnode: id === view ? body : undefined,
+          })),
         }),
       ]);
     },

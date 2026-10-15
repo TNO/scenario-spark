@@ -301,7 +301,6 @@ export const messages: typeof messagesEN = {
   DECISION_REFLECTION_ERROR: "Die Reflexion konnte nicht erstellt oder kopiert werden. Versuchen Sie es erneut.",
   DECISION_REFLECTION_DISCARDED: "Die Reflexion wurde nicht gespeichert: Das Szenario oder die Handlungsoption hat sich während der Erstellung geändert.",
   NO_DECISION_CATEGORIES: "Diese Box hat keine Entscheidungskategorien. Markieren Sie in den Einstellungen eine Kategorie als „Für Entscheidungsunterstützung“, um hier Maßnahmen zu vergleichen.",
-  DECISION_VIEW: "Ansicht",
   DECISION_VIEW_OVERVIEW: "Übersicht",
   DECISION_VIEW_COA: "Handlungsoptionen vergleichen",
   DECISION_VIEW_ROBUSTNESS: "Robustheit",

@@ -301,7 +301,6 @@ export const messages: typeof messagesEN = {
   DECISION_REFLECTION_ERROR: "No se pudo generar ni copiar la reflexión. Inténtelo de nuevo.",
   DECISION_REFLECTION_DISCARDED: "La reflexión no se guardó: el escenario o la línea de acción cambió mientras se generaba.",
   NO_DECISION_CATEGORIES: "Esta caja no tiene categorías de decisión. Marque una categoría como «Para apoyo a la decisión» en Ajustes para comparar medidas aquí.",
-  DECISION_VIEW: "Vista",
   DECISION_VIEW_OVERVIEW: "Resumen",
   DECISION_VIEW_COA: "Comparar líneas de acción",
   DECISION_VIEW_ROBUSTNESS: "Robustez",
