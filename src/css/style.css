@@ -2591,3 +2591,7 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
 .risk-result .risk-change {
   font-size: 0.75rem;
 }
+.row .narrative-picker > .input-field.col {
+  width: 220px;
+  flex: 0 0 auto;
+}

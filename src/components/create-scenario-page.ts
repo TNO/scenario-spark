@@ -653,7 +653,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             // }),
           ],
           narratives && [
-            m('.right.valign-wrapper', { key: curNarrative.id }, [
+            m('.right.valign-wrapper.narrative-picker', { key: curNarrative.id }, [
               curNarrative.saved &&
                 m(IconButton, {
                   iconName: 'content_copy',
@@ -699,6 +699,19 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 }),
               editingNarrativeTitle
                 ? [
+                    m(IconButton, {
+                      iconName: 'check',
+                      title: t('SAVE_NARRATIVE'),
+                      disabled: !(narrativeTitleDraft || '').trim(),
+                      onclick: saveNarrativeTitle,
+                    }),
+                    m(IconButton, {
+                      iconName: 'close',
+                      title: t('CANCEL'),
+                      onclick: () => {
+                        editingNarrativeTitle = false;
+                      },
+                    }),
                     m(TextInput, {
                       value: narrativeTitleDraft,
                       label: t('NAME_NARRATIVE'),
@@ -716,19 +729,6 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                           e.preventDefault();
                           editingNarrativeTitle = false;
                         }
-                      },
-                    }),
-                    m(IconButton, {
-                      iconName: 'check',
-                      title: t('SAVE_NARRATIVE'),
-                      disabled: !(narrativeTitleDraft || '').trim(),
-                      onclick: saveNarrativeTitle,
-                    }),
-                    m(IconButton, {
-                      iconName: 'close',
-                      title: t('CANCEL'),
-                      onclick: () => {
-                        editingNarrativeTitle = false;
                       },
                     }),
                   ]
