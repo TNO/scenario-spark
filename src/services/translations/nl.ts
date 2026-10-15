@@ -326,7 +326,7 @@ export const messages: typeof messagesEN = {
   NO_COA_DIFFERENCES: "Alle handelingsopties kiezen dezelfde maatregelen.",
   NO_DECISION_SELECTED: "geen",
   ROBUSTNESS_HINT: "Welke maatregelen houden stand in het huidige scenario en de scenario's die voor analyse zijn geselecteerd? Elke kolom is een scenario met zijn actieve handelingsoptie; een maatregel die in alle scenario's is gekozen is een veilige eerste stap, een maatregel uit één scenario hangt af van hoe de situatie zich ontwikkelt.",
-  ROBUSTNESS_ONE_SCENARIO: "Robuustheid vergelijkt twee of meer scenario's. Sla op de pagina Scenario maken nog een scenario op en selecteer het voor analyse om te zien welke maatregelen in alle scenario's standhouden.",
+  ROBUSTNESS_ONE_SCENARIO: "Robuustheid vergelijkt twee of meer scenario's. Sla op de pagina {page} nog een scenario op en selecteer het voor analyse om te zien welke maatregelen in alle scenario's standhouden.",
   SCENARIO_CURRENT: "huidig",
   ROBUSTNESS_MEASURE: "Maatregel",
   ROBUSTNESS_CHOSEN: "Gekozen",

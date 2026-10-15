@@ -323,7 +323,7 @@ export const messages = {
   NO_COA_DIFFERENCES: "All courses of action choose the same measures.",
   NO_DECISION_SELECTED: "none",
   ROBUSTNESS_HINT: "Which measures hold up across the current scenario and those selected for analysis? Each column is a scenario with its active course of action; a measure chosen in all scenarios is a safe first step, one chosen in a single scenario depends on how the situation develops.",
-  ROBUSTNESS_ONE_SCENARIO: "Robustness compares two or more scenarios. Save another scenario on the Create scenario page and select it for analysis to see which measures hold up in all of them.",
+  ROBUSTNESS_ONE_SCENARIO: "Robustness compares two or more scenarios. Save another scenario on the {page} page and select it for analysis to see which measures hold up in all of them.",
   SCENARIO_CURRENT: "current",
   ROBUSTNESS_MEASURE: "Measure",
   ROBUSTNESS_CHOSEN: "Chosen",

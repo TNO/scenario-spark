@@ -1,7 +1,8 @@
 import m, { FactoryComponent } from 'mithril';
 import { Button, ConfirmButton, FlatButton, IconButton, InputCheckbox, Select, TextArea, TextInput } from 'mithril-materialized';
 import type { ID, Narrative, Scenario } from '../models';
-import { t } from '../services';
+import { routingSvc, t } from '../services';
+import { Dashboards } from '../models';
 import {
   COA_CRITERIA,
   CoaCriterion,
@@ -420,7 +421,17 @@ export const RobustnessView: FactoryComponent<{ box: Scenario; narratives: Narra
     if (narratives.length < 2)
       return m('.col.s12.robustness', [
         m('p.grey-text', t('ROBUSTNESS_HINT')),
-        m('p.robustness-one', [m('i.material-icons.tiny', { 'aria-hidden': 'true' }, 'info'), ' ', t('ROBUSTNESS_ONE_SCENARIO')]),
+        m('p.robustness-one', [
+          m('i.material-icons.tiny', { 'aria-hidden': 'true' }, 'info'),
+          ' ',
+          // Split around a marker so the page name can be a link, whatever its position in the translation
+          t('ROBUSTNESS_ONE_SCENARIO', { page: '\u0000' })
+            .split('\u0000')
+            .map((part, i) => [
+              i > 0 && m('a', { href: routingSvc.href(Dashboards.CREATE_SCENARIO) }, t('CREATE_SCENARIO', 'TITLE')),
+              part,
+            ]),
+        ]),
       ]);
     const grid = robustnessGrid(box, narratives);
     const total = grid.narratives.length;

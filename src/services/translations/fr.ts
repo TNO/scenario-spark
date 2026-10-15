@@ -313,7 +313,7 @@ export const messages: typeof messagesEN = {
   NO_COA_DIFFERENCES: "Tous les modes d'action choisissent les mêmes mesures.",
   NO_DECISION_SELECTED: "aucune",
   ROBUSTNESS_HINT: "Quelles mesures tiennent dans le scénario actuel et ceux sélectionnés pour l'analyse ? Chaque colonne est un scénario avec son mode d'action actif ; une mesure choisie dans tous les scénarios est une première étape sûre, une mesure choisie dans un seul scénario dépend de l'évolution de la situation.",
-  ROBUSTNESS_ONE_SCENARIO: "La robustesse compare deux scénarios ou plus. Enregistrez un autre scénario sur la page Créer un scénario et sélectionnez-le pour l'analyse afin de voir quelles mesures tiennent dans tous les scénarios.",
+  ROBUSTNESS_ONE_SCENARIO: "La robustesse compare deux scénarios ou plus. Enregistrez un autre scénario sur la page {page} et sélectionnez-le pour l'analyse afin de voir quelles mesures tiennent dans tous les scénarios.",
   SCENARIO_CURRENT: "actuel",
   ROBUSTNESS_MEASURE: "Mesure",
   ROBUSTNESS_CHOSEN: "Choisie",

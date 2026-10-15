@@ -313,7 +313,7 @@ export const messages: typeof messagesEN = {
   NO_COA_DIFFERENCES: "Todas las líneas de acción eligen las mismas medidas.",
   NO_DECISION_SELECTED: "ninguna",
   ROBUSTNESS_HINT: "¿Qué medidas se mantienen en el escenario actual y en los seleccionados para el análisis? Cada columna es un escenario con su línea de acción activa; una medida elegida en todos los escenarios es un primer paso seguro, una elegida en un solo escenario depende de cómo evolucione la situación.",
-  ROBUSTNESS_ONE_SCENARIO: "La robustez compara dos o más escenarios. Guarde otro escenario en la página Crear escenario y selecciónelo para el análisis para ver qué medidas se mantienen en todos ellos.",
+  ROBUSTNESS_ONE_SCENARIO: "La robustez compara dos o más escenarios. Guarde otro escenario en la página {page} y selecciónelo para el análisis para ver qué medidas se mantienen en todos ellos.",
   SCENARIO_CURRENT: "actual",
   ROBUSTNESS_MEASURE: "Medida",
   ROBUSTNESS_CHOSEN: "Elegida",

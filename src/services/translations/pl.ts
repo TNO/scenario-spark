@@ -312,7 +312,7 @@ export const messages: typeof messagesEN = {
   NO_COA_DIFFERENCES: "Wszystkie warianty działania wybierają te same działania.",
   NO_DECISION_SELECTED: "brak",
   ROBUSTNESS_HINT: "Które działania sprawdzają się w bieżącym scenariuszu i w scenariuszach wybranych do analizy? Każda kolumna to scenariusz z jego aktywnym wariantem działania; działanie wybrane we wszystkich scenariuszach to bezpieczny pierwszy krok, a wybrane tylko w jednym zależy od rozwoju sytuacji.",
-  ROBUSTNESS_ONE_SCENARIO: "Odporność porównuje co najmniej dwa scenariusze. Zapisz kolejny scenariusz na stronie Utwórz scenariusz i wybierz go do analizy, aby zobaczyć, które działania sprawdzają się we wszystkich.",
+  ROBUSTNESS_ONE_SCENARIO: "Odporność porównuje co najmniej dwa scenariusze. Zapisz kolejny scenariusz na stronie {page} i wybierz go do analizy, aby zobaczyć, które działania sprawdzają się we wszystkich.",
   SCENARIO_CURRENT: "bieżący",
   ROBUSTNESS_MEASURE: "Działanie",
   ROBUSTNESS_CHOSEN: "Wybrane",

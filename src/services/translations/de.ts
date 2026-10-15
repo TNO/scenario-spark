@@ -313,7 +313,7 @@ export const messages: typeof messagesEN = {
   NO_COA_DIFFERENCES: "Alle Handlungsoptionen wählen dieselben Maßnahmen.",
   NO_DECISION_SELECTED: "keine",
   ROBUSTNESS_HINT: "Welche Maßnahmen tragen im aktuellen Szenario und in den zur Analyse ausgewählten Szenarien? Jede Spalte ist ein Szenario mit seiner aktiven Handlungsoption; eine in allen Szenarien gewählte Maßnahme ist ein sicherer erster Schritt, eine nur in einem Szenario gewählte hängt davon ab, wie sich die Lage entwickelt.",
-  ROBUSTNESS_ONE_SCENARIO: "Die Robustheit vergleicht zwei oder mehr Szenarien. Speichern Sie auf der Seite „Szenario erstellen“ ein weiteres Szenario und wählen Sie es zur Analyse aus, um zu sehen, welche Maßnahmen in allen Szenarien tragen.",
+  ROBUSTNESS_ONE_SCENARIO: "Die Robustheit vergleicht zwei oder mehr Szenarien. Speichern Sie auf der Seite {page} ein weiteres Szenario und wählen Sie es zur Analyse aus, um zu sehen, welche Maßnahmen in allen Szenarien tragen.",
   SCENARIO_CURRENT: "aktuell",
   ROBUSTNESS_MEASURE: "Maßnahme",
   ROBUSTNESS_CHOSEN: "Gewählt",
