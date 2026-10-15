@@ -695,6 +695,8 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                     value: narrativeTitleDraft,
                     label: t('NAME_NARRATIVE'),
                     required: true,
+                    autofocus: true,
+                    selectOnFocus: true,
                     oninput: (n) => {
                       narrativeTitleDraft = n;
                     },
