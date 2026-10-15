@@ -18,6 +18,102 @@
       "label": "Evenementorganisator",
       "desc": "Coördineert bezoekersveiligheid, publieksstromen en informatie voor medewerkers en bezoekers en weegt af of en hoe het evenement kan doorgaan.",
       "url": "female_worker_with_laptop1"
+    },
+    {
+      "id": "starter-reduced-mobility",
+      "label": "Bewoner met beperkte mobiliteit",
+      "desc": "Zit in een rolstoel en is afhankelijk van thuiszorg, liften en elektrische hulpmiddelen; heeft vroege waarschuwing, begeleide evacuatie en toegankelijke opvang nodig.",
+      "url": "elderly_woman_wheelchair1"
+    },
+    {
+      "id": "starter-elderly-alone",
+      "label": "Alleenwonende oudere",
+      "desc": "Woont alleen met een klein sociaal netwerk en gebruikt weinig apps of sociale media; vertrouwt op radio, buren en papieren informatie en is kwetsbaar voor hitte, kou en geruchten.",
+      "url": "elderly_man1"
+    },
+    {
+      "id": "starter-young-parent",
+      "label": "Ouder van jonge kinderen",
+      "desc": "Zorgt voor een baby en een peuter; maakt zich zorgen over het bereiken van school of opvang, veilig drinkwater, babyvoeding en medicijnen en heeft duidelijke instructies nodig over wat te doen met de kinderen.",
+      "url": "young_mother1"
+    },
+    {
+      "id": "starter-farmer",
+      "label": "Boer",
+      "desc": "Runt een gemengd bedrijf met vee en akkerbouw; kan de dieren niet zomaar achterlaten, is afhankelijk van toegangswegen, water en voer en vreest blijvend inkomensverlies door schade of vervoersbeperkingen.",
+      "url": "farmer1"
+    },
+    {
+      "id": "starter-truck-driver",
+      "label": "Vrachtwagenchauffeur",
+      "desc": "Bezorgt goederen onder tijdsdruk; moet weten van afsluitingen, omleidingen en veilige wachtplaatsen en kan vast komen te staan of een gevaarlijke lading vervoeren.",
+      "url": "middle_aged_male_truck_driver1"
+    },
+    {
+      "id": "starter-traveller",
+      "label": "Internationale reiziger",
+      "desc": "Passagier of toerist die de lokale taal niet spreekt en de omgeving niet kent; is afhankelijk van vervoerspersoneel, bewegwijzering, vertaalde berichten en de eigen telefoon voor route en nieuws.",
+      "url": "male_indian_student1"
+    },
+    {
+      "id": "starter-nurse",
+      "label": "Verpleegkundige",
+      "desc": "Werkt op een drukke afdeling die extra patiënten moet opvangen; moet veilig op het werk kunnen komen, voldoende collega's en middelen hebben en weten wat ze bezorgde patiënten en familie vertelt.",
+      "url": "nurse1"
+    },
+    {
+      "id": "starter-teacher",
+      "label": "Leerkracht",
+      "desc": "Is onder schooltijd verantwoordelijk voor een klas leerlingen; moet beslissen over schuilen, evacueren of de kinderen opvangen tot ouders komen en heeft snelle, betrouwbare instructies nodig.",
+      "url": "female_teacher1"
+    },
+    {
+      "id": "starter-small-business",
+      "label": "Zelfstandig ondernemer",
+      "desc": "Zzp'er met een winkel of werkplaats in het getroffen gebied; maakt zich zorgen over schade, bereikbaarheid voor klanten en leveranciers, inkomstenderving en wanneer veilig heropenen kan.",
+      "url": "male_zzp1"
+    },
+    {
+      "id": "starter-infra-operator",
+      "label": "Beheerder vitale infrastructuur",
+      "desc": "Continuïteitsmanager bij een nutsbedrijf, haven, luchthaven of vervoerder; moet essentiële diensten draaiende houden, personeel en installaties beschermen en afstemmen met overheid en klanten.",
+      "url": "business_woman1"
+    },
+    {
+      "id": "starter-it-specialist",
+      "label": "IT-beveiligingsspecialist",
+      "desc": "Werkt in het securityteam van een middelgrote organisatie; heeft nauwkeurige technische informatie, duidelijke meldlijnen en ruimte nodig om systemen te isoleren zonder onnodige paniek.",
+      "url": "tech_guy1"
+    },
+    {
+      "id": "starter-field-worker",
+      "label": "Bouw- en onderhoudsmedewerker",
+      "desc": "Werkt buiten aan bouwplaatsen en herstel van wegen, netten en gebouwen; wordt blootgesteld aan hitte, puin en gevaarlijke stoffen en moet vaak snel voorzieningen herstellen.",
+      "url": "construction_worker1"
+    },
+    {
+      "id": "starter-hospitality",
+      "label": "Kok in een restaurant",
+      "desc": "Runt een drukke keuken; is afhankelijk van veilig water, stroom en verse leveringen, moet de gezondheid van gasten bewaken en verliest inkomsten als gasten en toeristen wegblijven.",
+      "url": "cook1"
+    },
+    {
+      "id": "starter-protester",
+      "label": "Demonstrerende student",
+      "desc": "Neemt deel aan een vreedzame demonstratie die via sociale media is georganiseerd; wil het demonstratierecht uitoefenen, vreest escalatie of politieoptreden en wil weten welke route, regels en veilige uitgangen er zijn.",
+      "url": "climate_girl1"
+    },
+    {
+      "id": "starter-community-leader",
+      "label": "Gemeenschapsleider",
+      "desc": "Woordvoerder van een geloofs- of buurtgemeenschap; wordt vertrouwd door mensen die de overheid wantrouwen, kan hen kalmeren of mobiliseren en wil vroeg geïnformeerd en betrokken worden.",
+      "url": "female_speaker1"
+    },
+    {
+      "id": "starter-local-official",
+      "label": "Gemeenteambtenaar",
+      "desc": "Senior ambtenaar die de burgemeester adviseert; weegt veiligheid, openbare orde, economie en vertrouwen af en moet besluiten uitleggen aan inwoners, media en gemeenteraad.",
+      "url": "middleaged_man_suit1"
     }
   ],
   "boxes": [

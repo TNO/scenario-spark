@@ -18,6 +18,102 @@
       "label": "Veranstalter",
       "desc": "Koordiniert die Sicherheit der Besucher, Personenströme und die Information von Personal und Gästen und wägt ab, ob und wie die Veranstaltung fortgesetzt werden kann.",
       "url": "female_worker_with_laptop1"
+    },
+    {
+      "id": "starter-reduced-mobility",
+      "label": "Bewohnerin mit eingeschränkter Mobilität",
+      "desc": "Nutzt einen Rollstuhl und ist auf häusliche Pflege, Aufzüge und elektrische Hilfsmittel angewiesen; braucht frühe Warnung, begleitete Evakuierung und barrierefreie Notunterkünfte.",
+      "url": "elderly_woman_wheelchair1"
+    },
+    {
+      "id": "starter-elderly-alone",
+      "label": "Alleinlebender älterer Mensch",
+      "desc": "Lebt allein mit kleinem sozialen Umfeld und nutzt kaum Apps oder soziale Medien; verlässt sich auf Radio, Nachbarn und gedruckte Informationen und ist anfällig für Hitze, Kälte und Gerüchte.",
+      "url": "elderly_man1"
+    },
+    {
+      "id": "starter-young-parent",
+      "label": "Elternteil kleiner Kinder",
+      "desc": "Versorgt ein Baby und ein Kleinkind; sorgt sich darum, Schule oder Kita zu erreichen, um sicheres Trinkwasser, Babynahrung und Medikamente und braucht klare Anweisungen, was mit den Kindern zu tun ist.",
+      "url": "young_mother1"
+    },
+    {
+      "id": "starter-farmer",
+      "label": "Landwirt",
+      "desc": "Führt einen gemischten Betrieb mit Vieh und Ackerbau; kann die Tiere nicht einfach zurücklassen, ist auf Zufahrten, Wasser und Futter angewiesen und fürchtet dauerhafte Einkommensverluste durch Schäden oder Transportverbote.",
+      "url": "farmer1"
+    },
+    {
+      "id": "starter-truck-driver",
+      "label": "Lkw-Fahrer",
+      "desc": "Liefert Waren unter Zeitdruck; muss von Sperrungen, Umleitungen und sicheren Warteplätzen wissen und kann auf der Straße festsitzen oder gefährliche Ladung transportieren.",
+      "url": "middle_aged_male_truck_driver1"
+    },
+    {
+      "id": "starter-traveller",
+      "label": "Internationaler Reisender",
+      "desc": "Fahrgast oder Tourist, der die Landessprache nicht spricht und die Gegend nicht kennt; ist auf Verkehrspersonal, Beschilderung, übersetzte Meldungen und das eigene Handy angewiesen.",
+      "url": "male_indian_student1"
+    },
+    {
+      "id": "starter-nurse",
+      "label": "Pflegekraft im Krankenhaus",
+      "desc": "Arbeitet auf einer vollen Station, die zusätzliche Patienten aufnehmen muss; muss sicher zur Arbeit kommen, genug Personal und Material haben und wissen, was sie besorgten Patienten und Angehörigen sagt.",
+      "url": "nurse1"
+    },
+    {
+      "id": "starter-teacher",
+      "label": "Lehrerin",
+      "desc": "Ist während der Schulzeit für eine Klasse verantwortlich; muss entscheiden, ob Schutz gesucht, evakuiert oder auf die Eltern gewartet wird, und braucht schnelle, verlässliche Anweisungen.",
+      "url": "female_teacher1"
+    },
+    {
+      "id": "starter-small-business",
+      "label": "Kleinunternehmer",
+      "desc": "Selbstständig mit Laden oder Werkstatt im betroffenen Gebiet; sorgt sich um Schäden, Erreichbarkeit für Kunden und Lieferanten, Einkommensausfall und wann eine Wiedereröffnung sicher ist.",
+      "url": "male_zzp1"
+    },
+    {
+      "id": "starter-infra-operator",
+      "label": "Betreiberin kritischer Infrastruktur",
+      "desc": "Kontinuitätsmanagerin bei einem Versorger, Hafen, Flughafen oder Verkehrsunternehmen; muss wichtige Dienste aufrechterhalten, Personal und Anlagen schützen und sich mit Behörden und Kunden abstimmen.",
+      "url": "business_woman1"
+    },
+    {
+      "id": "starter-it-specialist",
+      "label": "IT-Sicherheitsspezialist",
+      "desc": "Arbeitet im Sicherheitsteam einer mittelgroßen Organisation; braucht genaue technische Informationen, klare Meldewege und Spielraum, Systeme zu isolieren, ohne unnötige Panik auszulösen.",
+      "url": "tech_guy1"
+    },
+    {
+      "id": "starter-field-worker",
+      "label": "Bau- und Netzarbeiter",
+      "desc": "Arbeitet im Freien auf Baustellen und bei Reparaturen an Straßen, Netzen und Gebäuden; ist Hitze, Trümmern und Gefahrstoffen ausgesetzt und soll Versorgung oft schnell wiederherstellen.",
+      "url": "construction_worker1"
+    },
+    {
+      "id": "starter-hospitality",
+      "label": "Koch im Restaurant",
+      "desc": "Leitet eine volle Küche; ist auf sicheres Wasser, Strom und frische Lieferungen angewiesen, muss die Gesundheit der Gäste schützen und verliert Einnahmen, wenn Gäste und Touristen ausbleiben.",
+      "url": "cook1"
+    },
+    {
+      "id": "starter-protester",
+      "label": "Demonstrierende Studentin",
+      "desc": "Nimmt an einer über soziale Medien organisierten friedlichen Demonstration teil; will ihr Demonstrationsrecht ausüben, fürchtet Eskalation oder Polizeieinsatz und muss Route, Regeln und sichere Ausgänge kennen.",
+      "url": "climate_girl1"
+    },
+    {
+      "id": "starter-community-leader",
+      "label": "Gemeindesprecherin",
+      "desc": "Sprecherin einer Glaubens- oder Nachbarschaftsgemeinschaft; genießt Vertrauen bei Menschen, die Behörden misstrauen, kann sie beruhigen oder mobilisieren und will früh informiert und einbezogen werden.",
+      "url": "female_speaker1"
+    },
+    {
+      "id": "starter-local-official",
+      "label": "Kommunalbeamter",
+      "desc": "Leitender Beamter der Gemeinde, der den Bürgermeister berät; wägt Sicherheit, öffentliche Ordnung, Wirtschaft und Vertrauen ab und muss Entscheidungen gegenüber Bürgern, Medien und Rat erklären.",
+      "url": "middleaged_man_suit1"
     }
   ],
   "boxes": [

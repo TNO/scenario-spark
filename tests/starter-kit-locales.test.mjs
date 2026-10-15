@@ -88,7 +88,7 @@ test('each translated starter kit preserves every factor, constraint and templat
     assert.deepEqual(model.personas, data.personas, language);
     assert.deepEqual(
       model.scenario.personas,
-      ['starter-event-visitor', 'starter-nearby-resident', 'starter-event-organiser'],
+      ['starter-event-visitor', 'starter-event-organiser', 'starter-nearby-resident', 'starter-reduced-mobility'],
       language
     );
     assert.ok(model.personas.every(({ id, label, desc, url }) =>
@@ -105,17 +105,13 @@ test('each translated starter kit preserves every factor, constraint and templat
         persona.desc !== reference.personas[index].desc
       ), language);
     }
-    const relevant = [model.scenario, ...model.scenarios].filter(
-      ({ personas }) => personas?.length
-    );
-    assert.deepEqual(
-      relevant.map(({ id }) => id),
-      ['starter-nl-evenementenveiligheid', 'starter-nl-hoogwater', 'starter-nl-dijkdoorbraak'],
-      language
-    );
-    assert.ok(relevant.every(({ personas }) =>
-      personas?.every((id) => model.personas.some((persona) => persona.id === id))
+    const boxes = [model.scenario, ...model.scenarios];
+    assert.ok(boxes.every(({ personas = [] }) =>
+      personas.length >= 3 && personas.length <= 5 &&
+      personas.every((id) => model.personas.some((persona) => persona.id === id))
     ), language);
+    const used = new Set(boxes.flatMap(({ personas = [] }) => personas));
+    assert.ok(model.personas.every(({ id }) => used.has(id)), `${language}: unused persona`);
   }
 });
 
@@ -131,9 +127,12 @@ test('adding missing starter boxes also adds only their missing personas', async
   assert.equal(merged.added, 44);
   assert.equal(merged.model.scenarios[0], existing.scenarios[0]);
   assert.equal(merged.model.personas[0], resident);
+  const ids = merged.model.personas.map(({ id }) => id);
+  assert.deepEqual(ids.slice(0, 2), ['starter-nearby-resident', 'own-persona']);
+  assert.equal(new Set(ids).size, ids.length);
   assert.deepEqual(
-    merged.model.personas.map(({ id }) => id),
-    ['starter-nearby-resident', 'own-persona', 'starter-event-visitor', 'starter-event-organiser']
+    [...ids.slice(2)].sort(),
+    starter.personas.map(({ id }) => id).filter((id) => id !== 'starter-nearby-resident').sort()
   );
 });
 
@@ -155,4 +154,23 @@ test('decision categories are identical across locales', () => {
     box.categories.filter((category) => category.decision).map((category) => `${box.id}/${category.id}`));
   assert.ok(decisions(reference).length >= 40);
   for (const language of languages) assert.deepEqual(decisions(readKit(language)), decisions(reference), language);
+});
+
+test('re-adding the starter kit fills empty persona selections of existing starter boxes only', async () => {
+  const starter = await loadStarterKit('en', []);
+  const [first, second, ...rest] = [starter.scenario, ...starter.scenarios];
+  const existing = {
+    scenario: { ...first, personas: [] },
+    scenarios: [{ ...second, personas: ['own-persona'] }, ...rest.map((s) => ({ ...s, personas: undefined }))],
+    personas: [{ id: 'own-persona', label: 'Mine' }],
+  };
+  const merged = addStarterKitToModel(existing, starter);
+  assert.equal(merged.added, 0);
+  assert.equal(merged.updated, rest.length + 1);
+  assert.deepEqual(merged.model.scenario.personas, first.personas);
+  assert.deepEqual(merged.model.scenarios[0].personas, ['own-persona']);
+  assert.deepEqual(merged.model.scenarios[1].personas, rest[0].personas);
+  const ids = new Set(merged.model.personas.map(({ id }) => id));
+  assert.ok([first, ...rest].every(({ personas }) => personas.every((id) => ids.has(id))));
+  assert.equal(merged.model.personas[0].id, 'own-persona');
 });

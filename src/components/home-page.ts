@@ -429,11 +429,13 @@ export const HomePage: MeiosisComponent = () => {
                   return;
                 }
                 const result = addStarterKitToModel(model, starter);
-                if (result.added) await saveModel(attrs, result.model);
+                if (result.added || result.updated) await saveModel(attrs, result.model);
                 toast({
                   html: result.added
                     ? t('STARTER_KIT_ADDED', { count: result.added })
-                    : t('STARTER_KIT_ALREADY_PRESENT'),
+                    : result.updated
+                      ? t('STARTER_KIT_PERSONAS_ADDED', { count: result.updated })
+                      : t('STARTER_KIT_ALREADY_PRESENT'),
                 });
               },
             }),
