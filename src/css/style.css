@@ -1282,7 +1282,7 @@ ul.kanban > li {
 .decision-support th:nth-child(3),
 .decision-support td:nth-child(4),
 .decision-support th:nth-child(4) {
-  background: var(--mm-dropdown-hover, '#e8f4f7');
+  background: color-mix(in srgb, var(--mm-primary-color) 8%, var(--mm-surface-color));
 }
 
 #editor {
@@ -2483,14 +2483,15 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   margin-bottom: 1rem;
   border: 1px solid var(--mm-border-color);
   border-radius: 8px;
-  overflow: hidden;
   background: color-mix(in srgb, var(--mm-primary-color) 4%, var(--mm-surface-color));
 }
 .category-tables .category-card {
   margin-bottom: 0;
 }
 .category-card > h5,
-.category-card > h6 {
+.category-card > h6,
+.category-card-header {
+  border-radius: 7px 7px 0 0;
   margin: 0;
   padding: 10px 48px 10px 16px;
   font-size: 1rem;
@@ -2641,4 +2642,123 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   :focus-within > .copy-table-btn {
     opacity: 1;
   }
+}
+
+/* Create page: category of selects as a card with a header holding the title and lock */
+.category-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-right: 12px;
+}
+.category-card-header h5 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+.scenario-table.category-card .category-card-header .material-icons {
+  margin-top: 0;
+}
+.scenario-table.category-card .category-card-body {
+  margin: 0;
+  padding: 4px 8px 12px;
+}
+.create-scenario .scenario-table.category-card {
+  margin-top: 1rem;
+}
+
+/* Decision page: comparison tables in a bordered container with tinted group rows */
+table.decision-matrix {
+  border: 1px solid var(--mm-border-color);
+  border-radius: 8px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  background: var(--mm-surface-color);
+}
+table.decision-matrix th,
+table.decision-matrix td {
+  padding: 8px 12px;
+  border-radius: 0;
+}
+table.decision-matrix thead th {
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--mm-border-color);
+  background: color-mix(in srgb, var(--mm-primary-color) 6%, var(--mm-surface-color));
+}
+table.decision-matrix tbody tr,
+table.decision-matrix tfoot tr {
+  border-bottom: none;
+}
+table.decision-matrix tbody tr:not(:last-child) > *,
+table.decision-matrix tfoot tr > * {
+  border-bottom: 1px solid color-mix(in srgb, var(--mm-border-color) 60%, transparent);
+}
+table.decision-matrix tbody tr.component-row > * {
+  border-bottom: none;
+}
+table.decision-matrix tbody th {
+  font-weight: 400;
+}
+.decision-matrix tr.category-row > th {
+  background: color-mix(in srgb, var(--mm-primary-color) 12%, var(--mm-surface-color));
+  font-weight: 600;
+  padding-top: 10px;
+}
+.decision-matrix tr.component-row > th {
+  font-style: normal;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.72;
+  padding: 10px 12px 2px;
+}
+
+/* Decision overview: transposed table (labels in the first column) in a bordered container */
+.decision-support table.responsive-table {
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid var(--mm-border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--mm-surface-color);
+  margin-bottom: 1rem;
+}
+.decision-support table.responsive-table thead tr {
+  padding: 0;
+}
+/* Transposed: labels and values only line up when every cell has the same single-line height */
+.decision-support table.responsive-table th,
+.decision-support table.responsive-table td {
+  box-sizing: border-box;
+  height: 2.75rem;
+  line-height: calc(2.75rem - 1px);
+  padding: 0 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--mm-border-color) 60%, transparent);
+}
+.decision-support table.responsive-table thead th {
+  text-align: left !important;
+  font-size: 0.85rem;
+  font-weight: 400;
+  opacity: 0.8;
+  background: color-mix(in srgb, var(--mm-primary-color) 6%, var(--mm-surface-color));
+  border-right: 1px solid var(--mm-border-color);
+}
+.decision-support table.responsive-table thead th:first-child,
+.decision-support table.responsive-table tbody th {
+  font-weight: 600;
+  opacity: 1;
+}
+.decision-support table.responsive-table td i.material-icons {
+  vertical-align: middle;
+  line-height: 1;
 }

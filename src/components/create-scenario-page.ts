@@ -183,13 +183,11 @@ export const CategoryTable: MeiosisComponent<{
       return (
         category &&
         comps &&
-        m('.scenario-table.row', [
-          m(
-            '.col.s10.m11',
-            multipleCategories && m('h5.truncate', category.label),
-          ),
-          m('.col.s2.m1.icons', [
-            !decision &&
+        m('.scenario-table.category-card', [
+          (multipleCategories || !decision) &&
+            m('.category-card-header', [
+              m('h5.truncate', multipleCategories ? category.label : ''),
+              !decision &&
               m(ToggleIcon, {
                 on: 'lock_open',
                 off: 'lock',
@@ -206,11 +204,11 @@ export const CategoryTable: MeiosisComponent<{
                   });
                 },
               }),
-          ]),
-          comps.map((c) => [
+            ]),
+          m('.row.category-card-body', comps.map((c) => [
             m(Select, {
               label: c.label,
-              className: 'col s11',
+              className: decision ? 'col s12' : 'col s11',
               multiple: true,
               disabled:
                 typeof excludedComps[c.id] !== 'undefined' &&
@@ -230,9 +228,8 @@ export const CategoryTable: MeiosisComponent<{
                 updateNarrative(attrs, curNarrative);
               },
             } as SelectAttrs<string>),
-            ,
+            !decision &&
             m('.col.s1.icons', [
-              !decision &&
                 m(ToggleIcon, {
                   on: 'lock_open',
                   off: 'lock',
@@ -248,7 +245,7 @@ export const CategoryTable: MeiosisComponent<{
                   },
                 }),
             ]),
-          ]),
+          ])),
         ])
       );
     },
