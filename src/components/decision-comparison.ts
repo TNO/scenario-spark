@@ -139,7 +139,7 @@ const CriteriaScoring: FactoryComponent<{
 
 const NarrativeSelect: FactoryComponent<{ narratives: Narrative[]; narrativeId?: ID; onselect: (id: ID) => void; className?: string }> = () => ({
   view: ({ attrs: { narratives, narrativeId, onselect, className = 'col s12 m8' } }) =>
-    m(Select, {
+    narratives.length > 1 && m(Select, {
       className,
       label: t('COMPARE_SCENARIO'),
       options: narratives.map((n) => ({ id: n.id, label: n.label })),

@@ -1276,10 +1276,6 @@ ul.kanban > li {
   padding-bottom: 13px;
 }
 
-.decision-support table.responsive-table > tbody > tr:last-child {
-  background: var(--mm-dropdown-hover, '#e8f4f7');
-}
-
 .decision-support td:nth-child(2),
 .decision-support th:nth-child(2),
 .decision-support td:nth-child(3),

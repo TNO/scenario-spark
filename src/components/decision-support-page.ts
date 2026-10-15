@@ -15,11 +15,11 @@ import {
   CoaCriterion,
   DecisionLogInput,
   Translator,
-  activeCoa,
   addDecisionLogEntry,
   buildComparisonExport,
   comparedNarratives,
   comparisonNarrativeId,
+  selectedNarratives,
   decisionLogRows,
   downloadComparisonDocx,
   effectiveSelection,
@@ -35,7 +35,6 @@ import {
   RiskMatrixView,
   RobustnessView,
   SuggestedApproachExplanation,
-  suggestionTitles,
 } from './decision-comparison';
 
 type DecisionView = 'overview' | 'coa' | 'robustness' | 'risk';
@@ -121,33 +120,30 @@ export const DecisionSupportPage: MeiosisComponent = () => {
       } = model;
       setupComponents(model);
 
-      const includedNarratives = comparedNarratives(narratives, attrs.state.curNarrative?.id);
+      const currentId = attrs.state.curNarrative?.id;
+      /** Scenarios selected for analysis, compared by the robustness and risk views */
+      const includedNarratives = selectedNarratives(narratives);
+      /**
+       * The scenario being worked on (stored version), used by the overview and COA comparison.
+       * Falls back to the first selected scenario when none is open (e.g. after a reload).
+       */
+      const current =
+        narratives.find((n) => n.id === currentId && n.saved) ||
+        (currentId ? undefined : includedNarratives[0]);
 
-      // Compare the active course of action of each included narrative
-      const selectedNarratives: Narrative[] = includedNarratives.map((n) => {
-        const coa = activeCoa(n);
-        return {
-          ...n,
-          label: coa
-            ? `${n.label} – ${t('COURSE_OF_ACTION')} ${coa.label}`
-            : n.label,
-          components: effectiveSelection(model.scenario, n),
-        };
-      });
+      // One column per course of action of the current scenario
+      const coaColumns: Narrative[] = current
+        ? (current.coas || []).map((coa) => ({
+            ...current,
+            label: `${t('COURSE_OF_ACTION')} ${coa.label}`,
+            components: effectiveSelection(model.scenario, current, coa.id),
+            probability: coa.probability,
+            impact: coa.impact,
+            risk: coa.risk,
+          }))
+        : [];
 
       const suggestion = suggestApproach(model.scenario, includedNarratives);
-
-      const suggestedApproach: Narrative = {
-        id: 'suggested_approach',
-        included: true,
-        saved: false,
-        label: t('SUGGESTED_APPROACH', 'TITLE'),
-        desc: t('SUGGESTED_APPROACH', 'DESC'),
-        personaEffects: {},
-        components: suggestion.selection,
-      };
-
-      selectedNarratives.push(suggestedApproach);
 
       const hasDecisionCategories = model.scenario.categories?.some(
         (c) => c.decisionSupport,
@@ -196,6 +192,8 @@ export const DecisionSupportPage: MeiosisComponent = () => {
         saveModel(attrs, model);
       };
 
+      const noCurrent = m('p.col.s12.grey-text', t('NO_CURRENT_NARRATIVE'));
+
       const content = view === 'risk'
         ? m(RiskMatrixView, {
             narratives: includedNarratives,
@@ -207,12 +205,12 @@ export const DecisionSupportPage: MeiosisComponent = () => {
         : !hasDecisionCategories && view !== 'overview'
         ? null
         : view === 'coa'
-        ? includedNarratives.length === 0
-          ? m('p.col.s12.grey-text', t('NO_INCLUDED_NARRATIVES'))
-          : m(CoaComparisonView, {
+        ? !current
+          ? noCurrent
+          : [m('h5.col.s12.decision-current', current.label), m(CoaComparisonView, {
               box: model.scenario,
-              narratives: includedNarratives,
-              narrativeId: selectedComparisonId,
+              narratives: [current],
+              narrativeId: current.id,
               differencesOnly,
               onselect: (id) => {
                 comparisonId = id;
@@ -222,20 +220,19 @@ export const DecisionSupportPage: MeiosisComponent = () => {
               },
               onscore: setScore,
               onweight: setWeight,
-            })
+            })]
         : view === 'robustness'
-        ? m(RobustnessView, { box: model.scenario, narratives: includedNarratives })
+        ? [
+            m(RobustnessView, { box: model.scenario, narratives: includedNarratives }),
+            includedNarratives.length > 0 && m(SuggestedApproachExplanation, { suggestion }),
+          ]
+        : !current
+        ? noCurrent
         : [
-            m(
-              '.decision-support',
-              m(TableView, {
-                ...attrs,
-                narratives: selectedNarratives,
-                components: comps,
-                cellTitles: { [suggestedApproach.id]: suggestionTitles(suggestion) },
-              }),
-            ),
-            hasDecisionCategories && m(SuggestedApproachExplanation, { suggestion }),
+            m('h5.col.s12.decision-current', current.label),
+            coaColumns.length === 0
+              ? m('p.col.s12.grey-text', t('NO_COAS'))
+              : m('.decision-support', m(TableView, { ...attrs, narratives: coaColumns, components: comps })),
           ];
 
       const locale = i18n.currentLocale;
@@ -251,8 +248,8 @@ export const DecisionSupportPage: MeiosisComponent = () => {
       };
 
       const exportToWord = async () => {
-        const data = buildComparisonExport(model.scenario, includedNarratives, {
-          narrativeId: selectedComparisonId,
+        const data = buildComparisonExport(model.scenario, comparedNarratives(narratives, current?.id), {
+          narrativeId: current?.id || selectedComparisonId,
           tr: t as Translator,
           formatDate: (ts) => formatLogTimestamp(ts, locale),
         });

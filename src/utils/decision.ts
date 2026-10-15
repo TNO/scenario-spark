@@ -616,6 +616,10 @@ const decisionGroups = (box: Box) => {
 const causeLabels = (causes?: ExclusionCause[]) =>
   causes && causes.length > 0 ? causes.map((c) => c.label).join(', ') : undefined;
 
+/** Scenarios selected for analysis, sorted by label. */
+export const selectedNarratives = <T extends Pick<Narrative, 'id' | 'label' | 'included'>>(narratives: T[]) =>
+  comparedNarratives(narratives);
+
 /** Narratives to compare: those included in the comparison plus the current (stored) one, sorted by label. */
 export const comparedNarratives = <T extends Pick<Narrative, 'id' | 'label' | 'included'>>(narratives: T[], currentId?: ID) =>
   narratives
