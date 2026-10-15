@@ -31,6 +31,7 @@ import {
   splitDecisionComponents,
   svgToDataURI,
   trafficLight,
+  coaTitle,
 } from '../utils';
 import { htmlTemplate } from '../assets/html-styles';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
@@ -474,7 +475,7 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                     m('.col.s12.coa', [
                       coa.label &&
                         m('h5', [
-                          `${t('COURSE_OF_ACTION')} ${coa.label}`,
+                          coaTitle(coa.label, t('COURSE_OF_ACTION')),
                           coa.active &&
                             m('span.grey-text', ` (${t('COA_ACTIVE')})`),
                         ]),

@@ -2598,3 +2598,11 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   position: relative;
   top: 5px;
 }
+
+/* Active course of action chip (theme-aware; the dark chip style overrides .blue with !important) */
+.coa-chips .chip.coa-active {
+  background-color: var(--app-nav-active-bg) !important;
+  color: var(--app-nav-active-icon) !important;
+  font-weight: 600;
+  box-shadow: inset 0 0 0 2px var(--mm-primary-color);
+}

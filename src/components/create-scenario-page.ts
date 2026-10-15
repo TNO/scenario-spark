@@ -285,14 +285,16 @@ export const CreateScenarioPage: MeiosisComponent = () => {
       m('.coa-chips', [
         m('span.coa-title', `${t('COURSES_OF_ACTION')}: `),
         coas.length === 0
-          ? m('.chip.blue.white-text', nextCoaLabel([]))
+          ? m('.chip.coa-active', nextCoaLabel([]))
           : coas.map((c) => {
               const hasConflicts =
                 coaConflicts(scenario, narrative, c).length > 0;
               return m(
                 '.chip.clickable',
                 {
-                  className: c === current ? 'blue white-text' : '',
+                  className: c === current ? 'coa-active' : '',
+                  role: 'button',
+                  'aria-pressed': c === current ? 'true' : 'false',
                   onclick: () => {
                     if (c === current) return;
                     narrative.activeCoaId = c.id;

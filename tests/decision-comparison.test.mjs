@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
   coaComparisonRows,
+  coaTitle,
   comparedNarratives,
   comparisonNarrativeId,
   selectedNarratives,
@@ -190,4 +191,12 @@ test('robustnessGrid: narratives without COAs and empty input', () => {
   const empty = robustnessGrid(box, []);
   assert.equal(empty.narratives.length, 0);
   assert.equal(empty.groups[0].components[0].rows[0].robust, false);
+});
+
+test('coaTitle prefixes short labels only', () => {
+  assert.equal(coaTitle('A', 'Course of action'), 'Course of action A');
+  assert.equal(coaTitle('B12', 'Course of action'), 'Course of action B12');
+  assert.equal(coaTitle('Evacuate', 'Course of action'), 'Evacuate');
+  assert.equal(coaTitle('  ', 'Course of action'), 'Course of action');
+  assert.equal(coaTitle(undefined, 'Course of action'), 'Course of action');
 });

@@ -617,6 +617,15 @@ const causeLabels = (causes?: ExclusionCause[]) =>
   causes && causes.length > 0 ? causes.map((c) => c.label).join(', ') : undefined;
 
 /** Scenarios selected for analysis, sorted by label. */
+/**
+ * Display name of a course of action: short labels (A, B1) get the prefix
+ * ("Course of action A"), longer names (e.g. "Evacuate") are shown as is.
+ */
+export const coaTitle = (label: string | undefined, prefix: string) => {
+  const name = (label || '').trim();
+  return name.length > 0 && name.length <= 4 ? `${prefix} ${name}` : name || prefix;
+};
+
 export const selectedNarratives = <T extends Pick<Narrative, 'id' | 'label' | 'included'>>(narratives: T[]) =>
   comparedNarratives(narratives);
 
@@ -1281,7 +1290,7 @@ export const buildComparisonExport = (
   const heading = (text: string, level: 1 | 2 = 1) => blocks.push({ kind: 'heading', level, text });
   const paragraph = (text: string, italic?: boolean) =>
     blocks.push(italic ? { kind: 'paragraph', text, italic } : { kind: 'paragraph', text });
-  const coaName = (label: string) => `${tr('COURSE_OF_ACTION')} ${label}`;
+  const coaName = (label: string) => coaTitle(label, tr('COURSE_OF_ACTION'));
   const levelText = (key: string, id?: ID) => {
     const level = levelIndex(id);
     return level === undefined ? '' : tr(key, level);

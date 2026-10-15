@@ -28,6 +28,7 @@ import {
   removeDecisionLogEntry,
   suggestApproach,
   updateDecisionLogEntry,
+  coaTitle,
 } from '../utils';
 import {
   CoaComparisonView,
@@ -135,7 +136,7 @@ export const DecisionSupportPage: MeiosisComponent = () => {
       const coaColumns: Narrative[] = current
         ? (current.coas || []).map((coa) => ({
             ...current,
-            label: `${t('COURSE_OF_ACTION')} ${coa.label}`,
+            label: coaTitle(coa.label, t('COURSE_OF_ACTION')),
             components: effectiveSelection(model.scenario, current, coa.id),
             probability: coa.probability,
             impact: coa.impact,

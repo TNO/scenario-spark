@@ -26,6 +26,7 @@ import {
   suggestedNoneText,
   suggestedPickText,
   suggestedSkipText,
+  coaTitle,
 } from '../utils';
 
 const icon = (name: string, className: string, title: string) => [
@@ -64,7 +65,7 @@ const CriteriaScoring: FactoryComponent<{
           m('tr', [
             m('th', t('CRITERIA_CRITERION')),
             m('th', t('CRITERIA_WEIGHT')),
-            coas.map((coa) => m('th.center-align', `${t('COURSE_OF_ACTION')} ${coa.label}`)),
+            coas.map((coa) => m('th.center-align', coaTitle(coa.label, t('COURSE_OF_ACTION')))),
           ]),
         ),
         m(
@@ -187,7 +188,7 @@ export const CoaComparisonView: FactoryComponent<{
                     m('th', t('DECISIONS')),
                     coas.map((coa) =>
                       m('th', { title: coa.desc }, [
-                        `${t('COURSE_OF_ACTION')} ${coa.label}`,
+                        coaTitle(coa.label, t('COURSE_OF_ACTION')),
                         coa.active && m('span.grey-text', ` (${t('COA_ACTIVE')})`),
                         coa.conflicts > 0 && icon('warning', 'orange-text', t('COA_HAS_CONFLICTS')),
                       ]),
@@ -264,7 +265,7 @@ export const RiskMatrixView: FactoryComponent<{
     const matrix = riskMatrix(narratives, narrativeId);
     const selected = narratives.find((n) => n.id === narrativeId);
     const itemLabel = (mk: { kind: 'situation' | 'coa'; label: string }) =>
-      mk.kind === 'coa' ? `${t('COURSE_OF_ACTION')} ${mk.label}${selected ? ` (${selected.label})` : ''}` : mk.label;
+      mk.kind === 'coa' ? `${coaTitle(mk.label, t('COURSE_OF_ACTION'))}${selected ? ` (${selected.label})` : ''}` : mk.label;
     const levels = [0, 1, 2, 3, 4];
     return m('.col.s12.risk-matrix-view', [
       m('.row', m(NarrativeSelect, { narratives, narrativeId, onselect })),
@@ -499,9 +500,9 @@ export const DecisionLogView: FactoryComponent<{
     if (row?.narrativeRemoved && row.entry.narrativeId) {
       narrativeOptions.push({ id: row.entry.narrativeId, label: (row.narrativeLabel || '') + removed });
     }
-    const coaOptions = (narrative?.coas || []).map((c) => ({ id: c.id, label: `${t('COURSE_OF_ACTION')} ${c.label}` }));
+    const coaOptions = (narrative?.coas || []).map((c) => ({ id: c.id, label: coaTitle(c.label, t('COURSE_OF_ACTION')) }));
     if (row?.coaRemoved && row.entry.coaId && draft.narrativeId === row.entry.narrativeId) {
-      coaOptions.push({ id: row.entry.coaId, label: `${t('COURSE_OF_ACTION')} ${row.coaLabel || ''}${removed}` });
+      coaOptions.push({ id: row.entry.coaId, label: `${coaTitle(row.coaLabel, t('COURSE_OF_ACTION'))}${removed}` });
     }
     const canSave = !!draft.decision && draft.decision.trim().length > 0;
     return m('.card-panel.decision-log-form', [
@@ -624,8 +625,7 @@ export const DecisionLogView: FactoryComponent<{
                       removedText(row.narrativeLabel, row.narrativeRemoved),
                       row.coaLabel !== undefined && [
                         row.narrativeLabel !== undefined && ' – ',
-                        `${t('COURSE_OF_ACTION')} `,
-                        removedText(row.coaLabel, row.coaRemoved),
+                        removedText(coaTitle(row.coaLabel, t('COURSE_OF_ACTION')), row.coaRemoved),
                       ],
                     ]),
                   m('p.decision-log-decision', m('strong', entry.decision)),
