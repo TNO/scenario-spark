@@ -11,6 +11,7 @@ import { MeiosisComponent, State, i18n, saveModel, setPage, t } from '../service
 import {
   Select,
   FlatButton,
+  IconButton,
   InputCheckbox,
   uniqueId,
 } from 'mithril-materialized';
@@ -73,8 +74,9 @@ const CategoryTable: FactoryComponent<{
           ),
         ]),
 
-        m(FlatButton, {
-          label: t('COPY_TO_CLIPBOARD'),
+        m(IconButton, {
+          title: t('COPY_TO_CLIPBOARD'),
+          'aria-label': t('COPY_TO_CLIPBOARD'),
           className: 'copy-table-btn',
           iconName: 'content_copy',
           onclick: () => {
@@ -343,8 +345,8 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                   const comps =
                     componentIds &&
                     modelComps.filter((c) => componentIds.indexOf(c.id) >= 0);
-                  return m('.category-tables-item', [
-                    multipleCategories ? m('h5', category.label) : m('div'),
+                  return m('.category-tables-item.category-card', [
+                    multipleCategories && m('h5', category.label),
                     m(CategoryTable, { curNarrative, comps }),
                   ]);
                 })
@@ -395,15 +397,17 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                             {
                               className: `s${Math.round(12 / decisionCategories.length)}`,
                             },
-                            m('h6', category.label),
-                            m(CategoryTable, {
-                              curNarrative: {
-                                components: coa.id
-                                  ? effectiveSelection(model.scenario, curNarrative!, coa.id)
-                                  : curNarrative!.components,
-                              } as Narrative,
-                              comps,
-                            })
+                            m('.category-card', [
+                              m('h6', category.label),
+                              m(CategoryTable, {
+                                curNarrative: {
+                                  components: coa.id
+                                    ? effectiveSelection(model.scenario, curNarrative!, coa.id)
+                                    : curNarrative!.components,
+                                } as Narrative,
+                                comps,
+                              }),
+                            ])
                           );
                         })
                       ),

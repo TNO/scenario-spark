@@ -2470,51 +2470,75 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   display: block;
 }
 
-/* Show scenario: category tables side by side, with labels, tables and buttons aligned */
+/* Show scenario: category tables as cards (header, muted labels above prominent values) */
 .category-tables {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  column-gap: 1.25rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0 2rem;
 }
-.category-tables-item {
-  display: grid;
-  grid-row: span 3;
-  grid-template-rows: subgrid;
+.category-card {
+  position: relative;
   min-width: 0;
+  margin-bottom: 1rem;
+  border: 1px solid var(--mm-border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--mm-primary-color) 4%, var(--mm-surface-color));
 }
-.category-tables-item > h5 {
-  margin: 1rem 0 0.5rem;
-  font-size: 1.2rem;
-  align-self: start;
+.category-tables .category-card {
+  margin-bottom: 0;
 }
-.category-tables table.category-table {
-  table-layout: fixed;
+.category-card > h5,
+.category-card > h6 {
+  margin: 0;
+  padding: 10px 48px 10px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  border-bottom: 1px solid var(--mm-border-color);
+  background: color-mix(in srgb, var(--mm-primary-color) 12%, var(--mm-surface-color));
+}
+.category-card table.category-table,
+.category-card table.category-table tbody {
+  display: block;
   width: 100%;
-  align-self: start;
+  margin: 0;
+  border: none;
 }
-.category-tables table.category-table th,
-.category-tables table.category-table td {
+.category-card table.category-table tr {
+  display: block;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--mm-border-color);
+}
+.category-card table.category-table tr:last-child {
+  border-bottom: none;
+}
+.category-card:not(:has(> h5, > h6)) table.category-table tr:first-child {
+  padding-right: 48px;
+}
+.category-card table.category-table th,
+.category-card table.category-table td {
+  display: block;
+  padding: 0;
+  border: none;
   overflow-wrap: break-word;
-  hyphens: auto;
-  vertical-align: top;
-  padding: 8px 6px;
+  hyphens: manual;
 }
-.category-tables table.category-table th {
-  width: 45%;
+.category-card table.category-table th {
+  font-size: 0.85rem;
+  font-weight: 400;
+  opacity: 0.72;
 }
-.category-tables .copy-table-btn {
-  justify-self: start;
-  align-self: start;
-  height: auto;
-  min-height: 36px;
-  line-height: 1.3;
-  white-space: normal;
-  text-align: left;
-  padding: 6px 8px;
-  margin-top: 0.5rem;
-  display: inline-flex;
-  align-items: center;
+.category-card table.category-table td {
+  margin-top: 2px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.category-card .copy-table-btn {
+  position: absolute;
+  top: 2px;
+  right: 4px;
 }
 
 .show-scenario .export-word-btn {
