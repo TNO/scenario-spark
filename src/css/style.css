@@ -2767,3 +2767,8 @@ table.decision-matrix tbody th {
 html {
   scrollbar-gutter: stable;
 }
+
+/* compact-minimal drops the icon gap via :only-child (text nodes do not count), so the ripple div toggles it; keep it fixed */
+.decision-view-switcher .toggle-group .toggle-button > i {
+  margin-inline: 0 var(--mm-space-1, 4px) !important;
+}
