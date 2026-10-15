@@ -2565,3 +2565,28 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
 .create-scenario h5.decisions-title {
   margin-top: 32px;
 }
+.risk-result {
+  margin-top: 6px;
+}
+.risk-result label {
+  display: block;
+  font-size: 0.8rem;
+  color: #9e9e9e;
+}
+.risk-result .risk-value {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 3rem;
+  font-size: 1rem;
+}
+.risk-result .risk-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+.risk-result .risk-change {
+  font-size: 0.85rem;
+}

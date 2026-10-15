@@ -47,8 +47,10 @@ import {
   generateNarrative,
   generateUniqueTitle,
   generationLocks,
+  levelIndex,
   narrativesToOptions,
   splitDecisionComponents,
+  trafficLight,
   updateRisk,
 } from '../utils';
 import { range, render } from 'mithril-ui-form';
@@ -65,6 +67,28 @@ import {
 import { PersonaImages } from '../models/persona-images';
 import { MarkdownEditor } from 'mithril-markdown-wysiwyg';
 import { narrativeToMarkdown } from '../utils/index';
+
+/** Read-only risk level, derived from probability and impact; optionally compared with the situation risk. */
+const RiskResult = (className: string, label: string, risk?: ID, before?: ID) => {
+  const level = levelIndex(risk);
+  const base = levelIndex(before);
+  const change =
+    level === undefined || base === undefined
+      ? undefined
+      : t(level < base ? 'RISK_DOWN_FROM' : level > base ? 'RISK_UP_FROM' : 'RISK_SAME_AS', {
+          before: t('RISK5', base),
+        });
+  return m(`.risk-result.${className.split(' ').join('.')}`, [
+    m('label', label),
+    level === undefined
+      ? m('.risk-value.grey-text', t('RISK_PLACEHOLDER'))
+      : m('.risk-value', [
+          m('span.risk-dot', { style: { backgroundColor: trafficLight[level] } }),
+          t('RISK5', level),
+          change && m('span.risk-change.grey-text', change),
+        ]),
+  ]);
+};
 
 const ToggleIcon: FactoryComponent<{
   on: string;
@@ -659,8 +683,8 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               hasNarrative &&
                 !editingNarrativeTitle &&
                 m(IconButton, {
-                  iconName: 'edit',
-                  title: t('NAME_NARRATIVE'),
+                  iconName: curNarrative.saved ? 'edit' : 'save',
+                  title: t(curNarrative.saved ? 'NAME_NARRATIVE' : 'SAVE_NARRATIVE'),
                   onclick: () => {
                     editingNarrativeTitle = true;
                     narrativeTitleDraft = curNarrative.label || '';
@@ -836,18 +860,8 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                     updateNarrative(attrs, curNarrative);
                   },
                 } as SelectAttrs<string>),
-                m(Select, {
-                  key: `coa-risk-${coa?.id || ''}-${coa?.probability}-${coa?.impact}`,
-                  placeholder: t('RISK_PLACEHOLDER'),
-                  className: 'col s12 m4',
-                  label: t('RESIDUAL_RISK'),
-                  checkedId: coa?.risk,
-                  options: range(0, 4).map((id) => ({
-                    id: `risk_${id}`,
-                    label: t('RISK5', id),
-                  })),
-                  disabled: true,
-                } as SelectAttrs<string>),
+                // Siblings are keyed Selects, so the result needs a key too.
+                m.fragment({ key: 'coa-risk' }, [RiskResult('col s12 m4', t('RESIDUAL_RISK'), coa?.risk, curNarrative.risk)]),
               ]),
             ]),
             coa &&
@@ -880,7 +894,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 decisionPromptReady &&
                   m(FlatButton, {
                     label: t('REFLECT_ON_DECISIONS'),
-                    iconName: llm?.id === 'clipboard' ? 'content_copy' : 'psychology',
+                    iconName: 'auto_awesome',
                     disabled: !askLlm,
                     onclick: async () => {
                       askLlm = false;
@@ -938,6 +952,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           ),
         ),
         m('.col.s12', [
+          includeDecisionSupport && m('p.grey-text', t('SITUATION_RISK_HINT')),
           m('.row', [
             curNarrative.saved &&
               m(InputCheckbox, {
@@ -982,20 +997,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   updateNarrative(attrs, curNarrative);
                 },
               } as SelectAttrs<string>),
-              m(Select, {
-                key: `${curNarrative.id}-${curNarrative.probability}-${curNarrative.impact}`,
-                placeholder: t('RISK_PLACEHOLDER'),
-                className: 'col s6 m3',
-                label: t('RISK'),
-                checkedId: curNarrative.risk,
-                options: range(0, 4).map((id) => ({
-                  id: `risk_${id}`,
-                  label: t('RISK5', id),
-                  // img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMi4zNzggNTAuMDEzQTQ3Ljc0NSA0Ny42NjMgMCAwMTUwLjE0NCAyLjM3OGE0Ny43NDUgNDcuNjYzIDAgMDE0Ny43MjMgNDcuNjc3IDQ3Ljc0NSA0Ny42NjMgMCAwMS00Ny43NTEgNDcuNjQ5QTQ3Ljc0NSA0Ny42NjMgMCAwMTIuMzc4IDUwLjA0IiBmaWxsPSIjZDcxOTFjIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSI0LjA3MiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+',
-                  // img: svgToDataURI(createCircleSVG(trafficLight[id], 30)),
-                })),
-                disabled: true,
-              } as SelectAttrs<string>),
+              m.fragment({ key: 'risk' }, [RiskResult('col s6 m3', t('RISK'), curNarrative.risk)]),
             ],
           ]),
           // m('#toolbar'),
