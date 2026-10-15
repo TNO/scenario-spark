@@ -282,7 +282,10 @@ export const DecisionSupportPage: MeiosisComponent = () => {
         !hasDecisionCategories &&
           m('.col.s12', m('p.grey-text', t('NO_DECISION_CATEGORIES'))),
         content,
+        // Only where the view shows results to decide on: not on the risk view or an explanation-only view
         view !== 'risk' &&
+          !(view === 'robustness' && analysed.length < 2) &&
+          !((view === 'overview' || view === 'coa') && !current) &&
           m(DecisionLogView, {
           narratives,
           rows: decisionLogRows(model.scenario),
