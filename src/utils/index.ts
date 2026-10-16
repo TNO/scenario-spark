@@ -23,6 +23,7 @@ import { htmlToMarkdown, looksLikeHtml } from './html-to-markdown';
 export * from './decision';
 export * from './template-markdown';
 export { htmlToMarkdown, looksLikeHtml };
+export { clipboardHtmlToMarkdown } from './clipboard-markdown';
 
 export const LANGUAGE = 'SG_LANGUAGE';
 export const SAVED = 'SG_MODEL_SAVED';

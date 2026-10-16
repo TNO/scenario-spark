@@ -41,6 +41,16 @@ const getDefaultNarrativePrompt = () => t('LLM_DEFAULT_NARRATIVE_PROMPT');
 const getDefaultPersonaPrompt = () => t('LLM_DEFAULT_PERSONA_PROMPT');
 const getDefaultDecisionPrompt = () => t('LLM_DEFAULT_DECISION_PROMPT');
 
+/** Earlier default decision prompts (all locales), replaced by the current default when left unchanged. */
+const LEGACY_DEFAULT_DECISION_PROMPTS = [
+  "You are an experienced crisis-management advisor. Assess the course of action below for the given situation. Discuss the suitability of the decisions, their timing and sequence, dependencies between them, side effects and risks, gaps (what is missing), and safeguards or improvements. Stay grounded in the given situation and scenario narrative; do not invent facts. Return only the assessment as plain text, without a heading or code fences.",
+  "Je bent een ervaren adviseur crisisbeheersing. Beoordeel de onderstaande handelingsoptie voor de gegeven situatie. Bespreek de geschiktheid van de beslissingen, hun timing en volgorde, onderlinge afhankelijkheden, neveneffecten en risico’s, lacunes (wat ontbreekt) en waarborgen of verbeteringen. Blijf bij de gegeven situatie en scenariobeschrijving; verzin geen feiten. Geef alleen de beoordeling als platte tekst, zonder kop of codeblokken.",
+  "Sie sind ein erfahrener Berater für Krisenmanagement. Bewerten Sie die folgende Handlungsoption für die gegebene Situation. Erörtern Sie die Eignung der Entscheidungen, ihren Zeitpunkt und ihre Reihenfolge, Abhängigkeiten untereinander, Nebenwirkungen und Risiken, Lücken (was fehlt) sowie Absicherungen oder Verbesserungen. Bleiben Sie bei der gegebenen Situation und Szenariobeschreibung; erfinden Sie keine Fakten. Geben Sie nur die Bewertung als reinen Text zurück, ohne Überschrift oder Codeblöcke.",
+  "Vous êtes un conseiller expérimenté en gestion de crise. Évaluez le mode d'action ci-dessous pour la situation donnée. Analysez la pertinence des décisions, leur calendrier et leur enchaînement, leurs interdépendances, les effets secondaires et les risques, les lacunes (ce qui manque) ainsi que les garde-fous ou améliorations possibles. Restez fidèle à la situation et au récit du scénario donnés ; n'inventez pas de faits. Renvoyez uniquement l'évaluation en texte brut, sans titre ni bloc de code.",
+  "Usted es un asesor experimentado en gestión de crisis. Evalúe la siguiente línea de acción para la situación dada. Analice la idoneidad de las decisiones, su momento y secuencia, las dependencias entre ellas, los efectos secundarios y riesgos, las carencias (lo que falta) y las salvaguardas o mejoras. Cíñase a la situación y a la narrativa del escenario dadas; no invente hechos. Devuelva solo la evaluación en texto plano, sin título ni bloques de código.",
+  "Jesteś doświadczonym doradcą ds. zarządzania kryzysowego. Oceń poniższy wariant działania dla danej sytuacji. Omów adekwatność decyzji, ich termin i kolejność, zależności między nimi, skutki uboczne i ryzyka, luki (czego brakuje) oraz zabezpieczenia lub usprawnienia. Trzymaj się podanej sytuacji i opisu scenariusza; nie wymyślaj faktów. Zwróć wyłącznie ocenę jako zwykły tekst, bez nagłówka i bloków kodu.",
+];
+
 export const ensureDefaultLLMConfig = (
   scenario: Partial<Scenario>,
   categories: Category[],
@@ -139,7 +149,7 @@ const ensureDecisionPrompt = (scenario: Partial<Scenario>, allCategoryIds: ID[])
     decisionPrompt.categories = allCategoryIds;
     changed = true;
   }
-  if (!decisionPrompt.prompt?.trim()) {
+  if (!decisionPrompt.prompt?.trim() || LEGACY_DEFAULT_DECISION_PROMPTS.includes(decisionPrompt.prompt)) {
     decisionPrompt.prompt = getDefaultDecisionPrompt();
     changed = true;
   }
