@@ -1,5 +1,5 @@
 import { ComponentTypes } from 'mithril';
-import { Scenario } from './data-model';
+import { Narrative, Scenario } from './data-model';
 
 export type IconType = () => string | string;
 
@@ -13,7 +13,7 @@ export interface IDashboard {
   icon: string | IconResolver;
   iconClass?: string;
   route: string;
-  visible: boolean | ((scenario?: Scenario) => boolean);
+  visible: boolean | ((scenario?: Scenario, curNarrative?: Narrative) => boolean);
   component: ComponentTypes<any, any>;
 }
 

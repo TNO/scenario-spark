@@ -336,3 +336,12 @@ test('reflectionTarget finds the COA in the latest narrative, or nothing when it
   assert.equal(reflectionTarget(unsaved, unsaved, 'a'), coa);
   assert.equal(reflectionTarget({ components: {}, coas: [coa] }, unsaved, 'a'), undefined);
 });
+
+test('the decision-support page shows for a saved or an open scenario, included or not', async () => {
+  const { hasDecisionSupportPage } = await import('../src/utils/decision.ts');
+  const on = { includeDecisionSupport: true };
+  assert.equal(hasDecisionSupportPage({ ...on, narratives: [{ id: 'n', saved: true }] }), true);
+  assert.equal(hasDecisionSupportPage({ ...on, narratives: [] }, { id: 'open' }), true);
+  assert.equal(hasDecisionSupportPage({ ...on, narratives: [{ id: 'n' }] }), false);
+  assert.equal(hasDecisionSupportPage({ includeDecisionSupport: false, narratives: [{ id: 'n', saved: true }] }, { id: 'n' }), false);
+});

@@ -1,16 +1,22 @@
 import type { ComparisonExport, ExportCell } from './decision';
 
+/** Landscape page with narrow margins, as the comparison tables are wide. */
+export const comparisonPageProperties = {
+  page: {
+    size: { orientation: 'landscape' as const },
+    margin: { top: 720, right: 720, bottom: 720, left: 720 },
+  },
+};
+
 /**
- * Word document (docx) of the decision-support comparison, rendered from the plain blocks
- * of `buildComparisonExport`. Landscape, as the comparison tables are wide.
+ * Word content (docx paragraphs and tables) of the decision-support comparison, rendered from
+ * the plain blocks of `buildComparisonExport`, starting with its title.
  * `riskColors` are the background colours of risk levels 0-4 (hex, with or without `#`).
  */
-export const comparisonDocument = async (data: ComparisonExport, riskColors: string[] = []) => {
+export const comparisonChildren = async (data: ComparisonExport, riskColors: string[] = []) => {
   const {
     AlignmentType,
-    Document,
     HeadingLevel,
-    PageOrientation,
     Paragraph,
     Table,
     TableCell,
@@ -105,18 +111,14 @@ export const comparisonDocument = async (data: ComparisonExport, riskColors: str
     }
   }
 
+  return children;
+};
+
+/** Word document (docx) of the decision-support comparison, see `comparisonChildren`. */
+export const comparisonDocument = async (data: ComparisonExport, riskColors: string[] = []) => {
+  const { Document } = await import('docx');
   return new Document({
-    title: clean(data.title),
-    sections: [
-      {
-        properties: {
-          page: {
-            size: { orientation: PageOrientation.LANDSCAPE },
-            margin: { top: 720, right: 720, bottom: 720, left: 720 },
-          },
-        },
-        children,
-      },
-    ],
+    title: data.title.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, ''),
+    sections: [{ properties: comparisonPageProperties, children: await comparisonChildren(data, riskColors) }],
   });
 };

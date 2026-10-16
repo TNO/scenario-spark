@@ -244,6 +244,7 @@ export const messages = {
     SELECTED: 'Selected',
     ALL: 'All',
     INCLUDE_BOX: 'Include the morphological box (one table per category, selected values highlighted)',
+    INCLUDE_DECISIONS: 'Include the decision analysis (overview, comparison of courses of action, risk matrix and decision log)',
   },
   HIDE_INCONSISTENT: 'Hide inconsistent combinations',
   GOAL: {

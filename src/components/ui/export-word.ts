@@ -1,9 +1,12 @@
 import m, { FactoryComponent } from 'mithril';
 import { InputCheckbox, ModalPanel } from 'mithril-materialized';
 import { DataModel, Narrative, ScenarioComponent } from '../../models';
-import { t } from '../../services';
+import { i18n, t } from '../../services';
 import {
   CoaRow,
+  Translator,
+  buildComparisonExport,
+  formatLogTimestamp,
   DocxBoxTable,
   DocxNarrative,
   downloadAsDocx,
@@ -52,8 +55,20 @@ const narrativeToBox = (model: DataModel, narrative: Narrative): DocxBoxTable[] 
   });
 };
 
-/** Download the narratives (with their courses of action and, optionally, the box) as a Word document */
-export const exportNarrativesToWord = async (model: DataModel, narratives: Narrative[], includeBox = false) => {
+/** Decision analysis can be exported when decision support is on and the box has decision categories */
+export const canExportAnalysis = (model: DataModel) =>
+  !!model.scenario.includeDecisionSupport && !!model.scenario.categories?.some((c) => c.decisionSupport);
+
+/**
+ * Download the narratives (with their courses of action and, optionally, the box and the
+ * decision analysis of the decision-support page) as a Word document
+ */
+export const exportNarrativesToWord = async (
+  model: DataModel,
+  narratives: Narrative[],
+  includeBox = false,
+  includeAnalysis = false,
+) => {
   const narrData: DocxNarrative[] = narratives.map((narrative) => ({
     label: narrative.label,
     content: narrativeToMarkdown(narrative.desc),
@@ -64,12 +79,25 @@ export const exportNarrativesToWord = async (model: DataModel, narratives: Narra
       decisions: coa.decisions,
       warnings: conflictWarnings(coa),
       risk: coaRiskText(coa),
+      reflection: coa.reflection,
     })),
     box: includeBox ? narrativeToBox(model, narrative) : undefined,
   }));
   const title = model?.scenario?.label || 'Scenario';
   const filename = `${modelToSaveName(model, narratives.length === 1 ? narratives[0].label : undefined)}.docx`;
-  await downloadAsDocx(title, narrData, filename, t('DECISIONS'));
+  const locale = i18n.currentLocale;
+  const analysis =
+    includeAnalysis && canExportAnalysis(model) && narratives.length > 0
+      ? buildComparisonExport(model.scenario, narratives, {
+          narrativeId: narratives[0].id,
+          tr: t as Translator,
+          formatDate: (ts) => formatLogTimestamp(ts, locale),
+        })
+      : undefined;
+  await downloadAsDocx(title, narrData, filename, t('DECISIONS'), {
+    reflectionTitle: t('COA_REFLECTION'),
+    analysis,
+  });
 };
 
 /** Modal to export the current, the selected or all saved scenarios to Word */
@@ -80,6 +108,7 @@ export const ExportWordModal: FactoryComponent<{
   onToggle: (open: boolean) => void;
 }> = () => {
   let includeBox = false;
+  let includeAnalysis = true;
   return {
     view: ({ attrs: { model, narrative, isOpen, onToggle } }) => {
       const narratives = (model.scenario.narratives || []).filter((n) => n.saved);
@@ -103,17 +132,26 @@ export const ExportWordModal: FactoryComponent<{
                 includeBox = checked;
               },
             }),
+            canExportAnalysis(model) &&
+              m(InputCheckbox, {
+                className: 'col s12 mt3',
+                checked: includeAnalysis,
+                label: t('EXPORT2WORD', 'INCLUDE_DECISIONS'),
+                onchange: (checked: boolean) => {
+                  includeAnalysis = checked;
+                },
+              }),
           ]),
         ),
         options: { opacity: 0.7 },
         buttons: [
-          { label: t('EXPORT2WORD', 'CURRENT'), onclick: () => exportNarrativesToWord(model, [narrative], includeBox) },
+          { label: t('EXPORT2WORD', 'CURRENT'), onclick: () => exportNarrativesToWord(model, [narrative], includeBox, includeAnalysis) },
           {
             label: t('EXPORT2WORD', 'SELECTED'),
             disabled: selected.length === 0,
-            onclick: () => exportNarrativesToWord(model, selected, includeBox),
+            onclick: () => exportNarrativesToWord(model, selected, includeBox, includeAnalysis),
           },
-          { label: t('EXPORT2WORD', 'ALL'), onclick: () => exportNarrativesToWord(model, narratives, includeBox) },
+          { label: t('EXPORT2WORD', 'ALL'), onclick: () => exportNarrativesToWord(model, narratives, includeBox, includeAnalysis) },
           { label: t('CANCEL') },
         ],
       });

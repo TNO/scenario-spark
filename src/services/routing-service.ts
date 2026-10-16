@@ -1,6 +1,7 @@
 import m, { RouteDefs } from 'mithril';
 import { Dashboards, IDashboard } from '../models';
 import { Layout } from '../components/layout';
+import { hasDecisionSupportPage } from '../utils/decision';
 import {
   AboutPage,
   CreateBoxPage,
@@ -50,9 +51,7 @@ class RoutingService {
         icon: 'assistant_direction',
         title: t('DECISION_SUPPORT', 'TITLE'),
         route: t('DECISION_SUPPORT', 'ROUTE'),
-        visible: (scenario) =>
-          !!scenario?.includeDecisionSupport &&
-          (scenario.narratives || []).some((n) => n.saved && n.included),
+        visible: hasDecisionSupportPage,
         component: DecisionSupportPage,
       },
       {

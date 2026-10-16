@@ -248,6 +248,7 @@ export const messages: typeof messagesEN = {
     SELECTED: 'Ausgewählte',
     ALL: 'Alle',
     INCLUDE_BOX: 'Morphologischen Kasten einfügen (eine Tabelle pro Kategorie, ausgewählte Werte hervorgehoben)',
+    INCLUDE_DECISIONS: 'Entscheidungsanalyse einbeziehen (Übersicht, Vergleich der Handlungsoptionen, Risikomatrix und Entscheidungsprotokoll)',
   },
   HIDE_INCONSISTENT: 'Inkonsistente Kombinationen ausblenden',
   GOAL: {

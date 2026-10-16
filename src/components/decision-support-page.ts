@@ -128,11 +128,14 @@ export const DecisionSupportPage: MeiosisComponent = () => {
       const includedNarratives = selectedNarratives(narratives);
       /**
        * The scenario being worked on (stored version), used by the overview and COA comparison.
-       * Falls back to the first selected scenario when none is open (e.g. after a reload).
+       * An open, unsaved scenario is used as is. When none is open (e.g. after a reload),
+       * falls back to the first selected scenario, else the first saved one.
        */
       const current =
         narratives.find((n) => n.id === currentId && n.saved) ||
-        (currentId ? undefined : includedNarratives[0]);
+        (currentId
+          ? attrs.state.curNarrative
+          : includedNarratives[0] || narratives.find((n) => n.saved));
 
       /** Scenarios compared by the robustness and risk views: the current one first, then those selected for analysis */
       const analysed = analysedNarratives(narratives, current);

@@ -42,7 +42,7 @@ export const Layout: MeiosisComponent = () => {
         (d) =>
           (typeof d.visible === 'boolean'
             ? d.visible
-            : d.visible(attrs.state?.model?.scenario)) || isActive(d),
+            : d.visible(attrs.state?.model?.scenario, attrs.state?.curNarrative)) || isActive(d),
       );
 
     const language = i18n.currentLocale;
