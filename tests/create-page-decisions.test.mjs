@@ -11,6 +11,8 @@ require('mithril').redraw = () => {};
 const source = readFileSync(new URL('../src/components/create-scenario-page.ts', import.meta.url), 'utf8');
 const code = esbuild.transformSync(source, { loader: 'ts', format: 'cjs', target: 'es2022' }).code;
 
+const MarkdownField = () => ({ view: () => null });
+
 const findAll = (node, predicate) => {
   if (Array.isArray(node)) return node.flatMap((child) => findAll(child, predicate));
   if (!node || typeof node !== 'object') return [];
@@ -40,6 +42,7 @@ const load = (ui = {}) => {
     'mithril-markdown-wysiwyg': { MarkdownEditor: () => {} },
     '../utils/index': { narrativeToMarkdown: (value) => value || '' },
     './ui/scenario-paragraph': { ScenarioParagraph: () => {} },
+    './ui/markdown-field': { MarkdownField },
     './ui/export-word': { ExportWordModal: () => ({ view: () => null }) },
   };
   new Function('require', 'module', 'exports', code)((name) => mocks[name] || require(name), module, module.exports);
@@ -156,7 +159,8 @@ test('course-of-action text areas render without mixing keyed and unkeyed vnodes
   const attrs = { state: { model: { personas: [], scenario: scenario(true) }, curNarrative }, update: () => {} };
   const tree = CreateScenarioPage().view({ attrs });
   const textAreas = findAll(tree, (node) => node.tag === materialized.TextArea);
-  assert.ok(textAreas.length >= 2, 'notes and reflection text areas are rendered');
+  assert.ok(textAreas.length >= 1, 'notes text area is rendered');
+  assert.equal(findAll(tree, (node) => node.tag === MarkdownField && node.attrs.label === 'COA_REFLECTION').length, 1);
   for (const vnode of textAreas) {
     // TextArea passes its attrs on to the inner <textarea>, so a `key` would sit next to unkeyed siblings.
     assert.doesNotThrow(() => materialized.TextArea({ attrs: vnode.attrs }).view({ attrs: vnode.attrs }));

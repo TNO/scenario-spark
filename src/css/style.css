@@ -1349,6 +1349,22 @@ ul.kanban > li {
   margin-bottom: 1rem;
 }
 
+.scenario-heading {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 1.5rem 0 0.5rem;
+}
+
+ul.scenario-list {
+  padding-left: 1.5em;
+  margin-top: 0;
+}
+
+ul.scenario-list > li {
+  list-style-type: disc;
+}
+
 .icon-buttons {
   display: flex;
   gap: 0px; /* Adjust spacing between buttons */
@@ -2920,4 +2936,32 @@ table.decision-matrix thead th.active-coa,
 /* The settings tab already says LLM */
 .llm-selector .muf-form-header {
   display: none;
+}
+
+/* Read-only Markdown view with edit toggle (persona feedback, decision reflection) */
+.markdown-field {
+  position: relative;
+  margin-top: 1rem;
+}
+.markdown-field-toggle {
+  position: relative;
+  z-index: 1;
+  opacity: 0.7;
+}
+.markdown-field-toggle:hover,
+.markdown-field-toggle:focus-visible {
+  opacity: 1;
+}
+.markdown-field-label {
+  display: block;
+  font-size: 0.8rem;
+}
+.markdown-field-content > :first-child {
+  margin-top: 0.25rem;
+}
+.markdown-field-content ul {
+  padding-left: 1.25rem;
+}
+.markdown-field-content ul > li {
+  list-style-type: disc;
 }

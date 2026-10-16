@@ -60,6 +60,7 @@ import type { MeiosisCell } from 'meiosis-setup/types';
 import type { State } from '../services';
 import { listInconsistencies } from 'morphological-box';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
+import { MarkdownField } from './ui/markdown-field';
 import { ExportWordModal } from './ui/export-word';
 import {
   CircularSpinner,
@@ -985,8 +986,8 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               ),
             coa &&
               m('.col.s12.coa-reflection', [
-                m(TextArea, {
-                  className: '',
+                m(MarkdownField, {
+                  id: coa.id,
                   label: t('COA_REFLECTION'),
                   value: coa.reflection || '',
                   oninput: (reflection: string) => {
@@ -1104,7 +1105,8 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   m('p', p.desc),
                 ]),
                 m('.col.s12.m6', [
-                  m(TextArea, {
+                  m(MarkdownField, {
+                    id: `${curNarrative.id}-${p.id}`,
                     label: t('PERSONA_IMPRESSION'),
                     value: curNarrative.personaEffects?.[p.id]?.story,
                     oninput: (story) => {
