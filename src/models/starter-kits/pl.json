@@ -6,145 +6,145 @@
       "id": "starter-event-visitor",
       "label": "Uczestnik wydarzenia",
       "desc": "Uczestniczy w wydarzeniu publicznym w nieznanym miejscu i w razie zmian potrzebuje jasnych wskazówek na miejscu, dostępnych tras oraz szybkich informacji.",
-      "url": "starter_event_visitor"
+      "url": "families1"
     },
     {
       "id": "starter-nearby-resident",
       "label": "Okoliczni mieszkańcy",
       "desc": "Para emerytów po siedemdziesiątce mieszkająca w domu szeregowym blisko obszaru zdarzenia; potrzebuje szybkich, dostępnych informacji o bezpieczeństwie, dostępie do domu i usług oraz czasie trwania utrudnień, a także może potrzebować pomocy, jeśli nie może wyjechać samochodem.",
-      "url": "starter_nearby_resident"
+      "url": "families2"
     },
     {
       "id": "starter-event-organiser",
       "label": "Organizator wydarzenia",
       "desc": "Koordynuje bezpieczeństwo uczestników, przemieszczanie się tłumu oraz informacje dla personelu i gości, rozważając, czy i jak wydarzenie może być kontynuowane.",
-      "url": "starter_event_organiser"
+      "url": "female_worker_with_laptop1"
     },
     {
       "id": "starter-reduced-mobility",
       "label": "Mieszkanka o ograniczonej mobilności",
       "desc": "Porusza się na wózku i zależy od opieki domowej, wind i sprzętu zasilanego prądem; potrzebuje wczesnego ostrzeżenia, ewakuacji z pomocą i dostępnych schronień.",
-      "url": "starter_reduced_mobility"
+      "url": "elderly_woman_wheelchair1"
     },
     {
       "id": "starter-elderly-alone",
       "label": "Samotnie mieszkająca osoba starsza",
       "desc": "Mieszka sama, ma niewielką sieć kontaktów i rzadko korzysta z aplikacji czy mediów społecznościowych; polega na radiu, sąsiadach i drukowanych informacjach, jest wrażliwa na upał, mróz i plotki.",
-      "url": "starter_elderly_alone"
+      "url": "elderly_man1"
     },
     {
       "id": "starter-young-parent",
       "label": "Rodzic małych dzieci",
       "desc": "Opiekuje się niemowlęciem i małym dzieckiem; martwi się o dotarcie do szkoły lub żłobka, bezpieczną wodę pitną, żywność dla niemowląt i leki, potrzebuje jasnych instrukcji, co robić z dziećmi.",
-      "url": "starter_young_parent"
+      "url": "young_mother1"
     },
     {
       "id": "starter-farmer",
       "label": "Rolnik",
       "desc": "Prowadzi gospodarstwo mieszane z hodowlą i uprawami; nie może po prostu zostawić zwierząt, zależy od dróg dojazdowych, wody i paszy, obawia się trwałej utraty dochodu z powodu szkód lub zakazów przemieszczania.",
-      "url": "starter_farmer"
+      "url": "farmer1"
     },
     {
       "id": "starter-truck-driver",
       "label": "Kierowca ciężarówki",
       "desc": "Dowozi towary pod presją czasu; musi wiedzieć o zamknięciach, objazdach i bezpiecznych miejscach postoju, może utknąć na drodze lub przewozić ładunek niebezpieczny.",
-      "url": "starter_truck_driver"
+      "url": "middle_aged_male_truck_driver1"
     },
     {
       "id": "starter-traveller",
       "label": "Podróżny z zagranicy",
       "desc": "Pasażer lub turysta, który nie zna lokalnego języka ani okolicy; polega na personelu przewoźnika, oznakowaniu, przetłumaczonych komunikatach i własnym telefonie.",
-      "url": "starter_traveller"
+      "url": "male_indian_student1"
     },
     {
       "id": "starter-nurse",
       "label": "Pielęgniarka szpitalna",
       "desc": "Pracuje na obciążonym oddziale, który musi przyjąć dodatkowych pacjentów; musi bezpiecznie dotrzeć do pracy, mieć dość personelu i środków oraz wiedzieć, co mówić zaniepokojonym pacjentom i rodzinom.",
-      "url": "starter_nurse"
+      "url": "nurse1"
     },
     {
       "id": "starter-teacher",
       "label": "Nauczycielka",
       "desc": "W godzinach lekcji odpowiada za klasę uczniów; musi zdecydować o schronieniu, ewakuacji lub zatrzymaniu dzieci do przyjazdu rodziców i potrzebuje szybkich, wiarygodnych instrukcji.",
-      "url": "starter_teacher"
+      "url": "female_teacher1"
     },
     {
       "id": "starter-small-business",
       "label": "Właścicielka małej firmy",
       "desc": "Prowadzi sklep lub warsztat na dotkniętym obszarze; martwi się o szkody, dostęp klientów i dostawców, utratę dochodu oraz o to, kiedy bezpiecznie otworzyć ponownie.",
-      "url": "starter_small_business"
+      "url": "male_zzp1"
     },
     {
       "id": "starter-infra-operator",
       "label": "Operatorka infrastruktury krytycznej",
       "desc": "Odpowiada za ciągłość działania w przedsiębiorstwie użyteczności publicznej, porcie, lotnisku lub u przewoźnika; musi utrzymać kluczowe usługi, chronić personel i instalacje oraz współpracować z władzami i klientami.",
-      "url": "starter_infra_operator"
+      "url": "business_woman1"
     },
     {
       "id": "starter-it-specialist",
       "label": "Specjalista ds. bezpieczeństwa IT",
       "desc": "Pracuje w zespole bezpieczeństwa średniej organizacji; potrzebuje dokładnych informacji technicznych, jasnych ścieżek zgłaszania i swobody izolowania systemów bez wywoływania zbędnej paniki.",
-      "url": "starter_it_specialist"
+      "url": "tech_guy1"
     },
     {
       "id": "starter-field-worker",
       "label": "Pracownik budowlany i sieciowy",
       "desc": "Pracuje na zewnątrz przy budowach i naprawach dróg, sieci i budynków; jest narażony na upał, gruz i substancje niebezpieczne, często musi szybko przywracać usługi.",
-      "url": "starter_field_worker"
+      "url": "construction_worker1"
     },
     {
       "id": "starter-hospitality",
       "label": "Kucharka w restauracji",
       "desc": "Prowadzi ruchliwą kuchnię; zależy od bezpiecznej wody, prądu i świeżych dostaw, musi chronić zdrowie gości i traci dochód, gdy goście i turyści przestają przychodzić.",
-      "url": "starter_hospitality"
+      "url": "cook1"
     },
     {
       "id": "starter-protester",
       "label": "Protestująca studentka",
       "desc": "Bierze udział w pokojowej demonstracji zorganizowanej przez media społecznościowe; chce korzystać z prawa do protestu, obawia się eskalacji lub interwencji policji i musi znać trasę, zasady i bezpieczne wyjścia.",
-      "url": "starter_protester"
+      "url": "climate_girl1"
     },
     {
       "id": "starter-community-leader",
       "label": "Liderka społeczności",
       "desc": "Rzeczniczka wspólnoty wyznaniowej lub sąsiedzkiej; cieszy się zaufaniem osób nieufnych wobec władz, może je uspokoić lub zmobilizować i chce być wcześnie informowana i zaangażowana.",
-      "url": "starter_community_leader"
+      "url": "female_speaker1"
     },
     {
       "id": "starter-local-official",
       "label": "Urzędnik gminy",
       "desc": "Starszy urzędnik doradzający burmistrzowi; równoważy bezpieczeństwo, porządek publiczny, gospodarkę i zaufanie, musi tłumaczyć decyzje mieszkańcom, mediom i radzie.",
-      "url": "starter_local_official"
+      "url": "middleaged_man_suit1"
     },
     {
       "id": "starter-taxi-driver",
       "label": "Taksówkarz",
       "desc": "Kierowca taksówki i przewozów na aplikację, który jest w trasie, gdy dochodzi do zdarzenia; widzi zakłócenia z bliska, jest proszony o przewóz osób unieruchomionych lub ewakuowanych i zależy od przejezdnych dróg, paliwa lub ładowarek oraz jasnych informacji o ruchu.",
-      "url": "starter_taxi_driver"
+      "url": "taxi_driver1"
     },
     {
       "id": "starter-student",
       "label": "Studentka",
       "desc": "Studentka mieszkająca w akademiku z dala od rodziny; czerpie informacje głównie z mediów społecznościowych, może przyłączyć się do protestów lub wolontariatu i ma niewiele oszczędności, zapasów i znajomości okolicy.",
-      "url": "starter_student"
+      "url": "female_student1"
     },
     {
       "id": "starter-single-parent",
       "label": "Samotny rodzic",
       "desc": "Samotna matka dwójki dzieci w szkole podstawowej, pracująca na pół etatu w supermarkecie; nie ma samochodu, ma napięty budżet i mało miejsca na zapasy, a gdy szkoły są zamknięte lub nie może dojechać do pracy, musi zorganizować opiekę.",
-      "url": "starter_single_parent"
+      "url": "single_parent1"
     },
     {
       "id": "starter-commuter",
       "label": "Osoba dojeżdżająca",
       "desc": "Pracowniczka biurowa, która codziennie dojeżdża pociągiem do miasta i dwa dni w tygodniu pracuje zdalnie; zależy od transportu publicznego, mobilnego internetu i jasnych komunikatów o podróży, a musi zdecydować, czy wyruszyć, zostać w domu, czy ryzykować utknięcie w drodze.",
-      "url": "starter_commuter"
+      "url": "commuter1"
     },
     {
       "id": "starter-shift-worker",
       "label": "Pracownik zmianowy zakładu",
       "desc": "Operator procesu pracujący w systemie zmianowym w zakładzie chemicznym; zna zagrożenia i procedury awaryjne terenu, musi utrzymać instalacje w bezpiecznym stanie lub je wyłączyć i martwi się o współpracowników oraz rodzinę mieszkającą w pobliżu.",
-      "url": "starter_shift_worker"
+      "url": "shift_worker1"
     }
   ],
   "boxes": [

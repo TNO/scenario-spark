@@ -37,7 +37,7 @@ const loadHomePage = (saveModel, locale, onStarterLanguage, onToast = () => {}, 
       thresholdColors: [],
     },
     '../models/starter-kit': {
-      addStarterKitToModel: () => ({ added: 0 }),
+      addStarterKitToModel: (model) => ({ model, added: 0, updated: 0, conflicts: [] }),
       loadStarterKit: async () => {
         if (failStarter) throw new Error('Kit unavailable');
         return {};

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
-import { addStarterKitToModel, loadStarterKit } from '../src/models/starter-kit.ts';
+import { addStarterKitToModel, boxFingerprint, loadStarterKit, migratePersonaImages, personaFingerprint } from '../src/models/starter-kit.ts';
 
 const languages = ['nl', 'en', 'fr', 'de', 'es', 'pl'];
 const readKit = (language) => JSON.parse(
@@ -89,7 +89,8 @@ test('each translated starter kit preserves every factor, constraint and templat
     const personaPrompt = model.scenario.llm.prompts.find(({ type }) => type === 'persona');
     assert.equal(personaPrompt.prompt, data.personaPrompt, language);
     assert.deepEqual(personaPrompt.categories, model.scenario.categories.map(({ id }) => id), language);
-    assert.deepEqual(model.personas, data.personas, language);
+    assert.deepEqual(model.personas.map(({ starterHash, ...persona }) => persona), data.personas, language);
+    assert.ok(model.personas.every(({ starterHash }) => starterHash), language);
     assert.deepEqual(
       model.scenario.personas,
       ['starter-event-visitor', 'starter-event-organiser', 'starter-nearby-resident', 'starter-reduced-mobility'],
@@ -179,7 +180,7 @@ test('re-adding the starter kit fills empty persona selections of existing start
   assert.equal(merged.model.personas[0].id, 'own-persona');
 });
 
-test('re-adding the starter kit refreshes legacy starter artwork but keeps custom images', async () => {
+test('re-adding the starter kit migrates renamed portraits but keeps custom images', async () => {
   const starter = await loadStarterKit('en', []);
   const boxes = [starter.scenario, ...starter.scenarios];
   const byId = Object.fromEntries(starter.personas.map((p) => [p.id, p]));
@@ -187,15 +188,83 @@ test('re-adding the starter kit refreshes legacy starter artwork but keeps custo
     scenario: boxes[0],
     scenarios: boxes.slice(1),
     personas: [
-      { ...byId['starter-event-visitor'], url: 'families1' },
+      { ...byId['starter-event-visitor'], url: 'starter_event_visitor' },
       { ...byId['starter-farmer'], url: 'farmer2' },
       ...starter.personas.filter(({ id }) => !['starter-event-visitor', 'starter-farmer'].includes(id)),
     ],
   };
   const merged = addStarterKitToModel(existing, starter);
-  assert.equal(merged.updated, 1);
+  assert.equal(merged.updated, 0);
+  assert.notEqual(merged.model, existing);
+  assert.deepEqual(merged.conflicts, [{ id: 'starter-farmer', label: byId['starter-farmer'].label, kind: 'persona' }]);
   const urls = Object.fromEntries(merged.model.personas.map((p) => [p.id, p.url]));
-  assert.equal(urls['starter-event-visitor'], byId['starter-event-visitor'].url);
+  assert.equal(urls['starter-event-visitor'], 'families1');
   assert.equal(urls['starter-farmer'], 'farmer2');
   assert.equal(merged.model.personas.length, starter.personas.length);
+  const stored = { personas: [{ id: 'x', url: 'starter_commuter' }, { id: 'y', url: 'farmer2' }] };
+  assert.equal(migratePersonaImages(stored), true);
+  assert.deepEqual(stored.personas.map(({ url }) => url), ['commuter1', 'farmer2']);
+  assert.equal(migratePersonaImages(stored), false);
+});
+
+test('starter portraits reuse the original image ids', () => {
+  for (const language of languages) {
+    assert.ok(readKit(language).personas.every(({ url }) => url && !url.startsWith('starter_')), language);
+  }
+});
+
+test('re-adding the kit silently updates untouched items and asks before replacing edited ones', async () => {
+  const starter = await loadStarterKit('en', []);
+  const [first, second, third, fourth, ...rest] = [starter.scenario, ...starter.scenarios];
+  // An untouched box from an older kit version: its hash matches its own (old) content.
+  const older = { ...first, label: 'Old label' };
+  older.starterHash = boxFingerprint(older);
+  const edited = { ...second, label: 'My own label' };
+  // Unchanged definition from an older kit version, but holding the user's own narrative.
+  const used = { ...third, label: 'Old', narratives: [...third.narratives, { id: 'mine', label: 'Mine', components: {} }] };
+  used.starterHash = boxFingerprint(used);
+  // Boxes saved before fingerprints existed count as untouched when they hold no user work.
+  const legacy = { ...fourth, label: 'Legacy', starterHash: undefined };
+  const oldPersona = { ...starter.personas[0], desc: 'Old kit text' };
+  oldPersona.starterHash = personaFingerprint(oldPersona);
+  const editedPersona = { ...starter.personas[1], desc: 'My notes' };
+  const existing = {
+    scenario: older,
+    scenarios: [edited, used, legacy, ...rest],
+    personas: [oldPersona, editedPersona, ...starter.personas.slice(2)],
+  };
+  const merged = addStarterKitToModel(existing, starter);
+  assert.equal(merged.added, 0);
+  assert.equal(merged.updated, 3);
+  assert.equal(merged.model.scenario.label, first.label);
+  assert.equal(merged.model.scenario.id, first.id);
+  assert.equal(merged.model.scenarios[0], edited);
+  assert.equal(merged.model.scenarios[1], used);
+  assert.equal(merged.model.scenarios[2].label, fourth.label);
+  assert.equal(merged.model.personas[0].desc, starter.personas[0].desc);
+  assert.equal(merged.model.personas[1], editedPersona);
+  assert.deepEqual(merged.conflicts.map(({ id, kind }) => [id, kind]), [
+    [second.id, 'box'], [third.id, 'box'], [editedPersona.id, 'persona'],
+  ]);
+
+  const confirmed = addStarterKitToModel(existing, starter, new Set([second.id, editedPersona.id]));
+  assert.equal(confirmed.updated, 5);
+  assert.equal(confirmed.model.scenarios[0].label, second.label);
+  assert.equal(confirmed.model.scenarios[1], used);
+  assert.equal(confirmed.model.personas[1].desc, starter.personas[1].desc);
+  assert.deepEqual(confirmed.conflicts.map(({ id }) => id), [third.id]);
+  const again = addStarterKitToModel(confirmed.model, starter);
+  assert.equal(again.updated, 0);
+  assert.equal(again.model, confirmed.model);
+});
+
+test('deleting a starter box and re-adding the kit restores it without duplicate personas', async () => {
+  const starter = await loadStarterKit('en', []);
+  const existing = { scenario: starter.scenario, scenarios: starter.scenarios.slice(1), personas: starter.personas };
+  const merged = addStarterKitToModel(existing, starter);
+  assert.equal(merged.added, 1);
+  assert.equal(merged.updated, 0);
+  assert.deepEqual(merged.conflicts, []);
+  assert.equal(merged.model.personas.length, starter.personas.length);
+  assert.equal(new Set(merged.model.personas.map(({ url }) => url)).size, starter.personas.length);
 });

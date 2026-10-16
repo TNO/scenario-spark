@@ -6,145 +6,145 @@
       "id": "starter-event-visitor",
       "label": "Event visitor",
       "desc": "Attending an unfamiliar public event and relying on clear on-site instructions, accessible routes and timely updates if plans change.",
-      "url": "starter_event_visitor"
+      "url": "families1"
     },
     {
       "id": "starter-nearby-resident",
       "label": "Nearby residents",
       "desc": "Retired couple in their seventies living in a terraced house near the affected area; needs timely, accessible information about safety, access to home and services, and how long disruption may last, and may need help if they cannot leave by car.",
-      "url": "starter_nearby_resident"
+      "url": "families2"
     },
     {
       "id": "starter-event-organiser",
       "label": "Event organiser",
       "desc": "Coordinates visitor safety, crowd movement and information for staff and visitors while weighing whether and how the event can continue.",
-      "url": "starter_event_organiser"
+      "url": "female_worker_with_laptop1"
     },
     {
       "id": "starter-reduced-mobility",
       "label": "Resident with reduced mobility",
       "desc": "Uses a wheelchair and depends on home care, lifts and powered equipment; needs early warning, assisted evacuation and accessible shelters.",
-      "url": "starter_reduced_mobility"
+      "url": "elderly_woman_wheelchair1"
     },
     {
       "id": "starter-elderly-alone",
       "label": "Older person living alone",
       "desc": "Lives alone with a small social network and little use of apps or social media; relies on radio, neighbours and printed information, and is vulnerable to heat, cold and rumours.",
-      "url": "starter_elderly_alone"
+      "url": "elderly_man1"
     },
     {
       "id": "starter-young-parent",
       "label": "Parent of young children",
       "desc": "Cares for an infant and a toddler; worries about reaching school or childcare, safe drinking water, baby food and medicines, and needs clear instructions on what to do with the children.",
-      "url": "starter_young_parent"
+      "url": "young_mother1"
     },
     {
       "id": "starter-farmer",
       "label": "Farmer",
       "desc": "Runs a mixed farm with livestock and crops; cannot simply leave the animals, depends on access roads, water and feed, and fears lasting income loss from damage or movement restrictions.",
-      "url": "starter_farmer"
+      "url": "farmer1"
     },
     {
       "id": "starter-truck-driver",
       "label": "Truck driver",
       "desc": "Delivers goods on a tight schedule; needs to know about closures, diversions and safe waiting places, and may be stranded on the road or carrying a dangerous load.",
-      "url": "starter_truck_driver"
+      "url": "middle_aged_male_truck_driver1"
     },
     {
       "id": "starter-traveller",
       "label": "International traveller",
       "desc": "Passenger or tourist who does not speak the local language and does not know the area; depends on transport staff, signs, translated messages and their own phone for directions and news.",
-      "url": "starter_traveller"
+      "url": "male_indian_student1"
     },
     {
       "id": "starter-nurse",
       "label": "Hospital nurse",
       "desc": "Works on a busy ward that must absorb extra patients; needs to reach work safely, have enough staff and supplies, and know what to tell worried patients and relatives.",
-      "url": "starter_nurse"
+      "url": "nurse1"
     },
     {
       "id": "starter-teacher",
       "label": "Teacher",
       "desc": "Responsible for a class of pupils during school hours; must decide whether to shelter, evacuate or keep children until parents arrive, and needs fast, reliable instructions.",
-      "url": "starter_teacher"
+      "url": "female_teacher1"
     },
     {
       "id": "starter-small-business",
       "label": "Small business owner",
       "desc": "Self-employed with a shop or workshop in the affected area; worries about damage, access for customers and suppliers, lost income and when it is safe to reopen.",
-      "url": "starter_small_business"
+      "url": "male_zzp1"
     },
     {
       "id": "starter-infra-operator",
       "label": "Infrastructure operator",
       "desc": "Continuity manager at a utility, port, airport or transport company; must keep essential services running, protect staff and assets, and coordinate with authorities and customers.",
-      "url": "starter_infra_operator"
+      "url": "business_woman1"
     },
     {
       "id": "starter-it-specialist",
       "label": "IT security specialist",
       "desc": "Works in the security team of a mid-sized organisation; needs accurate technical information, clear reporting lines and room to isolate systems without causing unnecessary panic.",
-      "url": "starter_it_specialist"
+      "url": "tech_guy1"
     },
     {
       "id": "starter-field-worker",
       "label": "Construction and utility worker",
       "desc": "Works outdoors on sites and repairs to roads, networks and buildings; is exposed to heat, debris and hazardous substances and is often asked to restore services quickly.",
-      "url": "starter_field_worker"
+      "url": "construction_worker1"
     },
     {
       "id": "starter-hospitality",
       "label": "Restaurant cook",
       "desc": "Runs a busy kitchen; depends on safe water, power and fresh supplies, must protect guests' health, and loses income when guests and tourists stay away.",
-      "url": "starter_hospitality"
+      "url": "cook1"
     },
     {
       "id": "starter-protester",
       "label": "Student protester",
       "desc": "Takes part in a peaceful demonstration organised via social media; wants to exercise the right to protest, fears escalation or police action, and needs to know about routes, rules and safe exits.",
-      "url": "starter_protester"
+      "url": "climate_girl1"
     },
     {
       "id": "starter-community-leader",
       "label": "Community leader",
       "desc": "Spokesperson for a faith or neighbourhood community; is trusted by people who distrust authorities, can calm or mobilise them, and wants to be informed and involved early.",
-      "url": "starter_community_leader"
+      "url": "female_speaker1"
     },
     {
       "id": "starter-local-official",
       "label": "Local official",
       "desc": "Senior civil servant at the municipality advising the mayor; balances public safety, public order, the economy and public trust, and must explain decisions to residents, media and council.",
-      "url": "starter_local_official"
+      "url": "middleaged_man_suit1"
     },
     {
       "id": "starter-taxi-driver",
       "label": "Taxi driver",
       "desc": "Taxi and ride-hailing driver who is on the road when the incident unfolds; sees disruption first-hand, is asked to transport stranded or evacuated people, and depends on open roads, fuel or charging and clear traffic information.",
-      "url": "starter_taxi_driver"
+      "url": "taxi_driver1"
     },
     {
       "id": "starter-student",
       "label": "Student",
       "desc": "University student living in student housing away from family; gets news mainly through social media, may join protests or volunteer, and has limited savings, supplies and local knowledge.",
-      "url": "starter_student"
+      "url": "female_student1"
     },
     {
       "id": "starter-single-parent",
       "label": "Single parent",
       "desc": "Single mother of two primary-school children who works part-time in a supermarket; has no car, a tight budget and little room to stock up, and must arrange childcare when schools close or she cannot get to work.",
-      "url": "starter_single_parent"
+      "url": "single_parent1"
     },
     {
       "id": "starter-commuter",
       "label": "Commuter",
       "desc": "Office worker who travels to the city by train every day and works from home two days a week; depends on public transport, mobile data and clear travel advice, and must decide whether to set out, stay home or get stuck on the way.",
-      "url": "starter_commuter"
+      "url": "commuter1"
     },
     {
       "id": "starter-shift-worker",
       "label": "Plant shift worker",
       "desc": "Process operator on rotating shifts at a chemical plant; knows the site's hazards and emergency procedures, must keep installations safe or shut them down, and worries about colleagues and family living nearby.",
-      "url": "starter_shift_worker"
+      "url": "shift_worker1"
     }
   ],
   "boxes": [

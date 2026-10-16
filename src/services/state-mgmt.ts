@@ -11,7 +11,7 @@ import {
   emptyModel,
   thresholdColors,
 } from '../models';
-import { loadStarterKit } from '../models/starter-kit';
+import { loadStarterKit, migratePersonaImages } from '../models/starter-kit';
 import type { Languages } from './translations';
 import { ldb } from '../utils/local-ldb';
 import {
@@ -321,7 +321,8 @@ const initialize = async (update: Update<State>) => {
         (localStorage.getItem(LANGUAGE) || 'nl') as Languages,
         thresholdColors
       );
-  if (migrateModel(model) && ds) await ldb.set(MODEL_KEY, JSON.stringify(model));
+  const migrated = migrateModel(model);
+  if ((migratePersonaImages(model) || migrated) && ds) await ldb.set(MODEL_KEY, JSON.stringify(model));
   const title = model.scenario?.label || '';
   setTitle(title);
 

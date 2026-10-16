@@ -1,4 +1,4 @@
-import { setInconsistency } from 'morphological-box';
+import { normalizeInconsistencies, setInconsistency } from 'morphological-box';
 import type { Languages } from '../services/translations';
 import type {
   Category,
@@ -96,18 +96,78 @@ const personaSelections: Record<string, string[]> = {
   arson: ['starter-nearby-resident', 'starter-small-business', 'starter-community-leader', 'starter-reduced-mobility', 'starter-single-parent'],
 };
 
-/** Artwork used by earlier starter-kit versions, replaced when the kit is re-added. */
-const legacyPersonaImages: Record<string, string> = {
-  'starter-event-visitor': 'families1', 'starter-nearby-resident': 'families2',
-  'starter-event-organiser': 'female_worker_with_laptop1', 'starter-reduced-mobility': 'elderly_woman_wheelchair1',
-  'starter-elderly-alone': 'elderly_man1', 'starter-young-parent': 'young_mother1', 'starter-farmer': 'farmer1',
-  'starter-truck-driver': 'middle_aged_male_truck_driver1', 'starter-traveller': 'male_indian_student1',
-  'starter-nurse': 'nurse1', 'starter-teacher': 'female_teacher1', 'starter-small-business': 'male_zzp1',
-  'starter-infra-operator': 'business_woman1', 'starter-it-specialist': 'tech_guy1',
-  'starter-field-worker': 'construction_worker1', 'starter-hospitality': 'cook1', 'starter-protester': 'climate_girl1',
-  'starter-community-leader': 'female_speaker1', 'starter-local-official': 'middleaged_man_suit1',
-  'starter-taxi-driver': 'taxi_driver1', 'starter-student': 'female_student1',
+/** Portrait ids used briefly before the new artwork replaced the original images in place. */
+const renamedPersonaImages: Record<string, string> = {
+  starter_event_visitor: 'families1', starter_nearby_resident: 'families2',
+  starter_event_organiser: 'female_worker_with_laptop1', starter_reduced_mobility: 'elderly_woman_wheelchair1',
+  starter_elderly_alone: 'elderly_man1', starter_young_parent: 'young_mother1', starter_farmer: 'farmer1',
+  starter_truck_driver: 'middle_aged_male_truck_driver1', starter_traveller: 'male_indian_student1',
+  starter_nurse: 'nurse1', starter_teacher: 'female_teacher1', starter_small_business: 'male_zzp1',
+  starter_infra_operator: 'business_woman1', starter_it_specialist: 'tech_guy1',
+  starter_field_worker: 'construction_worker1', starter_hospitality: 'cook1', starter_protester: 'climate_girl1',
+  starter_community_leader: 'female_speaker1', starter_local_official: 'middleaged_man_suit1',
+  starter_taxi_driver: 'taxi_driver1', starter_student: 'female_student1',
+  starter_single_parent: 'single_parent1', starter_commuter: 'commuter1', starter_shift_worker: 'shift_worker1',
 };
+
+/** Points personas at renamed portrait ids; returns true when the model changed. */
+export const migratePersonaImages = (model: Pick<DataModel, 'personas'>) => {
+  let changed = false;
+  for (const persona of model.personas || []) {
+    const url = persona.url && renamedPersonaImages[persona.url];
+    if (url) {
+      persona.url = url;
+      changed = true;
+    }
+  }
+  return changed;
+};
+
+const stableStringify = (value: unknown): string => {
+  if (Array.isArray(value)) return `[${value.map(stableStringify).join(',')}]`;
+  if (value && typeof value === 'object') {
+    return `{${Object.keys(value)
+      .filter((key) => (value as Record<string, unknown>)[key] !== undefined)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${stableStringify((value as Record<string, unknown>)[key])}`)
+      .join(',')}}`;
+  }
+  return JSON.stringify(value) ?? 'null';
+};
+
+/** 53-bit string hash (cyrb53). */
+const hash = (text: string) => {
+  let h1 = 0xdeadbeef;
+  let h2 = 0x41c6ce57;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+};
+
+/** Fingerprint of the user-editable box definition; ignores fields the app fills in automatically. */
+export const boxFingerprint = (box: Scenario) =>
+  hash(stableStringify({
+    label: box.label,
+    desc: box.desc,
+    template: box.template,
+    personas: box.personas || [],
+    categories: (box.categories || []).map(({ id, label, desc, componentIds, decisionSupport }) =>
+      ({ id, label, desc, componentIds, decisionSupport: !!decisionSupport })),
+    components: (box.components || []).map(({ id, label, desc, manual, values }) =>
+      ({ id, label, desc, manual: !!manual, values: (values || []).map(({ id, label }) => ({ id, label })) })),
+    inconsistencies: normalizeInconsistencies(box.inconsistencies || {}),
+    prompts: (box.llm?.prompts || [])
+      .filter(({ type }) => type === 'narrative' || type === 'persona')
+      .map(({ type, prompt }) => ({ type, prompt })),
+  }));
+
+export const personaFingerprint = ({ label, desc, url }: Persona) =>
+  hash(stableStringify({ label, desc, url }));
 
 const files: Record<Languages, () => Promise<{ default: StarterKitData }>> = {
   // Vite serves JSON imports as JavaScript in dev; Node requires import attributes.
@@ -222,9 +282,10 @@ export const loadStarterKit = async (
   const file = files[language];
   if (!file) throw new Error(`Unsupported starter kit language: ${language}`);
   const { default: data } = await file();
-  const scenarios = data.boxes.map((box) =>
-    createScenario(box, data.effectsPrompt, data.personaPrompt, thresholdColors)
-  );
+  const scenarios = data.boxes.map((box) => {
+    const scenario = createScenario(box, data.effectsPrompt, data.personaPrompt, thresholdColors);
+    return { ...scenario, starterHash: boxFingerprint(scenario) };
+  });
   const personaIds = new Set(data.personas.map(({ id }) => id));
   for (const scenario of scenarios) {
     for (const id of scenario.personas || []) {
@@ -236,43 +297,89 @@ export const loadStarterKit = async (
     lastUpdate: Date.now(),
     scenario: scenarios[0],
     scenarios: scenarios.slice(1),
-    personas: data.personas,
+    personas: data.personas.map((persona) => ({ ...persona, starterHash: personaFingerprint(persona) })),
   };
 };
 
+export type StarterKitConflict = { id: string; label: string; kind: 'box' | 'persona' };
+
+/** A box is untouched when its definition still matches the kit it came from and holds no user work. */
+const isUntouchedBox = (box: Scenario) =>
+  (!box.starterHash || box.starterHash === boxFingerprint(box)) &&
+  (box.narratives || []).every(({ id }) => id === `${box.id}-voorbeeld`) &&
+  !box.decisionLog?.length &&
+  !Object.keys(box.criteriaWeights || {}).length;
+
+const isUntouchedPersona = (persona: Persona, current: Persona) =>
+  persona.starterHash
+    ? persona.starterHash === personaFingerprint(persona)
+    : persona.label === current.label && persona.desc === current.desc;
+
+/**
+ * Adds missing starter boxes and personas and updates existing ones to the current kit.
+ * Untouched items are replaced silently (keeping their id and position); edited items are
+ * only replaced when their id is in `overwrite`, otherwise they are reported as conflicts.
+ */
 export const addStarterKitToModel = (
   model: DataModel,
-  starter: DataModel
-): { model: DataModel; added: number; updated: number } => {
+  starter: DataModel,
+  overwrite: ReadonlySet<string> = new Set()
+): { model: DataModel; added: number; updated: number; conflicts: StarterKitConflict[] } => {
   const starterBoxes = [starter.scenario, ...starter.scenarios];
   const starterById = new Map(starterBoxes.map((box) => [box.id, box]));
   const existingIds = new Set([model.scenario, ...model.scenarios].map(({ id }) => id));
   const missing = starterBoxes.filter(({ id }) => !existingIds.has(id));
-  // Existing starter boxes without a persona selection get the starter selection,
-  // and missing starter personas are added; user choices are never replaced.
+  const conflicts: StarterKitConflict[] = [];
   let updated = 0;
-  const withPersonas = (box: Scenario) => {
-    const defaults = starterById.get(box.id)?.personas;
-    if (box.personas?.length || !defaults?.length) return box;
+  let changed = false;
+  const updateBox = (box: Scenario): Scenario => {
+    const current = starterById.get(box.id);
+    if (!current) return box;
+    if (boxFingerprint(box) === current.starterHash) {
+      if (box.starterHash === current.starterHash) return box;
+      changed = true;
+      return { ...box, starterHash: current.starterHash };
+    }
+    if (isUntouchedBox(box) || overwrite.has(box.id)) {
+      updated++;
+      // Keep view preferences; everything else comes from the kit.
+      const { mapConfig, mapUnits, osmAmenities, includeMapSupport, decisionSupportPrompted } = box;
+      return { ...current, mapConfig, mapUnits, osmAmenities, includeMapSupport, decisionSupportPrompted };
+    }
+    conflicts.push({ id: box.id, label: box.label, kind: 'box' });
+    // Edited boxes without a persona selection still get the starter selection.
+    if (box.personas?.length || !current.personas?.length) return box;
     updated++;
-    return { ...box, personas: [...defaults] };
+    return { ...box, personas: [...current.personas] };
   };
-  const scenario = withPersonas(model.scenario);
-  const scenarios = model.scenarios.map(withPersonas);
+  const scenario = updateBox(model.scenario);
+  const scenarios = model.scenarios.map(updateBox);
+
   const starterPersonas = new Map((starter.personas || []).map((p) => [p.id, p]));
-  // Starter personas still showing their original artwork get the current image.
   const personas = (model.personas || []).map((persona) => {
+    const original = persona.url && renamedPersonaImages[persona.url];
+    const own = original ? { ...persona, url: original } : persona;
+    if (original) changed = true;
     const current = starterPersonas.get(persona.id);
-    if (!current || legacyPersonaImages[persona.id] !== persona.url) return persona;
-    updated++;
-    return { ...persona, url: current.url };
+    if (!current) return own;
+    if (personaFingerprint(own) === current.starterHash) {
+      if (own.starterHash === current.starterHash) return own;
+      changed = true;
+      return { ...own, starterHash: current.starterHash };
+    }
+    if (isUntouchedPersona(own, current) || overwrite.has(persona.id)) {
+      updated++;
+      return { ...current };
+    }
+    conflicts.push({ id: persona.id, label: persona.label, kind: 'persona' });
+    return own;
   });
   const existingPersonas = new Set(personas.map(({ id }) => id));
   const addedPersonas = (starter.personas || []).filter(({ id }) => !existingPersonas.has(id));
   updated += missing.length ? 0 : addedPersonas.length;
   return {
     model:
-      missing.length || updated
+      missing.length || updated || addedPersonas.length || changed
         ? {
             ...model,
             scenario,
@@ -282,5 +389,6 @@ export const addStarterKitToModel = (
         : model,
     added: missing.length,
     updated,
+    conflicts,
   };
 };

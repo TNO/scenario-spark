@@ -1,27 +1,6 @@
-import starter_event_visitor from '../assets/personas/starter_event_visitor.jpg';
-import starter_nearby_resident from '../assets/personas/starter_nearby_resident.jpg';
-import starter_event_organiser from '../assets/personas/starter_event_organiser.jpg';
-import starter_reduced_mobility from '../assets/personas/starter_reduced_mobility.jpg';
-import starter_elderly_alone from '../assets/personas/starter_elderly_alone.jpg';
-import starter_young_parent from '../assets/personas/starter_young_parent.jpg';
-import starter_farmer from '../assets/personas/starter_farmer.jpg';
-import starter_truck_driver from '../assets/personas/starter_truck_driver.jpg';
-import starter_traveller from '../assets/personas/starter_traveller.jpg';
-import starter_nurse from '../assets/personas/starter_nurse.jpg';
-import starter_teacher from '../assets/personas/starter_teacher.jpg';
-import starter_small_business from '../assets/personas/starter_small_business.jpg';
-import starter_infra_operator from '../assets/personas/starter_infra_operator.jpg';
-import starter_it_specialist from '../assets/personas/starter_it_specialist.jpg';
-import starter_field_worker from '../assets/personas/starter_field_worker.jpg';
-import starter_hospitality from '../assets/personas/starter_hospitality.jpg';
-import starter_protester from '../assets/personas/starter_protester.jpg';
-import starter_community_leader from '../assets/personas/starter_community_leader.jpg';
-import starter_local_official from '../assets/personas/starter_local_official.jpg';
-import starter_taxi_driver from '../assets/personas/starter_taxi_driver.jpg';
-import starter_student from '../assets/personas/starter_student.jpg';
-import starter_single_parent from '../assets/personas/starter_single_parent.jpg';
-import starter_commuter from '../assets/personas/starter_commuter.jpg';
-import starter_shift_worker from '../assets/personas/starter_shift_worker.jpg';
+import single_parent1 from '../assets/personas/single_parent1.jpg';
+import commuter1 from '../assets/personas/commuter1.jpg';
+import shift_worker1 from '../assets/personas/shift_worker1.jpg';
 import cook1 from '../assets/personas/cook1.jpg';
 import cook2 from '../assets/personas/cook2.jpg';
 import cook3 from '../assets/personas/cook3.jpg';
@@ -114,37 +93,16 @@ import middleaged_man_suit3 from '../assets/personas/middleaged_man_suit3.jpg';
 import middleaged_man_suit4 from '../assets/personas/middleaged_man_suit4.jpg';
 
 export const PersonaImages = [
-  { id: 'starter_event_visitor', img: starter_event_visitor, label: 'Event visitor' },
-  { id: 'starter_nearby_resident', img: starter_nearby_resident, label: 'Nearby residents' },
-  { id: 'starter_event_organiser', img: starter_event_organiser, label: 'Event organiser' },
-  { id: 'starter_reduced_mobility', img: starter_reduced_mobility, label: 'Resident with reduced mobility' },
-  { id: 'starter_elderly_alone', img: starter_elderly_alone, label: 'Older person living alone' },
-  { id: 'starter_young_parent', img: starter_young_parent, label: 'Parent of young children' },
-  { id: 'starter_farmer', img: starter_farmer, label: 'Farmer' },
-  { id: 'starter_truck_driver', img: starter_truck_driver, label: 'Truck driver' },
-  { id: 'starter_traveller', img: starter_traveller, label: 'International traveller' },
-  { id: 'starter_nurse', img: starter_nurse, label: 'Hospital nurse' },
-  { id: 'starter_teacher', img: starter_teacher, label: 'Teacher' },
-  { id: 'starter_small_business', img: starter_small_business, label: 'Small business owner' },
-  { id: 'starter_infra_operator', img: starter_infra_operator, label: 'Infrastructure operator' },
-  { id: 'starter_it_specialist', img: starter_it_specialist, label: 'IT security specialist' },
-  { id: 'starter_field_worker', img: starter_field_worker, label: 'Construction and utility worker' },
-  { id: 'starter_hospitality', img: starter_hospitality, label: 'Restaurant cook' },
-  { id: 'starter_protester', img: starter_protester, label: 'Student protester' },
-  { id: 'starter_community_leader', img: starter_community_leader, label: 'Community leader' },
-  { id: 'starter_local_official', img: starter_local_official, label: 'Local official' },
-  { id: 'starter_taxi_driver', img: starter_taxi_driver, label: 'Taxi driver' },
-  { id: 'starter_student', img: starter_student, label: 'Student' },
-  { id: 'starter_single_parent', img: starter_single_parent, label: 'Single parent' },
-  { id: 'starter_commuter', img: starter_commuter, label: 'Commuter' },
-  { id: 'starter_shift_worker', img: starter_shift_worker, label: 'Plant shift worker' },
-  { id: 'cook1', img: cook1, label: 'Cook 1' },
+  { id: 'single_parent1', img: single_parent1, label: 'Single parent' },
+  { id: 'commuter1', img: commuter1, label: 'Commuter' },
+  { id: 'shift_worker1', img: shift_worker1, label: 'Plant shift worker' },
+  { id: 'cook1', img: cook1, label: 'Restaurant cook' },
   { id: 'cook2', img: cook2, label: 'Cook 2' },
   { id: 'cook3', img: cook3, label: 'Cook 3' },
   {
     id: 'elderly_man1',
     img: elderly_man1,
-    label: 'Elderly man 1',
+    label: 'Older person living alone',
   },
   {
     id: 'elderly_man2',
@@ -164,7 +122,7 @@ export const PersonaImages = [
   {
     id: 'farmer1',
     img: farmer1,
-    label: 'Farmer 1',
+    label: 'Farmer',
   },
   {
     id: 'farmer2',
@@ -179,7 +137,7 @@ export const PersonaImages = [
   {
     id: 'female_student1',
     img: female_student1,
-    label: 'Female student 1',
+    label: 'Student',
   },
   {
     id: 'female_student2',
@@ -189,7 +147,7 @@ export const PersonaImages = [
   {
     id: 'nurse1',
     img: nurse1,
-    label: 'Nurse 1',
+    label: 'Hospital nurse',
   },
   {
     id: 'nurse2',
@@ -209,7 +167,7 @@ export const PersonaImages = [
   {
     id: 'young_mother1',
     img: young_mother1,
-    label: 'Young mother 1',
+    label: 'Parent of young children',
   },
   {
     id: 'young_mother2',
@@ -244,7 +202,7 @@ export const PersonaImages = [
   {
     id: 'middle_aged_male_truck_driver1',
     img: middle_aged_male_truck_driver1,
-    label: 'Middle-aged male truckdriver 1',
+    label: 'Truck driver',
   },
   {
     id: 'middle_aged_male_truck_driver2',
@@ -264,7 +222,7 @@ export const PersonaImages = [
   {
     id: 'male_indian_student1',
     img: male_indian_student1,
-    label: 'Male Indian student 1',
+    label: 'International traveller',
   },
   {
     id: 'male_indian_student2',
@@ -284,7 +242,7 @@ export const PersonaImages = [
   {
     id: 'female_worker_with_laptop1',
     img: female_worker_with_laptop1,
-    label: 'Female worker with laptop 1',
+    label: 'Event organiser',
   },
   {
     id: 'female_worker_with_laptop2',
@@ -301,8 +259,8 @@ export const PersonaImages = [
     img: female_worker_with_laptop4,
     label: 'Female worker with laptop 4',
   },
-  { id: 'families1', img: families1, label: 'Families 1' },
-  { id: 'families2', img: families2, label: 'Families 2' },
+  { id: 'families1', img: families1, label: 'Event visitor' },
+  { id: 'families2', img: families2, label: 'Nearby residents' },
   { id: 'families3', img: families3, label: 'Families 3' },
   { id: 'families4', img: families4, label: 'Families 4' },
   { id: 'families5', img: families5, label: 'Families 5' },
@@ -316,14 +274,14 @@ export const PersonaImages = [
   { id: 'families13', img: families13, label: 'Families 13' },
   { id: 'families14', img: families14, label: 'Families 14' },
   { id: 'families15', img: families15, label: 'Families 15' },
-  { id: 'female_speaker1', img: female_speaker1, label: 'Female speaker 1' },
+  { id: 'female_speaker1', img: female_speaker1, label: 'Community leader' },
   { id: 'female_speaker2', img: female_speaker2, label: 'Female speaker 2' },
   { id: 'female_speaker3', img: female_speaker3, label: 'Female speaker 3' },
   { id: 'female_speaker4', img: female_speaker4, label: 'Female speaker 4' },
   {
     id: 'construction_worker1',
     img: construction_worker1,
-    label: 'Construction worker 1',
+    label: 'Construction and utility worker',
   },
   {
     id: 'construction_worker2',
@@ -343,7 +301,7 @@ export const PersonaImages = [
   {
     id: 'elderly_woman_wheelchair1',
     img: elderly_woman_wheelchair1,
-    label: 'Elderly woman in wheelchair 1',
+    label: 'Resident with reduced mobility',
   },
   {
     id: 'elderly_woman_wheelchair2',
@@ -360,34 +318,34 @@ export const PersonaImages = [
     img: elderly_woman_wheelchair4,
     label: 'Elderly woman in wheelchair 4',
   },
-  { id: 'female_teacher1', img: female_teacher1, label: 'Female teacher 1' },
+  { id: 'female_teacher1', img: female_teacher1, label: 'Teacher' },
   { id: 'female_teacher2', img: female_teacher2, label: 'Female teacher 2' },
   { id: 'male_teacher1', img: male_teacher1, label: 'Male teacher 1' },
   { id: 'male_teacher2', img: male_teacher2, label: 'Male teacher 2' },
-  { id: 'male_zzp1', img: male_zzp1, label: 'Male worker with laptop' },
+  { id: 'male_zzp1', img: male_zzp1, label: 'Small business owner' },
   { id: 'male_zzp2', img: male_zzp2, label: 'Male worker with laptop' },
   { id: 'male_zzp3', img: male_zzp3, label: 'Male worker with laptop' },
   { id: 'male_zzp4', img: male_zzp4, label: 'Male worker with laptop' },
-  { id: 'business_woman1', img: business_woman1, label: 'Business woman 1' },
+  { id: 'business_woman1', img: business_woman1, label: 'Infrastructure operator' },
   { id: 'business_woman2', img: business_woman2, label: 'Business woman 2' },
   { id: 'business_woman3', img: business_woman3, label: 'Business woman 3' },
   { id: 'business_woman4', img: business_woman4, label: 'Business woman 4' },
-  { id: 'climate_girl1', img: climate_girl1, label: 'Climate girl 1' },
+  { id: 'climate_girl1', img: climate_girl1, label: 'Student protester' },
   { id: 'climate_girl2', img: climate_girl2, label: 'Climate girl 2' },
   { id: 'climate_girl3', img: climate_girl3, label: 'Climate girl 3' },
   { id: 'climate_girl4', img: climate_girl4, label: 'Climate girl 4' },
-  { id: 'taxi_driver1', img: taxi_driver1, label: 'Taxi driver 1' },
+  { id: 'taxi_driver1', img: taxi_driver1, label: 'Taxi driver' },
   { id: 'taxi_driver2', img: taxi_driver2, label: 'Taxi driver 2' },
   { id: 'taxi_driver3', img: taxi_driver3, label: 'Taxi driver 3' },
   { id: 'taxi_driver4', img: taxi_driver4, label: 'Taxi driver 4' },
-  { id: 'tech_guy1', img: tech_guy1, label: 'Tech guy 1' },
+  { id: 'tech_guy1', img: tech_guy1, label: 'IT security specialist' },
   { id: 'tech_guy2', img: tech_guy2, label: 'Tech guy 2' },
   { id: 'tech_guy3', img: tech_guy3, label: 'Tech guy 3' },
   { id: 'tech_guy4', img: tech_guy4, label: 'Tech guy 4' },
   {
     id: 'middleaged_man_suit1',
     img: middleaged_man_suit1,
-    label: 'Middleaged man in suit 1',
+    label: 'Local official',
   },
   {
     id: 'middleaged_man_suit2',

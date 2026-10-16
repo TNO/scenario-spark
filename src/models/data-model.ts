@@ -17,6 +17,8 @@ export type DataModel = {
 
 export type Persona = Item & {
   url?: string;
+  /** Fingerprint of the starter-kit version, used to detect user edits */
+  starterHash?: string;
 };
 
 export type OldDataModel = {
@@ -209,6 +211,8 @@ export type Scenario = Item & {
   criteriaWeights?: { [criterion: string]: number };
   /** Decisions taken on the decision-support page, with rationale and timestamp */
   decisionLog?: DecisionLogEntry[];
+  /** Fingerprint of the starter-kit version, used to detect user edits */
+  starterHash?: string;
 };
 
 /** A recorded decision; scenario and COA labels are stored so removed references stay readable */

@@ -4,6 +4,7 @@ import {
   FlatButton,
   Icon,
   Menu,
+  InputCheckbox,
   ModalPanel,
   RadioButtons,
   Select,
@@ -33,7 +34,7 @@ import {
   newScenario,
   thresholdColors,
 } from '../models';
-import { addStarterKitToModel, loadStarterKit } from '../models/starter-kit';
+import { StarterKitConflict, addStarterKitToModel, loadStarterKit } from '../models/starter-kit';
 import {
   SAVED,
   capitalize,
@@ -169,6 +170,20 @@ export const HomePage: MeiosisComponent = () => {
   let downloadFilename = '';
   let deleteScenarioModalOpen = false;
   let showComparison = false;
+  let pendingStarter: DataModel | null = null;
+  let starterConflicts: StarterKitConflict[] = [];
+  const starterOverwrite = new Set<string>();
+
+  const applyStarterKit = async (attrs: Parameters<typeof saveModel>[0], starter: DataModel) => {
+    const { model } = attrs.state;
+    const result = addStarterKitToModel(model, starter, starterOverwrite);
+    if (result.model !== model) await saveModel(attrs, result.model);
+    toast({
+      html: result.added || result.updated
+        ? t('STARTER_KIT_ADDED', { added: result.added, updated: result.updated })
+        : t('STARTER_KIT_ALREADY_PRESENT'),
+    });
+  };
   let sharedBox = m.route.param(PERMALINK_PARAM) as string | undefined;
 
   const importModelText = async (attrs: Parameters<typeof saveModel>[0], text: string) => {
@@ -428,15 +443,15 @@ export const HomePage: MeiosisComponent = () => {
                   toast({ html: t('STARTER_KIT_LOAD_FAILED') });
                   return;
                 }
-                const result = addStarterKitToModel(model, starter);
-                if (result.added || result.updated) await saveModel(attrs, result.model);
-                toast({
-                  html: result.added
-                    ? t('STARTER_KIT_ADDED', { count: result.added })
-                    : result.updated
-                      ? t('STARTER_KIT_PERSONAS_ADDED', { count: result.updated })
-                      : t('STARTER_KIT_ALREADY_PRESENT'),
-                });
+                starterOverwrite.clear();
+                const { conflicts } = addStarterKitToModel(model, starter);
+                if (conflicts.length) {
+                  pendingStarter = starter;
+                  starterConflicts = conflicts;
+                  m.redraw();
+                  return;
+                }
+                await applyStarterKit(attrs, starter);
               },
             }),
             m('a#downloadAnchorElem', { style: 'display:none' }),
@@ -689,6 +704,48 @@ export const HomePage: MeiosisComponent = () => {
                   toast({ html: t('COLLECTION_LOADED_MSG') });
                   pendingCollection = null;
                   confirmCollectionImport = false;
+                },
+              },
+            ],
+          }),
+          m(ModalPanel, {
+            id: 'starterKitConflict',
+            isOpen: !!pendingStarter,
+            onToggle: (open) => {
+              if (!open) pendingStarter = null;
+            },
+            title: t('STARTER_KIT_CONFLICT_TITLE'),
+            closeOnButtonClick: true,
+            description: m('.starter-kit-conflicts', [
+              m('p', t('STARTER_KIT_CONFLICT_MSG')),
+              m(InputCheckbox, {
+                checked: starterConflicts.length > 0 && starterOverwrite.size === starterConflicts.length,
+                label: t('STARTER_KIT_SELECT_ALL'),
+                onchange: (checked: boolean) => {
+                  starterOverwrite.clear();
+                  if (checked) starterConflicts.forEach(({ id }) => starterOverwrite.add(id));
+                },
+              }),
+              starterConflicts.map(({ id, label, kind }) =>
+                m(InputCheckbox, {
+                  checked: starterOverwrite.has(id),
+                  label: `${label} (${t(kind === 'box' ? 'STARTER_KIT_KIND_BOX' : 'STARTER_KIT_KIND_PERSONA')})`,
+                  onchange: (checked: boolean) => {
+                    if (checked) starterOverwrite.add(id);
+                    else starterOverwrite.delete(id);
+                  },
+                })
+              ),
+            ]),
+            buttons: [
+              { label: t('CANCEL'), iconName: 'cancel' },
+              {
+                label: t('STARTER_KIT_UPDATE'),
+                iconName: 'update',
+                onclick: async () => {
+                  const starter = pendingStarter;
+                  pendingStarter = null;
+                  if (starter) await applyStarterKit(attrs, starter);
                 },
               },
             ],
