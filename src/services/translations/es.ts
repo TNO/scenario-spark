@@ -248,6 +248,7 @@ export const messages: typeof messagesEN = {
     SELECTED: 'Seleccionado',
     ALL: 'Todos',
     INCLUDE_BOX: 'Incluir la caja morfológica (una tabla por categoría, con los valores seleccionados resaltados)',
+    INCLUDE_DECISIONS: 'Incluir el análisis de decisiones (resumen, comparación de cursos de acción, matriz de riesgos y registro de decisiones)',
   },
   HIDE_INCONSISTENT: 'Ocultar combinaciones inconsistentes',
   GOAL: {

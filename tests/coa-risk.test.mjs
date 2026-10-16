@@ -98,6 +98,28 @@ test('narrativeCoaRows reports the residual risk only when set', () => {
   assert.equal(rows[1].risk, undefined);
 });
 
+test('narrativeCoaRows exports the reflection, also of a COA with only a reflection', () => {
+  const box = {
+    includeDecisionSupport: true,
+    categories: [{ id: 'dec', label: 'Measures', decisionSupport: true, componentIds: ['m'] }],
+    components: [{ id: 'm', label: 'Measure', values: [{ id: 'x', label: 'X' }] }],
+    inconsistencies: {},
+  };
+  const n = {
+    components: {},
+    coas: [
+      { id: 'a', label: 'A', components: { m: ['x'] }, reflection: '- **Risk**: late' },
+      { id: 'b', label: 'B', components: {}, reflection: 'Only a reflection' },
+      { id: 'c', label: 'C', components: {}, reflection: '  ' },
+    ],
+  };
+  const rows = narrativeCoaRows(box, n);
+  assert.deepEqual(rows.map((r) => [r.label, r.reflection]), [
+    ['A', '- **Risk**: late'],
+    ['B', 'Only a reflection'],
+  ]);
+});
+
 test('riskMatrix places scenarios and the COAs of the selected scenario', () => {
   const other = { id: 'n2', label: 'Fire', components: {}, probability: 'probability_0', impact: 'impact_4', risk: 'risk_3' };
   const unplaced = { id: 'n3', label: 'Storm', components: {} };

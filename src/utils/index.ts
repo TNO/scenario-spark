@@ -905,7 +905,16 @@ export type DocxNarrative = {
     warnings?: string[];
     /** Already translated residual risk, e.g. "Residual risk: Low (situation: High)" */
     risk?: string;
+    /** Reflection on the course of action (Markdown, often LLM-generated) */
+    reflection?: string;
   }>;
+};
+
+export type DocxOptions = {
+  /** Heading of a course-of-action reflection */
+  reflectionTitle?: string;
+  /** Decision analysis (as exported from the decision-support page), appended on landscape pages */
+  analysis?: ComparisonExport;
 };
 
 /**
@@ -917,6 +926,7 @@ export const downloadAsDocx = async (
   narratives: DocxNarrative[],
   filename = 'scenario.docx',
   decisionsTitle = 'Decisions',
+  options: DocxOptions = {},
 ): Promise<void> => {
   const sanitizeDocxText = (input: string): string =>
     input.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '');
@@ -936,6 +946,141 @@ export const downloadAsDocx = async (
     BorderStyle,
     PageBreak,
   } = await import('docx');
+
+  /** Word paragraphs for Markdown text: headings, lists, rules, bold and italic */
+  const markdownParagraphs = (text: string): import('docx').Paragraph[] => {
+    const children: import('docx').Paragraph[] = [];
+    const parseInlineRuns = (text: string): import('docx').TextRun[] => {
+      const clean = sanitizeDocxText(text);
+      const runs: import('docx').TextRun[] = [];
+      const tokenRegex = /(\*\*[^*]+\*\*|__[^_]+__|\*[^*]+\*|_[^_]+_)/g;
+      let last = 0;
+      let match: RegExpExecArray | null;
+
+      while ((match = tokenRegex.exec(clean)) !== null) {
+        if (match.index > last) {
+          runs.push(new TextRun(clean.slice(last, match.index)));
+        }
+
+        const token = match[0];
+        const isStrong =
+          (token.startsWith('**') && token.endsWith('**')) ||
+          (token.startsWith('__') && token.endsWith('__'));
+        const content = isStrong
+          ? token.slice(2, -2)
+          : token.slice(1, -1);
+
+        runs.push(
+          new TextRun({
+            text: content,
+            bold: isStrong,
+            italics: !isStrong,
+          }),
+        );
+        last = match.index + token.length;
+      }
+
+      if (last < clean.length) {
+        runs.push(new TextRun(clean.slice(last)));
+      }
+
+      return runs.length > 0 ? runs : [new TextRun(clean)];
+    };
+
+    const paragraphBuffer: string[] = [];
+    const flushParagraph = () => {
+      if (paragraphBuffer.length === 0) return;
+      const paragraphText = paragraphBuffer.join(' ').trim();
+      if (paragraphText) {
+        children.push(
+          new Paragraph({
+            children: parseInlineRuns(paragraphText),
+            spacing: { after: 120 },
+          }),
+        );
+      }
+      paragraphBuffer.length = 0;
+    };
+
+    for (const rawLine of text.split('\n')) {
+      const line = rawLine.trim();
+
+      if (!line) {
+        flushParagraph();
+        continue;
+      }
+
+      const headingMatch = line.match(/^(#{1,6})\s+(.+)$/);
+      if (headingMatch) {
+        flushParagraph();
+        const depth = headingMatch[1].length;
+        const headingMap = {
+          1: HeadingLevel.HEADING_1,
+          2: HeadingLevel.HEADING_2,
+          3: HeadingLevel.HEADING_3,
+          4: HeadingLevel.HEADING_4,
+          5: HeadingLevel.HEADING_5,
+          6: HeadingLevel.HEADING_6,
+        } as const;
+        children.push(
+          new Paragraph({
+            text: sanitizeDocxText(headingMatch[2].trim()),
+            heading:
+              headingMap[Math.min(depth, 6) as 1 | 2 | 3 | 4 | 5 | 6],
+            spacing: { before: 120, after: 80 },
+          }),
+        );
+        continue;
+      }
+
+      if (/^([-*_])(?:\s*\1){2,}\s*$/.test(line)) {
+        flushParagraph();
+        children.push(
+          new Paragraph({
+            border: {
+              bottom: {
+                style: BorderStyle.SINGLE,
+                size: 6,
+                color: 'BDBDBD',
+              },
+            },
+            spacing: { before: 120, after: 120 },
+          }),
+        );
+        continue;
+      }
+
+      const unordered = line.match(/^[-*•]\s+(.+)$/);
+      if (unordered) {
+        flushParagraph();
+        children.push(
+          new Paragraph({
+            children: parseInlineRuns(unordered[1].trim()),
+            bullet: { level: 0 },
+            spacing: { after: 60 },
+          }),
+        );
+        continue;
+      }
+
+      const ordered = line.match(/^\d+[\.)]\s+(.+)$/);
+      if (ordered) {
+        flushParagraph();
+        children.push(
+          new Paragraph({
+            children: parseInlineRuns(ordered[1].trim()),
+            numbering: { reference: 'scenario-numbered-list', level: 0 },
+            spacing: { after: 60 },
+          }),
+        );
+        continue;
+      }
+
+      paragraphBuffer.push(line);
+    }
+    flushParagraph();
+    return children;
+  };
 
   const sections: import('docx').ISectionOptions[] = [
     {
@@ -1019,136 +1164,7 @@ export const downloadAsDocx = async (
             }),
           ];
 
-          const parseInlineRuns = (text: string): import('docx').TextRun[] => {
-            const clean = sanitizeDocxText(text);
-            const runs: import('docx').TextRun[] = [];
-            const tokenRegex = /(\*\*[^*]+\*\*|__[^_]+__|\*[^*]+\*|_[^_]+_)/g;
-            let last = 0;
-            let match: RegExpExecArray | null;
-
-            while ((match = tokenRegex.exec(clean)) !== null) {
-              if (match.index > last) {
-                runs.push(new TextRun(clean.slice(last, match.index)));
-              }
-
-              const token = match[0];
-              const isStrong =
-                (token.startsWith('**') && token.endsWith('**')) ||
-                (token.startsWith('__') && token.endsWith('__'));
-              const content = isStrong
-                ? token.slice(2, -2)
-                : token.slice(1, -1);
-
-              runs.push(
-                new TextRun({
-                  text: content,
-                  bold: isStrong,
-                  italics: !isStrong,
-                }),
-              );
-              last = match.index + token.length;
-            }
-
-            if (last < clean.length) {
-              runs.push(new TextRun(clean.slice(last)));
-            }
-
-            return runs.length > 0 ? runs : [new TextRun(clean)];
-          };
-
-          const paragraphBuffer: string[] = [];
-          const flushParagraph = () => {
-            if (paragraphBuffer.length === 0) return;
-            const paragraphText = paragraphBuffer.join(' ').trim();
-            if (paragraphText) {
-              children.push(
-                new Paragraph({
-                  children: parseInlineRuns(paragraphText),
-                  spacing: { after: 120 },
-                }),
-              );
-            }
-            paragraphBuffer.length = 0;
-          };
-
-          for (const rawLine of n.content.split('\n')) {
-            const line = rawLine.trim();
-
-            if (!line) {
-              flushParagraph();
-              continue;
-            }
-
-            const headingMatch = line.match(/^(#{1,6})\s+(.+)$/);
-            if (headingMatch) {
-              flushParagraph();
-              const depth = headingMatch[1].length;
-              const headingMap = {
-                1: HeadingLevel.HEADING_1,
-                2: HeadingLevel.HEADING_2,
-                3: HeadingLevel.HEADING_3,
-                4: HeadingLevel.HEADING_4,
-                5: HeadingLevel.HEADING_5,
-                6: HeadingLevel.HEADING_6,
-              } as const;
-              children.push(
-                new Paragraph({
-                  text: sanitizeDocxText(headingMatch[2].trim()),
-                  heading:
-                    headingMap[Math.min(depth, 6) as 1 | 2 | 3 | 4 | 5 | 6],
-                  spacing: { before: 120, after: 80 },
-                }),
-              );
-              continue;
-            }
-
-            if (/^([-*_])(?:\s*\1){2,}\s*$/.test(line)) {
-              flushParagraph();
-              children.push(
-                new Paragraph({
-                  border: {
-                    bottom: {
-                      style: BorderStyle.SINGLE,
-                      size: 6,
-                      color: 'BDBDBD',
-                    },
-                  },
-                  spacing: { before: 120, after: 120 },
-                }),
-              );
-              continue;
-            }
-
-            const unordered = line.match(/^[-*•]\s+(.+)$/);
-            if (unordered) {
-              flushParagraph();
-              children.push(
-                new Paragraph({
-                  children: parseInlineRuns(unordered[1].trim()),
-                  bullet: { level: 0 },
-                  spacing: { after: 60 },
-                }),
-              );
-              continue;
-            }
-
-            const ordered = line.match(/^\d+[\.)]\s+(.+)$/);
-            if (ordered) {
-              flushParagraph();
-              children.push(
-                new Paragraph({
-                  children: parseInlineRuns(ordered[1].trim()),
-                  numbering: { reference: 'scenario-numbered-list', level: 0 },
-                  spacing: { after: 60 },
-                }),
-              );
-              continue;
-            }
-
-            paragraphBuffer.push(line);
-          }
-
-          flushParagraph();
+          children.push(...markdownParagraphs(n.content));
 
           if (n.coas && n.coas.length > 0) {
             children.push(
@@ -1177,14 +1193,7 @@ export const downloadAsDocx = async (
                 );
               }
               for (const text of [coa.desc, coa.notes]) {
-                if (text) {
-                  children.push(
-                    new Paragraph({
-                      children: parseInlineRuns(sanitizeDocxText(text)),
-                      spacing: { after: 60 },
-                    }),
-                  );
-                }
+                if (text) children.push(...markdownParagraphs(text));
               }
               children.push(
                 ...coa.decisions.map(
@@ -1211,6 +1220,20 @@ export const downloadAsDocx = async (
                     }),
                 ),
               );
+              if (coa.reflection?.trim()) {
+                children.push(
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: sanitizeDocxText(options.reflectionTitle || 'Reflection'),
+                        bold: true,
+                      }),
+                    ],
+                    spacing: { before: 120, after: 60 },
+                  }),
+                  ...markdownParagraphs(coa.reflection),
+                );
+              }
             }
           }
 
@@ -1292,6 +1315,14 @@ export const downloadAsDocx = async (
       ],
     },
   ];
+
+  if (options.analysis) {
+    const { comparisonChildren, comparisonPageProperties } = await import('./comparison-docx');
+    sections.push({
+      properties: comparisonPageProperties,
+      children: await comparisonChildren(options.analysis, trafficLight),
+    });
+  }
 
   const doc = new Document({
     numbering: {

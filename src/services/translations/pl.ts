@@ -247,6 +247,7 @@ export const messages: typeof messagesEN = {
     SELECTED: 'Wybrane',
     ALL: 'Wszystkie',
     INCLUDE_BOX: 'Dołącz skrzynkę morfologiczną (jedna tabela na kategorię, wybrane wartości wyróżnione)',
+    INCLUDE_DECISIONS: 'Dołącz analizę decyzyjną (przegląd, porównanie wariantów działania, macierz ryzyka i dziennik decyzji)',
   },
   HIDE_INCONSISTENT: 'Ukryj niespójne kombinacje',
   GOAL: {

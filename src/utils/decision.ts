@@ -64,6 +64,14 @@ export const decisionSupportActive = (box: Box) =>
  * references decision factors is dropped when decision support is off, or when none
  * of its decisions has been chosen: decisions are listed in their own section.
  */
+/** Show the decision-support page when it is enabled and there is a saved or an open scenario. */
+export const hasDecisionSupportPage = (
+  scenario?: Partial<Pick<Scenario, 'includeDecisionSupport' | 'narratives'>>,
+  curNarrative?: Narrative,
+) =>
+  !!scenario?.includeDecisionSupport &&
+  (!!curNarrative || (scenario.narratives || []).some((n) => n.saved));
+
 export const visibleTemplateLines = (
   box: Box,
   lines: string[],
@@ -558,6 +566,7 @@ export type CoaRow = {
   label: string;
   desc?: string;
   notes?: string;
+  reflection?: string;
   active: boolean;
   decisions: Array<{ label: string; values: string[] }>;
   conflicts: Array<{ label: string; situation: string }>;
@@ -591,8 +600,9 @@ export const narrativeCoaRows = (box: Box, narrative?: CoaNarrative): CoaRow[] =
         situation: c.causes.map((s) => s.label).join(', '),
       })),
       ...(coa.risk ? { risk: { before: narrative.risk, after: coa.risk } } : {}),
+      ...(coa.reflection?.trim() ? { reflection: coa.reflection } : {}),
     }))
-    .filter((row) => row.decisions.length > 0 || row.notes || row.desc);
+    .filter((row) => row.decisions.length > 0 || row.notes || row.desc || row.reflection);
 };
 
 /**

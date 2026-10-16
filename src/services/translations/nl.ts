@@ -247,6 +247,7 @@ export const messages: typeof messagesEN = {
     SELECTED: 'Selectie',
     ALL: 'Allemaal',
     INCLUDE_BOX: 'Voeg de morfologische box toe (één tabel per categorie, met geselecteerde waarden gemarkeerd)',
+    INCLUDE_DECISIONS: 'Neem de beslisanalyse op (overzicht, vergelijking van handelingsopties, risicomatrix en beslislogboek)',
   },
   HIDE_INCONSISTENT: 'Verberg inconsistente combinaties',
   GOAL: {
