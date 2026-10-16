@@ -3043,3 +3043,16 @@ table.decision-matrix thead th.active-coa,
 .markdown-field.narrative-field .markdown-field-editor .md-editable-area {
   max-height: 65vh;
 }
+.markdown-field-editor .dropdown-menu-content,
+.markdown-field-editor .dropdown-menu-item,
+.markdown-field-editor .table-menu-content,
+.markdown-field-editor .table-menu-item {
+  background-color: var(--mm-surface-color);
+}
+.markdown-field-editor .dropdown-menu-item:hover,
+.markdown-field-editor .dropdown-menu-item:focus,
+.markdown-field-editor .dropdown-menu-item.selected,
+.markdown-field-editor .table-menu-item:hover,
+.markdown-field-editor .table-menu-item:focus {
+  background-color: color-mix(in srgb, var(--mm-primary-color) 15%, var(--mm-surface-color));
+}

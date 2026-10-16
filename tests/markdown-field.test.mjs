@@ -18,6 +18,11 @@ globalThis.document = {
   activeElement: null,
   addEventListener: (_type, fn) => listeners.add(fn),
   removeEventListener: (_type, fn) => listeners.delete(fn),
+  commands: [],
+  execCommand(command, _ui, value) {
+    this.commands.push([command, value]);
+    return true;
+  },
 };
 
 const load = () => {
@@ -25,7 +30,7 @@ const load = () => {
   const mocks = {
     'mithril-materialized': { TextArea, ThemeManager: { getTheme: () => 'light' } },
     'mithril-markdown-wysiwyg': { MarkdownEditor },
-    'mithril-ui-form': { render: (md) => md },
+    'mithril-ui-form': { render: (md) => `rendered:${md}` },
     '../../services': { t: (key) => key },
     '../../utils': {
       markdown2html: (md) => `html:${md}`,
@@ -147,4 +152,33 @@ test('plain: pasting formatted HTML inserts it as Markdown at the cursor', () =>
   assert.equal(target.value, 'Voor md:<b>x</b> na');
   assert.equal(target.selectionStart, 5 + 'md:<b>x</b>'.length);
   assert.equal(dispatched.type, 'input');
+});
+
+const paste = (render, data) => {
+  const editor = find(render(), 'markdown-field-editor');
+  let prevented = false;
+  document.commands = [];
+  editor.attrs.onpaste({
+    clipboardData: { getData: (type) => data[type] || '' },
+    preventDefault: () => (prevented = true),
+  });
+  return { prevented, commands: document.commands };
+};
+
+test('rich: pasted formatted HTML is inserted as clean HTML rendered from Markdown', () => {
+  const { render } = setup('');
+  click(find(render(), 'markdown-field-body'));
+  const result = paste(render, { 'text/html': '<h2>Title</h2>', 'text/plain': 'Title' });
+  assert.equal(result.prevented, true);
+  assert.deepEqual(result.commands, [['insertHTML', 'rendered:md:<h2>Title</h2>']]);
+});
+
+test('rich: multi-line plain text is read as Markdown, single-line text pastes normally', () => {
+  const { render } = setup('');
+  click(find(render(), 'markdown-field-body'));
+  const multi = paste(render, { 'text/plain': '## Title\n- item' });
+  assert.deepEqual(multi.commands, [['insertHTML', 'rendered:## Title\n- item']]);
+  const single = paste(render, { 'text/plain': 'just a word' });
+  assert.equal(single.prevented, false);
+  assert.deepEqual(single.commands, []);
 });
