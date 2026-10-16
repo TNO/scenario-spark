@@ -15,10 +15,12 @@ export default defineConfig({
     cssMinify: 'esbuild',
     rollupOptions: {
       output: {
-        // Stable filenames so the service worker can cache them reliably
+        // Stable filenames for code and CSS, so the service worker can precache them.
         entryFileNames: 'assets/[name].js',
         chunkFileNames: 'assets/[name].js',
-        assetFileNames: 'assets/[name][extname]',
+        // Content-hash other assets (images, fonts), so replaced files bypass stale caches.
+        assetFileNames: (asset) =>
+          asset.names?.some((name) => name.endsWith('.css')) ? 'assets/[name][extname]' : 'assets/[name]-[hash][extname]',
       },
     },
   },

@@ -63,16 +63,23 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache-first for static assets
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request).then((response) => {
-        if (!response || response.status !== 200 || response.type === 'opaque') return response;
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-        return response;
-      });
-    })
-  );
+  const url = new URL(event.request.url);
+  const isHashedAsset = url.origin === self.location.origin && /-[\w-]{8}\.[a-z0-9]+$/i.test(url.pathname);
+
+  const fetchAndCache = () =>
+    fetch(event.request).then((response) => {
+      if (!response || response.status !== 200 || response.type === 'opaque') return response;
+      const clone = response.clone();
+      caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+      return response;
+    });
+
+  // Cache-first for content-hashed assets: their URL changes whenever their content does.
+  if (isHashedAsset) {
+    event.respondWith(caches.match(event.request).then((cached) => cached || fetchAndCache()));
+    return;
+  }
+
+  // Network-first for code and other assets with stable names, so a new deployment is used immediately.
+  event.respondWith(fetchAndCache().catch(() => caches.match(event.request).then((cached) => cached || Response.error())));
 });
