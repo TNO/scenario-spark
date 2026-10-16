@@ -158,13 +158,10 @@ test('course-of-action text areas render without mixing keyed and unkeyed vnodes
   };
   const attrs = { state: { model: { personas: [], scenario: scenario(true) }, curNarrative }, update: () => {} };
   const tree = CreateScenarioPage().view({ attrs });
-  const textAreas = findAll(tree, (node) => node.tag === materialized.TextArea);
-  assert.ok(textAreas.length >= 1, 'notes text area is rendered');
-  assert.equal(findAll(tree, (node) => node.tag === MarkdownField && node.attrs.label === 'COA_REFLECTION').length, 1);
-  for (const vnode of textAreas) {
-    // TextArea passes its attrs on to the inner <textarea>, so a `key` would sit next to unkeyed siblings.
-    assert.doesNotThrow(() => materialized.TextArea({ attrs: vnode.attrs }).view({ attrs: vnode.attrs }));
-  }
+  const fields = findAll(tree, (node) => node.tag === MarkdownField);
+  assert.deepEqual(fields.map((f) => f.attrs.label), ['COA_NOTES', 'COA_REFLECTION']);
+  assert.equal(fields[0].attrs.value, 'Note');
+  for (const vnode of fields) assert.equal(vnode.attrs.key, undefined, 'no key mixed with unkeyed siblings');
 });
 
 test('values of the active course of action that conflict with the situation are flagged', () => {
