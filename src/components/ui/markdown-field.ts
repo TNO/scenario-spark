@@ -29,6 +29,23 @@ const pasteAsMarkdown = (e: ClipboardEvent) => {
   target.dispatchEvent(new Event('input', { bubbles: true }));
 };
 
+/**
+ * Pastes into the rich editor as clean HTML derived from Markdown, so headings and lists survive
+ * and browser-specific inline styles (e.g. indents) are dropped. Multi-line plain text is read as Markdown.
+ */
+const pasteAsRichText = (e: ClipboardEvent) => {
+  const html = e.clipboardData?.getData('text/html') || '';
+  const text = e.clipboardData?.getData('text/plain') || '';
+  const markdown = (html && clipboardHtmlToMarkdown(html)) || (text.trim().includes('\n') ? text : '');
+  if (markdown) {
+    e.preventDefault();
+    document.execCommand('insertHTML', false, render(markdown));
+  } else if (html && text) {
+    e.preventDefault();
+    document.execCommand('insertText', false, text);
+  }
+};
+
 const focusWhenReady = (dom: Element, attempts = 20) => {
   const editable = dom.querySelector('[contenteditable]') as HTMLElement | null;
   if (editable) editable.focus();
@@ -92,7 +109,7 @@ export const MarkdownField: FactoryComponent<MarkdownFieldAttrs> = () => {
         if (rich && editing)
           return m(
             '.markdown-field-editor',
-            { onfocusout: onFocusOut },
+            { onfocusout: onFocusOut, onpaste: pasteAsRichText },
             m(MarkdownEditor, {
               content: value,
               onContentChange: oninput,
