@@ -9,7 +9,6 @@ import {
   ModalPanel,
   Select,
   SelectAttrs,
-  TextArea,
   TextInput,
   ThemeManager,
   toast,
@@ -971,10 +970,10 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             coa &&
               m(
                 '.col.s12',
-                // TextArea forwards `key` to its inner <textarea>, so key a wrapping fragment instead.
+                // Key a wrapping fragment, so the field is recreated per course of action.
                 m.fragment({ key: coa.id }, [
-                  m(TextArea, {
-                    className: '',
+                  m(MarkdownField, {
+                    id: coa.id,
                     label: t('COA_NOTES'),
                     value: coa.notes,
                     oninput: (notes: string) => {
