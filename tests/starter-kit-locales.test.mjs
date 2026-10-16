@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
-import { addStarterKitToModel, boxFingerprint, loadStarterKit, migratePersonaImages, personaFingerprint } from '../src/models/starter-kit.ts';
+import { addStarterKitToModel, boxFingerprint, loadStarterKit, migratePersonaImages, personaFingerprint, starterKitHasUpdates } from '../src/models/starter-kit.ts';
 
 const languages = ['nl', 'en', 'fr', 'de', 'es', 'pl'];
 const readKit = (language) => JSON.parse(
@@ -196,7 +196,8 @@ test('re-adding the starter kit migrates renamed portraits but keeps custom imag
   const merged = addStarterKitToModel(existing, starter);
   assert.equal(merged.updated, 0);
   assert.notEqual(merged.model, existing);
-  assert.deepEqual(merged.conflicts, [{ id: 'starter-farmer', label: byId['starter-farmer'].label, kind: 'persona' }]);
+  // The custom image was chosen for the current kit version, so there is nothing to ask.
+  assert.deepEqual(merged.conflicts, []);
   const urls = Object.fromEntries(merged.model.personas.map((p) => [p.id, p.url]));
   assert.equal(urls['starter-event-visitor'], 'families1');
   assert.equal(urls['starter-farmer'], 'farmer2');
@@ -219,7 +220,8 @@ test('re-adding the kit silently updates untouched items and asks before replaci
   // An untouched box from an older kit version: its hash matches its own (old) content.
   const older = { ...first, label: 'Old label' };
   older.starterHash = boxFingerprint(older);
-  const edited = { ...second, label: 'My own label' };
+  // Edited boxes and personas based on an older kit version.
+  const edited = { ...second, label: 'My own label', starterHash: 'older' };
   // Unchanged definition from an older kit version, but holding the user's own narrative.
   const used = { ...third, label: 'Old', narratives: [...third.narratives, { id: 'mine', label: 'Mine', components: {} }] };
   used.starterHash = boxFingerprint(used);
@@ -227,7 +229,7 @@ test('re-adding the kit silently updates untouched items and asks before replaci
   const legacy = { ...fourth, label: 'Legacy', starterHash: undefined };
   const oldPersona = { ...starter.personas[0], desc: 'Old kit text' };
   oldPersona.starterHash = personaFingerprint(oldPersona);
-  const editedPersona = { ...starter.personas[1], desc: 'My notes' };
+  const editedPersona = { ...starter.personas[1], desc: 'My notes', starterHash: 'older' };
   const existing = {
     scenario: older,
     scenarios: [edited, used, legacy, ...rest],
@@ -238,11 +240,11 @@ test('re-adding the kit silently updates untouched items and asks before replaci
   assert.equal(merged.updated, 3);
   assert.equal(merged.model.scenario.label, first.label);
   assert.equal(merged.model.scenario.id, first.id);
-  assert.equal(merged.model.scenarios[0], edited);
-  assert.equal(merged.model.scenarios[1], used);
+  assert.equal(merged.model.scenarios[0].label, edited.label);
+  assert.equal(merged.model.scenarios[1].narratives.length, used.narratives.length);
   assert.equal(merged.model.scenarios[2].label, fourth.label);
   assert.equal(merged.model.personas[0].desc, starter.personas[0].desc);
-  assert.equal(merged.model.personas[1], editedPersona);
+  assert.equal(merged.model.personas[1].desc, editedPersona.desc);
   assert.deepEqual(merged.conflicts.map(({ id, kind }) => [id, kind]), [
     [second.id, 'box'], [third.id, 'box'], [editedPersona.id, 'persona'],
   ]);
@@ -250,12 +252,29 @@ test('re-adding the kit silently updates untouched items and asks before replaci
   const confirmed = addStarterKitToModel(existing, starter, new Set([second.id, editedPersona.id]));
   assert.equal(confirmed.updated, 5);
   assert.equal(confirmed.model.scenarios[0].label, second.label);
-  assert.equal(confirmed.model.scenarios[1], used);
+  assert.equal(confirmed.model.scenarios[1].narratives.length, used.narratives.length);
   assert.equal(confirmed.model.personas[1].desc, starter.personas[1].desc);
   assert.deepEqual(confirmed.conflicts.map(({ id }) => id), [third.id]);
   const again = addStarterKitToModel(confirmed.model, starter);
   assert.equal(again.updated, 0);
+  assert.deepEqual(again.conflicts, []);
   assert.equal(again.model, confirmed.model);
+  assert.equal(starterKitHasUpdates(confirmed.model, starter), false);
+  // Declined items keep the user's version and are not offered again for the same kit version.
+  assert.equal(merged.model.scenarios[0].starterHash, second.starterHash);
+  assert.equal(starterKitHasUpdates(merged.model, starter), false);
+  assert.equal(starterKitHasUpdates(existing, starter), true);
+});
+
+test('the kit reports updates only when something is missing or has changed', async () => {
+  const starter = await loadStarterKit('en', []);
+  const fresh = { scenario: starter.scenario, scenarios: starter.scenarios, personas: starter.personas };
+  assert.equal(starterKitHasUpdates(fresh, starter), false);
+  const edited = { ...fresh, scenario: { ...starter.scenario, label: 'Mine' } };
+  assert.equal(starterKitHasUpdates(edited, starter), false);
+  assert.equal(starterKitHasUpdates({ ...fresh, scenarios: starter.scenarios.slice(1) }, starter), true);
+  assert.equal(starterKitHasUpdates({ ...fresh, personas: starter.personas.slice(1) }, starter), true);
+  assert.equal(starterKitHasUpdates({ scenario: { id: 'own', label: 'Own' }, scenarios: [], personas: [] }, starter), true);
 });
 
 test('deleting a starter box and re-adding the kit restores it without duplicate personas', async () => {

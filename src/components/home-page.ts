@@ -34,7 +34,7 @@ import {
   newScenario,
   thresholdColors,
 } from '../models';
-import { StarterKitConflict, addStarterKitToModel, loadStarterKit } from '../models/starter-kit';
+import { StarterKitConflict, addStarterKitToModel, loadStarterKit, starterKitHasUpdates } from '../models/starter-kit';
 import {
   SAVED,
   capitalize,
@@ -173,6 +173,26 @@ export const HomePage: MeiosisComponent = () => {
   let pendingStarter: DataModel | null = null;
   let starterConflicts: StarterKitConflict[] = [];
   const starterOverwrite = new Set<string>();
+  // Show the starter-kit button only when the kit for the current language has something new.
+  let starterCheck = { key: '', hasUpdates: false };
+  const checkStarterKit = (model: DataModel) => {
+    const key = `${i18n.currentLocale}|${model.lastUpdate}|${model.scenarios?.length}|${model.personas?.length}`;
+    if (starterCheck.key === key) return;
+    starterCheck.key = key;
+    loadStarterKit(i18n.currentLocale, thresholdColors)
+      .then((starter) => {
+        if (starterCheck.key !== key) return;
+        starterCheck.hasUpdates = starterKitHasUpdates(model, starter);
+        m.redraw();
+      })
+      .catch((error) => {
+        // Keep the button available so the user can retry and see the error.
+        console.warn('Could not check the starter kit', error);
+        if (starterCheck.key !== key) return;
+        starterCheck.hasUpdates = true;
+        m.redraw();
+      });
+  };
 
   const applyStarterKit = async (attrs: Parameters<typeof saveModel>[0], starter: DataModel) => {
     const { model } = attrs.state;
@@ -256,6 +276,7 @@ export const HomePage: MeiosisComponent = () => {
       }
       const isCleared = false;
       const { model } = attrs.state;
+      checkStarterKit(model);
       const {
         scenarios = [],
         scenario: { id, label, narratives = [], components, categories },
@@ -430,7 +451,7 @@ export const HomePage: MeiosisComponent = () => {
               label: t('NEW_MODEL', 'btn'),
               onclick: () => (clearAllModal = true),
             }),
-            m(FlatButton, {
+            starterCheck.hasUpdates && m(FlatButton, {
               iconName: 'playlist_add',
               label: t('ADD_STARTER_KIT'),
               title: t('ADD_STARTER_KIT_HINT'),

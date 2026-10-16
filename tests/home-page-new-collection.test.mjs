@@ -10,7 +10,9 @@ const materialized = require('mithril-materialized');
 const loadHomePage = (saveModel, locale, onStarterLanguage, onToast = () => {}, failStarter = false, onNavigate = () => {}) => {
   const source = readFileSync(new URL('../src/components/home-page.ts', import.meta.url), 'utf8');
   const code = esbuild.transformSync(source, { loader: 'ts', format: 'cjs', target: 'es2022' }).code;
+  const mithril = require('mithril');
   const mocks = {
+    mithril: Object.assign((...args) => mithril(...args), mithril, { redraw: () => {} }),
     'mithril-materialized': {
       ...materialized,
       toast: ({ html }) => onToast(html),
@@ -38,6 +40,7 @@ const loadHomePage = (saveModel, locale, onStarterLanguage, onToast = () => {}, 
     },
     '../models/starter-kit': {
       addStarterKitToModel: (model) => ({ model, added: 0, updated: 0, conflicts: [] }),
+      starterKitHasUpdates: () => true,
       loadStarterKit: async () => {
         if (failStarter) throw new Error('Kit unavailable');
         return {};
@@ -144,9 +147,13 @@ test('unavailable locale kit reports an error without changing the collection', 
   const radios = find(findModal().attrs.description, (node) => node.tag === materialized.RadioButtons);
   radios.attrs.onchange(2);
   const previousConsoleError = console.error;
+  const previousConsoleWarn = console.warn;
   console.error = () => {};
+  console.warn = () => {};
   try {
     await findModal().attrs.buttons.find(({ label }) => label === 'OK').onclick();
+    page.view({ attrs });
+    await new Promise((resolve) => setTimeout(resolve));
     const addButton = find(
       page.view({ attrs }),
       (node) => node.tag === materialized.FlatButton && node.attrs.label === 'ADD_STARTER_KIT'
@@ -154,6 +161,7 @@ test('unavailable locale kit reports an error without changing the collection', 
     await addButton.attrs.onclick();
   } finally {
     console.error = previousConsoleError;
+    console.warn = previousConsoleWarn;
   }
   assert.equal(saves, 0);
   assert.deepEqual(notifications, ['STARTER_KIT_LOAD_FAILED', 'STARTER_KIT_LOAD_FAILED']);

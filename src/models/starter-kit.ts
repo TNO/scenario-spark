@@ -301,6 +301,12 @@ export const loadStarterKit = async (
   };
 };
 
+/** True when adding the kit would add or update something, or ask about edited items. */
+export const starterKitHasUpdates = (model: DataModel, starter: DataModel) => {
+  const { added, updated, conflicts } = addStarterKitToModel(model, starter);
+  return added + updated + conflicts.length > 0;
+};
+
 export type StarterKitConflict = { id: string; label: string; kind: 'box' | 'persona' };
 
 /** A box is untouched when its definition still matches the kit it came from and holds no user work. */
@@ -318,7 +324,8 @@ const isUntouchedPersona = (persona: Persona, current: Persona) =>
 /**
  * Adds missing starter boxes and personas and updates existing ones to the current kit.
  * Untouched items are replaced silently (keeping their id and position); edited items are
- * only replaced when their id is in `overwrite`, otherwise they are reported as conflicts.
+ * only replaced when their id is in `overwrite`, otherwise they are reported as conflicts and
+ * marked as reviewed, so the same kit version is not offered again.
  */
 export const addStarterKitToModel = (
   model: DataModel,
@@ -332,6 +339,12 @@ export const addStarterKitToModel = (
   const conflicts: StarterKitConflict[] = [];
   let updated = 0;
   let changed = false;
+  // Edited boxes without a persona selection still get the starter selection.
+  const withStarterPersonas = (box: Scenario, current: Scenario) => {
+    if (box.personas?.length || !current.personas?.length) return box;
+    updated++;
+    return { ...box, personas: [...current.personas] };
+  };
   const updateBox = (box: Scenario): Scenario => {
     const current = starterById.get(box.id);
     if (!current) return box;
@@ -340,6 +353,8 @@ export const addStarterKitToModel = (
       changed = true;
       return { ...box, starterHash: current.starterHash };
     }
+    // Edited, but the kit has not changed since the user last saw it: nothing to offer.
+    if (box.starterHash === current.starterHash) return withStarterPersonas(box, current);
     if (isUntouchedBox(box) || overwrite.has(box.id)) {
       updated++;
       // Keep view preferences; everything else comes from the kit.
@@ -347,10 +362,9 @@ export const addStarterKitToModel = (
       return { ...current, mapConfig, mapUnits, osmAmenities, includeMapSupport, decisionSupportPrompted };
     }
     conflicts.push({ id: box.id, label: box.label, kind: 'box' });
-    // Edited boxes without a persona selection still get the starter selection.
-    if (box.personas?.length || !current.personas?.length) return box;
-    updated++;
-    return { ...box, personas: [...current.personas] };
+    // Remember the kit version the user declined, so it is not offered again.
+    changed = true;
+    return withStarterPersonas({ ...box, starterHash: current.starterHash }, current);
   };
   const scenario = updateBox(model.scenario);
   const scenarios = model.scenarios.map(updateBox);
@@ -367,12 +381,14 @@ export const addStarterKitToModel = (
       changed = true;
       return { ...own, starterHash: current.starterHash };
     }
+    if (own.starterHash === current.starterHash) return own;
     if (isUntouchedPersona(own, current) || overwrite.has(persona.id)) {
       updated++;
       return { ...current };
     }
     conflicts.push({ id: persona.id, label: persona.label, kind: 'persona' });
-    return own;
+    changed = true;
+    return { ...own, starterHash: current.starterHash };
   });
   const existingPersonas = new Set(personas.map(({ id }) => id));
   const addedPersonas = (starter.personas || []).filter(({ id }) => !existingPersonas.has(id));
