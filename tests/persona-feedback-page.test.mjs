@@ -8,6 +8,7 @@ const require = createRequire(import.meta.url);
 const esbuild = createRequire(require.resolve('vite/package.json'))('esbuild');
 const materialized = require('mithril-materialized');
 const MarkdownEditor = () => {};
+const MarkdownField = () => ({ view: () => null });
 require('mithril').redraw = () => {};
 const source = readFileSync(new URL('../src/components/create-scenario-page.ts', import.meta.url), 'utf8');
 const code = esbuild.transformSync(source, { loader: 'ts', format: 'cjs', target: 'es2022' }).code;
@@ -87,6 +88,7 @@ const setup = (provider, withSecondPersona = false, themePreference = 'auto') =>
     'mithril-markdown-wysiwyg': { MarkdownEditor },
     '../utils/index': { narrativeToMarkdown: (value) => value },
     './ui/scenario-paragraph': { ScenarioParagraph: () => {} },
+    './ui/markdown-field': { MarkdownField },
     './ui/export-word': { ExportWordModal: () => ({ view: () => null }) },
   };
   new Function('require', 'module', 'exports', code)(
@@ -101,7 +103,7 @@ const setup = (provider, withSecondPersona = false, themePreference = 'auto') =>
   );
   const field = () => find(
     page.view({ attrs }),
-    (node) => node.tag === materialized.TextArea && node.attrs.label === 'PERSONA_IMPRESSION',
+    (node) => node.tag === MarkdownField && node.attrs.label === 'PERSONA_IMPRESSION',
   );
   const render = () => page.view({ attrs });
   const editor = () => find(render(), (node) => node.tag === MarkdownEditor);

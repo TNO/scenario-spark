@@ -21,6 +21,7 @@ import type { ComparisonExport } from './decision';
 import { htmlToMarkdown, looksLikeHtml } from './html-to-markdown';
 
 export * from './decision';
+export * from './template-markdown';
 export { htmlToMarkdown, looksLikeHtml };
 
 export const LANGUAGE = 'SG_LANGUAGE';

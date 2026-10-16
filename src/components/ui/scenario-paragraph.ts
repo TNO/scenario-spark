@@ -1,7 +1,13 @@
 import m from 'mithril';
 import { MeiosisComponent, t } from '../../services';
 import { ID, Narrative, ScenarioComponent } from '../../models';
-import { effectiveSelection, joinListWithAnd, visibleTemplateLines } from '../../utils';
+import {
+  effectiveSelection,
+  joinListWithAnd,
+  parseTemplateLine,
+  TemplateLine,
+  visibleTemplateLines,
+} from '../../utils';
 
 // Define interfaces for our data structure
 export type KeyDriver = {
@@ -15,44 +21,36 @@ export type ScenarioParagraphAttrs = {
   className?: string;
 };
 
-// Helper function to replace placeholders with select elements
-const replacePlaceholders = (
-  text: string,
+// Render the (Markdown-styled) segments of a line, replacing placeholders with the selected values
+const renderSegments = (
+  { segments }: TemplateLine,
   keyDrivers: ScenarioComponent[] = [],
   components: { [key: ID]: ID[] } = {}
 ): Array<string | m.Vnode> => {
-  const lookup = keyDrivers.reduce((acc, cur, idx) => {
-    acc[cur.id] = idx;
+  const lookup = keyDrivers.reduce((acc, cur) => {
+    acc[cur.id] = cur;
     return acc;
-  }, {} as Record<ID, number>);
+  }, {} as Record<ID, ScenarioComponent>);
 
-  // console.log(keyDrivers.map((k) => [k.label, k.id]).join('\n'));
-
-  const parseTextWithPlaceholders = (input: string): string[] => {
-    const regex = /({[^}]+})|([^{}]+)/g;
-    const matches = input.match(regex);
-    return matches ? matches : [];
-  };
-
-  const parts = parseTextWithPlaceholders(text).map((s) => {
-    if (s.startsWith('{') && s.endsWith('}')) {
-      const id = s.substring(1, s.length - 1);
-      const c = keyDrivers[lookup[id]];
-      if (!c) return id;
-      const labels = (c.values || [])
-        .filter((v) => (components[c.id] || []).includes(v.id))
-        .map((v) => v.label);
-      // Manual components (e.g. measures) may still be empty
-      const resolvedLabel = labels.length
-        ? joinListWithAnd(labels, t('AND'), '', false)
-        : ' ... ';
-      return m('strong', resolvedLabel);
-    } else {
-      return s;
+  return segments.map(({ text, placeholder, bold, italic }) => {
+    let node: string | m.Vnode = text;
+    if (placeholder) {
+      const c = lookup[text];
+      if (c) {
+        const labels = (c.values || [])
+          .filter((v) => (components[c.id] || []).includes(v.id))
+          .map((v) => v.label);
+        // Manual components (e.g. measures) may still be empty
+        const resolvedLabel = labels.length
+          ? joinListWithAnd(labels, t('AND'), '', false)
+          : ' ... ';
+        node = m('strong', resolvedLabel);
+      }
+    } else if (bold) {
+      node = m('strong', node);
     }
+    return italic ? m('em', node) : node;
   });
-
-  return parts;
 };
 
 // The main component
@@ -86,12 +84,37 @@ export const ScenarioParagraph: MeiosisComponent<
         .split(/\n/g)
         .map((t) => t.trim())
         .filter(Boolean);
-      return visibleTemplateLines(model.scenario, lines, components)
-        .map((t) =>
-          m('.scenario-paragraph', { className }, [
-            replacePlaceholders(t, modelComps, components),
-          ])
-        );
+      const parsed = visibleTemplateLines(model.scenario, lines, components).map(
+        parseTemplateLine
+      );
+      const blocks: m.Vnode[] = [];
+      parsed.forEach((line, i) => {
+        if (line.block === 'li') {
+          if (i > 0 && parsed[i - 1].block === 'li') return;
+          const items: TemplateLine[] = [];
+          for (let j = i; j < parsed.length && parsed[j].block === 'li'; j++) items.push(parsed[j]);
+          blocks.push(
+            m(
+              'ul.scenario-paragraph.scenario-list',
+              { className },
+              items.map((item) => m('li', renderSegments(item, modelComps, components)))
+            )
+          );
+        } else if (line.block === 'p') {
+          blocks.push(
+            m('.scenario-paragraph', { className }, renderSegments(line, modelComps, components))
+          );
+        } else {
+          blocks.push(
+            m(
+              `${line.block}.scenario-heading`,
+              { className },
+              renderSegments(line, modelComps, components)
+            )
+          );
+        }
+      });
+      return blocks;
     },
   };
 };
