@@ -1,5 +1,6 @@
 {
   "effectsPrompt": "Décrivez séparément les effets possibles à court terme (de quelques heures à quelques jours) et à moyen terme (de quelques semaines à quelques mois) pour les personnes concernées, la prestation des services et la prise de décision. Présentez au moins deux facteurs de bascule plausibles : pour chacun, précisez la condition susceptible de faire évoluer le scénario et sa conséquence éventuelle, sans modifier les valeurs choisies des facteurs déterminants comme s'il s'agissait de faits. Distinguez les conséquences établies, les hypothèses et les évolutions conditionnelles. Terminez par les deux questions de réflexion ou d'exercice demandées.",
+  "personaPrompt": "Décrivez comment le persona ciblé perçoit cette situation, y compris les mesures proposées et, si pertinent, la façon de l’informer ou de l’impliquer. Appuyez-vous sur le scénario et les descriptions des personas ; n’inventez pas de détails. Renvoyez uniquement le retour du persona ciblé, prêt à être collé dans son champ. N’ajoutez ni titre, ni nom de persona, ni bloc de code.",
   "personas": [
     {
       "id": "starter-event-visitor",

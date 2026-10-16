@@ -1,5 +1,6 @@
 {
   "effectsPrompt": "Describe también por separado los posibles efectos a corto plazo (de horas a días) y a medio plazo (de semanas a meses) para las personas afectadas, los servicios y la toma de decisiones. Indica al menos dos posibles factores de cambio decisivos: señala para cada uno la condición que podría cambiar el rumbo del escenario y su posible consecuencia, sin alterar como hechos los valores de los factores elegidos. Distingue entre consecuencias constatadas, hipótesis y acontecimientos condicionados. Sitúa las dos preguntas de reflexión o ejercicio solicitadas al final.",
+  "personaPrompt": "Describa cómo percibe esta situación la persona objetivo, incluidas las medidas propuestas y, cuando corresponda, cómo informarla o incluirla. Base los comentarios en el escenario y las descripciones de las personas; no invente detalles. Devuelva únicamente los comentarios para la persona objetivo, listos para pegarlos en su campo. No añada título, nombre de persona ni bloques de código.",
   "personas": [
     {
       "id": "starter-event-visitor",

@@ -39,8 +39,10 @@ test('provides importable, distinct Dutch starter boxes', async () => {
     assert.ok(box.categories.length >= 4, box.label);
     assert.ok(box.components.length >= 12, box.label);
     assert.deepEqual(box.thresholdColors, [{ threshold: 0, color: '#123456' }]);
-    assert.equal(box.llm.prompts.length, 1);
+    assert.equal(box.llm.prompts.length, 2);
+    assert.deepEqual(box.llm.prompts.map(({ type }) => type), ['narrative', 'persona']);
     assert.ok(box.llm.prompts[0].prompt.length >= 100);
+    assert.ok(box.llm.prompts[1].prompt.length >= 100);
     assert.equal(box.narratives.length, 1);
     assert.ok(box.narratives[0].desc.length >= 100);
   }
@@ -69,6 +71,7 @@ test('every starter box has a complete prose template and an effects-focused LLM
     assert.match(prompt, /middellange termijn/i, box.label);
     assert.match(prompt, /gamechangers/i, box.label);
     assert.match(prompt, /voorwaarde.*gevolg/i, box.label);
+    assert.ok(box.llm.prompts.find(({ type }) => type === 'persona')?.prompt, box.label);
   }
 });
 
@@ -296,7 +299,7 @@ test('the loader maps decision categories and makes their components manual', ()
     prompt: 'Prompt',
     example: { label: 'Example', desc: '<p>Example</p>', choices: ['threat.a', 'measure.b'] },
   };
-  const scenario = createScenario(spec, '', []);
+  const scenario = createScenario(spec, '', 'Persona prompt', []);
   assert.equal(scenario.includeDecisionSupport, false);
   assert.deepEqual(scenario.categories.map((c) => !!c.decisionSupport), [false, true]);
   assert.deepEqual(scenario.components.map((c) => !!c.manual), [false, true]);

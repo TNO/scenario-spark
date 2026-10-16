@@ -91,6 +91,9 @@ test('CLI sets language, template and LLM prompt', () => {
     assert.equal(run('set-template', file, '--data', 'Fout {2}').status, 2);
     assert.equal(run('set-llm-prompt', file, '--data', 'Schrijf een scenario.').status, 0);
     assert.equal(run('set-llm-prompt', file, '--type', 'persona', '--categories', 'weer', '--data', 'Persona').status, 0);
+    const personaInput = run('llm-prompt', file, '--type', 'persona', '--select', 'regen-zwaar');
+    assert.equal(personaInput.status, 0);
+    assert.match(personaInput.stdout, /^Persona\n\n- Regen: Zwaar\n$/);
     assert.equal(run('set-llm-prompt', file, '--categories', 'nope', '--data', 'x').status, 2);
     assert.match(run('generate', file, '-n', '1', '--seed', '2').stdout, /Er valt (Licht|Zwaar) regen\./);
     const box = JSON.parse(readFileSync(file, 'utf8'));

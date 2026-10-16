@@ -28,7 +28,7 @@ Copy this checklist and tick it off:
 - [ ] 4. Inconsistencies within each category
 - [ ] 5. Inconsistencies between each pair of categories
 - [ ] 6. Narrative template
-- [ ] 7. LLM narrative prompt (decision-support boxes: also a decision prompt)
+- [ ] 7. LLM narrative and persona prompts (decision-support boxes: also a decision prompt)
 - [ ] 8. validate (no errors), review warnings
 - [ ] 9. generate samples and sanity-check them
 ```
@@ -61,6 +61,11 @@ Copy this checklist and tick it off:
 7. **LLM prompt.** Write the instruction Scenario Spark puts before the "key driver: value" lines when asking an LLM for a narrative: the role, audience, purpose, length, tone and structure, tailored to the box. Default categories are all; restrict with `--categories`.
    ```bash
    $MB set-llm-prompt box.json --data 'You are a port security trainer. Write a realistic, 300-word incident scenario for an exercise, based on the following elements. …'
+   ```
+   Also set a **persona prompt** (`--type persona`) for feedback from one selected persona. In the app, Scenario Spark adds the selected persona descriptions, identifies the target persona, and includes the scenario narrative and selected factors; ask for grounded, persona-specific feedback without invented details.
+   ```bash
+   $MB set-llm-prompt box.json --type persona --data 'Describe how the target persona perceives this situation. Ground the feedback in the scenario and persona description; do not invent details. Return only feedback for the target persona.'
+   $MB llm-prompt box.json --type persona --select <situation value ids>
    ```
    For decision-support boxes, also set a **decision prompt** (`--type decision`) that assesses one course of action; see [Decision-support boxes](#decision-support-boxes). Check what the LLM will receive with `$MB llm-prompt box.json [--type decision] --select <situation value ids> --coa <decision value ids>`.
 8. **Validate.** `$MB validate box.json` must print `OK`. Fix every error; for each warning decide whether it is intended (see [REFERENCE.md](REFERENCE.md#validation-codes)). In decision-support boxes, `decision-component-not-manual` and `decision-unlinked` almost always need fixing.

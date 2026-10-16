@@ -41,7 +41,12 @@ export type BoxSpec = {
   example: { label: string; desc: string; choices: string[] };
 };
 
-type StarterKitData = { effectsPrompt: string; personas: Persona[]; boxes: BoxSpec[] };
+type StarterKitData = {
+  effectsPrompt: string;
+  personaPrompt: string;
+  personas: Persona[];
+  boxes: BoxSpec[];
+};
 
 const personaSelections: Record<string, string[]> = {
   evenementenveiligheid: ['starter-event-visitor', 'starter-event-organiser', 'starter-nearby-resident', 'starter-reduced-mobility'],
@@ -116,6 +121,7 @@ const files: Record<Languages, () => Promise<{ default: StarterKitData }>> = {
 export const createScenario = (
   box: BoxSpec,
   effectsPrompt: string,
+  personaPrompt: string,
   thresholdColors: ThresholdColor[]
 ): Scenario => {
   // Keep IDs identical across locales so translated kits never duplicate saved boxes.
@@ -187,6 +193,10 @@ export const createScenario = (
         type: 'narrative',
         categories: categories.map(({ id }) => id),
         prompt: `${box.prompt} ${effectsPrompt}`,
+      }, {
+        type: 'persona',
+        categories: categories.map(({ id }) => id),
+        prompt: personaPrompt,
       }],
     },
   };
@@ -200,7 +210,7 @@ export const loadStarterKit = async (
   if (!file) throw new Error(`Unsupported starter kit language: ${language}`);
   const { default: data } = await file();
   const scenarios = data.boxes.map((box) =>
-    createScenario(box, data.effectsPrompt, thresholdColors)
+    createScenario(box, data.effectsPrompt, data.personaPrompt, thresholdColors)
   );
   const personaIds = new Set(data.personas.map(({ id }) => id));
   for (const scenario of scenarios) {

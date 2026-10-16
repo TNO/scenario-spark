@@ -1,5 +1,6 @@
 {
   "effectsPrompt": "Also describe separately the possible short-term effects (hours to days) and medium-term effects (weeks to months) on those involved, service delivery and decision-making. Identify at least two plausible game changers: for each, state the condition under which the scenario could change course and its possible consequence, without treating the selected factor values as facts that can be changed. Distinguish established consequences, assumptions and conditional developments. Place the two requested reflection or exercise questions at the end.",
+  "personaPrompt": "Describe how the target persona perceives this situation, including any proposed measures and how they should be informed or involved when relevant. Ground the feedback in the scenario and persona descriptions; do not invent details. Return only the feedback for the target persona, ready to paste into their feedback field. Do not add a heading, persona name, or code fences.",
   "personas": [
     {
       "id": "starter-event-visitor",

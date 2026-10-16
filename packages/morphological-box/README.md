@@ -97,7 +97,7 @@ morph-box llm-prompt box.json --type decision --select motive-revenge --coa A=po
 
 ## Agent skill
 
-The package ships an agent skill in [`skills/morphological-box`](skills/morphological-box/SKILL.md) that teaches an LLM agent to build a box from user input or documents with this CLI, in a chosen language, category by category (including manual measure categories for decision support), followed by within- and between-category inconsistencies, a narrative template, an LLM narrative prompt and, for decision support, a decision prompt and a check of courses of action. Install it with `npx skills add TNO/scenario-spark --skill morphological-box` (add `-g` for all projects), or copy the folder to your agent's skills directory, e.g.:
+The package ships an agent skill in [`skills/morphological-box`](skills/morphological-box/SKILL.md) that teaches an LLM agent to build a box from user input or documents with this CLI, in a chosen language, category by category (including manual measure categories for decision support), followed by within- and between-category inconsistencies, a narrative template, LLM narrative and persona prompts and, for decision support, a decision prompt and a check of courses of action. Install it with `npx skills add TNO/scenario-spark --skill morphological-box` (add `-g` for all projects), or copy the folder to your agent's skills directory, e.g.:
 
 ```bash
 cp -r node_modules/morphological-box/skills/morphological-box ~/.agents/skills/

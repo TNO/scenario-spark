@@ -30,6 +30,7 @@ test('each translated starter kit preserves every factor, constraint and templat
   for (const language of languages) {
     const data = readKit(language);
     assert.ok(data.effectsPrompt.length > 100, language);
+    assert.ok(data.personaPrompt.length > 100, language);
     assert.deepEqual(data.boxes.map(boxStructure), reference.boxes.map(boxStructure), language);
     assert.equal(data.boxes.length, 45, language);
     for (const [index, box] of data.boxes.entries()) {
@@ -85,6 +86,9 @@ test('each translated starter kit preserves every factor, constraint and templat
     assert.equal(model.scenario.label, data.boxes[0].label, language);
     assert.equal(model.scenario.components.length, data.boxes[0].categories.flatMap(({ factors }) => factors).length);
     assert.ok(model.scenario.llm.prompts[0].prompt.includes(data.effectsPrompt), language);
+    const personaPrompt = model.scenario.llm.prompts.find(({ type }) => type === 'persona');
+    assert.equal(personaPrompt.prompt, data.personaPrompt, language);
+    assert.deepEqual(personaPrompt.categories, model.scenario.categories.map(({ id }) => id), language);
     assert.deepEqual(model.personas, data.personas, language);
     assert.deepEqual(
       model.scenario.personas,
