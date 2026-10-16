@@ -108,7 +108,7 @@ export const messages: typeof messagesEN = {
   ADD_STARTER_KIT_HINT: 'Añade solo las cajas que faltan; las versiones existentes no cambian.',
   STARTER_KIT_ADDED: 'Cajas añadidas: {count}. Se conservaron las cajas existentes.',
   STARTER_KIT_ALREADY_PRESENT: 'Ya están todas las cajas. Elimine una versión antigua para añadir la nueva.',
-  STARTER_KIT_PERSONAS_ADDED: "Personas añadidas a cajas de inicio existentes: {count}.",
+  STARTER_KIT_PERSONAS_ADDED: "Personas del kit de inicio actualizadas: {count}.",
   NEW_MODEL: {
     btn: 'Nueva colección',
     title: 'Elegir una nueva colección',

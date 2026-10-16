@@ -108,7 +108,7 @@ export const messages: typeof messagesEN = {
   ADD_STARTER_KIT_HINT: 'Dodaje tylko brakujące modele; istniejące wersje pozostają bez zmian.',
   STARTER_KIT_ADDED: 'Dodane modele: {count}. Istniejące modele zachowano.',
   STARTER_KIT_ALREADY_PRESENT: 'Wszystkie modele startowe są już obecne. Usuń stary model, aby dodać jego nową wersję.',
-  STARTER_KIT_PERSONAS_ADDED: "Dodano persony do istniejących modeli startowych: {count}.",
+  STARTER_KIT_PERSONAS_ADDED: "Zaktualizowano persony zestawu startowego: {count}.",
   NEW_MODEL: {
     btn: 'Nowa kolekcja',
     title: 'Wybierz nową kolekcję',

@@ -6,127 +6,145 @@
       "id": "starter-event-visitor",
       "label": "Veranstaltungsbesucher",
       "desc": "Besucht eine öffentliche Veranstaltung an einem unbekannten Ort und ist bei Änderungen auf klare Hinweise vor Ort, barrierefreie Wege und zeitnahe Informationen angewiesen.",
-      "url": "families1"
+      "url": "starter_event_visitor"
     },
     {
       "id": "starter-nearby-resident",
-      "label": "Anwohner",
-      "desc": "Lebt in der Nähe eines betroffenen Gebiets und benötigt zeitnahe, zugängliche Informationen über Sicherheit, die Erreichbarkeit von Wohnung und Versorgung sowie die voraussichtliche Dauer der Störung.",
-      "url": "families2"
+      "label": "Anwohnerpaar",
+      "desc": "Rentnerpaar in den Siebzigern in einem Reihenhaus nahe dem betroffenen Gebiet; benötigt zeitnahe, zugängliche Informationen über Sicherheit, die Erreichbarkeit von Wohnung und Versorgung sowie die voraussichtliche Dauer der Störung und braucht womöglich Hilfe, wenn es nicht mit dem Auto wegkommt.",
+      "url": "starter_nearby_resident"
     },
     {
       "id": "starter-event-organiser",
       "label": "Veranstalter",
       "desc": "Koordiniert die Sicherheit der Besucher, Personenströme und die Information von Personal und Gästen und wägt ab, ob und wie die Veranstaltung fortgesetzt werden kann.",
-      "url": "female_worker_with_laptop1"
+      "url": "starter_event_organiser"
     },
     {
       "id": "starter-reduced-mobility",
       "label": "Bewohnerin mit eingeschränkter Mobilität",
       "desc": "Nutzt einen Rollstuhl und ist auf häusliche Pflege, Aufzüge und elektrische Hilfsmittel angewiesen; braucht frühe Warnung, begleitete Evakuierung und barrierefreie Notunterkünfte.",
-      "url": "elderly_woman_wheelchair1"
+      "url": "starter_reduced_mobility"
     },
     {
       "id": "starter-elderly-alone",
       "label": "Alleinlebender älterer Mensch",
       "desc": "Lebt allein mit kleinem sozialen Umfeld und nutzt kaum Apps oder soziale Medien; verlässt sich auf Radio, Nachbarn und gedruckte Informationen und ist anfällig für Hitze, Kälte und Gerüchte.",
-      "url": "elderly_man1"
+      "url": "starter_elderly_alone"
     },
     {
       "id": "starter-young-parent",
       "label": "Elternteil kleiner Kinder",
       "desc": "Versorgt ein Baby und ein Kleinkind; sorgt sich darum, Schule oder Kita zu erreichen, um sicheres Trinkwasser, Babynahrung und Medikamente und braucht klare Anweisungen, was mit den Kindern zu tun ist.",
-      "url": "young_mother1"
+      "url": "starter_young_parent"
     },
     {
       "id": "starter-farmer",
       "label": "Landwirt",
       "desc": "Führt einen gemischten Betrieb mit Vieh und Ackerbau; kann die Tiere nicht einfach zurücklassen, ist auf Zufahrten, Wasser und Futter angewiesen und fürchtet dauerhafte Einkommensverluste durch Schäden oder Transportverbote.",
-      "url": "farmer1"
+      "url": "starter_farmer"
     },
     {
       "id": "starter-truck-driver",
       "label": "Lkw-Fahrer",
       "desc": "Liefert Waren unter Zeitdruck; muss von Sperrungen, Umleitungen und sicheren Warteplätzen wissen und kann auf der Straße festsitzen oder gefährliche Ladung transportieren.",
-      "url": "middle_aged_male_truck_driver1"
+      "url": "starter_truck_driver"
     },
     {
       "id": "starter-traveller",
       "label": "Internationaler Reisender",
       "desc": "Fahrgast oder Tourist, der die Landessprache nicht spricht und die Gegend nicht kennt; ist auf Verkehrspersonal, Beschilderung, übersetzte Meldungen und das eigene Handy angewiesen.",
-      "url": "male_indian_student1"
+      "url": "starter_traveller"
     },
     {
       "id": "starter-nurse",
       "label": "Pflegekraft im Krankenhaus",
       "desc": "Arbeitet auf einer vollen Station, die zusätzliche Patienten aufnehmen muss; muss sicher zur Arbeit kommen, genug Personal und Material haben und wissen, was sie besorgten Patienten und Angehörigen sagt.",
-      "url": "nurse1"
+      "url": "starter_nurse"
     },
     {
       "id": "starter-teacher",
       "label": "Lehrerin",
       "desc": "Ist während der Schulzeit für eine Klasse verantwortlich; muss entscheiden, ob Schutz gesucht, evakuiert oder auf die Eltern gewartet wird, und braucht schnelle, verlässliche Anweisungen.",
-      "url": "female_teacher1"
+      "url": "starter_teacher"
     },
     {
       "id": "starter-small-business",
-      "label": "Kleinunternehmer",
-      "desc": "Selbstständig mit Laden oder Werkstatt im betroffenen Gebiet; sorgt sich um Schäden, Erreichbarkeit für Kunden und Lieferanten, Einkommensausfall und wann eine Wiedereröffnung sicher ist.",
-      "url": "male_zzp1"
+      "label": "Kleinunternehmerin",
+      "desc": "Selbstständige mit Laden oder Werkstatt im betroffenen Gebiet; sorgt sich um Schäden, Erreichbarkeit für Kunden und Lieferanten, Einkommensausfall und wann eine Wiedereröffnung sicher ist.",
+      "url": "starter_small_business"
     },
     {
       "id": "starter-infra-operator",
       "label": "Betreiberin kritischer Infrastruktur",
       "desc": "Kontinuitätsmanagerin bei einem Versorger, Hafen, Flughafen oder Verkehrsunternehmen; muss wichtige Dienste aufrechterhalten, Personal und Anlagen schützen und sich mit Behörden und Kunden abstimmen.",
-      "url": "business_woman1"
+      "url": "starter_infra_operator"
     },
     {
       "id": "starter-it-specialist",
       "label": "IT-Sicherheitsspezialist",
       "desc": "Arbeitet im Sicherheitsteam einer mittelgroßen Organisation; braucht genaue technische Informationen, klare Meldewege und Spielraum, Systeme zu isolieren, ohne unnötige Panik auszulösen.",
-      "url": "tech_guy1"
+      "url": "starter_it_specialist"
     },
     {
       "id": "starter-field-worker",
       "label": "Bau- und Netzarbeiter",
       "desc": "Arbeitet im Freien auf Baustellen und bei Reparaturen an Straßen, Netzen und Gebäuden; ist Hitze, Trümmern und Gefahrstoffen ausgesetzt und soll Versorgung oft schnell wiederherstellen.",
-      "url": "construction_worker1"
+      "url": "starter_field_worker"
     },
     {
       "id": "starter-hospitality",
-      "label": "Koch im Restaurant",
+      "label": "Köchin im Restaurant",
       "desc": "Leitet eine volle Küche; ist auf sicheres Wasser, Strom und frische Lieferungen angewiesen, muss die Gesundheit der Gäste schützen und verliert Einnahmen, wenn Gäste und Touristen ausbleiben.",
-      "url": "cook1"
+      "url": "starter_hospitality"
     },
     {
       "id": "starter-protester",
       "label": "Demonstrierende Studentin",
       "desc": "Nimmt an einer über soziale Medien organisierten friedlichen Demonstration teil; will ihr Demonstrationsrecht ausüben, fürchtet Eskalation oder Polizeieinsatz und muss Route, Regeln und sichere Ausgänge kennen.",
-      "url": "climate_girl1"
+      "url": "starter_protester"
     },
     {
       "id": "starter-community-leader",
       "label": "Gemeindesprecherin",
       "desc": "Sprecherin einer Glaubens- oder Nachbarschaftsgemeinschaft; genießt Vertrauen bei Menschen, die Behörden misstrauen, kann sie beruhigen oder mobilisieren und will früh informiert und einbezogen werden.",
-      "url": "female_speaker1"
+      "url": "starter_community_leader"
     },
     {
       "id": "starter-local-official",
       "label": "Kommunalbeamter",
       "desc": "Leitender Beamter der Gemeinde, der den Bürgermeister berät; wägt Sicherheit, öffentliche Ordnung, Wirtschaft und Vertrauen ab und muss Entscheidungen gegenüber Bürgern, Medien und Rat erklären.",
-      "url": "middleaged_man_suit1"
+      "url": "starter_local_official"
     },
     {
       "id": "starter-taxi-driver",
       "label": "Taxifahrer",
       "desc": "Taxi- und Fahrdienstfahrer, der unterwegs ist, wenn sich der Vorfall ereignet; erlebt die Störung aus nächster Nähe, wird gebeten, gestrandete oder evakuierte Menschen zu befördern, und ist auf offene Straßen, Kraftstoff oder Ladestationen und klare Verkehrsinformationen angewiesen.",
-      "url": "taxi_driver1"
+      "url": "starter_taxi_driver"
     },
     {
       "id": "starter-student",
       "label": "Studentin",
       "desc": "Studentin, die fern der Familie in einem Studentenwohnheim lebt; bezieht Nachrichten vor allem über soziale Medien, schließt sich möglicherweise Protesten an oder hilft freiwillig und hat wenig Ersparnisse, Vorräte und Ortskenntnis.",
-      "url": "female_student1"
+      "url": "starter_student"
+    },
+    {
+      "id": "starter-single-parent",
+      "label": "Alleinerziehende",
+      "desc": "Alleinerziehende Mutter von zwei Grundschulkindern, die in Teilzeit im Supermarkt arbeitet; hat kein Auto, ein knappes Budget und wenig Platz für Vorräte und muss Betreuung organisieren, wenn Schulen schließen oder sie die Arbeit nicht erreicht.",
+      "url": "starter_single_parent"
+    },
+    {
+      "id": "starter-commuter",
+      "label": "Pendlerin",
+      "desc": "Büroangestellte, die täglich mit dem Zug in die Stadt pendelt und zwei Tage pro Woche im Homeoffice arbeitet; ist auf den öffentlichen Verkehr, mobile Daten und klare Reisehinweise angewiesen und muss entscheiden, ob sie losfährt, zu Hause bleibt oder unterwegs strandet.",
+      "url": "starter_commuter"
+    },
+    {
+      "id": "starter-shift-worker",
+      "label": "Schichtarbeiter im Werk",
+      "desc": "Anlagenfahrer im Wechselschichtdienst in einem Chemiewerk; kennt die Gefahren und Notfallverfahren des Standorts, muss Anlagen sicher halten oder abschalten und sorgt sich um Kollegen und Familie, die in der Nähe wohnen.",
+      "url": "starter_shift_worker"
     }
   ],
   "boxes": [

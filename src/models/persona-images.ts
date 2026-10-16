@@ -1,3 +1,27 @@
+import starter_event_visitor from '../assets/personas/starter_event_visitor.jpg';
+import starter_nearby_resident from '../assets/personas/starter_nearby_resident.jpg';
+import starter_event_organiser from '../assets/personas/starter_event_organiser.jpg';
+import starter_reduced_mobility from '../assets/personas/starter_reduced_mobility.jpg';
+import starter_elderly_alone from '../assets/personas/starter_elderly_alone.jpg';
+import starter_young_parent from '../assets/personas/starter_young_parent.jpg';
+import starter_farmer from '../assets/personas/starter_farmer.jpg';
+import starter_truck_driver from '../assets/personas/starter_truck_driver.jpg';
+import starter_traveller from '../assets/personas/starter_traveller.jpg';
+import starter_nurse from '../assets/personas/starter_nurse.jpg';
+import starter_teacher from '../assets/personas/starter_teacher.jpg';
+import starter_small_business from '../assets/personas/starter_small_business.jpg';
+import starter_infra_operator from '../assets/personas/starter_infra_operator.jpg';
+import starter_it_specialist from '../assets/personas/starter_it_specialist.jpg';
+import starter_field_worker from '../assets/personas/starter_field_worker.jpg';
+import starter_hospitality from '../assets/personas/starter_hospitality.jpg';
+import starter_protester from '../assets/personas/starter_protester.jpg';
+import starter_community_leader from '../assets/personas/starter_community_leader.jpg';
+import starter_local_official from '../assets/personas/starter_local_official.jpg';
+import starter_taxi_driver from '../assets/personas/starter_taxi_driver.jpg';
+import starter_student from '../assets/personas/starter_student.jpg';
+import starter_single_parent from '../assets/personas/starter_single_parent.jpg';
+import starter_commuter from '../assets/personas/starter_commuter.jpg';
+import starter_shift_worker from '../assets/personas/starter_shift_worker.jpg';
 import cook1 from '../assets/personas/cook1.jpg';
 import cook2 from '../assets/personas/cook2.jpg';
 import cook3 from '../assets/personas/cook3.jpg';
@@ -90,6 +114,30 @@ import middleaged_man_suit3 from '../assets/personas/middleaged_man_suit3.jpg';
 import middleaged_man_suit4 from '../assets/personas/middleaged_man_suit4.jpg';
 
 export const PersonaImages = [
+  { id: 'starter_event_visitor', img: starter_event_visitor, label: 'Event visitor' },
+  { id: 'starter_nearby_resident', img: starter_nearby_resident, label: 'Nearby residents' },
+  { id: 'starter_event_organiser', img: starter_event_organiser, label: 'Event organiser' },
+  { id: 'starter_reduced_mobility', img: starter_reduced_mobility, label: 'Resident with reduced mobility' },
+  { id: 'starter_elderly_alone', img: starter_elderly_alone, label: 'Older person living alone' },
+  { id: 'starter_young_parent', img: starter_young_parent, label: 'Parent of young children' },
+  { id: 'starter_farmer', img: starter_farmer, label: 'Farmer' },
+  { id: 'starter_truck_driver', img: starter_truck_driver, label: 'Truck driver' },
+  { id: 'starter_traveller', img: starter_traveller, label: 'International traveller' },
+  { id: 'starter_nurse', img: starter_nurse, label: 'Hospital nurse' },
+  { id: 'starter_teacher', img: starter_teacher, label: 'Teacher' },
+  { id: 'starter_small_business', img: starter_small_business, label: 'Small business owner' },
+  { id: 'starter_infra_operator', img: starter_infra_operator, label: 'Infrastructure operator' },
+  { id: 'starter_it_specialist', img: starter_it_specialist, label: 'IT security specialist' },
+  { id: 'starter_field_worker', img: starter_field_worker, label: 'Construction and utility worker' },
+  { id: 'starter_hospitality', img: starter_hospitality, label: 'Restaurant cook' },
+  { id: 'starter_protester', img: starter_protester, label: 'Student protester' },
+  { id: 'starter_community_leader', img: starter_community_leader, label: 'Community leader' },
+  { id: 'starter_local_official', img: starter_local_official, label: 'Local official' },
+  { id: 'starter_taxi_driver', img: starter_taxi_driver, label: 'Taxi driver' },
+  { id: 'starter_student', img: starter_student, label: 'Student' },
+  { id: 'starter_single_parent', img: starter_single_parent, label: 'Single parent' },
+  { id: 'starter_commuter', img: starter_commuter, label: 'Commuter' },
+  { id: 'starter_shift_worker', img: starter_shift_worker, label: 'Plant shift worker' },
   { id: 'cook1', img: cook1, label: 'Cook 1' },
   { id: 'cook2', img: cook2, label: 'Cook 2' },
   { id: 'cook3', img: cook3, label: 'Cook 3' },

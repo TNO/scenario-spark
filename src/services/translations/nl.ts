@@ -108,7 +108,7 @@ export const messages: typeof messagesEN = {
   ADD_STARTER_KIT_HINT: 'Voeg alleen ontbrekende boxen toe; bestaande versies blijven behouden.',
   STARTER_KIT_ADDED: 'Aantal toegevoegde boxen: {count}. Bestaande boxen zijn behouden.',
   STARTER_KIT_ALREADY_PRESENT: 'Alle starterboxen zijn al aanwezig. Verwijder een oude starterbox om de bijgewerkte versie toe te voegen.',
-  STARTER_KIT_PERSONAS_ADDED: "Persona's toegevoegd aan bestaande starterboxen: {count}.",
+  STARTER_KIT_PERSONAS_ADDED: "Persona's van de starterkit bijgewerkt: {count}.",
   NEW_MODEL: {
     btn: 'Nieuwe collectie',
     title: 'Kies een nieuwe collectie',

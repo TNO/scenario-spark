@@ -108,7 +108,7 @@ export const messages: typeof messagesEN = {
   ADD_STARTER_KIT_HINT: 'Nur fehlende Boxen hinzufügen; vorhandene Versionen bleiben erhalten.',
   STARTER_KIT_ADDED: 'Hinzugefügte Boxen: {count}. Vorhandene Boxen bleiben erhalten.',
   STARTER_KIT_ALREADY_PRESENT: 'Alle Starterboxen sind vorhanden. Entfernen Sie eine alte Box, um die neue Version hinzuzufügen.',
-  STARTER_KIT_PERSONAS_ADDED: "Personas zu vorhandenen Starterboxen hinzugefügt: {count}.",
+  STARTER_KIT_PERSONAS_ADDED: "Personas des Starterkits aktualisiert: {count}.",
   NEW_MODEL: {
     btn: 'Neue Sammlung',
     title: 'Neue Sammlung auswählen',

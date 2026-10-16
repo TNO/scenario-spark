@@ -170,11 +170,32 @@ test('re-adding the starter kit fills empty persona selections of existing start
   };
   const merged = addStarterKitToModel(existing, starter);
   assert.equal(merged.added, 0);
-  assert.equal(merged.updated, rest.length + 1);
+  assert.equal(merged.updated, rest.length + 1 + starter.personas.length);
   assert.deepEqual(merged.model.scenario.personas, first.personas);
   assert.deepEqual(merged.model.scenarios[0].personas, ['own-persona']);
   assert.deepEqual(merged.model.scenarios[1].personas, rest[0].personas);
   const ids = new Set(merged.model.personas.map(({ id }) => id));
   assert.ok([first, ...rest].every(({ personas }) => personas.every((id) => ids.has(id))));
   assert.equal(merged.model.personas[0].id, 'own-persona');
+});
+
+test('re-adding the starter kit refreshes legacy starter artwork but keeps custom images', async () => {
+  const starter = await loadStarterKit('en', []);
+  const boxes = [starter.scenario, ...starter.scenarios];
+  const byId = Object.fromEntries(starter.personas.map((p) => [p.id, p]));
+  const existing = {
+    scenario: boxes[0],
+    scenarios: boxes.slice(1),
+    personas: [
+      { ...byId['starter-event-visitor'], url: 'families1' },
+      { ...byId['starter-farmer'], url: 'farmer2' },
+      ...starter.personas.filter(({ id }) => !['starter-event-visitor', 'starter-farmer'].includes(id)),
+    ],
+  };
+  const merged = addStarterKitToModel(existing, starter);
+  assert.equal(merged.updated, 1);
+  const urls = Object.fromEntries(merged.model.personas.map((p) => [p.id, p.url]));
+  assert.equal(urls['starter-event-visitor'], byId['starter-event-visitor'].url);
+  assert.equal(urls['starter-farmer'], 'farmer2');
+  assert.equal(merged.model.personas.length, starter.personas.length);
 });
