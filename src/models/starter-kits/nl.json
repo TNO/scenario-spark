@@ -1,6 +1,6 @@
 {
   "effectsPrompt": "Beschrijf daarnaast afzonderlijk de mogelijke effecten op korte termijn (uren tot dagen) en middellange termijn (weken tot maanden) voor betrokkenen, dienstverlening en besluitvorming. Benoem minstens twee plausibele gamechangers: geef per gamechanger de voorwaarde waaronder het scenario kan kantelen en het mogelijke gevolg, zonder de gekozen stuurfactorwaarden als feiten te veranderen. Scheid vastgestelde gevolgen, aannames en voorwaardelijke ontwikkelingen. Plaats de gevraagde twee reflectie- of oefenvragen aan het einde.",
-  "personaPrompt": "Beschrijf hoe de doelpersona deze situatie ervaart, inclusief voorgestelde maatregelen en, indien relevant, hoe die geïnformeerd of betrokken moet worden. Baseer de feedback op het scenario en de beschrijvingen van de persona’s; verzin geen details. Geef alleen de feedback voor de doelpersona, klaar om in het feedbackveld te plakken. Voeg geen kop, personanaam of codeblokken toe.",
+  "personaPrompt": "Beschrijf hoe de doelpersona deze situatie ervaart, inclusief voorgestelde maatregelen en, indien relevant, hoe die geïnformeerd of betrokken moet worden. Baseer de feedback op het scenario en de beschrijvingen van de persona’s; verzin geen details. Geef alleen de feedback voor de doelpersona, klaar om in het feedbackveld te plakken. Voeg geen kop, personanaam of codeblokken toe. Gebruik maximaal 150 woorden.",
   "personas": [
     {
       "id": "starter-event-visitor",

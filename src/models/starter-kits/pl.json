@@ -1,6 +1,6 @@
 {
   "effectsPrompt": "Opisz osobno możliwe skutki krótkoterminowe (od godzin do dni) i średnioterminowe (od tygodni do miesięcy) dla osób dotkniętych sytuacją, świadczenia usług i podejmowania decyzji. Wskaż co najmniej dwa wiarygodne czynniki mogące zmienić bieg wydarzeń: dla każdego podaj warunek, w którym scenariusz może się zmienić, oraz możliwą konsekwencję, nie zmieniając wybranych wartości czynników scenariusza, które są przyjętymi faktami. Oddziel potwierdzone skutki, założenia i rozwój wydarzeń zależny od warunków. Na końcu umieść dwa pytania do refleksji lub ćwiczenia.",
-  "personaPrompt": "Opisz, jak wskazana persona postrzega tę sytuację, w tym proponowane środki oraz, jeśli to istotne, jak ją poinformować lub zaangażować. Oprzyj opinię na scenariuszu i opisach person; nie wymyślaj szczegółów. Zwróć wyłącznie opinię wskazanej persony, gotową do wklejenia w jej pole. Nie dodawaj nagłówka, nazwy persony ani bloków kodu.",
+  "personaPrompt": "Opisz, jak wskazana persona postrzega tę sytuację, w tym proponowane środki oraz, jeśli to istotne, jak ją poinformować lub zaangażować. Oprzyj opinię na scenariuszu i opisach person; nie wymyślaj szczegółów. Zwróć wyłącznie opinię wskazanej persony, gotową do wklejenia w jej pole. Nie dodawaj nagłówka, nazwy persony ani bloków kodu. Użyj maksymalnie 150 słów.",
   "personas": [
     {
       "id": "starter-event-visitor",

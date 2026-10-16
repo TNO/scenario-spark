@@ -161,6 +161,7 @@ test('course-of-action text areas render without mixing keyed and unkeyed vnodes
   const fields = findAll(tree, (node) => node.tag === MarkdownField);
   assert.deepEqual(fields.map((f) => f.attrs.label), ['COA_NOTES', 'COA_REFLECTION']);
   assert.equal(fields[0].attrs.value, 'Note');
+  assert.ok(fields.every((f) => f.attrs.rich), 'course-of-action fields use the rich editor');
   for (const vnode of fields) assert.equal(vnode.attrs.key, undefined, 'no key mixed with unkeyed siblings');
 });
 

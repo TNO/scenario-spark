@@ -106,7 +106,8 @@ const setup = (provider, withSecondPersona = false, themePreference = 'auto') =>
     (node) => node.tag === MarkdownField && node.attrs.label === 'PERSONA_IMPRESSION',
   );
   const render = () => page.view({ attrs });
-  const editor = () => find(render(), (node) => node.tag === MarkdownEditor);
+  const editor = () =>
+    find(render(), (node) => node.tag === MarkdownField && node.attrs.label === 'SETTINGS_NARRATIVE');
   const actions = () => findAll(
     render(),
     (node) => node.tag === materialized.FlatButton &&
@@ -116,10 +117,13 @@ const setup = (provider, withSecondPersona = false, themePreference = 'auto') =>
   return { button, field, render, editor, actions, calls, narrative, persona, saved };
 };
 
-test('markdown editor receives the app theme including auto mode', () => {
-  for (const theme of ['auto', 'dark', 'light']) {
-    assert.equal(setup('clipboard', false, theme).editor().attrs.theme, theme);
-  }
+test('the narrative is shown as a rich Markdown note card that saves its edits', () => {
+  const { editor, narrative } = setup('clipboard');
+  const field = editor();
+  assert.equal(field.attrs.rich, true);
+  assert.equal(field.attrs.id, narrative.id);
+  field.attrs.oninput('Edited **story**');
+  assert.equal(narrative.desc, 'Edited **story**');
 });
 
 test('provider feedback saves to the matching persona without replacing narrative text', async () => {

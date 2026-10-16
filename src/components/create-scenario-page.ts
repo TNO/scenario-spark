@@ -10,7 +10,6 @@ import {
   Select,
   SelectAttrs,
   TextInput,
-  ThemeManager,
   toast,
   uniqueId,
 } from 'mithril-materialized';
@@ -54,7 +53,7 @@ import {
   trafficLight,
   updateRisk,
 } from '../utils';
-import { range, render } from 'mithril-ui-form';
+import { range } from 'mithril-ui-form';
 import type { MeiosisCell } from 'meiosis-setup/types';
 import type { State } from '../services';
 import { listInconsistencies } from 'morphological-box';
@@ -68,7 +67,6 @@ import {
   MapView,
 } from './ui';
 import { PersonaImages } from '../models/persona-images';
-import { MarkdownEditor } from 'mithril-markdown-wysiwyg';
 import { narrativeToMarkdown } from '../utils/index';
 
 /** Read-only risk level, derived from probability and impact; optionally compared with the situation risk. */
@@ -974,6 +972,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 m.fragment({ key: coa.id }, [
                   m(MarkdownField, {
                     id: coa.id,
+                    rich: true,
                     label: t('COA_NOTES'),
                     value: coa.notes,
                     oninput: (notes: string) => {
@@ -987,6 +986,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               m('.col.s12.coa-reflection', [
                 m(MarkdownField, {
                   id: coa.id,
+                  rich: true,
                   label: t('COA_REFLECTION'),
                   value: coa.reflection || '',
                   oninput: (reflection: string) => {
@@ -1068,29 +1068,20 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               }),
           ]),
           // m('#toolbar'),
-          curNarrative.saved && [
-            m(
-              '#markdown-editor',
-              m(MarkdownEditor, {
-                key:
-                  curNarrative && curNarrative.desc
-                    ? curNarrative.id
-                    : 'markdown-editor',
-                content: markdown,
-                onContentChange: (newContent: string) => {
-                  const { curNarrative } = attrs.getState();
-                  if (!curNarrative) return;
-                  curNarrative.desc = newContent;
-                  updateNarrative(attrs, curNarrative);
-                },
-                // placeholder: 'Start writing...',
-                theme: ThemeManager.getTheme(),
-                toolbar: true,
-                showTabs: true,
-                markdownToHtml: render,
-              }),
-            ),
-          ],
+          curNarrative.saved &&
+            m(MarkdownField, {
+              id: curNarrative.id,
+              label: t('SETTINGS_NARRATIVE'),
+              value: markdown,
+              rich: true,
+              className: 'narrative-field',
+              oninput: (newContent: string) => {
+                const { curNarrative } = attrs.getState();
+                if (!curNarrative) return;
+                curNarrative.desc = newContent;
+                updateNarrative(attrs, curNarrative);
+              },
+            }),
           curNarrative.saved && [
             curPersonas.map((p, index) =>
               m('.row.persona', [

@@ -2940,28 +2940,106 @@ table.decision-matrix thead th.active-coa,
 
 /* Read-only Markdown view with edit toggle (persona feedback, decision reflection) */
 .markdown-field {
-  position: relative;
   margin-top: 1rem;
 }
 .markdown-field-toggle {
-  position: relative;
-  z-index: 1;
   opacity: 0.7;
 }
 .markdown-field-toggle:hover,
 .markdown-field-toggle:focus-visible {
   opacity: 1;
 }
-.markdown-field-label {
-  display: block;
-  font-size: 0.8rem;
+.markdown-field-body {
+  max-height: 40vh;
+  overflow-y: auto;
+  padding: 0.5rem 16px;
+  border-radius: 0 0 7px 7px;
+}
+.markdown-field-body.clickable {
+  cursor: text;
+}
+.markdown-field-body:focus-visible {
+  outline: 2px solid var(--mm-primary-color);
+  outline-offset: -2px;
+}
+.markdown-field-textarea {
+  padding: 0 16px;
+}
+.markdown-field-textarea .input-field {
+  margin-top: 0.5rem;
+}
+.markdown-field-empty {
+  padding: 0.25rem 0;
+  opacity: 0.6;
+  font-style: italic;
 }
 .markdown-field-content > :first-child {
   margin-top: 0.25rem;
+}
+.markdown-field-content h1,
+.markdown-field-content h2 {
+  font-size: 1.15rem;
+  margin: 1rem 0 0.5rem;
+}
+.markdown-field-content h3,
+.markdown-field-content h4 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0.75rem 0 0.25rem;
 }
 .markdown-field-content ul {
   padding-left: 1.25rem;
 }
 .markdown-field-content ul > li {
   list-style-type: disc;
+}
+.markdown-field-editor .md-editable-area {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+/* Let the rich-text editor follow the app theme (light and dark) */
+.markdown-field-editor .md-wysiwyg-editor-wrapper[data-theme] {
+  --bg-color: var(--mm-surface-color);
+  --editable-bg: var(--mm-surface-color);
+  --input-bg: var(--mm-surface-color);
+  --text-color: var(--mm-text-primary);
+  --muted-text: color-mix(in srgb, var(--mm-text-primary) 60%, transparent);
+  --border-color: var(--mm-border-color);
+  --toolbar-bg: color-mix(in srgb, var(--mm-primary-color) 6%, var(--mm-surface-color));
+  --toolbar-border: var(--mm-border-color);
+  --button-bg: transparent;
+  --button-border: transparent;
+  --button-text: var(--mm-text-primary);
+  --button-hover: color-mix(in srgb, var(--mm-primary-color) 15%, transparent);
+  --button-active: var(--mm-primary-color);
+  --link-color: var(--mm-primary-color);
+  border: none;
+  border-radius: 0 0 7px 7px;
+}
+.markdown-field-editor .md-editable-area blockquote {
+  border-left-color: var(--mm-primary-color);
+}
+.markdown-field-editor .md-editable-area h1,
+.markdown-field-editor .md-editable-area h2 {
+  font-size: 1.15rem;
+  margin: 1rem 0 0.5rem;
+}
+.markdown-field-editor .md-editable-area h3,
+.markdown-field-editor .md-editable-area h4 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0.75rem 0 0.25rem;
+}
+.markdown-field-editor .md-editable-area ul > li {
+  list-style-type: disc;
+}
+.markdown-field-editor .md-editor-content-area {
+  height: auto;
+}
+.markdown-field-editor .md-editable-area {
+  min-height: 8rem;
+}
+.markdown-field.narrative-field .markdown-field-body,
+.markdown-field.narrative-field .markdown-field-editor .md-editable-area {
+  max-height: 65vh;
 }

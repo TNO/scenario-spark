@@ -5,15 +5,32 @@ import { test } from 'node:test';
 
 const require = createRequire(import.meta.url);
 const esbuild = createRequire(require.resolve('vite/package.json'))('esbuild');
-const materialized = require('mithril-materialized');
 const source = readFileSync(new URL('../src/components/ui/markdown-field.ts', import.meta.url), 'utf8');
 const code = esbuild.transformSync(source, { loader: 'ts', format: 'cjs', target: 'es2022' }).code;
+
+const MarkdownEditor = () => ({ view: () => null });
+const TextArea = () => ({ view: () => null });
+const listeners = new Set();
+// No mounted app in tests, so redraws are no-ops.
+require('mithril').redraw = () => {};
+globalThis.document = {
+  body: {},
+  activeElement: null,
+  addEventListener: (_type, fn) => listeners.add(fn),
+  removeEventListener: (_type, fn) => listeners.delete(fn),
+};
 
 const load = () => {
   const module = { exports: {} };
   const mocks = {
+    'mithril-materialized': { TextArea, ThemeManager: { getTheme: () => 'light' } },
+    'mithril-markdown-wysiwyg': { MarkdownEditor },
+    'mithril-ui-form': { render: (md) => md },
     '../../services': { t: (key) => key },
-    '../../utils': { markdown2html: (md) => `html:${md}` },
+    '../../utils': {
+      markdown2html: (md) => `html:${md}`,
+      clipboardHtmlToMarkdown: (html) => (html ? `md:${html}` : undefined),
+    },
   };
   new Function('require', 'module', 'exports', code)((name) => mocks[name] || require(name), module, module.exports);
   return module.exports.MarkdownField;
@@ -24,52 +41,110 @@ const findAll = (node, predicate) => {
   if (!node || typeof node !== 'object') return [];
   return [...(predicate(node) ? [node] : []), ...findAll(node.children, predicate)];
 };
-
-const setup = (value) => {
-  const state = { id: 'a', label: 'Label', value, oninput: (v) => (state.value = v) };
-  const view = load()();
-  return { state, render: () => view.view({ attrs: state }) };
-};
-const textAreaOf = (tree) => findAll(tree, (n) => n.tag === materialized.TextArea)[0];
 const byClass = (cls) => (n) => (n.attrs?.className || '').split(' ').includes(cls);
-const toggleOf = (tree) => findAll(tree, byClass('markdown-field-toggle'))[0];
-const contentOf = (tree) => findAll(tree, byClass('markdown-field-content'))[0];
+const find = (tree, cls) => findAll(tree, byClass(cls))[0];
+const textAreaOf = (tree) => findAll(tree, (n) => n.tag === TextArea)[0];
+const editorOf = (tree) => findAll(tree, (n) => n.tag === MarkdownEditor)[0];
 const textOf = (n) => n.text ?? n.children?.[0]?.children;
 
-test('an empty field shows a text area without a toggle', () => {
+const setup = (value, rich = true) => {
+  const state = { id: 'a', label: 'Label', value, rich, oninput: (v) => (state.value = v) };
+  listeners.clear();
+  const component = load()();
+  const tree = () => component.view({ attrs: state });
+  // Register the wrapper element, as Mithril would on create.
+  const wrapper = { contains: (node) => node === 'inside', querySelector: () => null, isConnected: false };
+  tree().attrs.oncreate?.({ dom: wrapper });
+  return { state, render: tree, component };
+};
+const click = (card, target = { closest: () => null }) => card.attrs.onclick({ target });
+
+test('an empty field shows a placeholder note that opens the editor on click', () => {
   const { render } = setup('');
   const tree = render();
-  assert.ok(textAreaOf(tree));
-  assert.equal(toggleOf(tree), undefined);
+  assert.equal(textOf(find(tree, 'markdown-field-empty')), 'MARKDOWN_FIELD_EMPTY');
+  assert.equal(editorOf(tree), undefined);
+  click(find(tree, 'markdown-field-body'));
+  assert.ok(editorOf(render()));
 });
 
-test('typing keeps the text area open until the user saves', () => {
-  const { render } = setup('');
-  textAreaOf(render()).attrs.oninput('**Bold**');
+test('text is shown as a bounded note and edited with the toolbar editor without tabs', () => {
+  const { state, render } = setup('**Bold**');
   let tree = render();
-  assert.ok(textAreaOf(tree), 'still editing after typing');
-  assert.equal(textOf(toggleOf(tree)), 'check');
-  toggleOf(tree).attrs.onclick();
+  assert.equal(textOf(find(tree, 'markdown-field-content')), 'html:**Bold**');
+  assert.equal(textOf(find(tree, 'markdown-field-toggle')), 'edit');
+  find(tree, 'markdown-field-toggle').attrs.onclick();
+  tree = render();
+  const editor = editorOf(tree);
+  assert.equal(editor.attrs.content, '**Bold**');
+  assert.equal(editor.attrs.toolbar, true);
+  assert.equal(editor.attrs.showTabs, false);
+  editor.attrs.onContentChange('*Changed*');
+  assert.equal(state.value, '*Changed*');
+  assert.equal(textOf(find(tree, 'markdown-field-toggle')), 'check');
+  find(tree, 'markdown-field-toggle').attrs.onclick();
+  assert.equal(textOf(find(render(), 'markdown-field-content')), 'html:*Changed*');
+});
+
+test('clicking a link in the note does not open the editor', () => {
+  const { render } = setup('[x](https://tno.nl)');
+  click(find(render(), 'markdown-field-body'), { closest: () => ({}) });
+  assert.equal(editorOf(render()), undefined);
+});
+
+test('clicking outside the field closes the editor, clicking inside keeps it open', () => {
+  const { render } = setup('Text');
+  click(find(render(), 'markdown-field-body'));
+  assert.equal(listeners.size, 1);
+  const [onPointerDown] = listeners;
+  onPointerDown({ target: 'inside' });
+  assert.ok(editorOf(render()), 'toolbar click keeps editing');
+  onPointerDown({ target: 'outside' });
+  assert.equal(editorOf(render()), undefined);
+  assert.equal(listeners.size, 0, 'listener removed');
+});
+
+test('switching to another item closes the editor', () => {
+  const { state, render } = setup('Text');
+  click(find(render(), 'markdown-field-body'));
+  state.id = 'b';
+  assert.equal(editorOf(render()), undefined);
+  assert.equal(listeners.size, 0);
+});
+
+test('plain: an empty field shows a text area; typing keeps it open until saved', () => {
+  const { state, render } = setup('', false);
+  let tree = render();
+  assert.equal(find(tree, 'markdown-field-toggle'), undefined);
+  textAreaOf(tree).attrs.oninput('**Bold**');
+  tree = render();
+  assert.ok(textAreaOf(tree));
+  assert.equal(state.value, '**Bold**');
+  find(tree, 'markdown-field-toggle').attrs.onclick();
   tree = render();
   assert.equal(textAreaOf(tree), undefined);
-  assert.equal(textOf(contentOf(tree)), 'html:**Bold**');
+  assert.equal(textOf(find(tree, 'markdown-field-content')), 'html:**Bold**');
+  find(tree, 'markdown-field-toggle').attrs.onclick();
+  assert.ok(textAreaOf(render()), 'edit reopens the text area');
+  assert.equal(listeners.size, 0, 'no outside-click listener in plain mode');
 });
 
-test('text set from outside (e.g. an LLM) is rendered, and edit reopens the text area', () => {
-  const { state, render } = setup('');
-  render();
-  state.value = '- point';
-  let tree = render();
-  assert.equal(textOf(contentOf(tree)), 'html:- point');
-  assert.equal(textOf(toggleOf(tree)), 'edit');
-  toggleOf(tree).attrs.onclick();
-  assert.ok(textAreaOf(render()));
-});
-
-test('switching to another item leaves edit mode', () => {
-  const { state, render } = setup('Text');
-  toggleOf(render()).attrs.onclick();
-  assert.ok(textAreaOf(render()));
-  state.id = 'b';
-  assert.equal(textAreaOf(render()), undefined);
+test('plain: pasting formatted HTML inserts it as Markdown at the cursor', () => {
+  const { render } = setup('', false);
+  const textArea = textAreaOf(render());
+  let prevented = false;
+  let dispatched;
+  const target = { tagName: 'TEXTAREA', value: 'Voor  na', selectionStart: 5, selectionEnd: 5, dispatchEvent: (e) => (dispatched = e) };
+  const event = (html) => ({
+    target,
+    clipboardData: { getData: (type) => (type === 'text/html' ? html : 'plain') },
+    preventDefault: () => (prevented = true),
+  });
+  textArea.attrs.onpaste(event(''));
+  assert.equal(prevented, false, 'plain text pastes normally');
+  textArea.attrs.onpaste(event('<b>x</b>'));
+  assert.equal(prevented, true);
+  assert.equal(target.value, 'Voor md:<b>x</b> na');
+  assert.equal(target.selectionStart, 5 + 'md:<b>x</b>'.length);
+  assert.equal(dispatched.type, 'input');
 });
