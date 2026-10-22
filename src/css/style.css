@@ -1783,6 +1783,66 @@ td.matrix-cell {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
 }
 
+.home-start-options {
+  padding: 1.5rem 0 0.5rem;
+  border-bottom: 1px solid var(--mm-border-color);
+}
+
+.home-start-options h2 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.home-option-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.home-option-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--mm-border-color);
+  border-radius: 0.75rem;
+  background: var(--mm-surface-color);
+}
+
+.home-option-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.home-option-card p {
+  margin: 0;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+.home-option-icon {
+  color: var(--mm-primary-color);
+}
+
+.home-option-status {
+  font-weight: 600;
+}
+
+.home-option-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.home-option-card .home-option-action {
+  margin-top: auto;
+  padding-inline: 0.375rem;
+}
+
 .home-saved-scenarios {
   padding: 1.5rem 0 2rem;
 }
@@ -2335,6 +2395,47 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
 }
 .decision-tabs {
   position: relative;
+}
+.decision-help {
+  margin: 0.5rem 0.75rem 1rem;
+}
+.decision-help summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--mm-primary-color);
+}
+.decision-help ol {
+  margin: 0.5rem 0 0;
+  padding-left: 1.5rem;
+  line-height: 1.5;
+}
+.decision-help li {
+  list-style: decimal;
+}
+.decision-support-banner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.5rem 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--mm-border-color);
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--mm-primary-color) 7%, var(--mm-surface-color));
+}
+.decision-support-banner > span {
+  flex: 1 1 20rem;
+}
+.persona-clipboard-hint {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+.persona-clipboard-hint p {
+  flex: 1 1 24rem;
+  margin: 0;
+  opacity: 0.8;
 }
 .decision-tabs > .decision-export {
   position: absolute;

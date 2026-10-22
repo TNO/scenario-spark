@@ -602,6 +602,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "event-protection",
+          "label": "Bezpieczeństwo uczestników i opieka",
+          "desc": "Te ręcznie wybrane działania chronią uczestników, kontrolują zagęszczenie tłumu oraz wspierają opiekę medyczną i schronienie na terenie wydarzenia i wokół niego.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "event-crowd",
+              "label": "Zarządzanie tłumem",
+              "desc": "Czynnik wybiera proporcjonalny krok w celu zmniejszenia zagęszczenia tłumu i bezpiecznego utrzymania ruchu uczestników.",
+              "values": [
+                [
+                  "1",
+                  "Stopniowe wpuszczanie przy wejściach"
+                ],
+                [
+                  "2",
+                  "Otwarcie dodatkowych wyjść i stref oczekiwania"
+                ],
+                [
+                  "3",
+                  "Tymczasowe wstrzymanie wejść na teren"
+                ]
+              ]
+            },
+            {
+              "id": "event-medical",
+              "label": "Reakcja medyczna",
+              "desc": "Czynnik wybiera, jak pierwsza pomoc i opieka zespołów ratownictwa medycznego są dostosowywane do liczby i stanu poszkodowanych.",
+              "values": [
+                [
+                  "1",
+                  "Wzmocnienie punktów pierwszej pomocy dodatkowym personelem"
+                ],
+                [
+                  "2",
+                  "Utworzenie punktu zbiórki poszkodowanych z zespołami ratownictwa medycznego"
+                ],
+                [
+                  "3",
+                  "Uruchomienie regionalnego planu na wypadek wielu poszkodowanych"
+                ]
+              ]
+            },
+            {
+              "id": "event-welfare",
+              "label": "Opieka nad uczestnikami",
+              "desc": "Czynnik wybiera wsparcie chroniące uczestników przed warunkami pogodowymi, wyczerpaniem i rozdzieleniem z grupą.",
+              "values": [
+                [
+                  "1",
+                  "Zapewnienie bezpłatnej wody pitnej, cienia lub schronienia"
+                ],
+                [
+                  "2",
+                  "Utworzenie punktu spotkań dla zagubionych dzieci i opiekunów"
+                ],
+                [
+                  "3",
+                  "Zorganizowanie asystowanego wyjścia dla osób potrzebujących wsparcia"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "event-coordination",
+          "label": "Koordynacja i komunikacja",
+          "desc": "Te ręcznie wybrane działania uzgadniają działania organizatora, gminy i służb ratunkowych oraz zapewniają informowanie uczestników i mieszkańców.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "event-command",
+              "label": "Podejmowanie decyzji",
+              "desc": "Czynnik wybiera, gdzie zapadają decyzje o przerwaniu, zmianie lub zakończeniu wydarzenia.",
+              "values": [
+                [
+                  "1",
+                  "Organizator decyduje w porozumieniu ze służbami ratunkowymi"
+                ],
+                [
+                  "2",
+                  "Zwołanie wspólnego zespołu koordynacyjnego wydarzenia"
+                ],
+                [
+                  "3",
+                  "Przekazanie kierowania gminnemu zespołowi kryzysowemu"
+                ]
+              ]
+            },
+            {
+              "id": "event-message",
+              "label": "Informacja dla uczestników",
+              "desc": "Czynnik wybiera komunikat oparty na zweryfikowanych informacjach, który pomaga uczestnikom bezpiecznie działać.",
+              "values": [
+                [
+                  "1",
+                  "Ogłoszenie krótkiej przerwy w programie i jej przyczyny"
+                ],
+                [
+                  "2",
+                  "Kierowanie uczestników na alternatywne trasy i wyjścia"
+                ],
+                [
+                  "3",
+                  "Przekazanie instrukcji etapowego opuszczania terenu według stref"
+                ]
+              ]
+            },
+            {
+              "id": "event-neighbours",
+              "label": "Mieszkańcy i otoczenie",
+              "desc": "Czynnik wybiera środki ograniczające skutki dla mieszkańców i otoczenia.",
+              "values": [
+                [
+                  "1",
+                  "Informowanie mieszkańców o opóźnieniach i dojazdach"
+                ],
+                [
+                  "2",
+                  "Skierowanie osób kierujących ruchem na drogi dojazdowe"
+                ],
+                [
+                  "3",
+                  "Koordynacja dodatkowego transportu publicznego na wyjazd"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -652,6 +784,14 @@
         [
           "medisch.ernstig",
           "gezondheid.licht"
+        ],
+        [
+          "medisch.geen",
+          "event-medical.2"
+        ],
+        [
+          "medisch.geen",
+          "event-medical.3"
         ]
       ],
       "template": "Rodzaj wydarzenia to {1}, a miejsce ma charakter {2}; przewidywana frekwencja wynosi {3}. Czas trwania to {4}, pora wydarzenia to {5}, a publiczność to {6}.\nPogoda to {7}, a dostępność okolicy to {8}. Obraz incydentów medycznych to {9}; środki komunikacji z uczestnikami to {10}, natomiast przepływ uczestników cechuje {11}.\nDozwolona pojemność wynosi {12}, a zasady wstępu to {13}. Przygotowana pomoc medyczna obejmuje {14}; decyzje są uzgadniane poprzez {15}, informacje docierają do uczestników poprzez {16}, a w razie przerwania imprezy przewidziano {17}.\nSkutki zdrowotne dla uczestników to {18}. Wpływ na program to {19}; dla mieszkańców okolicy oznacza to {20}, a potrzeba informacji publicznej to {21}. Po zakończeniu następuje {22}.",
@@ -681,7 +821,13 @@
           "uitloop.vertraging",
           "omgeving.bereik",
           "vertrouwen.regionaal",
-          "evaluatie.nazorg"
+          "evaluatie.nazorg",
+          "event-crowd.1",
+          "event-medical.1",
+          "event-welfare.1",
+          "event-command.2",
+          "event-message.1",
+          "event-neighbours.1"
         ]
       }
     },
@@ -3355,6 +3501,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "building-safety",
+          "label": "Bezpieczeństwo odwiedzających i pracowników",
+          "desc": "Te ręcznie wybrane działania chronią odwiedzających i pracowników oraz zapewniają bezpieczne korzystanie z budynku.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "building-reception",
+              "label": "Przyjmowanie odwiedzających",
+              "desc": "Czynnik wybiera sposób spokojnego i czytelnego przyjmowania oraz kierowania odwiedzających.",
+              "values": [
+                [
+                  "1",
+                  "Dodatkowy personel recepcji przy otwartym wejściu"
+                ],
+                [
+                  "2",
+                  "Kierowanie odwiedzających do spokojnej poczekalni"
+                ],
+                [
+                  "3",
+                  "Odprowadzanie odwiedzających na umówione spotkanie"
+                ]
+              ]
+            },
+            {
+              "id": "building-staff",
+              "label": "Wsparcie pracowników",
+              "desc": "Czynnik wybiera wsparcie pomagające pracownikom radzić sobie z napięciem lub agresją ze strony odwiedzających.",
+              "values": [
+                [
+                  "1",
+                  "Odprawa pracowników na temat uzgodnionych procedur"
+                ],
+                [
+                  "2",
+                  "Praca w parach przy stanowiskach obsługi"
+                ],
+                [
+                  "3",
+                  "Wsparcie koleżeńskie po incydencie"
+                ]
+              ]
+            },
+            {
+              "id": "building-use",
+              "label": "Korzystanie z budynku",
+              "desc": "Czynnik wybiera proporcjonalną decyzję o tym, które części budynku pozostają w użyciu.",
+              "values": [
+                [
+                  "1",
+                  "Utrzymanie otwartych przestrzeni publicznych zgodnie z planem"
+                ],
+                [
+                  "2",
+                  "Tymczasowe zamknięcie części przestrzeni publicznych"
+                ],
+                [
+                  "3",
+                  "Uporządkowana ewakuacja budynku"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "building-coordination",
+          "label": "Koordynacja i komunikacja",
+          "desc": "Te ręcznie wybrane działania uzgadniają działania zarządcy budynku, obsługi klientów i partnerów oraz zapewniają informowanie społeczeństwa.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "building-lead",
+              "label": "Koordynacja",
+              "desc": "Czynnik wybiera, kto koordynuje decyzje dotyczące budynku i obsługi.",
+              "values": [
+                [
+                  "1",
+                  "Wspólna narada zarządcy budynku i obsługi"
+                ],
+                [
+                  "2",
+                  "Uruchomienie wewnętrznego zespołu ratowniczego"
+                ],
+                [
+                  "3",
+                  "Koordynacja z gminnym zarządzaniem kryzysowym"
+                ]
+              ]
+            },
+            {
+              "id": "building-information",
+              "label": "Informacja publiczna",
+              "desc": "Czynnik wybiera sposób informowania odwiedzających o zmianach w dostępie i obsłudze.",
+              "values": [
+                [
+                  "1",
+                  "Aktualizacja strony internetowej i komunikatu telefonicznego"
+                ],
+                [
+                  "2",
+                  "Czytelne oznakowanie przy wejściach"
+                ],
+                [
+                  "3",
+                  "Osobisty kontakt z odwiedzającymi umówionymi na wizytę"
+                ]
+              ]
+            },
+            {
+              "id": "building-service",
+              "label": "Ciągłość obsługi",
+              "desc": "Czynnik wybiera sposób utrzymania dostępności podstawowych usług dla mieszkańców.",
+              "values": [
+                [
+                  "1",
+                  "Priorytetowa obsługa pilnych spraw przy stanowisku"
+                ],
+                [
+                  "2",
+                  "Wydłużenie godzin otwarcia w innej lokalizacji"
+                ],
+                [
+                  "3",
+                  "Obsługa z asystą przez telefon lub wideo"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -3377,6 +3655,18 @@
         [
           "bezoek.geen",
           "entree.open"
+        ],
+        [
+          "opening.gesloten",
+          "building-use.1"
+        ],
+        [
+          "opening.gesloten",
+          "building-reception.1"
+        ],
+        [
+          "entree.dicht",
+          "building-reception.1"
         ]
       ],
       "template": "Funkcja budynku to {1}; dla publiczności jest on {2}. Przestrzeń służy do {3}.\nZasady przyjmowania odwiedzających to {4}, przy obłożeniu {5}. Potrzeby odwiedzających związane z dostępnością to {6}.\nŚwiadczenie usług to {7}, a stan wejść dla publiczności to {8}. Odwiedzający odczuwają {9}.\nWspółpraca zarządcy budynku z usługodawcą odbywa się poprzez {10}. Alternatywa dla odwiedzających to {11}; informacje otrzymują {12}.",
@@ -3396,7 +3686,13 @@
           "verstoring.wachttijd",
           "beheer.team",
           "alternatief.afspraak",
-          "bericht.persoonlijk"
+          "bericht.persoonlijk",
+          "building-reception.2",
+          "building-staff.1",
+          "building-use.1",
+          "building-lead.1",
+          "building-information.3",
+          "building-service.1"
         ]
       }
     },
@@ -3660,6 +3956,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "centre-hospitality",
+          "label": "Gościnność i bezpieczeństwo odwiedzających",
+          "desc": "Te ręcznie wybrane działania sprawiają, że spotkanie pozostaje gościnne i bezpieczne dla odwiedzających, wolontariuszy i sąsiedztwa.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "centre-hosts",
+              "label": "Gospodarze i obsługa porządkowa",
+              "desc": "Czynnik wybiera, jak wolontariusze witają odwiedzających i spokojnie nimi kierują.",
+              "values": [
+                [
+                  "1",
+                  "Odprawa wolontariuszy dotycząca witania i kierowania odwiedzających"
+                ],
+                [
+                  "2",
+                  "Wyznaczenie gospodarzy przy wejściach i miejscach siedzących"
+                ],
+                [
+                  "3",
+                  "Wyznaczenie osoby kontaktowej dla służb ratunkowych"
+                ]
+              ]
+            },
+            {
+              "id": "centre-flow",
+              "label": "Przyjazd i wyjazd",
+              "desc": "Czynnik wybiera rozwiązania rozkładające ruch odwiedzających i utrzymujące dostępność okolicy.",
+              "values": [
+                [
+                  "1",
+                  "Rozłożenie godzin przyjazdu i wyjazdu"
+                ],
+                [
+                  "2",
+                  "Zorganizowanie z partnerami dodatkowych miejsc parkingowych lub transportu wahadłowego"
+                ],
+                [
+                  "3",
+                  "Utrzymanie drożnych chodników i dróg dojazdowych"
+                ]
+              ]
+            },
+            {
+              "id": "centre-care",
+              "label": "Opieka nad odwiedzającymi",
+              "desc": "Czynnik wybiera wsparcie dla odwiedzających, którzy potrzebują dodatkowej uwagi w trakcie spotkania lub po nim.",
+              "values": [
+                [
+                  "1",
+                  "Zapewnienie osoby udzielającej pierwszej pomocy na miejscu"
+                ],
+                [
+                  "2",
+                  "Zapewnienie dostępnych miejsc siedzących i pomocy"
+                ],
+                [
+                  "3",
+                  "Zapewnienie opieki po wydarzeniu i rozmowy wspierającej"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "centre-coordination",
+          "label": "Współpraca i komunikacja",
+          "desc": "Te ręcznie wybrane działania uzgadniają działania wspólnoty, sąsiedztwa i partnerów publicznych oraz zapewniają jasne i terminowe informacje.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "centre-partners",
+              "label": "Partnerzy współpracy",
+              "desc": "Czynnik wybiera, z kim spotkanie jest przygotowywane i uzgadniane.",
+              "values": [
+                [
+                  "1",
+                  "Uzgodnienia w zarządzie wspólnoty"
+                ],
+                [
+                  "2",
+                  "Konsultacje z organizacjami sąsiedzkimi i mieszkańcami"
+                ],
+                [
+                  "3",
+                  "Koordynacja z gminą i służbami ratunkowymi"
+                ]
+              ]
+            },
+            {
+              "id": "centre-information",
+              "label": "Informowanie",
+              "desc": "Czynnik wybiera, jak odwiedzający i mieszkańcy otrzymują rzetelne informacje na czas.",
+              "values": [
+                [
+                  "1",
+                  "Informowanie członków własnymi kanałami wspólnoty"
+                ],
+                [
+                  "2",
+                  "Wysłanie listu do mieszkańców"
+                ],
+                [
+                  "3",
+                  "Udostępnianie praktycznych informacji kanałami publicznymi"
+                ]
+              ]
+            },
+            {
+              "id": "centre-dialogue",
+              "label": "Dialog i wsparcie po wydarzeniu",
+              "desc": "Czynnik wybiera, jak po spotkaniu omawiane są obawy i doświadczenia.",
+              "values": [
+                [
+                  "1",
+                  "Omówienie przebiegu z wolontariuszami"
+                ],
+                [
+                  "2",
+                  "Zorganizowanie spotkania z sąsiadami"
+                ],
+                [
+                  "3",
+                  "Wspólna ocena z partnerami publicznymi"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -3674,6 +4102,14 @@
         [
           "bezoekers.iedereen",
           "toegang.dicht"
+        ],
+        [
+          "bezoekers.niemand",
+          "centre-hosts.2"
+        ],
+        [
+          "toegang.dicht",
+          "centre-hosts.2"
         ]
       ],
       "template": "Rodzaj wydarzenia w ośrodku religijnym to {1}. Dostępność dla publiczności to {2}, a okoliczności spotkania to {3}.\nOśrodek znajduje się w {4} i spodziewa się {5}. Dojazd odwiedzających to {6}.\nDostęp do ośrodka to {7}; zasięg komunikacji to {8}. Podczas przyjmowania odwiedzających dostępne jest {9}.\nPodejmowanie decyzji to {10}, ze szczególną uwagą na {11}. Doświadczenia odwiedzających i wolontariuszy zbiera się poprzez {12}.",
@@ -3693,7 +4129,13 @@
           "welkom.vrijwilligers",
           "regie.buurt",
           "zorg.contact",
-          "terugkoppeling.gesprek"
+          "terugkoppeling.gesprek",
+          "centre-hosts.1",
+          "centre-flow.1",
+          "centre-care.2",
+          "centre-partners.2",
+          "centre-information.2",
+          "centre-dialogue.1"
         ]
       }
     },
@@ -3957,6 +4399,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "port-continuity",
+          "label": "Środki ciągłości",
+          "desc": "Te ręcznie wybrane działania utrzymują priorytetowe usługi portowe i ograniczają skutki dla łańcucha dostaw.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "port-capacity",
+              "label": "Przydział przepustowości",
+              "desc": "Czynnik wybiera sposób przydziału pozostałej przepustowości terminalu.",
+              "values": [
+                [
+                  "1",
+                  "Pierwszeństwo dla przepływów krytycznych czasowo"
+                ],
+                [
+                  "2",
+                  "Skierowanie statków do innych terminali w porcie"
+                ],
+                [
+                  "3",
+                  "Wydłużenie godzin pracy, jeśli pozwala na to obsada"
+                ]
+              ]
+            },
+            {
+              "id": "port-staff",
+              "label": "Obsada kadrowa",
+              "desc": "Czynnik wybiera sposób zapewnienia wystarczającej liczby wykwalifikowanych pracowników w czasie zakłócenia.",
+              "values": [
+                [
+                  "1",
+                  "Dostosowanie grafików zmian"
+                ],
+                [
+                  "2",
+                  "Oddelegowanie pracowników z innych terminali"
+                ],
+                [
+                  "3",
+                  "Skorzystanie z puli wykwalifikowanych pracowników tymczasowych"
+                ]
+              ]
+            },
+            {
+              "id": "port-hinterland",
+              "label": "Transport w głąb lądu",
+              "desc": "Czynnik wybiera sposób utrzymania przepływu towarów lub pasażerów poza portem.",
+              "values": [
+                [
+                  "1",
+                  "Uzgodnienie z przewoźnikami zmienionych okien odbioru"
+                ],
+                [
+                  "2",
+                  "Przeniesienie przewozów na kolej lub żeglugę śródlądową"
+                ],
+                [
+                  "3",
+                  "Zorganizowanie tymczasowej przestrzeni buforowej poza terminalem"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "port-coordination",
+          "label": "Koordynacja i komunikacja",
+          "desc": "Te ręcznie wybrane działania uzgadniają działania zarządu portu, terminalu, partnerów łańcucha dostaw i administracji oraz informują zainteresowanych.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "port-command",
+              "label": "Struktura koordynacji",
+              "desc": "Czynnik wybiera, gdzie uzgadniane są priorytety w łańcuchu dostaw.",
+              "values": [
+                [
+                  "1",
+                  "Zespół operacyjny terminalu z kapitanatem portu"
+                ],
+                [
+                  "2",
+                  "Zwołanie narady koordynacyjnej całego portu"
+                ],
+                [
+                  "3",
+                  "Przekazanie sprawy do regionalnej struktury kryzysowej"
+                ]
+              ]
+            },
+            {
+              "id": "port-picture",
+              "label": "Wspólny obraz sytuacji",
+              "desc": "Czynnik wybiera, jak partnerzy utrzymują wspólny, zweryfikowany obraz zakłócenia.",
+              "values": [
+                [
+                  "1",
+                  "Przekazywanie aktualizacji stanu o stałych porach"
+                ],
+                [
+                  "2",
+                  "Korzystanie ze wspólnego panelu informacyjnego portu"
+                ],
+                [
+                  "3",
+                  "Oddelegowanie łączników do kluczowych partnerów"
+                ]
+              ]
+            },
+            {
+              "id": "port-public",
+              "label": "Komunikacja z zainteresowanymi",
+              "desc": "Czynnik wybiera komunikację odzwierciedlającą zweryfikowane fakty i pozostałe niepewności.",
+              "values": [
+                [
+                  "1",
+                  "Wysłanie ukierunkowanych komunikatów do klientów i przewoźników"
+                ],
+                [
+                  "2",
+                  "Publikacja komunikatu o dostępności portu"
+                ],
+                [
+                  "3",
+                  "Wspólny briefing prasowy z partnerami"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -3979,6 +4553,14 @@
         [
           "capaciteit.geen",
           "stroom.beperkt"
+        ],
+        [
+          "afhandeling.normaal",
+          "port-capacity.2"
+        ],
+        [
+          "bezetting.normaal",
+          "port-staff.3"
         ]
       ],
       "template": "Funkcja badanego terminala to {1}. Obsługa to {2}, prawdopodobnie przez {3}.\nDla portu jako całości żegluga to {4}. Presja na partnerów to {5}; połączenie z zapleczem portu to {6}.\nZdolność obsługi terminala to {7}, podczas gdy faktyczny przepływ to {8}. Obsada personelu to {9}.\nPriorytet w świadczeniu usług to {10}. Wspólny obraz sytuacji jest przekazywany {11}, a zainteresowani otrzymują {12}.",
@@ -3998,7 +4580,13 @@
           "bezetting.wisselend",
           "prioriteit.levering",
           "afstemming.overheid",
-          "informatie.gericht"
+          "informatie.gericht",
+          "port-capacity.1",
+          "port-staff.1",
+          "port-hinterland.1",
+          "port-command.2",
+          "port-picture.1",
+          "port-public.1"
         ]
       }
     },
@@ -4262,6 +4850,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "airport-care",
+          "label": "Opieka nad pasażerami i operacje",
+          "desc": "Te ręcznie wybrane działania wspierają pasażerów, którzy utknęli na lotnisku, i w kontrolowany sposób wykorzystują pozostałą przepustowość.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "airport-flights",
+              "label": "Rozkład lotów",
+              "desc": "Czynnik wybiera sposób wykorzystania pozostałej przepustowości w porozumieniu z liniami lotniczymi i kontrolą ruchu lotniczego.",
+              "values": [
+                [
+                  "1",
+                  "Ograniczenie rozkładu lotów wspólnie z liniami lotniczymi"
+                ],
+                [
+                  "2",
+                  "Przekierowanie przylotów na inne lotniska"
+                ],
+                [
+                  "3",
+                  "Wznawianie lotów w zaplanowanych etapach"
+                ]
+              ]
+            },
+            {
+              "id": "airport-shelter",
+              "label": "Opieka nad oczekującymi pasażerami",
+              "desc": "Czynnik wybiera wsparcie dla pasażerów, którzy utknęli lub długo czekają.",
+              "values": [
+                [
+                  "1",
+                  "Zapewnienie wody, posiłków i miejsc siedzących w terminalu"
+                ],
+                [
+                  "2",
+                  "Zorganizowanie pokoi hotelowych lub miejsc zakwaterowania"
+                ],
+                [
+                  "3",
+                  "Dodatkowa pomoc dla pasażerów o ograniczonej mobilności"
+                ]
+              ]
+            },
+            {
+              "id": "airport-transport",
+              "label": "Dalsza podróż",
+              "desc": "Czynnik wybiera, w jaki sposób pasażerowie mogą kontynuować podróż.",
+              "values": [
+                [
+                  "1",
+                  "Przebukowanie pasażerów na późniejsze loty"
+                ],
+                [
+                  "2",
+                  "Zorganizowanie transportu zastępczego autokarem lub pociągiem"
+                ],
+                [
+                  "3",
+                  "Dodatkowy transport publiczny na lotnisko i z lotniska"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "airport-coordination",
+          "label": "Koordynacja i komunikacja",
+          "desc": "Te ręcznie wybrane działania uzgadniają działania lotniska, linii lotniczych, przewoźników i władz oraz zapewniają informowanie pasażerów.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "airport-command",
+              "label": "Struktura koordynacji",
+              "desc": "Czynnik wybiera, gdzie koordynowane są decyzje operacyjne i priorytety.",
+              "values": [
+                [
+                  "1",
+                  "Centrum operacyjne lotniska z liniami lotniczymi"
+                ],
+                [
+                  "2",
+                  "Wspólny zespół koordynacyjny z przewoźnikami i partnerami"
+                ],
+                [
+                  "3",
+                  "Przekazanie sprawy do regionalnej struktury kryzysowej"
+                ]
+              ]
+            },
+            {
+              "id": "airport-info",
+              "label": "Kanały informacyjne",
+              "desc": "Czynnik wybiera, jak pasażerowie otrzymują spójne, zweryfikowane informacje.",
+              "values": [
+                [
+                  "1",
+                  "Publikowanie wspólnych komunikatów na ekranach i w aplikacjach"
+                ],
+                [
+                  "2",
+                  "Skierowanie personelu informacyjnego do terminalu"
+                ],
+                [
+                  "3",
+                  "Wysyłanie ukierunkowanych wiadomości za pośrednictwem linii lotniczych"
+                ]
+              ]
+            },
+            {
+              "id": "airport-recovery",
+              "label": "Planowanie przywracania",
+              "desc": "Czynnik wybiera sposób przygotowania powrotu do normalnej działalności.",
+              "values": [
+                [
+                  "1",
+                  "Uzgodnienie etapowego harmonogramu przywracania"
+                ],
+                [
+                  "2",
+                  "Najpierw obsłużenie zaległych oczekujących pasażerów"
+                ],
+                [
+                  "3",
+                  "Zaplanowanie wspólnej oceny z partnerami"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -4280,6 +5000,18 @@
         [
           "terminal.dicht",
           "verwerking.beperkt"
+        ],
+        [
+          "operatie.normaal",
+          "airport-flights.1"
+        ],
+        [
+          "operatie.normaal",
+          "airport-flights.2"
+        ],
+        [
+          "herstel.normaal",
+          "airport-recovery.1"
         ]
       ],
       "template": "Funkcja fikcyjnego lotniska to {1}. Starty i lądowania odbywają się {2}, przy przewidywanym czasie trwania {3}.\nStan czynnych pasów to {4}; terminal dla publiczności jest {5}. Transport na lotnisko i z lotniska to {6}.\nObsługa pasażerów w terminalu to {7}. Podróżni otrzymują {8}, a opieka nad nimi obejmuje {9}.\nGrupa zaangażowanych partnerów obejmuje {10}. Główny dylemat to {11}, natomiast perspektywa powrotu do normalności to {12}.",
@@ -4299,7 +5031,13 @@
           "opvang.opvang",
           "partners.regionaal",
           "keuze.reizigers",
-          "herstel.onbekend"
+          "herstel.onbekend",
+          "airport-flights.1",
+          "airport-shelter.2",
+          "airport-transport.2",
+          "airport-command.2",
+          "airport-info.1",
+          "airport-recovery.2"
         ]
       }
     },

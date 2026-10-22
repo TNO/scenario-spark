@@ -21,6 +21,7 @@ import {
   ScenarioComponent,
 } from '../models';
 import {
+  changePage,
   MeiosisComponent,
   saveModel,
   saveNarrative,
@@ -34,6 +35,7 @@ import {
   GenerationDiagnostic,
   activeCoa,
   addCoa,
+  answerDecisionSupportPrompt,
   appendReflection,
   coaConflicts,
   decisionExclusions,
@@ -50,6 +52,7 @@ import {
   levelIndex,
   narrativesToOptions,
   splitDecisionComponents,
+  syncNarrativeDecisions,
   trafficLight,
   updateRisk,
 } from '../utils';
@@ -587,7 +590,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   if (story && navigator.clipboard) {
                     navigator.clipboard.writeText(story);
                   }
-                  toast({ html: t('COPY_BOX', 'TOAST') });
+                  toast({ html: t('NARRATIVE_PROMPT_COPIED') });
                   return;
                 }
                 if (story) {
@@ -885,6 +888,29 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             ]),
           ]),
         showTables &&
+          !includeDecisionSupport &&
+          decisionCategories.length > 0 &&
+          m('.col.s12', m('.decision-support-banner', { role: 'status' }, [
+            m(Icon, { iconName: 'assistant_direction' }),
+            m('span', t('DECISION_BANNER_MSG')),
+            m(FlatButton, {
+              iconName: 'check',
+              label: t('DECISION_PROMPT_ENABLE'),
+              onclick: async () => {
+                answerDecisionSupportPrompt(model.scenario, true);
+                ensureDefaultLLMConfig(model.scenario, model.scenario.categories || []);
+                (model.scenario.narratives || []).forEach((n) =>
+                  syncNarrativeDecisions(model.scenario, n),
+                );
+                if (curNarrative.components) {
+                  syncNarrativeDecisions(model.scenario, curNarrative);
+                  attrs.update({ curNarrative: () => curNarrative });
+                }
+                await saveModel(attrs, model);
+              },
+            }),
+          ])),
+        showTables &&
           showDecisions && [
             m('.col.s12', [
               m('h5.decisions-title', t('DECISIONS')),
@@ -1083,6 +1109,17 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               },
             }),
           curNarrative.saved && [
+            personaPromptReady &&
+              llm?.id === 'clipboard' &&
+              curPersonas.length > 0 &&
+              m('.row', m('.col.s12.persona-clipboard-hint', [
+                m('p', t('PERSONA_CLIPBOARD_HINT')),
+                m(FlatButton, {
+                  iconName: 'settings',
+                  label: t('SETUP_LLM'),
+                  onclick: () => changePage(attrs, Dashboards.SETTINGS),
+                }),
+              ])),
             curPersonas.map((p, index) =>
               m('.row.persona', [
                 m('.col.s12', m('h5', p.label)),

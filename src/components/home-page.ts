@@ -331,11 +331,6 @@ export const HomePage: MeiosisComponent = () => {
                       hasBoxContent ? Dashboards.CREATE_SCENARIO : Dashboards.DEFINE_BOX
                     ),
                   }),
-                  hasBoxContent && m(FlatButton, {
-                    iconName: 'grid_view',
-                    label: t('EDIT_BOX'),
-                    onclick: () => changePage(attrs, Dashboards.DEFINE_BOX),
-                  }),
                   m(BoxActions, {
                     ariaLabel: t('BOX_ACTIONS'),
                     trigger: (menuAttrs) => m('button.btn-flat.home-box-menu-trigger', {
@@ -377,6 +372,66 @@ export const HomePage: MeiosisComponent = () => {
               ]),
               m('.home-visual', [
                 m('img.home-hero-image', { src: background, alt: '' }),
+              ]),
+            ]),
+            m('section.home-start-options', [
+              m('h2', t('HOME_OPTIONS_TITLE')),
+              m('.home-option-cards', [
+                m('.home-option-card', [
+                  m(Icon, { iconName: 'tune', className: 'home-option-icon' }),
+                  m('h3', t('HOME_EDIT_CARD_TITLE')),
+                  m('p', t('HOME_EDIT_CARD_DESC')),
+                  m(FlatButton, {
+                    className: 'home-option-action',
+                    iconName: 'grid_view',
+                    label: t('EDIT_BOX'),
+                    onclick: () => changePage(attrs, Dashboards.DEFINE_BOX),
+                  }),
+                ]),
+                m('.home-option-card', [
+                  m(Icon, { iconName: 'auto_fix_high', className: 'home-option-icon' }),
+                  m('h3', t('HOME_AI_CARD_TITLE')),
+                  m('p', t('HOME_AI_CARD_DESC')),
+                  m('.home-option-buttons', [
+                    m(FlatButton, {
+                      className: 'home-option-action',
+                      iconName: 'auto_fix_high',
+                      label: t('LLM_WIZARD_TITLE'),
+                      onclick: () => { llmScenarioWizardOpen = true; },
+                    }),
+                    m(FlatButton, {
+                      className: 'home-option-action',
+                      iconName: 'add',
+                      label: t('NEW_SCENARIO'),
+                      onclick: () => { newScenarioWizardOpen = true; },
+                    }),
+                  ]),
+                ]),
+                m('.home-option-card', [
+                  m(Icon, { iconName: 'map', className: 'home-option-icon' }),
+                  m('h3', t('HOME_MAP_CARD_TITLE')),
+                  m('p', t('HOME_MAP_CARD_DESC')),
+                  model.scenario.includeMapSupport
+                    ? [
+                        m('p.home-option-status', t('HOME_MAP_CARD_ACTIVE')),
+                        m(FlatButton, {
+                          className: 'home-option-action',
+                          iconName: 'edit_location_alt',
+                          label: t('HOME_MAP_CARD_LOCATIONS'),
+                          onclick: () => changePage(attrs, Dashboards.DEFINE_BOX),
+                        }),
+                      ]
+                    : m(FlatButton, {
+                        className: 'home-option-action',
+                        iconName: 'map',
+                        label: t('HOME_MAP_CARD_ENABLE'),
+                        onclick: async () => {
+                          model.scenario.includeMapSupport = true;
+                          await saveModel(attrs, model);
+                          toast({ html: t('HOME_MAP_CARD_ENABLED') });
+                        },
+                      }),
+                ]),
               ]),
             ]),
             m('section.home-saved-scenarios', [

@@ -602,6 +602,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "event-protection",
+          "label": "Publieksveiligheid en zorg",
+          "desc": "Deze handmatige acties beschermen bezoekers, beheersen de publieksdichtheid en ondersteunen medische zorg en opvang op en rond het terrein.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "event-crowd",
+              "label": "Crowdmanagement",
+              "desc": "Deze factor kiest een evenredige stap om de publieksdichtheid te verlagen en bezoekersstromen veilig in beweging te houden.",
+              "values": [
+                [
+                  "1",
+                  "Bezoekers gefaseerd toelaten bij de ingangen"
+                ],
+                [
+                  "2",
+                  "Extra uitgangen en wachtzones openen"
+                ],
+                [
+                  "3",
+                  "De toegang tot het terrein tijdelijk stopzetten"
+                ]
+              ]
+            },
+            {
+              "id": "event-medical",
+              "label": "Medische inzet",
+              "desc": "Deze factor kiest hoe eerste hulp en ambulancezorg worden afgestemd op het aantal en de ernst van de slachtoffers.",
+              "values": [
+                [
+                  "1",
+                  "Ehbo-posten versterken met extra personeel"
+                ],
+                [
+                  "2",
+                  "Met de ambulancedienst een gewondennest inrichten"
+                ],
+                [
+                  "3",
+                  "Het regionale plan voor meerdere slachtoffers activeren"
+                ]
+              ]
+            },
+            {
+              "id": "event-welfare",
+              "label": "Welzijn van bezoekers",
+              "desc": "Deze factor kiest ondersteuning die bezoekers beschermt tegen weersomstandigheden, uitputting en het kwijtraken van hun groep.",
+              "values": [
+                [
+                  "1",
+                  "Gratis drinkwater, schaduw of beschutting bieden"
+                ],
+                [
+                  "2",
+                  "Een meldpunt voor vermiste kinderen en begeleiders inrichten"
+                ],
+                [
+                  "3",
+                  "Begeleid vertrek regelen voor bezoekers met een ondersteuningsbehoefte"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "event-coordination",
+          "label": "Regie en communicatie",
+          "desc": "Deze handmatige acties stemmen organisator, gemeente en hulpdiensten op elkaar af en houden bezoekers en omwonenden op de hoogte.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "event-command",
+              "label": "Besluitvorming",
+              "desc": "Deze factor kiest waar besluiten over het onderbreken, aanpassen of beëindigen van het evenement worden genomen.",
+              "values": [
+                [
+                  "1",
+                  "Organisator besluit in overleg met de hulpdiensten"
+                ],
+                [
+                  "2",
+                  "Het gezamenlijke coördinatieteam van het evenement bijeenroepen"
+                ],
+                [
+                  "3",
+                  "Opschalen naar het gemeentelijke crisisteam"
+                ]
+              ]
+            },
+            {
+              "id": "event-message",
+              "label": "Informatie voor bezoekers",
+              "desc": "Deze factor kiest de boodschap die bezoekers helpt veilig te handelen, gebaseerd op bevestigde informatie.",
+              "values": [
+                [
+                  "1",
+                  "Een korte programmapauze en de reden ervan aankondigen"
+                ],
+                [
+                  "2",
+                  "Bezoekers naar alternatieve routes en uitgangen verwijzen"
+                ],
+                [
+                  "3",
+                  "Per vak gefaseerde vertrekinstructies geven"
+                ]
+              ]
+            },
+            {
+              "id": "event-neighbours",
+              "label": "Omwonenden en omgeving",
+              "desc": "Deze factor kiest maatregelen die de gevolgen voor omwonenden en de omgeving beperken.",
+              "values": [
+                [
+                  "1",
+                  "Omwonenden informeren over vertraging en bereikbaarheid"
+                ],
+                [
+                  "2",
+                  "Verkeersregelaars inzetten op aanvoerroutes"
+                ],
+                [
+                  "3",
+                  "Extra openbaar vervoer voor het vertrek afstemmen"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -652,6 +784,14 @@
         [
           "medisch.ernstig",
           "gezondheid.licht"
+        ],
+        [
+          "medisch.geen",
+          "event-medical.2"
+        ],
+        [
+          "medisch.geen",
+          "event-medical.3"
         ]
       ],
       "template": "Het type bijeenkomst is {1} en het terrein is ingericht als {2}, met een verwachte opkomst van {3}. De duur is {4}, het tijdvenster is {5} en het publiek bestaat uit {6}.\nDe weersituatie is {7} en de bereikbaarheid van de omgeving is {8}. Het beeld van medische incidenten is {9}; voor publiekscommunicatie geldt {10}, terwijl de bezoekersstromen worden gekenmerkt door {11}.\nDe toegestane capaciteit is {12} en het toegangsregime is {13}. De medische voorbereiding bestaat uit {14}; besluiten worden afgestemd via {15}, informatie bereikt bezoekers via {16} en bij onderbreking is {17} voorzien.\nVoor bezoekers zijn de gezondheidseffecten {18}. Het effect op het programma is {19}; voor omwonenden betekent dit {20} en de publieke informatiebehoefte is {21}. Na afloop volgt {22}.",
@@ -681,7 +821,13 @@
           "uitloop.vertraging",
           "omgeving.bereik",
           "vertrouwen.regionaal",
-          "evaluatie.nazorg"
+          "evaluatie.nazorg",
+          "event-crowd.1",
+          "event-medical.1",
+          "event-welfare.1",
+          "event-command.2",
+          "event-message.1",
+          "event-neighbours.1"
         ]
       }
     },
@@ -3355,6 +3501,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "building-safety",
+          "label": "Veiligheid van bezoekers en medewerkers",
+          "desc": "Deze handmatige acties beschermen bezoekers en medewerkers en houden het gebouw veilig bruikbaar.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "building-reception",
+              "label": "Ontvangst en gastheerschap",
+              "desc": "Deze factor kiest hoe bezoekers op een rustige en herkenbare manier worden ontvangen en begeleid.",
+              "values": [
+                [
+                  "1",
+                  "Extra gastvrouwen en -heren bij de open ingang inzetten"
+                ],
+                [
+                  "2",
+                  "Bezoekers naar een rustige wachtruimte begeleiden"
+                ],
+                [
+                  "3",
+                  "Bezoekers naar hun afspraak begeleiden"
+                ]
+              ]
+            },
+            {
+              "id": "building-staff",
+              "label": "Ondersteuning van medewerkers",
+              "desc": "Deze factor kiest ondersteuning die medewerkers helpt om te gaan met spanning of agressie van bezoekers.",
+              "values": [
+                [
+                  "1",
+                  "Medewerkers briefen over de afgesproken werkwijze"
+                ],
+                [
+                  "2",
+                  "In tweetallen werken aan de balies"
+                ],
+                [
+                  "3",
+                  "Collegiale opvang na een incident bieden"
+                ]
+              ]
+            },
+            {
+              "id": "building-use",
+              "label": "Gebruik van het gebouw",
+              "desc": "Deze factor kiest een evenredig besluit over welke delen van het gebouw in gebruik blijven.",
+              "values": [
+                [
+                  "1",
+                  "Publieksruimten volgens plan openhouden"
+                ],
+                [
+                  "2",
+                  "Een deel van de publieksruimten tijdelijk sluiten"
+                ],
+                [
+                  "3",
+                  "Het gebouw ordelijk ontruimen"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "building-coordination",
+          "label": "Regie en communicatie",
+          "desc": "Deze handmatige acties stemmen gebouwbeheer, dienstverlening en partners op elkaar af en houden het publiek op de hoogte.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "building-lead",
+              "label": "Afstemming",
+              "desc": "Deze factor kiest wie de besluiten over het gebouw en de dienstverlening coördineert.",
+              "values": [
+                [
+                  "1",
+                  "Gezamenlijk overleg van gebouwbeheer en dienstverlening houden"
+                ],
+                [
+                  "2",
+                  "De bedrijfshulpverlening (bhv) activeren"
+                ],
+                [
+                  "3",
+                  "Afstemmen met de gemeentelijke crisisorganisatie"
+                ]
+              ]
+            },
+            {
+              "id": "building-information",
+              "label": "Informatie voor het publiek",
+              "desc": "Deze factor kiest hoe bezoekers horen over wijzigingen in toegang en dienstverlening.",
+              "values": [
+                [
+                  "1",
+                  "Website en telefoonbericht bijwerken"
+                ],
+                [
+                  "2",
+                  "Duidelijke bewegwijzering bij de ingangen plaatsen"
+                ],
+                [
+                  "3",
+                  "Bezoekers met een afspraak persoonlijk benaderen"
+                ]
+              ]
+            },
+            {
+              "id": "building-service",
+              "label": "Continuïteit van dienstverlening",
+              "desc": "Deze factor kiest een manier om essentiële diensten beschikbaar te houden voor inwoners.",
+              "values": [
+                [
+                  "1",
+                  "Spoedeisende aanvragen aan de balie voorrang geven"
+                ],
+                [
+                  "2",
+                  "Openingstijden op een andere locatie verruimen"
+                ],
+                [
+                  "3",
+                  "Begeleide dienstverlening via telefoon of video bieden"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -3377,6 +3655,18 @@
         [
           "bezoek.geen",
           "entree.open"
+        ],
+        [
+          "opening.gesloten",
+          "building-use.1"
+        ],
+        [
+          "opening.gesloten",
+          "building-reception.1"
+        ],
+        [
+          "entree.dicht",
+          "building-reception.1"
         ]
       ],
       "template": "Het gebouw heeft als functie {1} en is voor publiek {2}. De ruimte wordt gebruikt voor {3}.\nHet bezoekersregime is {4}, bij een bezetting van {5}. Voor bezoekers speelt {6} als toegankelijkheidsbehoefte.\nDe dienstverlening is {7} en de status van de publieksentrees is {8}. Bezoekers merken daarvan {9}.\nDe afstemming tussen gebouwbeheer en dienstverlener verloopt via {10}. Voor bezoekers is {11} het alternatief; zij krijgen informatie {12}.",
@@ -3396,7 +3686,13 @@
           "verstoring.wachttijd",
           "beheer.team",
           "alternatief.afspraak",
-          "bericht.persoonlijk"
+          "bericht.persoonlijk",
+          "building-reception.2",
+          "building-staff.1",
+          "building-use.1",
+          "building-lead.1",
+          "building-information.3",
+          "building-service.1"
         ]
       }
     },
@@ -3660,6 +3956,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "centre-hospitality",
+          "label": "Gastvrijheid en veiligheid van bezoekers",
+          "desc": "Deze handmatige acties houden de bijeenkomst gastvrij en veilig voor bezoekers, vrijwilligers en de buurt.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "centre-hosts",
+              "label": "Gastheerschap en begeleiding",
+              "desc": "Deze factor kiest hoe vrijwilligers bezoekers verwelkomen en rustig begeleiden.",
+              "values": [
+                [
+                  "1",
+                  "Vrijwilligers briefen over ontvangst en begeleiding"
+                ],
+                [
+                  "2",
+                  "Gastvrouwen en -heren bij ingangen en zitplaatsen inzetten"
+                ],
+                [
+                  "3",
+                  "Een aanspreekpunt voor de hulpdiensten aanwijzen"
+                ]
+              ]
+            },
+            {
+              "id": "centre-flow",
+              "label": "Aankomst en vertrek",
+              "desc": "Deze factor kiest afspraken die bezoekersstromen spreiden en de omgeving bereikbaar houden.",
+              "values": [
+                [
+                  "1",
+                  "Aankomst- en vertrektijden spreiden"
+                ],
+                [
+                  "2",
+                  "Met partners extra parkeerruimte of pendelvervoer regelen"
+                ],
+                [
+                  "3",
+                  "Voetpaden en toegangsroutes vrijhouden"
+                ]
+              ]
+            },
+            {
+              "id": "centre-care",
+              "label": "Zorg voor bezoekers",
+              "desc": "Deze factor kiest ondersteuning voor bezoekers die tijdens of na de bijeenkomst extra aandacht nodig hebben.",
+              "values": [
+                [
+                  "1",
+                  "Een ehbo-aanspreekpunt ter plaatse regelen"
+                ],
+                [
+                  "2",
+                  "Toegankelijke zitplaatsen en hulp aanbieden"
+                ],
+                [
+                  "3",
+                  "Nazorg en een luisterend oor organiseren"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "centre-coordination",
+          "label": "Samenwerking en communicatie",
+          "desc": "Deze handmatige acties stemmen gemeenschap, buurt en publieke partners op elkaar af en zorgen voor duidelijke, tijdige informatie.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "centre-partners",
+              "label": "Samenwerkingspartners",
+              "desc": "Deze factor kiest met wie de bijeenkomst wordt voorbereid en afgestemd.",
+              "values": [
+                [
+                  "1",
+                  "Afstemmen binnen het bestuur van de gemeenschap"
+                ],
+                [
+                  "2",
+                  "Overleggen met buurtorganisaties en omwonenden"
+                ],
+                [
+                  "3",
+                  "Afstemmen met gemeente en hulpdiensten"
+                ]
+              ]
+            },
+            {
+              "id": "centre-information",
+              "label": "Informatievoorziening",
+              "desc": "Deze factor kiest hoe bezoekers en omwonenden tijdig juiste informatie krijgen.",
+              "values": [
+                [
+                  "1",
+                  "Leden via de eigen kanalen van de gemeenschap informeren"
+                ],
+                [
+                  "2",
+                  "Een brief aan omwonenden sturen"
+                ],
+                [
+                  "3",
+                  "Praktische informatie via publieke kanalen delen"
+                ]
+              ]
+            },
+            {
+              "id": "centre-dialogue",
+              "label": "Dialoog en nazorg",
+              "desc": "Deze factor kiest hoe zorgen en ervaringen na de bijeenkomst worden besproken.",
+              "values": [
+                [
+                  "1",
+                  "Een nabespreking met vrijwilligers houden"
+                ],
+                [
+                  "2",
+                  "Een buurtgesprek organiseren"
+                ],
+                [
+                  "3",
+                  "Samen met publieke partners evalueren"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -3674,6 +4102,14 @@
         [
           "bezoekers.iedereen",
           "toegang.dicht"
+        ],
+        [
+          "bezoekers.niemand",
+          "centre-hosts.2"
+        ],
+        [
+          "toegang.dicht",
+          "centre-hosts.2"
         ]
       ],
       "template": "De activiteit in het religieuze centrum is {1}. Het publieksbereik is {2} en het moment van samenkomst is {3}.\nHet centrum ligt in {4} en verwacht {5}. Voor de bereikbaarheid van bezoekers geldt {6}.\nDe toegang tot het centrum is {7}; het bereik van de communicatie is {8}. Bij de ontvangst is {9} beschikbaar.\nVoor de besluitvorming geldt {10}, met bijzondere aandacht voor {11}. De ervaringen van bezoekers en vrijwilligers worden verzameld via {12}.",
@@ -3693,7 +4129,13 @@
           "welkom.vrijwilligers",
           "regie.buurt",
           "zorg.contact",
-          "terugkoppeling.gesprek"
+          "terugkoppeling.gesprek",
+          "centre-hosts.1",
+          "centre-flow.1",
+          "centre-care.2",
+          "centre-partners.2",
+          "centre-information.2",
+          "centre-dialogue.1"
         ]
       }
     },
@@ -3957,6 +4399,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "port-continuity",
+          "label": "Continuïteitsmaatregelen",
+          "desc": "Deze handmatige acties houden prioritaire havendiensten draaiende en beperken de gevolgen voor de logistieke keten.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "port-capacity",
+              "label": "Capaciteitsverdeling",
+              "desc": "Deze factor kiest hoe de resterende terminalcapaciteit wordt verdeeld.",
+              "values": [
+                [
+                  "1",
+                  "Tijdkritische stromen voorrang geven"
+                ],
+                [
+                  "2",
+                  "Schepen naar andere terminals in de haven omleiden"
+                ],
+                [
+                  "3",
+                  "Bedrijfstijden verlengen waar de bezetting het toelaat"
+                ]
+              ]
+            },
+            {
+              "id": "port-staff",
+              "label": "Personele inzet",
+              "desc": "Deze factor kiest hoe voldoende gekwalificeerd personeel tijdens de verstoring wordt geborgd.",
+              "values": [
+                [
+                  "1",
+                  "Dienstroosters aanpassen"
+                ],
+                [
+                  "2",
+                  "Personeel van andere terminals inzetten"
+                ],
+                [
+                  "3",
+                  "Een pool van gekwalificeerde tijdelijke krachten inschakelen"
+                ]
+              ]
+            },
+            {
+              "id": "port-hinterland",
+              "label": "Vervoer naar het achterland",
+              "desc": "Deze factor kiest een manier om goederen of passagiers buiten de haven in beweging te houden.",
+              "values": [
+                [
+                  "1",
+                  "Aangepaste ophaaltijden met vervoerders afspreken"
+                ],
+                [
+                  "2",
+                  "Stromen verschuiven naar spoor of binnenvaart"
+                ],
+                [
+                  "3",
+                  "Tijdelijke buffercapaciteit buiten de terminal regelen"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "port-coordination",
+          "label": "Regie en communicatie",
+          "desc": "Deze handmatige acties stemmen havenbedrijf, terminal, ketenpartners en overheid op elkaar af en informeren betrokkenen.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "port-command",
+              "label": "Coördinatiestructuur",
+              "desc": "Deze factor kiest waar prioriteiten in de logistieke keten worden afgesproken.",
+              "values": [
+                [
+                  "1",
+                  "Operationeel terminalteam met de havenmeester"
+                ],
+                [
+                  "2",
+                  "Een havenbreed coördinatieoverleg bijeenroepen"
+                ],
+                [
+                  "3",
+                  "Opschalen naar de regionale crisisstructuur"
+                ]
+              ]
+            },
+            {
+              "id": "port-picture",
+              "label": "Gedeeld situatiebeeld",
+              "desc": "Deze factor kiest hoe partners een gedeeld, bevestigd beeld van de verstoring bijhouden.",
+              "values": [
+                [
+                  "1",
+                  "Op vaste tijden statusupdates delen"
+                ],
+                [
+                  "2",
+                  "Een gezamenlijk informatiedashboard van de haven gebruiken"
+                ],
+                [
+                  "3",
+                  "Liaisons bij belangrijke partners inzetten"
+                ]
+              ]
+            },
+            {
+              "id": "port-public",
+              "label": "Communicatie met betrokkenen",
+              "desc": "Deze factor kiest communicatie die bevestigde feiten en resterende onzekerheden weergeeft.",
+              "values": [
+                [
+                  "1",
+                  "Gerichte berichten aan klanten en vervoerders sturen"
+                ],
+                [
+                  "2",
+                  "Een publieke update over de bereikbaarheid van de haven publiceren"
+                ],
+                [
+                  "3",
+                  "Een gezamenlijke persbriefing met partners houden"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -3979,6 +4553,14 @@
         [
           "capaciteit.geen",
           "stroom.beperkt"
+        ],
+        [
+          "afhandeling.normaal",
+          "port-capacity.2"
+        ],
+        [
+          "bezetting.normaal",
+          "port-staff.3"
         ]
       ],
       "template": "De onderzochte terminal heeft als functie {1}. De afhandeling is {2}, naar verwachting gedurende {3}.\nVoor de haven als geheel geldt {4} voor de scheepvaart. De druk op ketenpartners is {5}; de verbinding met het achterland is {6}.\nDe verwerkingscapaciteit van de terminal is {7}, terwijl de feitelijke afhandelingsstroom {8} is. De personeelsbezetting is {9}.\nDe prioriteit in de dienstverlening is {10}. Het gezamenlijke situatiebeeld wordt gedeeld met {11}, en betrokkenen ontvangen {12}.",
@@ -3998,7 +4580,13 @@
           "bezetting.wisselend",
           "prioriteit.levering",
           "afstemming.overheid",
-          "informatie.gericht"
+          "informatie.gericht",
+          "port-capacity.1",
+          "port-staff.1",
+          "port-hinterland.1",
+          "port-command.2",
+          "port-picture.1",
+          "port-public.1"
         ]
       }
     },
@@ -4262,6 +4850,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "airport-care",
+          "label": "Reizigerszorg en operatie",
+          "desc": "Deze handmatige acties ondersteunen gestrande reizigers en benutten de resterende capaciteit op een beheerste manier.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "airport-flights",
+              "label": "Vluchtschema",
+              "desc": "Deze factor kiest hoe de resterende capaciteit wordt benut in overleg met luchtvaartmaatschappijen en de luchtverkeersleiding.",
+              "values": [
+                [
+                  "1",
+                  "Het vluchtschema met luchtvaartmaatschappijen uitdunnen"
+                ],
+                [
+                  "2",
+                  "Inkomende vluchten laten uitwijken naar andere luchthavens"
+                ],
+                [
+                  "3",
+                  "Vluchten in geplande fasen hervatten"
+                ]
+              ]
+            },
+            {
+              "id": "airport-shelter",
+              "label": "Zorg voor gestrande reizigers",
+              "desc": "Deze factor kiest ondersteuning voor reizigers die gestrand zijn of lang moeten wachten.",
+              "values": [
+                [
+                  "1",
+                  "Water, eten en zitplaatsen in de terminal bieden"
+                ],
+                [
+                  "2",
+                  "Hotelkamers of opvanglocaties regelen"
+                ],
+                [
+                  "3",
+                  "Extra assistentie bieden aan reizigers met beperkte mobiliteit"
+                ]
+              ]
+            },
+            {
+              "id": "airport-transport",
+              "label": "Verder reizen",
+              "desc": "Deze factor kiest hoe reizigers hun reis kunnen voortzetten.",
+              "values": [
+                [
+                  "1",
+                  "Reizigers omboeken naar latere vluchten"
+                ],
+                [
+                  "2",
+                  "Vervangend vervoer per bus of trein regelen"
+                ],
+                [
+                  "3",
+                  "Extra openbaar vervoer van en naar de luchthaven inzetten"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "airport-coordination",
+          "label": "Regie en communicatie",
+          "desc": "Deze handmatige acties stemmen luchthaven, luchtvaartmaatschappijen, vervoerders en overheden op elkaar af en houden reizigers op de hoogte.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "airport-command",
+              "label": "Coördinatiestructuur",
+              "desc": "Deze factor kiest waar operationele besluiten en prioriteiten worden gecoördineerd.",
+              "values": [
+                [
+                  "1",
+                  "Operationeel centrum van de luchthaven met luchtvaartmaatschappijen"
+                ],
+                [
+                  "2",
+                  "Gezamenlijk coördinatieteam met vervoerders en partners"
+                ],
+                [
+                  "3",
+                  "Opschalen naar de regionale crisisstructuur"
+                ]
+              ]
+            },
+            {
+              "id": "airport-info",
+              "label": "Informatiekanalen",
+              "desc": "Deze factor kiest hoe reizigers eenduidige, bevestigde informatie krijgen.",
+              "values": [
+                [
+                  "1",
+                  "Gezamenlijke updates op schermen en in apps publiceren"
+                ],
+                [
+                  "2",
+                  "Informatiemedewerkers in de terminal inzetten"
+                ],
+                [
+                  "3",
+                  "Gerichte berichten via luchtvaartmaatschappijen sturen"
+                ]
+              ]
+            },
+            {
+              "id": "airport-recovery",
+              "label": "Herstelplanning",
+              "desc": "Deze factor kiest hoe de terugkeer naar de normale operatie wordt voorbereid.",
+              "values": [
+                [
+                  "1",
+                  "Een gefaseerd herstelschema afspreken"
+                ],
+                [
+                  "2",
+                  "Eerst de achterstand van wachtende reizigers wegwerken"
+                ],
+                [
+                  "3",
+                  "Een gezamenlijke evaluatie met partners plannen"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -4280,6 +5000,18 @@
         [
           "terminal.dicht",
           "verwerking.beperkt"
+        ],
+        [
+          "operatie.normaal",
+          "airport-flights.1"
+        ],
+        [
+          "operatie.normaal",
+          "airport-flights.2"
+        ],
+        [
+          "herstel.normaal",
+          "airport-recovery.1"
         ]
       ],
       "template": "De fictieve luchthaven heeft als functie {1}. Voor starts en landingen geldt {2}, met een verwachte duur van {3}.\nVoor operationele banen geldt {4}; de terminal voor publiek is {5}. Vervoer van en naar de luchthaven is {6}.\nDe passagiersverwerking in de terminal is {7}. Reizigers ontvangen {8} en de reizigerszorg bestaat uit {9}.\nDe kring van betrokken partners omvat {10}. De belangrijkste afweging is {11}, terwijl het herstelperspectief {12} is.",
@@ -4299,7 +5031,13 @@
           "opvang.opvang",
           "partners.regionaal",
           "keuze.reizigers",
-          "herstel.onbekend"
+          "herstel.onbekend",
+          "airport-flights.1",
+          "airport-shelter.2",
+          "airport-transport.2",
+          "airport-command.2",
+          "airport-info.1",
+          "airport-recovery.2"
         ]
       }
     },

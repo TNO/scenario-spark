@@ -283,25 +283,31 @@ export const DecisionSupportPage: MeiosisComponent = () => {
           }),
       ]);
 
-      return m('.decision-tabs', [
-        m(FlatButton, {
-          className: 'decision-export',
-          label: t('DECISION_EXPORT'),
-          iconName: 'description',
-          onclick: exportToWord,
-        }),
-        m(Tabs, {
-          selectedTabId: `decision-${view}`,
-          onTabChange: (id: string) => {
-            view = id.replace(/^decision-/, '') as DecisionView;
-          },
-          tabs: views.map(({ id, title }) => ({
-            id: `decision-${id}`,
-            title,
-            vnode: id === view ? body : undefined,
-          })),
-        }),
-      ]);
+      return [
+        m('details.decision-help', [
+          m('summary', t('DECISION_HELP_TITLE')),
+          m('ol', [1, 2, 3, 4, 5].map((step) => m('li', t(`DECISION_HELP_STEP${step}` as 'DECISION_HELP_STEP1')))),
+        ]),
+        m('.decision-tabs', [
+          m(FlatButton, {
+            className: 'decision-export',
+            label: t('DECISION_EXPORT'),
+            iconName: 'description',
+            onclick: exportToWord,
+          }),
+          m(Tabs, {
+            selectedTabId: `decision-${view}`,
+            onTabChange: (id: string) => {
+              view = id.replace(/^decision-/, '') as DecisionView;
+            },
+            tabs: views.map(({ id, title }) => ({
+              id: `decision-${id}`,
+              title,
+              vnode: id === view ? body : undefined,
+            })),
+          }),
+        ]),
+      ];
     },
   };
 };

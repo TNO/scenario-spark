@@ -144,7 +144,7 @@ const toSpec = (file, lang = 'en') => {
   console.log(`${index >= 0 ? 'Replaced' : 'Added'} ${spec.id} in ${lang}.json (${kit.boxes.length} boxes)`);
 };
 
-const checkSpecs = (specs, effectsPrompt = '') => {
+const checkSpecs = (specs, effectsPrompt = '', personaPrompt = '') => {
   let problems = 0;
   const report = (box, msg) => {
     problems++;
@@ -156,7 +156,7 @@ const checkSpecs = (specs, effectsPrompt = '') => {
     ids.add(spec.id);
     let box;
     try {
-      box = createScenario(spec, effectsPrompt, []);
+      box = createScenario(spec, effectsPrompt, personaPrompt, []);
     } catch (e) {
       report(spec.id, e.message);
       continue;
@@ -205,7 +205,7 @@ const checkSpecs = (specs, effectsPrompt = '') => {
 
 const check = (lang = 'en') => {
   const kit = readKit(lang);
-  checkSpecs(kit.boxes, kit.effectsPrompt);
+  checkSpecs(kit.boxes, kit.effectsPrompt, kit.personaPrompt);
 };
 
 /** Flatten translatable strings of a box to stable, id-based paths. */
