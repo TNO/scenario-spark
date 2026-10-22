@@ -1836,6 +1836,11 @@ td.matrix-cell {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem;
+  margin-top: auto;
+}
+
+.home-option-buttons .home-option-action {
+  margin-top: 0;
 }
 
 .home-option-card .home-option-action {
