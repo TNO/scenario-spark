@@ -547,7 +547,7 @@ export const messages = {
   COMBINED_PROMPT: "All-in-one prompt",
   COMBINED_PROMPT_TITLE: "One prompt for the narrative, course-of-action assessments and persona feedback; paste back the JSON answer",
   COMBINED_TITLE: "All-in-one AI prompt",
-  COMBINED_HINT: "Copy the prompt, paste it into your AI assistant (for example Copilot) and paste its JSON answer below. This window stays open meanwhile.",
+  COMBINED_HINT: "The prompt is on your clipboard. Paste it into your AI assistant (for example Copilot) and paste its JSON answer below. This window stays open meanwhile.",
   COMBINED_COPY: "Copy prompt",
   COMBINED_COPIED: "Prompt copied. Paste the JSON answer below.",
   COMBINED_PASTE: "AI answer (JSON)",

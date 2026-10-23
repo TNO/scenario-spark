@@ -546,7 +546,7 @@ export const messages: typeof messagesEN = {
   COMBINED_PROMPT: "Prompt „wszystko w jednym”",
   COMBINED_PROMPT_TITLE: "Jeden prompt dla opisu scenariusza, oceny wariantów działania i informacji zwrotnej person; wklej odpowiedź JSON",
   COMBINED_TITLE: "Prompt AI „wszystko w jednym”",
-  COMBINED_HINT: "Skopiuj prompt, wklej go do asystenta AI (np. Copilot) i wklej poniżej jego odpowiedź JSON. To okno pozostaje w tym czasie otwarte.",
+  COMBINED_HINT: "Prompt jest w schowku. Wklej go do asystenta AI (np. Copilot) i wklej poniżej jego odpowiedź JSON. To okno pozostaje w tym czasie otwarte.",
   COMBINED_COPY: "Kopiuj prompt",
   COMBINED_COPIED: "Prompt skopiowany. Wklej poniżej odpowiedź JSON.",
   COMBINED_PASTE: "Odpowiedź AI (JSON)",

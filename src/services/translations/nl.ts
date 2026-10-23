@@ -568,7 +568,7 @@ export const messages: typeof messagesEN = {
   COMBINED_PROMPT: "Alles-in-één-prompt",
   COMBINED_PROMPT_TITLE: "Eén prompt voor de scenariobeschrijving, beoordeling van handelingsopties en persona-feedback; plak het JSON-antwoord terug",
   COMBINED_TITLE: "Alles-in-één AI-prompt",
-  COMBINED_HINT: "Kopieer de prompt, plak deze in je AI-assistent (bijvoorbeeld Copilot) en plak het JSON-antwoord hieronder. Dit venster blijft intussen open.",
+  COMBINED_HINT: "De prompt staat op je klembord. Plak deze in je AI-assistent (bijvoorbeeld Copilot) en plak het JSON-antwoord hieronder. Dit venster blijft intussen open.",
   COMBINED_COPY: "Prompt kopiëren",
   COMBINED_COPIED: "Prompt gekopieerd. Plak het JSON-antwoord hieronder.",
   COMBINED_PASTE: "AI-antwoord (JSON)",

@@ -547,7 +547,7 @@ export const messages: typeof messagesEN = {
   COMBINED_PROMPT: "Alles-in-einem-Prompt",
   COMBINED_PROMPT_TITLE: "Ein Prompt für Szenariobeschreibung, Bewertung der Handlungsoptionen und Persona-Feedback; fügen Sie die JSON-Antwort wieder ein",
   COMBINED_TITLE: "Alles-in-einem KI-Prompt",
-  COMBINED_HINT: "Kopieren Sie den Prompt, fügen Sie ihn in Ihren KI-Assistenten (z. B. Copilot) ein und fügen Sie dessen JSON-Antwort unten ein. Dieses Fenster bleibt währenddessen geöffnet.",
+  COMBINED_HINT: "Der Prompt ist in Ihrer Zwischenablage. Fügen Sie ihn in Ihren KI-Assistenten (z. B. Copilot) ein und fügen Sie dessen JSON-Antwort unten ein. Dieses Fenster bleibt währenddessen geöffnet.",
   COMBINED_COPY: "Prompt kopieren",
   COMBINED_COPIED: "Prompt kopiert. Fügen Sie die JSON-Antwort unten ein.",
   COMBINED_PASTE: "KI-Antwort (JSON)",

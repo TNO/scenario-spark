@@ -9,189 +9,193 @@ Safety regions, planners and trainers all face the same question:
 which situations should we prepare for?
 
 3
-00:00:07.379 --> 00:00:13.697
+00:00:07.379 --> 00:00:13.696
 Scenario Spark helps you explore plausible scenarios for exercises, incident preparation and policy decisions.
 
 4
-00:00:14.047 --> 00:00:18.862
+00:00:14.046 --> 00:00:18.862
 It uses morphological analysis, also known as the Zwicky box.
 
 5
-00:00:18.912 --> 00:00:25.673
+00:00:18.912 --> 00:00:25.675
 You list the key factors of a situation, each with a few possible values.
 
 6
-00:00:25.723 --> 00:00:31.997
+00:00:25.725 --> 00:00:32.001
 A scenario picks one value per factor, and inconsistent combinations are left out.
 
 7
-00:00:32.347 --> 00:00:37.279
+00:00:32.351 --> 00:00:37.284
 In this tutorial, Scenario Spark and an AI assistant work together.
 
 8
-00:00:37.329 --> 00:00:41.809
+00:00:37.334 --> 00:00:41.813
 With a single prompt, you get a title, a narrative,
 
 9
-00:00:41.859 --> 00:00:47.244
+00:00:41.863 --> 00:00:47.249
 a reflection on every course of action, and feedback from every persona.
 
 10
-00:00:47.595 --> 00:00:53.798
+00:00:47.600 --> 00:00:53.803
 We start from the starter kit, and choose the scenario type Event safety.
 
 11
-00:00:54.149 --> 00:00:55.542
+00:00:54.153 --> 00:00:55.546
 Open Create scenario.
 
 12
-00:00:55.592 --> 00:01:00.353
+00:00:55.596 --> 00:01:00.356
 This box contains measures, so we turn on decision support.
 
 13
-00:01:00.703 --> 00:01:01.608
+00:01:00.707 --> 00:01:01.612
 Click Generate.
 
 14
-00:01:01.658 --> 00:01:07.339
+00:01:01.662 --> 00:01:07.344
 Spark picks a consistent option for every factor, and summarises the situation.
 
 15
-00:01:07.689 --> 00:01:10.525
+00:01:07.695 --> 00:01:10.531
 Estimate the risk if nobody acts:
 
 16
-00:01:10.575 --> 00:01:13.892
+00:01:10.581 --> 00:01:13.898
 a medium probability, with a high impact.
 
 17
-00:01:14.242 --> 00:01:36.767
+00:01:14.248 --> 00:01:36.779
 Next, choose the measures for course of action A, and estimate the risk that remains.
 
 18
-00:01:37.118 --> 00:01:45.186
+00:01:37.129 --> 00:01:45.201
 Duplicate it as course of action B, and change a few measures:
 
 19
-00:01:45.236 --> 00:01:52.628
+00:01:45.251 --> 00:01:52.646
 a casualty collection point, a joint coordination team, and phased departure.
 
 20
-00:01:52.978 --> 00:01:54.868
+00:01:52.996 --> 00:01:54.789
 Now click Ask LLM.
 
 21
-00:01:54.918 --> 00:01:58.747
-One combined prompt asks for everything at once.
+00:01:54.839 --> 00:01:59.859
+Spark builds one combined prompt that asks for everything at once,
 
 22
-00:01:59.097 --> 00:02:06.604
-Copy the prompt, and paste it into your AI assistant, for example Copilot in Microsoft Edge.
+00:01:59.909 --> 00:02:03.546
+and copies it to your clipboard straight away.
 
 23
-00:02:06.971 --> 00:02:13.687
-The assistant answers with a single JSON block.
+00:02:03.896 --> 00:02:11.403
+So you can paste it directly into your AI assistant, for example Copilot in Microsoft Edge.
 
 24
-00:02:13.737 --> 00:02:16.224
-Copy the answer.
+00:02:11.753 --> 00:02:18.447
+The assistant answers with a single JSON block.
 
 25
-00:02:16.574 --> 00:02:19.289
-Paste the JSON into the dialog.
+00:02:18.497 --> 00:02:20.976
+Copy the answer.
 
 26
-00:02:19.339 --> 00:02:23.899
-Spark checks it, and shows a preview of every part.
+00:02:21.327 --> 00:02:24.042
+Paste the JSON into the dialog.
 
 27
-00:02:23.949 --> 00:02:27.125
-Untick anything you don't want to use.
+00:02:24.092 --> 00:02:28.652
+Spark checks it, and shows a preview of every part.
 
 28
-00:02:27.475 --> 00:02:28.414
-Click Apply.
+00:02:28.702 --> 00:02:31.878
+Untick anything you don't want to use.
 
 29
-00:02:28.464 --> 00:02:32.372
-The narrative is saved under the suggested title.
+00:02:32.228 --> 00:02:33.167
+Click Apply.
 
 30
-00:02:32.722 --> 00:02:34.556
-Review the result.
+00:02:33.217 --> 00:02:37.125
+The narrative is saved under the suggested title.
 
 31
-00:02:34.606 --> 00:02:37.696
-The narrative remains fully editable.
+00:02:37.475 --> 00:02:39.308
+Review the result.
 
 32
-00:02:38.046 --> 00:02:44.738
-Each course of action now has its own reflection.
+00:02:39.358 --> 00:02:42.447
+The narrative remains fully editable.
 
 33
-00:02:45.088 --> 00:02:49.552
-And every persona describes how they experience the situation.
+00:02:42.797 --> 00:02:49.797
+Each course of action now has its own reflection.
 
 34
-00:02:49.902 --> 00:02:54.935
-Tick Select for analysis to add it to your saved scenarios.
+00:02:50.147 --> 00:02:54.611
+And every persona describes how they experience the situation.
 
 35
-00:02:54.985 --> 00:03:00.018
-Now it also counts in the box and in decision support.
+00:02:54.961 --> 00:02:59.994
+Tick Select for analysis to add it to your saved scenarios.
 
 36
-00:03:00.368 --> 00:03:05.690
-In the morphological box, each category has its own tab.
+00:03:00.044 --> 00:03:05.077
+Now it also counts in the box and in decision support.
 
 37
-00:03:05.740 --> 00:03:11.600
-Coloured options show how often they are used in saved scenarios.
+00:03:05.427 --> 00:03:10.739
+In the morphological box, each category has its own tab.
 
 38
-00:03:11.951 --> 00:03:17.719
-The decision support page puts the courses of action side by side.
+00:03:10.789 --> 00:03:16.638
+Coloured options show how often they are used in saved scenarios.
 
 39
-00:03:18.070 --> 00:03:27.556
-Compare their measures, and see how each course of action lowers the risk in the risk matrix.
+00:03:16.988 --> 00:03:22.756
+The decision support page puts the courses of action side by side.
 
 40
-00:03:27.906 --> 00:03:42.610
-Finally, record your decision and its rationale in the decision log.
+00:03:23.106 --> 00:03:32.576
+Compare their measures, and see how each course of action lowers the risk in the risk matrix.
 
 41
-00:03:42.960 --> 00:03:50.033
-Back on the home page, the saved scenario is ready to view, compare, or export.
+00:03:32.926 --> 00:03:47.653
+Finally, record your decision and its rationale in the decision log.
 
 42
-00:03:50.383 --> 00:03:53.048
-Want to redo just one part?
+00:03:48.004 --> 00:03:55.076
+Back on the home page, the saved scenario is ready to view, compare, or export.
 
 43
-00:03:53.098 --> 00:03:57.120
-Turn on Prompt per field in the LLM settings.
+00:03:55.427 --> 00:03:58.091
+Want to redo just one part?
 
 44
-00:03:57.170 --> 00:04:03.454
-Next to the all-in-one prompt, you then get a separate prompt for the narrative,
+00:03:58.141 --> 00:04:02.163
+Turn on Prompt per field in the LLM settings.
 
 45
-00:04:03.504 --> 00:04:05.716
-each reflection, and each persona.
+00:04:02.213 --> 00:04:08.497
+Next to the all-in-one prompt, you then get a separate prompt for the narrative,
 
 46
-00:04:06.066 --> 00:04:06.927
-That's it:
+00:04:08.547 --> 00:04:10.759
+each reflection, and each persona.
 
 47
-00:04:06.977 --> 00:04:11.937
-from morphological box to a complete scenario in a few minutes.
+00:04:11.109 --> 00:04:11.970
+That's it:
 
 48
-00:04:11.987 --> 00:04:13.759
-Now try it yourself.
+00:04:12.020 --> 00:04:16.980
+from morphological box to a complete scenario in a few minutes.
 
 49
-00:04:13.809 --> 00:04:19.225
+00:04:17.030 --> 00:04:18.802
+Now try it yourself.
+
+50
+00:04:18.852 --> 00:04:24.268
 Scenario Spark runs in your browser, and the link is on screen.

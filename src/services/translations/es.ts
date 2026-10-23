@@ -529,7 +529,7 @@ export const messages: typeof messagesEN = {
   COMBINED_PROMPT: "Prompt todo en uno",
   COMBINED_PROMPT_TITLE: "Un solo prompt para la narrativa, la evaluación de las líneas de acción y los comentarios de las personas; pegue la respuesta JSON",
   COMBINED_TITLE: "Prompt de IA todo en uno",
-  COMBINED_HINT: "Copie el prompt, péguelo en su asistente de IA (por ejemplo Copilot) y pegue su respuesta JSON abajo. Esta ventana permanece abierta mientras tanto.",
+  COMBINED_HINT: "El prompt está en su portapapeles. Péguelo en su asistente de IA (por ejemplo Copilot) y pegue su respuesta JSON abajo. Esta ventana permanece abierta mientras tanto.",
   COMBINED_COPY: "Copiar prompt",
   COMBINED_COPIED: "Prompt copiado. Pegue la respuesta JSON abajo.",
   COMBINED_PASTE: "Respuesta de la IA (JSON)",

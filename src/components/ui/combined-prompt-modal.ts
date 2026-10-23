@@ -31,6 +31,7 @@ export const CombinedPromptModal: FactoryComponent<CombinedPromptModalAttrs> = (
   let parseError = false;
   let promptText = '';
   let busy = false;
+  let wasOpen = false;
   /** Keys of the fields to apply: title, narrative, coa:<id>, persona:<id> */
   let selected = new Set<string>();
 
@@ -132,6 +133,20 @@ export const CombinedPromptModal: FactoryComponent<CombinedPromptModalAttrs> = (
     onToggle(false);
   };
 
+  const copyPrompt = async (attrs: CombinedPromptModalAttrs) => {
+    const prompt = buildPrompt(attrs);
+    try {
+      await navigator.clipboard.writeText(prompt);
+      promptText = '';
+      toast({ html: t('COMBINED_COPIED') });
+    } catch (error) {
+      console.error(error);
+      // Let the user copy it by hand
+      promptText = prompt;
+    }
+    m.redraw();
+  };
+
   const option = (key: string, label: string, value: string, existing?: string) =>
     m('.combined-option', [
       m(InputCheckbox, {
@@ -150,6 +165,9 @@ export const CombinedPromptModal: FactoryComponent<CombinedPromptModalAttrs> = (
       const { cell, narrative, personas, isOpen, onToggle } = attrs;
       const llm = cell.state.model.scenario.llm;
       const viaApi = !!llm && llm.id !== 'clipboard';
+      // Opening the dialog copies the prompt right away, so the user can paste it immediately
+      if (isOpen && !wasOpen && !viaApi) copyPrompt(attrs);
+      wasOpen = isOpen;
       return m(ModalPanel, {
         id: 'combinedPrompt',
         title: t('COMBINED_TITLE'),
@@ -184,19 +202,7 @@ export const CombinedPromptModal: FactoryComponent<CombinedPromptModalAttrs> = (
           m(FlatButton, {
             label: t('COMBINED_COPY'),
             iconName: 'content_copy',
-            onclick: async () => {
-              const prompt = buildPrompt(attrs);
-              try {
-                await navigator.clipboard.writeText(prompt);
-                promptText = '';
-                toast({ html: t('COMBINED_COPIED') });
-              } catch (error) {
-                console.error(error);
-                // Let the user copy it by hand
-                promptText = prompt;
-              }
-              m.redraw();
-            },
+            onclick: () => copyPrompt(attrs),
           }),
           busy && m(CircularSpinner),
           promptText && m(TextArea, { label: t('LLM_PROMPT_TEXT'), value: promptText, readonly: true }),
