@@ -321,7 +321,9 @@ const initialize = async (update: Update<State>) => {
         await loadStarterKit((localStorage.getItem(LANGUAGE) || 'nl') as Languages, thresholdColors)
       );
   const migrated = migrateModel(model);
-  if ((migratePersonaImages(model) || migrated) && ds) await ldb.set(MODEL_KEY, JSON.stringify(model));
+  const personasMigrated = migratePersonaImages(model);
+  // Store a new user's starter collection at once, so its random first box stays put on reload.
+  if (!ds || personasMigrated || migrated) await ldb.set(MODEL_KEY, JSON.stringify(model));
   const title = model.scenario?.label || '';
   setTitle(title);
 

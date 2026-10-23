@@ -3162,3 +3162,8 @@ table.decision-matrix thead th.active-coa,
 .markdown-field-editor .table-menu-item:focus {
   background-color: color-mix(in srgb, var(--mm-primary-color) 15%, var(--mm-surface-color));
 }
+
+/* Select triggers are readonly text inputs: only show the focus ring for keyboard users. */
+body:not(.keyboard-focused) .select-wrapper input.select-dropdown:focus {
+  outline-style: none;
+}
