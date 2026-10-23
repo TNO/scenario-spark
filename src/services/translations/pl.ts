@@ -640,4 +640,6 @@ export const messages: typeof messagesEN = {
   IMPORT_NEEDS_TWO_COLUMNS:
     'Import wymaga co najmniej 2 kolumn (nazwy czynników i opcje).',
   CLOSE_MESSAGE: 'Zamknij komunikat',
+  SEARCH_SCENARIO_TYPE: 'Szukaj typów scenariuszy…',
+  NO_SCENARIO_TYPE_FOUND: 'Nie znaleziono typów scenariuszy',
 };

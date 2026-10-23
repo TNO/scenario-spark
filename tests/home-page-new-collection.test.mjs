@@ -306,7 +306,8 @@ test('the box selector groups own boxes and always offers every starter box', as
   const attrs = { state: { model, language: 'nl' }, getState: () => ({ model }) };
   page.view({ attrs });
   await new Promise((resolve) => setTimeout(resolve, 0));
-  const select = find(page.view({ attrs }), (node) => node.tag === materialized.Select);
+  const select = find(page.view({ attrs }), (node) => node.tag === materialized.SearchSelect);
+  assert.equal(select.attrs.multiple, false);
   assert.deepEqual(
     select.attrs.options.map(({ id, label, group }) => [id, label, group]),
     [

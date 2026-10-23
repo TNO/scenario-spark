@@ -1322,7 +1322,7 @@ ul.kanban > li {
   line-height: 1.3;
 }
 
-.show-scenario .select-wrapper input.select-dropdown {
+.show-scenario .select-wrapper .select-dropdown {
   border: none;
 }
 .select-inline {
@@ -1338,7 +1338,7 @@ ul.kanban > li {
 .select-inline > label {
   display: none;
 }
-.select-inline input.select-dropdown {
+.select-inline .select-dropdown {
   /* border-bottom: none; */
   margin: 0px;
   padding: 0;
@@ -3161,11 +3161,6 @@ table.decision-matrix thead th.active-coa,
 .markdown-field-editor .table-menu-item:hover,
 .markdown-field-editor .table-menu-item:focus {
   background-color: color-mix(in srgb, var(--mm-primary-color) 15%, var(--mm-surface-color));
-}
-
-/* Select triggers are readonly text inputs: only show the focus ring for keyboard users. */
-body:not(.keyboard-focused) .select-wrapper input.select-dropdown:focus {
-  outline-style: none;
 }
 
 /* Longer instruction toasts (e.g. "prompt copied, paste it into...") need to be readable. */

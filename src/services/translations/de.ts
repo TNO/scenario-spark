@@ -645,4 +645,6 @@ export const messages: typeof messagesEN = {
   IMPORT_NEEDS_TWO_COLUMNS:
     'Import benötigt mindestens 2 Spalten (Schlüssel-Treiber-Namen und Optionen).',
   CLOSE_MESSAGE: 'Meldung schließen',
+  SEARCH_SCENARIO_TYPE: 'Szenariotypen suchen…',
+  NO_SCENARIO_TYPE_FOUND: 'Keine Szenariotypen gefunden',
 };

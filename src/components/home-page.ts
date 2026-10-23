@@ -7,7 +7,7 @@ import {
   InputCheckbox,
   ModalPanel,
   RadioButtons,
-  Select,
+  SearchSelect,
   Tabs,
   TextInput,
   toast,
@@ -340,10 +340,12 @@ export const HomePage: MeiosisComponent = () => {
                 m('h1.home-work-title', t('HOME_WORK_TITLE')),
                 m('p.home-work-hint', t('HOME_WORK_HINT')),
                 m('.home-box-selector', [
-                  m('.home-select-slot', m(Select, {
-                    key: id,
+                  m('.home-select-slot', m(SearchSelect<string>, {
                     label: t('SELECT_SCENARIO'),
+                    multiple: false,
                     checkedId: id,
+                    searchPlaceholder: t('SEARCH_SCENARIO_TYPE'),
+                    noOptionsFound: t('NO_SCENARIO_TYPE_FOUND'),
                     options: boxOptions(model),
                     onchange: async (ids) => {
                       narrativeFilter = '';

@@ -626,4 +626,6 @@ export const messages: typeof messagesEN = {
   IMPORT_NEEDS_TWO_COLUMNS:
     'La importación requiere al menos 2 columnas (nombres de factores clave y opciones).',
   CLOSE_MESSAGE: 'Cerrar mensaje',
+  SEARCH_SCENARIO_TYPE: 'Buscar tipos de escenario…',
+  NO_SCENARIO_TYPE_FOUND: 'No se encontraron tipos de escenario',
 };

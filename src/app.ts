@@ -3,12 +3,6 @@ import { ThemeManager } from 'mithril-materialized';
 ThemeManager.initialize();
 document.documentElement.dataset.mmPreset = 'compact-minimal';
 
-// Lets CSS tell keyboard from pointer focus; browsers show a ring on clicked (readonly) inputs too.
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'Tab' || e.key.startsWith('Arrow')) document.body.classList.add('keyboard-focused');
-}, true);
-window.addEventListener('pointerdown', () => document.body.classList.remove('keyboard-focused'), true);
-
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     if (import.meta.env.PROD) {

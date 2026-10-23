@@ -639,4 +639,6 @@ export const messages: typeof messagesEN = {
   IMPORT_NEEDS_TWO_COLUMNS:
     'Import vereist minimaal 2 kolommen (naam stuurfactoren en opties).',
   CLOSE_MESSAGE: 'Melding sluiten',
+  SEARCH_SCENARIO_TYPE: 'Zoek een type scenario…',
+  NO_SCENARIO_TYPE_FOUND: 'Geen type scenario gevonden',
 };

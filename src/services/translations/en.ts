@@ -615,4 +615,6 @@ export const messages = {
   IMPORT_NEEDS_TWO_COLUMNS:
     'Import requires at least 2 columns (driver names and options).',
   CLOSE_MESSAGE: 'Close message',
+  SEARCH_SCENARIO_TYPE: 'Search scenario types…',
+  NO_SCENARIO_TYPE_FOUND: 'No scenario types found',
 };
