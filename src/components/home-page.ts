@@ -34,7 +34,14 @@ import {
   newScenario,
   thresholdColors,
 } from '../models';
-import { StarterKitConflict, addStarterKitToModel, loadStarterKit, starterKitHasUpdates } from '../models/starter-kit';
+import {
+  StarterKitConflict,
+  addStarterBoxToModel,
+  addStarterKitToModel,
+  isStarterBoxId,
+  loadStarterKit,
+  starterKitHasUpdates,
+} from '../models/starter-kit';
 import {
   SAVED,
   capitalize,
@@ -175,12 +182,19 @@ export const HomePage: MeiosisComponent = () => {
   const starterOverwrite = new Set<string>();
   // Show the starter-kit button only when the kit for the current language has something new.
   let starterCheck = { key: '', hasUpdates: false };
+  // The kit of the current language, so its boxes can always be offered in the box selector.
+  let starterKit: { locale: string; model: DataModel } | undefined;
   const checkStarterKit = (model: DataModel) => {
     const key = `${i18n.currentLocale}|${model.lastUpdate}|${model.scenarios?.length}|${model.personas?.length}`;
     if (starterCheck.key === key) return;
     starterCheck.key = key;
-    loadStarterKit(i18n.currentLocale, thresholdColors)
+    const locale = i18n.currentLocale;
+    loadStarterKit(locale, thresholdColors)
       .then((starter) => {
+        if (starterKit?.locale !== locale) {
+          starterKit = { locale, model: starter };
+          m.redraw();
+        }
         if (starterCheck.key !== key) return;
         starterCheck.hasUpdates = starterKitHasUpdates(model, starter);
         m.redraw();
@@ -192,6 +206,22 @@ export const HomePage: MeiosisComponent = () => {
         starterCheck.hasUpdates = true;
         m.redraw();
       });
+  };
+
+  /** Own boxes first, then every box of the starter kit, also those not (or no longer) in the collection. */
+  const boxOptions = (model: DataModel) => {
+    const boxes = [model.scenario, ...(model.scenarios || [])];
+    const byLabel = (a: { label: string }, b: { label: string }) => a.label.localeCompare(b.label);
+    const own = boxes.filter((box) => !isStarterBoxId(box.id));
+    const starterIds = new Set(boxes.map(({ id }) => id));
+    const kitBoxes = starterKit && starterKit.locale === i18n.currentLocale
+      ? [starterKit.model.scenario, ...starterKit.model.scenarios].filter(({ id }) => !starterIds.has(id))
+      : [];
+    const starter = [...boxes.filter((box) => isStarterBoxId(box.id)), ...kitBoxes];
+    return [
+      ...own.sort(byLabel).map(({ id, label }) => ({ id, label, group: t('SELECT_GROUP_OWN') })),
+      ...starter.sort(byLabel).map(({ id, label }) => ({ id, label, group: t('SELECT_GROUP_STARTER') })),
+    ];
   };
 
   const applyStarterKit = async (attrs: Parameters<typeof saveModel>[0], starter: DataModel) => {
@@ -279,7 +309,7 @@ export const HomePage: MeiosisComponent = () => {
       checkStarterKit(model);
       const {
         scenarios = [],
-        scenario: { id, label, narratives = [], components, categories },
+        scenario: { id, narratives = [], components, categories },
       } = model;
 
       const savedNarratives = narratives.filter((n) => n.included);
@@ -314,11 +344,16 @@ export const HomePage: MeiosisComponent = () => {
                     key: id,
                     label: t('SELECT_SCENARIO'),
                     checkedId: id,
-                    options: [{ id, label }, ...scenarios],
+                    options: boxOptions(model),
                     onchange: async (ids) => {
                       narrativeFilter = '';
                       showComparison = false;
-                      await selectScenarioFromCollection(attrs, ids[0] as string);
+                      const boxId = ids[0] as string;
+                      const starter = starterKit?.model;
+                      if (starter && ![model.scenario, ...scenarios].some((box) => box.id === boxId)) {
+                        await saveModel(attrs, addStarterBoxToModel(model, starter, boxId));
+                      }
+                      await selectScenarioFromCollection(attrs, boxId);
                     },
                   })),
                 ]),
@@ -330,11 +365,6 @@ export const HomePage: MeiosisComponent = () => {
                       attrs,
                       hasBoxContent ? Dashboards.CREATE_SCENARIO : Dashboards.DEFINE_BOX
                     ),
-                  }),
-                  hasBoxContent && m(FlatButton, {
-                    iconName: 'grid_view',
-                    label: t('EDIT_BOX'),
-                    onclick: () => changePage(attrs, Dashboards.DEFINE_BOX),
                   }),
                   m(BoxActions, {
                     ariaLabel: t('BOX_ACTIONS'),
@@ -377,6 +407,66 @@ export const HomePage: MeiosisComponent = () => {
               ]),
               m('.home-visual', [
                 m('img.home-hero-image', { src: background, alt: '' }),
+              ]),
+            ]),
+            m('section.home-start-options', [
+              m('h2', t('HOME_OPTIONS_TITLE')),
+              m('.home-option-cards', [
+                m('.home-option-card', [
+                  m(Icon, { iconName: 'tune', className: 'home-option-icon' }),
+                  m('h3', t('HOME_EDIT_CARD_TITLE')),
+                  m('p', t('HOME_EDIT_CARD_DESC')),
+                  m(FlatButton, {
+                    className: 'home-option-action',
+                    iconName: 'grid_view',
+                    label: t('EDIT_BOX'),
+                    onclick: () => changePage(attrs, Dashboards.DEFINE_BOX),
+                  }),
+                ]),
+                m('.home-option-card', [
+                  m(Icon, { iconName: 'auto_fix_high', className: 'home-option-icon' }),
+                  m('h3', t('HOME_AI_CARD_TITLE')),
+                  m('p', t('HOME_AI_CARD_DESC')),
+                  m('.home-option-buttons', [
+                    m(FlatButton, {
+                      className: 'home-option-action',
+                      iconName: 'auto_fix_high',
+                      label: t('LLM_WIZARD_TITLE'),
+                      onclick: () => { llmScenarioWizardOpen = true; },
+                    }),
+                    m(FlatButton, {
+                      className: 'home-option-action',
+                      iconName: 'add',
+                      label: t('NEW_SCENARIO'),
+                      onclick: () => { newScenarioWizardOpen = true; },
+                    }),
+                  ]),
+                ]),
+                m('.home-option-card', [
+                  m(Icon, { iconName: 'map', className: 'home-option-icon' }),
+                  m('h3', t('HOME_MAP_CARD_TITLE')),
+                  m('p', t('HOME_MAP_CARD_DESC')),
+                  model.scenario.includeMapSupport
+                    ? [
+                        m('p.home-option-status', t('HOME_MAP_CARD_ACTIVE')),
+                        m(FlatButton, {
+                          className: 'home-option-action',
+                          iconName: 'edit_location_alt',
+                          label: t('HOME_MAP_CARD_LOCATIONS'),
+                          onclick: () => changePage(attrs, Dashboards.DEFINE_BOX),
+                        }),
+                      ]
+                    : m(FlatButton, {
+                        className: 'home-option-action',
+                        iconName: 'map',
+                        label: t('HOME_MAP_CARD_ENABLE'),
+                        onclick: async () => {
+                          model.scenario.includeMapSupport = true;
+                          await saveModel(attrs, model);
+                          toast({ html: t('HOME_MAP_CARD_ENABLED') });
+                        },
+                      }),
+                ]),
               ]),
             ]),
             m('section.home-saved-scenarios', [

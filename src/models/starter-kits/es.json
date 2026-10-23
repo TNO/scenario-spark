@@ -602,6 +602,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "event-protection",
+          "label": "Seguridad del público y atención",
+          "desc": "Estas acciones manuales protegen a los asistentes, controlan la densidad de público y respaldan la atención sanitaria y el acogimiento en el recinto y sus alrededores.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "event-crowd",
+              "label": "Gestión de multitudes",
+              "desc": "Este factor selecciona una medida proporcionada para reducir la densidad de público y mantener los flujos de asistentes en movimiento de forma segura.",
+              "values": [
+                [
+                  "1",
+                  "Escalonar la entrada en los accesos"
+                ],
+                [
+                  "2",
+                  "Abrir salidas y zonas de espera adicionales"
+                ],
+                [
+                  "3",
+                  "Suspender temporalmente el acceso al recinto"
+                ]
+              ]
+            },
+            {
+              "id": "event-medical",
+              "label": "Respuesta sanitaria",
+              "desc": "Este factor selecciona cómo se ajustan los primeros auxilios y la atención de ambulancias al número y la gravedad de los heridos.",
+              "values": [
+                [
+                  "1",
+                  "Reforzar los puestos de primeros auxilios con más personal"
+                ],
+                [
+                  "2",
+                  "Instalar un punto de concentración de heridos con los servicios de ambulancias"
+                ],
+                [
+                  "3",
+                  "Activar el plan regional para múltiples víctimas"
+                ]
+              ]
+            },
+            {
+              "id": "event-welfare",
+              "label": "Bienestar de los asistentes",
+              "desc": "Este factor selecciona apoyo que protege a los asistentes de las condiciones meteorológicas, el agotamiento y la separación de su grupo.",
+              "values": [
+                [
+                  "1",
+                  "Ofrecer agua potable gratuita, sombra o resguardo"
+                ],
+                [
+                  "2",
+                  "Habilitar un punto de encuentro para niños y acompañantes perdidos"
+                ],
+                [
+                  "3",
+                  "Organizar una salida asistida para asistentes con necesidades de apoyo"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "event-coordination",
+          "label": "Coordinación y comunicación",
+          "desc": "Estas acciones manuales coordinan al organizador, el ayuntamiento y los servicios de emergencia, y mantienen informados a los asistentes y a los vecinos.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "event-command",
+              "label": "Toma de decisiones",
+              "desc": "Este factor selecciona dónde se toman las decisiones de interrumpir, adaptar o finalizar el evento.",
+              "values": [
+                [
+                  "1",
+                  "El organizador decide en consulta con los servicios de emergencia"
+                ],
+                [
+                  "2",
+                  "Convocar el equipo conjunto de coordinación del evento"
+                ],
+                [
+                  "3",
+                  "Transferir la dirección al equipo de crisis municipal"
+                ]
+              ]
+            },
+            {
+              "id": "event-message",
+              "label": "Información a los asistentes",
+              "desc": "Este factor selecciona el mensaje que ayuda a los asistentes a actuar con seguridad, a partir de información verificada.",
+              "values": [
+                [
+                  "1",
+                  "Anunciar una breve pausa del programa y su motivo"
+                ],
+                [
+                  "2",
+                  "Dirigir a los asistentes hacia rutas y salidas alternativas"
+                ],
+                [
+                  "3",
+                  "Dar instrucciones de salida escalonada por zonas"
+                ]
+              ]
+            },
+            {
+              "id": "event-neighbours",
+              "label": "Vecinos y entorno",
+              "desc": "Este factor selecciona medidas que limitan los efectos sobre los vecinos y el entorno.",
+              "values": [
+                [
+                  "1",
+                  "Informar a los vecinos sobre retrasos y accesos"
+                ],
+                [
+                  "2",
+                  "Desplegar controladores de tráfico en las vías de acceso"
+                ],
+                [
+                  "3",
+                  "Coordinar transporte público adicional para la salida"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -652,6 +784,14 @@
         [
           "medisch.ernstig",
           "gezondheid.licht"
+        ],
+        [
+          "medisch.geen",
+          "event-medical.2"
+        ],
+        [
+          "medisch.geen",
+          "event-medical.3"
         ]
       ],
       "template": "El tipo de encuentro es {1} y el recinto está configurado como {2}, con una asistencia prevista de {3}. La duración es {4}, la franja horaria es {5} y el público está compuesto por {6}.\nLas condiciones meteorológicas son {7} y la accesibilidad del entorno es {8}. Los incidentes médicos constatados son {9}; para la comunicación con el público se dispone de {10}, mientras que el flujo de visitantes se caracteriza por {11}.\nEl aforo autorizado es {12} y el régimen de acceso es {13}. La preparación sanitaria consiste en {14}; las decisiones se coordinan mediante {15}, la información llega a los visitantes a través de {16} y, en caso de interrupción, se ha previsto {17}.\nLos efectos sobre la salud de los visitantes son {18}. El efecto sobre el programa es {19}; para los residentes cercanos esto supone {20} y la necesidad de información pública es {21}. Después tendrá lugar {22}.",
@@ -681,7 +821,13 @@
           "uitloop.vertraging",
           "omgeving.bereik",
           "vertrouwen.regionaal",
-          "evaluatie.nazorg"
+          "evaluatie.nazorg",
+          "event-crowd.1",
+          "event-medical.1",
+          "event-welfare.1",
+          "event-command.2",
+          "event-message.1",
+          "event-neighbours.1"
         ]
       }
     },
@@ -3355,6 +3501,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "building-safety",
+          "label": "Seguridad de visitantes y personal",
+          "desc": "Estas acciones manuales protegen a visitantes y personal y mantienen el edificio en condiciones de uso seguras.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "building-reception",
+              "label": "Recepción y acogida",
+              "desc": "Este factor selecciona cómo se recibe y orienta a los visitantes de forma tranquila y reconocible.",
+              "values": [
+                [
+                  "1",
+                  "Situar personal de acogida adicional en la entrada abierta"
+                ],
+                [
+                  "2",
+                  "Acompañar a los visitantes a una zona de espera tranquila"
+                ],
+                [
+                  "3",
+                  "Acompañar a los visitantes hasta su cita"
+                ]
+              ]
+            },
+            {
+              "id": "building-staff",
+              "label": "Apoyo al personal",
+              "desc": "Este factor selecciona apoyo que ayuda al personal a afrontar tensiones o agresividad por parte de visitantes.",
+              "values": [
+                [
+                  "1",
+                  "Informar al personal de los procedimientos acordados"
+                ],
+                [
+                  "2",
+                  "Trabajar en parejas en los mostradores"
+                ],
+                [
+                  "3",
+                  "Ofrecer apoyo entre compañeros tras un incidente"
+                ]
+              ]
+            },
+            {
+              "id": "building-use",
+              "label": "Uso del edificio",
+              "desc": "Este factor selecciona una decisión proporcionada sobre qué partes del edificio siguen en uso.",
+              "values": [
+                [
+                  "1",
+                  "Mantener abiertas las zonas públicas según lo previsto"
+                ],
+                [
+                  "2",
+                  "Cerrar temporalmente parte de las zonas públicas"
+                ],
+                [
+                  "3",
+                  "Desalojar el edificio de forma ordenada"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "building-coordination",
+          "label": "Coordinación y comunicación",
+          "desc": "Estas acciones manuales coordinan la gestión del edificio, la prestación del servicio y los colaboradores, y mantienen informado al público.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "building-lead",
+              "label": "Coordinación",
+              "desc": "Este factor selecciona quién coordina las decisiones sobre el edificio y el servicio.",
+              "values": [
+                [
+                  "1",
+                  "Celebrar una reunión conjunta de gestión del edificio y servicio"
+                ],
+                [
+                  "2",
+                  "Activar el equipo interno de emergencias"
+                ],
+                [
+                  "3",
+                  "Coordinarse con la gestión de crisis municipal"
+                ]
+              ]
+            },
+            {
+              "id": "building-information",
+              "label": "Información al público",
+              "desc": "Este factor selecciona cómo se enteran los visitantes de los cambios en el acceso y la prestación del servicio.",
+              "values": [
+                [
+                  "1",
+                  "Actualizar la web y el mensaje telefónico"
+                ],
+                [
+                  "2",
+                  "Colocar señalización clara en las entradas"
+                ],
+                [
+                  "3",
+                  "Contactar personalmente a los visitantes con cita"
+                ]
+              ]
+            },
+            {
+              "id": "building-service",
+              "label": "Continuidad del servicio",
+              "desc": "Este factor selecciona una forma de mantener disponibles los servicios esenciales para la ciudadanía.",
+              "values": [
+                [
+                  "1",
+                  "Dar prioridad a las solicitudes urgentes en el mostrador"
+                ],
+                [
+                  "2",
+                  "Ampliar el horario de atención en otra sede"
+                ],
+                [
+                  "3",
+                  "Ofrecer atención asistida por teléfono o videollamada"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -3377,6 +3655,18 @@
         [
           "bezoek.geen",
           "entree.open"
+        ],
+        [
+          "opening.gesloten",
+          "building-use.1"
+        ],
+        [
+          "opening.gesloten",
+          "building-reception.1"
+        ],
+        [
+          "entree.dicht",
+          "building-reception.1"
         ]
       ],
       "template": "El edificio tiene la función {1} y está {2} para el público. El espacio se utiliza para {3}.\nLas condiciones de visita son {4}, con una ocupación de {5}. Para los visitantes, {6} constituye una necesidad de accesibilidad.\nLa prestación de servicios es {7} y el estado de las entradas para el público es {8}. Los visitantes perciben {9} como consecuencia.\nLa coordinación entre la administración del edificio y el proveedor del servicio se realiza mediante {10}. Para los visitantes, la alternativa es {11}; reciben información {12}.",
@@ -3396,7 +3686,13 @@
           "verstoring.wachttijd",
           "beheer.team",
           "alternatief.afspraak",
-          "bericht.persoonlijk"
+          "bericht.persoonlijk",
+          "building-reception.2",
+          "building-staff.1",
+          "building-use.1",
+          "building-lead.1",
+          "building-information.3",
+          "building-service.1"
         ]
       }
     },
@@ -3660,6 +3956,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "centre-hospitality",
+          "label": "Acogida y seguridad de los visitantes",
+          "desc": "Estas acciones manuales mantienen la reunión acogedora y segura para los visitantes, los voluntarios y el vecindario.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "centre-hosts",
+              "label": "Acogida y orientación",
+              "desc": "Este factor selecciona cómo los voluntarios dan la bienvenida a los visitantes y los orientan con calma.",
+              "values": [
+                [
+                  "1",
+                  "Informar a los voluntarios sobre la acogida y la orientación"
+                ],
+                [
+                  "2",
+                  "Asignar anfitriones a las entradas y los asientos"
+                ],
+                [
+                  "3",
+                  "Designar una persona de contacto para los servicios de emergencia"
+                ]
+              ]
+            },
+            {
+              "id": "centre-flow",
+              "label": "Llegada y salida",
+              "desc": "Este factor selecciona medidas que reparten los flujos de visitantes y mantienen accesible el entorno.",
+              "values": [
+                [
+                  "1",
+                  "Escalonar los horarios de llegada y salida"
+                ],
+                [
+                  "2",
+                  "Organizar con colaboradores aparcamiento adicional o un servicio de lanzadera"
+                ],
+                [
+                  "3",
+                  "Mantener despejadas las aceras y las vías de acceso"
+                ]
+              ]
+            },
+            {
+              "id": "centre-care",
+              "label": "Atención a los visitantes",
+              "desc": "Este factor selecciona apoyo para los visitantes que necesitan atención adicional durante o después de la reunión.",
+              "values": [
+                [
+                  "1",
+                  "Disponer de una persona de primeros auxilios en el lugar"
+                ],
+                [
+                  "2",
+                  "Ofrecer asientos accesibles y asistencia"
+                ],
+                [
+                  "3",
+                  "Organizar atención posterior y escucha"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "centre-coordination",
+          "label": "Cooperación y comunicación",
+          "desc": "Estas acciones manuales coordinan a la comunidad, el vecindario y los colaboradores públicos, y ofrecen información clara y oportuna.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "centre-partners",
+              "label": "Socios de cooperación",
+              "desc": "Este factor selecciona con quién se prepara y coordina la reunión.",
+              "values": [
+                [
+                  "1",
+                  "Coordinarse dentro de la junta de la comunidad"
+                ],
+                [
+                  "2",
+                  "Consultar a las asociaciones vecinales y a los vecinos"
+                ],
+                [
+                  "3",
+                  "Coordinarse con el ayuntamiento y los servicios de emergencia"
+                ]
+              ]
+            },
+            {
+              "id": "centre-information",
+              "label": "Información",
+              "desc": "Este factor selecciona cómo reciben los visitantes y los vecinos información precisa y a tiempo.",
+              "values": [
+                [
+                  "1",
+                  "Informar a los miembros por los canales propios de la comunidad"
+                ],
+                [
+                  "2",
+                  "Enviar una carta a los vecinos"
+                ],
+                [
+                  "3",
+                  "Difundir información práctica por canales públicos"
+                ]
+              ]
+            },
+            {
+              "id": "centre-dialogue",
+              "label": "Diálogo y seguimiento",
+              "desc": "Este factor selecciona cómo se comentan las inquietudes y experiencias después de la reunión.",
+              "values": [
+                [
+                  "1",
+                  "Hacer una reunión de balance con los voluntarios"
+                ],
+                [
+                  "2",
+                  "Organizar un encuentro con el vecindario"
+                ],
+                [
+                  "3",
+                  "Evaluar conjuntamente con los colaboradores públicos"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -3674,6 +4102,14 @@
         [
           "bezoekers.iedereen",
           "toegang.dicht"
+        ],
+        [
+          "bezoekers.niemand",
+          "centre-hosts.2"
+        ],
+        [
+          "toegang.dicht",
+          "centre-hosts.2"
         ]
       ],
       "template": "La actividad en el centro religioso es {1}. El acceso del público al encuentro es {2} y el momento del encuentro es {3}.\nEl centro se encuentra en {4} y espera {5}. En cuanto a la accesibilidad de los visitantes, {6}.\nEl acceso al centro es {7}; el alcance de la comunicación es {8}. Para la acogida se dispone de {9}.\nLa toma de decisiones corresponde a {10}, con especial atención a {11}. Las experiencias de visitantes y voluntarios se recogen mediante {12}.",
@@ -3693,7 +4129,13 @@
           "welkom.vrijwilligers",
           "regie.buurt",
           "zorg.contact",
-          "terugkoppeling.gesprek"
+          "terugkoppeling.gesprek",
+          "centre-hosts.1",
+          "centre-flow.1",
+          "centre-care.2",
+          "centre-partners.2",
+          "centre-information.2",
+          "centre-dialogue.1"
         ]
       }
     },
@@ -3957,6 +4399,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "port-continuity",
+          "label": "Medidas de continuidad",
+          "desc": "Estas acciones manuales mantienen en marcha los servicios portuarios prioritarios y limitan los efectos en la cadena logística.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "port-capacity",
+              "label": "Asignación de capacidad",
+              "desc": "Este factor selecciona cómo se asigna la capacidad restante de la terminal.",
+              "values": [
+                [
+                  "1",
+                  "Dar prioridad a los flujos urgentes"
+                ],
+                [
+                  "2",
+                  "Desviar buques a otras terminales del puerto"
+                ],
+                [
+                  "3",
+                  "Ampliar el horario operativo cuando la plantilla lo permita"
+                ]
+              ]
+            },
+            {
+              "id": "port-staff",
+              "label": "Personal",
+              "desc": "Este factor selecciona cómo se garantiza suficiente personal cualificado durante la interrupción.",
+              "values": [
+                [
+                  "1",
+                  "Ajustar los turnos de trabajo"
+                ],
+                [
+                  "2",
+                  "Incorporar personal de otras terminales"
+                ],
+                [
+                  "3",
+                  "Recurrir a una bolsa de personal temporal cualificado"
+                ]
+              ]
+            },
+            {
+              "id": "port-hinterland",
+              "label": "Transporte hacia el interior",
+              "desc": "Este factor selecciona una forma de mantener el movimiento de mercancías o pasajeros más allá del puerto.",
+              "values": [
+                [
+                  "1",
+                  "Acordar franjas de recogida adaptadas con los transportistas"
+                ],
+                [
+                  "2",
+                  "Trasladar flujos al ferrocarril o a la navegación interior"
+                ],
+                [
+                  "3",
+                  "Habilitar capacidad de almacenamiento temporal fuera de la terminal"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "port-coordination",
+          "label": "Coordinación y comunicación",
+          "desc": "Estas acciones manuales coordinan a la autoridad portuaria, la terminal, los socios de la cadena logística y las administraciones, e informan a los afectados.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "port-command",
+              "label": "Estructura de coordinación",
+              "desc": "Este factor selecciona dónde se acuerdan las prioridades de la cadena logística.",
+              "values": [
+                [
+                  "1",
+                  "Equipo operativo de la terminal con la capitanía marítima"
+                ],
+                [
+                  "2",
+                  "Convocar una reunión de coordinación de todo el puerto"
+                ],
+                [
+                  "3",
+                  "Elevar a la estructura regional de crisis"
+                ]
+              ]
+            },
+            {
+              "id": "port-picture",
+              "label": "Visión compartida de la situación",
+              "desc": "Este factor selecciona cómo mantienen los socios una visión compartida y verificada de la interrupción.",
+              "values": [
+                [
+                  "1",
+                  "Compartir actualizaciones de estado a horas fijas"
+                ],
+                [
+                  "2",
+                  "Usar un panel de información común del puerto"
+                ],
+                [
+                  "3",
+                  "Destacar enlaces ante los socios clave"
+                ]
+              ]
+            },
+            {
+              "id": "port-public",
+              "label": "Comunicación con los afectados",
+              "desc": "Este factor selecciona una comunicación que refleja los hechos verificados y las incertidumbres pendientes.",
+              "values": [
+                [
+                  "1",
+                  "Enviar avisos específicos a clientes y transportistas"
+                ],
+                [
+                  "2",
+                  "Publicar una actualización pública sobre la accesibilidad del puerto"
+                ],
+                [
+                  "3",
+                  "Celebrar una rueda de prensa conjunta con los socios"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -3979,6 +4553,14 @@
         [
           "capaciteit.geen",
           "stroom.beperkt"
+        ],
+        [
+          "afhandeling.normaal",
+          "port-capacity.2"
+        ],
+        [
+          "bezetting.normaal",
+          "port-staff.3"
         ]
       ],
       "template": "La terminal estudiada tiene como función {1}. Las operaciones son {2}, previsiblemente durante {3}.\nEn el conjunto del puerto, la navegación presenta {4}. La presión sobre los socios de la cadena es {5}; la conexión con el interior es {6}.\nLa capacidad operativa de la terminal es {7}, mientras que el flujo real de operaciones es {8}. La plantilla disponible es {9}.\nLa prioridad de los servicios es {10}. El panorama compartido de la situación se comunica a {11} y las personas afectadas reciben {12}.",
@@ -3998,7 +4580,13 @@
           "bezetting.wisselend",
           "prioriteit.levering",
           "afstemming.overheid",
-          "informatie.gericht"
+          "informatie.gericht",
+          "port-capacity.1",
+          "port-staff.1",
+          "port-hinterland.1",
+          "port-command.2",
+          "port-picture.1",
+          "port-public.1"
         ]
       }
     },
@@ -4262,6 +4850,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "airport-care",
+          "label": "Atención a pasajeros y operaciones",
+          "desc": "Estas acciones manuales apoyan a los viajeros afectados y aprovechan la capacidad restante de forma controlada.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "airport-flights",
+              "label": "Programa de vuelos",
+              "desc": "Este factor selecciona cómo se utiliza la capacidad restante en consulta con las aerolíneas y el control del tráfico aéreo.",
+              "values": [
+                [
+                  "1",
+                  "Reducir el programa de vuelos con las aerolíneas"
+                ],
+                [
+                  "2",
+                  "Desviar los vuelos de llegada a otros aeropuertos"
+                ],
+                [
+                  "3",
+                  "Reanudar los vuelos por fases planificadas"
+                ]
+              ]
+            },
+            {
+              "id": "airport-shelter",
+              "label": "Atención a viajeros afectados",
+              "desc": "Este factor selecciona apoyo para los viajeros que quedan varados o se enfrentan a largas esperas.",
+              "values": [
+                [
+                  "1",
+                  "Ofrecer agua, comida y asientos en la terminal"
+                ],
+                [
+                  "2",
+                  "Gestionar habitaciones de hotel o lugares de acogida"
+                ],
+                [
+                  "3",
+                  "Ofrecer asistencia adicional a viajeros con movilidad reducida"
+                ]
+              ]
+            },
+            {
+              "id": "airport-transport",
+              "label": "Continuación del viaje",
+              "desc": "Este factor selecciona cómo pueden continuar su viaje los viajeros.",
+              "values": [
+                [
+                  "1",
+                  "Reubicar a los viajeros en vuelos posteriores"
+                ],
+                [
+                  "2",
+                  "Organizar transporte alternativo en autocar o tren"
+                ],
+                [
+                  "3",
+                  "Reforzar el transporte público hacia y desde el aeropuerto"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "airport-coordination",
+          "label": "Coordinación y comunicación",
+          "desc": "Estas acciones manuales coordinan al aeropuerto, las aerolíneas, los transportistas y las autoridades, y mantienen informados a los viajeros.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "airport-command",
+              "label": "Estructura de coordinación",
+              "desc": "Este factor selecciona dónde se coordinan las decisiones operativas y las prioridades.",
+              "values": [
+                [
+                  "1",
+                  "Centro de operaciones del aeropuerto con las aerolíneas"
+                ],
+                [
+                  "2",
+                  "Equipo conjunto de coordinación con transportistas y socios"
+                ],
+                [
+                  "3",
+                  "Elevar a la estructura regional de crisis"
+                ]
+              ]
+            },
+            {
+              "id": "airport-info",
+              "label": "Canales de información",
+              "desc": "Este factor selecciona cómo reciben los viajeros información coherente y verificada.",
+              "values": [
+                [
+                  "1",
+                  "Publicar actualizaciones conjuntas en pantallas y aplicaciones"
+                ],
+                [
+                  "2",
+                  "Desplegar personal de información en la terminal"
+                ],
+                [
+                  "3",
+                  "Enviar mensajes específicos a través de las aerolíneas"
+                ]
+              ]
+            },
+            {
+              "id": "airport-recovery",
+              "label": "Planificación de la recuperación",
+              "desc": "Este factor selecciona cómo se prepara la vuelta a las operaciones normales.",
+              "values": [
+                [
+                  "1",
+                  "Acordar un calendario de recuperación por fases"
+                ],
+                [
+                  "2",
+                  "Atender primero a los viajeros en espera acumulados"
+                ],
+                [
+                  "3",
+                  "Planificar una evaluación conjunta con los socios"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -4280,6 +5000,18 @@
         [
           "terminal.dicht",
           "verwerking.beperkt"
+        ],
+        [
+          "operatie.normaal",
+          "airport-flights.1"
+        ],
+        [
+          "operatie.normaal",
+          "airport-flights.2"
+        ],
+        [
+          "herstel.normaal",
+          "airport-recovery.1"
         ]
       ],
       "template": "El aeropuerto ficticio tiene como función {1}. Respecto a los despegues y aterrizajes, {2}, con una duración prevista de {3}.\nEn cuanto a las pistas operativas, {4}; la terminal para el público está {5}. El transporte hacia y desde el aeropuerto es {6}.\nLa atención de pasajeros en la terminal es {7}. Los viajeros reciben {8} y la atención a los pasajeros consiste en {9}.\nEntre los socios implicados se encuentran {10}. La principal cuestión a considerar es {11}, mientras que las perspectivas de recuperación son {12}.",
@@ -4299,7 +5031,13 @@
           "opvang.opvang",
           "partners.regionaal",
           "keuze.reizigers",
-          "herstel.onbekend"
+          "herstel.onbekend",
+          "airport-flights.1",
+          "airport-shelter.2",
+          "airport-transport.2",
+          "airport-command.2",
+          "airport-info.1",
+          "airport-recovery.2"
         ]
       }
     },

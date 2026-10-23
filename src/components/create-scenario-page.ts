@@ -21,6 +21,7 @@ import {
   ScenarioComponent,
 } from '../models';
 import {
+  changePage,
   MeiosisComponent,
   saveModel,
   saveNarrative,
@@ -34,6 +35,7 @@ import {
   GenerationDiagnostic,
   activeCoa,
   addCoa,
+  answerDecisionSupportPrompt,
   appendReflection,
   coaConflicts,
   decisionExclusions,
@@ -50,6 +52,7 @@ import {
   levelIndex,
   narrativesToOptions,
   splitDecisionComponents,
+  syncNarrativeDecisions,
   trafficLight,
   updateRisk,
 } from '../utils';
@@ -69,6 +72,15 @@ import {
 } from './ui';
 import { PersonaImages } from '../models/persona-images';
 import { narrativeToMarkdown } from '../utils/index';
+
+/** Longer-lived, readable toast for instructions; the user can dismiss it via the close button. */
+const instructionToast = (html: string) =>
+  toast({
+    html,
+    displayLength: 10000,
+    className: 'toast-instruction',
+    action: { variant: 'icon', icon: 'close', label: t('CLOSE_MESSAGE'), onclick: () => {} },
+  });
 
 /** Read-only risk level, derived from probability and impact; optionally compared with the situation risk. */
 const RiskResult = (className: string, label: string, risk?: ID, before?: ID) => {
@@ -872,6 +884,29 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             ]),
           ]),
         showTables &&
+          !includeDecisionSupport &&
+          decisionCategories.length > 0 &&
+          m('.col.s12', m('.decision-support-banner', { role: 'status' }, [
+            m(Icon, { iconName: 'assistant_direction' }),
+            m('span', t('DECISION_BANNER_MSG')),
+            m(FlatButton, {
+              iconName: 'check',
+              label: t('DECISION_PROMPT_ENABLE'),
+              onclick: async () => {
+                answerDecisionSupportPrompt(model.scenario, true);
+                ensureDefaultLLMConfig(model.scenario, model.scenario.categories || []);
+                (model.scenario.narratives || []).forEach((n) =>
+                  syncNarrativeDecisions(model.scenario, n),
+                );
+                if (curNarrative.components) {
+                  syncNarrativeDecisions(model.scenario, curNarrative);
+                  attrs.update({ curNarrative: () => curNarrative });
+                }
+                await saveModel(attrs, model);
+              },
+            }),
+          ])),
+        showTables &&
           showDecisions && [
             m('.col.s12', [
               m('h5.decisions-title', t('DECISIONS')),
@@ -1003,7 +1038,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                         );
                         if (llm?.id === 'clipboard') {
                           await navigator.clipboard.writeText(reflection);
-                          toast({ html: t('DECISION_PROMPT_COPIED') });
+                          instructionToast(t('DECISION_PROMPT_COPIED'));
                         } else {
                           // The narrative may have been edited or switched meanwhile
                           const latest = attrs.getState().curNarrative;
@@ -1084,7 +1119,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   const story = await generateStory(llm!, curNarrative, model.scenario);
                   if (llm?.id === 'clipboard') {
                     await navigator.clipboard.writeText(story);
-                    toast({ html: t('NARRATIVE_PROMPT_COPIED') });
+                    instructionToast(t('NARRATIVE_PROMPT_COPIED'));
                   } else if (story) {
                     curNarrative.desc = story;
                   }
@@ -1101,6 +1136,18 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               },
             }),
           curNarrative.saved && [
+            fieldPrompts &&
+              personaPromptReady &&
+              llm?.id === 'clipboard' &&
+              curPersonas.length > 0 &&
+              m('.row', m('.col.s12.persona-clipboard-hint', [
+                m('p', t('PERSONA_CLIPBOARD_HINT')),
+                m(FlatButton, {
+                  iconName: 'settings',
+                  label: t('SETUP_LLM'),
+                  onclick: () => changePage(attrs, Dashboards.SETTINGS),
+                }),
+              ])),
             curPersonas.map((p, index) =>
               m('.row.persona', [
                 m('.col.s12', m('h5', p.label)),
@@ -1156,7 +1203,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                           );
                           if (llm?.id === 'clipboard') {
                             await navigator.clipboard.writeText(feedback);
-                            toast({ html: t('PERSONA_PROMPT_COPIED') });
+                            instructionToast(t('PERSONA_PROMPT_COPIED'));
                           } else {
                             curNarrative.personaEffects ??= {};
                             curNarrative.personaEffects[p.id] ??= { scale: 0 };

@@ -307,6 +307,31 @@ export const starterKitHasUpdates = (model: DataModel, starter: DataModel) => {
   return added + updated + conflicts.length > 0;
 };
 
+export const isStarterBoxId = (id: string) => id.startsWith('starter-nl-');
+
+/** Puts a random starter box first, so new users do not always start with the same scenario type. */
+export const withRandomFirstBox = (model: DataModel, random = Math.random): DataModel => {
+  const boxes = [model.scenario, ...model.scenarios];
+  const index = Math.floor(random() * boxes.length);
+  return { ...model, scenario: boxes[index], scenarios: boxes.filter((_, i) => i !== index) };
+};
+
+/** Adds a single starter box, and the personas it uses, to the collection. */
+export const addStarterBoxToModel = (model: DataModel, starter: DataModel, boxId: string): DataModel => {
+  if ([model.scenario, ...model.scenarios].some(({ id }) => id === boxId)) return model;
+  const box = [starter.scenario, ...starter.scenarios].find(({ id }) => id === boxId);
+  if (!box) return model;
+  const personaIds = new Set((model.personas || []).map(({ id }) => id));
+  const personas = (starter.personas || []).filter(
+    ({ id }) => box.personas?.includes(id) && !personaIds.has(id)
+  );
+  return {
+    ...model,
+    scenarios: [...model.scenarios, structuredClone(box)],
+    personas: [...(model.personas || []), ...structuredClone(personas)],
+  };
+};
+
 export type StarterKitConflict = { id: string; label: string; kind: 'box' | 'persona' };
 
 /** A box is untouched when its definition still matches the kit it came from and holds no user work. */

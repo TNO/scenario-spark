@@ -602,6 +602,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "event-protection",
+          "label": "Publikumssicherheit und Versorgung",
+          "desc": "Diese manuell ausgewählten Maßnahmen schützen Besucherinnen und Besucher, steuern die Personendichte und unterstützen medizinische Versorgung und Betreuung auf dem Gelände und in seiner Umgebung.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "event-crowd",
+              "label": "Besucherlenkung",
+              "desc": "Dieser Faktor wählt einen verhältnismäßigen Schritt, um die Personendichte zu senken und Besucherströme sicher in Bewegung zu halten.",
+              "values": [
+                [
+                  "1",
+                  "Einlass an den Eingängen zeitlich staffeln"
+                ],
+                [
+                  "2",
+                  "Zusätzliche Ausgänge und Wartebereiche öffnen"
+                ],
+                [
+                  "3",
+                  "Einlass auf das Gelände vorübergehend stoppen"
+                ]
+              ]
+            },
+            {
+              "id": "event-medical",
+              "label": "Medizinische Versorgung",
+              "desc": "Dieser Faktor wählt, wie Erste Hilfe und Rettungsdienst an Zahl und Schwere der Verletzten angepasst werden.",
+              "values": [
+                [
+                  "1",
+                  "Sanitätsposten mit zusätzlichem Personal verstärken"
+                ],
+                [
+                  "2",
+                  "Mit dem Rettungsdienst eine Verletztensammelstelle einrichten"
+                ],
+                [
+                  "3",
+                  "Regionalen Plan für einen Massenanfall von Verletzten aktivieren"
+                ]
+              ]
+            },
+            {
+              "id": "event-welfare",
+              "label": "Betreuung der Besucher",
+              "desc": "Dieser Faktor wählt Unterstützung, die Besucher vor Witterung, Erschöpfung und der Trennung von ihrer Gruppe schützt.",
+              "values": [
+                [
+                  "1",
+                  "Kostenloses Trinkwasser, Schatten oder Unterstand bereitstellen"
+                ],
+                [
+                  "2",
+                  "Treffpunkt für vermisste Kinder und Begleitpersonen einrichten"
+                ],
+                [
+                  "3",
+                  "Begleitete Abreise für Besucher mit Unterstützungsbedarf organisieren"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "event-coordination",
+          "label": "Koordination und Kommunikation",
+          "desc": "Diese manuell ausgewählten Maßnahmen stimmen Veranstalter, Kommune und Einsatzkräfte aufeinander ab und halten Besucher und Anwohner auf dem Laufenden.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "event-command",
+              "label": "Entscheidungsfindung",
+              "desc": "Dieser Faktor bezeichnet, wo über Unterbrechung, Anpassung oder Abbruch der Veranstaltung entschieden wird.",
+              "values": [
+                [
+                  "1",
+                  "Veranstalter entscheidet in Abstimmung mit den Einsatzkräften"
+                ],
+                [
+                  "2",
+                  "Gemeinsamen Koordinierungsstab der Veranstaltung einberufen"
+                ],
+                [
+                  "3",
+                  "An den kommunalen Krisenstab übergeben"
+                ]
+              ]
+            },
+            {
+              "id": "event-message",
+              "label": "Information der Besucher",
+              "desc": "Dieser Faktor wählt die Botschaft, die Besuchern auf Grundlage gesicherter Informationen hilft, sich sicher zu verhalten.",
+              "values": [
+                [
+                  "1",
+                  "Kurze Programmpause und ihren Grund ankündigen"
+                ],
+                [
+                  "2",
+                  "Besucher zu alternativen Wegen und Ausgängen leiten"
+                ],
+                [
+                  "3",
+                  "Gestaffelte Abreisehinweise je Bereich geben"
+                ]
+              ]
+            },
+            {
+              "id": "event-neighbours",
+              "label": "Anwohner und Umgebung",
+              "desc": "Dieser Faktor wählt Maßnahmen, die die Auswirkungen auf Anwohner und Umgebung begrenzen.",
+              "values": [
+                [
+                  "1",
+                  "Anwohner über Verzögerungen und Erreichbarkeit informieren"
+                ],
+                [
+                  "2",
+                  "Verkehrslotsen auf Zufahrtswegen einsetzen"
+                ],
+                [
+                  "3",
+                  "Zusätzlichen öffentlichen Verkehr für die Abreise abstimmen"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -652,6 +784,14 @@
         [
           "medisch.ernstig",
           "gezondheid.licht"
+        ],
+        [
+          "medisch.geen",
+          "event-medical.2"
+        ],
+        [
+          "medisch.geen",
+          "event-medical.3"
         ]
       ],
       "template": "Art der Veranstaltung: {1}; Gestaltung des Veranstaltungsorts: {2}; erwartet werden {3}. Die Dauer beträgt {4}, das Zeitfenster ist {5} und das Publikum besteht aus {6}.\nDie Wetterlage ist {7} und die Umgebung ist {8} erreichbar. Medizinische Vorfälle: {9}; verfügbare Publikumsinformation: {10}; Besucherströme: {11}.\nZulässige gleichzeitige Kapazität: {12}; Zugangsregelung: {13}. Medizinische Vorbereitung: {14}; Koordination von Entscheidungen: {15}; Information der Gäste: {16}; Betreuung bei Unterbrechung: {17}.\nGesundheitliche Folgen für Gäste: {18}. Auswirkungen auf das Programm: {19}; Auswirkungen auf Anwohnende: {20}; öffentlicher Informationsbedarf: {21}. Anschließend folgt {22}.",
@@ -681,7 +821,13 @@
           "uitloop.vertraging",
           "omgeving.bereik",
           "vertrouwen.regionaal",
-          "evaluatie.nazorg"
+          "evaluatie.nazorg",
+          "event-crowd.1",
+          "event-medical.1",
+          "event-welfare.1",
+          "event-command.2",
+          "event-message.1",
+          "event-neighbours.1"
         ]
       }
     },
@@ -3355,6 +3501,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "building-safety",
+          "label": "Sicherheit von Besuchern und Beschäftigten",
+          "desc": "Diese manuell ausgewählten Maßnahmen schützen Besucher und Beschäftigte und halten das Gebäude sicher nutzbar.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "building-reception",
+              "label": "Empfang und Betreuung",
+              "desc": "Dieser Faktor wählt, wie Besucher ruhig und erkennbar empfangen und geleitet werden.",
+              "values": [
+                [
+                  "1",
+                  "Zusätzliches Empfangspersonal am geöffneten Eingang einsetzen"
+                ],
+                [
+                  "2",
+                  "Besucher in einen ruhigen Wartebereich begleiten"
+                ],
+                [
+                  "3",
+                  "Besucher zu ihrem Termin begleiten"
+                ]
+              ]
+            },
+            {
+              "id": "building-staff",
+              "label": "Unterstützung der Beschäftigten",
+              "desc": "Dieser Faktor wählt Unterstützung, die Beschäftigten im Umgang mit Spannungen oder Aggression von Besuchern hilft.",
+              "values": [
+                [
+                  "1",
+                  "Beschäftigte über die vereinbarten Abläufe informieren"
+                ],
+                [
+                  "2",
+                  "An den Schaltern zu zweit arbeiten"
+                ],
+                [
+                  "3",
+                  "Kollegiale Unterstützung nach einem Vorfall anbieten"
+                ]
+              ]
+            },
+            {
+              "id": "building-use",
+              "label": "Nutzung des Gebäudes",
+              "desc": "Dieser Faktor wählt eine verhältnismäßige Entscheidung darüber, welche Gebäudeteile in Betrieb bleiben.",
+              "values": [
+                [
+                  "1",
+                  "Öffentliche Bereiche wie geplant geöffnet halten"
+                ],
+                [
+                  "2",
+                  "Einen Teil der öffentlichen Bereiche vorübergehend schließen"
+                ],
+                [
+                  "3",
+                  "Das Gebäude geordnet räumen"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "building-coordination",
+          "label": "Koordination und Kommunikation",
+          "desc": "Diese manuell ausgewählten Maßnahmen stimmen Gebäudemanagement, Dienstleistung und Partner aufeinander ab und halten die Öffentlichkeit auf dem Laufenden.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "building-lead",
+              "label": "Abstimmung",
+              "desc": "Dieser Faktor bezeichnet, wer Entscheidungen zu Gebäude und Dienstleistung koordiniert.",
+              "values": [
+                [
+                  "1",
+                  "Gemeinsame Besprechung von Gebäudemanagement und Dienststelle abhalten"
+                ],
+                [
+                  "2",
+                  "Betriebliche Notfallorganisation aktivieren"
+                ],
+                [
+                  "3",
+                  "Mit dem kommunalen Krisenmanagement abstimmen"
+                ]
+              ]
+            },
+            {
+              "id": "building-information",
+              "label": "Information der Öffentlichkeit",
+              "desc": "Dieser Faktor wählt, wie Besucher von Änderungen bei Zugang und Dienstleistung erfahren.",
+              "values": [
+                [
+                  "1",
+                  "Website und Telefonansage aktualisieren"
+                ],
+                [
+                  "2",
+                  "Klare Beschilderung an den Eingängen anbringen"
+                ],
+                [
+                  "3",
+                  "Besucher mit Termin persönlich kontaktieren"
+                ]
+              ]
+            },
+            {
+              "id": "building-service",
+              "label": "Kontinuität der Dienstleistung",
+              "desc": "Dieser Faktor wählt einen Weg, wesentliche Leistungen für Einwohner verfügbar zu halten.",
+              "values": [
+                [
+                  "1",
+                  "Dringende Anliegen am Schalter vorrangig bearbeiten"
+                ],
+                [
+                  "2",
+                  "Öffnungszeiten an einem anderen Standort verlängern"
+                ],
+                [
+                  "3",
+                  "Begleitete Beratung per Telefon oder Video anbieten"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -3377,6 +3655,18 @@
         [
           "bezoek.geen",
           "entree.open"
+        ],
+        [
+          "opening.gesloten",
+          "building-use.1"
+        ],
+        [
+          "opening.gesloten",
+          "building-reception.1"
+        ],
+        [
+          "entree.dicht",
+          "building-reception.1"
         ]
       ],
       "template": "Gebäudefunktion: {1}; Öffnung für die Öffentlichkeit: {2}. Art der Nutzung: {3}.\nBesuchsregelung: {4}; Belegung: {5}. Unterstützungsbedarf der Gäste: {6}.\nDienstleistung: {7}; Eingänge für das Publikum: {8}. Auswirkungen für Gäste: {9}.\nAbstimmung zwischen Gebäudeverwaltung und Dienstleister: {10}. Alternative für Gäste: {11}; Information der Gäste: {12}.",
@@ -3396,7 +3686,13 @@
           "verstoring.wachttijd",
           "beheer.team",
           "alternatief.afspraak",
-          "bericht.persoonlijk"
+          "bericht.persoonlijk",
+          "building-reception.2",
+          "building-staff.1",
+          "building-use.1",
+          "building-lead.1",
+          "building-information.3",
+          "building-service.1"
         ]
       }
     },
@@ -3660,6 +3956,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "centre-hospitality",
+          "label": "Gastfreundschaft und Sicherheit der Besucher",
+          "desc": "Diese manuell ausgewählten Maßnahmen halten die Zusammenkunft einladend und sicher für Besucher, Ehrenamtliche und die Nachbarschaft.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "centre-hosts",
+              "label": "Empfang und Ordnerdienst",
+              "desc": "Dieser Faktor wählt, wie Ehrenamtliche Besucher willkommen heißen und ruhig begleiten.",
+              "values": [
+                [
+                  "1",
+                  "Ehrenamtliche in Empfang und Begleitung einweisen"
+                ],
+                [
+                  "2",
+                  "Gastgeber an Eingängen und Sitzplätzen einteilen"
+                ],
+                [
+                  "3",
+                  "Ansprechperson für Einsatzkräfte benennen"
+                ]
+              ]
+            },
+            {
+              "id": "centre-flow",
+              "label": "An- und Abreise",
+              "desc": "Dieser Faktor wählt Regelungen, die Besucherströme verteilen und die Umgebung erreichbar halten.",
+              "values": [
+                [
+                  "1",
+                  "An- und Abreisezeiten staffeln"
+                ],
+                [
+                  "2",
+                  "Mit Partnern zusätzliche Parkplätze oder Pendelverkehr organisieren"
+                ],
+                [
+                  "3",
+                  "Gehwege und Zufahrten freihalten"
+                ]
+              ]
+            },
+            {
+              "id": "centre-care",
+              "label": "Fürsorge für Besucher",
+              "desc": "Dieser Faktor wählt Unterstützung für Besucher, die während oder nach der Zusammenkunft besondere Aufmerksamkeit brauchen.",
+              "values": [
+                [
+                  "1",
+                  "Ersthelfer vor Ort als Ansprechperson bereitstellen"
+                ],
+                [
+                  "2",
+                  "Barrierefreie Sitzplätze und Hilfe anbieten"
+                ],
+                [
+                  "3",
+                  "Nachsorge und ein offenes Ohr anbieten"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "centre-coordination",
+          "label": "Zusammenarbeit und Kommunikation",
+          "desc": "Diese manuell ausgewählten Maßnahmen stimmen Glaubensgemeinschaft, Nachbarschaft und öffentliche Partner aufeinander ab und sorgen für klare, rechtzeitige Informationen.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "centre-partners",
+              "label": "Kooperationspartner",
+              "desc": "Dieser Faktor wählt, mit wem die Zusammenkunft vorbereitet und abgestimmt wird.",
+              "values": [
+                [
+                  "1",
+                  "Im Vorstand der Gemeinschaft abstimmen"
+                ],
+                [
+                  "2",
+                  "Nachbarschaftsorganisationen und Anwohner einbeziehen"
+                ],
+                [
+                  "3",
+                  "Mit Kommune und Einsatzkräften abstimmen"
+                ]
+              ]
+            },
+            {
+              "id": "centre-information",
+              "label": "Information",
+              "desc": "Dieser Faktor wählt, wie Besucher und Anwohner rechtzeitig zutreffende Informationen erhalten.",
+              "values": [
+                [
+                  "1",
+                  "Mitglieder über die eigenen Kanäle der Gemeinschaft informieren"
+                ],
+                [
+                  "2",
+                  "Anwohner per Brief informieren"
+                ],
+                [
+                  "3",
+                  "Praktische Hinweise über öffentliche Kanäle teilen"
+                ]
+              ]
+            },
+            {
+              "id": "centre-dialogue",
+              "label": "Dialog und Nachsorge",
+              "desc": "Dieser Faktor wählt, wie Anliegen und Erfahrungen nach der Zusammenkunft besprochen werden.",
+              "values": [
+                [
+                  "1",
+                  "Nachbesprechung mit Ehrenamtlichen durchführen"
+                ],
+                [
+                  "2",
+                  "Nachbarschaftsgespräch organisieren"
+                ],
+                [
+                  "3",
+                  "Gemeinsam mit öffentlichen Partnern auswerten"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -3674,6 +4102,14 @@
         [
           "bezoekers.iedereen",
           "toegang.dicht"
+        ],
+        [
+          "bezoekers.niemand",
+          "centre-hosts.2"
+        ],
+        [
+          "toegang.dicht",
+          "centre-hosts.2"
         ]
       ],
       "template": "Aktivität im religiösen Zentrum: {1}. Zugänglichkeit der Versammlung: {2}; Zeitpunkt des Zusammenkommens: {3}.\nUmgebung des Zentrums: {4}; erwartete Belegung: {5}. Anreise der Gäste: {6}.\nZugang zum Zentrum: {7}; Kontakt mit der Umgebung: {8}. Unterstützung beim Empfang: {9}.\nEntscheidungsfindung: {10}; besonderes Augenmerk: {11}. Die Erfahrungen von Gästen und Freiwilligen werden durch {12} gesammelt.",
@@ -3693,7 +4129,13 @@
           "welkom.vrijwilligers",
           "regie.buurt",
           "zorg.contact",
-          "terugkoppeling.gesprek"
+          "terugkoppeling.gesprek",
+          "centre-hosts.1",
+          "centre-flow.1",
+          "centre-care.2",
+          "centre-partners.2",
+          "centre-information.2",
+          "centre-dialogue.1"
         ]
       }
     },
@@ -3957,6 +4399,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "port-continuity",
+          "label": "Maßnahmen zur Betriebskontinuität",
+          "desc": "Diese manuell ausgewählten Maßnahmen halten vorrangige Hafenleistungen aufrecht und begrenzen die Auswirkungen auf die Lieferkette.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "port-capacity",
+              "label": "Kapazitätsverteilung",
+              "desc": "Dieser Faktor wählt, wie die verbleibende Terminalkapazität verteilt wird.",
+              "values": [
+                [
+                  "1",
+                  "Zeitkritische Ströme vorrangig abfertigen"
+                ],
+                [
+                  "2",
+                  "Schiffe zu anderen Terminals im Hafen umleiten"
+                ],
+                [
+                  "3",
+                  "Betriebszeiten verlängern, soweit das Personal es zulässt"
+                ]
+              ]
+            },
+            {
+              "id": "port-staff",
+              "label": "Personaleinsatz",
+              "desc": "Dieser Faktor wählt, wie während der Störung ausreichend qualifiziertes Personal sichergestellt wird.",
+              "values": [
+                [
+                  "1",
+                  "Schichtpläne anpassen"
+                ],
+                [
+                  "2",
+                  "Personal anderer Terminals einsetzen"
+                ],
+                [
+                  "3",
+                  "Auf einen Pool qualifizierter Aushilfskräfte zurückgreifen"
+                ]
+              ]
+            },
+            {
+              "id": "port-hinterland",
+              "label": "Hinterlandverkehr",
+              "desc": "Dieser Faktor wählt einen Weg, Güter oder Passagiere über den Hafen hinaus in Bewegung zu halten.",
+              "values": [
+                [
+                  "1",
+                  "Angepasste Abholzeitfenster mit Transporteuren vereinbaren"
+                ],
+                [
+                  "2",
+                  "Ströme auf Schiene oder Binnenschifffahrt verlagern"
+                ],
+                [
+                  "3",
+                  "Vorübergehende Pufferkapazität außerhalb des Terminals organisieren"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "port-coordination",
+          "label": "Koordination und Kommunikation",
+          "desc": "Diese manuell ausgewählten Maßnahmen stimmen Hafenbehörde, Terminal, Partner der Lieferkette und Behörden aufeinander ab und informieren die Betroffenen.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "port-command",
+              "label": "Koordinationsstruktur",
+              "desc": "Dieser Faktor bezeichnet, wo Prioritäten entlang der Lieferkette vereinbart werden.",
+              "values": [
+                [
+                  "1",
+                  "Operatives Terminalteam mit dem Hafenkapitän"
+                ],
+                [
+                  "2",
+                  "Hafenweite Koordinierungsrunde einberufen"
+                ],
+                [
+                  "3",
+                  "An die regionale Krisenstruktur eskalieren"
+                ]
+              ]
+            },
+            {
+              "id": "port-picture",
+              "label": "Gemeinsames Lagebild",
+              "desc": "Dieser Faktor wählt, wie Partner ein gemeinsames, gesichertes Bild der Störung aufrechterhalten.",
+              "values": [
+                [
+                  "1",
+                  "Lagemeldungen zu festen Zeiten teilen"
+                ],
+                [
+                  "2",
+                  "Gemeinsames Informations-Dashboard des Hafens nutzen"
+                ],
+                [
+                  "3",
+                  "Verbindungspersonen bei wichtigen Partnern einsetzen"
+                ]
+              ]
+            },
+            {
+              "id": "port-public",
+              "label": "Kommunikation mit Betroffenen",
+              "desc": "Dieser Faktor wählt eine Kommunikation, die gesicherte Fakten und verbleibende Unsicherheiten wiedergibt.",
+              "values": [
+                [
+                  "1",
+                  "Gezielte Mitteilungen an Kunden und Transporteure senden"
+                ],
+                [
+                  "2",
+                  "Öffentliche Mitteilung zur Erreichbarkeit des Hafens veröffentlichen"
+                ],
+                [
+                  "3",
+                  "Gemeinsames Pressebriefing mit Partnern abhalten"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -3979,6 +4553,14 @@
         [
           "capaciteit.geen",
           "stroom.beperkt"
+        ],
+        [
+          "afhandeling.normaal",
+          "port-capacity.2"
+        ],
+        [
+          "bezetting.normaal",
+          "port-staff.3"
         ]
       ],
       "template": "Funktion des betrachteten Terminals: {1}. Abfertigung: {2}; erwartete Dauer: {3}.\nSchifffahrt im gesamten Hafen: {4}. Belastung der Partner: {5}; Anbindung ans Hinterland: {6}.\nAbfertigungskapazität des Terminals: {7}; tatsächliches Abfertigungsvolumen: {8}. Personalstärke: {9}.\nVorrangige Dienstleistung: {10}. Partner des gemeinsamen Lagebilds: {11}; Informationen für Betroffene: {12}.",
@@ -3998,7 +4580,13 @@
           "bezetting.wisselend",
           "prioriteit.levering",
           "afstemming.overheid",
-          "informatie.gericht"
+          "informatie.gericht",
+          "port-capacity.1",
+          "port-staff.1",
+          "port-hinterland.1",
+          "port-command.2",
+          "port-picture.1",
+          "port-public.1"
         ]
       }
     },
@@ -4262,6 +4850,138 @@
               ]
             }
           ]
+        },
+        {
+          "id": "airport-care",
+          "label": "Passagierbetreuung und Betrieb",
+          "desc": "Diese manuell ausgewählten Maßnahmen unterstützen gestrandete Reisende und nutzen die verbleibende Kapazität kontrolliert.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "airport-flights",
+              "label": "Flugplan",
+              "desc": "Dieser Faktor wählt, wie die verbleibende Kapazität in Abstimmung mit Fluggesellschaften und Flugsicherung genutzt wird.",
+              "values": [
+                [
+                  "1",
+                  "Flugplan gemeinsam mit Fluggesellschaften ausdünnen"
+                ],
+                [
+                  "2",
+                  "Ankommende Flüge zu anderen Flughäfen umleiten"
+                ],
+                [
+                  "3",
+                  "Flugbetrieb in geplanten Phasen wieder aufnehmen"
+                ]
+              ]
+            },
+            {
+              "id": "airport-shelter",
+              "label": "Betreuung gestrandeter Reisender",
+              "desc": "Dieser Faktor wählt Unterstützung für Reisende, die gestrandet sind oder lange warten müssen.",
+              "values": [
+                [
+                  "1",
+                  "Wasser, Verpflegung und Sitzplätze im Terminal bereitstellen"
+                ],
+                [
+                  "2",
+                  "Hotelzimmer oder Unterkünfte organisieren"
+                ],
+                [
+                  "3",
+                  "Zusätzliche Hilfe für Reisende mit eingeschränkter Mobilität anbieten"
+                ]
+              ]
+            },
+            {
+              "id": "airport-transport",
+              "label": "Weiterreise",
+              "desc": "Dieser Faktor wählt, wie Reisende ihre Reise fortsetzen können.",
+              "values": [
+                [
+                  "1",
+                  "Reisende auf spätere Flüge umbuchen"
+                ],
+                [
+                  "2",
+                  "Ersatzverkehr per Bus oder Bahn organisieren"
+                ],
+                [
+                  "3",
+                  "Zusätzlichen öffentlichen Verkehr zum und vom Flughafen einsetzen"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "airport-coordination",
+          "label": "Koordination und Kommunikation",
+          "desc": "Diese manuell ausgewählten Maßnahmen stimmen Flughafen, Fluggesellschaften, Verkehrsunternehmen und Behörden aufeinander ab und halten Reisende auf dem Laufenden.",
+          "manual": true,
+          "decision": true,
+          "factors": [
+            {
+              "id": "airport-command",
+              "label": "Koordinationsstruktur",
+              "desc": "Dieser Faktor bezeichnet, wo operative Entscheidungen und Prioritäten abgestimmt werden.",
+              "values": [
+                [
+                  "1",
+                  "Betriebszentrale des Flughafens mit den Fluggesellschaften"
+                ],
+                [
+                  "2",
+                  "Gemeinsamer Koordinierungsstab mit Verkehrsunternehmen und Partnern"
+                ],
+                [
+                  "3",
+                  "An die regionale Krisenstruktur eskalieren"
+                ]
+              ]
+            },
+            {
+              "id": "airport-info",
+              "label": "Informationskanäle",
+              "desc": "Dieser Faktor wählt, wie Reisende einheitliche, gesicherte Informationen erhalten.",
+              "values": [
+                [
+                  "1",
+                  "Gemeinsame Updates auf Anzeigetafeln und in Apps veröffentlichen"
+                ],
+                [
+                  "2",
+                  "Informationspersonal im Terminal einsetzen"
+                ],
+                [
+                  "3",
+                  "Gezielte Nachrichten über die Fluggesellschaften senden"
+                ]
+              ]
+            },
+            {
+              "id": "airport-recovery",
+              "label": "Wiederanlaufplanung",
+              "desc": "Dieser Faktor wählt, wie die Rückkehr zum Normalbetrieb vorbereitet wird.",
+              "values": [
+                [
+                  "1",
+                  "Gestuften Wiederanlaufplan vereinbaren"
+                ],
+                [
+                  "2",
+                  "Zuerst den Rückstau wartender Reisender abbauen"
+                ],
+                [
+                  "3",
+                  "Gemeinsame Auswertung mit Partnern planen"
+                ]
+              ]
+            }
+          ]
         }
       ],
       "exclusions": [
@@ -4280,6 +5000,18 @@
         [
           "terminal.dicht",
           "verwerking.beperkt"
+        ],
+        [
+          "operatie.normaal",
+          "airport-flights.1"
+        ],
+        [
+          "operatie.normaal",
+          "airport-flights.2"
+        ],
+        [
+          "herstel.normaal",
+          "airport-recovery.1"
         ]
       ],
       "template": "Funktion des fiktiven Flughafens: {1}. Starts und Landungen: {2}; erwartete Dauer: {3}.\nVerfügbare Start- und Landebahnen: {4}; Terminal für die Öffentlichkeit: {5}. Verkehr zum und vom Flughafen: {6}.\nPassagierabfertigung im Terminal: {7}. Informationen für Reisende: {8}; Betreuung: {9}.\nBeteiligte Partner: {10}. Wichtigste Abwägung: {11}; Aussicht auf Wiederherstellung: {12}.",
@@ -4299,7 +5031,13 @@
           "opvang.opvang",
           "partners.regionaal",
           "keuze.reizigers",
-          "herstel.onbekend"
+          "herstel.onbekend",
+          "airport-flights.1",
+          "airport-shelter.2",
+          "airport-transport.2",
+          "airport-command.2",
+          "airport-info.1",
+          "airport-recovery.2"
         ]
       }
     },

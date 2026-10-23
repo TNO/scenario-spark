@@ -1783,6 +1783,71 @@ td.matrix-cell {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
 }
 
+.home-start-options {
+  padding: 1.5rem 0 0.5rem;
+  border-bottom: 1px solid var(--mm-border-color);
+}
+
+.home-start-options h2 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.home-option-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.home-option-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--mm-border-color);
+  border-radius: 0.75rem;
+  background: var(--mm-surface-color);
+}
+
+.home-option-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.home-option-card p {
+  margin: 0;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+.home-option-icon {
+  color: var(--mm-primary-color);
+}
+
+.home-option-status {
+  font-weight: 600;
+}
+
+.home-option-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: auto;
+}
+
+.home-option-buttons .home-option-action {
+  margin-top: 0;
+}
+
+.home-option-card .home-option-action {
+  margin-top: auto;
+  padding-inline: 0.375rem;
+}
+
 .home-saved-scenarios {
   padding: 1.5rem 0 2rem;
 }
@@ -2335,6 +2400,47 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
 }
 .decision-tabs {
   position: relative;
+}
+.decision-help {
+  margin: 0.5rem 0.75rem 1rem;
+}
+.decision-help summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--mm-primary-color);
+}
+.decision-help ol {
+  margin: 0.5rem 0 0;
+  padding-left: 1.5rem;
+  line-height: 1.5;
+}
+.decision-help li {
+  list-style: decimal;
+}
+.decision-support-banner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.5rem 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--mm-border-color);
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--mm-primary-color) 7%, var(--mm-surface-color));
+}
+.decision-support-banner > span {
+  flex: 1 1 20rem;
+}
+.persona-clipboard-hint {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+.persona-clipboard-hint p {
+  flex: 1 1 24rem;
+  margin: 0;
+  opacity: 0.8;
 }
 .decision-tabs > .decision-export {
   position: absolute;
@@ -3055,4 +3161,42 @@ table.decision-matrix thead th.active-coa,
 .markdown-field-editor .table-menu-item:hover,
 .markdown-field-editor .table-menu-item:focus {
   background-color: color-mix(in srgb, var(--mm-primary-color) 15%, var(--mm-surface-color));
+}
+
+/* Select triggers are readonly text inputs: only show the focus ring for keyboard users. */
+body:not(.keyboard-focused) .select-wrapper input.select-dropdown:focus {
+  outline-style: none;
+}
+
+/* Longer instruction toasts (e.g. "prompt copied, paste it into...") need to be readable. */
+#toast-container .toast.toast-instruction {
+  max-width: 34rem;
+  padding: 14px 20px;
+  background-color: #1f2328;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.55;
+  border-left: 4px solid var(--mm-primary-color, #26a69a);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+#toast-container .toast.toast-instruction {
+  gap: 12px;
+  padding-right: 8px;
+}
+
+#toast-container .toast.toast-instruction .toast-action {
+  flex: none;
+  align-self: flex-start;
+  width: 36px;
+  color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+}
+
+#toast-container .toast.toast-instruction .toast-action:hover,
+#toast-container .toast.toast-instruction .toast-action:focus-visible {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.12);
 }

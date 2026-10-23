@@ -7,7 +7,7 @@ const require = createRequire(import.meta.url);
 const esbuild = createRequire(require.resolve('vite/package.json'))('esbuild');
 const materialized = require('mithril-materialized');
 
-const loadHomePage = (saveModel, locale, onStarterLanguage, onToast = () => {}, failStarter = false, onNavigate = () => {}) => {
+const loadHomePage = (saveModel, locale, onStarterLanguage, onToast = () => {}, failStarter = false, onNavigate = () => {}, starterKit = { scenario: { id: 'starter-nl-none', label: '' }, scenarios: [] }) => {
   const source = readFileSync(new URL('../src/components/home-page.ts', import.meta.url), 'utf8');
   const code = esbuild.transformSync(source, { loader: 'ts', format: 'cjs', target: 'es2022' }).code;
   const mithril = require('mithril');
@@ -22,6 +22,7 @@ const loadHomePage = (saveModel, locale, onStarterLanguage, onToast = () => {}, 
       i18n: { currentLocale: locale },
       routingSvc: { switchTo: () => {}, href: (page) => `/${page}` },
       saveModel,
+      selectScenarioFromCollection: async (_cell, id) => { globalThis.__selectedBoxes?.push(id); },
       setPage: () => {},
       changePage: (_attrs, page) => onNavigate(page),
     },
@@ -40,10 +41,15 @@ const loadHomePage = (saveModel, locale, onStarterLanguage, onToast = () => {}, 
     },
     '../models/starter-kit': {
       addStarterKitToModel: (model) => ({ model, added: 0, updated: 0, conflicts: [] }),
+      addStarterBoxToModel: (model, starter, boxId) => ({
+        ...model,
+        scenarios: [...model.scenarios, [starter.scenario, ...starter.scenarios].find(({ id }) => id === boxId)],
+      }),
+      isStarterBoxId: (id) => id.startsWith('starter-nl-'),
       starterKitHasUpdates: () => true,
       loadStarterKit: async () => {
         if (failStarter) throw new Error('Kit unavailable');
-        return {};
+        return starterKit;
       },
     },
     '../utils': {
@@ -280,4 +286,44 @@ test('an empty box leads to the box editor instead of scenario creation', () => 
   primary.attrs.onclick();
   assert.equal(destination, 'define');
   assert.ok(find(screen, (node) => node.tag === 'img' && node.attrs?.className === 'home-hero-image'));
+});
+
+test('the box selector groups own boxes and always offers every starter box', async () => {
+  const saves = [];
+  const selected = [];
+  const starterKit = {
+    scenario: { id: 'starter-nl-b', label: 'Bravo' },
+    scenarios: [{ id: 'starter-nl-a', label: 'Alpha' }],
+  };
+  const page = loadHomePage(async (_cell, model) => { saves.push(model); }, 'nl', () => {}, () => {}, false, () => {}, starterKit);
+  const model = {
+    scenario: { id: 'own-z', label: 'Zulu', components: [], categories: [], narratives: [] },
+    scenarios: [
+      { id: 'starter-nl-b', label: 'Bravo (edited)' },
+      { id: 'own-y', label: 'Yankee' },
+    ],
+  };
+  const attrs = { state: { model, language: 'nl' }, getState: () => ({ model }) };
+  page.view({ attrs });
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  const select = find(page.view({ attrs }), (node) => node.tag === materialized.Select);
+  assert.deepEqual(
+    select.attrs.options.map(({ id, label, group }) => [id, label, group]),
+    [
+      ['own-y', 'Yankee', 'SELECT_GROUP_OWN'],
+      ['own-z', 'Zulu', 'SELECT_GROUP_OWN'],
+      ['starter-nl-a', 'Alpha', 'SELECT_GROUP_STARTER'],
+      ['starter-nl-b', 'Bravo (edited)', 'SELECT_GROUP_STARTER'],
+    ]
+  );
+
+  // Selecting a kit box that is not in the collection adds it first.
+  globalThis.__selectedBoxes = selected;
+  await select.attrs.onchange(['starter-nl-a']);
+  assert.equal(saves.length, 1);
+  assert.deepEqual(saves[0].scenarios.map(({ id }) => id), ['starter-nl-b', 'own-y', 'starter-nl-a']);
+  await select.attrs.onchange(['own-y']);
+  assert.equal(saves.length, 1);
+  assert.deepEqual(selected, ['starter-nl-a', 'own-y']);
+  delete globalThis.__selectedBoxes;
 });
