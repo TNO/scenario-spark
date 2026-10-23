@@ -3,6 +3,7 @@ import { ModalPanel } from 'mithril-materialized';
 import { Dashboards } from '../../models';
 import { MeiosisComponent, saveModel, t } from '../../services';
 import { answerDecisionSupportPrompt, shouldPromptDecisionSupport } from '../../utils/decision';
+import { ensureDefaultLLMConfig } from './llm';
 
 /** Asks once per scenario whether to turn on decision support when the box has decision categories. */
 export const DecisionSupportPrompt: MeiosisComponent = () => {
@@ -11,6 +12,8 @@ export const DecisionSupportPrompt: MeiosisComponent = () => {
     if (!model?.scenario) return;
     if (!enable && model.scenario.decisionSupportPrompted) return;
     answerDecisionSupportPrompt(model.scenario, enable);
+    // Adds the decision-reflection prompt used by Ask LLM
+    if (enable) ensureDefaultLLMConfig(model.scenario, model.scenario.categories || []);
     await saveModel(attrs, model);
   };
   return {

@@ -39,3 +39,37 @@ test('answering the prompt remembers it and optionally turns decision support on
   assert.equal(now.decisionSupportPrompted, true);
   assert.equal(now.includeDecisionSupport, true);
 });
+
+test('turning decision support on from the prompt adds the decision-reflection LLM prompt', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { createRequire } = await import('node:module');
+  const require = createRequire(import.meta.url);
+  const esbuild = createRequire(require.resolve('vite/package.json'))('esbuild');
+  const source = readFileSync(new URL('../src/components/ui/decision-support-prompt.ts', import.meta.url), 'utf8');
+  const code = esbuild.transformSync(source, { loader: 'ts', format: 'cjs', target: 'es2022' }).code;
+  let ensured;
+  let saved = false;
+  let buttons = [];
+  const mocks = {
+    mithril: (_tag, attrs) => {
+      if (attrs?.buttons) buttons = attrs.buttons;
+      return attrs;
+    },
+    'mithril-materialized': { ModalPanel: {} },
+    '../../models': { Dashboards: { HOME: 'home' } },
+    '../../services': { t: (key) => key, saveModel: async () => (saved = true) },
+    '../../utils/decision': { answerDecisionSupportPrompt, shouldPromptDecisionSupport },
+    './llm': { ensureDefaultLLMConfig: (scenario, categories) => (ensured = { scenario, categories }) },
+  };
+  const module = { exports: {} };
+  new Function('require', 'module', 'exports', code)((name) => mocks[name] || require(name), module, module.exports);
+  const scenario = makeScenario();
+  const state = { model: { scenario }, modelReady: true, page: 'create' };
+  const attrs = { state, getState: () => state };
+  module.exports.DecisionSupportPrompt().view({ attrs });
+  await buttons[1].onclick();
+  assert.equal(scenario.includeDecisionSupport, true);
+  assert.equal(ensured.scenario, scenario);
+  assert.equal(ensured.categories, scenario.categories);
+  assert.equal(saved, true);
+});

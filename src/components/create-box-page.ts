@@ -51,7 +51,7 @@ import {
   toDarkThemeColor,
   validateNarrative,
 } from "../utils";
-import { LegendComponent, MapView } from "./ui";
+import { ensureDefaultLLMConfig, LegendComponent, MapView } from "./ui";
 import { MeiosisCell } from "meiosis-setup/types";
 
 const BoxItem: MeiosisComponent<{
@@ -905,6 +905,7 @@ export const CreateBoxPage: MeiosisComponent = () => {
                           e.preventDefault();
                           const { model } = attrs.state;
                           answerDecisionSupportPrompt(model.scenario, true);
+                          ensureDefaultLLMConfig(model.scenario, model.scenario.categories || []);
                           saveModel(attrs, model);
                         },
                       },
