@@ -60,6 +60,7 @@ import { listInconsistencies } from 'morphological-box';
 import { ScenarioParagraph } from './ui/scenario-paragraph';
 import { MarkdownField } from './ui/markdown-field';
 import { ExportWordModal } from './ui/export-word';
+import { CombinedPromptModal } from './ui/combined-prompt-modal';
 import {
   CircularSpinner,
   ensureDefaultLLMConfig,
@@ -264,6 +265,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
   let coaNameDraft = '';
   let wordModalOpen = false;
   let deleteModalOpen = false;
+  let combinedModalOpen = false;
 
   /** Chips per course of action, with add, duplicate, rename, delete and conflict warnings */
   const coaBar = (
@@ -594,6 +596,24 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   curNarrative.desc = story;
                 }
                 m.redraw();
+              },
+            }),
+            m(FlatButton, {
+              label: t('COMBINED_PROMPT'),
+              title: t('COMBINED_PROMPT_TITLE'),
+              iconName: 'data_object',
+              style: 'margin-left: 10px;',
+              onclick: () => {
+                combinedModalOpen = true;
+              },
+            }),
+            m(CombinedPromptModal, {
+              cell: attrs,
+              narrative: curNarrative,
+              personas: curPersonas,
+              isOpen: combinedModalOpen,
+              onToggle: (open) => {
+                combinedModalOpen = open;
               },
             }),
             // m(FlatButton, {

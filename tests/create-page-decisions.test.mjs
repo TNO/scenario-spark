@@ -44,6 +44,7 @@ const load = (ui = {}) => {
     './ui/scenario-paragraph': { ScenarioParagraph: () => {} },
     './ui/markdown-field': { MarkdownField },
     './ui/export-word': { ExportWordModal: () => ({ view: () => null }) },
+    './ui/combined-prompt-modal': { CombinedPromptModal: () => ({ view: () => null }) },
   };
   new Function('require', 'module', 'exports', code)((name) => mocks[name] || require(name), module, module.exports);
   return module.exports;
