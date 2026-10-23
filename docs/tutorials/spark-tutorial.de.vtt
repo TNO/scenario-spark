@@ -1,0 +1,201 @@
+WEBVTT
+
+1
+00:00:00.253 --> 00:00:05.550
+Sicherheitsbehörden, Planer und Trainer stehen alle vor derselben Frage:
+
+2
+00:00:05.600 --> 00:00:09.337
+Auf welche Situationen sollten wir uns vorbereiten?
+
+3
+00:00:09.387 --> 00:00:18.471
+Scenario Spark hilft Ihnen, plausible Szenarien für Übungen, Einsatzvorbereitung und politische Entscheidungen zu erkunden.
+
+4
+00:00:19.122 --> 00:00:23.773
+Es nutzt die morphologische Analyse, auch Zwicky-Box genannt.
+
+5
+00:00:23.823 --> 00:00:31.481
+Sie listen die wichtigsten Faktoren einer Situation auf, jeweils mit einigen möglichen Ausprägungen.
+
+6
+00:00:31.531 --> 00:00:39.496
+Ein Szenario wählt eine Ausprägung pro Faktor, und widersprüchliche Kombinationen werden ausgeschlossen.
+
+7
+00:00:40.148 --> 00:00:45.594
+In diesem Tutorial arbeiten Scenario Spark und ein KI-Assistent zusammen.
+
+8
+00:00:45.644 --> 00:00:50.639
+Mit einem einzigen Prompt erhalten Sie einen Titel, eine Erzählung,
+
+9
+00:00:50.689 --> 00:00:56.060
+eine Reflexion zu jeder Handlungsoption und Rückmeldungen jeder Persona.
+
+10
+00:00:56.711 --> 00:01:02.148
+Wir beginnen mit dem Starterkit und wählen den Szenariotyp Event safety.
+
+11
+00:01:03.075 --> 00:01:05.119
+Öffnen Sie Create scenario.
+
+12
+00:01:05.169 --> 00:01:11.711
+Diese Box enthält Maßnahmen, deshalb schalten wir die Entscheidungsunterstützung ein.
+
+13
+00:01:12.362 --> 00:01:14.301
+Klicken Sie auf Generate.
+
+14
+00:01:14.351 --> 00:01:20.905
+Spark wählt für jeden Faktor eine stimmige Option und fasst die Situation zusammen.
+
+15
+00:01:21.557 --> 00:01:25.095
+Schätzen Sie das Risiko ein, wenn niemand handelt:
+
+16
+00:01:25.145 --> 00:01:29.113
+eine mittlere Wahrscheinlichkeit mit hohen Auswirkungen.
+
+17
+00:01:29.764 --> 00:01:36.544
+Wählen Sie dann die Maßnahmen für Handlungsoption A und schätzen Sie das verbleibende Risiko ein.
+
+18
+00:01:52.689 --> 00:01:58.106
+Duplizieren Sie sie als Handlungsoption B und ändern Sie einige Maßnahmen:
+
+19
+00:01:58.156 --> 00:02:04.903
+eine Verletztensammelstelle, ein gemeinsames Koordinationsteam und eine gestaffelte Abreise.
+
+20
+00:02:08.589 --> 00:02:10.884
+Klicken Sie jetzt auf Ask LLM.
+
+21
+00:02:10.934 --> 00:02:16.433
+Spark erstellt einen kombinierten Prompt, der alles auf einmal abfragt,
+
+22
+00:02:16.483 --> 00:02:20.028
+und kopiert ihn sofort in Ihre Zwischenablage.
+
+23
+00:02:20.681 --> 00:02:28.290
+So können Sie ihn direkt in Ihren KI-Assistenten einfügen, zum Beispiel Copilot in Microsoft Edge.
+
+24
+00:02:28.943 --> 00:02:33.615
+Der Assistent antwortet mit einem einzigen JSON-Block.
+
+25
+00:02:33.665 --> 00:02:35.801
+Kopieren Sie die Antwort.
+
+26
+00:02:38.575 --> 00:02:41.478
+Fügen Sie das JSON in den Dialog ein.
+
+27
+00:02:41.528 --> 00:02:45.549
+Spark prüft es und zeigt eine Vorschau jedes Teils.
+
+28
+00:02:45.599 --> 00:02:50.896
+Entfernen Sie den Haken bei allem, was Sie nicht verwenden möchten.
+
+29
+00:02:51.547 --> 00:02:53.296
+Klicken Sie auf Apply.
+
+30
+00:02:53.346 --> 00:02:58.446
+Die Erzählung wird unter dem vorgeschlagenen Titel gespeichert.
+
+31
+00:02:59.097 --> 00:03:01.244
+Prüfen Sie das Ergebnis.
+
+32
+00:03:01.294 --> 00:03:05.364
+Die Erzählung bleibt vollständig bearbeitbar.
+
+33
+00:03:06.016 --> 00:03:10.612
+Jede Handlungsoption hat jetzt ihre eigene Reflexion.
+
+34
+00:03:13.058 --> 00:03:17.798
+Und jede Persona beschreibt, wie sie die Situation erlebt.
+
+35
+00:03:18.739 --> 00:03:25.546
+Setzen Sie den Haken bei Select for analysis, um es Ihren gespeicherten Szenarien hinzuzufügen.
+
+36
+00:03:25.596 --> 00:03:30.454
+Dann zählt es auch in der Box und in der Entscheidungsunterstützung.
+
+37
+00:03:31.105 --> 00:03:36.257
+In der morphologischen Box hat jede Kategorie einen eigenen Reiter.
+
+38
+00:03:36.307 --> 00:03:42.003
+Farbige Optionen zeigen, wie oft sie in gespeicherten Szenarien vorkommen.
+
+39
+00:03:42.694 --> 00:03:48.434
+Die Seite zur Entscheidungsunterstützung stellt die Handlungsoptionen nebeneinander.
+
+40
+00:03:49.085 --> 00:03:57.127
+Vergleichen Sie ihre Maßnahmen und sehen Sie in der Risikomatrix, wie jede Handlungsoption das Risiko senkt.
+
+41
+00:03:58.978 --> 00:04:04.981
+Halten Sie zum Schluss Ihre Entscheidung und deren Begründung im Entscheidungsprotokoll fest.
+
+42
+00:04:14.064 --> 00:04:21.923
+Zurück auf der Startseite ist das gespeicherte Szenario bereit zum Ansehen, Vergleichen oder Exportieren.
+
+43
+00:04:22.721 --> 00:04:26.120
+Möchten Sie nur einen Teil neu erstellen lassen?
+
+44
+00:04:26.170 --> 00:04:30.358
+Schalten Sie Prompt per field in den LLM-Einstellungen ein.
+
+45
+00:04:30.408 --> 00:04:36.465
+Neben dem All-in-one-Prompt erhalten Sie dann einen eigenen Prompt für die Erzählung,
+
+46
+00:04:36.515 --> 00:04:38.764
+jede Reflexion und jede Persona.
+
+47
+00:04:39.415 --> 00:04:40.168
+Das war's:
+
+48
+00:04:40.218 --> 00:04:46.106
+von der morphologischen Box zum vollständigen Szenario in wenigen Minuten.
+
+49
+00:04:46.156 --> 00:04:48.835
+Probieren Sie es jetzt selbst aus.
+
+50
+00:04:48.885 --> 00:04:54.131
+Scenario Spark läuft in Ihrem Browser, und der Link steht im Bild.

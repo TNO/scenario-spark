@@ -1,0 +1,201 @@
+WEBVTT
+
+1
+00:00:00.253 --> 00:00:04.892
+Safety regions, planners and trainers all face the same question:
+
+2
+00:00:04.942 --> 00:00:07.705
+which situations should we prepare for?
+
+3
+00:00:07.755 --> 00:00:15.639
+Scenario Spark helps you explore plausible scenarios for exercises, incident preparation and policy decisions.
+
+4
+00:00:19.122 --> 00:00:23.476
+It uses morphological analysis, also known as the Zwicky box.
+
+5
+00:00:23.526 --> 00:00:28.747
+You list the key factors of a situation, each with a few possible values.
+
+6
+00:00:28.797 --> 00:00:34.668
+A scenario picks one value per factor, and inconsistent combinations are left out.
+
+7
+00:00:40.148 --> 00:00:45.235
+In this tutorial, Scenario Spark and an AI assistant work together.
+
+8
+00:00:45.285 --> 00:00:49.145
+With a single prompt, you get a title, a narrative,
+
+9
+00:00:49.195 --> 00:00:54.665
+a reflection on every course of action, and feedback from every persona.
+
+10
+00:00:56.711 --> 00:01:01.122
+We start from the starter kit, and choose the scenario type Event safety.
+
+11
+00:01:03.075 --> 00:01:04.601
+Open Create scenario.
+
+12
+00:01:04.651 --> 00:01:09.028
+This box contains measures, so we turn on decision support.
+
+13
+00:01:12.362 --> 00:01:13.436
+Click Generate.
+
+14
+00:01:13.486 --> 00:01:19.353
+Spark picks a consistent option for every factor, and summarises the situation.
+
+15
+00:01:21.557 --> 00:01:24.124
+Estimate the risk if nobody acts:
+
+16
+00:01:24.174 --> 00:01:27.376
+a medium probability, with a high impact.
+
+17
+00:01:29.764 --> 00:01:36.135
+Next, choose the measures for course of action A, and estimate the risk that remains.
+
+18
+00:01:52.689 --> 00:01:57.047
+Duplicate it as course of action B, and change a few measures:
+
+19
+00:01:57.097 --> 00:02:02.522
+a casualty collection point, a joint coordination team, and phased departure.
+
+20
+00:02:08.589 --> 00:02:09.878
+Now click Ask LLM.
+
+21
+00:02:09.928 --> 00:02:14.789
+Spark builds one combined prompt that asks for everything at once,
+
+22
+00:02:14.839 --> 00:02:18.211
+and copies it to your clipboard straight away.
+
+23
+00:02:20.681 --> 00:02:26.395
+So you can paste it directly into your AI assistant, for example Copilot in Microsoft Edge.
+
+24
+00:02:28.943 --> 00:02:32.447
+The assistant answers with a single JSON block.
+
+25
+00:02:32.497 --> 00:02:33.657
+Copy the answer.
+
+26
+00:02:38.575 --> 00:02:40.820
+Paste the JSON into the dialog.
+
+27
+00:02:40.870 --> 00:02:44.596
+Spark checks it, and shows a preview of every part.
+
+28
+00:02:44.646 --> 00:02:47.409
+Untick anything you don't want to use.
+
+29
+00:02:51.547 --> 00:02:52.370
+Click Apply.
+
+30
+00:02:52.420 --> 00:02:55.934
+The narrative is saved under the suggested title.
+
+31
+00:02:59.097 --> 00:03:00.434
+Review the result.
+
+32
+00:03:00.484 --> 00:03:03.285
+The narrative remains fully editable.
+
+33
+00:03:06.016 --> 00:03:09.282
+Each course of action now has its own reflection.
+
+34
+00:03:13.058 --> 00:03:17.232
+And every persona describes how they experience the situation.
+
+35
+00:03:18.739 --> 00:03:22.653
+Tick Select for analysis to add it to your saved scenarios.
+
+36
+00:03:22.703 --> 00:03:26.282
+Now it also counts in the box and in decision support.
+
+37
+00:03:31.105 --> 00:03:34.965
+In the morphological box, each category has its own tab.
+
+38
+00:03:35.015 --> 00:03:39.504
+Coloured options show how often they are used in saved scenarios.
+
+39
+00:03:42.694 --> 00:03:46.921
+The decision support page puts the courses of action side by side.
+
+40
+00:03:49.085 --> 00:03:55.233
+Compare their measures, and see how each course of action lowers the risk in the risk matrix.
+
+41
+00:03:58.978 --> 00:04:03.560
+Finally, record your decision and its rationale in the decision log.
+
+42
+00:04:14.064 --> 00:04:20.239
+Back on the home page, the saved scenario is ready to view, compare, or export.
+
+43
+00:04:22.721 --> 00:04:24.489
+Want to redo just one part?
+
+44
+00:04:24.539 --> 00:04:27.518
+Turn on Prompt per field in the LLM settings.
+
+45
+00:04:27.568 --> 00:04:32.903
+Next to the all-in-one prompt, you then get a separate prompt for the narrative,
+
+46
+00:04:32.953 --> 00:04:35.192
+each reflection, and each persona.
+
+47
+00:04:39.415 --> 00:04:40.081
+That's it:
+
+48
+00:04:40.131 --> 00:04:44.593
+from morphological box to a complete scenario in a few minutes.
+
+49
+00:04:44.643 --> 00:04:46.026
+Now try it yourself.
+
+50
+00:04:46.076 --> 00:04:50.538
+Scenario Spark runs in your browser, and the link is on screen.
