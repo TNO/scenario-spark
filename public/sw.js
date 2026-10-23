@@ -64,6 +64,8 @@ self.addEventListener('fetch', (event) => {
   }
 
   const url = new URL(event.request.url);
+  // Tutorial videos are large and streamed with range requests: never cache them.
+  if (url.origin === self.location.origin && url.pathname.includes('/tutorials/')) return;
   const isHashedAsset = url.origin === self.location.origin && /-[\w-]{8}\.[a-z0-9]+$/i.test(url.pathname);
 
   const fetchAndCache = () =>

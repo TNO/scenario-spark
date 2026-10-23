@@ -3200,3 +3200,16 @@ body:not(.keyboard-focused) .select-wrapper input.select-dropdown:focus {
   color: #fff;
   background-color: rgba(255, 255, 255, 0.12);
 }
+
+#tutorial-modal.modal {
+  width: min(96vw, 1100px);
+  max-height: calc(100dvh - 2rem);
+}
+
+.tutorial-video {
+  display: block;
+  width: 100%;
+  max-height: calc(100dvh - 14rem);
+  background: #000;
+  border-radius: 4px;
+}

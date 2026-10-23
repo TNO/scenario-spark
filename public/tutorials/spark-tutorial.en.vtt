@@ -1,0 +1,165 @@
+WEBVTT
+
+1
+00:00:00.100 --> 00:00:05.033
+In this tutorial, Scenario Spark and an AI assistant work together.
+
+2
+00:00:05.083 --> 00:00:09.562
+With a single prompt, you get a title, a narrative,
+
+3
+00:00:09.612 --> 00:00:14.998
+a reflection on every course of action, and feedback from every persona.
+
+4
+00:00:15.349 --> 00:00:21.553
+We start from the starter kit, and choose the scenario type Event safety.
+
+5
+00:00:21.903 --> 00:00:23.296
+Open Create scenario.
+
+6
+00:00:23.346 --> 00:00:28.106
+This box contains measures, so we turn on decision support.
+
+7
+00:00:28.456 --> 00:00:29.361
+Click Generate.
+
+8
+00:00:29.411 --> 00:00:35.093
+Spark picks a consistent option for every factor, and summarises the situation.
+
+9
+00:00:35.443 --> 00:00:38.279
+Estimate the risk if nobody acts:
+
+10
+00:00:38.329 --> 00:00:41.647
+a medium probability, with a high impact.
+
+11
+00:00:41.997 --> 00:01:02.981
+Next, choose the measures for course of action A, and estimate the risk that remains.
+
+12
+00:01:03.331 --> 00:01:11.635
+Duplicate it as course of action B, and change a few measures:
+
+13
+00:01:11.685 --> 00:01:19.292
+a casualty collection point, a joint coordination team, and phased departure.
+
+14
+00:01:19.642 --> 00:01:21.532
+Now click Ask LLM.
+
+15
+00:01:21.582 --> 00:01:25.411
+One combined prompt asks for everything at once.
+
+16
+00:01:25.761 --> 00:01:33.267
+Copy the prompt, and paste it into your AI assistant, for example Copilot in Microsoft Edge.
+
+17
+00:01:33.620 --> 00:01:40.321
+The assistant answers with a single JSON block.
+
+18
+00:01:40.371 --> 00:01:42.852
+Copy the answer.
+
+19
+00:01:43.202 --> 00:01:45.917
+Paste the JSON into the dialog.
+
+20
+00:01:45.967 --> 00:01:50.527
+Spark checks it, and shows a preview of every part.
+
+21
+00:01:50.577 --> 00:01:53.753
+Untick anything you don't want to use.
+
+22
+00:01:54.103 --> 00:01:55.043
+Click Apply.
+
+23
+00:01:55.093 --> 00:01:59.001
+The narrative is saved under the suggested title.
+
+24
+00:01:59.351 --> 00:02:01.250
+Review the result.
+
+25
+00:02:01.300 --> 00:02:04.499
+The narrative remains fully editable.
+
+26
+00:02:04.849 --> 00:02:11.239
+Each course of action now has its own reflection.
+
+27
+00:02:11.589 --> 00:02:16.053
+And every persona describes how they experience the situation.
+
+28
+00:02:16.403 --> 00:02:21.436
+Tick Select for analysis to add it to your saved scenarios.
+
+29
+00:02:21.486 --> 00:02:26.519
+Now it also counts in the box and in decision support.
+
+30
+00:02:26.869 --> 00:02:31.972
+In the morphological box, each category has its own tab.
+
+31
+00:02:32.022 --> 00:02:37.640
+Coloured options show how often they are used in saved scenarios.
+
+32
+00:02:37.990 --> 00:02:43.759
+The decision support page puts the courses of action side by side.
+
+33
+00:02:44.109 --> 00:02:53.180
+Compare their measures, and see how each course of action lowers the risk in the risk matrix.
+
+34
+00:02:53.530 --> 00:03:02.600
+Finally, record your decision and its rationale in the decision log.
+
+35
+00:03:02.950 --> 00:03:10.023
+Back on the home page, the saved scenario is ready to view, compare, or export.
+
+36
+00:03:10.373 --> 00:03:13.038
+Want to redo just one part?
+
+37
+00:03:13.088 --> 00:03:17.110
+Turn on Prompt per field in the LLM settings.
+
+38
+00:03:17.160 --> 00:03:23.445
+Next to the all-in-one prompt, you then get a separate prompt for the narrative,
+
+39
+00:03:23.496 --> 00:03:25.708
+each reflection, and each persona.
+
+40
+00:03:26.058 --> 00:03:26.970
+That's it:
+
+41
+00:03:27.020 --> 00:03:32.261
+from morphological box to a complete scenario in a few minutes.
