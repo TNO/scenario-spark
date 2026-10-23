@@ -1,6 +1,12 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { addStarterKitToModel, createScenario, loadStarterKit } from '../src/models/starter-kit.ts';
+import {
+  addStarterBoxToModel,
+  addStarterKitToModel,
+  createScenario,
+  loadStarterKit,
+  withRandomFirstBox,
+} from '../src/models/starter-kit.ts';
 import { parseImportedModel } from '../src/utils/import-model.ts';
 import { assessOptions, createRandom, generateCombination } from 'morphological-box';
 
@@ -303,4 +309,25 @@ test('the loader maps decision categories and makes their components manual', ()
   assert.equal(scenario.includeDecisionSupport, false);
   assert.deepEqual(scenario.categories.map((c) => !!c.decisionSupport), [false, true]);
   assert.deepEqual(scenario.components.map((c) => !!c.manual), [false, true]);
+});
+
+test('new users start with a random starter box and keep the whole kit', async () => {
+  const model = await createStarterKitNl([]);
+  const ids = scenarios(model).map(({ id }) => id);
+  const last = withRandomFirstBox(model, () => 0.999);
+  assert.equal(last.scenario.id, ids[ids.length - 1]);
+  assert.deepEqual(scenarios(last).map(({ id }) => id).sort(), [...ids].sort());
+  assert.equal(withRandomFirstBox(model, () => 0).scenario.id, ids[0]);
+});
+
+test('a single starter box can be added with the personas it uses', async () => {
+  const starter = await createStarterKitNl([]);
+  const [first, second] = scenarios(starter);
+  const model = { ...starter, scenario: first, scenarios: [], personas: [] };
+  const added = addStarterBoxToModel(model, starter, second.id);
+  assert.deepEqual(added.scenarios.map(({ id }) => id), [second.id]);
+  assert.notEqual(added.scenarios[0], second);
+  assert.deepEqual(added.personas.map(({ id }) => id).sort(), [...second.personas].sort());
+  assert.equal(addStarterBoxToModel(added, starter, second.id), added);
+  assert.equal(addStarterBoxToModel(model, starter, 'unknown'), model);
 });

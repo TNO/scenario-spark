@@ -105,6 +105,8 @@ export const messages: typeof messagesEN = {
   NARRATIVE_INCLUDED: "Geselecteerd voor analyse",
   SELECT_NARRATIVE: 'Selecteer scenario',
   SELECT_SCENARIO: "Type scenario",
+  SELECT_GROUP_OWN: "Mijn scenariotypes",
+  SELECT_GROUP_STARTER: "Starterkit",
   KEY: 'Sleutel',
   VALUE: 'Waarde',
   MODEL: 'Model',

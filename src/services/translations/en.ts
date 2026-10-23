@@ -103,6 +103,8 @@ export const messages = {
   NARRATIVE_INCLUDED: "Selected for analysis",
   SELECT_NARRATIVE: 'Select scenario',
   SELECT_SCENARIO: "Scenario type",
+  SELECT_GROUP_OWN: "My scenario types",
+  SELECT_GROUP_STARTER: "Starter kit",
   KEY: 'Key',
   VALUE: 'Value',
   MODEL: 'Model',

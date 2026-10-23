@@ -34,7 +34,14 @@ import {
   newScenario,
   thresholdColors,
 } from '../models';
-import { StarterKitConflict, addStarterKitToModel, loadStarterKit, starterKitHasUpdates } from '../models/starter-kit';
+import {
+  StarterKitConflict,
+  addStarterBoxToModel,
+  addStarterKitToModel,
+  isStarterBoxId,
+  loadStarterKit,
+  starterKitHasUpdates,
+} from '../models/starter-kit';
 import {
   SAVED,
   capitalize,
@@ -175,12 +182,19 @@ export const HomePage: MeiosisComponent = () => {
   const starterOverwrite = new Set<string>();
   // Show the starter-kit button only when the kit for the current language has something new.
   let starterCheck = { key: '', hasUpdates: false };
+  // The kit of the current language, so its boxes can always be offered in the box selector.
+  let starterKit: { locale: string; model: DataModel } | undefined;
   const checkStarterKit = (model: DataModel) => {
     const key = `${i18n.currentLocale}|${model.lastUpdate}|${model.scenarios?.length}|${model.personas?.length}`;
     if (starterCheck.key === key) return;
     starterCheck.key = key;
-    loadStarterKit(i18n.currentLocale, thresholdColors)
+    const locale = i18n.currentLocale;
+    loadStarterKit(locale, thresholdColors)
       .then((starter) => {
+        if (starterKit?.locale !== locale) {
+          starterKit = { locale, model: starter };
+          m.redraw();
+        }
         if (starterCheck.key !== key) return;
         starterCheck.hasUpdates = starterKitHasUpdates(model, starter);
         m.redraw();
@@ -192,6 +206,22 @@ export const HomePage: MeiosisComponent = () => {
         starterCheck.hasUpdates = true;
         m.redraw();
       });
+  };
+
+  /** Own boxes first, then every box of the starter kit, also those not (or no longer) in the collection. */
+  const boxOptions = (model: DataModel) => {
+    const boxes = [model.scenario, ...(model.scenarios || [])];
+    const byLabel = (a: { label: string }, b: { label: string }) => a.label.localeCompare(b.label);
+    const own = boxes.filter((box) => !isStarterBoxId(box.id));
+    const starterIds = new Set(boxes.map(({ id }) => id));
+    const kitBoxes = starterKit && starterKit.locale === i18n.currentLocale
+      ? [starterKit.model.scenario, ...starterKit.model.scenarios].filter(({ id }) => !starterIds.has(id))
+      : [];
+    const starter = [...boxes.filter((box) => isStarterBoxId(box.id)), ...kitBoxes];
+    return [
+      ...own.sort(byLabel).map(({ id, label }) => ({ id, label, group: t('SELECT_GROUP_OWN') })),
+      ...starter.sort(byLabel).map(({ id, label }) => ({ id, label, group: t('SELECT_GROUP_STARTER') })),
+    ];
   };
 
   const applyStarterKit = async (attrs: Parameters<typeof saveModel>[0], starter: DataModel) => {
@@ -279,7 +309,7 @@ export const HomePage: MeiosisComponent = () => {
       checkStarterKit(model);
       const {
         scenarios = [],
-        scenario: { id, label, narratives = [], components, categories },
+        scenario: { id, narratives = [], components, categories },
       } = model;
 
       const savedNarratives = narratives.filter((n) => n.included);
@@ -314,11 +344,16 @@ export const HomePage: MeiosisComponent = () => {
                     key: id,
                     label: t('SELECT_SCENARIO'),
                     checkedId: id,
-                    options: [{ id, label }, ...scenarios],
+                    options: boxOptions(model),
                     onchange: async (ids) => {
                       narrativeFilter = '';
                       showComparison = false;
-                      await selectScenarioFromCollection(attrs, ids[0] as string);
+                      const boxId = ids[0] as string;
+                      const starter = starterKit?.model;
+                      if (starter && ![model.scenario, ...scenarios].some((box) => box.id === boxId)) {
+                        await saveModel(attrs, addStarterBoxToModel(model, starter, boxId));
+                      }
+                      await selectScenarioFromCollection(attrs, boxId);
                     },
                   })),
                 ]),
