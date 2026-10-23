@@ -590,7 +590,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   if (story && navigator.clipboard) {
                     navigator.clipboard.writeText(story);
                   }
-                  toast({ html: t('NARRATIVE_PROMPT_COPIED') });
+                  toast({ html: t('NARRATIVE_PROMPT_COPIED'), displayLength: 10000, className: 'toast-instruction' });
                   return;
                 }
                 if (story) {
@@ -1041,7 +1041,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                         );
                         if (llm?.id === 'clipboard') {
                           await navigator.clipboard.writeText(reflection);
-                          toast({ html: t('DECISION_PROMPT_COPIED') });
+                          toast({ html: t('DECISION_PROMPT_COPIED'), displayLength: 10000, className: 'toast-instruction' });
                         } else {
                           // The narrative may have been edited or switched meanwhile
                           const latest = attrs.getState().curNarrative;
@@ -1174,7 +1174,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                           );
                           if (llm?.id === 'clipboard') {
                             await navigator.clipboard.writeText(feedback);
-                            toast({ html: t('PERSONA_PROMPT_COPIED') });
+                            toast({ html: t('PERSONA_PROMPT_COPIED'), displayLength: 10000, className: 'toast-instruction' });
                           } else {
                             curNarrative.personaEffects ??= {};
                             curNarrative.personaEffects[p.id] ??= { scale: 0 };

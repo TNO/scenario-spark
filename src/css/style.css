@@ -3167,3 +3167,17 @@ table.decision-matrix thead th.active-coa,
 body:not(.keyboard-focused) .select-wrapper input.select-dropdown:focus {
   outline-style: none;
 }
+
+/* Longer instruction toasts (e.g. "prompt copied, paste it into...") need to be readable. */
+#toast-container .toast.toast-instruction {
+  max-width: 34rem;
+  padding: 14px 20px;
+  background-color: #1f2328;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.55;
+  border-left: 4px solid var(--mm-primary-color, #26a69a);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
