@@ -1,0 +1,213 @@
+WEBVTT
+
+1
+00:00:00.253 --> 00:00:05.733
+Servicios de emergencia, planificadores y formadores se enfrentan a la misma pregunta:
+
+2
+00:00:05.783 --> 00:00:08.433
+¿para qué situaciones debemos prepararnos?
+
+3
+00:00:08.483 --> 00:00:13.127
+Scenario Spark le ayuda a explorar escenarios plausibles para ejercicios,
+
+4
+00:00:13.177 --> 00:00:16.535
+preparación ante incidentes y decisiones de política.
+
+5
+00:00:19.122 --> 00:00:23.600
+Utiliza el análisis morfológico, también llamado caja de Zwicky.
+
+6
+00:00:23.650 --> 00:00:29.897
+Usted enumera los factores clave de una situación, cada uno con algunos valores posibles.
+
+7
+00:00:29.947 --> 00:00:35.982
+Un escenario elige un valor por factor, y las combinaciones incoherentes se descartan.
+
+8
+00:00:40.148 --> 00:00:44.957
+En este tutorial, Scenario Spark y un asistente de IA trabajan juntos.
+
+9
+00:00:45.007 --> 00:00:48.566
+Con un solo prompt obtiene un título, una narrativa,
+
+10
+00:00:48.616 --> 00:00:53.494
+una reflexión sobre cada línea de acción, y la opinión de cada persona.
+
+11
+00:00:56.711 --> 00:01:02.109
+Empezamos con el kit de inicio, y elegimos el tipo de escenario Event safety.
+
+12
+00:01:03.075 --> 00:01:04.778
+Abra Create scenario.
+
+13
+00:01:04.828 --> 00:01:10.539
+Esta caja contiene medidas, así que activamos el apoyo a la decisión.
+
+14
+00:01:12.362 --> 00:01:14.074
+Haga clic en Generate.
+
+15
+00:01:14.124 --> 00:01:19.919
+Spark elige una opción coherente para cada factor, y resume la situación.
+
+16
+00:01:21.557 --> 00:01:23.967
+Estime el riesgo si nadie actúa:
+
+17
+00:01:24.017 --> 00:01:27.349
+una probabilidad media, con un impacto alto.
+
+18
+00:01:29.764 --> 00:01:33.688
+A continuación, elija las medidas de la línea de acción A,
+
+19
+00:01:33.738 --> 00:01:35.675
+y estime el riesgo que queda.
+
+20
+00:01:52.689 --> 00:01:56.547
+Duplíquela como línea de acción B, y cambie algunas medidas:
+
+21
+00:01:56.597 --> 00:02:02.995
+un punto de concentración de víctimas, un equipo de coordinación conjunto, y una salida escalonada.
+
+22
+00:02:08.589 --> 00:02:10.592
+Ahora haga clic en Ask LLM.
+
+23
+00:02:10.642 --> 00:02:14.926
+Spark crea un prompt combinado que lo pide todo a la vez,
+
+24
+00:02:14.976 --> 00:02:18.119
+y lo copia de inmediato a su portapapeles.
+
+25
+00:02:20.681 --> 00:02:26.881
+Así puede pegarlo directamente en su asistente de IA, por ejemplo Copilot en Microsoft Edge.
+
+26
+00:02:28.943 --> 00:02:33.037
+El asistente responde con un único bloque JSON.
+
+27
+00:02:33.087 --> 00:02:34.712
+Copie la respuesta.
+
+28
+00:02:38.575 --> 00:02:40.776
+Pegue el JSON en el diálogo.
+
+29
+00:02:40.826 --> 00:02:45.679
+Spark lo comprueba, y muestra una vista previa de cada parte.
+
+30
+00:02:45.729 --> 00:02:48.251
+Desmarque lo que no quiera usar.
+
+31
+00:02:51.547 --> 00:02:53.179
+Haga clic en Apply.
+
+32
+00:02:53.229 --> 00:02:57.339
+La narrativa se guarda con el título propuesto.
+
+33
+00:02:59.097 --> 00:03:00.893
+Revise el resultado.
+
+34
+00:03:00.943 --> 00:03:05.140
+La narrativa sigue siendo totalmente editable.
+
+35
+00:03:06.016 --> 00:03:10.046
+Cada línea de acción tiene ahora su propia reflexión.
+
+36
+00:03:13.058 --> 00:03:16.667
+Y cada persona describe cómo vive la situación.
+
+37
+00:03:18.739 --> 00:03:23.546
+Marque Select for analysis para añadirlo a sus escenarios guardados.
+
+38
+00:03:23.596 --> 00:03:27.689
+Así también cuenta en la caja y en el apoyo a la decisión.
+
+39
+00:03:31.105 --> 00:03:35.347
+En la caja morfológica, cada categoría tiene su propia pestaña.
+
+40
+00:03:35.397 --> 00:03:41.411
+Las opciones coloreadas muestran con qué frecuencia aparecen en los escenarios guardados.
+
+41
+00:03:42.694 --> 00:03:47.947
+La página de apoyo a la decisión coloca las líneas de acción una junto a otra.
+
+42
+00:03:49.085 --> 00:03:55.207
+Compare sus medidas, y vea en la matriz de riesgos cómo cada línea de acción reduce el riesgo.
+
+43
+00:03:58.978 --> 00:04:04.599
+Por último, registre su decisión y su justificación en el registro de decisiones.
+
+44
+00:04:14.064 --> 00:04:16.176
+De vuelta en la página de inicio,
+
+45
+00:04:16.226 --> 00:04:20.304
+el escenario guardado está listo para ver, comparar o exportar.
+
+46
+00:04:22.721 --> 00:04:24.943
+¿Quiere rehacer solo una parte?
+
+47
+00:04:24.993 --> 00:04:28.387
+Active Prompt per field en los ajustes del LLM.
+
+48
+00:04:28.437 --> 00:04:34.396
+Además del prompt todo en uno, obtendrá un prompt independiente para la narrativa,
+
+49
+00:04:34.446 --> 00:04:36.595
+cada reflexión y cada persona.
+
+50
+00:04:39.415 --> 00:04:40.294
+Eso es todo:
+
+51
+00:04:40.344 --> 00:04:45.247
+de la caja morfológica a un escenario completo en pocos minutos.
+
+52
+00:04:45.297 --> 00:04:46.872
+Pruébelo usted mismo.
+
+53
+00:04:46.922 --> 00:04:52.289
+Scenario Spark funciona en su navegador, y el enlace está en pantalla.

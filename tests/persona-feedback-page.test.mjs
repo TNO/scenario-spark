@@ -35,7 +35,7 @@ const findAll = (node, predicate) => {
   ];
 };
 
-const setup = (provider, withSecondPersona = false, themePreference = 'auto') => {
+const setup = (provider, withSecondPersona = false, themePreference = 'auto', fieldPrompts = true) => {
   const persona = { id: 'resident', label: 'Resident', desc: 'Needs accessible updates' };
   const secondPersona = { id: 'visitor', label: 'Visitor', desc: 'Needs clear directions' };
   const personas = withSecondPersona ? [persona, secondPersona] : [persona];
@@ -46,7 +46,7 @@ const setup = (provider, withSecondPersona = false, themePreference = 'auto') =>
   const model = {
     personas,
     scenario: {
-      llm: { id: provider, prompts: [
+      llm: { id: provider, fieldPrompts, prompts: [
         { type: 'narrative', prompt: 'Story', categories: ['context'] },
         { type: 'persona', prompt: 'Feedback', categories: ['context'] },
       ] },
@@ -90,6 +90,7 @@ const setup = (provider, withSecondPersona = false, themePreference = 'auto') =>
     './ui/scenario-paragraph': { ScenarioParagraph: () => {} },
     './ui/markdown-field': { MarkdownField },
     './ui/export-word': { ExportWordModal: () => ({ view: () => null }) },
+    './ui/combined-prompt-modal': { CombinedPromptModal: () => ({ view: () => null }) },
   };
   new Function('require', 'module', 'exports', code)(
     (name) => mocks[name] || require(name), module, module.exports,
@@ -192,4 +193,10 @@ test('provider feedback button is abbreviated only after the first persona', asy
   assert.equal(calls[0][4].target.label, 'Visitor');
   assert.equal(narrative.personaEffects.visitor.story, 'Feedback for visitor');
   assert.equal(narrative.personaEffects.resident, undefined);
+});
+
+test('per-persona prompt buttons are hidden unless prompts per field are enabled', () => {
+  const { actions, field } = setup('clipboard', true, 'auto', false);
+  assert.equal(actions().length, 0);
+  assert.ok(field());
 });

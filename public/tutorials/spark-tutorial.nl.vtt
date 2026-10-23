@@ -1,0 +1,209 @@
+WEBVTT
+
+1
+00:00:00.253 --> 00:00:05.587
+Veiligheidsregio's, planners en trainers staan allemaal voor dezelfde vraag:
+
+2
+00:00:05.637 --> 00:00:08.846
+op welke situaties moeten we ons voorbereiden?
+
+3
+00:00:08.896 --> 00:00:17.560
+Scenario Spark helpt je aannemelijke scenario's te verkennen voor oefeningen, incidentvoorbereiding en beleidsbeslissingen.
+
+4
+00:00:19.122 --> 00:00:24.112
+Het gebruikt morfologische analyse, ook wel de Zwicky-box genoemd.
+
+5
+00:00:24.162 --> 00:00:28.769
+Je zet de belangrijkste factoren van een situatie op een rij,
+
+6
+00:00:28.819 --> 00:00:31.442
+elk met een paar mogelijke waarden.
+
+7
+00:00:31.492 --> 00:00:37.627
+Een scenario kiest één waarde per factor, en inconsistente combinaties vallen af.
+
+8
+00:00:40.148 --> 00:00:45.192
+In deze tutorial werken Scenario Spark en een AI-assistent samen.
+
+9
+00:00:45.242 --> 00:00:48.876
+Met één prompt krijg je een titel, een verhaal,
+
+10
+00:00:48.926 --> 00:00:54.205
+een reflectie op elke handelingsoptie, en feedback van elke persona.
+
+11
+00:00:56.711 --> 00:01:02.109
+We beginnen met de starterkit, en kiezen het scenariotype Event safety.
+
+12
+00:01:03.075 --> 00:01:04.985
+Open Create scenario.
+
+13
+00:01:05.035 --> 00:01:11.147
+Deze box bevat maatregelen, dus zetten we beslisondersteuning aan.
+
+14
+00:01:12.362 --> 00:01:13.809
+Klik op Generate.
+
+15
+00:01:13.859 --> 00:01:20.590
+Spark kiest voor elke factor een consistente optie, en vat de situatie samen.
+
+16
+00:01:21.557 --> 00:01:24.802
+Schat het risico in als niemand ingrijpt:
+
+17
+00:01:24.852 --> 00:01:28.178
+een gemiddelde kans, met een grote impact.
+
+18
+00:01:29.764 --> 00:01:36.569
+Kies vervolgens de maatregelen voor handelingsoptie A, en schat het risico in dat overblijft.
+
+19
+00:01:52.689 --> 00:01:58.119
+Dupliceer deze als handelingsoptie B, en wijzig een paar maatregelen:
+
+20
+00:01:58.169 --> 00:02:03.837
+een gewondennest, een gezamenlijk coördinatieteam, en gefaseerd vertrek.
+
+21
+00:02:08.589 --> 00:02:10.071
+Klik nu op Ask LLM.
+
+22
+00:02:10.121 --> 00:02:15.394
+Spark maakt één gecombineerde prompt die alles in één keer vraagt,
+
+23
+00:02:15.444 --> 00:02:18.620
+en kopieert die meteen naar je klembord.
+
+24
+00:02:20.681 --> 00:02:27.487
+Zo kun je hem direct in je AI-assistent plakken, bijvoorbeeld Copilot in Microsoft Edge.
+
+25
+00:02:28.943 --> 00:02:32.844
+De assistent antwoordt met één JSON-blok.
+
+26
+00:02:32.894 --> 00:02:34.868
+Kopieer het antwoord.
+
+27
+00:02:38.575 --> 00:02:40.935
+Plak de JSON in het venster.
+
+28
+00:02:40.985 --> 00:02:46.442
+Spark controleert hem, en toont een voorbeeld van elk onderdeel.
+
+29
+00:02:46.492 --> 00:02:49.540
+Vink uit wat je niet wilt gebruiken.
+
+30
+00:02:51.547 --> 00:02:52.766
+Klik op Apply.
+
+31
+00:02:52.816 --> 00:02:57.931
+Het verhaal wordt opgeslagen onder de voorgestelde titel.
+
+32
+00:02:59.097 --> 00:03:01.008
+Bekijk het resultaat.
+
+33
+00:03:01.058 --> 00:03:04.930
+Het verhaal blijft volledig aan te passen.
+
+34
+00:03:06.016 --> 00:03:09.954
+Elke handelingsoptie heeft nu een eigen reflectie.
+
+35
+00:03:13.058 --> 00:03:18.088
+En elke persona beschrijft hoe hij of zij de situatie ervaart.
+
+36
+00:03:18.739 --> 00:03:24.441
+Vink Select for analysis aan om het toe te voegen aan je opgeslagen scenario's.
+
+37
+00:03:24.491 --> 00:03:28.809
+Dan telt het ook mee in de box en in de beslisondersteuning.
+
+38
+00:03:31.105 --> 00:03:36.017
+In de morfologische box heeft elke categorie een eigen tabblad.
+
+39
+00:03:36.067 --> 00:03:41.924
+Gekleurde opties laten zien hoe vaak ze in opgeslagen scenario's voorkomen.
+
+40
+00:03:42.694 --> 00:03:47.949
+De pagina voor beslisondersteuning zet de handelingsopties naast elkaar.
+
+41
+00:03:49.085 --> 00:03:56.523
+Vergelijk hun maatregelen, en zie in de risicomatrix hoe elke handelingsoptie het risico verlaagt.
+
+42
+00:03:58.978 --> 00:04:04.178
+Leg tot slot je besluit en de onderbouwing vast in het beslissingslogboek.
+
+43
+00:04:14.064 --> 00:04:19.660
+Terug op de startpagina staat het opgeslagen scenario klaar om te bekijken,
+
+44
+00:04:19.710 --> 00:04:22.069
+te vergelijken of te exporteren.
+
+45
+00:04:22.721 --> 00:04:26.074
+Wil je maar één onderdeel opnieuw laten maken?
+
+46
+00:04:26.124 --> 00:04:29.921
+Zet dan Prompt per field aan in de LLM-instellingen.
+
+47
+00:04:29.971 --> 00:04:35.617
+Naast de alles-in-één-prompt krijg je dan een aparte prompt voor het verhaal,
+
+48
+00:04:35.667 --> 00:04:37.910
+elke reflectie en elke persona.
+
+49
+00:04:39.415 --> 00:04:40.339
+Dat was het:
+
+50
+00:04:40.389 --> 00:04:45.943
+van morfologische box naar een compleet scenario in een paar minuten.
+
+51
+00:04:45.993 --> 00:04:47.567
+Probeer het nu zelf.
+
+52
+00:04:47.617 --> 00:04:52.683
+Scenario Spark draait in je browser, en de link staat in beeld.

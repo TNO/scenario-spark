@@ -52,6 +52,7 @@ import {
 } from '../utils';
 import { NewScenarioWizard } from './new-scenario-wizard';
 import { LLMScenarioWizard } from './llm-scenario-wizard';
+import { TutorialModal } from './ui/tutorial-modal';
 import { parseImportedModel } from '../utils/import-model';
 import { jsonFilename } from '../utils/json-filename';
 import { PERMALINK_PARAM, createPermalink, decodePermalinkData } from '../utils/permalink';
@@ -168,6 +169,7 @@ export const HomePage: MeiosisComponent = () => {
   let clearAllModal = false;
   let newScenarioWizardOpen = false;
   let llmScenarioWizardOpen = false;
+  let tutorialOpen = false;
   let narrativeFilter = '';
   let importConflictModal = false;
   let pendingScenario: Scenario | null = null;
@@ -468,6 +470,17 @@ export const HomePage: MeiosisComponent = () => {
                           toast({ html: t('HOME_MAP_CARD_ENABLED') });
                         },
                       }),
+                ]),
+                m('.home-option-card.home-tutorial-card', [
+                  m(Icon, { iconName: 'play_circle', className: 'home-option-icon' }),
+                  m('h3', t('TUTORIAL_CARD_TITLE')),
+                  m('p', t('TUTORIAL_CARD_DESC')),
+                  m(FlatButton, {
+                    className: 'home-option-action',
+                    iconName: 'play_circle',
+                    label: t('TUTORIAL_WATCH'),
+                    onclick: () => { tutorialOpen = true; },
+                  }),
                 ]),
               ]),
             ]),
@@ -941,6 +954,12 @@ export const HomePage: MeiosisComponent = () => {
               toast({ html: t('SCENARIO_CREATED_MSG') });
               newScenarioWizardOpen = false;
               changePage(attrs, Dashboards.DEFINE_BOX);
+            },
+          }),
+          m(TutorialModal, {
+            isOpen: tutorialOpen,
+            onToggle: (open: boolean) => {
+              tutorialOpen = open;
             },
           }),
           m(LLMScenarioWizard, {

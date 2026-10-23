@@ -22,7 +22,7 @@ import {
   uniqueId,
 } from 'mithril-materialized';
 import { FormAttributes, LayoutForm, UIForm } from 'mithril-ui-form';
-import { InconsistenciesEditor, LLMSelector } from './ui';
+import { ensureDefaultLLMConfig, InconsistenciesEditor, LLMSelector } from './ui';
 import {
   markdownToMorphBox,
   morphBoxToMarkdown,
@@ -241,6 +241,10 @@ export const SettingsPage: MeiosisComponent = () => {
       }
       const onFormChange = async () => {
         applyDecisionCategoryManual(model.scenario, decisionCategoryIds ?? new Set());
+        // Adds the decision-reflection prompt when decision support was just turned on
+        if (model.scenario.includeDecisionSupport) {
+          ensureDefaultLLMConfig(model.scenario, model.scenario.categories || []);
+        }
         // Selections of new decision factors move to courses of action,
         // those of former decision factors back to the situation
         (model.scenario.narratives || []).forEach((n) => syncNarrativeDecisions(model.scenario, n));

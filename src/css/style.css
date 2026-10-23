@@ -2620,8 +2620,14 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   align-items: center;
   gap: 0.5rem;
 }
+.decision-log-form {
+  display: flow-root;
+}
 .decision-log-form label {
   display: block;
+}
+.decision-log-form .decision-log-actions {
+  clear: both;
 }
 
 /* Show scenario: category tables as cards (header, muted labels above prominent values) */
@@ -3194,4 +3200,30 @@ table.decision-matrix thead th.active-coa,
 #toast-container .toast.toast-instruction .toast-action:focus-visible {
   color: #fff;
   background-color: rgba(255, 255, 255, 0.12);
+}
+
+#tutorial-modal.modal {
+  width: min(96vw, 1100px);
+  max-height: calc(100dvh - 2rem);
+}
+
+.tutorial-video {
+  display: block;
+  width: 100%;
+  max-height: calc(100dvh - 14rem);
+  background: #000;
+  border-radius: 4px;
+}
+
+.tutorial-language {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.tutorial-language select {
+  width: auto;
+  min-width: 10rem;
 }

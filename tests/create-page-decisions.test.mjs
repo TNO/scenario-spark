@@ -30,6 +30,7 @@ const load = (ui = {}) => {
       setPage: () => {},
       saveModel: async () => {},
       updateNarrative: async () => {},
+      saveNarrative: async (_, narrative) => { narrative.saved = true; },
     },
     '../utils': {
       ...decision,
@@ -44,6 +45,7 @@ const load = (ui = {}) => {
     './ui/scenario-paragraph': { ScenarioParagraph: () => {} },
     './ui/markdown-field': { MarkdownField },
     './ui/export-word': { ExportWordModal: () => ({ view: () => null }) },
+    './ui/combined-prompt-modal': { CombinedPromptModal: () => ({ view: () => null }) },
   };
   new Function('require', 'module', 'exports', code)((name) => mocks[name] || require(name), module, module.exports);
   return module.exports;
@@ -189,7 +191,7 @@ test('"Reflect on decisions" stores the LLM reflection on the active course of a
     },
   });
   const box = scenario(true);
-  box.llm = { id: 'ollama', url: 'x', prompts: [{ type: 'decision', prompt: 'Assess', categories: ['sit', 'dec'] }] };
+  box.llm = { id: 'ollama', url: 'x', fieldPrompts: true, prompts: [{ type: 'decision', prompt: 'Assess', categories: ['sit', 'dec'] }] };
   const curNarrative = {
     id: 'n',
     components: { threat: ['fire'] },
@@ -220,7 +222,7 @@ const reflectSetup = (answer) => {
   const pending = new Promise((r) => (resolve = r));
   const { CreateScenarioPage } = load({ generateStory: () => pending });
   const box = scenario(true);
-  box.llm = { id: 'ollama', url: 'x', prompts: [{ type: 'decision', prompt: 'Assess', categories: ['sit', 'dec'] }] };
+  box.llm = { id: 'ollama', url: 'x', fieldPrompts: true, prompts: [{ type: 'decision', prompt: 'Assess', categories: ['sit', 'dec'] }] };
   const curNarrative = {
     id: 'n',
     components: { threat: ['fire'] },
@@ -269,10 +271,56 @@ test('"Reflect on decisions" discards the result when the narrative or COA is go
 test('"Reflect on decisions" is hidden without a decision prompt', () => {
   const { CreateScenarioPage } = load();
   const box = scenario(true);
-  box.llm = { id: 'clipboard', prompts: [{ type: 'narrative', prompt: 'Write', categories: ['sit'] }] };
+  box.llm = { id: 'clipboard', fieldPrompts: true, prompts: [{ type: 'narrative', prompt: 'Write', categories: ['sit'] }] };
   const curNarrative = { id: 'n', components: { threat: ['fire'] }, coas: [{ id: 'a', label: 'A', components: {} }] };
   const attrs = { state: { model: { personas: [], scenario: box }, curNarrative }, update: () => {} };
   const tree = CreateScenarioPage().view({ attrs });
   assert.equal(findAll(tree, (node) => node.attrs?.label === 'REFLECT_ON_DECISIONS').length, 0);
   assert.equal(findAll(tree, (node) => node.attrs?.label === 'COA_REFLECTION').length, 1);
+});
+
+const llmPage = (fieldPrompts, generateStory = async () => 'A story') => {
+  const { CreateScenarioPage } = load({ generateStory });
+  const box = scenario(true);
+  box.llm = {
+    id: 'ollama',
+    url: 'x',
+    fieldPrompts,
+    prompts: [
+      { type: 'narrative', prompt: 'Write', categories: ['sit'] },
+      { type: 'decision', prompt: 'Assess', categories: ['sit', 'dec'] },
+    ],
+  };
+  const curNarrative = { id: 'n', components: { threat: ['fire'] }, coas: [{ id: 'a', label: 'A', components: {} }] };
+  const attrs = { state: { model: { personas: [], scenario: box }, curNarrative }, update: () => {} };
+  attrs.getState = () => attrs.state;
+  const page = CreateScenarioPage();
+  return { curNarrative, render: () => page.view({ attrs }) };
+};
+
+test('by default only "Ask LLM" is shown, and it opens the combined prompt dialog', () => {
+  const { render } = llmPage(undefined);
+  const tree = render();
+  const [ask] = findAll(tree, (node) => node.attrs?.label === 'ASK_LLM');
+  const [modal] = findAll(tree, (node) => 'isOpen' in (node.attrs || {}) && 'personas' in node.attrs);
+  assert.equal(modal.attrs.isOpen, false);
+  ask.attrs.onclick();
+  const [opened] = findAll(render(), (node) => 'isOpen' in (node.attrs || {}) && 'personas' in node.attrs);
+  assert.equal(opened.attrs.isOpen, true);
+  assert.equal(findAll(tree, (node) => node.attrs?.label === 'REFLECT_ON_DECISIONS').length, 0);
+  assert.equal(findAll(tree, (node) => node.attrs?.label === 'AI_NARRATIVE').length, 0);
+});
+
+test('prompts per field add a narrative prompt next to the all-in-one prompt', async () => {
+  const calls = [];
+  const { render, curNarrative } = llmPage(true, async (...args) => (calls.push(args), 'A story'));
+  const tree = render();
+  assert.equal(findAll(tree, (node) => node.attrs?.label === 'ASK_LLM').length, 1);
+  assert.equal(findAll(tree, (node) => node.attrs?.label === 'REFLECT_ON_DECISIONS').length, 1);
+  const [button] = findAll(tree, (node) => node.attrs?.label === 'AI_NARRATIVE');
+  await button.attrs.onclick();
+  assert.equal(calls.length, 1);
+  assert.equal(curNarrative.desc, 'A story');
+  assert.equal(curNarrative.saved, true);
+  assert.equal(curNarrative.label, 'NARRATIVE');
 });
