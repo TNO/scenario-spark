@@ -458,7 +458,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
       const selectOptions = narrativesToOptions(model.scenario.narratives);
       // const count = llm?.autoLLMCount || 10;
       const markdown = narrativeToMarkdown(curNarrative?.desc);
-      const stepwise = llm?.mode === 'stepwise';
+      const fieldPrompts = !!llm?.fieldPrompts;
       const personaPromptReady =
         !!llm?.prompts?.some((p) => p.type === 'persona' && p.prompt?.trim());
       const decisionPromptReady =
@@ -564,8 +564,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               style: 'margin-left: 10px;',
               onclick: () => (showMap = !showMap),
             }),
-          canAskLlm &&
-            !stepwise && [
+          canAskLlm && [
             m(FlatButton, {
               label: t('ASK_LLM'),
               title: t('COMBINED_PROMPT_TITLE'),
@@ -982,7 +981,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                     updateNarrative(attrs, curNarrative);
                   },
                 }),
-                stepwise &&
+                fieldPrompts &&
                   decisionPromptReady &&
                   m(FlatButton, {
                     label: t('REFLECT_ON_DECISIONS'),
@@ -1072,7 +1071,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               },
             }),
           canAskLlm &&
-            stepwise &&
+            fieldPrompts &&
             m(FlatButton, {
               label: t(llm?.id === 'clipboard' ? 'COPY_NARRATIVE_PROMPT' : 'AI_NARRATIVE'),
               title: llm?.id === 'clipboard' ? t('NARRATIVE_PASTE_HINT') : undefined,
@@ -1125,7 +1124,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                       updateNarrative(attrs, curNarrative);
                     },
                   }),
-                  stepwise &&
+                  fieldPrompts &&
                     personaPromptReady &&
                     m(FlatButton, {
                       label: llm?.id === 'clipboard'

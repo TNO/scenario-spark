@@ -26,11 +26,9 @@ export interface LLMConfig {
   prompts: Prompt[];
   temperature?: number;
   autoLLMCount?: number;
-  /** How to ask the AI: one combined prompt with a JSON answer (default), or one prompt per field. */
-  mode?: LLMMode;
+  /** Besides the all-in-one prompt, show a prompt button per field to (re)generate only that part. */
+  fieldPrompts?: boolean;
 }
-
-export type LLMMode = 'combined' | 'stepwise';
 
 const resolveService = (config: LLMConfig) => {
   const { id } = config;
@@ -216,16 +214,11 @@ export const LLMSelector: MeiosisComponent = () => {
             ],
           },
           {
-            id: 'mode',
-            label: t('LLM_MODE'),
-            description: t('LLM_MODE_DESC'),
-            type: 'select',
-            value: 'combined',
+            id: 'fieldPrompts',
+            label: t('LLM_FIELD_PROMPTS'),
+            description: t('LLM_FIELD_PROMPTS_DESC'),
+            type: 'checkbox',
             className: 'col s12 m3',
-            options: [
-              { id: 'combined', label: t('COMBINED_PROMPT') },
-              { id: 'stepwise', label: t('LLM_MODE_STEPWISE') },
-            ],
           },
           {
             id: 'model',

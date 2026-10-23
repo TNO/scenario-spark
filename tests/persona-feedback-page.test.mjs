@@ -35,7 +35,7 @@ const findAll = (node, predicate) => {
   ];
 };
 
-const setup = (provider, withSecondPersona = false, themePreference = 'auto', mode = 'stepwise') => {
+const setup = (provider, withSecondPersona = false, themePreference = 'auto', fieldPrompts = true) => {
   const persona = { id: 'resident', label: 'Resident', desc: 'Needs accessible updates' };
   const secondPersona = { id: 'visitor', label: 'Visitor', desc: 'Needs clear directions' };
   const personas = withSecondPersona ? [persona, secondPersona] : [persona];
@@ -46,7 +46,7 @@ const setup = (provider, withSecondPersona = false, themePreference = 'auto', mo
   const model = {
     personas,
     scenario: {
-      llm: { id: provider, mode, prompts: [
+      llm: { id: provider, fieldPrompts, prompts: [
         { type: 'narrative', prompt: 'Story', categories: ['context'] },
         { type: 'persona', prompt: 'Feedback', categories: ['context'] },
       ] },
@@ -195,8 +195,8 @@ test('provider feedback button is abbreviated only after the first persona', asy
   assert.equal(narrative.personaEffects.resident, undefined);
 });
 
-test('the all-in-one mode hides the per-persona prompt buttons', () => {
-  const { actions, field } = setup('clipboard', true, 'auto', 'combined');
+test('per-persona prompt buttons are hidden unless prompts per field are enabled', () => {
+  const { actions, field } = setup('clipboard', true, 'auto', false);
   assert.equal(actions().length, 0);
   assert.ok(field());
 });
