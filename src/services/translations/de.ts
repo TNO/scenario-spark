@@ -75,6 +75,7 @@ export const messages: typeof messagesEN = {
   TUTORIAL_WATCH: "Tutorial ansehen",
   TUTORIAL_TITLE: "Tutorial: ein vollständiges Szenario mit KI",
   TUTORIAL_DESC: "Vom Starterkit zur Entscheidung: Szenario generieren, einen KI-Assistenten Erzählung, Reflexionen und Persona-Feedback als JSON schreiben lassen, einfügen und die Ergebnisse analysieren.",
+  TUTORIAL_NARRATION: "Sprache der Erzählung",
   HOME_MAP_CARD_ACTIVE: "Die Karte ist für diesen Szenariotyp eingeschaltet.",
   HOME_MAP_CARD_LOCATIONS: "Orte hinzufügen",
   DECISION_BANNER_MSG: "Dieser Szenariotyp enthält Maßnahmen für die Entscheidungsunterstützung. Schalten Sie sie ein, um Maßnahmen zu wählen, Handlungsoptionen zu vergleichen und Entscheidungen festzuhalten.",

@@ -1,0 +1,197 @@
+WEBVTT
+
+1
+00:00:00.253 --> 00:00:05.226
+Służby bezpieczeństwa, planiści i trenerzy stają przed tym samym pytaniem:
+
+2
+00:00:05.276 --> 00:00:08.281
+na jakie sytuacje powinniśmy się przygotować?
+
+3
+00:00:08.331 --> 00:00:16.902
+Scenario Spark pomaga badać prawdopodobne scenariusze na potrzeby ćwiczeń, przygotowania na incydenty i decyzji strategicznych.
+
+4
+00:00:19.122 --> 00:00:24.231
+Wykorzystuje analizę morfologiczną, zwaną też skrzynką Zwicky'ego.
+
+5
+00:00:24.281 --> 00:00:30.249
+Wypisujesz kluczowe czynniki sytuacji, każdy z kilkoma możliwymi wartościami.
+
+6
+00:00:30.299 --> 00:00:37.284
+Scenariusz wybiera jedną wartość dla każdego czynnika, a niespójne kombinacje są pomijane.
+
+7
+00:00:40.148 --> 00:00:44.793
+W tym samouczku Scenario Spark i asystent AI pracują razem.
+
+8
+00:00:44.843 --> 00:00:53.546
+Jednym promptem otrzymujesz tytuł, narrację, refleksję nad każdym wariantem działania i opinię każdej persony.
+
+9
+00:00:56.711 --> 00:01:02.241
+Zaczynamy od zestawu startowego i wybieramy typ scenariusza Event safety.
+
+10
+00:01:03.075 --> 00:01:05.098
+Otwórz Create scenario.
+
+11
+00:01:05.148 --> 00:01:10.685
+Ta skrzynka zawiera działania, więc włączamy wsparcie decyzji.
+
+12
+00:01:12.362 --> 00:01:13.852
+Kliknij Generate.
+
+13
+00:01:13.902 --> 00:01:20.286
+Spark wybiera spójną opcję dla każdego czynnika i podsumowuje sytuację.
+
+14
+00:01:21.557 --> 00:01:24.878
+Oszacuj ryzyko, jeśli nikt nie zareaguje:
+
+15
+00:01:24.928 --> 00:01:28.166
+średnie prawdopodobieństwo i duży wpływ.
+
+16
+00:01:29.764 --> 00:01:34.965
+Następnie wybierz działania dla wariantu A i oszacuj pozostałe ryzyko.
+
+17
+00:01:52.689 --> 00:01:56.362
+Zduplikuj go jako wariant B i zmień kilka działań:
+
+18
+00:01:56.412 --> 00:02:02.022
+punkt zbiórki poszkodowanych, wspólny zespół koordynacyjny i etapowy wyjazd.
+
+19
+00:02:08.589 --> 00:02:10.388
+Teraz kliknij Ask LLM.
+
+20
+00:02:10.438 --> 00:02:15.851
+Spark tworzy jeden połączony prompt, który pyta o wszystko naraz,
+
+21
+00:02:15.901 --> 00:02:18.540
+i od razu kopiuje go do schowka.
+
+22
+00:02:20.681 --> 00:02:27.407
+Możesz więc wkleić go bezpośrednio do asystenta AI, na przykład Copilota w Microsoft Edge.
+
+23
+00:02:28.943 --> 00:02:32.955
+Asystent odpowiada jednym blokiem JSON.
+
+24
+00:02:33.005 --> 00:02:34.830
+Skopiuj odpowiedź.
+
+25
+00:02:38.575 --> 00:02:40.454
+Wklej JSON do okna.
+
+26
+00:02:40.504 --> 00:02:45.630
+Spark go sprawdza i pokazuje podgląd każdej części.
+
+27
+00:02:45.680 --> 00:02:49.081
+Odznacz to, czego nie chcesz użyć.
+
+28
+00:02:51.547 --> 00:02:52.909
+Kliknij Apply.
+
+29
+00:02:52.959 --> 00:02:58.051
+Narracja zostaje zapisana pod proponowanym tytułem.
+
+30
+00:02:59.097 --> 00:03:00.771
+Przejrzyj wynik.
+
+31
+00:03:00.821 --> 00:03:04.866
+Narrację nadal można w pełni edytować.
+
+32
+00:03:06.016 --> 00:03:10.125
+Każdy wariant działania ma teraz własną refleksję.
+
+33
+00:03:13.058 --> 00:03:17.851
+A każda persona opisuje, jak doświadcza tej sytuacji.
+
+34
+00:03:18.739 --> 00:03:24.169
+Zaznacz Select for analysis, aby dodać go do zapisanych scenariuszy.
+
+35
+00:03:24.219 --> 00:03:28.441
+Wtedy liczy się też w skrzynce i we wsparciu decyzji.
+
+36
+00:03:31.105 --> 00:03:35.693
+W skrzynce morfologicznej każda kategoria ma własną kartę.
+
+37
+00:03:35.743 --> 00:03:41.530
+Kolorowe opcje pokazują, jak często występują w zapisanych scenariuszach.
+
+38
+00:03:42.694 --> 00:03:47.434
+Strona wsparcia decyzji zestawia warianty działania obok siebie.
+
+39
+00:03:49.085 --> 00:03:55.207
+Porównaj ich działania i zobacz w macierzy ryzyka, jak każdy wariant obniża ryzyko.
+
+40
+00:03:58.978 --> 00:04:04.297
+Na koniec zapisz swoją decyzję i jej uzasadnienie w dzienniku decyzji.
+
+41
+00:04:14.064 --> 00:04:21.188
+Po powrocie na stronę główną zapisany scenariusz jest gotowy do przeglądania, porównania lub eksportu.
+
+42
+00:04:22.721 --> 00:04:26.206
+Chcesz ponownie wygenerować tylko jedną część?
+
+43
+00:04:26.256 --> 00:04:29.433
+Włącz Prompt per field w ustawieniach LLM.
+
+44
+00:04:29.483 --> 00:04:35.734
+Oprócz promptu typu wszystko w jednym dostaniesz wtedy osobny prompt dla narracji,
+
+45
+00:04:35.784 --> 00:04:38.346
+każdej refleksji i każdej persony.
+
+46
+00:04:39.415 --> 00:04:40.377
+To wszystko:
+
+47
+00:04:40.427 --> 00:04:46.112
+od skrzynki morfologicznej do kompletnego scenariusza w kilka minut.
+
+48
+00:04:46.162 --> 00:04:47.630
+Teraz spróbuj sam.
+
+49
+00:04:47.680 --> 00:04:52.775
+Scenario Spark działa w przeglądarce, a link jest na ekranie.

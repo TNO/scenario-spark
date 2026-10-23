@@ -73,6 +73,7 @@ export const messages = {
   TUTORIAL_WATCH: "Watch tutorial",
   TUTORIAL_TITLE: "Tutorial: a complete scenario with AI",
   TUTORIAL_DESC: "From a starter kit to a decision: generate a scenario, let an AI assistant write the narrative, reflections and persona feedback as JSON, paste it in, and analyse the results.",
+  TUTORIAL_NARRATION: "Narration",
   HOME_MAP_CARD_ACTIVE: "The map is on for this scenario type.",
   HOME_MAP_CARD_LOCATIONS: "Add locations",
   DECISION_BANNER_MSG: "This scenario type contains measures for decision support. Turn it on to choose measures, compare courses of action and record decisions.",

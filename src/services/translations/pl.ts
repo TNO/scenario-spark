@@ -75,6 +75,7 @@ export const messages: typeof messagesEN = {
   TUTORIAL_WATCH: "Obejrzyj samouczek",
   TUTORIAL_TITLE: "Samouczek: kompletny scenariusz z AI",
   TUTORIAL_DESC: "Od zestawu startowego do decyzji: wygeneruj scenariusz, pozwól asystentowi AI napisać narrację, refleksje i opinie person jako JSON, wklej go i przeanalizuj wyniki.",
+  TUTORIAL_NARRATION: "Język lektora",
   HOME_MAP_CARD_ACTIVE: "Mapa jest włączona dla tego typu scenariusza.",
   HOME_MAP_CARD_LOCATIONS: "Dodaj lokalizacje",
   DECISION_BANNER_MSG: "Ten typ scenariusza zawiera środki do wsparcia decyzji. Włącz je, aby wybierać środki, porównywać warianty działania i zapisywać decyzje.",

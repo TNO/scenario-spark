@@ -3219,3 +3219,16 @@ body:not(.keyboard-focused) .select-wrapper input.select-dropdown:focus {
   background: #000;
   border-radius: 4px;
 }
+
+.tutorial-language {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.tutorial-language select {
+  width: auto;
+  min-width: 10rem;
+}

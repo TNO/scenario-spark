@@ -75,6 +75,7 @@ export const messages: typeof messagesEN = {
   TUTORIAL_WATCH: "Ver tutorial",
   TUTORIAL_TITLE: "Tutorial: un escenario completo con IA",
   TUTORIAL_DESC: "Del kit de inicio a la decisión: genere un escenario, deje que un asistente de IA escriba la narrativa, las reflexiones y las opiniones de las personas en JSON, péguelo y analice los resultados.",
+  TUTORIAL_NARRATION: "Idioma de la narración",
   HOME_MAP_CARD_ACTIVE: "El mapa está activado para este tipo de escenario.",
   HOME_MAP_CARD_LOCATIONS: "Añadir lugares",
   DECISION_BANNER_MSG: "Este tipo de escenario contiene medidas para el apoyo a la decisión. Actívelo para elegir medidas, comparar opciones de actuación y registrar decisiones.",

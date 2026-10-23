@@ -76,6 +76,7 @@ export const messages: typeof messagesEN = {
   TUTORIAL_WATCH: "Bekijk tutorial",
   TUTORIAL_TITLE: "Tutorial: een compleet scenario met AI",
   TUTORIAL_DESC: "Van startpakket tot besluit: genereer een scenario, laat een AI-assistent het verhaal, de reflecties en de persona-feedback als JSON schrijven, plak die in en analyseer de resultaten.",
+  TUTORIAL_NARRATION: "Gesproken taal",
   HOME_MAP_CARD_ACTIVE: "De kaart staat aan voor dit scenariotype.",
   HOME_MAP_CARD_LOCATIONS: "Locaties toevoegen",
   DECISION_BANNER_MSG: "Dit scenariotype bevat maatregelen voor beslisondersteuning. Zet die aan om maatregelen te kiezen, handelingsopties te vergelijken en besluiten vast te leggen.",
