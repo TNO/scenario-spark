@@ -2620,8 +2620,14 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   align-items: center;
   gap: 0.5rem;
 }
+.decision-log-form {
+  display: flow-root;
+}
 .decision-log-form label {
   display: block;
+}
+.decision-log-form .decision-log-actions {
+  clear: both;
 }
 
 /* Show scenario: category tables as cards (header, muted labels above prominent values) */
