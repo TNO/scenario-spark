@@ -26,7 +26,43 @@ export interface LLMConfig {
   prompts: Prompt[];
   temperature?: number;
   autoLLMCount?: number;
+  /** How to ask the AI: one combined prompt with a JSON answer (default), or one prompt per field. */
+  mode?: LLMMode;
 }
+
+export type LLMMode = 'combined' | 'stepwise';
+
+const resolveService = (config: LLMConfig) => {
+  const { id } = config;
+  let url = config.url || '';
+  let model = config.model || '';
+  switch (id) {
+    case 'clipboard':
+    case 'ollama':
+      break;
+    case 'openai':
+      url = url || 'https://api.openai.com/v1/chat/completions';
+      model = model || 'gpt-4o-mini';
+      break;
+    default:
+      throw new Error(`Unknown service: ${id}`);
+  }
+  return { url, model };
+};
+
+/** Send a prompt as-is to the configured service and return the trimmed answer. */
+export const askLlmRaw = async (config: LLMConfig, prompt: string) => {
+  const { id, apiKey, temperature } = config;
+  if (id === 'clipboard') return prompt;
+  const { url, model } = resolveService(config);
+  const result = await LLMClient.chatRaw(
+    { provider: id as 'ollama' | 'openai', url, model, apiKey, temperature },
+    prompt,
+  );
+  if (typeof result !== 'string') throw new Error(result.message);
+  if (!result.trim()) throw new Error('Empty response from LLM');
+  return result.trim();
+};
 
 const LEGACY_MULTILINGUAL_DEFAULT_NARRATIVE_PROMPT = [
   'EN: Use the following elements to define a realistic scenario.',
@@ -177,6 +213,18 @@ export const LLMSelector: MeiosisComponent = () => {
               { id: 'ollama', label: 'Ollama' },
               { id: 'openai', label: 'OpenAI' },
               { id: 'clipboard', label: t('LLM_CLIPBOARD') },
+            ],
+          },
+          {
+            id: 'mode',
+            label: t('LLM_MODE'),
+            description: t('LLM_MODE_DESC'),
+            type: 'select',
+            value: 'combined',
+            className: 'col s12 m3',
+            options: [
+              { id: 'combined', label: t('COMBINED_PROMPT') },
+              { id: 'stepwise', label: t('LLM_MODE_STEPWISE') },
             ],
           },
           {
@@ -353,20 +401,7 @@ export const generateStory = async (
   }
   const { prompt, categories: includedCategories = [] } = storyPrompt;
 
-  let url = config.url || '';
-  let model = config.model || '';
-  switch (id) {
-    case 'clipboard':
-      break;
-    case 'ollama':
-      break;
-    case 'openai':
-      url = url || 'https://api.openai.com/v1/chat/completions';
-      model = model || 'gpt-4o-mini';
-      break;
-    default:
-      throw new Error(`Unknown service: ${id}`);
-  }
+  const { url, model } = resolveService(config);
 
   if (storyType === 'decision') {
     const userPrompt = [

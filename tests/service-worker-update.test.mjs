@@ -10,9 +10,16 @@ test('a new worker fetches fresh app assets and replaces the previous offline ca
   const deleted = [];
   const code = readFileSync(new URL('../public/sw.js', import.meta.url), 'utf8')
     .replace('__BUILD_HASH__', 'release-2');
+  const origin = 'https://example.org';
+  let online = false;
   runInNewContext(code, {
+    URL,
+    fetch: async () => {
+      if (!online) throw new TypeError('offline');
+      return { status: 200, type: 'basic', body: 'network navbar', clone() { return this; } };
+    },
     self: {
-      location: { pathname: '/scenario-spark/sw.js' },
+      location: { origin, pathname: '/scenario-spark/sw.js' },
       addEventListener: (event, handler) => handlers.set(event, handler),
       skipWaiting: async () => {},
       clients: { claim: async () => {} },
@@ -25,6 +32,7 @@ test('a new worker fetches fresh app assets and replaces the previous offline ca
     },
     caches: {
       open: async () => ({
+        put: async () => {},
         addAll: async (requests) => {
           assert.ok(requests.every((request) => request.cache === 'reload'));
           for (const request of requests) newCache.set(request.url, 'new navbar');
@@ -32,7 +40,8 @@ test('a new worker fetches fresh app assets and replaces the previous offline ca
       }),
       keys: async () => ['scenario-spark-v9', 'scenario-spark-release-2', 'other-app'],
       delete: async (name) => { deleted.push(name); },
-      match: async (request) => newCache.get(request.url),
+      match: async (request) =>
+        newCache.get(new URL(typeof request === 'string' ? request : request.url, origin).pathname),
     },
   });
 
@@ -44,10 +53,17 @@ test('a new worker fetches fresh app assets and replaces the previous offline ca
 
   assert.deepEqual(deleted, ['scenario-spark-v9']);
   assert.equal(oldCache.get('/scenario-spark/assets/index.js'), 'old navbar');
-  let response;
-  handlers.get('fetch')({
-    request: { method: 'GET', mode: 'cors', url: '/scenario-spark/assets/index.js' },
-    respondWith: (promise) => { response = promise; },
-  });
-  assert.equal(await response, 'new navbar');
+  const fetchAsset = async () => {
+    let response;
+    handlers.get('fetch')({
+      request: { method: 'GET', mode: 'cors', url: `${origin}/scenario-spark/assets/index.js` },
+      respondWith: (promise) => { response = promise; },
+    });
+    return response;
+  };
+  // Offline: stable-named assets fall back to the freshly installed cache.
+  assert.equal(await fetchAsset(), 'new navbar');
+  // Online: stable-named assets are network-first, so a new deployment is used immediately.
+  online = true;
+  assert.equal((await fetchAsset()).body, 'network navbar');
 });

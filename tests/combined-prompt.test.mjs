@@ -79,7 +79,9 @@ test('throws when no JSON object is found', () => {
 });
 
 test('all locales define the combined prompt keys', () => {
-  const keys = ['LLM_COMBINED_INTRO', 'LLM_COMBINED_TASK_NARRATIVE', 'LLM_COMBINED_CURRENT_NARRATIVE', 'LLM_COMBINED_TASK_DECISIONS',
+  const keys = ['COMBINED_HINT_API', 'COMBINED_GENERATE', 'COMBINED_GENERATE_ERROR', 'LLM_MODE', 'LLM_MODE_DESC',
+    'LLM_MODE_STEPWISE', 'AI_NARRATIVE', 'COPY_NARRATIVE_PROMPT', 'NARRATIVE_PASTE_HINT', 'NARRATIVE_PROMPT_COPIED',
+    'NARRATIVE_GENERATE_ERROR', 'LLM_COMBINED_INTRO', 'LLM_COMBINED_TASK_NARRATIVE', 'LLM_COMBINED_CURRENT_NARRATIVE', 'LLM_COMBINED_TASK_DECISIONS',
     'LLM_COMBINED_TASK_PERSONAS', 'LLM_COMBINED_OUTPUT', 'COMBINED_PROMPT'];
   for (const lang of ['en', 'nl', 'de', 'fr', 'es', 'pl']) {
     const source = readFileSync(new URL(`../src/services/translations/${lang}.ts`, import.meta.url), 'utf8');

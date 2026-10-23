@@ -30,6 +30,7 @@ const load = (ui = {}) => {
       setPage: () => {},
       saveModel: async () => {},
       updateNarrative: async () => {},
+      saveNarrative: async (_, narrative) => { narrative.saved = true; },
     },
     '../utils': {
       ...decision,
@@ -190,7 +191,7 @@ test('"Reflect on decisions" stores the LLM reflection on the active course of a
     },
   });
   const box = scenario(true);
-  box.llm = { id: 'ollama', url: 'x', prompts: [{ type: 'decision', prompt: 'Assess', categories: ['sit', 'dec'] }] };
+  box.llm = { id: 'ollama', url: 'x', mode: 'stepwise', prompts: [{ type: 'decision', prompt: 'Assess', categories: ['sit', 'dec'] }] };
   const curNarrative = {
     id: 'n',
     components: { threat: ['fire'] },
@@ -221,7 +222,7 @@ const reflectSetup = (answer) => {
   const pending = new Promise((r) => (resolve = r));
   const { CreateScenarioPage } = load({ generateStory: () => pending });
   const box = scenario(true);
-  box.llm = { id: 'ollama', url: 'x', prompts: [{ type: 'decision', prompt: 'Assess', categories: ['sit', 'dec'] }] };
+  box.llm = { id: 'ollama', url: 'x', mode: 'stepwise', prompts: [{ type: 'decision', prompt: 'Assess', categories: ['sit', 'dec'] }] };
   const curNarrative = {
     id: 'n',
     components: { threat: ['fire'] },
@@ -270,10 +271,55 @@ test('"Reflect on decisions" discards the result when the narrative or COA is go
 test('"Reflect on decisions" is hidden without a decision prompt', () => {
   const { CreateScenarioPage } = load();
   const box = scenario(true);
-  box.llm = { id: 'clipboard', prompts: [{ type: 'narrative', prompt: 'Write', categories: ['sit'] }] };
+  box.llm = { id: 'clipboard', mode: 'stepwise', prompts: [{ type: 'narrative', prompt: 'Write', categories: ['sit'] }] };
   const curNarrative = { id: 'n', components: { threat: ['fire'] }, coas: [{ id: 'a', label: 'A', components: {} }] };
   const attrs = { state: { model: { personas: [], scenario: box }, curNarrative }, update: () => {} };
   const tree = CreateScenarioPage().view({ attrs });
   assert.equal(findAll(tree, (node) => node.attrs?.label === 'REFLECT_ON_DECISIONS').length, 0);
   assert.equal(findAll(tree, (node) => node.attrs?.label === 'COA_REFLECTION').length, 1);
+});
+
+const llmPage = (mode, generateStory = async () => 'A story') => {
+  const { CreateScenarioPage } = load({ generateStory });
+  const box = scenario(true);
+  box.llm = {
+    id: 'ollama',
+    url: 'x',
+    mode,
+    prompts: [
+      { type: 'narrative', prompt: 'Write', categories: ['sit'] },
+      { type: 'decision', prompt: 'Assess', categories: ['sit', 'dec'] },
+    ],
+  };
+  const curNarrative = { id: 'n', components: { threat: ['fire'] }, coas: [{ id: 'a', label: 'A', components: {} }] };
+  const attrs = { state: { model: { personas: [], scenario: box }, curNarrative }, update: () => {} };
+  attrs.getState = () => attrs.state;
+  const page = CreateScenarioPage();
+  return { curNarrative, render: () => page.view({ attrs }) };
+};
+
+test('the all-in-one mode is the default: "Ask LLM" opens the combined prompt dialog', () => {
+  const { render } = llmPage(undefined);
+  const tree = render();
+  const [ask] = findAll(tree, (node) => node.attrs?.label === 'ASK_LLM');
+  const [modal] = findAll(tree, (node) => 'isOpen' in (node.attrs || {}) && 'personas' in node.attrs);
+  assert.equal(modal.attrs.isOpen, false);
+  ask.attrs.onclick();
+  const [opened] = findAll(render(), (node) => 'isOpen' in (node.attrs || {}) && 'personas' in node.attrs);
+  assert.equal(opened.attrs.isOpen, true);
+  assert.equal(findAll(tree, (node) => node.attrs?.label === 'REFLECT_ON_DECISIONS').length, 0);
+  assert.equal(findAll(tree, (node) => node.attrs?.label === 'AI_NARRATIVE').length, 0);
+});
+
+test('the step-by-step mode asks for the narrative next to its field', async () => {
+  const calls = [];
+  const { render, curNarrative } = llmPage('stepwise', async (...args) => (calls.push(args), 'A story'));
+  const tree = render();
+  assert.equal(findAll(tree, (node) => node.attrs?.label === 'ASK_LLM').length, 0);
+  const [button] = findAll(tree, (node) => node.attrs?.label === 'AI_NARRATIVE');
+  await button.attrs.onclick();
+  assert.equal(calls.length, 1);
+  assert.equal(curNarrative.desc, 'A story');
+  assert.equal(curNarrative.saved, true);
+  assert.equal(curNarrative.label, 'NARRATIVE');
 });

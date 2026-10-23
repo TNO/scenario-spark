@@ -458,6 +458,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
       const selectOptions = narrativesToOptions(model.scenario.narratives);
       // const count = llm?.autoLLMCount || 10;
       const markdown = narrativeToMarkdown(curNarrative?.desc);
+      const stepwise = llm?.mode === 'stepwise';
       const personaPromptReady =
         !!llm?.prompts?.some((p) => p.type === 'persona' && p.prompt?.trim());
       const decisionPromptReady =
@@ -563,45 +564,12 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               style: 'margin-left: 10px;',
               onclick: () => (showMap = !showMap),
             }),
-          canAskLlm && [
+          canAskLlm &&
+            !stepwise && [
             m(FlatButton, {
               label: t('ASK_LLM'),
-              iconName: 'auto_awesome',
-              style: 'margin-left: 10px;',
-              disabled: !curNarrative.components || !askLlm,
-              onclick: async () => {
-                askLlm = false;
-                const story = await generateStory(
-                  model.scenario.llm!,
-                  curNarrative,
-                  model.scenario,
-                ).catch((e) => {
-                  console.error(e);
-                  toast({ html: e });
-                  askLlm = true;
-                  m.redraw();
-                  return;
-                });
-                console.log(story);
-                askLlm = true;
-                if (model.scenario.llm?.id === 'clipboard') {
-                  // copy story to clipboard
-                  if (story && navigator.clipboard) {
-                    navigator.clipboard.writeText(story);
-                  }
-                  toast({ html: t('COPY_BOX', 'TOAST') });
-                  return;
-                }
-                if (story) {
-                  curNarrative.desc = story;
-                }
-                m.redraw();
-              },
-            }),
-            m(FlatButton, {
-              label: t('COMBINED_PROMPT'),
               title: t('COMBINED_PROMPT_TITLE'),
-              iconName: 'data_object',
+              iconName: 'auto_awesome',
               style: 'margin-left: 10px;',
               onclick: () => {
                 combinedModalOpen = true;
@@ -1014,7 +982,8 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                     updateNarrative(attrs, curNarrative);
                   },
                 }),
-                decisionPromptReady &&
+                stepwise &&
+                  decisionPromptReady &&
                   m(FlatButton, {
                     label: t('REFLECT_ON_DECISIONS'),
                     iconName: 'auto_awesome',
@@ -1102,6 +1071,36 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                 updateNarrative(attrs, curNarrative);
               },
             }),
+          canAskLlm &&
+            stepwise &&
+            m(FlatButton, {
+              label: t(llm?.id === 'clipboard' ? 'COPY_NARRATIVE_PROMPT' : 'AI_NARRATIVE'),
+              title: llm?.id === 'clipboard' ? t('NARRATIVE_PASTE_HINT') : undefined,
+              iconName: llm?.id === 'clipboard' ? 'content_copy' : 'auto_awesome',
+              disabled: !askLlm,
+              onclick: async () => {
+                askLlm = false;
+                m.redraw();
+                try {
+                  const story = await generateStory(llm!, curNarrative, model.scenario);
+                  if (llm?.id === 'clipboard') {
+                    await navigator.clipboard.writeText(story);
+                    toast({ html: t('NARRATIVE_PROMPT_COPIED') });
+                  } else if (story) {
+                    curNarrative.desc = story;
+                  }
+                  // Saving shows the narrative field, so the story can be pasted or edited
+                  if (!curNarrative.label) curNarrative.label = t('NARRATIVE');
+                  await saveNarrative(attrs, curNarrative);
+                } catch (error) {
+                  console.error(error);
+                  toast({ html: t('NARRATIVE_GENERATE_ERROR') });
+                } finally {
+                  askLlm = true;
+                  m.redraw();
+                }
+              },
+            }),
           curNarrative.saved && [
             curPersonas.map((p, index) =>
               m('.row.persona', [
@@ -1126,7 +1125,8 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                       updateNarrative(attrs, curNarrative);
                     },
                   }),
-                  personaPromptReady &&
+                  stepwise &&
+                    personaPromptReady &&
                     m(FlatButton, {
                       label: llm?.id === 'clipboard'
                         ? t(index === 0 ? 'COPY_PERSONA_PROMPT' : 'COPY_PERSONA_PROMPT_SHORT')

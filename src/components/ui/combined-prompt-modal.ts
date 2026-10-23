@@ -1,10 +1,12 @@
 import m, { FactoryComponent } from 'mithril';
 import { FlatButton, InputCheckbox, ModalPanel, TextArea, toast } from 'mithril-materialized';
+import { CircularSpinner } from './preloader';
 import type { MeiosisCell } from 'meiosis-setup/types';
 import { saveNarrative, State, t } from '../../services';
 import { Narrative, Persona } from '../../models';
 import { buildDecisionInput, buildStoryInput } from '../../utils/decision';
 import { narrativeToMarkdown } from '../../utils/index';
+import { askLlmRaw } from './llm';
 import { buildCombinedPrompt, CombinedResult, parseCombinedResponse } from '../../utils/combined-prompt';
 
 export interface CombinedPromptModalAttrs {
@@ -28,6 +30,7 @@ export const CombinedPromptModal: FactoryComponent<CombinedPromptModalAttrs> = (
   let result: CombinedResult | undefined;
   let parseError = false;
   let promptText = '';
+  let busy = false;
   /** Keys of the fields to apply: title, narrative, coa:<id>, persona:<id> */
   let selected = new Set<string>();
 
@@ -36,6 +39,7 @@ export const CombinedPromptModal: FactoryComponent<CombinedPromptModalAttrs> = (
     result = undefined;
     parseError = false;
     promptText = '';
+    busy = false;
     selected = new Set();
   };
 
@@ -143,7 +147,9 @@ export const CombinedPromptModal: FactoryComponent<CombinedPromptModalAttrs> = (
 
   return {
     view: ({ attrs }) => {
-      const { narrative, personas, isOpen, onToggle } = attrs;
+      const { cell, narrative, personas, isOpen, onToggle } = attrs;
+      const llm = cell.state.model.scenario.llm;
+      const viaApi = !!llm && llm.id !== 'clipboard';
       return m(ModalPanel, {
         id: 'combinedPrompt',
         title: t('COMBINED_TITLE'),
@@ -154,8 +160,27 @@ export const CombinedPromptModal: FactoryComponent<CombinedPromptModalAttrs> = (
           if (!open) reset();
           onToggle(open);
         },
-        description: t('COMBINED_HINT'),
+        description: t(viaApi ? 'COMBINED_HINT_API' : 'COMBINED_HINT'),
         content: m('.combined-prompt', [
+          viaApi &&
+            m(FlatButton, {
+              label: t('COMBINED_GENERATE'),
+              iconName: 'auto_awesome',
+              disabled: busy,
+              onclick: async () => {
+                busy = true;
+                m.redraw();
+                try {
+                  parse(attrs, await askLlmRaw(llm, buildPrompt(attrs)));
+                } catch (error) {
+                  console.error(error);
+                  toast({ html: t('COMBINED_GENERATE_ERROR') });
+                } finally {
+                  busy = false;
+                  m.redraw();
+                }
+              },
+            }),
           m(FlatButton, {
             label: t('COMBINED_COPY'),
             iconName: 'content_copy',
@@ -173,6 +198,7 @@ export const CombinedPromptModal: FactoryComponent<CombinedPromptModalAttrs> = (
               m.redraw();
             },
           }),
+          busy && m(CircularSpinner),
           promptText && m(TextArea, { label: t('LLM_PROMPT_TEXT'), value: promptText, readonly: true }),
           m(TextArea, {
             label: t('COMBINED_PASTE'),
