@@ -47,6 +47,7 @@ import {
   capitalize,
   convertFromOld,
   effectiveSelection,
+  hasNarrativeText,
   modelToSaveName,
   uploadFile,
 } from '../utils';
@@ -171,6 +172,7 @@ export const HomePage: MeiosisComponent = () => {
   let llmScenarioWizardOpen = false;
   let tutorialOpen = false;
   let narrativeFilter = '';
+  let showGenerated = false;
   let importConflictModal = false;
   let pendingScenario: Scenario | null = null;
   let confirmCollectionImport = false;
@@ -314,7 +316,12 @@ export const HomePage: MeiosisComponent = () => {
         scenario: { id, narratives = [], components, categories },
       } = model;
 
-      const savedNarratives = narratives.filter((n) => n.included);
+      const includedNarratives = narratives.filter((n) => n.included);
+      // Generated scenarios (covering sets) only show up once they have a story, unless asked for
+      const hiddenGenerated = includedNarratives.filter((n) => n.batch && !hasNarrativeText(n));
+      const savedNarratives = showGenerated
+        ? includedNarratives
+        : includedNarratives.filter((n) => !n.batch || hasNarrativeText(n));
       const filteredNarratives = savedNarratives
         .filter((n) => {
           if (!narrativeFilter.trim()) return true;
@@ -489,6 +496,13 @@ export const HomePage: MeiosisComponent = () => {
                 m('h2', t('SAVED_NARRATIVES')),
                 m('span.home-saved-count', savedNarratives.length),
               ]),
+              hiddenGenerated.length > 0 && m(InputCheckbox, {
+                label: t('SHOW_GENERATED', { count: hiddenGenerated.length }),
+                checked: showGenerated,
+                onchange: (checked) => {
+                  showGenerated = checked;
+                },
+              }),
               savedNarratives.length > 4 && m(TextInput, {
                 id: 'narrative-filter',
                 label: t('FILTER_NARRATIVES'),

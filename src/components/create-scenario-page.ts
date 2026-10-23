@@ -6,6 +6,7 @@ import {
   IconButton,
   InputCheckbox,
   Menu,
+  MenuEntry,
   ModalPanel,
   Select,
   SelectAttrs,
@@ -64,6 +65,7 @@ import { ScenarioParagraph } from './ui/scenario-paragraph';
 import { MarkdownField } from './ui/markdown-field';
 import { ExportWordModal } from './ui/export-word';
 import { CombinedPromptModal } from './ui/combined-prompt-modal';
+import { CoverageModal, DeleteBatchModal, narrativeBatches } from './ui/coverage-modal';
 import {
   CircularSpinner,
   ensureDefaultLLMConfig,
@@ -263,7 +265,7 @@ export const CategoryTable: MeiosisComponent<{
   };
 };
 
-type NarrativeAction = 'clone' | 'word' | 'delete';
+type NarrativeAction = 'clone' | 'word' | 'delete' | 'coverage' | 'deleteBatch';
 
 export const CreateScenarioPage: MeiosisComponent = () => {
   let version = 0;
@@ -277,6 +279,8 @@ export const CreateScenarioPage: MeiosisComponent = () => {
   let coaNameDraft = '';
   let wordModalOpen = false;
   let deleteModalOpen = false;
+  let coverageModalOpen = false;
+  let deleteBatchModalOpen = false;
   let combinedModalOpen = false;
 
   /** Chips per course of action, with add, duplicate, rename, delete and conflict warnings */
@@ -468,6 +472,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
         }
       }
       const selectOptions = narrativesToOptions(model.scenario.narratives);
+      const hasBatches = narrativeBatches(model.scenario.narratives).size > 0;
       // const count = llm?.autoLLMCount || 10;
       const markdown = narrativeToMarkdown(curNarrative?.desc);
       const fieldPrompts = !!llm?.fieldPrompts;
@@ -657,22 +662,37 @@ export const CreateScenarioPage: MeiosisComponent = () => {
           ],
           narratives && [
             m('.right.valign-wrapper.narrative-picker', { key: curNarrative.id }, [
-              curNarrative.saved &&
-                m(Menu<NarrativeAction>, {
+              m(Menu<NarrativeAction>, {
                   ariaLabel: t('MORE_ACTIONS'),
                   items: [
-                    { id: 'clone', label: `${t('CLONE_NARRATIVE')} ${t('NARRATIVE')}`, iconName: 'content_copy' },
-                    { id: 'word', label: t('EXPORT2WORD', 'TITLE'), iconName: 'download' },
-                    { separator: true },
-                    {
-                      id: 'delete',
-                      label: t('DELETE_ITEM', 'title', { item: t('NARRATIVE') }),
-                      iconName: 'delete',
-                      className: 'red-text',
-                    },
-                  ],
+                    ...(curNarrative.saved
+                      ? [
+                          { id: 'clone', label: `${t('CLONE_NARRATIVE')} ${t('NARRATIVE')}`, iconName: 'content_copy' },
+                          { id: 'word', label: t('EXPORT2WORD', 'TITLE'), iconName: 'download' },
+                        ]
+                      : []),
+                    { id: 'coverage', label: t('COVERAGE_MENU'), iconName: 'auto_awesome_motion' },
+                    ...(curNarrative.saved || hasBatches ? [{ separator: true }] : []),
+                    ...(curNarrative.saved
+                      ? [
+                          {
+                            id: 'delete',
+                            label: t('DELETE_ITEM', 'title', { item: t('NARRATIVE') }),
+                            iconName: 'delete',
+                            className: 'red-text',
+                          },
+                        ]
+                      : []),
+                    ...(hasBatches
+                      ? [{ id: 'deleteBatch', label: t('DELETE_BATCH_MENU'), iconName: 'delete_sweep', className: 'red-text' }]
+                      : []),
+                  ] as MenuEntry<NarrativeAction>[],
                   onSelect: (action) => {
-                    if (action === 'clone') {
+                    if (action === 'coverage') {
+                      coverageModalOpen = true;
+                    } else if (action === 'deleteBatch') {
+                      deleteBatchModalOpen = true;
+                    } else if (action === 'clone') {
                       const newNarrative: Narrative = deepCopy(curNarrative);
                       newNarrative.id = uniqueId();
                       newNarrative.saved = false;
@@ -693,6 +713,31 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                       { ...triggerAttrs, title: t('MORE_ACTIONS'), 'aria-label': t('MORE_ACTIONS') },
                       m('i.material-icons', { 'aria-hidden': 'true' }, 'more_vert'),
                     ),
+                }),
+              m(CoverageModal, {
+                cell: attrs,
+                locked: generationLocks(model.scenario, curNarrative.components || {}, lockedComps),
+                isOpen: coverageModalOpen,
+                onToggle: (open) => {
+                  coverageModalOpen = open;
+                },
+              }),
+              hasBatches &&
+                m(DeleteBatchModal, {
+                  cell: attrs,
+                  isOpen: deleteBatchModalOpen,
+                  onToggle: (open) => {
+                    deleteBatchModalOpen = open;
+                  },
+                  onDeleted: (ids) => {
+                    if (curNarrative.id && ids.has(curNarrative.id)) {
+                      version = 0;
+                      attrs.update({
+                        curNarrative: () => ({ included: false, components: {} }) as Narrative,
+                        lockedComps: () => undefined,
+                      });
+                    }
+                  },
                 }),
               curNarrative.saved &&
                 m(ExportWordModal, {

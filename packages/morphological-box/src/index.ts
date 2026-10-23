@@ -5,3 +5,4 @@ export * from './coa.ts';
 export * from './validate.ts';
 export * from './builder.ts';
 export * from './narrative.ts';
+export * from './coverage.ts';

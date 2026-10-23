@@ -543,6 +543,9 @@ export const narrativeToMarkdown = (desc?: string): string => {
   return looksLikeHtml(text) ? htmlToMarkdown(text) : text;
 };
 
+/** True when the narrative has a (non-empty) written story. */
+export const hasNarrativeText = (n: Pick<Narrative, 'desc'>) => narrativeToMarkdown(n.desc).trim().length > 0;
+
 export const quillToMarkdown = (quillDelta: { ops: QuillOp[] }): string => {
   let md = '';
   let buffer = ''; // collect inline text until newline

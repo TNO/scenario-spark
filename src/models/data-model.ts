@@ -150,6 +150,8 @@ export type Narrative = Item & {
   included: boolean;
   /** Is the narrative saved in the set of narratives (so we should be able to delete or replace it) */
   saved: boolean;
+  /** Name of the generated batch (covering set) this narrative belongs to, if any */
+  batch?: string;
   /** Risk that the narrative occurs = chance x impact */
   risk?: ID;
   /** Probability that the narrative occurs */
