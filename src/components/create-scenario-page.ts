@@ -72,6 +72,15 @@ import {
 import { PersonaImages } from '../models/persona-images';
 import { narrativeToMarkdown } from '../utils/index';
 
+/** Longer-lived, readable toast for instructions; the user can dismiss it via the close button. */
+const instructionToast = (html: string) =>
+  toast({
+    html,
+    displayLength: 10000,
+    className: 'toast-instruction',
+    action: { variant: 'icon', icon: 'close', label: t('CLOSE_MESSAGE'), onclick: () => {} },
+  });
+
 /** Read-only risk level, derived from probability and impact; optionally compared with the situation risk. */
 const RiskResult = (className: string, label: string, risk?: ID, before?: ID) => {
   const level = levelIndex(risk);
@@ -590,7 +599,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                   if (story && navigator.clipboard) {
                     navigator.clipboard.writeText(story);
                   }
-                  toast({ html: t('NARRATIVE_PROMPT_COPIED'), displayLength: 10000, className: 'toast-instruction' });
+                  instructionToast(t('NARRATIVE_PROMPT_COPIED'));
                   return;
                 }
                 if (story) {
@@ -1041,7 +1050,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                         );
                         if (llm?.id === 'clipboard') {
                           await navigator.clipboard.writeText(reflection);
-                          toast({ html: t('DECISION_PROMPT_COPIED'), displayLength: 10000, className: 'toast-instruction' });
+                          instructionToast(t('DECISION_PROMPT_COPIED'));
                         } else {
                           // The narrative may have been edited or switched meanwhile
                           const latest = attrs.getState().curNarrative;
@@ -1174,7 +1183,7 @@ export const CreateScenarioPage: MeiosisComponent = () => {
                           );
                           if (llm?.id === 'clipboard') {
                             await navigator.clipboard.writeText(feedback);
-                            toast({ html: t('PERSONA_PROMPT_COPIED'), displayLength: 10000, className: 'toast-instruction' });
+                            instructionToast(t('PERSONA_PROMPT_COPIED'));
                           } else {
                             curNarrative.personaEffects ??= {};
                             curNarrative.personaEffects[p.id] ??= { scale: 0 };

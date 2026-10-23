@@ -638,4 +638,5 @@ export const messages: typeof messagesEN = {
     'Geen stuurfactoren gevonden. Controleer de geplakte tekst.',
   IMPORT_NEEDS_TWO_COLUMNS:
     'Import vereist minimaal 2 kolommen (naam stuurfactoren en opties).',
+  CLOSE_MESSAGE: 'Melding sluiten',
 };

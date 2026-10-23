@@ -625,4 +625,5 @@ export const messages: typeof messagesEN = {
     'No se detectaron factores clave. Verifique los datos pegados.',
   IMPORT_NEEDS_TWO_COLUMNS:
     'La importación requiere al menos 2 columnas (nombres de factores clave y opciones).',
+  CLOSE_MESSAGE: 'Cerrar mensaje',
 };

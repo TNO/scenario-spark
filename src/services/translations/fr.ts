@@ -644,4 +644,5 @@ export const messages: typeof messagesEN = {
   IMPORT_NO_DRIVERS: 'Aucun facteur clé détecté. Vérifiez les données collées.',
   IMPORT_NEEDS_TWO_COLUMNS:
     "L'import nécessite au moins 2 colonnes (noms des facteurs clés et options).",
+  CLOSE_MESSAGE: 'Fermer le message',
 };

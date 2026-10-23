@@ -639,4 +639,5 @@ export const messages: typeof messagesEN = {
   IMPORT_NO_DRIVERS: 'Nie wykryto kluczowych czynników. Sprawdź wklejone dane.',
   IMPORT_NEEDS_TWO_COLUMNS:
     'Import wymaga co najmniej 2 kolumn (nazwy czynników i opcje).',
+  CLOSE_MESSAGE: 'Zamknij komunikat',
 };

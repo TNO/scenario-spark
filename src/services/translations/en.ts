@@ -614,4 +614,5 @@ export const messages = {
   IMPORT_NO_DATA: 'No spreadsheet data detected. Paste a table and try again.',
   IMPORT_NEEDS_TWO_COLUMNS:
     'Import requires at least 2 columns (driver names and options).',
+  CLOSE_MESSAGE: 'Close message',
 };

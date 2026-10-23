@@ -644,4 +644,5 @@ export const messages: typeof messagesEN = {
     'Keine Schlüssel-Treiber erkannt. Überprüfen Sie die Einfügung.',
   IMPORT_NEEDS_TWO_COLUMNS:
     'Import benötigt mindestens 2 Spalten (Schlüssel-Treiber-Namen und Optionen).',
+  CLOSE_MESSAGE: 'Meldung schließen',
 };
