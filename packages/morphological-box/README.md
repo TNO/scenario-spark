@@ -13,7 +13,7 @@ npm install morphological-box
 ## Library
 
 ```ts
-import { validateBox, generateCombination, generateCombinations, createRandom, assessOptions, assessCoa, compareCoas, createLlmPrompt, renderTemplate } from 'morphological-box';
+import { validateBox, generateCombination, generateCombinations, generateCoverage, valueUsage, createRandom, assessOptions, assessCoa, compareCoas, createLlmPrompt, renderTemplate } from 'morphological-box';
 
 const { valid, errors, warnings } = validateBox(box);
 
@@ -24,6 +24,12 @@ else console.log(result.diagnostic);
 
 // Up to 10 distinct consistent combinations, reproducible with a seed
 const samples = generateCombinations(box, 10, { random: createRandom(42) });
+
+// Map the landscape: 20 distinct scenarios that use every value about equally often
+// (constraints and locked values respected). strength: 2 also spreads value pairs;
+// `existing` selections count towards the balance. Use createCoverageGenerator for one-at-a-time.
+const covering = generateCoverage(box, 20, { strength: 2, unlikelyWeight: 1, existing: [] });
+const usage = valueUsage(box, covering.map((c) => c.selection)); // Map<valueId, count>
 
 // Decision support: given the situation, which measures remain?
 const options = assessOptions(box, { motive: ['motive-revenge'] });
@@ -85,6 +91,7 @@ morph-box set-template box.json --data 'A {1} attacker targets the {2}.'
 morph-box set-llm-prompt box.json --data 'Write a realistic scenario based on the following elements.'
 morph-box validate box.json      # exit code 1 on errors
 morph-box generate box.json -n 5 --seed 1   # manual measures stay empty; add --include-manual to fill them
+morph-box generate box.json -n 20 --cover    # every value used about equally often (--pairs: also spread pairs)
 morph-box options box.json --select motive-revenge   # decision support: available/excluded measures, grouped into situation and decisions
 morph-box set-decision box.json measures        # mark an existing category as a decision category (its components become manual)
 morph-box set-decision box.json measures --off  # clear the decision flag only; components stay manual

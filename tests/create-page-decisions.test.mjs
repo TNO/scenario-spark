@@ -46,6 +46,11 @@ const load = (ui = {}) => {
     './ui/markdown-field': { MarkdownField },
     './ui/export-word': { ExportWordModal: () => ({ view: () => null }) },
     './ui/combined-prompt-modal': { CombinedPromptModal: () => ({ view: () => null }) },
+    './ui/coverage-modal': {
+      CoverageModal: () => ({ view: () => null }),
+      DeleteBatchModal: () => ({ view: () => null }),
+      narrativeBatches: () => new Map(),
+    },
   };
   new Function('require', 'module', 'exports', code)((name) => mocks[name] || require(name), module, module.exports);
   return module.exports;

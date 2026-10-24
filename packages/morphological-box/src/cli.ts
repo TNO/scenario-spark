@@ -23,6 +23,7 @@ import {
   getDecisionComponentIds,
   type ComponentOptions,
 } from './generate.ts';
+import { generateCoverage } from './coverage.ts';
 import { assessCoa, compareCoas, nextCoaLabel, type CoaAssessment, type CoaInput } from './coa.ts';
 import { getInconsistency, listInconsistencies } from './inconsistencies.ts';
 import {
@@ -86,10 +87,14 @@ Inspect:
   validate <file> [--json] [--strict]
                                    Exit code 1 on errors (or warnings with --strict).
   stats <file> [--json]            Size and constraint statistics.
-  generate <file> [-n <count>] [--seed <n>] [--include-manual] [--json]
+  generate <file> [-n <count>] [--seed <n>] [--include-manual] [--cover]
+           [--pairs] [--json]
                                    Sample consistent combinations (rendered with
                                    the template, if any). Manual components stay
                                    empty unless --include-manual is given.
+                                   --cover uses every value about equally often
+                                   instead of sampling at random; --pairs also
+                                   spreads the value pairs (implies --cover).
   options <file> --select <valueId>[,<valueId>...] [--json]
                                    Decision support: given the selected values
                                    (e.g. the current situation), list for every
@@ -143,6 +148,8 @@ const parse = (argv: string[]) =>
       text: { type: 'string' },
       off: { type: 'boolean' },
       'include-manual': { type: 'boolean' },
+      cover: { type: 'boolean' },
+      pairs: { type: 'boolean' },
       n: { type: 'string', short: 'n' },
       help: { type: 'boolean', short: 'h' },
     },
@@ -541,7 +548,12 @@ export const run = (argv: string[]): number => {
       const box = readBox(fileArg(args), true);
       const count = Number(args.values.n || 5);
       const random = args.values.seed !== undefined ? createRandom(Number(args.values.seed)) : undefined;
-      const results = generateCombinations(box, count, { random, includeManual: !!args.values['include-manual'] });
+      const includeManual = !!args.values['include-manual'];
+      const pairs = !!args.values.pairs;
+      const results =
+        args.values.cover || pairs
+          ? generateCoverage(box, count, { random, includeManual, strength: pairs ? 2 : 1 })
+          : generateCombinations(box, count, { random, includeManual });
       if (results.length === 0) fail('No consistent combination exists.');
       if (asJson) {
         console.log(JSON.stringify(results, null, 2));

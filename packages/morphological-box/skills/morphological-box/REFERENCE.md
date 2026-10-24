@@ -96,13 +96,14 @@ Warnings (review): `too-few-values`, `duplicate-label`, `empty-category`, `compo
 
 ```ts
 import { readFileSync } from 'node:fs';
-import { validateBox, generateCombination, generateCombinations, createRandom, assessOptions, assessCoa, compareCoas, createLlmPrompt, renderTemplate } from 'morphological-box';
+import { validateBox, generateCombination, generateCombinations, generateCoverage, createRandom, assessOptions, assessCoa, compareCoas, createLlmPrompt, renderTemplate } from 'morphological-box';
 
 const box = JSON.parse(readFileSync('box.json', 'utf8'));
 const { valid, errors } = validateBox(box);
 const result = generateCombination(box, { locked: { 'actor-type': ['actor-type-insider'] } });
 if (result.ok) console.log(result.selection, result.unlikelyCount); // { componentId: [valueId] }
 const samples = generateCombinations(box, 10, { random: createRandom(42) });
+const covering = generateCoverage(box, 20, { strength: 2 }); // every value (and pair) about equally often
 // Decision support: which measures remain once the situation is known?
 const options = assessOptions(box, { 'actor-type': ['actor-type-insider'] }); // [{ componentId, manual, decision, values: [{ id, status, conflicts }] }]
 if (box.template) console.log(renderTemplate(box, box.template, samples[0].selection));
