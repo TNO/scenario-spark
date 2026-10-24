@@ -194,11 +194,7 @@ export const DeleteBatchModal: FactoryComponent<{
             placeholder: t('i18n', 'pickOne'),
             checkedId: selected,
             options: [...batches].map(([id, n]) => ({ id, label: `${id} (${n})` })),
-            onchange: (v) => {
-              selected = v[0];
-              // The dropdown is rendered in a portal inside modals, which does not trigger a redraw itself
-              m.redraw();
-            },
+            onchange: (v) => (selected = v[0]),
           } as SelectAttrs<string>),
           m(
             '.col.s12',
