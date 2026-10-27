@@ -40,7 +40,7 @@ export const messages = {
   KEY_VALUE: 'Key value',
   OPTION_USAGE_LEGEND: 'Option usage in included scenarios',
   OPTION_USAGE_RANGE: 'Used {range} times in included scenarios',
-  OPTION_USAGE_COUNT: 'Uses in included scenarios: {count}',
+  OPTION_USAGE_COUNT: '{count}x used',
   CONTEXT: 'Context',
   NONE: 'None',
   LOCATION: 'Location',

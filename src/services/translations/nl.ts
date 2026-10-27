@@ -42,7 +42,7 @@ export const messages: typeof messagesEN = {
   KEY_VALUE: 'Waarde',
   OPTION_USAGE_LEGEND: 'Gebruik van opties in opgenomen scenario\'s',
   OPTION_USAGE_RANGE: '{range} keer gebruikt in opgenomen scenario\'s',
-  OPTION_USAGE_COUNT: 'Aantal keer gebruikt in opgenomen scenario\'s: {count}',
+  OPTION_USAGE_COUNT: '{count}x gebruikt',
   CONTEXT: 'Context',
   NONE: 'Geen',
   LOCATION: 'Locatie',

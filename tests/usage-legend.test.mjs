@@ -47,6 +47,64 @@ test('default legend uses the six agreed count bands and blue palette', () => {
   assert.deepEqual(swatches(thresholdColors).map(text), ['0', '1-2', '3-5', '6-10', '11-20', '21+']);
 });
 
+const find = (tree, predicate) => {
+  if (Array.isArray(tree)) return tree.flatMap((node) => find(node, predicate));
+  if (!tree || typeof tree !== 'object') return [];
+  return [...(predicate(tree) ? [tree] : []), ...find(tree.children, predicate)];
+};
+
+test('option tooltips append a compact translated usage suffix without an extra paragraph', () => {
+  const materialized = require('mithril-materialized');
+  const previousWindow = globalThis.window;
+  globalThis.window = { setTimeout: () => 0 };
+  try {
+    for (const [locale, expected] of [
+      ['en', '3x used'], ['nl', '3x gebruikt'], ['fr', 'utilisée 3 fois'],
+      ['de', '3x verwendet'], ['es', 'usada 3 veces'], ['pl', 'użyta 3 razy'],
+    ]) {
+      const { messages } = load(`../src/services/translations/${locale}.ts`, {});
+      const t = (key, params) => key === 'OPTION_USAGE_COUNT'
+        ? messages[key].replace('{count}', params.count)
+        : key;
+      const { CreateBoxPage } = load('../src/components/create-box-page.ts', {
+        'mithril-materialized': { ...materialized, ThemeManager: { getEffectiveTheme: () => 'light' } },
+        'mithril-ui-form': { LayoutForm: () => {}, SlimdownView: () => {} },
+        '../models': { OsmTypes: [], contextTypeOptions: () => [] },
+        '../services': { t, i18n: { i18n: {} } },
+        '../utils': { ...utils, getDecisionCategoryIds: () => new Set() },
+        './ui': { LegendComponent },
+      });
+      const updates = [];
+      const scenario = {
+        id: 'box', categories: [{ id: 'cat', componentIds: ['factor'] }],
+        components: [{ id: 'factor', values: [{ id: 'option', label: 'Option', desc: 'Description' }] }],
+        narratives: Array.from({ length: 3 }, () => ({ included: true, components: { factor: ['option'] } })),
+        thresholdColors,
+      };
+      const page = CreateBoxPage();
+      const attrs = { state: { model: { scenario } }, update: (patch) => updates.push(patch) };
+      const tree = page.view({ attrs });
+      const [tabs] = find(tree, (node) => node.tag === materialized.Tabs);
+      const box = tabs.attrs.tabs[0].vnode;
+      const [row] = find(box.tag().view(box), (node) => typeof node.tag === 'function' && node.attrs.sc);
+      const [item] = find(row.tag().view(row), (node) => node.attrs?.item?.id === 'option');
+      const component = item.tag();
+      for (const description of ['Description', undefined]) {
+        scenario.components[0].values[0].desc = description;
+        const optionTree = component.view(item);
+        assert.equal(optionTree.attrs.title, expected, locale);
+        const [content] = find(optionTree, (node) => node.attrs?.onmouseenter);
+        content.attrs.onmouseenter();
+        assert.equal(updates.at(-1).activeTooltip, `Option${description ? ': Description' : ''} (${expected})`, locale);
+        assert.ok(!updates.at(-1).activeTooltip.includes('\n'));
+      }
+    }
+  } finally {
+    if (previousWindow === undefined) delete globalThis.window;
+    else globalThis.window = previousWindow;
+  }
+});
+
 test('legend sorts custom bands without mutating them and retains single-count ranges', () => {
   const items = legacy().reverse();
   const original = structuredClone(items);

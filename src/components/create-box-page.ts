@@ -137,7 +137,7 @@ const BoxItem: MeiosisComponent<{
                   item.desc ? `: ${item.desc}` : ""
                 }`;
                 attrs.update({
-                  activeTooltip: `${activeTooltip}\n\n${usageText}`,
+                  activeTooltip: `${activeTooltip} (${usageText})`,
                 });
               },
               onmouseleave: () => {

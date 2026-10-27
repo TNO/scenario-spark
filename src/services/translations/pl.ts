@@ -42,7 +42,7 @@ export const messages: typeof messagesEN = {
   KEY_VALUE: 'Wartość kluczowa',
   OPTION_USAGE_LEGEND: 'Użycie opcji w uwzględnionych scenariuszach',
   OPTION_USAGE_RANGE: 'Użyta {range} razy w uwzględnionych scenariuszach',
-  OPTION_USAGE_COUNT: 'Liczba użyć w uwzględnionych scenariuszach: {count}',
+  OPTION_USAGE_COUNT: 'użyta {count} razy',
   CONTEXT: 'Kontekst',
   NONE: 'Brak',
   LOCATION: 'Lokalizacja',
