@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scenario-spark-f14d9fc96e2f5506';
+const CACHE_NAME = 'scenario-spark-55b138d706812d70';
 const STARTER_KIT_LANGUAGES = new Set(['nl', 'en', 'fr', 'de', 'es', 'pl']);
 
 const BASE = self.location.pathname.replace(/\/sw\.js$/, '') || '/';

@@ -8,6 +8,7 @@ For an overview, see the [5 minute video introduction](https://www.youtube.com/w
 
 - [Online morphological box tool](tno.github.io/scenario-spark), free to use and modify.
 - All data is stored locally, in your browser, and can be downloaded as JSON.
+- The morphological box shows option usage in included scenarios with a gray-to-blue legend: **0, 1–2, 3–5, 6–10, 11–20, 21+**. Hover over an option for its exact count. Boxes using the old default legend are upgraded automatically; custom legends in Settings are preserved.
 - A collection holds multiple morphological boxes. Select a box on the home page to create or reopen its scenarios; edit the box separately to change its factors and constraints. The box actions menu contains new, AI-generated, download, and delete options; the globe icon beside the theme switcher changes language.
 - Items can have a location on the map, optionally including radii.
 - Supports modelling inconsistencies, e.g. a small research reactor can only produce modest radiation levels during an incident.

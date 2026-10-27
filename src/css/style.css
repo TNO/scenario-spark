@@ -1402,8 +1402,35 @@ ul.scenario-list > li {
   margin: 10px;
   border-radius: 6px;
   padding: 6px;
-  background-color: lightblue;
+  background-color: var(--mm-surface-color, #fff);
+  max-width: calc(100vw - 20px);
   bottom: 0;
+}
+
+.legend-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 6px;
+  border-radius: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 360px) {
+  .legend-items {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .llm-settings {

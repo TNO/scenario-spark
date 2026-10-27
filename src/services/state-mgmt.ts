@@ -12,6 +12,7 @@ import {
   thresholdColors,
 } from '../models';
 import { loadStarterKit, migratePersonaImages, withRandomFirstBox } from '../models/starter-kit';
+import { migrateUsageLegends } from '../models/usage-legend';
 import type { Languages } from './translations';
 import { ldb } from '../utils/local-ldb';
 import {
@@ -144,6 +145,7 @@ export const saveModel = async (
   }
   // Imported or older scenarios store decisions in narratives: move them to courses of action
   migrateModel(model);
+  migrateUsageLegends(model);
   // console.log(JSON.stringify(model, null, 2));
   if (reset) {
     if (!validateScenario(model.scenario)) {
@@ -321,9 +323,10 @@ const initialize = async (update: Update<State>) => {
         await loadStarterKit((localStorage.getItem(LANGUAGE) || 'nl') as Languages, thresholdColors)
       );
   const migrated = migrateModel(model);
+  const legendsMigrated = migrateUsageLegends(model);
   const personasMigrated = migratePersonaImages(model);
   // Store a new user's starter collection at once, so its random first box stays put on reload.
-  if (!ds || personasMigrated || migrated) await ldb.set(MODEL_KEY, JSON.stringify(model));
+  if (!ds || personasMigrated || migrated || legendsMigrated) await ldb.set(MODEL_KEY, JSON.stringify(model));
   const title = model.scenario?.label || '';
   setTitle(title);
 

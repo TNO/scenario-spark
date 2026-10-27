@@ -4,6 +4,9 @@ import { uniqueId } from 'mithril-materialized';
 import { LLMConfig } from '../components/ui/llm';
 import type { Languages } from '../services/translations';
 import { loadStarterKit } from './starter-kit';
+import { thresholdColors } from './usage-legend';
+
+export { thresholdColors } from './usage-legend';
 
 export type DataModel = {
   version?: number;
@@ -251,14 +254,6 @@ export type ScenarioComponent = Item & {
   /** Are there any contexts that are relevant, such as a location or mitigation measures */
   contexts?: ContextType[];
 };
-
-/** Default threshold colors */
-export const thresholdColors = [
-  { threshold: 0, color: '#ddeced' },
-  { threshold: 1, color: '#FF7800' },
-  { threshold: 2, color: '#ffff00' },
-  { threshold: 3, color: '#ff0000' },
-];
 
 export const newScenario = (label = '') => ({
   id: uniqueId(),

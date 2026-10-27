@@ -1,4 +1,5 @@
 import m from "mithril";
+import { valueUsage } from "morphological-box";
 import {
   Dashboards,
   ContextualItem,
@@ -60,6 +61,7 @@ const BoxItem: MeiosisComponent<{
   contexts?: ContextType[];
   form: UIForm<ContextualItem>;
   color: [Color, Color];
+  usage: Map<ID, number>;
 }> = () => {
   let obj: ContextualItem;
   let contextAwareForm: UIForm<ContextualItem>;
@@ -89,12 +91,14 @@ const BoxItem: MeiosisComponent<{
       obj = { ...item };
     },
     view: ({ attrs }) => {
-      const { item, id, color } = attrs;
+      const { item, id, color, usage } = attrs;
+      const usageText = t("OPTION_USAGE_COUNT", { count: usage.get(item.id) || 0 });
       return m(
         "li.kanban-item.card.widget[draggable=true]",
         {
           key: item.id,
           id: `ki_${item.id}`,
+          title: usageText,
           // style: {
           //   backgroundColor: color[0],
           //   color: color[1],
@@ -133,7 +137,7 @@ const BoxItem: MeiosisComponent<{
                   item.desc ? `: ${item.desc}` : ""
                 }`;
                 attrs.update({
-                  activeTooltip,
+                  activeTooltip: `${activeTooltip}\n\n${usageText}`,
                 });
               },
               onmouseleave: () => {
@@ -454,6 +458,7 @@ const BoxRow: MeiosisComponent<{
   sc: ScenarioComponent;
   form: UIForm<ContextualItem>;
   compColor: { [key: ID]: [Color, Color] };
+  usage: Map<ID, number>;
   categoryId: number;
 }> = () => {
   return {
@@ -489,6 +494,7 @@ const BoxView: MeiosisComponent<{
   categoryId: number;
   form: UIForm<ContextualItem>;
   compColor: { [key: ID]: [Color, Color] };
+  usage: Map<ID, number>;
   onAddKeyDriver: (categoryId: number) => void;
 }> = () => {
   return {
@@ -686,10 +692,8 @@ export const CreateBoxPage: MeiosisComponent = () => {
     { id: "desc", type: "textarea", label: t("DESCRIPTION") },
   ] as UIForm<ContextualItem>;
 
-  let narrativeLength = 0;
   let compColor: { [key: ID]: [Color, Color] } = {};
   let themeThresholdColors: ThresholdColor[] = [];
-  let lastTheme: string;
 
   const setThresholdColors = (thc: ThresholdColor[]) => {
     if (!thc) return;
@@ -792,16 +796,8 @@ export const CreateBoxPage: MeiosisComponent = () => {
         ? new Set<string>()
         : getDecisionCategoryIds(scenario);
       setThresholdColors(thresholdColors);
-      const theme = ThemeManager.getEffectiveTheme();
-      if (
-        Object.keys(compColor).length === 0 ||
-        narrativeLength !== narratives.length ||
-        lastTheme !== theme
-      ) {
-        lastTheme = theme;
-        narrativeLength = narratives.length;
-        compColor = computeCompColor(narratives, themeThresholdColors);
-      }
+      compColor = computeCompColor(narratives, themeThresholdColors);
+      const usage = valueUsage(scenario, narratives.filter((n) => n.included).map((n) => n.components));
 
       const { includeMapSupport, mapConfig, mapUnits, osmAmenities } = scenario;
       const allSelectedItems: ContextualItem[] = [];
@@ -885,6 +881,7 @@ export const CreateBoxPage: MeiosisComponent = () => {
                       vnode: m(BoxView, {
                         ...attrs,
                         compColor,
+                        usage,
                         categoryId,
                         form: myForm,
                         onAddKeyDriver: (id) => addKeyDriver(attrs, id),
