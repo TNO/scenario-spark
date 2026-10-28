@@ -1,0 +1,335 @@
+{
+  "hideInconsistentValues": false,
+  "includeDecisionSupport": false,
+  "narratives": [],
+  "thresholdColors": [
+    {
+      "threshold": 0,
+      "color": "#ddeced"
+    },
+    {
+      "threshold": 1,
+      "color": "#FF7800"
+    },
+    {
+      "threshold": 2,
+      "color": "#ffff00"
+    },
+    {
+      "threshold": 3,
+      "color": "#ff0000"
+    }
+  ],
+  "id": "vlissingen-harbor-resilience",
+  "label": "Harbor resilience under espionage and sabotage",
+  "desc": "Defensive planning box for Dutch National Police and partners, with Vlissingen as an illustrative port and a near-term 1–3 year horizon. Attribution is a hypothesis, never inferred from one signal. Source basis: AIVD/NCTV Dreigingsbeeld Statelijke Actoren 2025 (https://www.nctv.nl/documenten/2025/07/17/dreigingsbeeld-statelijke-actoren-2025); AIVD Annual Report 2025, Russia (https://www.aivd.nl/actueel/magazines/jaarverslag/jaarverslag/2025/rusland); NATO Countering Hybrid Threats (https://www.nato.int/en/what-we-do/deterrence-and-defence/countering-hybrid-threats). AIS, ANPR, rail, OSINT, reports, and drone observations are candidate indicators, not verified evidence of hostile activity at Vlissingen.",
+  "language": "en",
+  "categories": [
+    {
+      "id": "strategic-context",
+      "label": "Strategic context",
+      "componentIds": [
+        "escalation-level",
+        "port-role",
+        "transport-dependency"
+      ]
+    },
+    {
+      "id": "actor-and-intent",
+      "label": "Actor and intent",
+      "componentIds": [
+        "attribution-hypothesis",
+        "primary-intent"
+      ]
+    },
+    {
+      "id": "activity-pattern",
+      "label": "Activity pattern",
+      "componentIds": [
+        "activity-class",
+        "target-domain",
+        "activity-mode"
+      ]
+    },
+    {
+      "id": "signals-and-impact",
+      "label": "Signals and impact",
+      "componentIds": [
+        "initial-signal",
+        "corroboration",
+        "transport-effect"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "escalation-level",
+      "label": "Escalation level",
+      "values": [
+        {
+          "id": "escalation-level-sustained-strategic-competition",
+          "label": "Sustained strategic competition"
+        },
+        {
+          "id": "escalation-level-heightened-hybrid-pressure",
+          "label": "Heightened hybrid pressure"
+        },
+        {
+          "id": "escalation-level-acute-regional-crisis",
+          "label": "Acute regional crisis"
+        }
+      ]
+    },
+    {
+      "id": "port-role",
+      "label": "Port role",
+      "values": [
+        {
+          "id": "port-role-routine-commercial-activity",
+          "label": "Routine commercial activity"
+        },
+        {
+          "id": "port-role-increased-strategic-transit",
+          "label": "Increased strategic transit"
+        },
+        {
+          "id": "port-role-critical-logistics-hub",
+          "label": "Critical logistics hub"
+        }
+      ]
+    },
+    {
+      "id": "transport-dependency",
+      "label": "Transport dependency",
+      "values": [
+        {
+          "id": "transport-dependency-maritime-led",
+          "label": "Maritime-led"
+        },
+        {
+          "id": "transport-dependency-rail-and-road-connections",
+          "label": "Rail and road connections"
+        },
+        {
+          "id": "transport-dependency-multi-modal-corridor",
+          "label": "Multi-modal corridor"
+        }
+      ]
+    },
+    {
+      "id": "attribution-hypothesis",
+      "label": "Attribution hypothesis",
+      "values": [
+        {
+          "id": "attribution-hypothesis-state-linked-hypothesis",
+          "label": "State-linked hypothesis"
+        },
+        {
+          "id": "attribution-hypothesis-proxy-or-facilitator-hypothesis",
+          "label": "Proxy or facilitator hypothesis"
+        },
+        {
+          "id": "attribution-hypothesis-unattributed-or-unresolved",
+          "label": "Unattributed or unresolved"
+        }
+      ]
+    },
+    {
+      "id": "primary-intent",
+      "label": "Primary intent",
+      "values": [
+        {
+          "id": "primary-intent-collect-operational-information",
+          "label": "Collect operational information"
+        },
+        {
+          "id": "primary-intent-disrupt-transport-flows",
+          "label": "Disrupt transport flows"
+        },
+        {
+          "id": "primary-intent-signal-or-coerce",
+          "label": "Signal or coerce"
+        }
+      ]
+    },
+    {
+      "id": "activity-class",
+      "label": "Activity class",
+      "values": [
+        {
+          "id": "activity-class-espionage",
+          "label": "Espionage"
+        },
+        {
+          "id": "activity-class-sabotage-or-interference",
+          "label": "Sabotage or interference"
+        },
+        {
+          "id": "activity-class-blended-espionage-and-interference",
+          "label": "Blended espionage and interference"
+        }
+      ]
+    },
+    {
+      "id": "target-domain",
+      "label": "Target domain",
+      "values": [
+        {
+          "id": "target-domain-maritime-traffic-and-vessels",
+          "label": "Maritime traffic and vessels"
+        },
+        {
+          "id": "target-domain-rail-and-road-corridors",
+          "label": "Rail and road corridors"
+        },
+        {
+          "id": "target-domain-port-logistics-and-personnel",
+          "label": "Port logistics and personnel"
+        }
+      ]
+    },
+    {
+      "id": "activity-mode",
+      "label": "Activity mode",
+      "values": [
+        {
+          "id": "activity-mode-drone-based-observation",
+          "label": "Drone-based observation"
+        },
+        {
+          "id": "activity-mode-human-enabled-observation-or-access",
+          "label": "Human-enabled observation or access"
+        },
+        {
+          "id": "activity-mode-physical-or-digital-administrative-interference",
+          "label": "Physical or digital/administrative interference"
+        }
+      ]
+    },
+    {
+      "id": "initial-signal",
+      "label": "Initial signal",
+      "values": [
+        {
+          "id": "initial-signal-ais-movement-anomaly",
+          "label": "AIS movement anomaly"
+        },
+        {
+          "id": "initial-signal-anpr-or-road-traffic-anomaly",
+          "label": "ANPR or road-traffic anomaly"
+        },
+        {
+          "id": "initial-signal-rail-service-disruption",
+          "label": "Rail-service disruption"
+        },
+        {
+          "id": "initial-signal-osint-or-police-civilian-report",
+          "label": "OSINT or police/civilian report"
+        },
+        {
+          "id": "initial-signal-drone-sighting-near-sensitive-infrastructure",
+          "label": "Drone sighting near sensitive infrastructure"
+        }
+      ]
+    },
+    {
+      "id": "corroboration",
+      "label": "Corroboration",
+      "values": [
+        {
+          "id": "corroboration-single-unverified-report",
+          "label": "Single unverified report"
+        },
+        {
+          "id": "corroboration-independent-signals-converge",
+          "label": "Independent signals converge"
+        },
+        {
+          "id": "corroboration-technical-or-operational-verification",
+          "label": "Technical or operational verification"
+        }
+      ]
+    },
+    {
+      "id": "transport-effect",
+      "label": "Transport effect",
+      "values": [
+        {
+          "id": "transport-effect-no-confirmed-service-impact",
+          "label": "No confirmed service impact"
+        },
+        {
+          "id": "transport-effect-localized-delay",
+          "label": "Localized delay"
+        },
+        {
+          "id": "transport-effect-multi-modal-disruption",
+          "label": "Multi-modal disruption"
+        }
+      ]
+    }
+  ],
+  "inconsistencies": {
+    "primary-intent-collect-operational-information": {
+      "activity-class-sabotage-or-interference": false
+    },
+    "activity-class-sabotage-or-interference": {
+      "primary-intent-collect-operational-information": false
+    },
+    "primary-intent-disrupt-transport-flows": {
+      "activity-class-espionage": false
+    },
+    "activity-class-espionage": {
+      "primary-intent-disrupt-transport-flows": false,
+      "primary-intent-signal-or-coerce": false
+    },
+    "primary-intent-signal-or-coerce": {
+      "activity-class-espionage": false
+    },
+    "attribution-hypothesis-state-linked-hypothesis": {
+      "corroboration-single-unverified-report": false
+    },
+    "corroboration-single-unverified-report": {
+      "attribution-hypothesis-state-linked-hypothesis": false,
+      "attribution-hypothesis-proxy-or-facilitator-hypothesis": false
+    },
+    "attribution-hypothesis-proxy-or-facilitator-hypothesis": {
+      "corroboration-single-unverified-report": false
+    },
+    "target-domain-maritime-traffic-and-vessels": {
+      "initial-signal-anpr-or-road-traffic-anomaly": false,
+      "initial-signal-rail-service-disruption": false
+    },
+    "initial-signal-anpr-or-road-traffic-anomaly": {
+      "target-domain-maritime-traffic-and-vessels": false
+    },
+    "initial-signal-rail-service-disruption": {
+      "target-domain-maritime-traffic-and-vessels": false
+    },
+    "target-domain-rail-and-road-corridors": {
+      "initial-signal-ais-movement-anomaly": false
+    },
+    "initial-signal-ais-movement-anomaly": {
+      "target-domain-rail-and-road-corridors": false
+    }
+  },
+  "template": "Under {1}, the port serves as {2}, with the surrounding network characterized by {3}. The attribution hypothesis remains {4}; a possible primary intent is {5}. Neither conclusion is established by a single signal. The event combines {6} directed at {7}; a reported or inferred activity feature is {8}. The first indication is {9}; confidence depends on {10}, while the observed transport effect is {11}.",
+  "llm": {
+    "id": "clipboard",
+    "url": "",
+    "model": "gemma3",
+    "temperature": 0.7,
+    "prompts": [
+      {
+        "type": "narrative",
+        "prompt": "Write an extensive, defensively oriented training scenario for Dutch National Police and port, rail, road, and maritime partners. Use the supplied context, activity and signals as scenario assumptions, not as evidence that an event has occurred. Develop a coherent incident at a high level, showing how an espionage, sabotage or blended event could create uncertainty across transport domains and how signals might emerge over time. Do not provide operational instructions, targeting guidance, evasion methods or tactical details. Separate observations from interpretation; do not attribute an incident to a state or group without corroboration, and identify what remains unknown. Explore plausible consequences for continuity, public confidence and cross-agency coordination, then close with questions that could support an exercise and later crime-script analysis.",
+        "categories": [
+          "strategic-context",
+          "actor-and-intent",
+          "activity-pattern",
+          "signals-and-impact"
+        ]
+      }
+    ]
+  }
+}
