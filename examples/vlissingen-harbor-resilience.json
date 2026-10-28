@@ -60,6 +60,15 @@
         "corroboration",
         "transport-effect"
       ]
+    },
+    {
+      "id": "script-relevant-profile",
+      "label": "Handelingsprofiel",
+      "componentIds": [
+        "actor-role",
+        "means-channel",
+        "affected-asset-class"
+      ]
     }
   ],
   "components": [
@@ -294,6 +303,91 @@
           "label": "Verstoring van meerdere vervoersmodaliteiten"
         }
       ]
+    },
+    {
+      "id": "actor-role",
+      "label": "Rol in het incident",
+      "desc": "Analytische rolhypothese; leid geen schuld of intentie af uit toegang of aanwezigheid alleen.",
+      "values": [
+        {
+          "id": "actor-role-authorized-access",
+          "label": "Persoon met legitieme toegang (rol te onderzoeken)"
+        },
+        {
+          "id": "actor-role-external-observer",
+          "label": "Externe persoon of waarnemer"
+        },
+        {
+          "id": "actor-role-facilitator",
+          "label": "Facilitator of tussenpersoon"
+        },
+        {
+          "id": "actor-role-multiple-or-unclear",
+          "label": "Meerdere of onduidelijke rollen"
+        }
+      ]
+    },
+    {
+      "id": "means-channel",
+      "label": "Waargenomen of vermoedelijk middel/kanaal",
+      "desc": "Brede categorie van een waargenomen, gemeld of verondersteld middel of kanaal. Het kan ondersteunend zijn aan de activiteitsvorm en is geen bevestiging van gebruik.",
+      "values": [
+        {
+          "id": "means-channel-human-organizational",
+          "label": "Menselijk of organisatorisch contact"
+        },
+        {
+          "id": "means-channel-uncrewed-aircraft",
+          "label": "Waarneming met onbemande luchtvaartuigen"
+        },
+        {
+          "id": "means-channel-transport-data",
+          "label": "Maritieme, vervoers- of operationele gegevens"
+        },
+        {
+          "id": "means-channel-digital-administrative",
+          "label": "Digitaal of administratief kanaal"
+        },
+        {
+          "id": "means-channel-physical-indicator",
+          "label": "Fysieke aanwezigheid of materiële afwijking"
+        },
+        {
+          "id": "means-channel-multiple-unknown",
+          "label": "Meerdere kanalen of nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "affected-asset-class",
+      "label": "Vermoedelijk doelobject of geraakte dienst",
+      "desc": "Classificeer op hoofdlijnen. Onderscheid een verondersteld doel van een bevestigd effect of een indirect keteneffect; leid geen specifieke doelkeuze of kwetsbaarheid af.",
+      "values": [
+        {
+          "id": "affected-asset-maritime-services",
+          "label": "Scheepsbewegingen en maritieme dienstverlening"
+        },
+        {
+          "id": "affected-asset-port-logistics",
+          "label": "Havenlogistiek en goederenstromen"
+        },
+        {
+          "id": "affected-asset-rail-services",
+          "label": "Spoorvervoer en dienstverlening"
+        },
+        {
+          "id": "affected-asset-road-services",
+          "label": "Wegvervoer en toegang"
+        },
+        {
+          "id": "affected-asset-personnel-information",
+          "label": "Personeel of operationele informatie"
+        },
+        {
+          "id": "affected-asset-multiple-unknown",
+          "label": "Meerdere of nog niet vastgestelde objecten of diensten"
+        }
+      ]
     }
   ],
   "inconsistencies": {
@@ -325,7 +419,9 @@
     },
     "target-domain-maritime-traffic-and-vessels": {
       "initial-signal-anpr-or-road-traffic-anomaly": false,
-      "initial-signal-rail-service-disruption": false
+      "initial-signal-rail-service-disruption": false,
+      "affected-asset-rail-services": false,
+      "affected-asset-road-services": false
     },
     "initial-signal-anpr-or-road-traffic-anomaly": {
       "target-domain-maritime-traffic-and-vessels": false
@@ -333,14 +429,48 @@
     "initial-signal-rail-service-disruption": {
       "target-domain-maritime-traffic-and-vessels": false
     },
+    "affected-asset-rail-services": {
+      "target-domain-maritime-traffic-and-vessels": false
+    },
+    "affected-asset-road-services": {
+      "target-domain-maritime-traffic-and-vessels": false
+    },
     "target-domain-rail-and-road-corridors": {
-      "initial-signal-ais-movement-anomaly": false
+      "initial-signal-ais-movement-anomaly": false,
+      "affected-asset-maritime-services": false
     },
     "initial-signal-ais-movement-anomaly": {
       "target-domain-rail-and-road-corridors": false
+    },
+    "affected-asset-maritime-services": {
+      "target-domain-rail-and-road-corridors": false
+    },
+    "activity-mode-drone-based-observation": {
+      "means-channel-human-organizational": false,
+      "means-channel-digital-administrative": false,
+      "means-channel-physical-indicator": false
+    },
+    "means-channel-human-organizational": {
+      "activity-mode-drone-based-observation": false
+    },
+    "means-channel-digital-administrative": {
+      "activity-mode-drone-based-observation": false
+    },
+    "means-channel-physical-indicator": {
+      "activity-mode-drone-based-observation": false
+    },
+    "activity-mode-human-enabled-observation-or-access": {
+      "means-channel-uncrewed-aircraft": false
+    },
+    "means-channel-uncrewed-aircraft": {
+      "activity-mode-human-enabled-observation-or-access": false,
+      "activity-mode-physical-or-digital-administrative-interference": false
+    },
+    "activity-mode-physical-or-digital-administrative-interference": {
+      "means-channel-uncrewed-aircraft": false
     }
   },
-  "template": "Bij {1} vervult de haven de rol van {2}, binnen een netwerk met {3}. De bronstatus van een mogelijk schaduwvlootverband is {4}; die status is op zichzelf geen bewijs van vijandige intentie.\n\nDe toeschrijvingshypothese blijft {5}, met als mogelijk primair doel {6}. Deze duiding blijft voorlopig zolang onafhankelijke bevestiging ontbreekt.\n\nHet scenario betreft {7} gericht op {8}, waarbij {9} als mogelijke activiteitsvorm naar voren komt.\n\nHet eerste signaal is {10}; de mate van bevestiging is {11}. Het zichtbare effect op vervoer is {12}. Beschrijf waarnemingen en onzekerheden apart en neem alledaagse of niet-vijandige verklaringen mee.",
+  "template": "Bij {1} vervult de haven de rol van {2}, binnen een netwerk met {3}. De bronstatus van een mogelijk schaduwvlootverband is {4}; die status is op zichzelf geen bewijs van vijandige intentie.\n\nDe toeschrijvingshypothese blijft {5}, met als mogelijk primair doel {6}. Deze duiding blijft voorlopig zolang onafhankelijke bevestiging ontbreekt.\n\nHet scenario betreft {7} gericht op {8}, waarbij {9} als mogelijke activiteitsvorm naar voren komt.\n\nHet eerste signaal is {10}; de mate van bevestiging is {11}. Het zichtbare effect op vervoer is {12}. Beschrijf waarnemingen en onzekerheden apart en neem alledaagse of niet-vijandige verklaringen mee.\n\nEen rol die in de analyse wordt onderzocht is {13}; het waargenomen of veronderstelde middel of kanaal is {14}; het betrokken object of de dienst is {15}. Behandel deze kenmerken als werkhypothesen, niet als vastgestelde feiten.",
   "llm": {
     "id": "clipboard",
     "url": "",
@@ -349,12 +479,13 @@
     "prompts": [
       {
         "type": "narrative",
-        "prompt": "Schrijf een uitgebreide, defensief georiënteerde oefensituatie in het Nederlands voor de Nederlandse politie en partners in de haven, op het spoor, de weg en het water. Behandel de aangeleverde context, activiteit, signalen en effecten uitsluitend als scenario-aannames, niet als bewijs dat een incident in Vlissingen heeft plaatsgevonden. Beschrijf op hoog niveau een samenhangend scenario waarin spionage, sabotage of een combinatie daarvan onzekerheid kan veroorzaken over verschillende vervoersdomeinen en waarin signalen zich in de tijd kunnen ontwikkelen. Geef geen operationele instructies, doelwitselectie, ontwijkingsmethoden of tactische details. Scheid waarnemingen van interpretaties; schrijf een staat of groep niet toe zonder corroboratie en benoem wat onbekend blijft. Behandel AIS-, ANPR-, spoor-, OSINT-, meldings- en dronegegevens als aanwijzingen die verificatie vereisen; benoem dat AIS-gegevens onvolledig kunnen zijn en dat openbaarmaking van live scheepvaartgegevens gevolgen voor veiligheid kan hebben. Een officiële sanctie- of schaduwvlootvermelding is afzonderlijke nalevingscontext en geen bewijs van vijandige intentie. Neem ook plausibele technische storingen, gewone bedrijvigheid, vergissingen en niet-vijandige droneactiviteit mee. Verken de gevolgen voor continuïteit, publiek vertrouwen en samenwerking tussen organisaties. Sluit af met vragen die nuttig zijn voor een oefening en latere evidence-based crime-scriptanalyse, zonder een operationeel crime script uit te schrijven.",
+        "prompt": "Schrijf in het Nederlands een uitgebreide, defensief georiënteerde oefensituatie en een eerste crime-scriptanalyse voor de Nederlandse politie en partners in de haven, op het spoor, de weg en het water. De boxwaarden zijn scenario-aannames, geen bewijs dat een incident in Vlissingen heeft plaatsgevonden. Gebruik precies deze vijf fasen als Markdown-kopjes: Context en aanloop; Mogelijke voorbereiding en waarnemingen; Incident op hoofdlijnen; Detectie, verificatie en interventie; Impact, onderzoek en herstel. Beschrijf per fase de bekende waarnemingen, hypotheses en onbekenden afzonderlijk. Neem waar relevant de algemene actorrol, middel of kanaal, betrokken klasse van object of dienst, signalen en gevolgen op; verzin ontbrekende feiten niet. Koppel waarnemingen aan mogelijke bronnen en onzekerheidsniveau, benoem onschuldige alternatieve verklaringen en geef aan welke preventie-, detectie- of interventiemomenten onderzocht kunnen worden. Controleer de samenhang tussen activiteitsvorm, middel of kanaal, doeldomein en doelobject of geraakte dienst. Als die niet direct overeenkomen, verklaar geen oorzakelijk verband zonder grond: benoem de mismatch als onzekerheid of maak duidelijk of het om een indirect keteneffect gaat. Houd de beschrijving van vermeende handelingen op categorieniveau en richt de analyse op weerbaarheid, signalering, samenwerking en rechtmatige bewijsborging. Geef geen uitvoerbare instructies, doelwitselectie, concrete kwetsbaarheden, exacte locaties, specifieke apparatuur, technische procedures, ontwijkings- of verhullingsmethoden. Een rol, aanwezigheid, dronewaarneming, AIS/ANPR-afwijking, OSINT-bericht of sanctievermelding bewijst op zichzelf geen vijandige intentie of toeschrijving. AIS-gegevens kunnen onvolledig zijn; publicatie van gevoelige live scheepsbewegingen kan gevolgen hebben voor de veiligheid. Neem plausibele technische storingen, gewone bedrijvigheid, vergissingen en niet-vijandige droneactiviteit mee. Sluit af met open onderzoeksvragen voor de oefening, inclusief welke aannames eerst met lokale bevoegde partners en actuele bronnen moeten worden getoetst. Geen titel buiten deze vijf kopjes, geen codeblokken.",
         "categories": [
           "strategic-context",
           "actor-and-intent",
           "activity-pattern",
-          "signals-and-impact"
+          "signals-and-impact",
+          "script-relevant-profile"
         ]
       }
     ]
