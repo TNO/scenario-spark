@@ -316,26 +316,24 @@ export const ShowScenarioPage: MeiosisComponent = () => {
                     }
                 })
               ),
-            markdown && [
-              m(
-                '.col.s12',
-                m(
-                  '#editor.row.md-editable-area',
-                  m(SlimdownView, {
-                    md: markdown,
-                  })
-                )
-              ),
-              template
-                ? m(
-                    '.col.s12',
-                    m(ScenarioParagraph, {
-                      ...attrs,
-                      template,
+            markdown
+              ? m(
+                  '.col.s12',
+                  m(
+                    '#editor.row.md-editable-area',
+                    m(SlimdownView, {
+                      md: markdown,
                     })
                   )
-                : '',
-            ],
+                )
+              : template &&
+                m(
+                  '.col.s12',
+                  m(ScenarioParagraph, {
+                    ...attrs,
+                    template,
+                  })
+                ),
             m(
               '.col.s12',
               m(

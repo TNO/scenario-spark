@@ -661,8 +661,12 @@ export const CreateScenarioPage: MeiosisComponent = () => {
             // }),
           ],
           narratives && [
-            m('.right.valign-wrapper.narrative-picker', { key: curNarrative.id }, [
-              m(Menu<NarrativeAction>, {
+            m('.right.valign-wrapper.narrative-picker', {
+              key: curNarrative.id,
+              style: { '--narrative-title-len': String((curNarrative.saved && curNarrative.label?.length) || 0) },
+            }, [
+              curNarrative.saved &&
+                m(Menu<NarrativeAction>, {
                   ariaLabel: t('MORE_ACTIONS'),
                   items: [
                     ...(curNarrative.saved

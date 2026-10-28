@@ -1316,8 +1316,9 @@ ul.kanban > li {
   margin-top: 0.5rem;
 }
 
-.show-scenario div.input-field.select-space.mb0.mw30 input {
-  font-size: 36px;
+.show-scenario div.input-field.select-space.mb0.mw30 input.select-dropdown {
+  font-size: clamp(1.75rem, 2.5vw + 0.5rem, 2.5rem);
+  font-weight: 500;
   height: auto;
   line-height: 1.3;
 }
@@ -2802,9 +2803,21 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
 .risk-result .risk-change {
   font-size: 0.75rem;
 }
+.narrative-picker {
+  max-width: 60%;
+}
 .row .narrative-picker > .input-field.col {
-  width: 220px;
-  flex: 0 0 auto;
+  /* Grow with the selected title, but keep room for the toolbar on the left. */
+  width: clamp(220px, calc(var(--narrative-title-len, 0) * 0.6em + 3rem), 40vw);
+  min-width: 0;
+  flex: 0 1 auto;
+}
+.narrative-picker .select-wrapper input.select-dropdown,
+.show-scenario .select-wrapper input.select-dropdown {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 1.5rem;
 }
 .narrative-picker > :not(.input-field) {
   position: relative;
