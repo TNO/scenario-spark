@@ -1,0 +1,495 @@
+{
+  "hideInconsistentValues": false,
+  "includeDecisionSupport": false,
+  "narratives": [],
+  "thresholdColors": [
+    {
+      "threshold": 0,
+      "color": "#ddeced"
+    },
+    {
+      "threshold": 1,
+      "color": "#FF7800"
+    },
+    {
+      "threshold": 2,
+      "color": "#ffff00"
+    },
+    {
+      "threshold": 3,
+      "color": "#ff0000"
+    }
+  ],
+  "id": "vlissingen-sabotage-resilience",
+  "label": "Havenweerbaarheid: sabotage en verstoring",
+  "desc": "Defensieve scenario-box voor weerbaarheid en crime-scriptanalyse rond mogelijke sabotage of verstoring van haven- en transportdiensten. Vlissingen is illustratief; horizon 1–3 jaar is een planningsaanname. Scenariofactoren zijn hypotheses, geen vastgestelde dreiging. Bronnen: AIVD/NCTV Dreigingsbeeld Statelijke Actoren 2025 (https://www.nctv.nl/documenten/2025/07/17/dreigingsbeeld-statelijke-actoren-2025); AIVD Jaarverslag 2025, Rusland (https://www.aivd.nl/actueel/magazines/jaarverslag/jaarverslag/2025/rusland); EU-sancties tegen Rusland (https://www.consilium.europa.eu/en/policies/sanctions-against-russia/); IMO over AIS (https://www.imo.org/en/ourwork/safety/pages/ais.aspx). Behandel meldingen, AIS/ANPR-afwijkingen, dronewaarnemingen en sanctievermeldingen niet als bewijs van vijandige intentie of toeschrijving. Houd mogelijke spionage als aparte, niet-veronderstelde hypothese; verwijs bij aanwijzingen naar de afzonderlijke spionagebox.",
+  "language": "nl",
+  "categories": [
+    {
+      "id": "context",
+      "label": "Strategische context",
+      "componentIds": [
+        "escalation-level",
+        "port-role",
+        "transport-dependency",
+        "shadow-fleet-context"
+      ]
+    },
+    {
+      "id": "actor-and-purpose",
+      "label": "Actorhypothese en mogelijk doel",
+      "componentIds": [
+        "attribution-hypothesis",
+        "disruption-purpose"
+      ]
+    },
+    {
+      "id": "sabotage-pattern",
+      "label": "Verstoringspatroon op hoofdlijnen",
+      "componentIds": [
+        "disruption-class",
+        "target-domain",
+        "actor-role"
+      ]
+    },
+    {
+      "id": "signals-and-effects",
+      "label": "Signalen en gevolgen",
+      "componentIds": [
+        "initial-signal",
+        "corroboration",
+        "service-impact",
+        "continuity-impact"
+      ]
+    },
+    {
+      "id": "means-and-assets",
+      "label": "Middelen en geraakte objecten op hoofdlijnen",
+      "componentIds": [
+        "means-channel",
+        "affected-service"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "escalation-level",
+      "label": "Escalatieniveau",
+      "values": [
+        {
+          "id": "escalation-level-aanhoudende-strategische-rivaliteit",
+          "label": "Aanhoudende strategische rivaliteit"
+        },
+        {
+          "id": "escalation-level-verhoogde-hybride-druk",
+          "label": "Verhoogde hybride druk"
+        },
+        {
+          "id": "escalation-level-acute-regionale-crisis",
+          "label": "Acute regionale crisis"
+        }
+      ]
+    },
+    {
+      "id": "port-role",
+      "label": "Rol van de haven",
+      "values": [
+        {
+          "id": "port-role-reguliere-commerciele-activiteit",
+          "label": "Reguliere commerciële activiteit"
+        },
+        {
+          "id": "port-role-toegenomen-strategisch-transport",
+          "label": "Toegenomen strategisch transport"
+        },
+        {
+          "id": "port-role-kritieke-logistieke-draaischijf",
+          "label": "Kritieke logistieke draaischijf"
+        }
+      ]
+    },
+    {
+      "id": "transport-dependency",
+      "label": "Afhankelijkheid van vervoer",
+      "values": [
+        {
+          "id": "transport-dependency-vooral-maritiem",
+          "label": "Vooral maritiem"
+        },
+        {
+          "id": "transport-dependency-spoor-en-wegverbindingen",
+          "label": "Spoor- en wegverbindingen"
+        },
+        {
+          "id": "transport-dependency-multimodale-corridor",
+          "label": "Multimodale corridor"
+        }
+      ]
+    },
+    {
+      "id": "shadow-fleet-context",
+      "label": "Bronstatus schaduwvlootverband",
+      "desc": "Uitsluitend maritieme context; een sanctie- of schaduwvlootvermelding is geen bewijs van sabotage, spionage of toeschrijving.",
+      "values": [
+        {
+          "id": "shadow-fleet-context-niet-van-toepassing",
+          "label": "Niet van toepassing"
+        },
+        {
+          "id": "shadow-fleet-context-geen-koppeling-vastgesteld-in-geraadpleegde-bron",
+          "label": "Geen koppeling vastgesteld in geraadpleegde bronnen"
+        },
+        {
+          "id": "shadow-fleet-context-officiele-vermelding-in-geraadpleegde-bronnen",
+          "label": "Officiële vermelding in geraadpleegde bronnen"
+        },
+        {
+          "id": "shadow-fleet-context-alleen-onbevestigde-openbare-aanwijzing",
+          "label": "Alleen onbevestigde openbare aanwijzing"
+        }
+      ]
+    },
+    {
+      "id": "attribution-hypothesis",
+      "label": "Toeschrijvingshypothese",
+      "values": [
+        {
+          "id": "attribution-hypothesis-niet-toegeschreven-of-onopgelost",
+          "label": "Niet toegeschreven of onopgelost"
+        },
+        {
+          "id": "attribution-hypothesis-hypothese-staatgebonden-actor",
+          "label": "Hypothese: staatgebonden actor"
+        },
+        {
+          "id": "attribution-hypothesis-hypothese-proxy-of-tussenpersoon",
+          "label": "Hypothese: proxy of tussenpersoon"
+        }
+      ]
+    },
+    {
+      "id": "disruption-purpose",
+      "label": "Mogelijk effect of doel",
+      "values": [
+        {
+          "id": "disruption-purpose-transportstromen-verstoren",
+          "label": "Transportstromen verstoren"
+        },
+        {
+          "id": "disruption-purpose-continuiteit-van-dienstverlening-ondermijnen",
+          "label": "Continuïteit van dienstverlening ondermijnen"
+        },
+        {
+          "id": "disruption-purpose-onzekerheid-of-druk-veroorzaken",
+          "label": "Onzekerheid of druk veroorzaken"
+        },
+        {
+          "id": "disruption-purpose-nog-niet-vastgesteld",
+          "label": "Nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "disruption-class",
+      "label": "Veronderstelde verstoringsklasse",
+      "values": [
+        {
+          "id": "disruption-class-fysieke-verstoring-algemene-categorie",
+          "label": "Fysieke verstoring (algemene categorie)"
+        },
+        {
+          "id": "disruption-class-digitale-of-administratieve-verstoring-algemene-",
+          "label": "Digitale of administratieve verstoring (algemene categorie)"
+        },
+        {
+          "id": "disruption-class-interferentie-met-vervoer-of-logistieke-dienstve",
+          "label": "Interferentie met vervoer of logistieke dienstverlening"
+        },
+        {
+          "id": "disruption-class-meerdere-vormen-of-nog-onbekend",
+          "label": "Meerdere vormen of nog onbekend"
+        }
+      ]
+    },
+    {
+      "id": "target-domain",
+      "label": "Betrokken domein",
+      "values": [
+        {
+          "id": "target-domain-maritiem-verkeer-en-dienstverlening",
+          "label": "Maritiem verkeer en dienstverlening"
+        },
+        {
+          "id": "target-domain-havenlogistiek-en-goederenstromen",
+          "label": "Havenlogistiek en goederenstromen"
+        },
+        {
+          "id": "target-domain-spoorvervoer-en-corridors",
+          "label": "Spoorvervoer en corridors"
+        },
+        {
+          "id": "target-domain-wegvervoer-en-toegang",
+          "label": "Wegvervoer en toegang"
+        },
+        {
+          "id": "target-domain-meerdere-domeinen-of-nog-onbekend",
+          "label": "Meerdere domeinen of nog onbekend"
+        }
+      ]
+    },
+    {
+      "id": "actor-role",
+      "label": "Mogelijke rol in het incident",
+      "values": [
+        {
+          "id": "actor-role-persoon-met-legitieme-toegang-rol-te-onderzoeken",
+          "label": "Persoon met legitieme toegang (rol te onderzoeken)"
+        },
+        {
+          "id": "actor-role-externe-persoon-of-waarnemer",
+          "label": "Externe persoon of waarnemer"
+        },
+        {
+          "id": "actor-role-facilitator-of-tussenpersoon",
+          "label": "Facilitator of tussenpersoon"
+        },
+        {
+          "id": "actor-role-meerdere-of-onduidelijke-rollen",
+          "label": "Meerdere of onduidelijke rollen"
+        }
+      ]
+    },
+    {
+      "id": "initial-signal",
+      "label": "Eerste waarneming of melding",
+      "values": [
+        {
+          "id": "initial-signal-afwijking-in-ais-scheepsbewegingen",
+          "label": "Afwijking in AIS-scheepsbewegingen"
+        },
+        {
+          "id": "initial-signal-afwijking-in-anpr-of-wegverkeer",
+          "label": "Afwijking in ANPR- of wegverkeer"
+        },
+        {
+          "id": "initial-signal-verstoring-of-afwijking-in-spoorvervoer",
+          "label": "Verstoring of afwijking in spoorvervoer"
+        },
+        {
+          "id": "initial-signal-osint-of-politie-burgermelding",
+          "label": "OSINT- of politie-/burgermelding"
+        },
+        {
+          "id": "initial-signal-dronewaarneming-bij-infrastructuur",
+          "label": "Dronewaarneming bij infrastructuur"
+        },
+        {
+          "id": "initial-signal-fysieke-of-operationele-afwijking",
+          "label": "Fysieke of operationele afwijking"
+        },
+        {
+          "id": "initial-signal-nog-niet-vastgesteld",
+          "label": "Nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "corroboration",
+      "label": "Mate van bevestiging",
+      "values": [
+        {
+          "id": "corroboration-een-enkele-niet-geverifieerde-melding",
+          "label": "Een enkele, niet-geverifieerde melding"
+        },
+        {
+          "id": "corroboration-onafhankelijke-signalen-wijzen-dezelfde-kant-op",
+          "label": "Onafhankelijke signalen wijzen dezelfde kant op"
+        },
+        {
+          "id": "corroboration-technisch-of-operationeel-bevestigd",
+          "label": "Technisch of operationeel bevestigd"
+        },
+        {
+          "id": "corroboration-tegenstrijdige-of-onvoldoende-informatie",
+          "label": "Tegenstrijdige of onvoldoende informatie"
+        }
+      ]
+    },
+    {
+      "id": "service-impact",
+      "label": "Waargenomen effect op diensten",
+      "values": [
+        {
+          "id": "service-impact-geen-bevestigd-effect",
+          "label": "Geen bevestigd effect"
+        },
+        {
+          "id": "service-impact-lokale-vertraging-of-beperkte-uitval",
+          "label": "Lokale vertraging of beperkte uitval"
+        },
+        {
+          "id": "service-impact-verstoring-van-meerdere-vervoersdiensten",
+          "label": "Verstoring van meerdere vervoersdiensten"
+        },
+        {
+          "id": "service-impact-effect-nog-onbekend",
+          "label": "Effect nog onbekend"
+        }
+      ]
+    },
+    {
+      "id": "continuity-impact",
+      "label": "Gevolg voor continuïteit",
+      "values": [
+        {
+          "id": "continuity-impact-geen-vastgesteld-gevolg",
+          "label": "Geen vastgesteld gevolg"
+        },
+        {
+          "id": "continuity-impact-tijdelijke-vermindering-van-capaciteit",
+          "label": "Tijdelijke vermindering van capaciteit"
+        },
+        {
+          "id": "continuity-impact-langduriger-of-ketenbreed-gevolg",
+          "label": "Langduriger of ketenbreed gevolg"
+        },
+        {
+          "id": "continuity-impact-nog-niet-vastgesteld",
+          "label": "Nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "means-channel",
+      "label": "Waargenomen of vermoedelijk middel/kanaal",
+      "desc": "Brede analytische categorie; specificeer geen apparatuur, kwetsbaarheid of uitvoeringswijze.",
+      "values": [
+        {
+          "id": "means-channel-menselijk-of-organisatorisch-contact",
+          "label": "Menselijk of organisatorisch contact"
+        },
+        {
+          "id": "means-channel-digitaal-of-administratief-kanaal",
+          "label": "Digitaal of administratief kanaal"
+        },
+        {
+          "id": "means-channel-fysieke-aanwezigheid-of-materiele-afwijking",
+          "label": "Fysieke aanwezigheid of materiële afwijking"
+        },
+        {
+          "id": "means-channel-waarneming-met-onbemande-luchtvaartuigen",
+          "label": "Waarneming met onbemande luchtvaartuigen"
+        },
+        {
+          "id": "means-channel-vervoers-of-operationele-gegevens",
+          "label": "Vervoers- of operationele gegevens"
+        },
+        {
+          "id": "means-channel-meerdere-kanalen-of-nog-niet-vastgesteld",
+          "label": "Meerdere kanalen of nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "affected-service",
+      "label": "Vermoedelijk geraakt object of dienst",
+      "desc": "Onderscheid een verondersteld doel van bevestigd effect en indirecte keteneffecten.",
+      "values": [
+        {
+          "id": "affected-service-scheepsbewegingen-en-maritieme-dienstverlening",
+          "label": "Scheepsbewegingen en maritieme dienstverlening"
+        },
+        {
+          "id": "affected-service-havenlogistiek-en-goederenstromen",
+          "label": "Havenlogistiek en goederenstromen"
+        },
+        {
+          "id": "affected-service-spoorvervoer-en-dienstverlening",
+          "label": "Spoorvervoer en dienstverlening"
+        },
+        {
+          "id": "affected-service-wegvervoer-en-toegang",
+          "label": "Wegvervoer en toegang"
+        },
+        {
+          "id": "affected-service-personeel-of-operationele-informatie",
+          "label": "Personeel of operationele informatie"
+        },
+        {
+          "id": "affected-service-meerdere-of-nog-niet-vastgestelde-objecten-of-di",
+          "label": "Meerdere of nog niet vastgestelde objecten of diensten"
+        }
+      ]
+    }
+  ],
+  "inconsistencies": {
+    "target-domain-maritiem-verkeer-en-dienstverlening": {
+      "affected-service-spoorvervoer-en-dienstverlening": false,
+      "affected-service-wegvervoer-en-toegang": false,
+      "initial-signal-afwijking-in-anpr-of-wegverkeer": false,
+      "initial-signal-verstoring-of-afwijking-in-spoorvervoer": false
+    },
+    "affected-service-spoorvervoer-en-dienstverlening": {
+      "target-domain-maritiem-verkeer-en-dienstverlening": false
+    },
+    "affected-service-wegvervoer-en-toegang": {
+      "target-domain-maritiem-verkeer-en-dienstverlening": false
+    },
+    "initial-signal-afwijking-in-anpr-of-wegverkeer": {
+      "target-domain-maritiem-verkeer-en-dienstverlening": false,
+      "target-domain-spoorvervoer-en-corridors": false
+    },
+    "initial-signal-verstoring-of-afwijking-in-spoorvervoer": {
+      "target-domain-maritiem-verkeer-en-dienstverlening": false,
+      "target-domain-wegvervoer-en-toegang": false
+    },
+    "target-domain-spoorvervoer-en-corridors": {
+      "initial-signal-afwijking-in-anpr-of-wegverkeer": false,
+      "affected-service-scheepsbewegingen-en-maritieme-dienstverlening": false,
+      "initial-signal-afwijking-in-ais-scheepsbewegingen": false
+    },
+    "target-domain-wegvervoer-en-toegang": {
+      "initial-signal-verstoring-of-afwijking-in-spoorvervoer": false,
+      "affected-service-scheepsbewegingen-en-maritieme-dienstverlening": false,
+      "initial-signal-afwijking-in-ais-scheepsbewegingen": false
+    },
+    "affected-service-scheepsbewegingen-en-maritieme-dienstverlening": {
+      "target-domain-spoorvervoer-en-corridors": false,
+      "target-domain-wegvervoer-en-toegang": false
+    },
+    "initial-signal-afwijking-in-ais-scheepsbewegingen": {
+      "target-domain-spoorvervoer-en-corridors": false,
+      "target-domain-wegvervoer-en-toegang": false
+    },
+    "service-impact-geen-bevestigd-effect": {
+      "continuity-impact-tijdelijke-vermindering-van-capaciteit": false,
+      "continuity-impact-langduriger-of-ketenbreed-gevolg": false
+    },
+    "continuity-impact-tijdelijke-vermindering-van-capaciteit": {
+      "service-impact-geen-bevestigd-effect": false
+    },
+    "continuity-impact-langduriger-of-ketenbreed-gevolg": {
+      "service-impact-geen-bevestigd-effect": false
+    }
+  },
+  "template": "De context is {1}: de haven vervult de rol van {2} en is afhankelijk van {3}. De bronstatus van een mogelijk schaduwvlootverband is {4}; die status bewijst geen vijandige intentie.\n\nDe toeschrijvingshypothese blijft {5}; het mogelijke doel of effect is {6}. Behandel beide als onzeker totdat onafhankelijk bewijs bestaat.\n\nHet mogelijke verstoringspatroon betreft {7} in {8}; een mogelijke rol is {9}. Dit zijn onderzoekshypothesen, geen vastgestelde handelingen.\n\nDe eerste waarneming is {10}; de mate van bevestiging is {11}. Het waargenomen effect op diensten is {12}, met als mogelijk gevolg voor continuïteit {13}.\n\nHet waargenomen of veronderstelde middel/kanaal is {14}; het betrokken object of de dienst is {15}. Onderscheid waarneming, hypothese, bevestigd effect en eventueel indirect keteneffect.",
+  "llm": {
+    "id": "clipboard",
+    "url": "",
+    "model": "gemma3",
+    "temperature": 0.7,
+    "prompts": [
+      {
+        "type": "narrative",
+        "prompt": "Schrijf in het Nederlands een uitgebreide, defensief georiënteerde oefensituatie en eerste crime-scriptanalyse over mogelijke sabotage of verstoring rond haven Vlissingen en de verbonden scheepvaart-, spoor- en wegdiensten. Vlissingen is illustratief; de waarden zijn aannames, geen bewijs van een werkelijk incident. Gebruik exact deze vijf Markdown-kopjes: Context en aanloop; Mogelijke voorbereiding en signalen; Verstoring op hoofdlijnen; Detectie, verificatie en interventie; Impact, onderzoek en herstel. Beschrijf per fase waarnemingen, hypotheses en onbekenden afzonderlijk. Houd handelingen op categorie- en effectniveau. Beschrijf niet hoe een verstoring kan worden uitgevoerd, welke concrete zwakke plek of welk specifiek doelwit gekozen zou worden, welke apparatuur of technische procedure wordt gebruikt, of hoe ontdekking kan worden vermeden. Verzin geen feiten. Maak onderscheid tussen vermoedelijk doelobject, bevestigd effect en indirecte gevolgen voor andere vervoersdiensten. Koppel elk signaal aan mogelijke bron, betrouwbaarheid, onafhankelijke corroboratie en een plausibele niet-vijandige verklaring. Benoem detectie-, preventie-, interventie-, continuïteits- en herstelmomenten die bevoegde partners in een oefening kunnen toetsen, met aandacht voor rechtmatige bewijsborging en informatie-uitwisseling. Een schaduwvlootvermelding, dronewaarneming, AIS/ANPR-afwijking, OSINT-post of enkelvoudige melding bewijst op zichzelf geen vijandige intentie of toeschrijving. AIS-gegevens kunnen onvolledig zijn; deel geen gevoelige live scheepsbewegingen. Als er aanwijzingen voor spionage zijn, behandel die als afzonderlijke hypothese en benoem de mogelijke koppeling zonder een gemengd scenario als gegeven aan te nemen. Sluit af met open oefen- en onderzoeksvragen. Gebruik geen titel buiten de genoemde kopjes en geen codeblokken.",
+        "categories": [
+          "context",
+          "actor-and-purpose",
+          "sabotage-pattern",
+          "signals-and-effects",
+          "means-and-assets"
+        ]
+      }
+    ]
+  }
+}

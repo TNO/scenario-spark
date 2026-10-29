@@ -1,0 +1,488 @@
+{
+  "hideInconsistentValues": false,
+  "includeDecisionSupport": false,
+  "narratives": [],
+  "thresholdColors": [
+    {
+      "threshold": 0,
+      "color": "#ddeced"
+    },
+    {
+      "threshold": 1,
+      "color": "#FF7800"
+    },
+    {
+      "threshold": 2,
+      "color": "#ffff00"
+    },
+    {
+      "threshold": 3,
+      "color": "#ff0000"
+    }
+  ],
+  "id": "vlissingen-espionage-resilience",
+  "label": "Havenweerbaarheid: spionage en informatie-inwinning",
+  "desc": "Defensieve scenario-box voor weerbaarheid en crime-scriptanalyse rond mogelijke spionage en informatie-inwinning in haven- en transportcontext. Vlissingen is illustratief; horizon 1–3 jaar is een planningsaanname. Scenariofactoren zijn hypotheses, geen vastgestelde dreiging. Bronnen: AIVD/NCTV Dreigingsbeeld Statelijke Actoren 2025 (https://www.nctv.nl/documenten/2025/07/17/dreigingsbeeld-statelijke-actoren-2025); AIVD Jaarverslag 2025, Rusland (https://www.aivd.nl/actueel/magazines/jaarverslag/jaarverslag/2025/rusland); NCTV over signalen van statelijke inmenging (https://www.nctv.nl/onderwerpen/s/spionage/signalen-die-kunnen-wijzen-op-statelijke-inmenging); AIVD over spionage via sociale media (https://www.aivd.nl/onderwerpen/aandachtsgebieden/spionage/spionage-via-sociale-media); IMO over AIS (https://www.imo.org/en/ourwork/safety/pages/ais.aspx). Behandel meldingen, AIS/ANPR-afwijkingen, OSINT en dronewaarnemingen niet als bewijs van vijandige intentie of toeschrijving. Houd mogelijke sabotage als aparte, niet-veronderstelde hypothese; verwijs bij aanwijzingen naar de afzonderlijke sabotagebox.",
+  "language": "nl",
+  "categories": [
+    {
+      "id": "context",
+      "label": "Strategische context",
+      "componentIds": [
+        "escalation-level",
+        "port-role",
+        "transport-dependency",
+        "shadow-fleet-context"
+      ]
+    },
+    {
+      "id": "intel-focus",
+      "label": "Informatiebelang en toeschrijving",
+      "componentIds": [
+        "attribution-hypothesis",
+        "information-interest"
+      ]
+    },
+    {
+      "id": "collection-pattern",
+      "label": "Mogelijk verzamelpatroon",
+      "componentIds": [
+        "actor-role",
+        "collection-channel",
+        "access-context"
+      ]
+    },
+    {
+      "id": "indicators-and-verification",
+      "label": "Signalen en verificatie",
+      "componentIds": [
+        "initial-indicator",
+        "corroboration",
+        "alternative-explanation"
+      ]
+    },
+    {
+      "id": "exposure-and-resilience",
+      "label": "Mogelijke blootstelling en weerbaarheid",
+      "componentIds": [
+        "information-class",
+        "exposure-status",
+        "resilience-opportunity"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "escalation-level",
+      "label": "Escalatieniveau",
+      "values": [
+        {
+          "id": "escalation-level-aanhoudende-strategische-rivaliteit",
+          "label": "Aanhoudende strategische rivaliteit"
+        },
+        {
+          "id": "escalation-level-verhoogde-hybride-druk",
+          "label": "Verhoogde hybride druk"
+        },
+        {
+          "id": "escalation-level-acute-regionale-crisis",
+          "label": "Acute regionale crisis"
+        }
+      ]
+    },
+    {
+      "id": "port-role",
+      "label": "Rol van de haven",
+      "values": [
+        {
+          "id": "port-role-reguliere-commerciele-activiteit",
+          "label": "Reguliere commerciële activiteit"
+        },
+        {
+          "id": "port-role-toegenomen-strategisch-transport",
+          "label": "Toegenomen strategisch transport"
+        },
+        {
+          "id": "port-role-kritieke-logistieke-draaischijf",
+          "label": "Kritieke logistieke draaischijf"
+        }
+      ]
+    },
+    {
+      "id": "transport-dependency",
+      "label": "Afhankelijkheid van vervoer",
+      "values": [
+        {
+          "id": "transport-dependency-vooral-maritiem",
+          "label": "Vooral maritiem"
+        },
+        {
+          "id": "transport-dependency-spoor-en-wegverbindingen",
+          "label": "Spoor- en wegverbindingen"
+        },
+        {
+          "id": "transport-dependency-multimodale-corridor",
+          "label": "Multimodale corridor"
+        }
+      ]
+    },
+    {
+      "id": "shadow-fleet-context",
+      "label": "Bronstatus schaduwvlootverband",
+      "desc": "Uitsluitend maritieme context; een sanctie- of schaduwvlootvermelding is geen bewijs van spionage, sabotage of toeschrijving.",
+      "values": [
+        {
+          "id": "shadow-fleet-context-niet-van-toepassing",
+          "label": "Niet van toepassing"
+        },
+        {
+          "id": "shadow-fleet-context-geen-koppeling-vastgesteld-in-geraadpleegde-bron",
+          "label": "Geen koppeling vastgesteld in geraadpleegde bronnen"
+        },
+        {
+          "id": "shadow-fleet-context-officiele-vermelding-in-geraadpleegde-bronnen",
+          "label": "Officiële vermelding in geraadpleegde bronnen"
+        },
+        {
+          "id": "shadow-fleet-context-alleen-onbevestigde-openbare-aanwijzing",
+          "label": "Alleen onbevestigde openbare aanwijzing"
+        }
+      ]
+    },
+    {
+      "id": "attribution-hypothesis",
+      "label": "Toeschrijvingshypothese",
+      "values": [
+        {
+          "id": "attribution-hypothesis-niet-toegeschreven-of-onopgelost",
+          "label": "Niet toegeschreven of onopgelost"
+        },
+        {
+          "id": "attribution-hypothesis-hypothese-staatgebonden-actor",
+          "label": "Hypothese: staatgebonden actor"
+        },
+        {
+          "id": "attribution-hypothesis-hypothese-proxy-of-tussenpersoon",
+          "label": "Hypothese: proxy of tussenpersoon"
+        }
+      ]
+    },
+    {
+      "id": "information-interest",
+      "label": "Mogelijk informatiebelang",
+      "values": [
+        {
+          "id": "information-interest-scheepsbewegingen-en-maritieme-activiteit",
+          "label": "Scheepsbewegingen en maritieme activiteit"
+        },
+        {
+          "id": "information-interest-transportstromen-en-logistieke-afhankelijkheden",
+          "label": "Transportstromen en logistieke afhankelijkheden"
+        },
+        {
+          "id": "information-interest-personeel-en-organisatorische-relaties",
+          "label": "Personeel en organisatorische relaties"
+        },
+        {
+          "id": "information-interest-operationele-continuiteit-en-dienstverlening",
+          "label": "Operationele continuïteit en dienstverlening"
+        },
+        {
+          "id": "information-interest-nog-niet-vastgesteld",
+          "label": "Nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "actor-role",
+      "label": "Mogelijke rol in het incident",
+      "values": [
+        {
+          "id": "actor-role-persoon-met-legitieme-toegang-rol-te-onderzoeken",
+          "label": "Persoon met legitieme toegang (rol te onderzoeken)"
+        },
+        {
+          "id": "actor-role-externe-persoon-of-waarnemer",
+          "label": "Externe persoon of waarnemer"
+        },
+        {
+          "id": "actor-role-facilitator-of-tussenpersoon",
+          "label": "Facilitator of tussenpersoon"
+        },
+        {
+          "id": "actor-role-meerdere-of-onduidelijke-rollen",
+          "label": "Meerdere of onduidelijke rollen"
+        }
+      ]
+    },
+    {
+      "id": "collection-channel",
+      "label": "Waargenomen of vermoedelijk verzamelkanaal",
+      "desc": "Beschrijf alleen brede categorieën; geen specifieke apparatuur, doelwitkeuze of werkwijze.",
+      "values": [
+        {
+          "id": "collection-channel-openbare-informatie-en-osint",
+          "label": "Openbare informatie en OSINT"
+        },
+        {
+          "id": "collection-channel-menselijk-of-organisatorisch-contact",
+          "label": "Menselijk of organisatorisch contact"
+        },
+        {
+          "id": "collection-channel-waarneming-in-de-omgeving",
+          "label": "Waarneming in de omgeving"
+        },
+        {
+          "id": "collection-channel-maritieme-vervoers-of-operationele-gegevens",
+          "label": "Maritieme, vervoers- of operationele gegevens"
+        },
+        {
+          "id": "collection-channel-meerdere-kanalen-of-nog-niet-vastgesteld",
+          "label": "Meerdere kanalen of nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "access-context",
+      "label": "Toegangscontext",
+      "values": [
+        {
+          "id": "access-context-reguliere-toegangsrelatie-betekenis-onbekend",
+          "label": "Reguliere toegangsrelatie; betekenis onbekend"
+        },
+        {
+          "id": "access-context-onverwacht-contact-of-informatieverzoek-gemeld",
+          "label": "Onverwacht contact of informatieverzoek gemeld"
+        },
+        {
+          "id": "access-context-toegang-of-betrokkenheid-wordt-onderzocht",
+          "label": "Toegang of betrokkenheid wordt onderzocht"
+        },
+        {
+          "id": "access-context-geen-betrouwbare-informatie-beschikbaar",
+          "label": "Geen betrouwbare informatie beschikbaar"
+        }
+      ]
+    },
+    {
+      "id": "initial-indicator",
+      "label": "Eerste signaal",
+      "values": [
+        {
+          "id": "initial-indicator-ongebruikelijk-informatieverzoek-of-contact-geme",
+          "label": "Ongebruikelijk informatieverzoek of contact gemeld"
+        },
+        {
+          "id": "initial-indicator-herhaalde-observatie-of-dronewaarneming-gemeld",
+          "label": "Herhaalde observatie of dronewaarneming gemeld"
+        },
+        {
+          "id": "initial-indicator-afwijking-in-ais-of-vervoersinformatie",
+          "label": "Afwijking in AIS- of vervoersinformatie"
+        },
+        {
+          "id": "initial-indicator-osint-publicatie-of-online-benadering",
+          "label": "OSINT-publicatie of online benadering"
+        },
+        {
+          "id": "initial-indicator-politie-of-burgermelding",
+          "label": "Politie- of burgermelding"
+        },
+        {
+          "id": "initial-indicator-nog-niet-vastgesteld",
+          "label": "Nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "corroboration",
+      "label": "Mate van bevestiging",
+      "values": [
+        {
+          "id": "corroboration-een-enkele-niet-geverifieerde-melding",
+          "label": "Een enkele, niet-geverifieerde melding"
+        },
+        {
+          "id": "corroboration-onafhankelijke-signalen-wijzen-dezelfde-kant-op",
+          "label": "Onafhankelijke signalen wijzen dezelfde kant op"
+        },
+        {
+          "id": "corroboration-technisch-of-operationeel-bevestigd",
+          "label": "Technisch of operationeel bevestigd"
+        },
+        {
+          "id": "corroboration-tegenstrijdige-of-onvoldoende-informatie",
+          "label": "Tegenstrijdige of onvoldoende informatie"
+        }
+      ]
+    },
+    {
+      "id": "alternative-explanation",
+      "label": "Alternatieve verklaring onderzocht",
+      "values": [
+        {
+          "id": "alternative-explanation-nog-niet-onderzocht",
+          "label": "Nog niet onderzocht"
+        },
+        {
+          "id": "alternative-explanation-plausibele-reguliere-verklaring-gevonden",
+          "label": "Plausibele reguliere verklaring gevonden"
+        },
+        {
+          "id": "alternative-explanation-meerdere-verklaringen-blijven-mogelijk",
+          "label": "Meerdere verklaringen blijven mogelijk"
+        },
+        {
+          "id": "alternative-explanation-onderzoek-onvoldoende-om-te-beoordelen",
+          "label": "Onderzoek onvoldoende om te beoordelen"
+        }
+      ]
+    },
+    {
+      "id": "information-class",
+      "label": "Betrokken informatiecategorie",
+      "values": [
+        {
+          "id": "information-class-scheepsbewegingen-en-maritieme-activiteit",
+          "label": "Scheepsbewegingen en maritieme activiteit"
+        },
+        {
+          "id": "information-class-transportstromen-en-logistieke-afhankelijkheden",
+          "label": "Transportstromen en logistieke afhankelijkheden"
+        },
+        {
+          "id": "information-class-personeel-of-organisatorische-informatie",
+          "label": "Personeel of organisatorische informatie"
+        },
+        {
+          "id": "information-class-operationele-continuiteit-en-dienstverlening",
+          "label": "Operationele continuïteit en dienstverlening"
+        },
+        {
+          "id": "information-class-meerdere-of-nog-onbekende-categorieen",
+          "label": "Meerdere of nog onbekende categorieën"
+        }
+      ]
+    },
+    {
+      "id": "exposure-status",
+      "label": "Status van mogelijke blootstelling",
+      "values": [
+        {
+          "id": "exposure-status-geen-blootstelling-vastgesteld",
+          "label": "Geen blootstelling vastgesteld"
+        },
+        {
+          "id": "exposure-status-mogelijke-blootstelling-niet-bevestigd",
+          "label": "Mogelijke blootstelling; niet bevestigd"
+        },
+        {
+          "id": "exposure-status-beperkte-blootstelling-bevestigd",
+          "label": "Beperkte blootstelling bevestigd"
+        },
+        {
+          "id": "exposure-status-omvang-of-gevolg-nog-onbekend",
+          "label": "Omvang of gevolg nog onbekend"
+        }
+      ]
+    },
+    {
+      "id": "resilience-opportunity",
+      "label": "Onderzocht weerbaarheidsmoment",
+      "values": [
+        {
+          "id": "resilience-opportunity-bewustwording-en-meldroute",
+          "label": "Bewustwording en meldroute"
+        },
+        {
+          "id": "resilience-opportunity-verificatie-en-informatie-uitwisseling",
+          "label": "Verificatie en informatie-uitwisseling"
+        },
+        {
+          "id": "resilience-opportunity-toegangs-en-gegevensbeheer-op-hoofdlijnen",
+          "label": "Toegangs- en gegevensbeheer op hoofdlijnen"
+        },
+        {
+          "id": "resilience-opportunity-containment-onderzoek-en-herstel",
+          "label": "Containment, onderzoek en herstel"
+        },
+        {
+          "id": "resilience-opportunity-nog-niet-vastgesteld",
+          "label": "Nog niet vastgesteld"
+        }
+      ]
+    }
+  ],
+  "inconsistencies": {
+    "information-interest-scheepsbewegingen-en-maritieme-activiteit": {
+      "information-class-transportstromen-en-logistieke-afhankelijkheden": false,
+      "information-class-personeel-of-organisatorische-informatie": false,
+      "information-class-operationele-continuiteit-en-dienstverlening": false
+    },
+    "information-class-transportstromen-en-logistieke-afhankelijkheden": {
+      "information-interest-scheepsbewegingen-en-maritieme-activiteit": false,
+      "information-interest-personeel-en-organisatorische-relaties": false,
+      "information-interest-operationele-continuiteit-en-dienstverlening": false
+    },
+    "information-class-personeel-of-organisatorische-informatie": {
+      "information-interest-scheepsbewegingen-en-maritieme-activiteit": false,
+      "information-interest-transportstromen-en-logistieke-afhankelijkheden": false,
+      "information-interest-operationele-continuiteit-en-dienstverlening": false
+    },
+    "information-class-operationele-continuiteit-en-dienstverlening": {
+      "information-interest-scheepsbewegingen-en-maritieme-activiteit": false,
+      "information-interest-transportstromen-en-logistieke-afhankelijkheden": false,
+      "information-interest-personeel-en-organisatorische-relaties": false
+    },
+    "information-interest-personeel-en-organisatorische-relaties": {
+      "information-class-transportstromen-en-logistieke-afhankelijkheden": false,
+      "information-class-operationele-continuiteit-en-dienstverlening": false,
+      "information-class-scheepsbewegingen-en-maritieme-activiteit": false
+    },
+    "information-interest-operationele-continuiteit-en-dienstverlening": {
+      "information-class-transportstromen-en-logistieke-afhankelijkheden": false,
+      "information-class-personeel-of-organisatorische-informatie": false,
+      "information-class-scheepsbewegingen-en-maritieme-activiteit": false
+    },
+    "information-interest-transportstromen-en-logistieke-afhankelijkheden": {
+      "information-class-personeel-of-organisatorische-informatie": false,
+      "information-class-operationele-continuiteit-en-dienstverlening": false,
+      "information-class-scheepsbewegingen-en-maritieme-activiteit": false
+    },
+    "information-class-scheepsbewegingen-en-maritieme-activiteit": {
+      "information-interest-transportstromen-en-logistieke-afhankelijkheden": false,
+      "information-interest-personeel-en-organisatorische-relaties": false,
+      "information-interest-operationele-continuiteit-en-dienstverlening": false
+    },
+    "attribution-hypothesis-hypothese-staatgebonden-actor": {
+      "corroboration-een-enkele-niet-geverifieerde-melding": false
+    },
+    "corroboration-een-enkele-niet-geverifieerde-melding": {
+      "attribution-hypothesis-hypothese-staatgebonden-actor": false,
+      "attribution-hypothesis-hypothese-proxy-of-tussenpersoon": false
+    },
+    "attribution-hypothesis-hypothese-proxy-of-tussenpersoon": {
+      "corroboration-een-enkele-niet-geverifieerde-melding": false
+    }
+  },
+  "template": "De context is {1}: de haven vervult de rol van {2} en is afhankelijk van {3}. De bronstatus van een mogelijk schaduwvlootverband is {4}; die status bewijst geen vijandige intentie.\n\nDe toeschrijvingshypothese blijft {5}; het mogelijke informatiebelang betreft {6}. Behandel beide als onzeker totdat onafhankelijk bewijs bestaat.\n\nEen mogelijke rol in het scenario is {7}; het waargenomen of veronderstelde verzamelkanaal is {8}, binnen een toegangscontext van {9}. Dit zijn onderzoekshypothesen, geen vastgestelde handelingen.\n\nHet eerste signaal is {10}; de mate van bevestiging is {11}. De alternatieve verklaring is {12}.\n\nDe betrokken informatiecategorie is {13}; de status van mogelijke blootstelling is {14}. Het onderzochte weerbaarheidsmoment is {15}. Onderscheid waarneming, hypothese, bevestiging en gevolg.",
+  "llm": {
+    "id": "clipboard",
+    "url": "",
+    "model": "gemma3",
+    "temperature": 0.7,
+    "prompts": [
+      {
+        "type": "narrative",
+        "prompt": "Schrijf in het Nederlands een uitgebreide, defensief georiënteerde oefensituatie en eerste crime-scriptanalyse over mogelijke spionage of informatie-inwinning in de haven- en transportcontext rond Vlissingen. Vlissingen is illustratief; de waarden zijn aannames, geen bewijs van een werkelijk incident. Gebruik exact deze vijf Markdown-kopjes: Context en informatiebelang; Mogelijk contact en toegangscontext; Informatie-inwinning op hoofdlijnen; Detectie, verificatie en interventie; Mogelijke blootstelling, onderzoek en herstel. Beschrijf per fase waarnemingen, hypotheses en onbekenden afzonderlijk. Houd vermeende handelingen op categorie- en informatieklasse-niveau. Geef geen instructies voor het benaderen van personen, verkrijgen van toegang, verzamelen of overdragen van informatie, ontwijking of verhulling; noem geen concrete doelwitten, specifieke kwetsbaarheden, apparatuur of technische procedures. Verzin geen feiten en leid intentie niet af uit een legitieme toegangsrelatie, online contact of aanwezigheid alleen. Koppel signalen aan mogelijke bron, betrouwbaarheid en onafhankelijke corroboratie; benoem ook plausibele gewone verklaringen. Bespreek welke informatiecategorie mogelijk betrokken is en wat wel of niet over blootstelling is bevestigd; leid geen dataverlies af uit een vermoeden. Benoem weerbaarheidsmomenten rond bewustwording, meldroutes, verificatie, passende toegangs- en gegevensbescherming, informatie-uitwisseling, containment en herstel zonder operationele beveiligingsdetails. Een schaduwvlootvermelding, AIS/ANPR-afwijking, OSINT-post, dronewaarneming of enkelvoudige melding bewijst op zichzelf geen spionage of toeschrijving. AIS-gegevens kunnen onvolledig zijn; deel geen gevoelige live scheepsbewegingen. Als er aanwijzingen voor sabotage zijn, behandel die als afzonderlijke hypothese en benoem een mogelijke koppeling zonder een gemengd scenario als gegeven aan te nemen. Sluit af met open oefen- en onderzoeksvragen. Gebruik geen titel buiten de genoemde kopjes en geen codeblokken.",
+        "categories": [
+          "context",
+          "intel-focus",
+          "collection-pattern",
+          "indicators-and-verification",
+          "exposure-and-resilience"
+        ]
+      }
+    ]
+  }
+}
