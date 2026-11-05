@@ -685,7 +685,7 @@ export const messages: typeof messagesEN = {
   CLOSE_MESSAGE: 'Meldung schließen',
   SEARCH_SCENARIO_TYPE: 'Szenariotypen suchen…',
   NO_SCENARIO_TYPE_FOUND: 'Keine Szenariotypen gefunden',
-  COVERAGE_MENU: "Abdeckende Menge erzeugen…",
+  COVERAGE_MENU: "Szenario-Batch erzeugen…",
   COVERAGE_TITLE: "Szenarien erzeugen, die die Box abdecken",
   COVERAGE_DESC: "Erstellt unterschiedliche Szenarien, in denen jede Option ungefähr gleich oft vorkommt, statt sie zufällig zu wählen. Fixierte Optionen bleiben erhalten, unmögliche Kombinationen werden nie verwendet und unwahrscheinliche vermieden. Bereits vorhandene aufgenommene Szenarien zählen zur Balance.",
   COVERAGE_COUNT: "Anzahl der Szenarien",

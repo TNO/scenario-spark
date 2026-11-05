@@ -665,59 +665,58 @@ export const CreateScenarioPage: MeiosisComponent = () => {
               key: curNarrative.id,
               style: { '--narrative-title-len': String((curNarrative.saved && curNarrative.label?.length) || 0) },
             }, [
-              curNarrative.saved &&
-                m(Menu<NarrativeAction>, {
-                  ariaLabel: t('MORE_ACTIONS'),
-                  items: [
-                    ...(curNarrative.saved
-                      ? [
-                          { id: 'clone', label: `${t('CLONE_NARRATIVE')} ${t('NARRATIVE')}`, iconName: 'content_copy' },
-                          { id: 'word', label: t('EXPORT2WORD', 'TITLE'), iconName: 'download' },
-                        ]
-                      : []),
-                    { id: 'coverage', label: t('COVERAGE_MENU'), iconName: 'auto_awesome_motion' },
-                    ...(curNarrative.saved || hasBatches ? [{ separator: true }] : []),
-                    ...(curNarrative.saved
-                      ? [
-                          {
-                            id: 'delete',
-                            label: t('DELETE_ITEM', 'title', { item: t('NARRATIVE') }),
-                            iconName: 'delete',
-                            className: 'red-text',
-                          },
-                        ]
-                      : []),
-                    ...(hasBatches
-                      ? [{ id: 'deleteBatch', label: t('DELETE_BATCH_MENU'), iconName: 'delete_sweep', className: 'red-text' }]
-                      : []),
-                  ] as MenuEntry<NarrativeAction>[],
-                  onSelect: (action) => {
-                    if (action === 'coverage') {
-                      coverageModalOpen = true;
-                    } else if (action === 'deleteBatch') {
-                      deleteBatchModalOpen = true;
-                    } else if (action === 'clone') {
-                      const newNarrative: Narrative = deepCopy(curNarrative);
-                      newNarrative.id = uniqueId();
-                      newNarrative.saved = false;
-                      newNarrative.label = generateUniqueTitle(
-                        curNarrative.label,
-                        model.scenario.narratives?.map((n) => n.label),
-                      );
-                      saveNarrative(attrs, newNarrative);
-                    } else if (action === 'word') {
-                      wordModalOpen = true;
-                    } else {
-                      deleteModalOpen = true;
-                    }
-                  },
-                  trigger: (triggerAttrs) =>
-                    m(
-                      'button.btn-flat.btn-icon.waves-effect.waves-teal.more-actions[type=button]',
-                      { ...triggerAttrs, title: t('MORE_ACTIONS'), 'aria-label': t('MORE_ACTIONS') },
-                      m('i.material-icons', { 'aria-hidden': 'true' }, 'more_vert'),
-                    ),
-                }),
+              m(Menu<NarrativeAction>, {
+                ariaLabel: t('MORE_ACTIONS'),
+                items: [
+                  ...(curNarrative.saved
+                    ? [
+                        { id: 'clone', label: `${t('CLONE_NARRATIVE')} ${t('NARRATIVE')}`, iconName: 'content_copy' },
+                        { id: 'word', label: t('EXPORT2WORD', 'TITLE'), iconName: 'download' },
+                      ]
+                    : []),
+                  { id: 'coverage', label: t('COVERAGE_MENU'), iconName: 'auto_awesome_motion' },
+                  ...(curNarrative.saved || hasBatches ? [{ separator: true }] : []),
+                  ...(curNarrative.saved
+                    ? [
+                        {
+                          id: 'delete',
+                          label: t('DELETE_ITEM', 'title', { item: t('NARRATIVE') }),
+                          iconName: 'delete',
+                          className: 'red-text',
+                        },
+                      ]
+                    : []),
+                  ...(hasBatches
+                    ? [{ id: 'deleteBatch', label: t('DELETE_BATCH_MENU'), iconName: 'delete_sweep', className: 'red-text' }]
+                    : []),
+                ] as MenuEntry<NarrativeAction>[],
+                onSelect: (action) => {
+                  if (action === 'coverage') {
+                    coverageModalOpen = true;
+                  } else if (action === 'deleteBatch') {
+                    deleteBatchModalOpen = true;
+                  } else if (action === 'clone') {
+                    const newNarrative: Narrative = deepCopy(curNarrative);
+                    newNarrative.id = uniqueId();
+                    newNarrative.saved = false;
+                    newNarrative.label = generateUniqueTitle(
+                      curNarrative.label,
+                      model.scenario.narratives?.map((n) => n.label),
+                    );
+                    saveNarrative(attrs, newNarrative);
+                  } else if (action === 'word') {
+                    wordModalOpen = true;
+                  } else {
+                    deleteModalOpen = true;
+                  }
+                },
+                trigger: (triggerAttrs) =>
+                  m(
+                    'button.btn-flat.btn-icon.waves-effect.waves-teal.more-actions[type=button]',
+                    { ...triggerAttrs, title: t('MORE_ACTIONS'), 'aria-label': t('MORE_ACTIONS') },
+                    m('i.material-icons', { 'aria-hidden': 'true' }, 'more_vert'),
+                  ),
+              }),
               m(CoverageModal, {
                 cell: attrs,
                 locked: generationLocks(model.scenario, curNarrative.components || {}, lockedComps),

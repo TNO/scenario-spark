@@ -1770,6 +1770,19 @@ td.matrix-cell {
   margin-left: 0;
 }
 
+.home-box-selector .chips.chips-container {
+  align-items: flex-start;
+}
+
+.home-box-selector .search-select-single-value {
+  flex: 1 1 0;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  text-overflow: clip;
+  white-space: normal;
+  line-height: 1.35;
+}
+
 .home-task-actions,
 .home-collection-tool-row {
   display: flex;

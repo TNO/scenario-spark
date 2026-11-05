@@ -655,7 +655,7 @@ export const messages = {
   CLOSE_MESSAGE: 'Close message',
   SEARCH_SCENARIO_TYPE: 'Search scenario types…',
   NO_SCENARIO_TYPE_FOUND: 'No scenario types found',
-  COVERAGE_MENU: "Generate covering set…",
+  COVERAGE_MENU: "Generate scenario batch…",
   COVERAGE_TITLE: "Generate scenarios that cover the box",
   COVERAGE_DESC: "Creates distinct scenarios in which every option is used about equally often, instead of picking them at random. Locked options are kept, impossible combinations are never used and unlikely ones are avoided. Included scenarios that already exist count towards the balance.",
   COVERAGE_COUNT: "Number of scenarios",
