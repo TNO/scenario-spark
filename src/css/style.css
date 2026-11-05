@@ -1771,15 +1771,15 @@ td.matrix-cell {
 }
 
 .home-box-selector .chips.chips-container {
-  align-items: flex-start;
+  align-items: center;
 }
 
 .home-box-selector .search-select-single-value {
   flex: 1 1 0;
-  overflow: visible;
-  overflow-wrap: anywhere;
-  text-overflow: clip;
-  white-space: normal;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   line-height: 1.35;
 }
 
