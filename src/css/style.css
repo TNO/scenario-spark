@@ -624,8 +624,6 @@ Source: https://codepen.io/dannievinther/pen/vVydZJ
   color: #777;
   margin-top: 20px;
   border-top: 1px solid rgba(0, 0, 0, 0.14);
-  -webkit-transition: margin 0.25s ease;
-  transition: margin 0.25s ease;
 }
 
 img.thumbnail {
@@ -2519,7 +2517,7 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   background: rgba(33, 150, 243, 0.08);
 }
 .decision-matrix td.conflict {
-  border-left: 3px solid #ff9800;
+  background-color: color-mix(in srgb, var(--mm-inconsistency-improbable) 12%, var(--mm-surface-color));
 }
 .robustness-legend > span {
   margin-left: 1rem;
@@ -2645,8 +2643,8 @@ table.matrix-table.highlight.matrix-table-themed td.matrix-disabled-cell {
   list-style: none;
 }
 .decision-log-entry {
-  border-left: 3px solid var(--mm-primary-color, #26a69a);
-  padding: 0.25rem 0 0.25rem 0.75rem;
+  border-bottom: 1px solid var(--mm-border-color);
+  padding: 0.5rem 0;
   margin: 0.75rem 0;
 }
 .decision-log-entry p {
@@ -3231,7 +3229,7 @@ table.decision-matrix thead th.active-coa,
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.55;
-  border-left: 4px solid var(--mm-primary-color, #26a69a);
+  border: 1px solid color-mix(in srgb, var(--mm-primary-color) 45%, #1f2328);
   border-radius: 6px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
