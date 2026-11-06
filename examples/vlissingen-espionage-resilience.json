@@ -1,0 +1,1616 @@
+{
+  "hideInconsistentValues": false,
+  "includeDecisionSupport": false,
+  "narratives": [
+    {
+      "id": "spionage-pairwise-01",
+      "label": "Spionagescenario 01",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een verhoogde hybride druk. Het informatiebelang is nog niet vastgesteld, maar de afhankelijkheid van een multimodale corridor vergroot de weerbaarheidsbehoefte.\n\n## Mogelijk contact en toegangscontext\nEen externe persoon of waarnemer heeft een reguliere toegangsrelatie met onbekende betekenis. Toeschrijving blijft hypothetisch via een proxy, zonder bewijs van directe betrokkenheid.\n\n## Informatie-inwinning op hoofdlijnen\nVerzameling richt zich op openbare informatie en OSINT binnen de categorie personeels- of organisatorische gegevens. De rol als waarnemer suggereert passieve observatie in plaats van actieve infiltratie.\n\n## Detectie, verificatie en interventie\nEen afwijking in AIS- of vervoersinformatie is technisch bevestigd, doch een plausibele reguliere verklaring bestaat. Onafhankelijke corroboratie blijft nodig om spionage uit te sluiten ten gunste van normale operaties.\n\n## Mogelijke blootstelling, onderzoek en herstel\nGeen blootstelling is vastgesteld; er is geen sprake van dataverlies of sabotage. Focus ligt op containment en onderzoek om de continuïteit van de corridor te waarborgen zonder onterechte toeschrijving.",
+      "components": {
+        "information-interest": [
+          "information-interest-nog-niet-vastgesteld"
+        ],
+        "information-class": [
+          "information-class-personeel-of-organisatorische-informatie"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-proxy-of-tussenpersoon"
+        ],
+        "corroboration": [
+          "corroboration-technisch-of-operationeel-bevestigd"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-niet-van-toepassing"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-plausibele-reguliere-verklaring-gevonden"
+        ],
+        "escalation-level": [
+          "escalation-level-verhoogde-hybride-druk"
+        ],
+        "initial-indicator": [
+          "initial-indicator-afwijking-in-ais-of-vervoersinformatie"
+        ],
+        "exposure-status": [
+          "exposure-status-geen-blootstelling-vastgesteld"
+        ],
+        "access-context": [
+          "access-context-reguliere-toegangsrelatie-betekenis-onbekend"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-containment-onderzoek-en-herstel"
+        ],
+        "actor-role": [
+          "actor-role-externe-persoon-of-waarnemer"
+        ],
+        "collection-channel": [
+          "collection-channel-openbare-informatie-en-osint"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-02",
+      "label": "Spionagescenario 02",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor militaire transporten van NAVO-bondgenoten binnen een acute regionale crisis. Het informatiebelang richt zich op transportstromen en logistieke afhankelijkheden in deze multimodale corridor.\n\n## Mogelijk contact en toegangscontext\nToegang of betrokkenheid wordt onderzocht zonder vaststaande koppeling tot de schaduwvloot. De hypothese van een staatgebonden actor blijft onbevestigd door tegenstrijdige informatie.\n\n## Informatie-inwinning op hoofdlijnen\nWaarneming in de omgeving suggereert verzamelkanalen, maar het eerste signaal is nog niet vastgesteld. Betrokken informatiecategorieën zijn meervoudig of onbekend gebleven.\n\n## Detectie, verificatie en interventie\nDe mate van bevestiging is laag door onvoldoende informatie; alternatieve verklaringen zijn nog niet onderzocht. Weerbaarheidsmomenten zoals bewustwording en meldroutes zijn nog niet vastgesteld.\n\n## Mogelijke blootstelling, onderzoek en herstel\nDe omvang van mogelijke blootstelling blijft onbekend zonder bewijs van dataverlies. Onderzoek moet zich richten op onafhankelijke corroboratie en plausibele gewone verklaringen.",
+      "components": {
+        "information-interest": [
+          "information-interest-transportstromen-en-logistieke-afhankelijkheden"
+        ],
+        "information-class": [
+          "information-class-meerdere-of-nog-onbekende-categorieen"
+        ],
+        "corroboration": [
+          "corroboration-tegenstrijdige-of-onvoldoende-informatie"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-staatgebonden-actor"
+        ],
+        "collection-channel": [
+          "collection-channel-waarneming-in-de-omgeving"
+        ],
+        "exposure-status": [
+          "exposure-status-omvang-of-gevolg-nog-onbekend"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-geen-koppeling-vastgesteld-in-geraadpleegde-bron"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-nog-niet-vastgesteld"
+        ],
+        "escalation-level": [
+          "escalation-level-acute-regionale-crisis"
+        ],
+        "initial-indicator": [
+          "initial-indicator-nog-niet-vastgesteld"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-nog-niet-onderzocht"
+        ],
+        "access-context": [
+          "access-context-toegang-of-betrokkenheid-wordt-onderzocht"
+        ],
+        "actor-role": [
+          "actor-role-meerdere-of-onduidelijke-rollen"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-03",
+      "label": "Spionagescenario 03",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor. Het primaire informatiebelang rust op operationele continuïteit en dienstverlening, waarbij strategische rivaliteit de achtergrond vormt.\n\n## Mogelijk contact en toegangscontext\nEr is onverwacht contact of een informatieverzoek gemeld via een persoon met legitieme toegang. De rol van deze persoon blijft te onderzoeken zonder directe toeschrijving naar schadelijke intenties.\n\n## Informatie-inwinning op hoofdlijnen\nWaarnemingen wijzen op herhaalde observatie of dronewaarneming, mogelijk via meerdere kanalen die nog niet zijn vastgesteld. De bronstatus van de schaduwvloot is officieel vermeld, maar dit bewijst geen spionage; de toeschrijving blijft onopgelost.\n\n## Detectie, verificatie en interventie\nDe mate van bevestiging is beperkt tot een enkele, niet-geverifieerde melding. Meerdere verklaringen blijven mogelijk, waardoor onafhankelijke corroboratie essentieel is om gewone oorzaken uit te sluiten.\n\n## Mogelijke blootstelling, onderzoek en herstel\nEr sprake van mogelijke blootstelling die niet bevestigd is; dataverlies mag niet worden afgeleid uit dit vermoeden. Onderzoek richt zich op toegangs- en gegevensbeheer, waarbij open vragen blijven over de exacte aard van de informatie-inwinning.",
+      "components": {
+        "information-class": [
+          "information-class-operationele-continuiteit-en-dienstverlening"
+        ],
+        "information-interest": [
+          "information-interest-operationele-continuiteit-en-dienstverlening"
+        ],
+        "corroboration": [
+          "corroboration-een-enkele-niet-geverifieerde-melding"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-niet-toegeschreven-of-onopgelost"
+        ],
+        "exposure-status": [
+          "exposure-status-mogelijke-blootstelling-niet-bevestigd"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-toegangs-en-gegevensbeheer-op-hoofdlijnen"
+        ],
+        "access-context": [
+          "access-context-onverwacht-contact-of-informatieverzoek-gemeld"
+        ],
+        "collection-channel": [
+          "collection-channel-meerdere-kanalen-of-nog-niet-vastgesteld"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-meerdere-verklaringen-blijven-mogelijk"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-officiele-vermelding-in-geraadpleegde-bronnen"
+        ],
+        "actor-role": [
+          "actor-role-persoon-met-legitieme-toegang-rol-te-onderzoeken"
+        ],
+        "initial-indicator": [
+          "initial-indicator-herhaalde-observatie-of-dronewaarneming-gemeld"
+        ],
+        "escalation-level": [
+          "escalation-level-aanhoudende-strategische-rivaliteit"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-04",
+      "label": "Spionagescenario 04",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor onder verhoogde hybride druk. Het informatiebelang richt zich op scheepsbewegingen en maritieme activiteit, waarbij de status van de blootstelling beperkt is bevestigd.\n\n## Mogelijk contact en toegangscontext\nEen hypothese wijst naar een staatgebonden actor die als facilitator optreedt, gebaseerd op onbevestigde openbare aanwijzingen rond een schaduwvlootverband. De toegangscontext blijft onbekend, aangezien er geen betrouwbare informatie beschikbaar is over de specifieke relatie of toegangsmethoden.\n\n## Informatie-inwinning op hoofdlijnen\nEr zijn signalen waargenomen via OSINT-publicaties of online benadering die maritieme, vervoers- of operationele gegevens kunnen betreffen. Deze waarnemingen blijven hypothetisch; er is geen bevestiging van concrete verzamelkanalen of technische procedures voor informatie-inwinning.\n\n## Detectie, verificatie en interventie\nOnafhankelijke signalen wijzen in dezelfde richting, maar een alternatieve verklaring is nog onvoldoende onderzocht om definitief te beoordelen. De focus ligt op bewustwording en de meldroute als cruciaal weerbaarheidsmoment voor verdere verificatie.\n\n## Mogelijke blootstelling, onderzoek en herstel\nDe beperkte blootstelling is bevestigd, maar dit leidt niet automatisch tot conclusies over dataverlies of spionage. Open vragen blijven bestaan rond onafhankelijke corroboratie en het onderscheiden van gewone verklaringen tegenover de staatgebonden hypothese.",
+      "components": {
+        "information-interest": [
+          "information-interest-scheepsbewegingen-en-maritieme-activiteit"
+        ],
+        "information-class": [
+          "information-class-scheepsbewegingen-en-maritieme-activiteit"
+        ],
+        "corroboration": [
+          "corroboration-onafhankelijke-signalen-wijzen-dezelfde-kant-op"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-staatgebonden-actor"
+        ],
+        "collection-channel": [
+          "collection-channel-maritieme-vervoers-of-operationele-gegevens"
+        ],
+        "exposure-status": [
+          "exposure-status-beperkte-blootstelling-bevestigd"
+        ],
+        "actor-role": [
+          "actor-role-facilitator-of-tussenpersoon"
+        ],
+        "escalation-level": [
+          "escalation-level-verhoogde-hybride-druk"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-bewustwording-en-meldroute"
+        ],
+        "access-context": [
+          "access-context-geen-betrouwbare-informatie-beschikbaar"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-alleen-onbevestigde-openbare-aanwijzing"
+        ],
+        "initial-indicator": [
+          "initial-indicator-osint-publicatie-of-online-benadering"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-onderzoek-onvoldoende-om-te-beoordelen"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-05",
+      "label": "Spionagescenario 05",
+      "desc": "## Context en informatiebelang\nVlissingen fungeert als ontvangstpunt voor inkomende militaire transporten van NAVO-bondgenoten binnen een multimodale corridor. Het mogelijke informatiebelang richt zich op personeel en organisatorische relaties, wat de kwetsbaarheid van transportstromen en logistieke afhankelijkheden verhoogt.\n\n## Mogelijk contact en toegangscontext\nEen onverwacht contact of informatieverzoek is gemeld als ongebruikelijk signaal, mogelijk via menselijk of organisatorisch contact. De bronstatus blijft een onbevestigde openbare aanwijzing, waarbij de hypothese van een proxy of tussenpersoon niet kan worden uitgesloten.\n\n## Informatie-inwinning op hoofdlijnen\nDe mate van bevestiging is tegenstrijdig of onvoldoende, waardoor meerdere verklaringen mogelijk blijven. Er zijn geen feitelijke aanwijzingen voor daadwerkelijke informatie-inwinning; de rol als externe persoon of waarnemer blijft hypothetisch zonder corroboratie.\n\n## Detectie, verificatie en interventie\nVerificatie en informatie-uitwisseling vormen het onderzochte weerbaarheidsmoment om signalen te valideren. Er is geen sprake van operationele interventie; de focus ligt op het scheiden van waarnemingen van hypotheses zonder toeschrijving.\n\n## Mogelijke blootstelling, onderzoek en herstel\nBeperkte blootstelling is bevestigd, maar dit leidt niet tot afleiding van dataverlies of sabotage. Open oefenvragen betreffen de onafhankelijke corroboratie van bronnen en het behouden van plausibele gewone verklaringen.",
+      "components": {
+        "information-interest": [
+          "information-interest-personeel-en-organisatorische-relaties"
+        ],
+        "information-class": [
+          "information-class-transportstromen-en-logistieke-afhankelijkheden"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-proxy-of-tussenpersoon"
+        ],
+        "corroboration": [
+          "corroboration-tegenstrijdige-of-onvoldoende-informatie"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-alleen-onbevestigde-openbare-aanwijzing"
+        ],
+        "collection-channel": [
+          "collection-channel-menselijk-of-organisatorisch-contact"
+        ],
+        "access-context": [
+          "access-context-onverwacht-contact-of-informatieverzoek-gemeld"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-meerdere-verklaringen-blijven-mogelijk"
+        ],
+        "initial-indicator": [
+          "initial-indicator-ongebruikelijk-informatieverzoek-of-contact-geme"
+        ],
+        "escalation-level": [
+          "escalation-level-acute-regionale-crisis"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-verificatie-en-informatie-uitwisseling"
+        ],
+        "actor-role": [
+          "actor-role-externe-persoon-of-waarnemer"
+        ],
+        "exposure-status": [
+          "exposure-status-beperkte-blootstelling-bevestigd"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-06",
+      "label": "Spionagescenario 06",
+      "desc": "## Context en informatiebelang\nDe haven van Vlissingen fungeert als cruciaal ontvangstpunt voor inkomende militaire transporten van NAVO-bondgenoten binnen een multimodale corridor. Het primaire informatiebelang richt zich op de behoud van operationele continuïteit en betrouwbare dienstverlening tijdens deze strategische rivaliteit.\n\n## Mogelijk contact en toegangscontext\nEr zijn aanwijzingen voor menselijk of organisatorisch contact, maar de specifieke toegangscontext blijft onbekend zonder betrouwbare informatie. De rol van betrokken partijen is meervoudig of onduidelijk, wat toeschrijving moeilijk maakt.\n\n## Informatie-inwinning op hoofdlijnen\nEr wordt gespeculeerd over mogelijke inwinning via diverse informatiecategorieën, hoewel de exacte aard nog onbekend is. Er is geen sprake van een vastgestelde blootstelling of dataverlies; dit blijft een hypothese zonder bewijs.\n\n## Detectie, verificatie en interventie\nHet eerste signaal ontstond door politie- of burgermelding, waarbij onafhankelijke signalen dezelfde richting wijzen. Een plausibele reguliere verklaring is onderzocht, terwijl verificatie en informatie-uitwisseling als weerbaarheidsmomenten centraal staan.\n\n## Mogelijke blootstelling, onderzoek en herstel\nGeen blootstelling is vastgesteld; de hypothese blijft onopgelost en niet toegeschreven aan een specifieke bron. Open vragen blijven bestaan over de uiteindelijke oorzaak en de effectiviteit van de huidige verificatiemethoden.",
+      "components": {
+        "information-interest": [
+          "information-interest-operationele-continuiteit-en-dienstverlening"
+        ],
+        "information-class": [
+          "information-class-meerdere-of-nog-onbekende-categorieen"
+        ],
+        "corroboration": [
+          "corroboration-onafhankelijke-signalen-wijzen-dezelfde-kant-op"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-niet-toegeschreven-of-onopgelost"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-niet-van-toepassing"
+        ],
+        "access-context": [
+          "access-context-geen-betrouwbare-informatie-beschikbaar"
+        ],
+        "collection-channel": [
+          "collection-channel-menselijk-of-organisatorisch-contact"
+        ],
+        "escalation-level": [
+          "escalation-level-aanhoudende-strategische-rivaliteit"
+        ],
+        "actor-role": [
+          "actor-role-meerdere-of-onduidelijke-rollen"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-plausibele-reguliere-verklaring-gevonden"
+        ],
+        "exposure-status": [
+          "exposure-status-geen-blootstelling-vastgesteld"
+        ],
+        "initial-indicator": [
+          "initial-indicator-politie-of-burgermelding"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-verificatie-en-informatie-uitwisseling"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-07",
+      "label": "Spionagescenario 07",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor militaire transporten binnen een multilaterale corridor onder aanhoudende strategische rivaliteit. Het informatiebelang richt zich op transportstromen en logistieke afhankelijkheden, waarbij de rol van tussenpersoon wordt onderzocht.\n\n## Mogelijk contact en toegangscontext\nEen ongebruikelijk informatieverzoek of contact is gemeld via openbare kanalen en OSINT, zonder concrete toeschrijving. De mate van bevestiging is technisch of operationeel vastgesteld, maar de bronstatus blijft een hypothese binnen schaduwvlootverbanden.\n\n## Informatie-inwinning op hoofdlijnen\nDe mogelijke rol als facilitator wordt afgeleid uit geselecteerde signalen zonder bewijs van daadwerkelijke spionage. Waarnemingen blijven beperkt tot de categorie openbare informatie, terwijl hypotheses over intentie onbevestigd blijven en geen causaliteit aantonen.\n\n## Detectie, verificatie en interventie\nVerificatie is technisch bevestigd, doch onderzoek naar alternatieve verklaringen is onvoldoende om deze uit te sluiten. Onafhankelijke corroboratie ontbreekt; elk signaal op zichzelf bewijst geen toeschrijving of sabotage, wat als afzonderlijke hypothese blijft.\n\n## Mogelijke blootstelling, onderzoek en herstel\nDe omvang van mogelijke blootstelling is onbekend; er is geen sprake van bevestigd dataverlies. Weerbaarheidsmomenten richten zich op containment en onderzoek, waarbij bewustwording en meldroutes centraal staan zonder operationele details.",
+      "components": {
+        "information-interest": [
+          "information-interest-transportstromen-en-logistieke-afhankelijkheden"
+        ],
+        "information-class": [
+          "information-class-transportstromen-en-logistieke-afhankelijkheden"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-niet-toegeschreven-of-onopgelost"
+        ],
+        "corroboration": [
+          "corroboration-technisch-of-operationeel-bevestigd"
+        ],
+        "actor-role": [
+          "actor-role-facilitator-of-tussenpersoon"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-onderzoek-onvoldoende-om-te-beoordelen"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-officiele-vermelding-in-geraadpleegde-bronnen"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-containment-onderzoek-en-herstel"
+        ],
+        "exposure-status": [
+          "exposure-status-omvang-of-gevolg-nog-onbekend"
+        ],
+        "collection-channel": [
+          "collection-channel-openbare-informatie-en-osint"
+        ],
+        "initial-indicator": [
+          "initial-indicator-ongebruikelijk-informatieverzoek-of-contact-geme"
+        ],
+        "escalation-level": [
+          "escalation-level-aanhoudende-strategische-rivaliteit"
+        ],
+        "access-context": [
+          "access-context-toegang-of-betrokkenheid-wordt-onderzocht"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-08",
+      "label": "Spionagescenario 08",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor inkomende militaire transporten van NAVO-bondgenoten binnen een acute regionale crisis. Het informatiebelang rond scheepsbewegingen is nog niet vastgesteld, wat de aard van potentiële waarden onzeker laat.\n\n## Mogelijk contact en toegangscontext\nEr is sprake van een reguliere toegangsrelatie met een persoon met legitieme toegang, waarvan de betekenis onbekend blijft. De hypothese van een proxy of tussenpersoon wordt overwogen zonder dat er een koppeling naar een schaduwvloot is vastgesteld.\n\n## Informatie-inwinning op hoofdlijnen\nWaargenomen verzamelkanalen vallen onder brede categorieën maritieme, vervoers- of operationele gegevens. Er zijn geen aanwijzingen voor specifieke apparatuur of technische procedures; de focus ligt op de mogelijke rol in het incident.\n\n## Detectie, verificatie en interventie\nHet eerste signaal is een politie- of burgermelding met een mate van bevestiging die beperkt blijft tot een enkele, niet-geverifieerde melding. Alternatieve verklaringen zijn nog niet onderzocht, waardoor onafhankelijke corroboratie ontbreekt.\n\n## Mogelijke blootstelling, onderzoek en herstel\nDe mogelijke blootstelling is niet bevestigd; dataverlies mag niet worden afgeleid uit dit vermoeden. Onderzocht weerbaarheidsmoment is bewustwording en meldroute, waarbij open vragen blijven over de betrouwbaarheid van de bron.",
+      "components": {
+        "information-class": [
+          "information-class-scheepsbewegingen-en-maritieme-activiteit"
+        ],
+        "information-interest": [
+          "information-interest-nog-niet-vastgesteld"
+        ],
+        "corroboration": [
+          "corroboration-een-enkele-niet-geverifieerde-melding"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-proxy-of-tussenpersoon"
+        ],
+        "access-context": [
+          "access-context-reguliere-toegangsrelatie-betekenis-onbekend"
+        ],
+        "actor-role": [
+          "actor-role-persoon-met-legitieme-toegang-rol-te-onderzoeken"
+        ],
+        "exposure-status": [
+          "exposure-status-mogelijke-blootstelling-niet-bevestigd"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-geen-koppeling-vastgesteld-in-geraadpleegde-bron"
+        ],
+        "escalation-level": [
+          "escalation-level-acute-regionale-crisis"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-bewustwording-en-meldroute"
+        ],
+        "collection-channel": [
+          "collection-channel-maritieme-vervoers-of-operationele-gegevens"
+        ],
+        "initial-indicator": [
+          "initial-indicator-politie-of-burgermelding"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-nog-niet-onderzocht"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-09",
+      "label": "Spionagescenario 09",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een verhoogde hybride druk. Het informatiebelang richt zich op persoons- en organisatorische relaties in deze multimodale corridor.\n\n## Mogelijk contact en toegangscontext\nEr is sprake van een externe waarnemer, maar de toegangscontext blijft onbekend zonder betrouwbare gegevens. Een staatgebonden actor wordt gehypothetiseerd als bron, gebaseerd op officiële vermeldingen in maritieme contexten.\n\n## Informatie-inwinning op hoofdlijnen\nWaarnemingen wijzen op herhaalde observatie of dronewaarneming in de omgeving als verzamelkanaal. Dit signaal kan ook wijzen op gewone activiteiten; een alternatieve verklaring is nog niet onderzocht.\n\n## Detectie, verificatie en interventie\nOnafhankelijke signalen wijzen dezelfde richting op, wat versterking van de hypothese suggereert zonder bewijs. Defensieve focus ligt op toegangs- en gegevensbeheer als weerbaarheidsmoment voor verdere verificatie.\n\n## Mogelijke blootstelling, onderzoek en herstel\nBlootstelling is mogelijk maar niet bevestigd; er is geen sprake van vastgesteld dataverlies. Onderzoek richt zich op informatie-uitwisseling en containment zonder operationele details te onthullen.",
+      "components": {
+        "information-class": [
+          "information-class-personeel-of-organisatorische-informatie"
+        ],
+        "information-interest": [
+          "information-interest-personeel-en-organisatorische-relaties"
+        ],
+        "corroboration": [
+          "corroboration-onafhankelijke-signalen-wijzen-dezelfde-kant-op"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-staatgebonden-actor"
+        ],
+        "exposure-status": [
+          "exposure-status-mogelijke-blootstelling-niet-bevestigd"
+        ],
+        "initial-indicator": [
+          "initial-indicator-herhaalde-observatie-of-dronewaarneming-gemeld"
+        ],
+        "collection-channel": [
+          "collection-channel-waarneming-in-de-omgeving"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-officiele-vermelding-in-geraadpleegde-bronnen"
+        ],
+        "access-context": [
+          "access-context-geen-betrouwbare-informatie-beschikbaar"
+        ],
+        "escalation-level": [
+          "escalation-level-verhoogde-hybride-druk"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-nog-niet-onderzocht"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-toegangs-en-gegevensbeheer-op-hoofdlijnen"
+        ],
+        "actor-role": [
+          "actor-role-externe-persoon-of-waarnemer"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-10",
+      "label": "Spionagescenario 10",
+      "desc": "## Context en informatiebelang\nVlissingen fungeert als ontvangstpunt voor inkomende militaire transporten van NAVO-bondgenoten binnen een multimodale corridor, wat operationele continuïteit en dienstverlening tot kritieke waarden maakt. Het informatiebelang richt zich op scheepsbewegingen en maritieme activiteit, waarbij de rol van de haven essentieel is voor logistieke stroom.\n\n## Mogelijk contact en toegangscontext\nToegang of betrokkenheid wordt onderzocht in het licht van een hypothese dat sprake is van een proxy of tussenpersoon. De bronstatus van schaduwvlootverbanden is niet van toepassing, waardoor de relatie tussen contact en toegang onbevestigd blijft.\n\n## Informatie-inwinning op hoofdlijnen\nEr zijn signalen waargenomen via OSINT-publicatie of online benadering, waarbij meerdere kanalen mogelijk zijn maar nog niet vastgesteld. De mate van bevestiging is tegenstrijdig of onvoldoende, wat wijst op een open onderzoek naar verzamelmethoden zonder concrete bewijslast.\n\n## Detectie, verificatie en interventie\nEen plausibele reguliere verklaring is gevonden, wat de hypothese van spionage nuanceert door alternatieve, legitieme activiteiten in overweging te nemen. Verificatie blijft nodig omdat geen enkel signaal op zichzelf spionage bewijst of toeschrijving mogelijk maakt.\n\n## Mogelijke blootstelling, onderzoek en herstel\nGeen blootstelling is vastgesteld, waardoor er geen sprake is van bevestigd dataverlies of incidentbevestiging. Het onderzochte weerbaarheidsmoment is nog niet vastgesteld, wat vraagt om verdere evaluatie van meldroutes en bewustwording zonder operationele details.",
+      "components": {
+        "information-interest": [
+          "information-interest-scheepsbewegingen-en-maritieme-activiteit"
+        ],
+        "information-class": [
+          "information-class-operationele-continuiteit-en-dienstverlening"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-proxy-of-tussenpersoon"
+        ],
+        "corroboration": [
+          "corroboration-tegenstrijdige-of-onvoldoende-informatie"
+        ],
+        "initial-indicator": [
+          "initial-indicator-osint-publicatie-of-online-benadering"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-nog-niet-vastgesteld"
+        ],
+        "collection-channel": [
+          "collection-channel-meerdere-kanalen-of-nog-niet-vastgesteld"
+        ],
+        "actor-role": [
+          "actor-role-facilitator-of-tussenpersoon"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-niet-van-toepassing"
+        ],
+        "exposure-status": [
+          "exposure-status-geen-blootstelling-vastgesteld"
+        ],
+        "access-context": [
+          "access-context-toegang-of-betrokkenheid-wordt-onderzocht"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-plausibele-reguliere-verklaring-gevonden"
+        ],
+        "escalation-level": [
+          "escalation-level-acute-regionale-crisis"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-11",
+      "label": "Spionagescenario 11",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor onder aanhoudende strategische rivaliteit. Het specifieke informatiebelang is nog niet vastgesteld, wat de aard van de potentiële bedreiging onduidelijk laat.\n\n## Mogelijk contact en toegangscontext\nEr is sprake van een reguliere toegangsrelatie waarvan de betekenis onbekend blijft voor deze analyse. De bronstatus van eventuele schaduwvlootverbanden is slechts een onbevestigde openbare aanwijzing zonder bewijskracht voor spionage.\n\n## Informatie-inwinning op hoofdlijnen\nVerzamelkanalen zijn meervoudig of nog niet vastgesteld, met mogelijke betrokkenheid van personele of organisatorische informatie. Toeschrijving blijft onopgelost en de mate van bevestiging is beperkt tot een enkele melding.\n\n## Detectie, verificatie en interventie\nEerste signalen zijn niet vastgesteld en alternatieve verklaringen zijn onvoldoende onderzocht om te beoordelen. Verificatie vereist onafhankelijke corroboratie om gewone verklaringen van verdachte activiteiten te onderscheiden.\n\n## Mogelijke blootstelling, onderzoek en herstel\nBeperkte blootstelling is bevestigd, maar dataverlies mag niet worden afgeleid uit dit vermoeden. Onderzocht weerbaarheidsmomenten zijn nog niet vastgesteld; focus ligt op meldroutes en containment zonder operationele details.",
+      "components": {
+        "information-class": [
+          "information-class-personeel-of-organisatorische-informatie"
+        ],
+        "information-interest": [
+          "information-interest-nog-niet-vastgesteld"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-niet-toegeschreven-of-onopgelost"
+        ],
+        "corroboration": [
+          "corroboration-een-enkele-niet-geverifieerde-melding"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-alleen-onbevestigde-openbare-aanwijzing"
+        ],
+        "actor-role": [
+          "actor-role-meerdere-of-onduidelijke-rollen"
+        ],
+        "initial-indicator": [
+          "initial-indicator-nog-niet-vastgesteld"
+        ],
+        "escalation-level": [
+          "escalation-level-aanhoudende-strategische-rivaliteit"
+        ],
+        "exposure-status": [
+          "exposure-status-beperkte-blootstelling-bevestigd"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-onderzoek-onvoldoende-om-te-beoordelen"
+        ],
+        "access-context": [
+          "access-context-reguliere-toegangsrelatie-betekenis-onbekend"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-nog-niet-vastgesteld"
+        ],
+        "collection-channel": [
+          "collection-channel-meerdere-kanalen-of-nog-niet-vastgesteld"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-12",
+      "label": "Spionagescenario 12",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor. Het informatiebelang richt zich op scheepsbewegingen en maritieme activiteit onder verhoogde hybride druk.\n\n## Mogelijk contact en toegangscontext\nEen persoon met legitieme toegang is betrokken via onverwacht contact of informatieverzoek. De hypothese van een staatgebonden actor blijft onbevestigd zonder directe koppeling tot de schaduwvloot.\n\n## Informatie-inwinning op hoofdlijnen\nVerzameling kan plaatsvinden via menselijk of organisatorisch contact als verzamelkanaal. Er zijn geen aanwijzingen voor specifieke technische procedures of ontwijkingstechnieken in deze analyse.\n\n## Detectie, verificatie en interventie\nEen afwijking in AIS- of vervoersinformatie is technisch of operationeel bevestigd. Verificatie en informatie-uitwisseling zijn cruciaal om meerdere plausibele verklaringen uit te sluiten.\n\n## Mogelijke blootstelling, onderzoek en herstel\nDe omvang van mogelijke blootstelling blijft onbekend zonder bewijs van dataverlies. Open vragen betreffen de betrouwbaarheid van bronnen en de aard van de afwijking.",
+      "components": {
+        "information-class": [
+          "information-class-scheepsbewegingen-en-maritieme-activiteit"
+        ],
+        "information-interest": [
+          "information-interest-scheepsbewegingen-en-maritieme-activiteit"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-staatgebonden-actor"
+        ],
+        "corroboration": [
+          "corroboration-technisch-of-operationeel-bevestigd"
+        ],
+        "access-context": [
+          "access-context-onverwacht-contact-of-informatieverzoek-gemeld"
+        ],
+        "escalation-level": [
+          "escalation-level-verhoogde-hybride-druk"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-verificatie-en-informatie-uitwisseling"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-meerdere-verklaringen-blijven-mogelijk"
+        ],
+        "exposure-status": [
+          "exposure-status-omvang-of-gevolg-nog-onbekend"
+        ],
+        "initial-indicator": [
+          "initial-indicator-afwijking-in-ais-of-vervoersinformatie"
+        ],
+        "actor-role": [
+          "actor-role-persoon-met-legitieme-toegang-rol-te-onderzoeken"
+        ],
+        "collection-channel": [
+          "collection-channel-menselijk-of-organisatorisch-contact"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-geen-koppeling-vastgesteld-in-geraadpleegde-bron"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-13",
+      "label": "Spionagescenario 13",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een acute regionale crisis. Het primaire informatiebelang ligt bij operationele continuïteit en de ononderbroken dienstverlening van deze multimodale corridor.\n\n## Mogelijk contact en toegangscontext\nEr is sprake van een reguliere toegangsrelatie, waarvan de betekenis momenteel onbekend blijft. De rol wordt gezien als die van facilitator of tussenpersoon, mogelijk via een proxy, zonder dat er directe koppelingen naar schaduwvlootverbanden zijn vastgesteld.\n\n## Informatie-inwinning op hoofdlijnen\nEr is waarneming in de omgeving gemeld, specifiek herhaalde observaties of dronewaarnemingen. Deze signalen wijzen op mogelijke informatie-inwinning, maar het verzamelkanaal blijft breed en ongespecificeerd binnen deze hypothese.\n\n## Detectie, verificatie en interventie\nDe mate van bevestiging is technisch of operationeel vastgesteld, echter is onderzoek naar alternatieve verklaringen onvoldoende om een definitief oordeel te vellen. Er zijn geen aanwijzingen voor sabotage; eventuele koppelingshypothese blijft gescheiden van deze analyse.\n\n## Mogelijke blootstelling, onderzoek en herstel\nBeperkte blootstelling is bevestigd, maar de betrokken informatiecategorie is meervoudig of nog onbekend. Er is geen dataverlies afgeleid uit dit vermoeden; weerbaarheidsmomenten rond toegangs- en gegevensbeheer op hoofdlijnen zijn onderzocht zonder operationele details.",
+      "components": {
+        "information-interest": [
+          "information-interest-operationele-continuiteit-en-dienstverlening"
+        ],
+        "information-class": [
+          "information-class-meerdere-of-nog-onbekende-categorieen"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-proxy-of-tussenpersoon"
+        ],
+        "corroboration": [
+          "corroboration-technisch-of-operationeel-bevestigd"
+        ],
+        "initial-indicator": [
+          "initial-indicator-herhaalde-observatie-of-dronewaarneming-gemeld"
+        ],
+        "access-context": [
+          "access-context-reguliere-toegangsrelatie-betekenis-onbekend"
+        ],
+        "escalation-level": [
+          "escalation-level-acute-regionale-crisis"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-onderzoek-onvoldoende-om-te-beoordelen"
+        ],
+        "collection-channel": [
+          "collection-channel-waarneming-in-de-omgeving"
+        ],
+        "actor-role": [
+          "actor-role-facilitator-of-tussenpersoon"
+        ],
+        "exposure-status": [
+          "exposure-status-beperkte-blootstelling-bevestigd"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-toegangs-en-gegevensbeheer-op-hoofdlijnen"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-geen-koppeling-vastgesteld-in-geraadpleegde-bron"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-14",
+      "label": "Spionagescenario 14",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor onder verhoogde hybride druk. Het informatiebelang richt zich op transportstromen en logistieke afhankelijkheden, waarbij de staatgebonden aard van de hypothese centraal staat.\n\n## Mogelijk contact en toegangscontext\nEen onverwacht contact of informatieverzoek werd gemeld door een persoon met legitieme toegang, wiens rol nog moet worden onderzocht. De bronstatus voor schaduwvlootverband is niet van toepassing in deze maritieme context.\n\n## Informatie-inwinning op hoofdlijnen\nHet verzamelkanaal betreft brede categorieën maritieme, vervoers- of operationele gegevens zonder specifieke technische details. Waargenomen signalen wijzen dezelfde kant op, maar het eerste signaal is nog niet vastgesteld en vereist onafhankelijke corroboratie.\n\n## Detectie, verificatie en interventie\nPlausibele reguliere verklaringen zijn onderzocht naast de spionagehypothese om misinterpretatie uit te sluiten. Weerbaarheidsmomenten zoals bewustwording en meldroutes vormen de basis voor verdere verificatie en passende toegangscontrole.\n\n## Mogelijke blootstelling, onderzoek en herstel\nGeen blootstelling is vastgesteld; er is geen sprake van bevestigd dataverlies of toeschrijving op basis van alleenstaande signalen. Open vragen blijven bestaan over de definitieve aard van het verzoek en de noodzaak van verdere informatie-uitwisseling.",
+      "components": {
+        "information-interest": [
+          "information-interest-transportstromen-en-logistieke-afhankelijkheden"
+        ],
+        "information-class": [
+          "information-class-transportstromen-en-logistieke-afhankelijkheden"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-staatgebonden-actor"
+        ],
+        "corroboration": [
+          "corroboration-onafhankelijke-signalen-wijzen-dezelfde-kant-op"
+        ],
+        "access-context": [
+          "access-context-onverwacht-contact-of-informatieverzoek-gemeld"
+        ],
+        "escalation-level": [
+          "escalation-level-verhoogde-hybride-druk"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-niet-van-toepassing"
+        ],
+        "exposure-status": [
+          "exposure-status-geen-blootstelling-vastgesteld"
+        ],
+        "initial-indicator": [
+          "initial-indicator-nog-niet-vastgesteld"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-bewustwording-en-meldroute"
+        ],
+        "collection-channel": [
+          "collection-channel-maritieme-vervoers-of-operationele-gegevens"
+        ],
+        "actor-role": [
+          "actor-role-persoon-met-legitieme-toegang-rol-te-onderzoeken"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-plausibele-reguliere-verklaring-gevonden"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-15",
+      "label": "Spionagescenario 15",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor onder aanhoudende strategische rivaliteit. Het potentiële informatiebelang richt zich op personele en organisatorische relaties, waarbij de status van blootstelling onbekend blijft.\n\n## Mogelijk contact en toegangscontext\nEr is geen betrouwbare informatie beschikbaar over fysiek contact of toegangsmodi voor externe personen. De bronstatus van maritieme aanwijzingen blijft een onbevestigde openbare aanwijzing zonder bewijslast voor spionage.\n\n## Informatie-inwinning op hoofdlijnen\nHet verzamelkanaal beperkt zich tot openbare informatie en OSINT, mogelijk via online benadering als eerste signaal. De toeschrijving is niet vastgesteld, wat een onopgeloste hypothese laat staan zonder causale koppeling.\n\n## Detectie, verificatie en interventie\nBevestiging is beperkt tot een enkele, niet-geverifieerde melding; alternatieve verklaringen zijn nog niet onderzocht. Waarnemingen blijven defensief gericht op detectie zonder afleiding van intentie uit aanwezigheid alleen.\n\n## Mogelijke blootstelling, onderzoek en herstel\nDe betrokken categorie is operationele continuïteit, maar de omvang van blootstelling is onbekend. Onderzoek focust op containment en herstel, waarbij geen dataverlies wordt afgeleid uit vermoedens.",
+      "components": {
+        "information-class": [
+          "information-class-operationele-continuiteit-en-dienstverlening"
+        ],
+        "information-interest": [
+          "information-interest-personeel-en-organisatorische-relaties"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-niet-toegeschreven-of-onopgelost"
+        ],
+        "corroboration": [
+          "corroboration-een-enkele-niet-geverifieerde-melding"
+        ],
+        "collection-channel": [
+          "collection-channel-openbare-informatie-en-osint"
+        ],
+        "initial-indicator": [
+          "initial-indicator-osint-publicatie-of-online-benadering"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-nog-niet-onderzocht"
+        ],
+        "actor-role": [
+          "actor-role-externe-persoon-of-waarnemer"
+        ],
+        "exposure-status": [
+          "exposure-status-omvang-of-gevolg-nog-onbekend"
+        ],
+        "access-context": [
+          "access-context-geen-betrouwbare-informatie-beschikbaar"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-containment-onderzoek-en-herstel"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-alleen-onbevestigde-openbare-aanwijzing"
+        ],
+        "escalation-level": [
+          "escalation-level-aanhoudende-strategische-rivaliteit"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-16",
+      "label": "Spionagescenario 16",
+      "desc": "## Context en informatiebelang\nVlissingen fungeert als ontvangstpunt voor inkomende militaire transporten van NAVO-bondgenoten binnen een multimodale corridor. Het mogelijke informatiebelang richt zich op scheepsbewegingen en maritieme activiteit, wat strategische relevantie heeft onder aanhoudende rivaliteit.\n\n## Mogelijk contact en toegangscontext\nToegang of betrokkenheid wordt onderzocht in relatie tot de ontvangst van deze transporten. De bronstatus van een schaduwvlootverband is officieel vermeld, maar toeschrijving blijft niet vastgesteld of onopgelost.\n\n## Informatie-inwinning op hoofdlijnen\nHet waargenomen verzamelkanaal betreft maritieme, vervoers- of operationele gegevens. De mogelijke rol in het incident is veelvoudig of onduidelijk, waarbij geen specifieke methoden worden benoemd.\n\n## Detectie, verificatie en interventie\nHet eerste signaal is een afwijking in AIS- of vervoersinformatie, echter met tegenstrijdige of onvoldoende bevestiging. Meerdere verklaringen blijven mogelijk, waaronder gewone operationele oorzaken naast spionagehypothese.\n\n## Mogelijke blootstelling, onderzoek en herstel\nStatus van mogelijke blootstelling is aanwezig maar niet bevestigd; betrokken informatiecategorie is onbekend of veelvoudig. Onderzocht weerbaarheidsmoment is bewustwording en meldroute, zonder dat dataverlies wordt afgeleid uit dit vermoeden.",
+      "components": {
+        "information-interest": [
+          "information-interest-scheepsbewegingen-en-maritieme-activiteit"
+        ],
+        "information-class": [
+          "information-class-meerdere-of-nog-onbekende-categorieen"
+        ],
+        "corroboration": [
+          "corroboration-tegenstrijdige-of-onvoldoende-informatie"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-niet-toegeschreven-of-onopgelost"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-officiele-vermelding-in-geraadpleegde-bronnen"
+        ],
+        "initial-indicator": [
+          "initial-indicator-afwijking-in-ais-of-vervoersinformatie"
+        ],
+        "collection-channel": [
+          "collection-channel-maritieme-vervoers-of-operationele-gegevens"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-meerdere-verklaringen-blijven-mogelijk"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-bewustwording-en-meldroute"
+        ],
+        "actor-role": [
+          "actor-role-meerdere-of-onduidelijke-rollen"
+        ],
+        "escalation-level": [
+          "escalation-level-aanhoudende-strategische-rivaliteit"
+        ],
+        "exposure-status": [
+          "exposure-status-mogelijke-blootstelling-niet-bevestigd"
+        ],
+        "access-context": [
+          "access-context-toegang-of-betrokkenheid-wordt-onderzocht"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-17",
+      "label": "Spionagescenario 17",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor onder verhoogde hybride druk. Het informatiebelang rond operationele continuïteit is nog niet vastgesteld, wat onzekerheid creëert over de exacte aard van de bedreiging.\n\n## Mogelijk contact en toegangscontext\nEen ongebruikelijk informatieverzoek of contact werd gemeld via een kanaal voor openbare informatie en OSINT. De toegangscontext berust op een reguliere relatie, waarvan de betekenis onbekend blijft zonder bewijs van spionage.\n\n## Informatie-inwinning op hoofdlijnen\nEr zijn aanwijzingen voor een staatgebonden actor, maar er is geen koppeling met een schaduwvloot vastgesteld. De rol in het incident is meervoudig of onduidelijk, waardoor specifieke intenties niet kunnen worden afgeleid uit aanwezigheid alleen.\n\n## Detectie, verificatie en interventie\nOnafhankelijke signalen wijzen dezelfde kant op, maar meerdere verklaringen blijven mogelijk naast spionagehypothese. Verificatie vereist onafhankelijke corroboratie om gewone verklaringen uit te sluiten zonder dataverlies af te leiden uit vermoedens.\n\n## Mogelijke blootstelling, onderzoek en herstel\nMogelijke blootstelling van dienstverleningsinformatie is niet bevestigd; weerbaarheidsmomenten zijn nog niet vastgesteld. Open vragen blijven over de betrouwbaarheid van bronnen en de noodzaak van passende gegevensbescherming bij onbevestigde signalen.",
+      "components": {
+        "information-interest": [
+          "information-interest-nog-niet-vastgesteld"
+        ],
+        "information-class": [
+          "information-class-operationele-continuiteit-en-dienstverlening"
+        ],
+        "corroboration": [
+          "corroboration-onafhankelijke-signalen-wijzen-dezelfde-kant-op"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-staatgebonden-actor"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-meerdere-verklaringen-blijven-mogelijk"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-geen-koppeling-vastgesteld-in-geraadpleegde-bron"
+        ],
+        "collection-channel": [
+          "collection-channel-openbare-informatie-en-osint"
+        ],
+        "initial-indicator": [
+          "initial-indicator-ongebruikelijk-informatieverzoek-of-contact-geme"
+        ],
+        "access-context": [
+          "access-context-reguliere-toegangsrelatie-betekenis-onbekend"
+        ],
+        "actor-role": [
+          "actor-role-meerdere-of-onduidelijke-rollen"
+        ],
+        "escalation-level": [
+          "escalation-level-verhoogde-hybride-druk"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-nog-niet-vastgesteld"
+        ],
+        "exposure-status": [
+          "exposure-status-mogelijke-blootstelling-niet-bevestigd"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-18",
+      "label": "Spionagescenario 18",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor militaire transporten van NAVO-bondgenoten binnen een acute regionale crisis. Het informatiebelang richt zich op personeel en organisatorische relaties in deze multimodale corridor.\n\n## Mogelijk contact en toegangscontext\nEr is sprake van een hypothese van proxy of tussenpersoon met officiële vermelding in bronnen over de schaduwvloot. Toegang wordt onderzocht voor een persoon met legitieme toegang, waarbij het verzamelkanaal menselijk of organisatorisch contact is.\n\n## Informatie-inwinning op hoofdlijnen\nDe betrokkene informatiecategorie is personeel of organisatorische informatie via menselijk contact. De mate van bevestiging is tegenstrijdig en onvoldoende, waardoor de rol in het incident onzeker blijft.\n\n## Detectie, verificatie en interventie\nHet eerste signaal was een politie- of burgermelding zonder verdere details. Een alternatieve verklaring is onderzocht maar onvoldoende om te beoordelen, wat verifieerbare bronnen noodzakelijk maakt.\n\n## Mogelijke blootstelling, onderzoek en herstel\nBeperkte blootstelling is bevestigd voor de betrokken informatiecategorie. Onderzoek richt zich op containment, onderzoek en herstel zonder dataverlies af te leiden uit het vermoeden.",
+      "components": {
+        "information-interest": [
+          "information-interest-personeel-en-organisatorische-relaties"
+        ],
+        "information-class": [
+          "information-class-personeel-of-organisatorische-informatie"
+        ],
+        "corroboration": [
+          "corroboration-tegenstrijdige-of-onvoldoende-informatie"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-proxy-of-tussenpersoon"
+        ],
+        "access-context": [
+          "access-context-toegang-of-betrokkenheid-wordt-onderzocht"
+        ],
+        "actor-role": [
+          "actor-role-persoon-met-legitieme-toegang-rol-te-onderzoeken"
+        ],
+        "initial-indicator": [
+          "initial-indicator-politie-of-burgermelding"
+        ],
+        "escalation-level": [
+          "escalation-level-acute-regionale-crisis"
+        ],
+        "collection-channel": [
+          "collection-channel-menselijk-of-organisatorisch-contact"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-containment-onderzoek-en-herstel"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-officiele-vermelding-in-geraadpleegde-bronnen"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-onderzoek-onvoldoende-om-te-beoordelen"
+        ],
+        "exposure-status": [
+          "exposure-status-beperkte-blootstelling-bevestigd"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-19",
+      "label": "Spionagescenario 19",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor, wat logistieke afhankelijkheden tot waardevolle informatieklasse maakt. De verhoogde hybride druk creëert een omgeving waarin transportstromen onder extra waakzaamheid staan zonder dat dit direct op spionage wijst.\n\n## Mogelijk contact en toegangscontext\nEr is geen betrouwbare informatie beschikbaar over de specifieke toegangscontext of het fysieke contact van mogelijke tussenpersonen. De hypothese van een proxy-rol blijft onbevestigd, aangezien aanwezigheid alleen geen intentie of toeschrijving bewijst.\n\n## Informatie-inwinning op hoofdlijnen\nWaargenomen verzamelkanalen zijn meervoudig of nog niet vastgesteld, wat wijst op openbare aanwijzingen zonder technische specificaties. De bronstatus van de schaduwvloot blijft een onbevestigd maritiem signaal dat geen directe causaliteit aantoont.\n\n## Detectie, verificatie en interventie\nHet eerste signaal via politie- of burgermelding is technisch of operationeel bevestigd, maar alternatieve verklaringen zijn nog niet onderzocht. Onafhankelijke corroboratie blijft essentieel om gewone handelingen van verdachte patronen te onderscheiden.\n\n## Mogelijke blootstelling, onderzoek en herstel\nDe omvang van mogelijke blootstelling is onbekend; er is geen sprake van bevestigd dataverlies op basis van dit vermoeden. Weerbaarheidsmomenten rond toegangsbeheer en meldroutes staan centraal voor verdere verificatie en containment zonder operationele details.",
+      "components": {
+        "information-interest": [
+          "information-interest-transportstromen-en-logistieke-afhankelijkheden"
+        ],
+        "information-class": [
+          "information-class-transportstromen-en-logistieke-afhankelijkheden"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-proxy-of-tussenpersoon"
+        ],
+        "corroboration": [
+          "corroboration-technisch-of-operationeel-bevestigd"
+        ],
+        "collection-channel": [
+          "collection-channel-meerdere-kanalen-of-nog-niet-vastgesteld"
+        ],
+        "initial-indicator": [
+          "initial-indicator-politie-of-burgermelding"
+        ],
+        "access-context": [
+          "access-context-geen-betrouwbare-informatie-beschikbaar"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-alleen-onbevestigde-openbare-aanwijzing"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-toegangs-en-gegevensbeheer-op-hoofdlijnen"
+        ],
+        "actor-role": [
+          "actor-role-externe-persoon-of-waarnemer"
+        ],
+        "exposure-status": [
+          "exposure-status-omvang-of-gevolg-nog-onbekend"
+        ],
+        "escalation-level": [
+          "escalation-level-verhoogde-hybride-druk"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-nog-niet-onderzocht"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "spionage-pairwise-20",
+      "label": "Spionagescenario 20",
+      "desc": "## Context en informatiebelang\nDe haven fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor. Het primaire informatiebelang ligt bij operationele continuïteit en de ononderbroken dienstverlening.\n\n## Mogelijk contact en toegangscontext\nEen ongebruikelijk informatieverzoek of onverwacht contact werd gemeld door derden. De toeschrijving blijft onopgelost en er is geen bewijs van een schaduwvlootverband; het kan gaan om een tussenpersoon.\n\n## Informatie-inwinning op hoofdlijnen\nDe waarneming vond plaats in de directe omgeving, mogelijk gericht op scheepsbewegingen. De mate van bevestiging is laag, aangezien er sprake is van een enkele, niet-geverifieerde melding zonder verdere details.\n\n## Detectie, verificatie en interventie\nEr werd een plausibele reguliere verklaring onderzocht die de melding kan verklaren. Verificatie en informatie-uitwisseling tussen betrokken partijen staan centraal in de eerste reactiefase.\n\n## Mogelijke blootstelling, onderzoek en herstel\nGeen blootstelling van gevoelige data is vastgesteld; er is geen sprake van dataverlies. Focus ligt op bewustwording en het waarborgen van passende toegangscontroles voor toekomstige incidenten.",
+      "components": {
+        "information-interest": [
+          "information-interest-operationele-continuiteit-en-dienstverlening"
+        ],
+        "information-class": [
+          "information-class-scheepsbewegingen-en-maritieme-activiteit"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-niet-toegeschreven-of-onopgelost"
+        ],
+        "corroboration": [
+          "corroboration-een-enkele-niet-geverifieerde-melding"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-niet-van-toepassing"
+        ],
+        "resilience-opportunity": [
+          "resilience-opportunity-verificatie-en-informatie-uitwisseling"
+        ],
+        "collection-channel": [
+          "collection-channel-waarneming-in-de-omgeving"
+        ],
+        "initial-indicator": [
+          "initial-indicator-ongebruikelijk-informatieverzoek-of-contact-geme"
+        ],
+        "access-context": [
+          "access-context-onverwacht-contact-of-informatieverzoek-gemeld"
+        ],
+        "exposure-status": [
+          "exposure-status-geen-blootstelling-vastgesteld"
+        ],
+        "escalation-level": [
+          "escalation-level-aanhoudende-strategische-rivaliteit"
+        ],
+        "actor-role": [
+          "actor-role-facilitator-of-tussenpersoon"
+        ],
+        "alternative-explanation": [
+          "alternative-explanation-plausibele-reguliere-verklaring-gevonden"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    }
+  ],
+  "thresholdColors": [
+    {
+      "threshold": 0,
+      "color": "#ddeced"
+    },
+    {
+      "threshold": 1,
+      "color": "#FF7800"
+    },
+    {
+      "threshold": 2,
+      "color": "#ffff00"
+    },
+    {
+      "threshold": 3,
+      "color": "#ff0000"
+    }
+  ],
+  "id": "vlissingen-espionage-resilience",
+  "label": "Havenweerbaarheid: spionage en informatie-inwinning",
+  "desc": "Defensieve scenario-box voor weerbaarheid en crime-scriptanalyse rond mogelijke spionage en informatie-inwinning in haven- en transportcontext. In deze scenario-batch is Vlissingen een ontvangstpunt voor inkomende militaire transporten van NAVO-bondgenoten, met multimodale afhankelijkheden. Vlissingen is illustratief; horizon 1–3 jaar is een planningsaanname. Scenariofactoren zijn hypotheses, geen vastgestelde dreiging. Bronnen: AIVD/NCTV Dreigingsbeeld Statelijke Actoren 2025 (https://www.nctv.nl/documenten/2025/07/17/dreigingsbeeld-statelijke-actoren-2025); AIVD Jaarverslag 2025, Rusland (https://www.aivd.nl/actueel/magazines/jaarverslag/jaarverslag/2025/rusland); NCTV over signalen van statelijke inmenging (https://www.nctv.nl/onderwerpen/s/spionage/signalen-die-kunnen-wijzen-op-statelijke-inmenging); AIVD over spionage via sociale media (https://www.aivd.nl/onderwerpen/aandachtsgebieden/spionage/spionage-via-sociale-media); IMO over AIS (https://www.imo.org/en/ourwork/safety/pages/ais.aspx). Behandel meldingen, AIS/ANPR-afwijkingen, OSINT en dronewaarnemingen niet als bewijs van vijandige intentie of toeschrijving. Houd mogelijke sabotage als aparte, niet-veronderstelde hypothese; verwijs bij aanwijzingen naar de afzonderlijke sabotagebox.",
+  "language": "nl",
+  "categories": [
+    {
+      "id": "context",
+      "label": "Strategische context",
+      "componentIds": [
+        "escalation-level",
+        "port-role",
+        "transport-dependency",
+        "shadow-fleet-context"
+      ]
+    },
+    {
+      "id": "intel-focus",
+      "label": "Informatiebelang en toeschrijving",
+      "componentIds": [
+        "attribution-hypothesis",
+        "information-interest"
+      ]
+    },
+    {
+      "id": "collection-pattern",
+      "label": "Mogelijk verzamelpatroon",
+      "componentIds": [
+        "actor-role",
+        "collection-channel",
+        "access-context"
+      ]
+    },
+    {
+      "id": "indicators-and-verification",
+      "label": "Signalen en verificatie",
+      "componentIds": [
+        "initial-indicator",
+        "corroboration",
+        "alternative-explanation"
+      ]
+    },
+    {
+      "id": "exposure-and-resilience",
+      "label": "Mogelijke blootstelling en weerbaarheid",
+      "componentIds": [
+        "information-class",
+        "exposure-status",
+        "resilience-opportunity"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "escalation-level",
+      "label": "Escalatieniveau",
+      "values": [
+        {
+          "id": "escalation-level-aanhoudende-strategische-rivaliteit",
+          "label": "Aanhoudende strategische rivaliteit"
+        },
+        {
+          "id": "escalation-level-verhoogde-hybride-druk",
+          "label": "Verhoogde hybride druk"
+        },
+        {
+          "id": "escalation-level-acute-regionale-crisis",
+          "label": "Acute regionale crisis"
+        }
+      ]
+    },
+    {
+      "id": "port-role",
+      "label": "Rol van de haven",
+      "values": [
+        {
+          "id": "port-role-reguliere-commerciele-activiteit",
+          "label": "Reguliere commerciële activiteit"
+        },
+        {
+          "id": "port-role-toegenomen-strategisch-transport",
+          "label": "Toegenomen strategisch transport"
+        },
+        {
+          "id": "port-role-kritieke-logistieke-draaischijf",
+          "label": "Kritieke logistieke draaischijf"
+        },
+        {
+          "id": "port-role-ontvangstpunt-voor-inkomende-militaire-transport",
+          "label": "Ontvangstpunt voor inkomende militaire transporten van NAVO-bondgenoten"
+        }
+      ],
+      "desc": "Voor deze scenario-batch staat de rol vast op ontvangst van inkomende militaire transporten van NAVO-bondgenoten.",
+      "manual": true
+    },
+    {
+      "id": "transport-dependency",
+      "label": "Afhankelijkheid van vervoer",
+      "values": [
+        {
+          "id": "transport-dependency-vooral-maritiem",
+          "label": "Vooral maritiem"
+        },
+        {
+          "id": "transport-dependency-spoor-en-wegverbindingen",
+          "label": "Spoor- en wegverbindingen"
+        },
+        {
+          "id": "transport-dependency-multimodale-corridor",
+          "label": "Multimodale corridor"
+        }
+      ],
+      "manual": true
+    },
+    {
+      "id": "shadow-fleet-context",
+      "label": "Bronstatus schaduwvlootverband",
+      "desc": "Uitsluitend maritieme context; een sanctie- of schaduwvlootvermelding is geen bewijs van spionage, sabotage of toeschrijving.",
+      "values": [
+        {
+          "id": "shadow-fleet-context-niet-van-toepassing",
+          "label": "Niet van toepassing"
+        },
+        {
+          "id": "shadow-fleet-context-geen-koppeling-vastgesteld-in-geraadpleegde-bron",
+          "label": "Geen koppeling vastgesteld in geraadpleegde bronnen"
+        },
+        {
+          "id": "shadow-fleet-context-officiele-vermelding-in-geraadpleegde-bronnen",
+          "label": "Officiële vermelding in geraadpleegde bronnen"
+        },
+        {
+          "id": "shadow-fleet-context-alleen-onbevestigde-openbare-aanwijzing",
+          "label": "Alleen onbevestigde openbare aanwijzing"
+        }
+      ]
+    },
+    {
+      "id": "attribution-hypothesis",
+      "label": "Toeschrijvingshypothese",
+      "values": [
+        {
+          "id": "attribution-hypothesis-niet-toegeschreven-of-onopgelost",
+          "label": "Niet toegeschreven of onopgelost"
+        },
+        {
+          "id": "attribution-hypothesis-hypothese-staatgebonden-actor",
+          "label": "Hypothese: staatgebonden actor"
+        },
+        {
+          "id": "attribution-hypothesis-hypothese-proxy-of-tussenpersoon",
+          "label": "Hypothese: proxy of tussenpersoon"
+        }
+      ]
+    },
+    {
+      "id": "information-interest",
+      "label": "Mogelijk informatiebelang",
+      "values": [
+        {
+          "id": "information-interest-scheepsbewegingen-en-maritieme-activiteit",
+          "label": "Scheepsbewegingen en maritieme activiteit"
+        },
+        {
+          "id": "information-interest-transportstromen-en-logistieke-afhankelijkheden",
+          "label": "Transportstromen en logistieke afhankelijkheden"
+        },
+        {
+          "id": "information-interest-personeel-en-organisatorische-relaties",
+          "label": "Personeel en organisatorische relaties"
+        },
+        {
+          "id": "information-interest-operationele-continuiteit-en-dienstverlening",
+          "label": "Operationele continuïteit en dienstverlening"
+        },
+        {
+          "id": "information-interest-nog-niet-vastgesteld",
+          "label": "Nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "actor-role",
+      "label": "Mogelijke rol in het incident",
+      "values": [
+        {
+          "id": "actor-role-persoon-met-legitieme-toegang-rol-te-onderzoeken",
+          "label": "Persoon met legitieme toegang (rol te onderzoeken)"
+        },
+        {
+          "id": "actor-role-externe-persoon-of-waarnemer",
+          "label": "Externe persoon of waarnemer"
+        },
+        {
+          "id": "actor-role-facilitator-of-tussenpersoon",
+          "label": "Facilitator of tussenpersoon"
+        },
+        {
+          "id": "actor-role-meerdere-of-onduidelijke-rollen",
+          "label": "Meerdere of onduidelijke rollen"
+        }
+      ]
+    },
+    {
+      "id": "collection-channel",
+      "label": "Waargenomen of vermoedelijk verzamelkanaal",
+      "desc": "Beschrijf alleen brede categorieën; geen specifieke apparatuur, doelwitkeuze of werkwijze.",
+      "values": [
+        {
+          "id": "collection-channel-openbare-informatie-en-osint",
+          "label": "Openbare informatie en OSINT"
+        },
+        {
+          "id": "collection-channel-menselijk-of-organisatorisch-contact",
+          "label": "Menselijk of organisatorisch contact"
+        },
+        {
+          "id": "collection-channel-waarneming-in-de-omgeving",
+          "label": "Waarneming in de omgeving"
+        },
+        {
+          "id": "collection-channel-maritieme-vervoers-of-operationele-gegevens",
+          "label": "Maritieme, vervoers- of operationele gegevens"
+        },
+        {
+          "id": "collection-channel-meerdere-kanalen-of-nog-niet-vastgesteld",
+          "label": "Meerdere kanalen of nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "access-context",
+      "label": "Toegangscontext",
+      "values": [
+        {
+          "id": "access-context-reguliere-toegangsrelatie-betekenis-onbekend",
+          "label": "Reguliere toegangsrelatie; betekenis onbekend"
+        },
+        {
+          "id": "access-context-onverwacht-contact-of-informatieverzoek-gemeld",
+          "label": "Onverwacht contact of informatieverzoek gemeld"
+        },
+        {
+          "id": "access-context-toegang-of-betrokkenheid-wordt-onderzocht",
+          "label": "Toegang of betrokkenheid wordt onderzocht"
+        },
+        {
+          "id": "access-context-geen-betrouwbare-informatie-beschikbaar",
+          "label": "Geen betrouwbare informatie beschikbaar"
+        }
+      ]
+    },
+    {
+      "id": "initial-indicator",
+      "label": "Eerste signaal",
+      "values": [
+        {
+          "id": "initial-indicator-ongebruikelijk-informatieverzoek-of-contact-geme",
+          "label": "Ongebruikelijk informatieverzoek of contact gemeld"
+        },
+        {
+          "id": "initial-indicator-herhaalde-observatie-of-dronewaarneming-gemeld",
+          "label": "Herhaalde observatie of dronewaarneming gemeld"
+        },
+        {
+          "id": "initial-indicator-afwijking-in-ais-of-vervoersinformatie",
+          "label": "Afwijking in AIS- of vervoersinformatie"
+        },
+        {
+          "id": "initial-indicator-osint-publicatie-of-online-benadering",
+          "label": "OSINT-publicatie of online benadering"
+        },
+        {
+          "id": "initial-indicator-politie-of-burgermelding",
+          "label": "Politie- of burgermelding"
+        },
+        {
+          "id": "initial-indicator-nog-niet-vastgesteld",
+          "label": "Nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "corroboration",
+      "label": "Mate van bevestiging",
+      "values": [
+        {
+          "id": "corroboration-een-enkele-niet-geverifieerde-melding",
+          "label": "Een enkele, niet-geverifieerde melding"
+        },
+        {
+          "id": "corroboration-onafhankelijke-signalen-wijzen-dezelfde-kant-op",
+          "label": "Onafhankelijke signalen wijzen dezelfde kant op"
+        },
+        {
+          "id": "corroboration-technisch-of-operationeel-bevestigd",
+          "label": "Technisch of operationeel bevestigd"
+        },
+        {
+          "id": "corroboration-tegenstrijdige-of-onvoldoende-informatie",
+          "label": "Tegenstrijdige of onvoldoende informatie"
+        }
+      ]
+    },
+    {
+      "id": "alternative-explanation",
+      "label": "Alternatieve verklaring onderzocht",
+      "values": [
+        {
+          "id": "alternative-explanation-nog-niet-onderzocht",
+          "label": "Nog niet onderzocht"
+        },
+        {
+          "id": "alternative-explanation-plausibele-reguliere-verklaring-gevonden",
+          "label": "Plausibele reguliere verklaring gevonden"
+        },
+        {
+          "id": "alternative-explanation-meerdere-verklaringen-blijven-mogelijk",
+          "label": "Meerdere verklaringen blijven mogelijk"
+        },
+        {
+          "id": "alternative-explanation-onderzoek-onvoldoende-om-te-beoordelen",
+          "label": "Onderzoek onvoldoende om te beoordelen"
+        }
+      ]
+    },
+    {
+      "id": "information-class",
+      "label": "Betrokken informatiecategorie",
+      "values": [
+        {
+          "id": "information-class-scheepsbewegingen-en-maritieme-activiteit",
+          "label": "Scheepsbewegingen en maritieme activiteit"
+        },
+        {
+          "id": "information-class-transportstromen-en-logistieke-afhankelijkheden",
+          "label": "Transportstromen en logistieke afhankelijkheden"
+        },
+        {
+          "id": "information-class-personeel-of-organisatorische-informatie",
+          "label": "Personeel of organisatorische informatie"
+        },
+        {
+          "id": "information-class-operationele-continuiteit-en-dienstverlening",
+          "label": "Operationele continuïteit en dienstverlening"
+        },
+        {
+          "id": "information-class-meerdere-of-nog-onbekende-categorieen",
+          "label": "Meerdere of nog onbekende categorieën"
+        }
+      ]
+    },
+    {
+      "id": "exposure-status",
+      "label": "Status van mogelijke blootstelling",
+      "values": [
+        {
+          "id": "exposure-status-geen-blootstelling-vastgesteld",
+          "label": "Geen blootstelling vastgesteld"
+        },
+        {
+          "id": "exposure-status-mogelijke-blootstelling-niet-bevestigd",
+          "label": "Mogelijke blootstelling; niet bevestigd"
+        },
+        {
+          "id": "exposure-status-beperkte-blootstelling-bevestigd",
+          "label": "Beperkte blootstelling bevestigd"
+        },
+        {
+          "id": "exposure-status-omvang-of-gevolg-nog-onbekend",
+          "label": "Omvang of gevolg nog onbekend"
+        }
+      ]
+    },
+    {
+      "id": "resilience-opportunity",
+      "label": "Onderzocht weerbaarheidsmoment",
+      "values": [
+        {
+          "id": "resilience-opportunity-bewustwording-en-meldroute",
+          "label": "Bewustwording en meldroute"
+        },
+        {
+          "id": "resilience-opportunity-verificatie-en-informatie-uitwisseling",
+          "label": "Verificatie en informatie-uitwisseling"
+        },
+        {
+          "id": "resilience-opportunity-toegangs-en-gegevensbeheer-op-hoofdlijnen",
+          "label": "Toegangs- en gegevensbeheer op hoofdlijnen"
+        },
+        {
+          "id": "resilience-opportunity-containment-onderzoek-en-herstel",
+          "label": "Containment, onderzoek en herstel"
+        },
+        {
+          "id": "resilience-opportunity-nog-niet-vastgesteld",
+          "label": "Nog niet vastgesteld"
+        }
+      ]
+    }
+  ],
+  "inconsistencies": {
+    "information-interest-scheepsbewegingen-en-maritieme-activiteit": {
+      "information-class-transportstromen-en-logistieke-afhankelijkheden": false,
+      "information-class-personeel-of-organisatorische-informatie": false,
+      "information-class-operationele-continuiteit-en-dienstverlening": false
+    },
+    "information-class-transportstromen-en-logistieke-afhankelijkheden": {
+      "information-interest-scheepsbewegingen-en-maritieme-activiteit": false,
+      "information-interest-personeel-en-organisatorische-relaties": false,
+      "information-interest-operationele-continuiteit-en-dienstverlening": false
+    },
+    "information-class-personeel-of-organisatorische-informatie": {
+      "information-interest-scheepsbewegingen-en-maritieme-activiteit": false,
+      "information-interest-transportstromen-en-logistieke-afhankelijkheden": false,
+      "information-interest-operationele-continuiteit-en-dienstverlening": false
+    },
+    "information-class-operationele-continuiteit-en-dienstverlening": {
+      "information-interest-scheepsbewegingen-en-maritieme-activiteit": false,
+      "information-interest-transportstromen-en-logistieke-afhankelijkheden": false,
+      "information-interest-personeel-en-organisatorische-relaties": false
+    },
+    "information-interest-personeel-en-organisatorische-relaties": {
+      "information-class-transportstromen-en-logistieke-afhankelijkheden": false,
+      "information-class-operationele-continuiteit-en-dienstverlening": false,
+      "information-class-scheepsbewegingen-en-maritieme-activiteit": false
+    },
+    "information-interest-operationele-continuiteit-en-dienstverlening": {
+      "information-class-transportstromen-en-logistieke-afhankelijkheden": false,
+      "information-class-personeel-of-organisatorische-informatie": false,
+      "information-class-scheepsbewegingen-en-maritieme-activiteit": false
+    },
+    "information-interest-transportstromen-en-logistieke-afhankelijkheden": {
+      "information-class-personeel-of-organisatorische-informatie": false,
+      "information-class-operationele-continuiteit-en-dienstverlening": false,
+      "information-class-scheepsbewegingen-en-maritieme-activiteit": false
+    },
+    "information-class-scheepsbewegingen-en-maritieme-activiteit": {
+      "information-interest-personeel-en-organisatorische-relaties": false,
+      "information-interest-operationele-continuiteit-en-dienstverlening": false,
+      "information-interest-transportstromen-en-logistieke-afhankelijkheden": false
+    },
+    "attribution-hypothesis-hypothese-staatgebonden-actor": {
+      "corroboration-een-enkele-niet-geverifieerde-melding": false
+    },
+    "corroboration-een-enkele-niet-geverifieerde-melding": {
+      "attribution-hypothesis-hypothese-staatgebonden-actor": false,
+      "attribution-hypothesis-hypothese-proxy-of-tussenpersoon": false
+    },
+    "attribution-hypothesis-hypothese-proxy-of-tussenpersoon": {
+      "corroboration-een-enkele-niet-geverifieerde-melding": false
+    }
+  },
+  "template": "De context is {1}: de haven vervult de rol van {2} en is afhankelijk van {3}. De bronstatus van een mogelijk schaduwvlootverband is {4}; die status bewijst geen vijandige intentie.\n\nDe toeschrijvingshypothese blijft {5}; het mogelijke informatiebelang betreft {6}. Behandel beide als onzeker totdat onafhankelijk bewijs bestaat.\n\nEen mogelijke rol in het scenario is {7}; het waargenomen of veronderstelde verzamelkanaal is {8}, binnen een toegangscontext van {9}. Dit zijn onderzoekshypothesen, geen vastgestelde handelingen.\n\nHet eerste signaal is {10}; de mate van bevestiging is {11}. De alternatieve verklaring is {12}.\n\nDe betrokken informatiecategorie is {13}; de status van mogelijke blootstelling is {14}. Het onderzochte weerbaarheidsmoment is {15}. Onderscheid waarneming, hypothese, bevestiging en gevolg.",
+  "llm": {
+    "id": "clipboard",
+    "url": "",
+    "model": "gemma3",
+    "temperature": 0.7,
+    "prompts": [
+      {
+        "type": "narrative",
+        "prompt": "Schrijf in het Nederlands een beknopte, defensief georiënteerde oefensituatie en eerste crime-scriptanalyse over mogelijke spionage of informatie-inwinning in de haven- en transportcontext rond Vlissingen. Vlissingen is illustratief; de waarden zijn aannames, geen bewijs van een werkelijk incident. Gebruik uitsluitend de geselecteerde scenariofactoren; overige voorbeelden of waarschuwingen in deze prompt zijn geen feiten voor dit scenario. Gebruik exact deze vijf Markdown-kopjes: Context en informatiebelang; Mogelijk contact en toegangscontext; Informatie-inwinning op hoofdlijnen; Detectie, verificatie en interventie; Mogelijke blootstelling, onderzoek en herstel. Beschrijf per fase waarnemingen, hypotheses en onbekenden afzonderlijk. Houd vermeende handelingen op categorie- en informatieklasse-niveau. Geef geen instructies voor het benaderen van personen, verkrijgen van toegang, verzamelen of overdragen van informatie, ontwijking of verhulling; noem geen concrete doelwitten, specifieke kwetsbaarheden, apparatuur of technische procedures. Verzin geen feiten en leid intentie niet af uit een legitieme toegangsrelatie, online contact of aanwezigheid alleen. Koppel signalen aan mogelijke bron, betrouwbaarheid en onafhankelijke corroboratie; benoem ook plausibele gewone verklaringen. Bespreek welke informatiecategorie mogelijk betrokken is en wat wel of niet over blootstelling is bevestigd; leid geen dataverlies af uit een vermoeden. Benoem weerbaarheidsmomenten rond bewustwording, meldroutes, verificatie, passende toegangs- en gegevensbescherming, informatie-uitwisseling, containment en herstel zonder operationele beveiligingsdetails. Geen enkel afzonderlijk signaal bewijst op zichzelf spionage of toeschrijving. AIS-gegevens kunnen onvolledig zijn; deel geen gevoelige live scheepsbewegingen. Als er aanwijzingen voor sabotage zijn, behandel die als afzonderlijke hypothese en benoem een mogelijke koppeling zonder een gemengd scenario als gegeven aan te nemen. Sluit af met open oefen- en onderzoeksvragen. Gebruik geen titel buiten de genoemde kopjes en geen codeblokken. Beperk elk kopje tot maximaal twee zinnen en houd de totale tekst rond 200 woorden.",
+        "categories": [
+          "context",
+          "intel-focus",
+          "collection-pattern",
+          "indicators-and-verification",
+          "exposure-and-resilience"
+        ]
+      }
+    ]
+  }
+}

@@ -666,7 +666,7 @@ export const messages: typeof messagesEN = {
   CLOSE_MESSAGE: 'Cerrar mensaje',
   SEARCH_SCENARIO_TYPE: 'Buscar tipos de escenario…',
   NO_SCENARIO_TYPE_FOUND: 'No se encontraron tipos de escenario',
-  COVERAGE_MENU: "Generar conjunto de cobertura…",
+  COVERAGE_MENU: "Generar lote de escenarios…",
   COVERAGE_TITLE: "Generar escenarios que cubran la caja",
   COVERAGE_DESC: "Crea escenarios distintos en los que cada opción se usa aproximadamente con la misma frecuencia, en lugar de elegirlas al azar. Las opciones bloqueadas se mantienen, las combinaciones imposibles nunca se usan y las improbables se evitan. Los escenarios incluidos existentes cuentan para el equilibrio.",
   COVERAGE_COUNT: "Número de escenarios",

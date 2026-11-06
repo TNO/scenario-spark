@@ -1,0 +1,1623 @@
+{
+  "hideInconsistentValues": false,
+  "includeDecisionSupport": false,
+  "narratives": [
+    {
+      "id": "sabotage-pairwise-01",
+      "label": "Sabotagescenario 01",
+      "desc": "## Context en aanloop\nVlissingen fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor, waarbij acute regionale crisis escalatie speelt. De havenlogistiek is kwetsbaar voor interferentie met vervoer of logistieke dienstverlening via meerdere kanalen.\n\n## Mogelijke voorbereiding en signalen\nEerste waarneming betreft een verstoring in spoorvervoer, bevestigd door onafhankelijke signalen die dezelfde richting wijzen. Een onbevestigde openbare aanwijzing voor schaduwvlootverband leidt tot de hypothese van een proxy of tussenpersoon als facilitator.\n\n## Verstoring op hoofdlijnen\nHet veronderstelde geraakte object is wegvervoer en toegang, wat resulteert in lokale vertraging of beperkte uitval. Het mogelijke effect of doel is nog niet vastgesteld, maar de continuïteit vertoont tijdelijke capaciteitsvermindering als indirect gevolg.\n\n## Detectie, verificatie en interventie\nDetectie berust op geconstateerde afwijkingen in spoor- en wegdiensten zonder specifieke technische details. Verificatie vereist onafhankelijke corroboratie om de hypothese van een tussenpersoon te toetsen tegen niet-vijandige verklaringen voor rechtmatige bewijsborging.\n\n## Impact, onderzoek en herstel\nHerstel richt zich op het herstellen van multimodale capaciteit na tijdelijke vermindering. Open vragen betreffen de exacte toeschrijving aan een proxy en de aard van de bevestigde effecten versus indirecte keteneffecten voor andere vervoersdiensten.",
+      "components": {
+        "target-domain": [
+          "target-domain-havenlogistiek-en-goederenstromen"
+        ],
+        "initial-signal": [
+          "initial-signal-verstoring-of-afwijking-in-spoorvervoer"
+        ],
+        "affected-service": [
+          "affected-service-wegvervoer-en-toegang"
+        ],
+        "continuity-impact": [
+          "continuity-impact-tijdelijke-vermindering-van-capaciteit"
+        ],
+        "service-impact": [
+          "service-impact-lokale-vertraging-of-beperkte-uitval"
+        ],
+        "escalation-level": [
+          "escalation-level-acute-regionale-crisis"
+        ],
+        "corroboration": [
+          "corroboration-onafhankelijke-signalen-wijzen-dezelfde-kant-op"
+        ],
+        "actor-role": [
+          "actor-role-facilitator-of-tussenpersoon"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-nog-niet-vastgesteld"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-proxy-of-tussenpersoon"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-alleen-onbevestigde-openbare-aanwijzing"
+        ],
+        "disruption-class": [
+          "disruption-class-interferentie-met-vervoer-of-logistieke-dienstve"
+        ],
+        "means-channel": [
+          "means-channel-meerdere-kanalen-of-nog-niet-vastgesteld"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-02",
+      "label": "Sabotagescenario 02",
+      "desc": "## Context en aanloop\nVlissingen fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor onder verhoogde hybride druk. De situatie wordt gekenmerkt door een niet-toegeschreven hypothese op transportstromen, waarbij de bronstatus van schaduwvlootverbanden louter maritiem is en geen sabotage bewijst.\n\n## Mogelijke voorbereiding en signalen\nEen enkele, niet-geverifieerde melding registreert afwijkingen in ANPR of wegverkeer via een digitaal kanaal. Deze waarneming kan wijzen op externe observatie, maar vereist onafhankelijke corroboratie naast een plausibele niet-vijandige verklaring; spionage blijft een aparte hypothese zonder gemengd scenario als gegeven.\n\n## Verstoring op hoofdlijnen\nEr wordt een verstoring van meerdere vervoersdiensten verondersteld, mogelijk via personeel of operationele informatie. Het effect is nog niet vastgesteld en de verstoringsklasse is onbekend; er zijn geen bevestigde feiten over concrete zwakke plekken of uitvoeringswijzen.\n\n## Detectie, verificatie en interventie\nBevoegde partners toetsen defensieve detectie en rechtmatige bewijsborging bij deze eenzijdige melding. Interventie richt zich op continuïteit en informatie-uitwisseling zonder concrete doelwitdetails of ontwijkingsstrategieën te specificeren.\n\n## Impact, onderzoek en herstel\nHet gevolg voor continuïteit is onbekend; onderzoek blijft gericht op de niet-toegeschreven aard van het incident. Open vragen betreffen de validiteit van de melding en de impact op de multimodale afhankelijkheid.",
+      "components": {
+        "target-domain": [
+          "target-domain-wegvervoer-en-toegang"
+        ],
+        "initial-signal": [
+          "initial-signal-afwijking-in-anpr-of-wegverkeer"
+        ],
+        "affected-service": [
+          "affected-service-personeel-of-operationele-informatie"
+        ],
+        "continuity-impact": [
+          "continuity-impact-nog-niet-vastgesteld"
+        ],
+        "service-impact": [
+          "service-impact-verstoring-van-meerdere-vervoersdiensten"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-officiele-vermelding-in-geraadpleegde-bronnen"
+        ],
+        "disruption-class": [
+          "disruption-class-meerdere-vormen-of-nog-onbekend"
+        ],
+        "corroboration": [
+          "corroboration-een-enkele-niet-geverifieerde-melding"
+        ],
+        "escalation-level": [
+          "escalation-level-verhoogde-hybride-druk"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-niet-toegeschreven-of-onopgelost"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-transportstromen-verstoren"
+        ],
+        "means-channel": [
+          "means-channel-digitaal-of-administratief-kanaal"
+        ],
+        "actor-role": [
+          "actor-role-externe-persoon-of-waarnemer"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-03",
+      "label": "Sabotagescenario 03",
+      "desc": "## Context en aanloop\nVlissingen fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor onder aanhoudende strategische rivaliteit. De focus ligt op de kwetsbaarheid van scheepsbewegingen en maritieme dienstverlening in deze gevoelige context.\n\n## Mogelijke voorbereiding en signalen\nEerste meldingen via OSINT of politie/burgerbronnen wijzen op fysieke aanwezigheid of materiële afwijking zonder vastgestelde koppeling aan de schaduwvloot. De hypothese van een staatgebonden actor blijft onbevestigd, evenals de rol van personen met legitieme toegang.\n\n## Verstoring op hoofdlijnen\nEr is sprake van een veronderstelde digitale of administratieve verstoring die onzekerheid of druk zou kunnen veroorzaken. Er is echter geen bevestigd effect op diensten vastgesteld, noch zijn er gevolgen voor de continuïteit geconstateerd.\n\n## Detectie, verificatie en interventie\nTechnische of operationele bevestiging van signalen staat centraal, waarbij onafhankelijke corroboratie noodzakelijk is om niet-vijandige verklaringen uit te sluiten. Partners toetsen rechtmatige bewijsborging en informatie-uitwisseling tijdens preventieve en interventiemomenten.\n\n## Impact, onderzoek en herstel\nOndanks de afwezigheid van vastgesteld gevolg blijft het onderscheid tussen vermoedelijk doelobject en bevestigd effect cruciaal voor het onderzoek. Open vragen richten zich op de plausibiliteit van spionagehypotheses en de robuustheid van continuïteitsplannen.",
+      "components": {
+        "target-domain": [
+          "target-domain-maritiem-verkeer-en-dienstverlening"
+        ],
+        "initial-signal": [
+          "initial-signal-osint-of-politie-burgermelding"
+        ],
+        "affected-service": [
+          "affected-service-scheepsbewegingen-en-maritieme-dienstverlening"
+        ],
+        "service-impact": [
+          "service-impact-geen-bevestigd-effect"
+        ],
+        "continuity-impact": [
+          "continuity-impact-geen-vastgesteld-gevolg"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-onzekerheid-of-druk-veroorzaken"
+        ],
+        "escalation-level": [
+          "escalation-level-aanhoudende-strategische-rivaliteit"
+        ],
+        "disruption-class": [
+          "disruption-class-digitale-of-administratieve-verstoring-algemene-"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-geen-koppeling-vastgesteld-in-geraadpleegde-bron"
+        ],
+        "corroboration": [
+          "corroboration-technisch-of-operationeel-bevestigd"
+        ],
+        "means-channel": [
+          "means-channel-fysieke-aanwezigheid-of-materiele-afwijking"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-staatgebonden-actor"
+        ],
+        "actor-role": [
+          "actor-role-persoon-met-legitieme-toegang-rol-te-onderzoeken"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-04",
+      "label": "Sabotagescenario 04",
+      "desc": "## Context en aanloop\nDe haven Vlissingen fungeert als ontvangstpunt voor inkomende militaire transporten van NAVO-bondgenoten binnen een verhoogde hybride druk. Deze multimodale corridor is kritiek voor de continuïteit van dienstverlening onder toenemende internationale spanningen.\n\n## Mogelijke voorbereiding en signalen\nWaarnemingen met onbemande luchtvaartuigen wijzen op mogelijke voorbereiding, maar bronstatus blijft hypothetisch voor staatgebonden actoren. Tegenstrijdige informatie maakt onafhankelijke corroboratie moeilijk; niet-vijandige verklaringen voor waarnemingen zijn plausibel en afzonderlijk te beschouwen.\n\n## Verstoring op hoofdlijnen\nEr is sprake van fysieke of operationele afwijkingen die de continuïteit ondermijnen, met onbekend effect op diensten. Het vermoedelijk geraakte object is nog niet vastgesteld, wat wijst op meerdere of onduidelijke rollen in het incident.\n\n## Detectie, verificatie en interventie\nBevoegde partners toetsen detectiemomenten via verhoogde waakzaamheid zonder concrete uitvoeringsdetails te openbaren. Verificatie richt zich op rechtmatige bewijsborging en informatie-uitwisseling om interventie en continuïteit veilig te stellen.\n\n## Impact, onderzoek en herstel\nLangdurige ketenbrede gevolgen voor andere vervoersdiensten zijn mogelijk, maar het bevestigde effect blijft onbekend. Open vragen richten zich op toeschrijvingsspionagehypothese en herstel van de multimodale afhankelijkheid.",
+      "components": {
+        "target-domain": [
+          "target-domain-meerdere-domeinen-of-nog-onbekend"
+        ],
+        "initial-signal": [
+          "initial-signal-fysieke-of-operationele-afwijking"
+        ],
+        "affected-service": [
+          "affected-service-meerdere-of-nog-niet-vastgestelde-objecten-of-di"
+        ],
+        "service-impact": [
+          "service-impact-effect-nog-onbekend"
+        ],
+        "continuity-impact": [
+          "continuity-impact-langduriger-of-ketenbreed-gevolg"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-continuiteit-van-dienstverlening-ondermijnen"
+        ],
+        "disruption-class": [
+          "disruption-class-fysieke-verstoring-algemene-categorie"
+        ],
+        "actor-role": [
+          "actor-role-meerdere-of-onduidelijke-rollen"
+        ],
+        "means-channel": [
+          "means-channel-waarneming-met-onbemande-luchtvaartuigen"
+        ],
+        "escalation-level": [
+          "escalation-level-verhoogde-hybride-druk"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-staatgebonden-actor"
+        ],
+        "corroboration": [
+          "corroboration-tegenstrijdige-of-onvoldoende-informatie"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-niet-van-toepassing"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-05",
+      "label": "Sabotagescenario 05",
+      "desc": "## Context en aanloop\nVlissingen fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor, waarbij strategische rivaliteit het escalatieniveau bepaalt. De haven is afhankelijk van naadloze scheeps-, spoor- en wegdiensten voor de continuïteit van deze logistieke keten.\n\n## Mogelijke voorbereiding en signalen\nEen enkele, niet-geverifieerde melding suggereert interferentie met vervoersgegevens, mogelijk afkomstig van een persoon met legitieme toegang. Officiële bronnen vermelden de schaduwvloot, maar dit bewijst geen sabotage; spionage blijft een aparte hypothese zonder bevestigde koppeling.\n\n## Verstoring op hoofdlijnen\nHet vermoedelijke effect is het ondermijnen van dienstverleningscontinuïteit via verstoring in spoor- en logistieke data. Het daadwerkelijke gevolg is een tijdelijke capaciteitsvermindering, waarbij de impact op andere vervoersdiensten nog onbekend blijft.\n\n## Detectie, verificatie en interventie\nBevoegde partners toetsen defensieve detectie en rechtmatige bewijsborging bij deze niet-geverifieerde melding. Interventie richt zich op verificatie van bronnen zonder concrete uitvoeringsdetails of toeschrijving te onthullen.\n\n## Impact, onderzoek en herstel\nDe toeschrijving blijft onopgelost; enkel indirecte keteneffecten voor de corridor zijn relevant. Open vragen betreffen de betrouwbaarheid van de melding en de effectiviteit van continuïteitsplannen bij onbekende verstoringsklassen.",
+      "components": {
+        "target-domain": [
+          "target-domain-spoorvervoer-en-corridors"
+        ],
+        "initial-signal": [
+          "initial-signal-nog-niet-vastgesteld"
+        ],
+        "affected-service": [
+          "affected-service-spoorvervoer-en-dienstverlening"
+        ],
+        "continuity-impact": [
+          "continuity-impact-tijdelijke-vermindering-van-capaciteit"
+        ],
+        "service-impact": [
+          "service-impact-effect-nog-onbekend"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-officiele-vermelding-in-geraadpleegde-bronnen"
+        ],
+        "actor-role": [
+          "actor-role-persoon-met-legitieme-toegang-rol-te-onderzoeken"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-niet-toegeschreven-of-onopgelost"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-continuiteit-van-dienstverlening-ondermijnen"
+        ],
+        "disruption-class": [
+          "disruption-class-interferentie-met-vervoer-of-logistieke-dienstve"
+        ],
+        "means-channel": [
+          "means-channel-vervoers-of-operationele-gegevens"
+        ],
+        "escalation-level": [
+          "escalation-level-aanhoudende-strategische-rivaliteit"
+        ],
+        "corroboration": [
+          "corroboration-een-enkele-niet-geverifieerde-melding"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-06",
+      "label": "Sabotagescenario 06",
+      "desc": "## Context en aanloop\nDe haven Vlissingen fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor. Deze acute regionale crisiscontext vereist scherpe monitoring van de verbonden scheepvaart- en spoorwegen.\n\n## Mogelijke voorbereiding en signalen\nEen dronewaarneming bij kritieke infrastructuur wordt technisch bevestigd, mogelijk via menselijk contact. Hypothetisch wijst dit op een proxy-rol; onafhankelijke corroboratie blijft beperkt tot de directe waarneming zonder bewijs van vijandige intentie.\n\n## Verstoring op hoofdlijnen\nDe veronderstelde fysieke verstoring richt zich op havenlogistiek en goederenstromen via wegvervoer. Het bevestigde effect is lokale vertraging, terwijl indirecte gevolgen voor andere vervoersdiensten nog niet zijn vastgesteld of onbekend blijven.\n\n## Detectie, verificatie en interventie\nBevoegde partners toetsen detectiemomenten door de dronemelding te verifiëren tegen operationele data. Interventie richt zich op rechtmatige bewijsborging en informatie-uitwisseling zonder concrete uitvoeringsdetails van de verstoring prijs te geven.\n\n## Impact, onderzoek en herstel\nHet effect beperkt zich tot lokale vertraging; continuïteit is niet vastgesteld als verbroken. Onderzoek onderscheidt vermoedelijk doelobjecten van bevestigde effecten, waarbij spionagehypotheses afzonderlijk worden behandeld zonder gemengd scenario aan te nemen.",
+      "components": {
+        "target-domain": [
+          "target-domain-wegvervoer-en-toegang"
+        ],
+        "initial-signal": [
+          "initial-signal-dronewaarneming-bij-infrastructuur"
+        ],
+        "affected-service": [
+          "affected-service-havenlogistiek-en-goederenstromen"
+        ],
+        "continuity-impact": [
+          "continuity-impact-geen-vastgesteld-gevolg"
+        ],
+        "service-impact": [
+          "service-impact-lokale-vertraging-of-beperkte-uitval"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-proxy-of-tussenpersoon"
+        ],
+        "escalation-level": [
+          "escalation-level-acute-regionale-crisis"
+        ],
+        "disruption-class": [
+          "disruption-class-fysieke-verstoring-algemene-categorie"
+        ],
+        "actor-role": [
+          "actor-role-meerdere-of-onduidelijke-rollen"
+        ],
+        "corroboration": [
+          "corroboration-technisch-of-operationeel-bevestigd"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-niet-van-toepassing"
+        ],
+        "means-channel": [
+          "means-channel-menselijk-of-organisatorisch-contact"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-transportstromen-verstoren"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-07",
+      "label": "Sabotagescenario 07",
+      "desc": "## Context en aanloop\nDe haven Vlissingen fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een acute regionale crisis. Deze multimodale corridor is kritiek voor de continuïteit van goederenstromen en vervoersdiensten.\n\n## Mogelijke voorbereiding en signalen\nEerste waarnemingen tonen afwijkingen in AIS-gegevens, wat wijst op verstoring via operationele kanalen. Bronstatus van schaduwvlootverbanden is niet vastgesteld; toeschrijving blijft hypothetisch (proxy). Onafhankelijke corroboratie ontbreekt, waardoor een niet-vijandige verklaring plausibel blijft.\n\n## Verstoring op hoofdlijnen\nHet bevestigde effect is verstoring van spoorvervoer en dienstverlening, met indirecte keteneffecten voor andere diensten. Het veronderstelde doel is het veroorzaken van onzekerheid of druk. De exacte verstoringsklasse blijft onbekend en niet gespecificeerd in de beschikbare informatie.\n\n## Detectie, verificatie en interventie\nDetectie gebeurt via monitoring van vervoersgegevens; verificatie stuit op tegenstrijdige of onvoldoende informatie. Partners toetsen preventie en interventie door rechtmatige bewijsborging te waarborgen. Informatie-uitwisseling blijft beperkt door de mate van bevestiging.\n\n## Impact, onderzoek en herstel\nHet gevolg is een langdurig, ketenbreed effect op de continuïteit. Onderzoek richt zich op het onderscheid tussen vermoedelijk doelobject en bevestigd effect. Spionagehypothese wordt afzonderlijk behandeld zonder gemengd scenario aan te nemen. Open vragen betreffen bronvalidatie en herstelplanning.",
+      "components": {
+        "target-domain": [
+          "target-domain-havenlogistiek-en-goederenstromen"
+        ],
+        "initial-signal": [
+          "initial-signal-afwijking-in-ais-scheepsbewegingen"
+        ],
+        "affected-service": [
+          "affected-service-spoorvervoer-en-dienstverlening"
+        ],
+        "continuity-impact": [
+          "continuity-impact-langduriger-of-ketenbreed-gevolg"
+        ],
+        "service-impact": [
+          "service-impact-verstoring-van-meerdere-vervoersdiensten"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-geen-koppeling-vastgesteld-in-geraadpleegde-bron"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-onzekerheid-of-druk-veroorzaken"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-proxy-of-tussenpersoon"
+        ],
+        "corroboration": [
+          "corroboration-tegenstrijdige-of-onvoldoende-informatie"
+        ],
+        "disruption-class": [
+          "disruption-class-meerdere-vormen-of-nog-onbekend"
+        ],
+        "actor-role": [
+          "actor-role-externe-persoon-of-waarnemer"
+        ],
+        "escalation-level": [
+          "escalation-level-acute-regionale-crisis"
+        ],
+        "means-channel": [
+          "means-channel-vervoers-of-operationele-gegevens"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-08",
+      "label": "Sabotagescenario 08",
+      "desc": "## Context en aanloop\nDe haven Vlissingen fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor onder aanhoudende strategische rivaliteit. De situatie wordt gekenmerkt door onbevestigde openbare aanwijzingen van een schaduwvlootverband, zonder bewijs van sabotage of toeschrijving.\n\n## Mogelijke voorbereiding en signalen\nEerste waarneming betreft afwijkingen in AIS-scheepsbewegingen, bevestigd door onafhankelijke signalen die dezelfde richting wijzen. Menselijk of organisatorisch contact wordt als mogelijk kanaal beschouwd, waarbij de betrouwbaarheid van bronnen niet volledig is gecorroboratieerd.\n\n## Verstoring op hoofdlijnen\nEr is geen bevestigd effect op diensten vastgesteld, hoewel personeel of operationele informatie als verondersteld geraakt object geldt. De verstoring valt onder digitale of administratieve categorieën, met nog onbekend betrokken domein en niet toegeschreven intentie.\n\n## Detectie, verificatie en interventie\nDetectie richt zich op het onderscheiden van vermoedelijk doelobjecten versus bevestigde effecten en indirecte keteneffecten. Interventie toetst rechtmatige bewijsborging en informatie-uitwisseling tussen partners zonder concrete uitvoeringsdetails te onthullen.\n\n## Impact, onderzoek en herstel\nGevolg voor continuïteit is nog niet vastgesteld; spionagehypothese blijft afzonderlijk zonder gemengd scenario aan te nemen. Open vragen betreffen de plausibiliteit van niet-vijandige verklaringen en de validiteit van onvolledige AIS-gegevens.",
+      "components": {
+        "target-domain": [
+          "target-domain-meerdere-domeinen-of-nog-onbekend"
+        ],
+        "initial-signal": [
+          "initial-signal-afwijking-in-ais-scheepsbewegingen"
+        ],
+        "affected-service": [
+          "affected-service-personeel-of-operationele-informatie"
+        ],
+        "service-impact": [
+          "service-impact-geen-bevestigd-effect"
+        ],
+        "continuity-impact": [
+          "continuity-impact-nog-niet-vastgesteld"
+        ],
+        "actor-role": [
+          "actor-role-facilitator-of-tussenpersoon"
+        ],
+        "escalation-level": [
+          "escalation-level-aanhoudende-strategische-rivaliteit"
+        ],
+        "means-channel": [
+          "means-channel-menselijk-of-organisatorisch-contact"
+        ],
+        "disruption-class": [
+          "disruption-class-digitale-of-administratieve-verstoring-algemene-"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-nog-niet-vastgesteld"
+        ],
+        "corroboration": [
+          "corroboration-onafhankelijke-signalen-wijzen-dezelfde-kant-op"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-niet-toegeschreven-of-onopgelost"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-alleen-onbevestigde-openbare-aanwijzing"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-09",
+      "label": "Sabotagescenario 09",
+      "desc": "## Context en aanloop\nDe haven Vlissingen fungeert als kritiek ontvangstpunt voor militaire NAVO-transporten binnen een multimodale corridor. Onder verhoogde hybride druk wordt de continuïteit van deze vervoersketen geëvalueerd op weerbaarheid.\n\n## Mogelijke voorbereiding en signalen\nEerste waarnemingen via OSINT of politie melden fysieke afwijkingen in havenlogistiek, mogelijk gefaciliteerd door een staatgebonden actor. Deze onbevestigde aanwijzingen voor schaduwvlootverband worden gekruist met onafhankelijke signalen die dezelfde richting wijzen, zonder dat spionage als vaststaand feit wordt aangenomen.\n\n## Verstoring op hoofdlijnen\nEr is sprake van verstoring in meerdere vervoersdiensten, waarbij havenlogistiek en goederenstromen het vermoedelijk geraakte object zijn. Het exacte effect blijft onvastgesteld, maar de verstoringsklasse omvat mogelijk meerdere vormen die leiden tot ketenbrede gevolgen.\n\n## Detectie, verificatie en interventie\nBevoegde partners toetsen detectiemomenten door bronstatus te verifiëren en rechtmatige bewijsborging te waarborgen. Interventie richt zich op preventie en continuïteit, waarbij informatie-uitwisseling tussen partners cruciaal is voor een plausibele niet-vijandige verklaring.\n\n## Impact, onderzoek en herstel\nLangdurige gevolgen voor de spoor- en wegdiensten worden onderzocht naar indirecte keteneffecten. Open vragen betreffen de toeschrijving aan de hypothese en de effectiviteit van de genomen herstelpogingen binnen de oefening.",
+      "components": {
+        "target-domain": [
+          "target-domain-spoorvervoer-en-corridors"
+        ],
+        "initial-signal": [
+          "initial-signal-osint-of-politie-burgermelding"
+        ],
+        "affected-service": [
+          "affected-service-havenlogistiek-en-goederenstromen"
+        ],
+        "continuity-impact": [
+          "continuity-impact-langduriger-of-ketenbreed-gevolg"
+        ],
+        "service-impact": [
+          "service-impact-verstoring-van-meerdere-vervoersdiensten"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-staatgebonden-actor"
+        ],
+        "corroboration": [
+          "corroboration-onafhankelijke-signalen-wijzen-dezelfde-kant-op"
+        ],
+        "disruption-class": [
+          "disruption-class-meerdere-vormen-of-nog-onbekend"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-alleen-onbevestigde-openbare-aanwijzing"
+        ],
+        "escalation-level": [
+          "escalation-level-verhoogde-hybride-druk"
+        ],
+        "actor-role": [
+          "actor-role-facilitator-of-tussenpersoon"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-nog-niet-vastgesteld"
+        ],
+        "means-channel": [
+          "means-channel-fysieke-aanwezigheid-of-materiele-afwijking"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-10",
+      "label": "Sabotagescenario 10",
+      "desc": "## Context en aanloop\nVlissingen fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor tijdens een acute regionale crisis. De haven is kwetsbaar door de afhankelijkheid van geïntegreerde scheeps-, spoor- en wegdiensten.\n\n## Mogelijke voorbereiding en signalen\nEen niet-geverifieerde melding registreert een fysieke afwijking in maritiem verkeer, mogelijk gerelateerd aan schaduwvlootvermeldingen uit bronnen. Deze indicatoren zijn onafhankelijk niet bewijs van sabotage of spionage; ze kunnen wijzen op onzekerheid of druk zonder toegeschreven intentie.\n\n## Verstoring op hoofdlijnen\nEr is sprake van lokale vertragingen in scheepsbewegingen en maritieme dienstverlening, met nog niet vastgestelde gevolgen voor de continuïteit. De verstoringsklasse blijft een algemene fysieke categorie via onbekende kanalen, waarbij meerdere rollen mogelijk zijn maar niet bevestigd.\n\n## Detectie, verificatie en interventie\nBevoegde partners toetsen defensieve detectie en rechtmatige bewijsborging bij de eerste waarneming van operationele afwijkingen. Verificatie richt zich op het onderscheid tussen vermoedelijk doelobject en bevestigd effect, waarbij informatie-uitwisseling cruciaal is voor interventie en continuïteitsplanning.\n\n## Impact, onderzoek en herstel\nHet bevestigde effect is beperkt; indirecte gevolgen voor andere vervoersdiensten zijn nog onduidelijk. Onderzoek blijft open aangezien de toeschrijving onopgelost is, met focus op herstel van de multimodale verbinding zonder aannames over gemengde scenario’s of spionagekoppelingen.",
+      "components": {
+        "target-domain": [
+          "target-domain-maritiem-verkeer-en-dienstverlening"
+        ],
+        "initial-signal": [
+          "initial-signal-fysieke-of-operationele-afwijking"
+        ],
+        "affected-service": [
+          "affected-service-scheepsbewegingen-en-maritieme-dienstverlening"
+        ],
+        "service-impact": [
+          "service-impact-lokale-vertraging-of-beperkte-uitval"
+        ],
+        "continuity-impact": [
+          "continuity-impact-nog-niet-vastgesteld"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-officiele-vermelding-in-geraadpleegde-bronnen"
+        ],
+        "actor-role": [
+          "actor-role-meerdere-of-onduidelijke-rollen"
+        ],
+        "corroboration": [
+          "corroboration-een-enkele-niet-geverifieerde-melding"
+        ],
+        "means-channel": [
+          "means-channel-meerdere-kanalen-of-nog-niet-vastgesteld"
+        ],
+        "escalation-level": [
+          "escalation-level-acute-regionale-crisis"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-onzekerheid-of-druk-veroorzaken"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-niet-toegeschreven-of-onopgelost"
+        ],
+        "disruption-class": [
+          "disruption-class-fysieke-verstoring-algemene-categorie"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-11",
+      "label": "Sabotagescenario 11",
+      "desc": "## Context en aanloop\nDe haven Vlissingen fungeert als ontvangstpunt voor inkomende militaire transporten van NAVO-bondgenoten binnen een multimodale corridor onder verhoogde hybride druk. De situatie wordt gekenmerkt door een hypothese van proxy- of tussenpersoonbetrokkenheid zonder vaststaande koppeling aan de schaduwvloot.\n\n## Mogelijke voorbereiding en signalen\nEen dronewaarneming bij de infrastructuur leidt tot een technisch bevestigde melding via een digitaal of administratief kanaal. Deze waarneming wordt onafhankelijk gecorroboratie, maar blijft een enkel signaal zonder bewijs van vijandige intentie; spionage blijft een afzonderlijke hypothese.\n\n## Verstoring op hoofdlijnen\nEr is sprake van een veronderstelde digitale of administratieve verstoring die de continuïteit van dienstverlening probeert te ondermijnen. Het effect op diensten is nog onbekend, terwijl het vermoedelijk geraakte object meerdere of niet-vastgestelde entiteiten kan zijn.\n\n## Detectie, verificatie en interventie\nBevoegde partners toetsen detectiemomenten en rechtmatige bewijsborging tijdens de verificatie van de dronemelding. Interventie richt zich op preventie en continuïteit zonder concrete uitvoeringsdetails of ontwijkingsstrategieën te onthullen.\n\n## Impact, onderzoek en herstel\nEr is sprake van een tijdelijke vermindering van capaciteit met indirecte gevolgen voor andere vervoersdiensten. Open vragen betreffen de toeschrijving aan een proxy en de aard van het digitale kanaal binnen deze oefensituatie.",
+      "components": {
+        "target-domain": [
+          "target-domain-maritiem-verkeer-en-dienstverlening"
+        ],
+        "initial-signal": [
+          "initial-signal-dronewaarneming-bij-infrastructuur"
+        ],
+        "affected-service": [
+          "affected-service-meerdere-of-nog-niet-vastgestelde-objecten-of-di"
+        ],
+        "service-impact": [
+          "service-impact-effect-nog-onbekend"
+        ],
+        "continuity-impact": [
+          "continuity-impact-tijdelijke-vermindering-van-capaciteit"
+        ],
+        "actor-role": [
+          "actor-role-externe-persoon-of-waarnemer"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-proxy-of-tussenpersoon"
+        ],
+        "means-channel": [
+          "means-channel-digitaal-of-administratief-kanaal"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-geen-koppeling-vastgesteld-in-geraadpleegde-bron"
+        ],
+        "disruption-class": [
+          "disruption-class-digitale-of-administratieve-verstoring-algemene-"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-continuiteit-van-dienstverlening-ondermijnen"
+        ],
+        "corroboration": [
+          "corroboration-technisch-of-operationeel-bevestigd"
+        ],
+        "escalation-level": [
+          "escalation-level-verhoogde-hybride-druk"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-12",
+      "label": "Sabotagescenario 12",
+      "desc": "## Context en aanloop\nVlissingen fungeert als kritiek ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor. De huidige escalatie van strategische rivaliteit creëert een omgeving waarin verstoringen van transportstromen relevant zijn.\n\n## Mogelijke voorbereiding en signalen\nWaarnemingen met onbemande luchtvaartuigen worden geregistreerd, maar de bronstatus blijft onbekend zonder corroboratie. Hypothese: staatgebonden actor; echter is er geen bewijs voor sabotage of spionage, wat een niet-vijandige verklaring mogelijk maakt.\n\n## Verstoring op hoofdlijnen\nHet vermoedelijke doel is het verstoren van wegvervoer en toegang tot de havenlogistiek. Er is nog geen bevestigd effect vastgesteld, waardoor de mate van bevestiging tegenstrijdig of onvoldoende blijft.\n\n## Detectie, verificatie en interventie\nEerste meldingen zijn nog niet vastgesteld; detectie moet zich richten op rechtmatige bewijsborging en informatie-uitwisseling tussen partners. Interventie focust op continuïteit van de dienstverlening zonder concrete uitvoeringsdetails te onthullen.\n\n## Impact, onderzoek en herstel\nGeen vastgesteld gevolg voor de continuïteit is bekend; indirecte gevolgen voor andere vervoersdiensten blijven hypothetisch. Open vragen betreffen de toeschrijving aan een staatgebonden actor en de validiteit van de waarnemingen.",
+      "components": {
+        "target-domain": [
+          "target-domain-havenlogistiek-en-goederenstromen"
+        ],
+        "initial-signal": [
+          "initial-signal-nog-niet-vastgesteld"
+        ],
+        "affected-service": [
+          "affected-service-wegvervoer-en-toegang"
+        ],
+        "continuity-impact": [
+          "continuity-impact-geen-vastgesteld-gevolg"
+        ],
+        "service-impact": [
+          "service-impact-geen-bevestigd-effect"
+        ],
+        "corroboration": [
+          "corroboration-tegenstrijdige-of-onvoldoende-informatie"
+        ],
+        "disruption-class": [
+          "disruption-class-interferentie-met-vervoer-of-logistieke-dienstve"
+        ],
+        "actor-role": [
+          "actor-role-persoon-met-legitieme-toegang-rol-te-onderzoeken"
+        ],
+        "means-channel": [
+          "means-channel-waarneming-met-onbemande-luchtvaartuigen"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-niet-van-toepassing"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-staatgebonden-actor"
+        ],
+        "escalation-level": [
+          "escalation-level-aanhoudende-strategische-rivaliteit"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-transportstromen-verstoren"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-13",
+      "label": "Sabotagescenario 13",
+      "desc": "## Context en aanloop\nVlissingen fungeert als kritiek ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor. De huidige escalatie van strategische rivaliteit creëert een omgeving waarin continuïteit van dienstverlening ondermijnd kan worden door onbekende verstoringsklassen.\n\n## Mogelijke voorbereiding en signalen\nEerste waarnemingen tonen technische of operationeel bevestigde afwijkingen in het spoorvervoer, mogelijk via meerdere kanalen. Deze signalen zijn niet toegeschreven; bronstatus blijft onbekend zonder bewijs van sabotage of spionage, wat een plausibele niet-vijandige verklaring openlaat.\n\n## Verstoring op hoofdlijnen\nHet vermoedelijke effect is verstoring van meerdere vervoersdiensten, waarbij het geraakte object nog niet vaststaat. Als externe waarnemer of persoon betrokken is, blijft de mate van bevestiging beperkt tot operationele impact zonder vastgesteld gevolg voor de continuïteit.\n\n## Detectie, verificatie en interventie\nPartners toetsen detectiemomenten door onafhankelijke corroboratie van de spoorafwijking en andere gemelde signalen. Interventie richt zich op rechtmatige bewijsborging en informatie-uitwisseling om hypothesen over toeschrijving te verifiëren zonder concrete uitvoeringsdetails prijs te geven.\n\n## Impact, onderzoek en herstel\nIndirecte gevolgen voor andere vervoersdiensten worden gescheiden van het bevestigde effect op de primaire corridor. Open vragen betreffen de koppeling tussen spionagehypothese en daadwerkelijke verstoring, evenals herstelstrategieën bij onopgeloste toeschrijving.",
+      "components": {
+        "target-domain": [
+          "target-domain-spoorvervoer-en-corridors"
+        ],
+        "initial-signal": [
+          "initial-signal-verstoring-of-afwijking-in-spoorvervoer"
+        ],
+        "affected-service": [
+          "affected-service-meerdere-of-nog-niet-vastgestelde-objecten-of-di"
+        ],
+        "continuity-impact": [
+          "continuity-impact-geen-vastgesteld-gevolg"
+        ],
+        "service-impact": [
+          "service-impact-verstoring-van-meerdere-vervoersdiensten"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-niet-toegeschreven-of-onopgelost"
+        ],
+        "escalation-level": [
+          "escalation-level-aanhoudende-strategische-rivaliteit"
+        ],
+        "means-channel": [
+          "means-channel-meerdere-kanalen-of-nog-niet-vastgesteld"
+        ],
+        "actor-role": [
+          "actor-role-externe-persoon-of-waarnemer"
+        ],
+        "disruption-class": [
+          "disruption-class-meerdere-vormen-of-nog-onbekend"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-continuiteit-van-dienstverlening-ondermijnen"
+        ],
+        "corroboration": [
+          "corroboration-technisch-of-operationeel-bevestigd"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-niet-van-toepassing"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-14",
+      "label": "Sabotagescenario 14",
+      "desc": "## Context en aanloop\nVlissingen fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor onder verhoogde hybride druk. De situatie wordt gekenmerkt door onzekerheid over mogelijke interferentie met vervoer of logistieke dienstverlening.\n\n## Mogelijke voorbereiding en signalen\nEen enkele, niet-geverifieerde melding registreert een afwijking in ANPR of wegverkeer, wat wijst op menselijk of organisatorisch contact. De hypothese van een proxy of tussenpersoon blijft onbevestigd zonder onafhankelijke corroboratie.\n\n## Verstoring op hoofdlijnen\nHet vermoedelijke doel is het creëren van onzekerheid of druk via wegvervoer en toegang, wat leidt tot lokale vertragingen. Een persoon met legitieme toegang wordt onderzocht als mogelijke rol, zonder vaststaande toeschrijving.\n\n## Detectie, verificatie en interventie\nBevoegde partners toetsen detectiemomenten waarbij rechtmatige bewijsborging centraal staat bij informatie-uitwisseling. Preventie en interventie focussen op het verifiëren van de melding tegen niet-vijandige verklaringen.\n\n## Impact, onderzoek en herstel\nHet bevestigde effect is beperkt, maar ketenbreed gevolg voor continuïteit blijft een risico voor andere vervoersdiensten. Open vragen betreffen de koppeling aan spionagehypothese en de uiteindelijke oorzaak van de verstoring.",
+      "components": {
+        "target-domain": [
+          "target-domain-meerdere-domeinen-of-nog-onbekend"
+        ],
+        "initial-signal": [
+          "initial-signal-afwijking-in-anpr-of-wegverkeer"
+        ],
+        "affected-service": [
+          "affected-service-wegvervoer-en-toegang"
+        ],
+        "continuity-impact": [
+          "continuity-impact-langduriger-of-ketenbreed-gevolg"
+        ],
+        "service-impact": [
+          "service-impact-lokale-vertraging-of-beperkte-uitval"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-geen-koppeling-vastgesteld-in-geraadpleegde-bron"
+        ],
+        "actor-role": [
+          "actor-role-persoon-met-legitieme-toegang-rol-te-onderzoeken"
+        ],
+        "means-channel": [
+          "means-channel-menselijk-of-organisatorisch-contact"
+        ],
+        "disruption-class": [
+          "disruption-class-interferentie-met-vervoer-of-logistieke-dienstve"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-proxy-of-tussenpersoon"
+        ],
+        "escalation-level": [
+          "escalation-level-verhoogde-hybride-druk"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-onzekerheid-of-druk-veroorzaken"
+        ],
+        "corroboration": [
+          "corroboration-een-enkele-niet-geverifieerde-melding"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-15",
+      "label": "Sabotagescenario 15",
+      "desc": "## Context en aanloop\nVlissingen fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een acute regionale crisis. De haven vormt een kritieke multimodale corridor waar scheepvaart, spoor en weg elkaar kruisen.\n\n## Mogelijke voorbereiding en signalen\nEerste waarnemingen tonen fysieke of operationele afwijkingen in de toegang tot het gebied. Een onbevestigde openbare aanwijzing wijst op een schaduwvlootverband als mogelijke bron, terwijl tegenstrijdige informatie de mate van bevestiging beperkt.\n\n## Verstoring op hoofdlijnen\nDe hypothese van een staatgebonden actor suggereert transportstromen te verstoren via digitale of administratieve middelen. Fysieke aanwezigheid wordt gezien als mogelijk kanaal, met spoorvervoer als vermoedelijk geraakt object.\n\n## Detectie, verificatie en interventie\nDetectie richt zich op het onderscheiden van waarnemingen van hypotheses zonder concrete uitvoeringsdetails. Verificatie eist onafhankelijke corroboratie om niet-vijandige verklaringen uit te sluiten voor rechtmatige bewijsborging.\n\n## Impact, onderzoek en herstel\nHet bevestigde effect is nog onbekend, maar leidt tot tijdelijke capaciteitsvermindering in de keten. Open vragen betreffen toeschrijving en de koppeling van spionagehypothese aan deze verstoringsklasse.",
+      "components": {
+        "target-domain": [
+          "target-domain-wegvervoer-en-toegang"
+        ],
+        "initial-signal": [
+          "initial-signal-fysieke-of-operationele-afwijking"
+        ],
+        "affected-service": [
+          "affected-service-spoorvervoer-en-dienstverlening"
+        ],
+        "continuity-impact": [
+          "continuity-impact-tijdelijke-vermindering-van-capaciteit"
+        ],
+        "service-impact": [
+          "service-impact-effect-nog-onbekend"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-alleen-onbevestigde-openbare-aanwijzing"
+        ],
+        "means-channel": [
+          "means-channel-fysieke-aanwezigheid-of-materiele-afwijking"
+        ],
+        "corroboration": [
+          "corroboration-tegenstrijdige-of-onvoldoende-informatie"
+        ],
+        "actor-role": [
+          "actor-role-facilitator-of-tussenpersoon"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-transportstromen-verstoren"
+        ],
+        "disruption-class": [
+          "disruption-class-digitale-of-administratieve-verstoring-algemene-"
+        ],
+        "escalation-level": [
+          "escalation-level-acute-regionale-crisis"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-staatgebonden-actor"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-16",
+      "label": "Sabotagescenario 16",
+      "desc": "## Context en aanloop\nDe haven Vlissingen fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een acute regionale crisis, waarbij de multimodale corridor afhankelijk is van naadloze scheeps-, spoor- en wegdiensten. Deze strategische rol maakt de infrastructuur kwetsbaar voor verstoringen die de logistieke continuïteit kunnen bedreigen.\n\n## Mogelijke voorbereiding en signalen\nDronewaarnemingen bij de infrastructuur wijzen op mogelijke voorbereiding, waarbij onafhankelijke signalen dezelfde richting uitwijzen maar geen bevestiging bieden van vijandige intentie. De bronstatus van schaduwvlootverbanden blijft een officiële vermelding zonder bewijs voor sabotage of toeschrijving via proxy’s.\n\n## Verstoring op hoofdlijnen\nEr is geen bevestigd effect op de dienstverlening vastgesteld, hoewel er vermoedens zijn over fysieke verstoringen in het spoor- en corridor-domein. Het mogelijke doel blijft onduidelijk, met aandacht voor indirecte gevolgen voor andere vervoersdiensten zonder concrete schadebeelden.\n\n## Detectie, verificatie en interventie\nDetectie gebeurt via waarneming van onbemande luchtvaartuigen, waarbij verifieerbare informatie wordt uitgewisseld tussen bevoegde partners onder naleving van rechtmatige bewijsborging. Interventie richt zich op preventie en continuïteit zonder details over detectietechnieken of ontwijkingsstrategieën te onthullen.\n\n## Impact, onderzoek en herstel\nImpact op personeel of operationele informatie is verondersteld maar niet bevestigd, wat onderzoek naar spionage als afzonderlijke hypothese noodzaakt zonder gemengde scenario’s aan te nemen. Herstelmomenten testen de weerstand van de corridor terwijl open vragen blijven over causale verbanden en bronbetrouwbaarheid.",
+      "components": {
+        "target-domain": [
+          "target-domain-spoorvervoer-en-corridors"
+        ],
+        "initial-signal": [
+          "initial-signal-dronewaarneming-bij-infrastructuur"
+        ],
+        "affected-service": [
+          "affected-service-personeel-of-operationele-informatie"
+        ],
+        "continuity-impact": [
+          "continuity-impact-nog-niet-vastgesteld"
+        ],
+        "service-impact": [
+          "service-impact-geen-bevestigd-effect"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-officiele-vermelding-in-geraadpleegde-bronnen"
+        ],
+        "corroboration": [
+          "corroboration-onafhankelijke-signalen-wijzen-dezelfde-kant-op"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-proxy-of-tussenpersoon"
+        ],
+        "escalation-level": [
+          "escalation-level-acute-regionale-crisis"
+        ],
+        "means-channel": [
+          "means-channel-waarneming-met-onbemande-luchtvaartuigen"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-nog-niet-vastgesteld"
+        ],
+        "actor-role": [
+          "actor-role-meerdere-of-onduidelijke-rollen"
+        ],
+        "disruption-class": [
+          "disruption-class-fysieke-verstoring-algemene-categorie"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-17",
+      "label": "Sabotagescenario 17",
+      "desc": "## Context en aanloop\nVlissingen fungeert als kritiek ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor. De strategische rivaliteit creëert een omgeving waarin continuïteit van dienstverlening ondermijnd kan worden door fysieke verstoringen in havenlogistiek en goederenstromen.\n\n## Mogelijke voorbereiding en signalen\nEen afwijking in ANPR- of wegverkeer werd technisch bevestigd, mogelijk via vervoers- of operationele gegevens. Deze aanwijzing is onbevestigd openbaar; een staatgebonden actor-hypothese blijft plausibel maar niet bewezen door schaduwvlootrelaties.\n\n## Verstoring op hoofdlijnen\nDe veronderstelde verstooringsklasse is fysiek, gericht op havenlogistiek en goederenstromen. Het effect op diensten en de consequentie voor continuïteit zijn nog onbekend of niet vastgesteld, met meerdere of onduidelijke rollen als mogelijke factor.\n\n## Detectie, verificatie en interventie\nBevoegde partners toetsen detectie- en preventiemomenten via onafhankelijke corroboratie van bronstatus. Rechtmatige bewijsborging en informatie-uitwisseling zijn essentieel om niet-vijandige verklaringen uit te sluiten zonder toeschrijving als feit aan te nemen.\n\n## Impact, onderzoek en herstel\nOnderzoek richt zich op indirecte keteneffecten voor andere vervoersdiensten bij onduidelijke rollen. Open vragen betreffen de koppeling van spionagehypothese en versterking van continuïteits- en herstelmomenten in deze oefensituatie.",
+      "components": {
+        "target-domain": [
+          "target-domain-havenlogistiek-en-goederenstromen"
+        ],
+        "initial-signal": [
+          "initial-signal-afwijking-in-anpr-of-wegverkeer"
+        ],
+        "affected-service": [
+          "affected-service-havenlogistiek-en-goederenstromen"
+        ],
+        "service-impact": [
+          "service-impact-effect-nog-onbekend"
+        ],
+        "continuity-impact": [
+          "continuity-impact-nog-niet-vastgesteld"
+        ],
+        "means-channel": [
+          "means-channel-vervoers-of-operationele-gegevens"
+        ],
+        "escalation-level": [
+          "escalation-level-aanhoudende-strategische-rivaliteit"
+        ],
+        "disruption-class": [
+          "disruption-class-fysieke-verstoring-algemene-categorie"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-continuiteit-van-dienstverlening-ondermijnen"
+        ],
+        "actor-role": [
+          "actor-role-meerdere-of-onduidelijke-rollen"
+        ],
+        "corroboration": [
+          "corroboration-technisch-of-operationeel-bevestigd"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-alleen-onbevestigde-openbare-aanwijzing"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-staatgebonden-actor"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-18",
+      "label": "Sabotagescenario 18",
+      "desc": "## Context en aanloop\nVlissingen fungeert als kritiek ontvangstpunt voor militaire NAVO-transporten binnen een multimodale corridor. De verhoogde hybride druk creëert een omgeving waar digitale of administratieve verstoringen transportstromen kunnen beïnvloeden.\n\n## Mogelijke voorbereiding en signalen\nOnafhankelijke signalen wijzen in dezelfde richting, maar de eerste waarneming is nog niet vastgesteld. Bronstatus van de schaduwvloot is niet van toepassing; toeschrijving blijft onopgelost zonder bewijs van vijandige intentie.\n\n## Verstoring op hoofdlijnen\nHet vermoedelijke doel is het verstoren van scheepsbewegingen en maritieme dienstverlening via een digitaal of administratief kanaal. Het effect beperkt zich tot de categorie verstoring; concrete uitvoeringswijzen zijn onbekend en niet gespecificeerd.\n\n## Detectie, verificatie en interventie\nDetectie en interventiemomenten worden getoetst door bevoegde partners binnen een oefening. Rechtmatige bewijsborging en informatie-uitwisseling staan centraal bij de verifieerbare onafhankelijke signalen.\n\n## Impact, onderzoek en herstel\nVerwacht wordt een langdurig of ketenbreed gevolg voor de continuïteit van vervoersdiensten. Open vragen richten zich op de koppeling tussen spionagehypothese en de feitelijke verstoring zonder gemengd scenario als gegeven aan te nemen.",
+      "components": {
+        "target-domain": [
+          "target-domain-maritiem-verkeer-en-dienstverlening"
+        ],
+        "initial-signal": [
+          "initial-signal-nog-niet-vastgesteld"
+        ],
+        "affected-service": [
+          "affected-service-scheepsbewegingen-en-maritieme-dienstverlening"
+        ],
+        "service-impact": [
+          "service-impact-verstoring-van-meerdere-vervoersdiensten"
+        ],
+        "continuity-impact": [
+          "continuity-impact-langduriger-of-ketenbreed-gevolg"
+        ],
+        "actor-role": [
+          "actor-role-facilitator-of-tussenpersoon"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-niet-toegeschreven-of-onopgelost"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-transportstromen-verstoren"
+        ],
+        "corroboration": [
+          "corroboration-onafhankelijke-signalen-wijzen-dezelfde-kant-op"
+        ],
+        "means-channel": [
+          "means-channel-digitaal-of-administratief-kanaal"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-niet-van-toepassing"
+        ],
+        "disruption-class": [
+          "disruption-class-digitale-of-administratieve-verstoring-algemene-"
+        ],
+        "escalation-level": [
+          "escalation-level-verhoogde-hybride-druk"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-19",
+      "label": "Sabotagescenario 19",
+      "desc": "## Context en aanloop\nVlissingen fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor onder verhoogde hybride druk. De haven wordt geconfronteerd met gerapporteerde aanwezigheid van de schaduwvloot, wat contextuele spanning verhoogt zonder directe toeschrijving.\n\n## Mogelijke voorbereiding en signalen\nEen niet-geverifieerde melding registreert een afwijking in het spoorvervoer via digitaal kanaal. Deze waarneming wordt gekoppeld aan de hypothese van een staatgebonden actor, waarbij onafhankelijke corroboratie ontbreekt en een niet-vijandige verklaring plausibel blijft.\n\n## Verstoring op hoofdlijnen\nEr is geen bevestigd effect vastgesteld op de dienstverlening of continuïteit. De verstoringsklasse en het geraakte object blijven onbekend, waarbij alleen spoorvervoer als vermoedelijk doelobject wordt genoemd zonder bewijs van daadwerkelijke impact.\n\n## Detectie, verificatie en interventie\nBevoegde partners toetsen de betrouwbaarheid van de melding en zoeken naar onafhankelijke data voor verifieering. Interventie richt zich op defensieve monitoring en informatie-uitwisseling om rechtmatige bewijsborging te waarborgen zonder concrete maatregelen te specificeren.\n\n## Impact, onderzoek en herstel\nEr zijn geen vastgestelde gevolgen voor andere vervoersdiensten of de keten. Open vragen richten zich op de validiteit van de bron en de mogelijke koppeling tussen spionagehypothese en de melding, terwijl toeschrijving onbevestigd blijft.",
+      "components": {
+        "target-domain": [
+          "target-domain-meerdere-domeinen-of-nog-onbekend"
+        ],
+        "initial-signal": [
+          "initial-signal-verstoring-of-afwijking-in-spoorvervoer"
+        ],
+        "affected-service": [
+          "affected-service-spoorvervoer-en-dienstverlening"
+        ],
+        "service-impact": [
+          "service-impact-geen-bevestigd-effect"
+        ],
+        "continuity-impact": [
+          "continuity-impact-geen-vastgesteld-gevolg"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-nog-niet-vastgesteld"
+        ],
+        "actor-role": [
+          "actor-role-externe-persoon-of-waarnemer"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-officiele-vermelding-in-geraadpleegde-bronnen"
+        ],
+        "escalation-level": [
+          "escalation-level-verhoogde-hybride-druk"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-hypothese-staatgebonden-actor"
+        ],
+        "corroboration": [
+          "corroboration-een-enkele-niet-geverifieerde-melding"
+        ],
+        "means-channel": [
+          "means-channel-digitaal-of-administratief-kanaal"
+        ],
+        "disruption-class": [
+          "disruption-class-meerdere-vormen-of-nog-onbekend"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    },
+    {
+      "id": "sabotage-pairwise-20",
+      "label": "Sabotagescenario 20",
+      "desc": "## Context en aanloop\nDe haven Vlissingen fungeert als ontvangstpunt voor NAVO-militaire transporten binnen een multimodale corridor. Deze acute regionale crisiscontext vereist scherpe monitoring van de verbonden scheepvaart- en vervoersdiensten.\n\n## Mogelijke voorbereiding en signalen\nEerste meldingen via OSINT of politie wijzen op waarnemingen met onbemande luchtvaartuigen, maar bronstatus blijft onzeker. De schaduwvlootkoppeling is niet vastgesteld; tegenstrijdige informatie maakt toeschrijving onmogelijk.\n\n## Verstoring op hoofdlijnen\nEr zijn lokale vertragingen en beperkte uitval geconstateerd in wegvervoer en toegangsdiensten. Het effect op meerdere objecten is vermoedelijk, waarbij de rol van personen met legitieme toegang nog te onderzoeken valt.\n\n## Detectie, verificatie en interventie\nBevoegde partners toetsen detectiemomenten door onafhankelijke corroboratie van burger- en politiegegevens. Interventie richt zich op rechtmatige bewijsborging en veilige informatie-uitwisseling zonder concrete uitvoeringsdetails.\n\n## Impact, onderzoek en herstel\nDe tijdelijke capaciteitsvermindering eist continuïteitsplannen voor indirecte keteneffecten op andere vervoersdiensten. Open vragen betreffen de plausibele niet-vijandige verklaring en de scheiding van spionagiehypothese.",
+      "components": {
+        "target-domain": [
+          "target-domain-wegvervoer-en-toegang"
+        ],
+        "initial-signal": [
+          "initial-signal-osint-of-politie-burgermelding"
+        ],
+        "affected-service": [
+          "affected-service-meerdere-of-nog-niet-vastgestelde-objecten-of-di"
+        ],
+        "continuity-impact": [
+          "continuity-impact-tijdelijke-vermindering-van-capaciteit"
+        ],
+        "service-impact": [
+          "service-impact-lokale-vertraging-of-beperkte-uitval"
+        ],
+        "corroboration": [
+          "corroboration-tegenstrijdige-of-onvoldoende-informatie"
+        ],
+        "disruption-purpose": [
+          "disruption-purpose-onzekerheid-of-druk-veroorzaken"
+        ],
+        "shadow-fleet-context": [
+          "shadow-fleet-context-geen-koppeling-vastgesteld-in-geraadpleegde-bron"
+        ],
+        "actor-role": [
+          "actor-role-persoon-met-legitieme-toegang-rol-te-onderzoeken"
+        ],
+        "escalation-level": [
+          "escalation-level-acute-regionale-crisis"
+        ],
+        "means-channel": [
+          "means-channel-waarneming-met-onbemande-luchtvaartuigen"
+        ],
+        "disruption-class": [
+          "disruption-class-interferentie-met-vervoer-of-logistieke-dienstve"
+        ],
+        "attribution-hypothesis": [
+          "attribution-hypothesis-niet-toegeschreven-of-onopgelost"
+        ],
+        "port-role": [
+          "port-role-ontvangstpunt-voor-inkomende-militaire-transport"
+        ],
+        "transport-dependency": [
+          "transport-dependency-multimodale-corridor"
+        ]
+      },
+      "included": true,
+      "saved": true,
+      "batch": "Vlissingen NAVO-transporten — paarsgewijze dekking (strength 2)",
+      "personaEffects": {}
+    }
+  ],
+  "thresholdColors": [
+    {
+      "threshold": 0,
+      "color": "#ddeced"
+    },
+    {
+      "threshold": 1,
+      "color": "#FF7800"
+    },
+    {
+      "threshold": 2,
+      "color": "#ffff00"
+    },
+    {
+      "threshold": 3,
+      "color": "#ff0000"
+    }
+  ],
+  "id": "vlissingen-sabotage-resilience",
+  "label": "Havenweerbaarheid: sabotage en verstoring",
+  "desc": "Defensieve scenario-box voor weerbaarheid en crime-scriptanalyse rond mogelijke sabotage of verstoring van haven- en transportdiensten. In deze scenario-batch is Vlissingen een ontvangstpunt voor inkomende militaire transporten van NAVO-bondgenoten, met multimodale afhankelijkheden. Vlissingen is illustratief; horizon 1–3 jaar is een planningsaanname. Scenariofactoren zijn hypotheses, geen vastgestelde dreiging. Bronnen: AIVD/NCTV Dreigingsbeeld Statelijke Actoren 2025 (https://www.nctv.nl/documenten/2025/07/17/dreigingsbeeld-statelijke-actoren-2025); AIVD Jaarverslag 2025, Rusland (https://www.aivd.nl/actueel/magazines/jaarverslag/jaarverslag/2025/rusland); EU-sancties tegen Rusland (https://www.consilium.europa.eu/en/policies/sanctions-against-russia/); IMO over AIS (https://www.imo.org/en/ourwork/safety/pages/ais.aspx). Behandel meldingen, AIS/ANPR-afwijkingen, dronewaarnemingen en sanctievermeldingen niet als bewijs van vijandige intentie of toeschrijving. Houd mogelijke spionage als aparte, niet-veronderstelde hypothese; verwijs bij aanwijzingen naar de afzonderlijke spionagebox.",
+  "language": "nl",
+  "categories": [
+    {
+      "id": "context",
+      "label": "Strategische context",
+      "componentIds": [
+        "escalation-level",
+        "port-role",
+        "transport-dependency",
+        "shadow-fleet-context"
+      ]
+    },
+    {
+      "id": "actor-and-purpose",
+      "label": "Actorhypothese en mogelijk doel",
+      "componentIds": [
+        "attribution-hypothesis",
+        "disruption-purpose"
+      ]
+    },
+    {
+      "id": "sabotage-pattern",
+      "label": "Verstoringspatroon op hoofdlijnen",
+      "componentIds": [
+        "disruption-class",
+        "target-domain",
+        "actor-role"
+      ]
+    },
+    {
+      "id": "signals-and-effects",
+      "label": "Signalen en gevolgen",
+      "componentIds": [
+        "initial-signal",
+        "corroboration",
+        "service-impact",
+        "continuity-impact"
+      ]
+    },
+    {
+      "id": "means-and-assets",
+      "label": "Middelen en geraakte objecten op hoofdlijnen",
+      "componentIds": [
+        "means-channel",
+        "affected-service"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "escalation-level",
+      "label": "Escalatieniveau",
+      "values": [
+        {
+          "id": "escalation-level-aanhoudende-strategische-rivaliteit",
+          "label": "Aanhoudende strategische rivaliteit"
+        },
+        {
+          "id": "escalation-level-verhoogde-hybride-druk",
+          "label": "Verhoogde hybride druk"
+        },
+        {
+          "id": "escalation-level-acute-regionale-crisis",
+          "label": "Acute regionale crisis"
+        }
+      ]
+    },
+    {
+      "id": "port-role",
+      "label": "Rol van de haven",
+      "values": [
+        {
+          "id": "port-role-reguliere-commerciele-activiteit",
+          "label": "Reguliere commerciële activiteit"
+        },
+        {
+          "id": "port-role-toegenomen-strategisch-transport",
+          "label": "Toegenomen strategisch transport"
+        },
+        {
+          "id": "port-role-kritieke-logistieke-draaischijf",
+          "label": "Kritieke logistieke draaischijf"
+        },
+        {
+          "id": "port-role-ontvangstpunt-voor-inkomende-militaire-transport",
+          "label": "Ontvangstpunt voor inkomende militaire transporten van NAVO-bondgenoten"
+        }
+      ],
+      "desc": "Voor deze scenario-batch staat de rol vast op ontvangst van inkomende militaire transporten van NAVO-bondgenoten.",
+      "manual": true
+    },
+    {
+      "id": "transport-dependency",
+      "label": "Afhankelijkheid van vervoer",
+      "values": [
+        {
+          "id": "transport-dependency-vooral-maritiem",
+          "label": "Vooral maritiem"
+        },
+        {
+          "id": "transport-dependency-spoor-en-wegverbindingen",
+          "label": "Spoor- en wegverbindingen"
+        },
+        {
+          "id": "transport-dependency-multimodale-corridor",
+          "label": "Multimodale corridor"
+        }
+      ],
+      "manual": true
+    },
+    {
+      "id": "shadow-fleet-context",
+      "label": "Bronstatus schaduwvlootverband",
+      "desc": "Uitsluitend maritieme context; een sanctie- of schaduwvlootvermelding is geen bewijs van sabotage, spionage of toeschrijving.",
+      "values": [
+        {
+          "id": "shadow-fleet-context-niet-van-toepassing",
+          "label": "Niet van toepassing"
+        },
+        {
+          "id": "shadow-fleet-context-geen-koppeling-vastgesteld-in-geraadpleegde-bron",
+          "label": "Geen koppeling vastgesteld in geraadpleegde bronnen"
+        },
+        {
+          "id": "shadow-fleet-context-officiele-vermelding-in-geraadpleegde-bronnen",
+          "label": "Officiële vermelding in geraadpleegde bronnen"
+        },
+        {
+          "id": "shadow-fleet-context-alleen-onbevestigde-openbare-aanwijzing",
+          "label": "Alleen onbevestigde openbare aanwijzing"
+        }
+      ]
+    },
+    {
+      "id": "attribution-hypothesis",
+      "label": "Toeschrijvingshypothese",
+      "values": [
+        {
+          "id": "attribution-hypothesis-niet-toegeschreven-of-onopgelost",
+          "label": "Niet toegeschreven of onopgelost"
+        },
+        {
+          "id": "attribution-hypothesis-hypothese-staatgebonden-actor",
+          "label": "Hypothese: staatgebonden actor"
+        },
+        {
+          "id": "attribution-hypothesis-hypothese-proxy-of-tussenpersoon",
+          "label": "Hypothese: proxy of tussenpersoon"
+        }
+      ]
+    },
+    {
+      "id": "disruption-purpose",
+      "label": "Mogelijk effect of doel",
+      "values": [
+        {
+          "id": "disruption-purpose-transportstromen-verstoren",
+          "label": "Transportstromen verstoren"
+        },
+        {
+          "id": "disruption-purpose-continuiteit-van-dienstverlening-ondermijnen",
+          "label": "Continuïteit van dienstverlening ondermijnen"
+        },
+        {
+          "id": "disruption-purpose-onzekerheid-of-druk-veroorzaken",
+          "label": "Onzekerheid of druk veroorzaken"
+        },
+        {
+          "id": "disruption-purpose-nog-niet-vastgesteld",
+          "label": "Nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "disruption-class",
+      "label": "Veronderstelde verstoringsklasse",
+      "values": [
+        {
+          "id": "disruption-class-fysieke-verstoring-algemene-categorie",
+          "label": "Fysieke verstoring (algemene categorie)"
+        },
+        {
+          "id": "disruption-class-digitale-of-administratieve-verstoring-algemene-",
+          "label": "Digitale of administratieve verstoring (algemene categorie)"
+        },
+        {
+          "id": "disruption-class-interferentie-met-vervoer-of-logistieke-dienstve",
+          "label": "Interferentie met vervoer of logistieke dienstverlening"
+        },
+        {
+          "id": "disruption-class-meerdere-vormen-of-nog-onbekend",
+          "label": "Meerdere vormen of nog onbekend"
+        }
+      ]
+    },
+    {
+      "id": "target-domain",
+      "label": "Betrokken domein",
+      "values": [
+        {
+          "id": "target-domain-maritiem-verkeer-en-dienstverlening",
+          "label": "Maritiem verkeer en dienstverlening"
+        },
+        {
+          "id": "target-domain-havenlogistiek-en-goederenstromen",
+          "label": "Havenlogistiek en goederenstromen"
+        },
+        {
+          "id": "target-domain-spoorvervoer-en-corridors",
+          "label": "Spoorvervoer en corridors"
+        },
+        {
+          "id": "target-domain-wegvervoer-en-toegang",
+          "label": "Wegvervoer en toegang"
+        },
+        {
+          "id": "target-domain-meerdere-domeinen-of-nog-onbekend",
+          "label": "Meerdere domeinen of nog onbekend"
+        }
+      ]
+    },
+    {
+      "id": "actor-role",
+      "label": "Mogelijke rol in het incident",
+      "values": [
+        {
+          "id": "actor-role-persoon-met-legitieme-toegang-rol-te-onderzoeken",
+          "label": "Persoon met legitieme toegang (rol te onderzoeken)"
+        },
+        {
+          "id": "actor-role-externe-persoon-of-waarnemer",
+          "label": "Externe persoon of waarnemer"
+        },
+        {
+          "id": "actor-role-facilitator-of-tussenpersoon",
+          "label": "Facilitator of tussenpersoon"
+        },
+        {
+          "id": "actor-role-meerdere-of-onduidelijke-rollen",
+          "label": "Meerdere of onduidelijke rollen"
+        }
+      ]
+    },
+    {
+      "id": "initial-signal",
+      "label": "Eerste waarneming of melding",
+      "values": [
+        {
+          "id": "initial-signal-afwijking-in-ais-scheepsbewegingen",
+          "label": "Afwijking in AIS-scheepsbewegingen"
+        },
+        {
+          "id": "initial-signal-afwijking-in-anpr-of-wegverkeer",
+          "label": "Afwijking in ANPR- of wegverkeer"
+        },
+        {
+          "id": "initial-signal-verstoring-of-afwijking-in-spoorvervoer",
+          "label": "Verstoring of afwijking in spoorvervoer"
+        },
+        {
+          "id": "initial-signal-osint-of-politie-burgermelding",
+          "label": "OSINT- of politie-/burgermelding"
+        },
+        {
+          "id": "initial-signal-dronewaarneming-bij-infrastructuur",
+          "label": "Dronewaarneming bij infrastructuur"
+        },
+        {
+          "id": "initial-signal-fysieke-of-operationele-afwijking",
+          "label": "Fysieke of operationele afwijking"
+        },
+        {
+          "id": "initial-signal-nog-niet-vastgesteld",
+          "label": "Nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "corroboration",
+      "label": "Mate van bevestiging",
+      "values": [
+        {
+          "id": "corroboration-een-enkele-niet-geverifieerde-melding",
+          "label": "Een enkele, niet-geverifieerde melding"
+        },
+        {
+          "id": "corroboration-onafhankelijke-signalen-wijzen-dezelfde-kant-op",
+          "label": "Onafhankelijke signalen wijzen dezelfde kant op"
+        },
+        {
+          "id": "corroboration-technisch-of-operationeel-bevestigd",
+          "label": "Technisch of operationeel bevestigd"
+        },
+        {
+          "id": "corroboration-tegenstrijdige-of-onvoldoende-informatie",
+          "label": "Tegenstrijdige of onvoldoende informatie"
+        }
+      ]
+    },
+    {
+      "id": "service-impact",
+      "label": "Waargenomen effect op diensten",
+      "values": [
+        {
+          "id": "service-impact-geen-bevestigd-effect",
+          "label": "Geen bevestigd effect"
+        },
+        {
+          "id": "service-impact-lokale-vertraging-of-beperkte-uitval",
+          "label": "Lokale vertraging of beperkte uitval"
+        },
+        {
+          "id": "service-impact-verstoring-van-meerdere-vervoersdiensten",
+          "label": "Verstoring van meerdere vervoersdiensten"
+        },
+        {
+          "id": "service-impact-effect-nog-onbekend",
+          "label": "Effect nog onbekend"
+        }
+      ]
+    },
+    {
+      "id": "continuity-impact",
+      "label": "Gevolg voor continuïteit",
+      "values": [
+        {
+          "id": "continuity-impact-geen-vastgesteld-gevolg",
+          "label": "Geen vastgesteld gevolg"
+        },
+        {
+          "id": "continuity-impact-tijdelijke-vermindering-van-capaciteit",
+          "label": "Tijdelijke vermindering van capaciteit"
+        },
+        {
+          "id": "continuity-impact-langduriger-of-ketenbreed-gevolg",
+          "label": "Langduriger of ketenbreed gevolg"
+        },
+        {
+          "id": "continuity-impact-nog-niet-vastgesteld",
+          "label": "Nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "means-channel",
+      "label": "Waargenomen of vermoedelijk middel/kanaal",
+      "desc": "Brede analytische categorie; specificeer geen apparatuur, kwetsbaarheid of uitvoeringswijze.",
+      "values": [
+        {
+          "id": "means-channel-menselijk-of-organisatorisch-contact",
+          "label": "Menselijk of organisatorisch contact"
+        },
+        {
+          "id": "means-channel-digitaal-of-administratief-kanaal",
+          "label": "Digitaal of administratief kanaal"
+        },
+        {
+          "id": "means-channel-fysieke-aanwezigheid-of-materiele-afwijking",
+          "label": "Fysieke aanwezigheid of materiële afwijking"
+        },
+        {
+          "id": "means-channel-waarneming-met-onbemande-luchtvaartuigen",
+          "label": "Waarneming met onbemande luchtvaartuigen"
+        },
+        {
+          "id": "means-channel-vervoers-of-operationele-gegevens",
+          "label": "Vervoers- of operationele gegevens"
+        },
+        {
+          "id": "means-channel-meerdere-kanalen-of-nog-niet-vastgesteld",
+          "label": "Meerdere kanalen of nog niet vastgesteld"
+        }
+      ]
+    },
+    {
+      "id": "affected-service",
+      "label": "Vermoedelijk geraakt object of dienst",
+      "desc": "Onderscheid een verondersteld doel van bevestigd effect en indirecte keteneffecten.",
+      "values": [
+        {
+          "id": "affected-service-scheepsbewegingen-en-maritieme-dienstverlening",
+          "label": "Scheepsbewegingen en maritieme dienstverlening"
+        },
+        {
+          "id": "affected-service-havenlogistiek-en-goederenstromen",
+          "label": "Havenlogistiek en goederenstromen"
+        },
+        {
+          "id": "affected-service-spoorvervoer-en-dienstverlening",
+          "label": "Spoorvervoer en dienstverlening"
+        },
+        {
+          "id": "affected-service-wegvervoer-en-toegang",
+          "label": "Wegvervoer en toegang"
+        },
+        {
+          "id": "affected-service-personeel-of-operationele-informatie",
+          "label": "Personeel of operationele informatie"
+        },
+        {
+          "id": "affected-service-meerdere-of-nog-niet-vastgestelde-objecten-of-di",
+          "label": "Meerdere of nog niet vastgestelde objecten of diensten"
+        }
+      ]
+    }
+  ],
+  "inconsistencies": {
+    "target-domain-maritiem-verkeer-en-dienstverlening": {
+      "affected-service-spoorvervoer-en-dienstverlening": false,
+      "affected-service-wegvervoer-en-toegang": false,
+      "initial-signal-afwijking-in-anpr-of-wegverkeer": false,
+      "initial-signal-verstoring-of-afwijking-in-spoorvervoer": false
+    },
+    "affected-service-spoorvervoer-en-dienstverlening": {
+      "target-domain-maritiem-verkeer-en-dienstverlening": false
+    },
+    "affected-service-wegvervoer-en-toegang": {
+      "target-domain-maritiem-verkeer-en-dienstverlening": false
+    },
+    "initial-signal-afwijking-in-anpr-of-wegverkeer": {
+      "target-domain-maritiem-verkeer-en-dienstverlening": false,
+      "target-domain-spoorvervoer-en-corridors": false
+    },
+    "initial-signal-verstoring-of-afwijking-in-spoorvervoer": {
+      "target-domain-maritiem-verkeer-en-dienstverlening": false,
+      "target-domain-wegvervoer-en-toegang": false
+    },
+    "target-domain-spoorvervoer-en-corridors": {
+      "initial-signal-afwijking-in-anpr-of-wegverkeer": false,
+      "affected-service-scheepsbewegingen-en-maritieme-dienstverlening": false,
+      "initial-signal-afwijking-in-ais-scheepsbewegingen": false
+    },
+    "target-domain-wegvervoer-en-toegang": {
+      "initial-signal-verstoring-of-afwijking-in-spoorvervoer": false,
+      "affected-service-scheepsbewegingen-en-maritieme-dienstverlening": false,
+      "initial-signal-afwijking-in-ais-scheepsbewegingen": false
+    },
+    "affected-service-scheepsbewegingen-en-maritieme-dienstverlening": {
+      "target-domain-spoorvervoer-en-corridors": false,
+      "target-domain-wegvervoer-en-toegang": false
+    },
+    "initial-signal-afwijking-in-ais-scheepsbewegingen": {
+      "target-domain-spoorvervoer-en-corridors": false,
+      "target-domain-wegvervoer-en-toegang": false
+    },
+    "service-impact-geen-bevestigd-effect": {
+      "continuity-impact-tijdelijke-vermindering-van-capaciteit": false,
+      "continuity-impact-langduriger-of-ketenbreed-gevolg": false
+    },
+    "continuity-impact-tijdelijke-vermindering-van-capaciteit": {
+      "service-impact-geen-bevestigd-effect": false
+    },
+    "continuity-impact-langduriger-of-ketenbreed-gevolg": {
+      "service-impact-geen-bevestigd-effect": false
+    }
+  },
+  "template": "De context is {1}: de haven vervult de rol van {2} en is afhankelijk van {3}. De bronstatus van een mogelijk schaduwvlootverband is {4}; die status bewijst geen vijandige intentie.\n\nDe toeschrijvingshypothese blijft {5}; het mogelijke doel of effect is {6}. Behandel beide als onzeker totdat onafhankelijk bewijs bestaat.\n\nHet mogelijke verstoringspatroon betreft {7} in {8}; een mogelijke rol is {9}. Dit zijn onderzoekshypothesen, geen vastgestelde handelingen.\n\nDe eerste waarneming is {10}; de mate van bevestiging is {11}. Het waargenomen effect op diensten is {12}, met als mogelijk gevolg voor continuïteit {13}.\n\nHet waargenomen of veronderstelde middel/kanaal is {14}; het betrokken object of de dienst is {15}. Onderscheid waarneming, hypothese, bevestigd effect en eventueel indirect keteneffect.",
+  "llm": {
+    "id": "clipboard",
+    "url": "",
+    "model": "gemma3",
+    "temperature": 0.7,
+    "prompts": [
+      {
+        "type": "narrative",
+        "prompt": "Schrijf in het Nederlands een beknopte, defensief georiënteerde oefensituatie en eerste crime-scriptanalyse over mogelijke sabotage of verstoring rond haven Vlissingen en de verbonden scheepvaart-, spoor- en wegdiensten. Vlissingen is illustratief; de waarden zijn aannames, geen bewijs van een werkelijk incident. Gebruik uitsluitend de geselecteerde scenariofactoren; overige voorbeelden of waarschuwingen in deze prompt zijn geen feiten voor dit scenario. Gebruik exact deze vijf Markdown-kopjes: Context en aanloop; Mogelijke voorbereiding en signalen; Verstoring op hoofdlijnen; Detectie, verificatie en interventie; Impact, onderzoek en herstel. Beschrijf per fase waarnemingen, hypotheses en onbekenden afzonderlijk. Houd handelingen op categorie- en effectniveau. Beschrijf niet hoe een verstoring kan worden uitgevoerd, welke concrete zwakke plek of welk specifiek doelwit gekozen zou worden, welke apparatuur of technische procedure wordt gebruikt, of hoe ontdekking kan worden vermeden. Verzin geen feiten. Maak onderscheid tussen vermoedelijk doelobject, bevestigd effect en indirecte gevolgen voor andere vervoersdiensten. Koppel elk signaal aan mogelijke bron, betrouwbaarheid, onafhankelijke corroboratie en een plausibele niet-vijandige verklaring. Benoem detectie-, preventie-, interventie-, continuïteits- en herstelmomenten die bevoegde partners in een oefening kunnen toetsen, met aandacht voor rechtmatige bewijsborging en informatie-uitwisseling. Geen enkel afzonderlijk signaal bewijst op zichzelf vijandige intentie of toeschrijving. AIS-gegevens kunnen onvolledig zijn; deel geen gevoelige live scheepsbewegingen. Als er aanwijzingen voor spionage zijn, behandel die als afzonderlijke hypothese en benoem de mogelijke koppeling zonder een gemengd scenario als gegeven aan te nemen. Sluit af met open oefen- en onderzoeksvragen. Gebruik geen titel buiten de genoemde kopjes en geen codeblokken. Beperk elk kopje tot maximaal twee zinnen en houd de totale tekst rond 200 woorden.",
+        "categories": [
+          "context",
+          "actor-and-purpose",
+          "sabotage-pattern",
+          "signals-and-effects",
+          "means-and-assets"
+        ]
+      }
+    ]
+  }
+}

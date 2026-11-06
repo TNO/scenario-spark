@@ -679,7 +679,7 @@ export const messages: typeof messagesEN = {
   CLOSE_MESSAGE: 'Melding sluiten',
   SEARCH_SCENARIO_TYPE: 'Zoek een type scenario…',
   NO_SCENARIO_TYPE_FOUND: 'Geen type scenario gevonden',
-  COVERAGE_MENU: "Dekkende set genereren…",
+  COVERAGE_MENU: "Scenariobatch genereren…",
   COVERAGE_TITLE: "Genereer scenario's die de box afdekken",
   COVERAGE_DESC: "Maakt verschillende scenario's waarin elke optie ongeveer even vaak voorkomt, in plaats van willekeurig te kiezen. Vastgezette opties blijven behouden, onmogelijke combinaties worden nooit gebruikt en onwaarschijnlijke worden vermeden. Bestaande opgenomen scenario's tellen mee voor de balans.",
   COVERAGE_COUNT: "Aantal scenario's",

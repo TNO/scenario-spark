@@ -685,7 +685,7 @@ export const messages: typeof messagesEN = {
   CLOSE_MESSAGE: 'Fermer le message',
   SEARCH_SCENARIO_TYPE: 'Rechercher un type de scénario…',
   NO_SCENARIO_TYPE_FOUND: 'Aucun type de scénario trouvé',
-  COVERAGE_MENU: "Générer un ensemble couvrant…",
+  COVERAGE_MENU: "Générer un lot de scénarios…",
   COVERAGE_TITLE: "Générer des scénarios qui couvrent la boîte",
   COVERAGE_DESC: "Crée des scénarios distincts dans lesquels chaque option est utilisée à peu près aussi souvent, au lieu de les choisir au hasard. Les options verrouillées sont conservées, les combinaisons impossibles ne sont jamais utilisées et les improbables sont évitées. Les scénarios inclus existants comptent pour l'équilibre.",
   COVERAGE_COUNT: "Nombre de scénarios",

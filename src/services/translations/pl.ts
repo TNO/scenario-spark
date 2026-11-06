@@ -680,7 +680,7 @@ export const messages: typeof messagesEN = {
   CLOSE_MESSAGE: 'Zamknij komunikat',
   SEARCH_SCENARIO_TYPE: 'Szukaj typów scenariuszy…',
   NO_SCENARIO_TYPE_FOUND: 'Nie znaleziono typów scenariuszy',
-  COVERAGE_MENU: "Generuj zestaw pokrywający…",
+  COVERAGE_MENU: "Generuj partię scenariuszy…",
   COVERAGE_TITLE: "Generuj scenariusze pokrywające skrzynkę",
   COVERAGE_DESC: "Tworzy różne scenariusze, w których każda opcja występuje mniej więcej równie często, zamiast wybierać je losowo. Zablokowane opcje są zachowywane, niemożliwe kombinacje nigdy nie są używane, a mało prawdopodobne są unikane. Istniejące uwzględnione scenariusze liczą się do równowagi.",
   COVERAGE_COUNT: "Liczba scenariuszy",
